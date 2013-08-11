@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<block id="Osaka" type="SHIP" seaOrientation="NORTH EAST" borderRoadID="c44-c28">								
+<coordinate id="Osaka_NW" x="442920.9989" y="199034.3002"/>		
+<coordinate id="Osaka_NE" x="443226.8981" y="198816.2971"/>		
+<coordinate id="Osaka_SE" x="443217.2501" y="198802.7590"/>		
+<coordinate id="Osaka_SW" x="442911.3508" y="199020.7621"/>		
+<wall from="Osaka_NW" to="Osaka_NE"/>				
+<wall from="Osaka_NE" to="Osaka_SE"/>				
+<wall from="Osaka_SE" to="Osaka_SW"/>				
+<wall from="Osaka_SW" to="Osaka_NW"/>				
+
+
+
+	ID		X		Y		ROAD
+<road id="c22-c44" origin="c22" destination="c44">	
+<bayCrossroad id="Osaka_W_1" x="442914.7786" y="199034.8968" road="c22-c44"/>
+<bayCrossroad id="Osaka_W_2" x="442912.9223" y="199030.6938" road="c22-c44"/>
+<bayCrossroad id="Osaka_W_3" x="442910.4473" y="199025.0899" road="c22-c44"/>
+</road>
+<road id="c28-c33" origin="c28" destination="c33">								
+<bayCrossroad id="Osaka_E_1" x="443239.5043" y="198803.4768" road="c28-c33"/>
+<bayCrossroad id="Osaka_E_2" x="443236.8932" y="198799.8117" road="c28-c33"/>
+<bayCrossroad id="Osaka_E_3" x="443233.4119" y="198794.9250" road="c28-c33"/>
+</road>
+<bay id="Osaka-1/3" origin="Osaka_W_1" destination="Osaka_E_1" slots="45*22" in="442919.1857,199031.7560" out="443225.0850,198813.7529"/>
+<bay id="Osaka-2/3" origin="Osaka_W_2" destination="Osaka_E_2" slots="45*22" in="442916.5741,199028.0914" out="443222.4733,198810.0882"/>
+<bay id="Osaka-3/3" origin="Osaka_W_3" destination="Osaka_E_3" slots="45*22" in="442913.0919,199023.2052" out="443218.9912,198805.2021"/>
+
+</block>								
+</document>

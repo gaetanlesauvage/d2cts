@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<laserheads>
+<laserhead id="1" x="443118.75" y="198573.65" z="22.84" rangeX="150" rangeY="150" rangeZ="40"/>
+<laserhead id="2" x="443271.54" y="198503.34" z="23.30" rangeX="150" rangeY="150" rangeZ="40"/>
+
+<laserhead id="3" x="443269.35" y="198673.50" z="22.89" rangeX="150" rangeY="150" rangeZ="40"/>
+<alaserhead id="4" x="443119.28" y="198573.04" z="22.82" rangeX="150" rangeY="150" rangeZ="40"/>
+
+<alaserhead id="5" x="443269.94" y="198672.65" z="22.88" rangeX="150" rangeY="150" rangeZ="40"/>
+<laserhead id="6" x="443138.84" y="198768.42" z="23.11" rangeX="150" rangeY="150" rangeZ="40"/>
+
+<laserhead id="7" x="443010.81" y="198861.80" z="23.01" rangeX="150" rangeY="150" rangeZ="40"/>
+<laserhead id="8" x="442639.47" y="198657.69" z="22.85" rangeX="150" rangeY="150" rangeZ="40"/>
+
+<laserhead id="9" x="442880.26" y="198954.89" z="23.21" rangeX="150" rangeY="150" rangeZ="40"/>
+<alaserhead id="10" x="442879.37" y="198955.35" z="23.25" rangeX="150" rangeY="150" rangeZ="40"/>
+
+<laserhead id="11" x="442730.19" y="198901.16" z="23.00" rangeX="150" rangeY="150" rangeZ="40"/>
+<laserhead id="12" x="442580.55" y="198845.75" z="23.21" rangeX="150" rangeY="150" rangeZ="40"/>
+
+<laserhead id="13" x="442432.55" y="198792.52" z="23.01" rangeX="150" rangeY="150" rangeZ="40"/>
+<alaserhead id="14" x="442431.82" y="198791.94" z="22.99" rangeX="150" rangeY="150" rangeZ="40"/>
+
+<alaserhead id="15" x="442640.11" y="198657.85" z="22.86" rangeX="150" rangeY="150" rangeZ="40"/>
+<laserhead id="16" x="442798.70" y="198715.83" z="23.03" rangeX="150" rangeY="150" rangeZ="40"/>
+
+<alaserhead id="17" x="442799.40" y="198716.08" z="23.04" rangeX="150" rangeY="150" rangeZ="40"/>
+<laserhead id="18" x="442414.09" y="198673.86" z="23.60" rangeX="150" rangeY="150" rangeZ="40"/>
+</laserheads>	
+		

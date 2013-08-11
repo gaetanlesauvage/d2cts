@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<vehicles>
+<type
+		id="standard"
+		width="5"
+		height="15.4"
+		length="10"
+		innerWidth="3"
+		innerLength="6"
+		backOverLength="1"
+		frontOverLength="3"
+		cabWidth="2"
+		compatibility="all"
+		emptySpeed="4.444"
+		loadedSpeed="3.333"
+		baySpeed="1.944"
+		containerHandlingFromTruck_MIN="20"
+		containerHandlingFromTruck_MAX="60"
+		containerHandlingFromGround_MIN="10"
+		containerHandlingFromGround_MAX="30"
+		enterExitBayTime_MIN="2"
+		enterExitBayTime_MAX="4"
+		turnBackTime="4"
+/>
+
+<comment>
+	Available routing algorithms : 
+		- APSP
+		- RDijkstra
+		- Dijkstra
+		- AStar
+</comment>		
+<straddleCarrier id="straddleCarrier_1" type="standard" slot="Central_1" color="red" host="pcnicoleta@massy" locationRoad="c2-c5" locationPourcent="0.5" direction="true">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_2" type="standard" slot="Central_2" color="blue" host="pcnicoleta@massy" locationRoad="B-4/38" locationPourcent="0.8" direction="true">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_3" type="standard" slot="Central_3" color="green" host="pcnicoleta@massy" locationRoad="Central_3" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_4" type="standard" slot="Central_4" color="yellow" host="pcnicoleta@massy" locationRoad="Central_4" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+<comment>
+<straddleCarrier id="straddleCarrier_5" type="standard" slot="Central_5" color="sienna" host="pcnicoleta@massy" locationRoad="Central_5" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_6" type="standard" slot="Central_11" color="orange" host="pcnicoleta@massy" locationRoad="Central_11" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_7" type="standard" slot="Central_12" color="magenta" host="pcnicoleta@massy" locationRoad="Central_12" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_8" type="standard" slot="Central_13" color="olive" host="pcnicoleta@massy" locationRoad="Central_13" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_9" type="standard" slot="Central_14" color="DarkOrchid" host="pcnicoleta@massy" locationRoad="Central_14" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_10" type="standard" slot="Central_15" color="LightSeaGreen" host="pcnicoleta@massy" locationRoad="Central_15" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+</comment>
+
+</vehicles>
+
+</document>

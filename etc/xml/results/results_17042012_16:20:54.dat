@@ -1,0 +1,7 @@
+TEST SESSION OF Tue Apr 17 16:21:07 CEST 2012
+====================================================================================
+TEST 1/4
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentACO_F1=1_F2=5_Sync=100_21_100_0,5_1.d2cts
+J=10	M=2	DOD=0.5	EDOD=1.0	SEED=21	TERMINALSEED=100	ALGO=ACO
+ACO_F1=1_F2=5_Sync=100 parameters: F1=1.0	gamma=1.0	Q=1.5	sync=100	F2=5.0	QR=0	persistence=0.99	delta=0.1	alpha=1.0	beta=1.0	
+                            -------------------------------                            

@@ -1,0 +1,5 @@
+straddleCarrier_1	stockMission_A[1]
+straddleCarrier_1	load_truck_[3]
+straddleCarrier_1	unload_truck_[1]
+straddleCarrier_3	stockMission_A[0]
+straddleCarrier_3	unload_truck_[2]

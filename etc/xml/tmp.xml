@@ -1,0 +1,8 @@
+<event time="0:20:0" type="vehicleIn" lanes="train1_1/4,train1_4/4">
+	<container id="SZWU 075947 3" teu="2.0">
+		<containerLocation pave="train" lane="train1_1/4" slot="train1_1/4-0" level="0" align="origin"/>
+	</container>
+	<container id="KYQU 210056 5" teu="2.0">
+		<containerLocation pave="train" lane="train1_4/4" slot="train1_4/4-11" level="0" align="center"/>
+	</container>
+</event>

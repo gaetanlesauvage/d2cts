@@ -1,0 +1,30 @@
+<document>
+	<remoteHost hostname="6po.local"
+				baseDir="/home/gaetan/workspace/CalasRMI/bin"
+				classpath=".:/home/gaetan/workspace/gs-core/bin:/home/gaetan/workspace/gs-core/lib/mbox2.jar:/opt/libs/gs-core-scala-bin.jar:/opt/libs/gs-ui-scala-bin.jar:/opt/libs/scala-library.jar"
+	/>
+	
+	<remoteHost hostname="pcgaetan.local"
+				baseDir="/home/gaetan/Documents/CalasRMI"
+				classpath=".:/opt/gs-core/bin:/opt/gs-core/lib/mbox2.jar:/opt/libs/gs-core-scala-bin.jar:/opt/libs/gs-ui-scala-bin.jar:/opt/libs/scala-library.jar"
+	/>
+	
+	<networkConfiguration hostname="6po.local" port="2000"/>
+	
+	<remoteObject rmiBindingName="TerminalImpl" host="6po.local"/>
+	<comment>
+	<remoteObject rmiBindingName="display" host="6po.local"/>
+	</comment>
+	<remoteObject rmiBindingName="JTerminal" host="6po.local"/>
+	<remoteObject rmiBindingName="LaserData" host="6po.local"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="6po.local"/>
+	<remoteObject rmiBindingName="TimeController" host="6po.local"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="6po.local"/>
+	
+	Laser System
+	<laserSystemFile file="xml/bornesTN.xml"/>
+	Terminal
+	<terminalFile file="xml/TN.xml"/>
+	StraddleCarriers
+	<clientFile file="xml/vehiclesHome.xml"/>
+</document>

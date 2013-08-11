@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+
+<road id="c10-c11" origin="c10" destination="c11"/>
+<road id="c11-c12" origin="c11" destination="c12"/>
+<block id="C" type="YARD">
+	<coordinate id="C-NW" x="442516.7580" y="198889.3231"/>
+	<coordinate id="C-NE" x="442676.6507" y="198947.5679"/>
+	<coordinate id="C-SE" x="442732.2308" y="198795.0510"/>
+	<coordinate id="C-SW" x="442572.2241" y="198736.8428"/>
+	<wall from="C-NW" to="C-NE"/>
+	<wall from="C-NE" to="C-SE"/>
+	<wall from="C-SE" to="C-SW"/>
+	<wall from="C-SW" to="C-NW"/>
+
+
+	Travées de C
+<road id="c5-c10" origin="c5" destination="c10">
+<bayCrossroad id="C_N_1" x="442516.1449" y="198896.9488"/>
+<bayCrossroad id="C_N_2" x="442520.0463" y="198898.3651"/>
+<bayCrossroad id="C_N_3" x="442523.9477" y="198899.7813"/>
+<bayCrossroad id="C_N_4" x="442527.8491" y="198901.1975"/>
+<bayCrossroad id="C_N_5" x="442531.7505" y="198902.6138"/>
+<bayCrossroad id="C_N_6" x="442535.6519" y="198904.0300"/>
+<bayCrossroad id="C_N_7" x="442539.5533" y="198905.4463"/>
+<bayCrossroad id="C_N_8" x="442543.4547" y="198906.8625"/>
+<bayCrossroad id="C_N_9" x="442547.3561" y="198908.2788"/>
+<bayCrossroad id="C_N_10" x="442551.2575" y="198909.6950"/>
+<bayCrossroad id="C_N_11" x="442555.1589" y="198911.1113"/>
+<bayCrossroad id="C_N_12" x="442559.0603" y="198912.5275"/>
+<bayCrossroad id="C_N_13" x="442562.9617" y="198913.9437"/>
+<bayCrossroad id="C_N_14" x="442566.8631" y="198915.3600"/>
+<bayCrossroad id="C_N_15" x="442570.7645" y="198916.7762"/>
+<bayCrossroad id="C_N_16" x="442574.6659" y="198918.1925"/>
+<bayCrossroad id="C_N_17" x="442578.5673" y="198919.6087"/>
+<bayCrossroad id="C_N_18" x="442582.4687" y="198921.0250"/>
+<bayCrossroad id="C_N_19" x="442586.3701" y="198922.4412"/>
+<bayCrossroad id="C_N_20" x="442590.2715" y="198923.8575"/>
+<bayCrossroad id="C_N_21" x="442594.2176" y="198925.2899"/>
+<bayCrossroad id="C_N_22" x="442598.0943" y="198926.6972"/>
+<bayCrossroad id="C_N_23" x="442601.9957" y="198928.1134"/>
+<bayCrossroad id="C_N_24" x="442605.8971" y="198929.5297"/>
+<bayCrossroad id="C_N_25" x="442609.7985" y="198930.9459"/>
+<bayCrossroad id="C_N_26" x="442613.6999" y="198932.3622"/>
+<bayCrossroad id="C_N_27" x="442617.6013" y="198933.7784"/>
+<bayCrossroad id="C_N_28" x="442621.5027" y="198935.1947"/>
+<bayCrossroad id="C_N_29" x="442625.3841" y="198936.6036"/>
+<bayCrossroad id="C_N_30" x="442629.3055" y="198938.0272"/>
+<bayCrossroad id="C_N_31" x="442633.1869" y="198939.4361"/>
+<bayCrossroad id="C_N_32" x="442637.1083" y="198940.8596"/>
+<bayCrossroad id="C_N_33" x="442641.0097" y="198942.2759"/>
+<bayCrossroad id="C_N_34" x="442644.9111" y="198943.6921"/>
+<bayCrossroad id="C_N_35" x="442648.8125" y="198945.1084"/>
+<bayCrossroad id="C_N_36" x="442652.7139" y="198946.5246"/>
+<bayCrossroad id="C_N_37" x="442656.6153" y="198947.9409"/>
+<bayCrossroad id="C_N_38" x="442660.5167" y="198949.3571"/>
+<bayCrossroad id="C_N_39" x="442664.4181" y="198950.7733"/>
+<bayCrossroad id="C_N_40" x="442668.3642" y="198952.2058"/>
+<bayCrossroad id="C_N_41" x="442672.2212" y="198953.6059"/>
+</road>
+<road id="c7-c12" origin="c7" destination="c12">
+<bayCrossroad id="C_S_1" x="442579.4406" y="198723.0864"/>
+<bayCrossroad id="C_S_2" x="442583.3407" y="198724.5063"/>
+<bayCrossroad id="C_S_3" x="442587.2408" y="198725.9261"/>
+<bayCrossroad id="C_S_4" x="442591.1409" y="198727.3460"/>
+<bayCrossroad id="C_S_5" x="442595.0410" y="198728.7658"/>
+<bayCrossroad id="C_S_6" x="442598.9411" y="198730.1857"/>
+<bayCrossroad id="C_S_7" x="442602.8411" y="198731.6055"/>
+<bayCrossroad id="C_S_8" x="442606.7412" y="198733.0254"/>
+<bayCrossroad id="C_S_9" x="442610.6413" y="198734.4452"/>
+<bayCrossroad id="C_S_10" x="442614.5414" y="198735.8651"/>
+<bayCrossroad id="C_S_11" x="442618.4415" y="198737.2849"/>
+<bayCrossroad id="C_S_12" x="442622.3416" y="198738.7048"/>
+<bayCrossroad id="C_S_13" x="442626.2417" y="198740.1246"/>
+<bayCrossroad id="C_S_14" x="442630.1418" y="198741.5445"/>
+<bayCrossroad id="C_S_15" x="442634.0418" y="198742.9643"/>
+<bayCrossroad id="C_S_16" x="442637.9419" y="198744.3842"/>
+<bayCrossroad id="C_S_17" x="442641.8420" y="198745.8040"/>
+<bayCrossroad id="C_S_18" x="442645.7421" y="198747.2239"/>
+<bayCrossroad id="C_S_19" x="442649.6422" y="198748.6437"/>
+<bayCrossroad id="C_S_20" x="442653.5423" y="198750.0636"/>
+<bayCrossroad id="C_S_21" x="442657.4871" y="198751.4997"/>
+<bayCrossroad id="C_S_22" x="442661.3624" y="198752.9106"/>
+<bayCrossroad id="C_S_23" x="442665.2625" y="198754.3304"/>
+<bayCrossroad id="C_S_24" x="442669.1626" y="198755.7503"/>
+<bayCrossroad id="C_S_25" x="442673.0627" y="198757.1701"/>
+<bayCrossroad id="C_S_26" x="442676.9628" y="198758.5900"/>
+<bayCrossroad id="C_S_27" x="442680.8629" y="198760.0098"/>
+<bayCrossroad id="C_S_28" x="442684.7630" y="198761.4297"/>
+<bayCrossroad id="C_S_29" x="442688.6430" y="198762.8422"/>
+<bayCrossroad id="C_S_30" x="442692.5631" y="198764.2694"/>
+<bayCrossroad id="C_S_31" x="442696.4432" y="198765.6819"/>
+<bayCrossroad id="C_S_32" x="442700.3633" y="198767.1091"/>
+<bayCrossroad id="C_S_33" x="442704.2634" y="198768.5289"/>
+<bayCrossroad id="C_S_34" x="442708.1635" y="198769.9488"/>
+<bayCrossroad id="C_S_35" x="442712.0636" y="198771.3686"/>
+<bayCrossroad id="C_S_36" x="442715.9636" y="198772.7885"/>
+<bayCrossroad id="C_S_37" x="442719.8637" y="198774.2083"/>
+<bayCrossroad id="C_S_38" x="442723.7638" y="198775.6282"/>
+<bayCrossroad id="C_S_39" x="442727.6639" y="198777.0480"/>
+<bayCrossroad id="C_S_40" x="442731.6087" y="198778.4841"/>
+<bayCrossroad id="C_S_41" x="442735.4643" y="198779.8878"/>
+Dernier careffour (le seul qui n'appartient pas au bloc C...
+<bayCrossroad id="D_N_1" x="442739.3199" y="198781.2915"/>
+</road>
+<bayCrossroad id="C_NC_1" x="442577.1770" y="198850.7121"/>
+<bayCrossroad id="C_NC_2" x="442581.2301" y="198851.7113"/>
+<bayCrossroad id="C_SC_1" x="442581.1535" y="198839.7804"/>
+<bayCrossroad id="C_SC_2" x="442584.9013" y="198841.6189"/>
+
+<bay id="C-1/41" origin="C_N_1" destination="C_S_1" slots="40*13" in="442518.7078,198890.0334" out="442574.1743,198737.5522"/>
+<bay id="C-2/41" origin="C_N_2" destination="C_S_2" slots="40*13" in="442522.6077,198891.4540" out="442578.0747,198738.9712"/>
+<bay id="C-3/41" origin="C_N_3" destination="C_S_3" slots="40*13" in="442526.5075,198892.8746" out="442581.9751,198740.3901"/>
+<bay id="C-4/41" origin="C_N_4" destination="C_S_4" slots="40*13" in="442530.4073,198894.2952" out="442585.8755,198741.8090"/>
+<bay id="C-5/41" origin="C_N_5" destination="C_S_5" slots="40*13" in="442534.3071,198895.7158" out="442589.7760,198743.2279"/>
+<bay id="C-6/41" origin="C_N_6" destination="C_S_6" slots="40*13" in="442538.2069,198897.1364" out="442593.6764,198744.6468"/>
+<bay id="C-7/41" origin="C_N_7" destination="C_S_7" slots="40*13" in="442542.1067,198898.5570" out="442597.5768,198746.0658"/>
+<bay id="C-8/41" origin="C_N_8" destination="C_S_8" slots="40*13" in="442546.0065,198899.9776" out="442601.4772,198747.4847"/>
+<bay id="C-9/41" origin="C_N_9" destination="C_S_9" slots="40*13" in="442549.9063,198901.3982" out="442605.3777,198748.9036"/>
+<bay id="C-10/41" origin="C_N_10" destination="C_S_10" slots="40*13" in="442553.8062,198902.8188" out="442609.2781,198750.3225"/>
+												
+<bay id="C-11/41-1" origin="C_N_11" destination="C_NC_1" slots="40*4" in="442557.7060,198904.2394" out="442577.1770,198850.7121"/>
+<bay id="C-11/41-2" origin="C_SC_1" destination="C_S_11" slots="40*7" in="442581.1535,198839.7804" out="442613.1785,198751.7414"/>
+												
+<bay id="C-12/41-1" origin="C_N_12" destination="C_NC_2" slots="40*4" in="442561.6058,198905.6600" out="442581.2301,198851.7113"/>
+<bay id="C-12/41-2" origin="C_SC_2" destination="C_S_12" slots="40*7" in="442584.9013,198841.6189" out="442617.0789,198753.1604"/>
+												
+<bay id="C-13/41" origin="C_N_13" destination="C_S_13" slots="40*13" in="442565.5056,198907.0806" out="442620.9794,198754.5793"/>
+<bay id="C-14/41" origin="C_N_14" destination="C_S_14" slots="40*13" in="442569.4054,198908.5012" out="442624.8798,198755.9982"/>
+<bay id="C-15/41" origin="C_N_15" destination="C_S_15" slots="40*13" in="442573.3052,198909.9218" out="442628.7802,198757.4171"/>
+<bay id="C-16/41" origin="C_N_16" destination="C_S_16" slots="40*13" in="442577.2050,198911.3424" out="442632.6806,198758.8360"/>
+<bay id="C-17/41" origin="C_N_17" destination="C_S_17" slots="40*13" in="442581.1048,198912.7630" out="442636.5811,198760.2550"/>
+<bay id="C-18/41" origin="C_N_18" destination="C_S_18" slots="40*13" in="442585.0047,198914.1836" out="442640.4815,198761.6739"/>
+<bay id="C-19/41" origin="C_N_19" destination="C_S_19" slots="40*13" in="442588.9045,198915.6042" out="442644.3819,198763.0928"/>
+<bay id="C-20/41" origin="C_N_20" destination="C_S_20" slots="40*13" in="442592.8043,198917.0248" out="442648.2823,198764.5117"/>
+<bay id="C-21/41" origin="C_N_21" destination="C_S_21" slots="40*13" in="442596.7041,198918.4454" out="442652.1828,198765.9307"/>
+<bay id="C-22/41" origin="C_N_22" destination="C_S_22" slots="40*13" in="442600.6039,198919.8660" out="442656.0832,198767.3496"/>
+<bay id="C-23/41" origin="C_N_23" destination="C_S_23" slots="40*13" in="442604.5037,198921.2866" out="442659.9836,198768.7685"/>
+<bay id="C-24/41" origin="C_N_24" destination="C_S_24" slots="40*13" in="442608.4035,198922.7072" out="442663.8840,198770.1874"/>
+<bay id="C-25/41" origin="C_N_25" destination="C_S_25" slots="40*13" in="442612.3033,198924.1278" out="442667.7845,198771.6063"/>
+<bay id="C-26/41" origin="C_N_26" destination="C_S_26" slots="40*13" in="442616.2032,198925.5484" out="442671.6849,198773.0253"/>
+<bay id="C-27/41" origin="C_N_27" destination="C_S_27" slots="40*13" in="442620.1030,198926.9690" out="442675.5853,198774.4442"/>
+<bay id="C-28/41" origin="C_N_28" destination="C_S_28" slots="40*13" in="442624.0028,198928.3896" out="442679.4857,198775.8631"/>
+<bay id="C-29/41" origin="C_N_29" destination="C_S_29" slots="40*13" in="442627.9026,198929.8102" out="442683.3862,198777.2820"/>
+<bay id="C-30/41" origin="C_N_30" destination="C_S_30" slots="40*13" in="442631.8024,198931.2309" out="442687.2866,198778.7009"/>
+<bay id="C-31/41" origin="C_N_31" destination="C_S_31" slots="40*13" in="442635.7022,198932.6515" out="442691.1870,198780.1199"/>
+<bay id="C-32/41" origin="C_N_32" destination="C_S_32" slots="40*13" in="442639.6020,198934.0721" out="442695.0874,198781.5388"/>
+<bay id="C-33/41" origin="C_N_33" destination="C_S_33" slots="40*13" in="442643.5018,198935.4927" out="442698.9878,198782.9577"/>
+<bay id="C-34/41" origin="C_N_34" destination="C_S_34" slots="40*13" in="442647.4017,198936.9133" out="442702.8883,198784.3766"/>
+<bay id="C-35/41" origin="C_N_35" destination="C_S_35" slots="40*13" in="442651.3015,198938.3339" out="442706.7887,198785.7955"/>
+<bay id="C-36/41" origin="C_N_36" destination="C_S_36" slots="40*13" in="442655.2013,198939.7545" out="442710.6891,198787.2145"/>
+<bay id="C-37/41" origin="C_N_37" destination="C_S_37" slots="40*13" in="442659.1011,198941.1751" out="442714.5895,198788.6334"/>
+<bay id="C-38/41" origin="C_N_38" destination="C_S_38" slots="40*13" in="442663.0009,198942.5957" out="442718.4900,198790.0523"/>
+<bay id="C-39/41" origin="C_N_39" destination="C_S_39" slots="40*13" in="442666.9007,198944.0163" out="442722.3904,198791.4712"/>
+<bay id="C-40/41" origin="C_N_40" destination="C_S_40" slots="40*13" in="442670.8005,198945.4369" out="442726.3802,198792.9227"/>
+<bay id="C-41/41" origin="C_N_41" destination="C_S_41" slots="40*13" in="442674.7008,198946.8577" out="442730.1912,198794.3091"/>
+
+</block>
+
+</document>

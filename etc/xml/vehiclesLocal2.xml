@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<vehicles>
+<type
+		id="standard"
+		width="5"
+		height="15.4"
+		length="10"
+		innerWidth="3"
+		innerLength="6"
+		backOverLength="1"
+		frontOverLength="3"
+		cabWidth="2"
+		compatibility="all"
+		speed="8.33"
+		reverseSpeed="4.165"
+		laneSpeed="8.33"
+		turnBackTime="4"
+/>
+<comment>
+	Available routing algorithms : 
+		- APSP
+		- RDijkstra
+		- Dijkstra
+		- AStar
+</comment>		
+<straddleCarrier id="cav1" type="standard" slot="Central_1" color="red" host="localhost" locationRoad="Central_1" locationPourcent="0.5" direction="false">
+	<routing type="Dijkstra" host="localhost"/>
+</straddleCarrier>
+</vehicles>
+</document>

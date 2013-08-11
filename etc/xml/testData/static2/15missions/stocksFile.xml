@@ -1,0 +1,37 @@
+<document>
+	<mission id='stockMission_A[0]' container='OIJU 394804 1' kind='0'>
+		<timewindow start='00:22:03.00' end='00:24:08.23'/>
+		<timewindow start='00:24:42.16' end='00:26:47.39'/>
+		<containerLocation container='OIJU 394804 1' pave='J' lane='J-9/41' slot='J-9/41-6' level='0' align='origin'/>
+	</mission>
+	<mission id='stockMission_A[1]' container='OZKU 707969 4' kind='0'>
+		<timewindow start='00:08:57.00' end='00:12:57.02'/>
+		<timewindow start='00:12:15.84' end='00:16:15.86'/>
+		<containerLocation container='OZKU 707969 4' pave='H' lane='H-34/35' slot='H-34/35-6' level='0' align='origin'/>
+	</mission>
+	<mission id='stockMission_A[2]' container='HUOU 242847 8' kind='0'>
+		<timewindow start='00:11:04.00' end='00:13:12.61'/>
+		<timewindow start='00:15:03.51' end='00:17:12.11'/>
+		<containerLocation container='HUOU 242847 8' pave='A' lane='A-3/40' slot='A-3/40-4' level='0' align='origin'/>
+	</mission>
+	<mission id='stockMission_A[3]' container='ESUU 550254 6' kind='0'>
+		<timewindow start='00:12:37.00' end='00:15:53.94'/>
+		<timewindow start='00:16:05.05' end='00:19:21.98'/>
+		<containerLocation container='ESUU 550254 6' pave='F' lane='F-7/17' slot='F-7/17-0' level='0' align='origin'/>
+	</mission>
+	<mission id='stockMission_A[4]' container='TEEU 744593 9' kind='0'>
+		<timewindow start='00:23:52.00' end='00:26:54.45'/>
+		<timewindow start='00:27:31.60' end='00:30:34.05'/>
+		<containerLocation container='TEEU 744593 9' pave='G' lane='G-34/34' slot='G-34/34-3' level='0' align='origin'/>
+	</mission>
+	<mission id='stockMission_A[5]' container='QXAU 494447 8' kind='0'>
+		<timewindow start='00:17:19.00' end='00:19:39.24'/>
+		<timewindow start='00:19:54.95' end='00:22:15.19'/>
+		<containerLocation container='QXAU 494447 8' pave='K' lane='K-14/25' slot='K-14/25-1' level='0' align='origin'/>
+	</mission>
+	<mission id='stockMission_A[6]' container='LKLU 191521 0' kind='0'>
+		<timewindow start='00:13:25.00' end='00:15:38.72'/>
+		<timewindow start='00:15:09.51' end='00:17:23.23'/>
+		<containerLocation container='LKLU 191521 0' pave='F' lane='F-1/17' slot='F-1/17-2' level='0' align='origin'/>
+	</mission>
+</document>

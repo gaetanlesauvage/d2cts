@@ -1,0 +1,17 @@
+TEST SESSION OF Sat Apr 21 14:43:34 CEST 2012
+====================================================================================
+TEST 1/1
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentbb_42_100_0_0.d2cts
+J=10	M=2	DOD=0.0	EDOD=0.0	SEED=42	TERMINALSEED=100	ALGO=BranchAndBound
+bb parameters: timeMatrixFile=../trunk/xml/results/10missions/timeM-10-42-2.dat	distanceMatrixFile=../trunk/xml/results/10missions/distanceM_10-42-2.dat	solutionFile=xml/results/soluce_10_2_42.dat	computeCosts=true	
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	6288.877220700479		00:01:28.00		3		6
+straddleCarrier_2	5468.031054582254		00:05:58.00		2		4
+-------------------------------------------------------------------------------------
+OVERALL:		11756.908	00:07:26.00	5	10	
+Mission scheduler computing time:	00:00:04.87
+EXEC TIME: 34.252149673s
+====================================================================================

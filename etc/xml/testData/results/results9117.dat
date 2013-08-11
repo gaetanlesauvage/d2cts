@@ -1,0 +1,35 @@
+TEST SESSION OF Tue Jan 03 10:21:23 CET 2012
+====================================================================================
+TEST 0
+CONFIG FILE: xml/testData/test1/deploymentLocal_ACO_10-GAMMA.d2cts
+ACO parameters: NB_ANTS: 10 Q=1.5 QR= 60.0 ALPHA: 1.2 BETA: 1.7 GAMMA: 1.5 DELTA: 0.1 PERSISTENCE: 0.95
+                            -------------------------------                            
+SYNC SIZE = 10
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	0.0		00:00:00.00		0
+straddleCarrier_3	2957.5992739548096		00:00:00.00		3
+straddleCarrier_4	1432.2059687583082		00:00:00.00		2
+straddleCarrier_5	2880.0140150822176		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9117,091	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+straddleCarrier_3's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[4]
+straddleCarrier_4's workload:
+0> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+EXEC TIME : 117.082141173s
+====================================================================================

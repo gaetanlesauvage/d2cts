@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<road id="c3-c4" origin="c3" destination="c4"/>
+
+
+
+<road id="c6-c7" origin="c6" destination="c7"/>
+
+<comment>
+<road id="c7-c8" origin="c7" destination="c8"/>
+</comment>
+
+<block id="B" type="YARD">
+	<coordinate id="B-NW" x="442395.2099" y="198728.774"/>
+	<coordinate id="B-NE" x="442543.008" y="198782.8946"/>
+	<coordinate id="B-SE" x="442576.9851" y="198689.7395"/>
+	<coordinate id="B-S" x="442515.6387" y="198667.644"/>
+	<coordinate id="B-W" x="442408.0049" y="198693.5973"/>
+	<wall from="B-NW" to="B-NE"/>
+	<wall from="B-NE" to="B-SE"/>
+	<wall from="B-SE" to="B-S"/>
+	<wall from="B-S" to="B-W"/>
+	<wall from="B-W" to="B-NW"/>
+
+	Travées du bloc B
+<road id="c4-c51" origin="c4" destination="c51">
+<bayCrossroad id="B_S_1" x="442416.6202" y="198676.5438"/>
+<bayCrossroad id="B_S_2" x="442421.3688" y="198675.3965"/>
+<bayCrossroad id="B_S_3" x="442426.2937" y="198674.2065"/>
+<bayCrossroad id="B_S_4" x="442431.1305" y="198673.0379"/>
+<bayCrossroad id="B_S_5" x="442435.9673" y="198671.8692"/>
+<bayCrossroad id="B_S_6" x="442440.804" y="198670.7006"/>
+<bayCrossroad id="B_S_7" x="442445.6408" y="198669.5319"/>
+<bayCrossroad id="B_S_8" x="442450.4776" y="198668.3633"/>
+<bayCrossroad id="B_S_9" x="442455.3143" y="198667.1946"/>
+<bayCrossroad id="B_S_10" x="442460.1511" y="198666.0259"/>
+<bayCrossroad id="B_S_11" x="442464.9879" y="198664.8573"/>
+<bayCrossroad id="B_S_12" x="442469.8247" y="198663.6886"/>
+<bayCrossroad id="B_S_13" x="442474.6614" y="198662.5200"/>
+<bayCrossroad id="B_S_14" x="442479.4982" y="198661.3513"/>
+<bayCrossroad id="B_S_15" x="442484.335" y="198660.1827"/>
+<bayCrossroad id="B_S_16" x="442489.1717" y="198659.0140"/>
+<bayCrossroad id="B_S_17" x="442494.0085" y="198657.8454"/>
+<bayCrossroad id="B_S_18" x="442498.8453" y="198656.6767"/>
+<bayCrossroad id="B_S_19" x="442503.6820" y="198655.5080"/>
+<bayCrossroad id="B_S_20" x="442508.5188" y="198654.3394"/>
+</road>
+<road id="c51-c54" origin="c51" destination="c54">
+<bayCrossroad id="B_S_21" x="442513.1186" y="198653.818"/>
+<bayCrossroad id="B_S_22" x="442517.0079" y="198655.2366"/>
+<bayCrossroad id="B_S_23" x="442520.8973" y="198656.6553"/>
+<bayCrossroad id="B_S_24" x="442524.7866" y="198658.0739"/>
+<bayCrossroad id="B_S_25" x="442528.676" y="198659.4926"/>
+<bayCrossroad id="B_S_26" x="442532.5653" y="198660.9113"/>
+<bayCrossroad id="B_S_27" x="442536.4547" y="198662.3299"/>
+<bayCrossroad id="B_S_28" x="442540.344" y="198663.7486"/>
+<bayCrossroad id="B_S_29" x="442544.2334" y="198665.1673"/>
+<bayCrossroad id="B_S_30" x="442548.1227" y="198666.5859"/>
+<bayCrossroad id="B_S_31" x="442552.012" y="198668.0046"/>
+</road>
+<road id="c54-c8" origin="c54" destination="c8">
+<bayCrossroad id="B_S_32" x="442555.9014" y="198669.4232"/>
+<bayCrossroad id="B_S_33" x="442559.7907" y="198670.8419"/>
+<bayCrossroad id="B_S_34" x="442563.6801" y="198672.2606"/>
+<bayCrossroad id="B_S_35" x="442567.5694" y="198673.6792"/>
+<bayCrossroad id="B_S_36" x="442571.4588" y="198675.0979"/>
+<bayCrossroad id="B_S_37" x="442575.3481" y="198676.5166"/>
+<bayCrossroad id="B_S_38" x="442579.2375" y="198677.9352"/>
+</road>
+
+<bay id="B-1/38" origin="B_N_1" destination="B_S_1" slots="40*3" in="442397.2245,198729.5118" out="442410.6056,198692.9691"/>
+<bay id="B-2/38" origin="B_N_2" destination="B_S_2" slots="40*3" in="442401.0412,198730.9094" out="442415.4422,198691.8009"/>
+<bay id="B-3/38" origin="B_N_3" destination="B_S_3" slots="40*3" in="442404.9996,198732.3588" out="442420.2788,198690.6328"/>
+<bay id="B-4/38" origin="B_N_4" destination="B_S_4" slots="40*3" in="442408.8872,198733.7824" out="442425.1154,198689.4646"/>
+<bay id="B-5/38" origin="B_N_5" destination="B_S_5" slots="40*3" in="442412.7747,198735.2059" out="442429.9520,198688.2964"/>
+<bay id="B-6/38" origin="B_N_6" destination="B_S_6" slots="40*4" in="442416.6623,198736.6295" out="442434.7886,198687.1282"/>
+<bay id="B-7/38" origin="B_N_7" destination="B_S_7" slots="40*4" in="442420.5498,198738.0530" out="442439.6252,198685.9600"/>
+<bay id="B-8/38" origin="B_N_8" destination="B_S_8" slots="40*4" in="442424.4374,198739.4766" out="442444.4618,198684.7919"/>
+<bay id="B-9/38" origin="B_N_9" destination="B_S_9" slots="40*4" in="442428.3250,198740.9001" out="442449.2984,198683.6237"/>
+<bay id="B-10/38" origin="B_N_10" destination="B_S_10" slots="20*1-45*3" in="442432.2125,198742.3236" out="442454.1350,198682.4555"/>
+<bay id="B-11/38" origin="B_N_11" destination="B_S_11" slots="20*1-45*3" in="442436.1001,198743.7472" out="442458.9716,198681.2873"/>						
+<bay id="B-12/38" origin="B_N_12" destination="B_S_12" slots="20*1-45*3-20*1" in="442439.9876,198745.1707" out="442463.8081,198680.1191"/>
+<bay id="B-13/38" origin="B_N_13" destination="B_S_13" slots="20*1-45*3-20*1" in="442443.8752,198746.5943" out="442468.6447,198678.9510"/>
+<bay id="B-14/38" origin="B_N_14" destination="B_S_14" slots="20*1-45*3-40*1" in="442447.7628,198748.0178" out="442473.4813,198677.7828"/>
+<bay id="B-15/38" origin="B_N_15" destination="B_S_15" slots="20*1-45*3-40*1" in="442451.6503,198749.4413" out="442478.3179,198676.6146"/>
+<bay id="B-16/38" origin="B_N_16" destination="B_S_16" slots="20*1-45*3-40*1" in="442455.5379,198750.8649" out="442483.1545,198675.4464"/>
+<bay id="B-17/38" origin="B_N_17" destination="B_S_17" slots="20*1-45*3-40*1" in="442459.4254,198752.2884" out="442487.9911,198674.2783"/>
+<bay id="B-18/38" origin="B_N_18" destination="B_S_18" slots="20*1-45*3-40*1" in="442463.3130,198753.7120" out="442492.8277,198673.1101"/>
+<bay id="B-19/38" origin="B_N_19" destination="B_S_19" slots="40*7" in="442467.2006,198755.1355" out="442497.6643,198671.9419"/>
+<bay id="B-20/38" origin="B_N_20" destination="B_S_20" slots="40*7" in="442471.0881,198756.5591" out="442502.5009,198670.7737"/>
+<bay id="B-21/38" origin="B_N_21" destination="B_S_21" slots="40*7" in="442474.9757,198757.9826" out="442507.3375,198669.6055"/>								
+<bay id="B-22/38" origin="B_N_22" destination="B_S_22" slots="40*7" in="442478.8632,198759.4061" out="442512.1741,198668.4374"/>
+<bay id="B-23/38" origin="B_N_23" destination="B_S_23" slots="40*8" in="442482.7508,198760.8297" out="442516.7090,198668.0931"/>
+<bay id="B-24/38" origin="B_N_24" destination="B_S_24" slots="40*8" in="442486.6384,198762.2532" out="442520.6054,198669.4923"/>
+<bay id="B-25/38" origin="B_N_25" destination="B_S_25" slots="40*8" in="442490.5259,198763.6768" out="442524.5019,198670.8916"/>
+<bay id="B-26/38" origin="B_N_26" destination="B_S_26" slots="40*8" in="442494.4135,198765.1003" out="442528.3983,198672.2909"/>
+<bay id="B-27/38" origin="B_N_27" destination="B_S_27" slots="40*8" in="442498.3010,198766.5239" out="442532.2948,198673.6902"/>
+<bay id="B-28/38" origin="B_N_28" destination="B_S_28" slots="40*8" in="442502.1886,198767.9474" out="442536.1912,198675.0895"/>
+<bay id="B-29/38" origin="B_N_29" destination="B_S_29" slots="40*8" in="442506.0762,198769.3709" out="442540.0876,198676.4888"/>
+<bay id="B-30/38" origin="B_N_30" destination="B_S_30" slots="40*8" in="442509.9637,198770.7945" out="442543.9841,198677.8881"/>
+<bay id="B-31/38" origin="B_N_31" destination="B_S_31" slots="40*8" in="442513.8513,198772.2180" out="442547.8805,198679.2874"/>
+<bay id="B-32/38" origin="B_N_32" destination="B_S_32" slots="40*8" in="442517.7388,198773.6416" out="442551.7770,198680.6867"/>
+<bay id="B-33/38" origin="B_N_33" destination="B_S_33" slots="40*8" in="442521.6264,198775.0651" out="442555.6734,198682.0860"/>
+<bay id="B-34/38" origin="B_N_34" destination="B_S_34" slots="40*8" in="442525.5140,198776.4887" out="442559.5698,198683.4853"/>
+<bay id="B-35/38" origin="B_N_35" destination="B_S_35" slots="40*8" in="442529.4015,198777.9122" out="442563.4663,198684.8846"/>
+<bay id="B-36/38" origin="B_N_36" destination="B_S_36" slots="40*8" in="442533.2891,198779.3357" out="442567.3627,198686.2839"/>
+<bay id="B-37/38" origin="B_N_37" destination="B_S_37" slots="40*8" in="442537.1766,198780.7593" out="442571.2592,198687.6832"/>
+<bay id="B-38/38" origin="B_N_38" destination="B_S_38" slots="40*8" in="442541.0642,198782.1828" out="442575.1556,198689.0825"/>
+</block>
+</document>

@@ -1,0 +1,301 @@
+FILE	DISTANCE	OVERSPENT TIME	OVERRUN TW
+xml/results/10missions/2vehicles/deploymentACO_1_300_0_0.d2cts	6798.442	00:18:30.00	6
+AVERAGE	6798.442	00:19:30.00	6
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_100_0,75_1.d2cts	6672.667	01:54:07.00	13
+AVERAGE	6672.667	01:55:07.00	13
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_100_0,75_0,5.d2cts	7418.381	00:05:47.00	5
+AVERAGE	7418.381	00:06:47.00	5
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_200_0_0.d2cts	6656.982	00:18:31.00	6
+AVERAGE	6656.982	00:19:31.00	6
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_300_1_0,5.d2cts	6646.641	00:19:21.00	4
+AVERAGE	6646.641	00:20:21.00	4
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_500_0,75_1.d2cts	6672.667	01:54:07.00	13
+AVERAGE	6672.667	01:55:07.00	13
+
+xml/results/10missions/2vehicles/deploymentACO_1_100_1_1.d2cts	7746.78	00:30:02.00	7
+AVERAGE	7746.78	00:31:02.00	7
+
+xml/results/10missions/2vehicles/deploymentACO_1_200_0_0.d2cts	6705.445	00:16:00.00	6
+AVERAGE	6705.445	00:17:00.00	6
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_400_0_0.d2cts	6656.982	00:18:31.00	6
+AVERAGE	6656.982	00:19:31.00	6
+
+xml/results/10missions/3vehicles/deploymentACO_1_300_0,75_1.d2cts	8067.799	00:03:48.00	3
+AVERAGE	8067.799	00:04:48.00	3
+
+xml/results/10missions/2vehicles/deploymentACO_1_500_0_0.d2cts	6526.412	00:30:52.00	7
+AVERAGE	6526.412	00:31:52.00	7
+
+xml/results/10missions/3vehicles/deploymentACO_1_400_0,75_1.d2cts	8067.799	00:03:48.00	3
+AVERAGE	8067.799	00:04:48.00	3
+
+xml/results/10missions/2vehicles/deploymentACO_1_200_1_1.d2cts	7746.78	00:30:02.00	7
+AVERAGE	7746.78	00:31:02.00	7
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_200_1_1.d2cts	8099.733	00:05:40.00	6
+AVERAGE	8099.733	00:06:40.00	6
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_300_0,75_1.d2cts	6672.667	01:54:07.00	13
+AVERAGE	6672.667	01:55:07.00	13
+
+xml/results/10missions/2vehicles/deploymentACO_1_100_0_0.d2cts	6570.846	00:30:52.00	7
+AVERAGE	6570.846	00:31:52.00	7
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_500_0_0.d2cts	6656.982	00:18:31.00	6
+AVERAGE	6656.982	00:19:31.00	6
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_100_1_0,5.d2cts	7355.656	00:04:20.00	5
+AVERAGE	7355.656	00:05:20.00	5
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_200_1_1.d2cts	7707.131	00:23:02.00	7
+AVERAGE	7707.131	00:24:02.00	7
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_200_0,75_0,5.d2cts	6607.844	00:18:47.00	6
+AVERAGE	6607.844	00:19:47.00	6
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_100_1_1.d2cts	8099.733	00:05:40.00	6
+AVERAGE	8099.733	00:06:40.00	6
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_100_1_0,5.d2cts	6646.641	00:19:21.00	4
+AVERAGE	6646.641	00:20:21.00	4
+
+xml/results/10missions/2vehicles/deploymentACO_1_400_1_1.d2cts	7746.78	00:30:02.00	7
+AVERAGE	7746.78	00:31:02.00	7
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_200_0,75_1.d2cts	6672.667	01:54:07.00	13
+AVERAGE	6672.667	01:55:07.00	13
+
+xml/results/10missions/2vehicles/deploymentACO_1_100_1_0,5.d2cts	6864.964	00:18:01.00	8
+AVERAGE	6864.964	00:19:01.00	8
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_500_0_0.d2cts	6995.917	00:04:03.00	5
+AVERAGE	6995.917	00:05:03.00	5
+
+xml/results/10missions/3vehicles/deploymentACO_1_300_0,75_0,5.d2cts	7275.07	00:05:24.00	4
+AVERAGE	7275.07	00:06:24.00	4
+
+xml/results/10missions/2vehicles/deploymentACO_1_500_1_0,5.d2cts	6749.581	00:16:00.00	6
+AVERAGE	6749.581	00:17:00.00	6
+
+xml/results/10missions/2vehicles/deploymentACO_1_400_1_0,5.d2cts	6864.964	00:18:01.00	8
+AVERAGE	6864.964	00:19:01.00	8
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_100_0,75_0,5.d2cts	6607.844	00:18:47.00	6
+AVERAGE	6607.844	00:19:47.00	6
+
+xml/results/10missions/2vehicles/deploymentACO_1_500_0,75_1.d2cts	7009.262	00:20:35.00	9
+AVERAGE	7009.262	00:21:35.00	9
+
+xml/results/10missions/3vehicles/deploymentACO_1_200_0_0.d2cts	7458.199	00:04:11.00	4
+AVERAGE	7458.199	00:05:11.00	4
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_100_0,75_1.d2cts	7725.343	00:05:10.00	6
+AVERAGE	7725.343	00:06:10.00	6
+
+xml/results/10missions/3vehicles/deploymentACO_1_400_1_0,5.d2cts	7493.113	00:04:11.00	4
+AVERAGE	7493.113	00:05:11.00	4
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_500_1_0,5.d2cts	7355.656	00:04:20.00	5
+AVERAGE	7355.656	00:05:20.00	5
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_300_1_1.d2cts	7707.131	00:23:02.00	7
+AVERAGE	7707.131	00:24:02.00	7
+
+xml/results/10missions/2vehicles/deploymentACO_1_300_0,75_0,5.d2cts	6812.401	00:18:30.00	6
+AVERAGE	6812.401	00:19:30.00	6
+
+xml/results/10missions/2vehicles/deploymentACO_1_500_1_1.d2cts	7746.78	00:30:02.00	7
+AVERAGE	7746.78	00:31:02.00	7
+
+xml/results/10missions/3vehicles/deploymentACO_1_500_0,75_1.d2cts	8067.799	00:03:48.00	3
+AVERAGE	8067.799	00:04:48.00	3
+
+xml/results/10missions/3vehicles/deploymentACO_1_500_0_0.d2cts	7277.973	00:05:26.00	4
+AVERAGE	7277.973	00:06:26.00	4
+
+xml/results/10missions/2vehicles/deploymentACO_1_200_0,75_0,5.d2cts	6756.413	00:33:51.00	8
+AVERAGE	6756.413	00:34:51.00	8
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_100_0_0.d2cts	6656.982	00:18:31.00	6
+AVERAGE	6656.982	00:19:31.00	6
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_500_1_0,5.d2cts	6646.641	00:19:21.00	4
+AVERAGE	6646.641	00:20:21.00	4
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_200_1_0,5.d2cts	7355.656	00:04:20.00	5
+AVERAGE	7355.656	00:05:20.00	5
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_500_0,75_0,5.d2cts	6607.844	00:18:47.00	6
+AVERAGE	6607.844	00:19:47.00	6
+
+xml/results/10missions/2vehicles/deploymentACO_1_200_0,75_1.d2cts	6893.454	00:20:07.00	9
+AVERAGE	6893.454	00:21:07.00	9
+
+xml/results/10missions/3vehicles/deploymentACO_1_200_0,75_0,5.d2cts	7275.07	00:05:24.00	4
+AVERAGE	7275.07	00:06:24.00	4
+
+xml/results/10missions/3vehicles/deploymentACO_1_100_0,75_1.d2cts	8067.799	00:03:48.00	3
+AVERAGE	8067.799	00:04:48.00	3
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_500_0,75_0,5.d2cts	7418.381	00:05:47.00	5
+AVERAGE	7418.381	00:06:47.00	5
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_400_1_0,5.d2cts	6646.641	00:19:21.00	4
+AVERAGE	6646.641	00:20:21.00	4
+
+xml/results/10missions/2vehicles/deploymentACO_1_400_0,75_0,5.d2cts	6947.819	00:17:51.00	6
+AVERAGE	6947.819	00:18:51.00	6
+
+xml/results/10missions/3vehicles/deploymentACO_1_100_0_0.d2cts	7256.764	00:05:24.00	4
+AVERAGE	7256.764	00:06:24.00	4
+
+xml/results/10missions/3vehicles/deploymentACO_1_200_1_1.d2cts	8311.859	00:07:04.00	4
+AVERAGE	8311.859	00:08:04.00	4
+
+xml/results/10missions/2vehicles/deploymentACO_1_300_1_0,5.d2cts	6842.578	00:18:30.00	6
+AVERAGE	6842.578	00:19:30.00	6
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_300_1_1.d2cts	8099.733	00:05:40.00	6
+AVERAGE	8099.733	00:06:40.00	6
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_400_1_1.d2cts	8099.733	00:05:40.00	6
+AVERAGE	8099.733	00:06:40.00	6
+
+xml/results/10missions/3vehicles/deploymentACO_1_200_0,75_1.d2cts	8067.799	00:03:48.00	3
+AVERAGE	8067.799	00:04:48.00	3
+
+xml/results/10missions/3vehicles/deploymentACO_1_500_1_0,5.d2cts	7493.113	00:04:11.00	4
+AVERAGE	7493.113	00:05:11.00	4
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_200_0,75_1.d2cts	7725.343	00:05:10.00	6
+AVERAGE	7725.343	00:06:10.00	6
+
+xml/results/10missions/3vehicles/deploymentACO_1_200_1_0,5.d2cts	7493.113	00:04:11.00	4
+AVERAGE	7493.113	00:05:11.00	4
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_400_0,75_0,5.d2cts	6607.844	00:18:47.00	6
+AVERAGE	6607.844	00:19:47.00	6
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_400_0,75_1.d2cts	7725.343	00:05:10.00	6
+AVERAGE	7725.343	00:06:10.00	6
+
+xml/results/10missions/2vehicles/deploymentACO_1_300_1_1.d2cts	7746.78	00:30:02.00	7
+AVERAGE	7746.78	00:31:02.00	7
+
+xml/results/10missions/3vehicles/deploymentACO_1_500_0,75_0,5.d2cts	7275.07	00:05:24.00	4
+AVERAGE	7275.07	00:06:24.00	4
+
+xml/results/10missions/2vehicles/deploymentACO_1_200_1_0,5.d2cts	6842.578	00:18:30.00	6
+AVERAGE	6842.578	00:19:30.00	6
+
+xml/results/10missions/3vehicles/deploymentACO_1_400_0,75_0,5.d2cts	7319.51	00:05:44.00	4
+AVERAGE	7319.51	00:06:44.00	4
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_400_1_1.d2cts	7707.131	00:23:02.00	7
+AVERAGE	7707.131	00:24:02.00	7
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_100_0_0.d2cts	6995.917	00:04:03.00	5
+AVERAGE	6995.917	00:05:03.00	5
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_300_0_0.d2cts	6656.982	00:18:31.00	6
+AVERAGE	6656.982	00:19:31.00	6
+
+xml/results/10missions/2vehicles/deploymentACO_1_100_0,75_0,5.d2cts	6610.84	00:32:13.00	9
+AVERAGE	6610.84	00:33:13.00	9
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_300_0,75_0,5.d2cts	7418.381	00:05:47.00	5
+AVERAGE	7418.381	00:06:47.00	5
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_200_0,75_0,5.d2cts	7418.381	00:05:47.00	5
+AVERAGE	7418.381	00:06:47.00	5
+
+xml/results/10missions/2vehicles/deploymentACO_1_400_0_0.d2cts	6615.448	00:31:45.00	6
+AVERAGE	6615.448	00:32:45.00	6
+
+xml/results/10missions/3vehicles/deploymentACO_1_100_1_1.d2cts	8311.859	00:07:04.00	4
+AVERAGE	8311.859	00:08:04.00	4
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_100_1_1.d2cts	7707.131	00:23:02.00	7
+AVERAGE	7707.131	00:24:02.00	7
+
+xml/results/10missions/3vehicles/deploymentACO_1_300_1_0,5.d2cts	7493.113	00:04:11.00	4
+AVERAGE	7493.113	00:05:11.00	4
+
+xml/results/10missions/3vehicles/deploymentACO_1_100_1_0,5.d2cts	7493.113	00:04:11.00	4
+AVERAGE	7493.113	00:05:11.00	4
+
+xml/results/10missions/2vehicles/deploymentACO_1_500_0,75_0,5.d2cts	6610.84	00:32:13.00	9
+AVERAGE	6610.84	00:33:13.00	9
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_500_1_1.d2cts	8099.733	00:05:40.00	6
+AVERAGE	8099.733	00:06:40.00	6
+
+xml/results/10missions/3vehicles/deploymentACO_1_400_0_0.d2cts	7387.134	00:05:38.00	5
+AVERAGE	7387.134	00:06:38.00	5
+
+xml/results/10missions/2vehicles/deploymentACO_1_400_0,75_1.d2cts	7009.262	00:20:35.00	9
+AVERAGE	7009.262	00:21:35.00	9
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_300_0_0.d2cts	6995.917	00:04:03.00	5
+AVERAGE	6995.917	00:05:03.00	5
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_400_0_0.d2cts	6995.917	00:04:03.00	5
+AVERAGE	6995.917	00:05:03.00	5
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_300_0,75_0,5.d2cts	6607.844	00:18:47.00	6
+AVERAGE	6607.844	00:19:47.00	6
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_200_0_0.d2cts	6995.917	00:04:03.00	5
+AVERAGE	6995.917	00:05:03.00	5
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_500_1_1.d2cts	7707.131	00:23:02.00	7
+AVERAGE	7707.131	00:24:02.00	7
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_200_1_0,5.d2cts	6646.641	00:19:21.00	4
+AVERAGE	6646.641	00:20:21.00	4
+
+xml/results/10missions/3vehicles/deploymentACO_1_300_0_0.d2cts	7251.848	00:05:26.00	4
+AVERAGE	7251.848	00:06:26.00	4
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_300_1_0,5.d2cts	7355.656	00:04:20.00	5
+AVERAGE	7355.656	00:05:20.00	5
+
+xml/results/10missions/2vehicles/deploymentGreedy_1_400_0,75_1.d2cts	6672.667	01:54:07.00	13
+AVERAGE	6672.667	01:55:07.00	13
+
+xml/results/10missions/3vehicles/deploymentACO_1_500_1_1.d2cts	8311.859	00:07:04.00	4
+AVERAGE	8311.859	00:08:04.00	4
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_400_0,75_0,5.d2cts	7418.381	00:05:47.00	5
+AVERAGE	7418.381	00:06:47.00	5
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_300_0,75_1.d2cts	7725.343	00:05:10.00	6
+AVERAGE	7725.343	00:06:10.00	6
+
+xml/results/10missions/2vehicles/deploymentACO_1_100_0,75_1.d2cts	7009.262	00:20:35.00	9
+AVERAGE	7009.262	00:21:35.00	9
+
+xml/results/10missions/3vehicles/deploymentACO_1_100_0,75_0,5.d2cts	7448.976	00:04:11.00	4
+AVERAGE	7448.976	00:05:11.00	4
+
+xml/results/10missions/3vehicles/deploymentACO_1_300_1_1.d2cts	8311.859	00:07:04.00	4
+AVERAGE	8311.859	00:08:04.00	4
+
+xml/results/10missions/3vehicles/deploymentACO_1_400_1_1.d2cts	8311.859	00:07:04.00	4
+AVERAGE	8311.859	00:08:04.00	4
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_400_1_0,5.d2cts	7355.656	00:04:20.00	5
+AVERAGE	7355.656	00:05:20.00	5
+
+xml/results/10missions/3vehicles/deploymentGreedy_1_500_0,75_1.d2cts	7725.343	00:05:10.00	6
+AVERAGE	7725.343	00:06:10.00	6
+
+xml/results/10missions/2vehicles/deploymentACO_1_300_0,75_1.d2cts	7009.262	00:20:35.00	9
+AVERAGE	7009.262	00:21:35.00	9
+

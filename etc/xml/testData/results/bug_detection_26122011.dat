@@ -1,0 +1,615 @@
+TEST SESSION OF Mon Dec 26 17:34:25 CET 2011
+====================================================================================
+TEST 0
+CONFIG FILE: xml/testData/test1/deploymentLocal_ACO_10-GAMMA.d2cts
+ACO parameters: NB_ANTS: 10 Q=1.5 QR= 60.0 ALPHA: 1.2 BETA: 1.7 GAMMA: 1.5 DELTA: 0.1 PERSISTENCE: 0.95
+                            -------------------------------                            
+SYNC SIZE = 1
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1945.8501510568822		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	2952.153619966879		00:00:00.00		3
+straddleCarrier_5	1593.5154330729515		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		9856,772	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[4]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 125.927171451s
+                            -------------------------------                            
+SYNC SIZE = 1
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1945.8501510568822		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	2952.153619966879		00:00:00.00		3
+straddleCarrier_5	1593.5154330729515		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		9856,772	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[4]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 116.138896665s
+                            -------------------------------                            
+SYNC SIZE = 1
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1945.8501510568822		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	2952.153619966879		00:00:00.00		3
+straddleCarrier_5	1593.5154330729515		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		9856,772	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[4]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 115.750428229s
+                            -------------------------------                            
+SYNC SIZE = 1
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1945.8501510568822		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	2952.153619966879		00:00:00.00		3
+straddleCarrier_5	1593.5154330729515		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		9856,772	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[4]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 112.720629546s
+                            -------------------------------                            
+SYNC SIZE = 1
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1945.8501510568822		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	2952.153619966879		00:00:00.00		3
+straddleCarrier_5	1593.5154330729515		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		9856,772	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[4]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 110.032699809s
+                            -------------------------------                            
+SYNC SIZE = 1
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1945.8501510568822		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	2952.153619966879		00:00:00.00		3
+straddleCarrier_5	1593.5154330729515		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		9856,772	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[4]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 114.725155381s
+                            -------------------------------                            
+SYNC SIZE = 10
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	877.4660082617658		00:00:00.00		1
+straddleCarrier_3	2854.005223161358		00:00:00.00		3
+straddleCarrier_4	1325.7332741987632		00:00:00.00		1
+straddleCarrier_5	2757.0813893069344		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9661,557	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED
+straddleCarrier_3's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_4's workload:
+0> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+EXEC TIME : 145.009555946s
+                            -------------------------------                            
+SYNC SIZE = 10
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	877.4660082617658		00:00:00.00		1
+straddleCarrier_3	2066.9601784345627		00:00:00.00		2
+straddleCarrier_4	2952.2340026793863		00:00:00.00		3
+straddleCarrier_5	1803.3839239605504		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		9547,316	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED
+straddleCarrier_3's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[4]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 144.023063067s
+                            -------------------------------                            
+SYNC SIZE = 10
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	877.4660082617658		00:00:00.00		1
+straddleCarrier_3	2854.005223161358		00:00:00.00		3
+straddleCarrier_4	1325.7332741987632		00:00:00.00		1
+straddleCarrier_5	2757.0813893069344		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9661,557	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED
+straddleCarrier_3's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_4's workload:
+0> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+EXEC TIME : 153.770709104s
+                            -------------------------------                            
+SYNC SIZE = 10
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	877.4660082617658		00:00:00.00		1
+straddleCarrier_3	2854.005223161358		00:00:00.00		3
+straddleCarrier_4	1325.7332741987632		00:00:00.00		1
+straddleCarrier_5	2757.0813893069344		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9661,557	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED
+straddleCarrier_3's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_4's workload:
+0> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+EXEC TIME : 135.997895823s
+                            -------------------------------                            
+SYNC SIZE = 10
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	877.4660082617658		00:00:00.00		1
+straddleCarrier_3	2854.005223161358		00:00:00.00		3
+straddleCarrier_4	1325.7332741987632		00:00:00.00		1
+straddleCarrier_5	2757.0813893069344		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9661,557	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED
+straddleCarrier_3's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_4's workload:
+0> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+EXEC TIME : 144.604521538s
+                            -------------------------------                            
+SYNC SIZE = 50
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1846.3383618549997		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	3051.1356576099324		00:00:00.00		3
+straddleCarrier_5	2226.376727317821		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		10489,103	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 124.380073932s
+                            -------------------------------                            
+SYNC SIZE = 50
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1846.3383618549997		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	3051.1356576099324		00:00:00.00		3
+straddleCarrier_5	2226.376727317821		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		10489,103	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 129.228781147s
+                            -------------------------------                            
+SYNC SIZE = 50
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1846.3383618549997		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	3051.1356576099324		00:00:00.00		3
+straddleCarrier_5	2226.376727317821		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		10489,103	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 115.788885161s
+                            -------------------------------                            
+SYNC SIZE = 50
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1846.3383618549997		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	3051.1356576099324		00:00:00.00		3
+straddleCarrier_5	2226.376727317821		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		10489,103	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 112.44481448s
+                            -------------------------------                            
+SYNC SIZE = 50
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1846.3383618549997		00:00:00.00		2
+straddleCarrier_3	1517.9813164578218		00:00:00.00		1
+straddleCarrier_4	3051.1356576099324		00:00:00.00		3
+straddleCarrier_5	2226.376727317821		00:00:00.00		2
+-------------------------------------------------------------------------------------
+OVERALL:		10489,103	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+straddleCarrier_3's workload:
+0> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+2> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+EXEC TIME : 108.155218789s
+                            -------------------------------                            
+SYNC SIZE = 100
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1400.9314672948572		00:00:00.00		2
+straddleCarrier_3	1326.9032725031614		00:00:00.00		1
+straddleCarrier_4	2494.128514350677		00:00:00.00		2
+straddleCarrier_5	2880.0140150822176		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9949,249	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_3's workload:
+0> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+EXEC TIME : 151.011296465s
+                            -------------------------------                            
+SYNC SIZE = 100
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1400.9314672948572		00:00:00.00		2
+straddleCarrier_3	1326.9032725031614		00:00:00.00		1
+straddleCarrier_4	2494.128514350677		00:00:00.00		2
+straddleCarrier_5	2880.0140150822176		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9949,249	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_3's workload:
+0> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+EXEC TIME : 147.180822124s
+                            -------------------------------                            
+SYNC SIZE = 100
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1400.9314672948572		00:00:00.00		2
+straddleCarrier_3	1326.9032725031614		00:00:00.00		1
+straddleCarrier_4	2494.128514350677		00:00:00.00		2
+straddleCarrier_5	2880.0140150822176		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9949,249	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_3's workload:
+0> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+EXEC TIME : 138.455370006s
+                            -------------------------------                            
+SYNC SIZE = 100
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1400.9314672948572		00:00:00.00		2
+straddleCarrier_3	1326.9032725031614		00:00:00.00		1
+straddleCarrier_4	2494.128514350677		00:00:00.00		2
+straddleCarrier_5	2880.0140150822176		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9949,249	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_3's workload:
+0> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+EXEC TIME : 143.429428928s
+                            -------------------------------                            
+SYNC SIZE = 100
+RESULTS :
+RESSOURCE ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	1847.271390105015		00:00:00.00		2
+straddleCarrier_2	1400.9314672948572		00:00:00.00		2
+straddleCarrier_3	1326.9032725031614		00:00:00.00		1
+straddleCarrier_4	2494.128514350677		00:00:00.00		2
+straddleCarrier_5	2880.0140150822176		00:00:00.00		3
+-------------------------------------------------------------------------------------
+OVERALL:		9949,249	00:00:00.00	10	
+WORKLOADS :
+straddleCarrier_1's workload:
+0> stockMission_A[3] 00:07:10.00 -> 00:12:10.88 STATUS: ACHIEVED
+1> stockMission_A[7] 00:12:29.00 -> 00:20:34.80 STATUS: ACHIEVED LINKED TO: stockMission_A[3]
+straddleCarrier_2's workload:
+0> stockMission_A[6] 00:12:09.00 -> 00:16:02.60 STATUS: ACHIEVED
+1> stockMission_A[9] 00:16:07.00 -> 00:21:19.36 STATUS: ACHIEVED LINKED TO: stockMission_A[6]
+straddleCarrier_3's workload:
+0> stockMission_A[4] 00:09:09.00 -> 00:16:22.70 STATUS: ACHIEVED
+straddleCarrier_4's workload:
+0> stockMission_A[0] 00:01:09.00 -> 00:06:00.42 STATUS: ACHIEVED
+1> stockMission_A[8] 00:13:57.00 -> 00:21:33.28 STATUS: ACHIEVED LINKED TO: stockMission_A[0]
+straddleCarrier_5's workload:
+0> stockMission_A[1] 00:01:32.00 -> 00:06:47.40 STATUS: ACHIEVED
+1> stockMission_A[2] 00:06:56.00 -> 00:12:11.89 STATUS: ACHIEVED LINKED TO: stockMission_A[1]
+2> stockMission_A[5] 00:11:24.00 -> 00:17:52.48 STATUS: ACHIEVED LINKED TO: stockMission_A[2]
+EXEC TIME : 149.060287742s
+====================================================================================

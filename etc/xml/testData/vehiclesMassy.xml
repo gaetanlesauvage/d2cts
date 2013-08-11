@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<vehicles>
+<type
+		id="standard"
+		width="5"
+		height="15.4"
+		length="10"
+		innerWidth="3"
+		innerLength="6"
+		backOverLength="1"
+		frontOverLength="3"
+		cabWidth="2"
+		compatibility="all"
+		emptySpeed="4.444"
+		loadedSpeed="3.333"
+		baySpeed="1.944"
+		containerHandlingFromTruck_MIN="20"
+		containerHandlingFromTruck_MAX="60"
+		containerHandlingFromGround_MIN="10"
+		containerHandlingFromGround_MAX="30"
+		enterExitBayTime_MIN="2"
+		enterExitBayTime_MAX="4"
+		turnBackTime="4"
+/>
+
+<comment>
+	Available routing algorithms : 
+		- APSP
+		- RDijkstra
+		- Dijkstra
+		- AStar
+</comment>		
+<straddleCarrier id="straddleCarrier_1" type="standard" slot="Central_1" color="red" host="pcnicoleta@massy" locationRoad="Central_1" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_2" type="standard" slot="Central_2" color="blue" host="pcnicoleta@massy" locationRoad="Central_2" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_3" type="standard" slot="Central_3" color="green" host="pcnicoleta@massy" locationRoad="Central_3" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_4" type="standard" slot="Central_4" color="yellow" host="pcnicoleta@massy" locationRoad="Central_4" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_5" type="standard" slot="Central_5" color="sienna" host="pcnicoleta@massy" locationRoad="Central_5" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="pcnicoleta@massy"/>
+</straddleCarrier>
+</vehicles>
+
+</document>

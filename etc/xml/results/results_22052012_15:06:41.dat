@@ -1,0 +1,5 @@
+TEST SESSION OF Tue May 22 15:06:51 CEST 2012
+====================================================================================
+TEST 1/84
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentACO_F1=F2=1_Sync=100_42_100_0_0.d2cts
+J=10	M=2	DOD=0.0	EDOD=0.0	SEED=42	TERMINALSEED=100	ALGO=ACO

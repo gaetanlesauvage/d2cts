@@ -1,0 +1,136 @@
+	Greedy			ACO			
+FILE	DISTANCE	OVERSPENT TIME	TW OVERRUN	DISTANCE	OVERSPENT TIME	TW OVERRUN	
+xml/results/10missions/3vehicles/1_200_0_0.d2cts	6995.917	00:04:03.00	5	7458.199	00:04:11.00	4	
+xml/results/10missions/2vehicles/1_100_0,75_0,5.d2cts	6904.976	00:17:04.00	7	6520.714	00:48:36.00	11	
+xml/results/10missions/3vehicles/1_300_0_0.d2cts	6995.917	00:04:03.00	5	7251.848	00:05:26.00	4	
+xml/results/10missions/2vehicles/1_300_0_0.d2cts	6656.982	00:18:31.00	6	6798.442	00:18:30.00	6	
+xml/results/10missions/3vehicles/1_100_0,75_1.d2cts	7548.511	00:10:00.00	5	7522.907	00:07:02.00	2	
+xml/results/10missions/3vehicles/1_300_0,75_0,5.d2cts	7423.189	00:17:12.00	7	7147.755	00:05:24.00	4	
+xml/results/10missions/2vehicles/1_100_0_0.d2cts	6656.982	00:18:31.00	6	6570.846	00:30:52.00	7	
+xml/results/10missions/3vehicles/1_100_0,75_0,5.d2cts	7423.189	00:17:12.00	7	7192.195	00:05:44.00	4	
+xml/results/10missions/2vehicles/1_100_0,75_1.d2cts	7702.265	00:25:33.00	9	7086.623	01:16:53.00	13	
+xml/results/10missions/2vehicles/1_300_0,75_1.d2cts	7702.265	00:25:33.00	9	7086.623	01:16:53.00	13	
+xml/results/10missions/2vehicles/1_200_0,75_0,5.d2cts	6904.976	00:17:04.00	7	6520.714	00:48:36.00	11	
+xml/results/10missions/2vehicles/1_300_0,75_0,5.d2cts	6904.976	00:17:04.00	7	6925.337	00:22:19.00	10	
+xml/results/10missions/2vehicles/1_200_0,75_1.d2cts	7702.265	00:25:33.00	9	7086.623	01:16:53.00	13	
+xml/results/10missions/3vehicles/1_200_0,75_1.d2cts	7548.511	00:10:00.00	5	7840.912	00:06:06.00	3	
+xml/results/10missions/3vehicles/1_100_0_0.d2cts	6995.917	00:04:03.00	5	7256.764	00:05:24.00	4	
+xml/results/10missions/2vehicles/1_200_0_0.d2cts	6656.982	00:18:31.00	6	6705.445	00:16:00.00	6	
+xml/results/10missions/3vehicles/1_200_0,75_0,5.d2cts	7423.189	00:17:12.00	7	7147.755	00:05:24.00	4	
+xml/results/10missions/3vehicles/1_300_0,75_1.d2cts	7548.511	00:10:00.00	5	7523.421	00:06:55.00	2	
+
+DISTANCES
+FILE	Greedy	ACO	Greedy->ACO	ACO->Greedy	
+xml/results/10missions/3vehicles/1_100_0,75_0,5.d2cts	7423.189	7192.195	-3.1117892862488157	3.211731606275978	
+xml/results/10missions/3vehicles/1_200_0,75_0,5.d2cts	7423.189	7147.755	-3.7104538224744132	3.853433700511562	
+xml/results/10missions/3vehicles/1_300_0,75_0,5.d2cts	7423.189	7147.755	-3.7104538224744132	3.853433700511562	
+AVG	7423.189000000001	7162.568333333334	-3.5108989770658803	3.639533002433034	
+xml/results/10missions/3vehicles/1_100_0,75_1.d2cts	7548.511	7522.907	-0.33919272290919716	0.3403471556939394	
+xml/results/10missions/3vehicles/1_200_0,75_1.d2cts	7548.511	7840.912	3.873624877807025	-3.729170790336632	
+xml/results/10missions/3vehicles/1_300_0,75_1.d2cts	7548.511	7523.421	-0.3323834329710872	0.33349190481298524	
+AVG	7548.511000000001	7629.079999999999	1.0673495739755803	-1.0184439099432356	
+xml/results/10missions/2vehicles/1_100_0,75_1.d2cts	7702.265	7086.623	-7.992999461846622	8.687381846049956	
+xml/results/10missions/2vehicles/1_200_0,75_1.d2cts	7702.265	7086.623	-7.992999461846622	8.687381846049956	
+xml/results/10missions/2vehicles/1_300_0,75_1.d2cts	7702.265	7086.623	-7.992999461846622	8.687381846049956	
+AVG	7702.265	7086.623	-7.992999461846622	8.687381846049956	
+xml/results/10missions/2vehicles/1_100_0_0.d2cts	6656.982	6570.846	-1.2939196771149513	1.310881429879812	
+xml/results/10missions/2vehicles/1_200_0_0.d2cts	6656.982	6705.445	0.7280025693324653	-0.7227409963097116	
+xml/results/10missions/2vehicles/1_300_0_0.d2cts	6656.982	6798.442	2.124986968569241	-2.0807708589703355	
+AVG	6656.982	6691.577666666667	0.5196899535955851	-0.49754347513341174	
+xml/results/10missions/3vehicles/1_100_0_0.d2cts	6995.917	7256.764	3.7285605303779294	-3.5945360769621244	
+xml/results/10missions/3vehicles/1_200_0_0.d2cts	6995.917	7458.199	6.607882855099613	-6.198306052171567	
+xml/results/10missions/3vehicles/1_300_0_0.d2cts	6995.917	7251.848	3.658290971719641	-3.52918318199719	
+AVG	6995.917	7322.270333333334	4.664911452399061	-4.440675103710294	
+xml/results/10missions/2vehicles/1_100_0,75_0,5.d2cts	6904.976	6520.714	-5.565001239685696	5.892943625498676	
+xml/results/10missions/2vehicles/1_200_0,75_0,5.d2cts	6904.976	6520.714	-5.565001239685696	5.892943625498676	
+xml/results/10missions/2vehicles/1_300_0,75_0,5.d2cts	6904.976	6925.337	0.29487430513879825	-0.29400735299958375	
+AVG	6904.976	6655.588333333333	-3.6117093914108644	3.8306266326659224	
+					
+
+OVERSPENT TIME
+FILE	Greedy	ACO	Greedy->ACO	ACO->Greedy	
+xml/results/10missions/3vehicles/1_100_0,75_0,5.d2cts	00:17:12.00	00:05:44.00	-66,667%	+200%	
+xml/results/10missions/3vehicles/1_200_0,75_0,5.d2cts	00:17:12.00	00:05:24.00	-68,605%	+218,519%	
+xml/results/10missions/3vehicles/1_300_0,75_0,5.d2cts	00:17:12.00	00:05:24.00	-68,605%	+218,519%	
+xml/results/10missions/3vehicles/1_100_0,75_1.d2cts	00:10:00.00	00:07:02.00	-29,667%	+42,18%	
+xml/results/10missions/3vehicles/1_200_0,75_1.d2cts	00:10:00.00	00:06:06.00	-39%	+63,934%	
+xml/results/10missions/3vehicles/1_300_0,75_1.d2cts	00:10:00.00	00:06:55.00	-30,833%	+44,578%	
+xml/results/10missions/2vehicles/1_100_0,75_1.d2cts	00:25:33.00	01:16:53.00	+200,913%	-66,768%	
+xml/results/10missions/2vehicles/1_200_0,75_1.d2cts	00:25:33.00	01:16:53.00	+200,913%	-66,768%	
+xml/results/10missions/2vehicles/1_300_0,75_1.d2cts	00:25:33.00	01:16:53.00	+200,913%	-66,768%	
+xml/results/10missions/2vehicles/1_100_0_0.d2cts	00:18:31.00	00:30:52.00	+66,697%	-40,011%	
+xml/results/10missions/2vehicles/1_200_0_0.d2cts	00:18:31.00	00:16:00.00	-13,591%	+15,729%	
+xml/results/10missions/2vehicles/1_300_0_0.d2cts	00:18:31.00	00:18:30.00	-0,09%	+0,09%	
+xml/results/10missions/3vehicles/1_100_0_0.d2cts	00:04:03.00	00:05:24.00	+33,333%	-25%	
+xml/results/10missions/3vehicles/1_200_0_0.d2cts	00:04:03.00	00:04:11.00	+3,292%	-3,187%	
+xml/results/10missions/3vehicles/1_300_0_0.d2cts	00:04:03.00	00:05:26.00	+34,156%	-25,46%	
+xml/results/10missions/2vehicles/1_100_0,75_0,5.d2cts	00:17:04.00	00:48:36.00	+184,766%	-64,883%	
+xml/results/10missions/2vehicles/1_200_0,75_0,5.d2cts	00:17:04.00	00:48:36.00	+184,766%	-64,883%	
+xml/results/10missions/2vehicles/1_300_0,75_0,5.d2cts	00:17:04.00	00:22:19.00	+30,762%	-23,525%	
+					
+
+TIME WINDOWS OVERRUN
+FILE	Greedy	ACO	Greedy->ACO	ACO->Greedy	
+xml/results/10missions/3vehicles/1_100_0,75_0,5.d2cts	7	4	-42,857%	+75%	
+xml/results/10missions/3vehicles/1_200_0,75_0,5.d2cts	7	4	-42,857%	+75%	
+xml/results/10missions/3vehicles/1_300_0,75_0,5.d2cts	7	4	-42,857%	+75%	
+xml/results/10missions/3vehicles/1_100_0,75_1.d2cts	5	2	-60%	+150%	
+xml/results/10missions/3vehicles/1_200_0,75_1.d2cts	5	3	-40%	+66,667%	
+xml/results/10missions/3vehicles/1_300_0,75_1.d2cts	5	2	-60%	+150%	
+xml/results/10missions/2vehicles/1_100_0,75_1.d2cts	9	13	+44,444%	-30,769%	
+xml/results/10missions/2vehicles/1_200_0,75_1.d2cts	9	13	+44,444%	-30,769%	
+xml/results/10missions/2vehicles/1_300_0,75_1.d2cts	9	13	+44,444%	-30,769%	
+xml/results/10missions/2vehicles/1_100_0_0.d2cts	6	7	+16,667%	-14,286%	
+xml/results/10missions/2vehicles/1_200_0_0.d2cts	6	6	+0%	+0%	
+xml/results/10missions/2vehicles/1_300_0_0.d2cts	6	6	+0%	+0%	
+xml/results/10missions/3vehicles/1_100_0_0.d2cts	5	4	-20%	+25%	
+xml/results/10missions/3vehicles/1_200_0_0.d2cts	5	4	-20%	+25%	
+xml/results/10missions/3vehicles/1_300_0_0.d2cts	5	4	-20%	+25%	
+xml/results/10missions/2vehicles/1_100_0,75_0,5.d2cts	7	11	+57,143%	-36,364%	
+xml/results/10missions/2vehicles/1_200_0,75_0,5.d2cts	7	11	+57,143%	-36,364%	
+xml/results/10missions/2vehicles/1_300_0,75_0,5.d2cts	7	10	+42,857%	-30%	
+					
+
+MISSION SCHEDULER COMPUTING TIME
+FILE	Greedy	ACO	Greedy->ACO	ACO->Greedy	
+xml/results/10missions/3vehicles/1_100_0,75_0,5.d2cts	00:00:44.96	00:04:00.10	+434,03%	-81,274%	
+xml/results/10missions/3vehicles/1_200_0,75_0,5.d2cts	00:00:42.75	00:04:39.33	+553,404%	-84,696%	
+xml/results/10missions/3vehicles/1_300_0,75_0,5.d2cts	00:00:43.21	00:05:14.98	+628,952%	-86,282%	
+xml/results/10missions/3vehicles/1_100_0,75_1.d2cts	00:00:36.30	00:01:40.84	+177,796%	-64,002%	
+xml/results/10missions/3vehicles/1_200_0,75_1.d2cts	00:00:32.23	00:01:02.26	+93,174%	-48,233%	
+xml/results/10missions/3vehicles/1_300_0,75_1.d2cts	00:00:31.73	00:01:44.60	+229,656%	-69,665%	
+xml/results/10missions/2vehicles/1_100_0,75_1.d2cts	00:00:36.88	00:02:38.03	+328,498%	-76,663%	
+xml/results/10missions/2vehicles/1_200_0,75_1.d2cts	00:00:37.75	00:02:47.21	+342,94%	-77,424%	
+xml/results/10missions/2vehicles/1_300_0,75_1.d2cts	00:00:33.51	00:02:53.05	+416,413%	-80,636%	
+xml/results/10missions/2vehicles/1_100_0_0.d2cts	00:05:04.08	00:02:54.63	-42,571%	+74,128%	
+xml/results/10missions/2vehicles/1_200_0_0.d2cts	00:01:15.26	00:03:09.42	+151,687%	-60,268%	
+xml/results/10missions/2vehicles/1_300_0_0.d2cts	00:01:17.06	00:03:15.54	+153,75%	-60,591%	
+xml/results/10missions/3vehicles/1_100_0_0.d2cts	00:00:52.05	00:04:46.10	+449,664%	-81,807%	
+xml/results/10missions/3vehicles/1_200_0_0.d2cts	00:01:07.40	00:05:48.17	+416,573%	-80,642%	
+xml/results/10missions/3vehicles/1_300_0_0.d2cts	00:01:12.75	00:05:16.39	+334,9%	-77,006%	
+xml/results/10missions/2vehicles/1_100_0,75_0,5.d2cts	00:00:43.25	00:02:41.94	+274,428%	-73,293%	
+xml/results/10missions/2vehicles/1_200_0,75_0,5.d2cts	00:00:55.98	00:02:48.91	+201,733%	-66,858%	
+xml/results/10missions/2vehicles/1_300_0,75_0,5.d2cts	00:00:50.55	00:03:02.30	+260,633%	-72,271%	
+					
+
+OVERALL EXECUTION TIME
+FILE	Greedy	ACO	Greedy->ACO	ACO->Greedy	
+xml/results/10missions/3vehicles/1_100_0,75_0,5.d2cts	00:01:04.84	00:04:18.38	+298,489%	-74,905%	
+xml/results/10missions/3vehicles/1_200_0,75_0,5.d2cts	00:01:01.96	00:04:56.23	+378,099%	-79,084%	
+xml/results/10missions/3vehicles/1_300_0,75_0,5.d2cts	00:01:02.66	00:05:34.30	+433,514%	-81,256%	
+xml/results/10missions/3vehicles/1_100_0,75_1.d2cts	00:00:57.92	00:02:00.89	+108,719%	-52,089%	
+xml/results/10missions/3vehicles/1_200_0,75_1.d2cts	00:00:52.39	00:01:24.81	+61,882%	-38,227%	
+xml/results/10missions/3vehicles/1_300_0,75_1.d2cts	00:00:52.05	00:02:06.15	+142,363%	-58,74%	
+xml/results/10missions/2vehicles/1_100_0,75_1.d2cts	00:00:57.68	00:02:57.20	+207,212%	-67,449%	
+xml/results/10missions/2vehicles/1_200_0,75_1.d2cts	00:00:58.92	00:03:03.58	+211,575%	-67,905%	
+xml/results/10missions/2vehicles/1_300_0,75_1.d2cts	00:00:53.23	00:03:11.92	+260,549%	-72,264%	
+xml/results/10missions/2vehicles/1_100_0_0.d2cts	00:06:02.97	00:03:11.38	-47,274%	+89,659%	
+xml/results/10missions/2vehicles/1_200_0_0.d2cts	00:01:34.41	00:03:24.82	+116,947%	-53,906%	
+xml/results/10missions/2vehicles/1_300_0_0.d2cts	00:01:36.51	00:03:30.85	+118,475%	-54,228%	
+xml/results/10missions/3vehicles/1_100_0_0.d2cts	00:01:09.44	00:05:04.73	+338,839%	-77,213%	
+xml/results/10missions/3vehicles/1_200_0_0.d2cts	00:01:27.55	00:06:05.07	+316,985%	-76,018%	
+xml/results/10missions/3vehicles/1_300_0_0.d2cts	00:01:34.18	00:05:33.07	+253,653%	-71,724%	
+xml/results/10missions/2vehicles/1_100_0,75_0,5.d2cts	00:01:00.09	00:02:58.13	+196,439%	-66,266%	
+xml/results/10missions/2vehicles/1_200_0,75_0,5.d2cts	00:01:15.74	00:03:06.68	+146,475%	-59,428%	
+xml/results/10missions/2vehicles/1_300_0,75_0,5.d2cts	00:01:08.93	00:03:18.09	+187,378%	-65,203%	
+					

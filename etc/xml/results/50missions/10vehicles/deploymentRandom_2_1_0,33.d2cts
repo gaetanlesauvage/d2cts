@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<networkConfiguration hostname="localhost" port="2000"/>
+	<remoteObject rmiBindingName="TerminalImpl" host="localhost"/>
+	<remoteObject rmiBindingName="display" host="localhost"/>
+	<remoteObject rmiBindingName="JTerminal" host="localhost" id="JTerminal1"/>
+	<remoteObject rmiBindingName="MissionScheduler" type='RandomScheduler' host="localhost" out="localhost"/>
+	<remoteObject rmiBindingName="LaserData" host="localhost"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="localhost"/>
+	<remoteObject rmiBindingName="TimeController" host="localhost"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="localhost"/>
+	<random seed='21'/>
+	<laserSystemFile file="xml/bornesTN-LARGE_RANGE.xml"/>
+	<terminalFile file="xml/results/50missions/TN_2_1_0,33.xml"/>
+	<clientFile file="xml/results/50missions/10vehicles/vehicles-10.xml"/>
+</document>

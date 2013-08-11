@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<mission id="mission1" container="cont1" kind="0">
+		<timewindow start="0:0:10" end="0:1:0"/>
+		<timewindow start="0:1:20" end="0:1:30"/>
+		<containerLocation pave="B" lane="B-4/38" slot="B-4/38-2" level="0" align="center"/>
+	</mission>
+	<comment>
+	<event time="0:0:2" type="affectMission" mission="mission1" straddleCarrier="cav1"/>
+	</comment> 
+	<mission id="mission2" container="cont4" kind="0">
+		<timewindow start="0:0:10" end="0:02:40"/>
+		<timewindow start="0:4:20" end="0:5:30"/>
+		<containerLocation pave="N" lane="N-31/42" slot="N-31/42-1" level="0" align="center"/>
+	</mission>
+	<event time="0:0:5" type="affectMission" mission="mission2" straddleCarrier="cav2"/>	
+</document>

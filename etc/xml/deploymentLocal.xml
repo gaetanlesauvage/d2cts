@@ -1,0 +1,41 @@
+<document>
+	<remoteHost hostname="localhost"
+				baseDir="/home/gaetan/workspace/CalasRMI/bin"
+				classpath=".:/opt/libs/GS/gs-core-bin.jar"
+	/>
+	
+	 
+	<networkConfiguration hostname="localhost" port="2000"/>
+	
+	<remoteObject rmiBindingName="TerminalImpl" host="localhost"/>
+	
+	
+	<remoteObject rmiBindingName="display" host="localhost"/>
+	
+	
+	<remoteObject rmiBindingName="JTerminal" host="localhost" id="JTerminal1"/>
+	<comment>
+	<remoteObject rmiBindingName="MissionGraph" host="localhost" out="localhost"/>
+	</comment>
+	<remoteObject rmiBindingName="LaserData" host="localhost"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="localhost"/>
+	<remoteObject rmiBindingName="TimeController" host="localhost"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="localhost"/>
+	
+	
+	Laser System
+	<laserSystemFile file="xml/bornesTN-LARGE_RANGE.xml"/>
+	Terminal
+	<terminalFile file="xml/TN.xml"/>
+	StraddleCarriers
+	<clientFile file="xml/vehiclesLocal.xml"/>
+	
+	DataBase
+	<database
+		name = "projet_eads"
+		server = "127.0.0.1"
+		port = "3306"
+		user = "d2cts"
+		password = "eadscalas"
+	/>
+</document>

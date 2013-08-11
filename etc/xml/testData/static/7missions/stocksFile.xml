@@ -1,0 +1,17 @@
+<document>
+	<mission id='stockMission_A[0]' container='EOTU 511190 8' kind='0'>
+		<timewindow start='00:06:07.00' end='00:08:53.31'/>
+		<timewindow start='00:10:40.30' end='00:13:26.61'/>
+		<containerLocation container='EOTU 511190 8' pave='N' lane='N-23/42' slot='N-23/42-4' level='0' align='origin'/>
+	</mission>
+	<mission id='stockMission_A[1]' container='YQWU 867722 3' kind='0'>
+		<timewindow start='00:02:16.00' end='00:04:25.89'/>
+		<timewindow start='00:05:58.91' end='00:08:08.80'/>
+		<containerLocation container='YQWU 867722 3' pave='M' lane='M-60/62-1' slot='M-60/62-1-0' level='0' align='origin'/>
+	</mission>
+	<mission id='stockMission_A[2]' container='QFYU 866609 5' kind='0'>
+		<timewindow start='00:17:50.00' end='00:20:27.94'/>
+		<timewindow start='00:22:27.85' end='00:25:05.79'/>
+		<containerLocation container='QFYU 866609 5' pave='M' lane='M-20/62' slot='M-20/62-3' level='0' align='origin'/>
+	</mission>
+</document>

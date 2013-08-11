@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+<type
+		id="standard"
+		width="5"
+		height="15.4"
+		length="10"
+		innerWidth="3"
+		innerLength="6"
+		backOverLength="1"
+		frontOverLength="3"
+		cabWidth="2"
+		compatibility="all"
+		speed="8.33"
+		reverseSpeed="4.165"
+		laneSpeed="4"
+		turnBackTime="4"
+/>
+
+<straddleCarrier id="cav1" type="standard" slot="central-1" color="red" host="pcgaetan.local" locationRoad="c2-c5" locationPourcent="0.0" direction="false">
+	<routing type="Dijkstra" host="pcgaetan.local"/>
+</straddleCarrier>
+	
+<straddleCarrier id="cav2" type="standard" slot="central-2" color="blue" host="pcgaetan.local" locationRoad="B-4/38" locationPourcent="0.8" direction="true">
+	<routing type="Dijkstra" host="pcgaetan.local"/>
+</straddleCarrier>
+
+<comment>
+<straddleCarrier id="cav1" type="standard" depot="central" color="0xff0000" host="172.17.20.63" port="2004"/>
+<straddleCarrier id="cav1" type="standard" depot="central" color="0xff0000" host="193.52.166.9" port="2004"/>
+<straddleCarrier id="cav1" type="standard" depot="central" color="0xff0000" host="localhost" port="2004" locationRoad="c26-c32" locationPourcent="0.0"/>
+</comment>
+
+
+</document>

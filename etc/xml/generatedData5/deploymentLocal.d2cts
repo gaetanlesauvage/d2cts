@@ -1,0 +1,29 @@
+<document>
+	<random seed='2'/>
+	
+	<networkConfiguration hostname="localhost" port="2000"/>
+	
+	<remoteObject rmiBindingName="TerminalImpl" host="localhost"/>
+	
+	
+	<remoteObject rmiBindingName="display" host="localhost"/>
+	
+	
+	<remoteObject rmiBindingName="JTerminal" host="localhost" id="JTerminal1"/>
+	
+	<remoteObject rmiBindingName="MissionScheduler" type='LinearScheduler' host="localhost" out="localhost"/>
+	
+	<remoteObject rmiBindingName="LaserData" host="localhost"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="localhost"/>
+	<remoteObject rmiBindingName="TimeController" host="localhost"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="localhost"/>
+	
+	
+	Laser System
+	<laserSystemFile file="xml/defaultData/TN_lasersystem_large.xml"/>
+	Terminal
+	<terminalFile file="xml/generatedData5/TN.xml"/>
+	StraddleCarriers
+	<clientFile file="xml/generatedData5/vehicles.xml"/>
+	
+</document>

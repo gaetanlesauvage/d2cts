@@ -1,0 +1,36 @@
+<document>
+	<networkConfiguration hostname="localhost" port="2000"/>
+	
+	<remoteObject rmiBindingName="TerminalImpl" host="localhost"/>
+	
+	
+	<remoteObject rmiBindingName="display" host="localhost"/>
+	
+	
+	<remoteObject rmiBindingName="JTerminal" host="localhost" id="JTerminal1"/>
+	
+	<remoteObject rmiBindingName="MissionScheduler" type='LinearScheduler' host="localhost" out="localhost"/>
+	
+	<remoteObject rmiBindingName="LaserData" host="localhost"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="localhost"/>
+	<remoteObject rmiBindingName="TimeController" host="localhost"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="localhost"/>
+	
+	
+	Laser System
+	<laserSystemFile file="xml/defaultData/TN_lasersystem_large.xml"/>
+	Terminal
+	<terminalFile file="xml/generatedData6/TN.xml"/>
+	StraddleCarriers
+	<clientFile file="xml/generatedData6/vehicles.xml"/>
+	<comment>
+	<database
+		name = "projet_eads"
+		server = "obliviongate.univ-lehavre.fr"
+		port = "3306"
+		user = "d2cts"
+		password= "eadscalas"
+		scriptsDirectory = "http://scott.univ-lehavre.fr/~lesauvage/projet_eads/"
+	/>
+	</comment>
+</document>

@@ -1,0 +1,76 @@
+<document>
+<event time='00:00:00' type='vehicleIn' id='train_1' lanes='train3_1/4,train3_4/4'>
+	<container id='NPBU 286378 0' teu='2.25'>
+		<containerLocation container='NPBU 286378 0' pave='train' lane='train3_4/4' slot='train3_4/4-0' level='0' align='center'/>
+	</container>
+	<container id='IWYU 167062 9' teu='2.0'>
+		<containerLocation container='IWYU 167062 9' pave='train' lane='train3_4/4' slot='train3_4/4-4' level='0' align='center'/>
+	</container>
+	<container id='PYLU 834162 7' teu='2.0'>
+		<containerLocation container='PYLU 834162 7' pave='train' lane='train3_4/4' slot='train3_4/4-1' level='0' align='center'/>
+	</container>
+	<container id='IIRU 496643 4' teu='2.0'>
+		<containerLocation container='IIRU 496643 4' pave='train' lane='train3_4/4' slot='train3_4/4-7' level='0' align='center'/>
+	</container>
+	<container id='NKPU 517527 7' teu='2.0'>
+		<containerLocation container='NKPU 517527 7' pave='train' lane='train3_4/4' slot='train3_4/4-2' level='0' align='center'/>
+	</container>
+	<container id='IDJU 599438 4' teu='2.0'>
+		<containerLocation container='IDJU 599438 4' pave='train' lane='train3_1/4' slot='train3_1/4-1' level='0' align='center'/>
+	</container>
+	<container id='HSVU 610904 2' teu='2.0'>
+		<containerLocation container='HSVU 610904 2' pave='train' lane='train3_4/4' slot='train3_4/4-3' level='0' align='center'/>
+	</container>
+	<container id='BFFU 280001 9' teu='2.0'>
+		<containerLocation container='BFFU 280001 9' pave='train' lane='train3_4/4' slot='train3_4/4-6' level='0' align='center'/>
+	</container>
+</event>
+<mission id='unload_train1_1' container='NPBU 286378 0' kind='1'>
+	<timewindow start='00:11:31.81' end='00:21:24.79'/>
+	<timewindow start='00:12:34.16' end='00:23:20.58'/>
+	<containerLocation container='NPBU 286378 0' pave='A' lane='A-14/40' slot='A-14/40-0' level='0' align='center'/>
+</mission>
+<mission id='unload_train1_2' container='IDJU 599438 4' kind='1'>
+	<timewindow start='00:29:42.97' end='00:55:11.23'/>
+	<timewindow start='00:30:42.93' end='00:57:02.58'/>
+	<containerLocation container='IDJU 599438 4' pave='A' lane='A-30/40' slot='A-30/40-5' level='0' align='center'/>
+</mission>
+<mission id='unload_train1_3' container='PYLU 834162 7' kind='1'>
+	<timewindow start='00:31:44.63' end='00:58:57.17'/>
+	<timewindow start='00:32:28.27' end='01:00:18.21'/>
+	<containerLocation container='PYLU 834162 7' pave='B' lane='B-27/38' slot='B-27/38-3' level='0' align='center'/>
+</mission>
+<mission id='unload_train1_4' container='NKPU 517527 7' kind='1'>
+	<timewindow start='00:40:53.39' end='01:15:56.30'/>
+	<timewindow start='00:42:04.11' end='01:18:07.64'/>
+	<containerLocation container='NKPU 517527 7' pave='N' lane='N-19/42' slot='N-19/42-5' level='0' align='center'/>
+</mission>
+<mission id='unload_train1_5' container='HSVU 610904 2' kind='1'>
+	<timewindow start='00:24:24.46' end='00:45:19.71'/>
+	<timewindow start='00:25:33.81' end='00:47:28.51'/>
+	<containerLocation container='HSVU 610904 2' pave='A' lane='A-2/40' slot='A-2/40-2' level='0' align='center'/>
+</mission>
+<mission id='reload_train1_1' container='UXXU 768035 6' kind='2'>
+	<timewindow start='00:54:42.02' end='01:41:35.17'/>
+	<timewindow start='00:55:36.13' end='01:43:15.67'/>
+	<containerLocation container='UXXU 768035 6' pave='train' lane='train3_4/4' slot='train3_4/4-0' level='0' align='center'/>
+</mission>
+<mission id='reload_train1_2' container='MJUU 980856 3' kind='2'>
+	<timewindow start='00:48:32.17' end='01:30:08.31'/>
+	<timewindow start='00:49:30.51' end='01:31:56.67'/>
+	<containerLocation container='MJUU 980856 3' pave='train' lane='train3_1/4' slot='train3_1/4-0' level='0' align='center'/>
+</mission>
+<mission id='reload_train1_7' container='CRVU 910096 7' kind='2'>
+	<timewindow start='01:06:32.80' end='02:03:35.20'/>
+	<timewindow start='01:07:16.85' end='02:04:57.01'/>
+	<containerLocation container='CRVU 910096 7' pave='train' lane='train3_4/4' slot='train3_4/4-4' level='0' align='center'/>
+</mission>
+<event time='02:04:57.01' type='vehicleOut' id='train_1' lanes='train3_1/4,train3_4/4'>
+	<container id='IIRU 496643 4'/>
+	<container id='MJUU 980856 3'/>
+	<container id='BFFU 280001 9'/>
+	<container id='IWYU 167062 9'/>
+	<container id='UXXU 768035 6'/>
+	<container id='CRVU 910096 7'/>
+</event>
+</document>

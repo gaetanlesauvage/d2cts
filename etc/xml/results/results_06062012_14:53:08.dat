@@ -1,0 +1,28 @@
+TEST SESSION OF Wed Jun 06 14:54:01 CEST 2012
+====================================================================================
+TEST 1/6
+CONFIG FILE: xml/results/50missions/7vehicles/deploymenttsp_21_100_0_0.d2cts
+J=50	M=7	DOD=0.0	EDOD=0.0	SEED=21	TERMINALSEED=100	ALGO=TSP
+tsp parameters: F1=1	e=0	t=1	gamma=1	Q=1	sync=1000	F3=10	F2=5	alpha=22500	l=5	beta=1	rho=0.1	
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS	WAIT TIME
+-------------------------------------------------------------------------------------
+straddleCarrier_1	6210.094753857339 (00:25:24.41)		00:00:01.00		1		5		00:00:01.00
+straddleCarrier_2	6713.365709088983 (00:27:37.64)		01:01:31.00		5		6		01:01:31.00
+straddleCarrier_3	6641.719692277653 (00:28:06.61)		01:27:17.00		12		7		01:27:17.00
+straddleCarrier_4	7028.9023500538115 (00:31:03.23)		00:12:09.00		5		8		00:12:09.00
+straddleCarrier_5	7635.224225403262 (00:31:56.31)		02:20:12.00		8		8		02:20:12.00
+straddleCarrier_6	4956.173407628447 (00:20:57.20)		01:15:08.00		4		6		01:15:08.00
+straddleCarrier_7	7964.622653170584 (00:34:38.45)		02:04:47.00		10		10		02:04:47.00
+-------------------------------------------------------------------------------------
+OVERALL:		47150.103	08:21:05.00	45	50	00:26:56.00	162308.849	
+Mission scheduler computing time:	00:07:14.61
+EXEC TIME: 533.58466558s
+====================================================================================
+====================================================================================
+TEST 2/6
+CONFIG FILE: xml/results/50missions/10vehicles/deploymenttsp_21_100_0_0.d2cts
+J=50	M=10	DOD=0.0	EDOD=0.0	SEED=21	TERMINALSEED=100	ALGO=TSP
+tsp parameters: F1=1	e=0	t=1	gamma=1	Q=1	sync=1000	F3=10	F2=5	alpha=22500	l=5	beta=1	rho=0.1	
+                            -------------------------------                            

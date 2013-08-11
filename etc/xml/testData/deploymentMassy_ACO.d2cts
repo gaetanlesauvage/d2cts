@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<networkConfiguration hostname="coleclark@massy" port="2000"/>
+	
+	<remoteObject rmiBindingName="TerminalImpl" host="coleclark@massy"/>
+	
+	
+	<remoteObject rmiBindingName="display" host="coleclark@massy"/>
+	
+	
+	<remoteObject rmiBindingName="JTerminal" host="coleclark@massy" id="JTerminal1"/>
+	
+	<comment> LinearScheduler </comment>
+	<comment>
+	<remoteObject rmiBindingName="MissionScheduler" type='LinearScheduler' host="pcnicoleta@massy" out="pcnicoleta@massy"/>
+	</comment>
+	<comment> Random Scheduler </comment>
+	<comment>
+	<remoteObject rmiBindingName="MissionScheduler" type='RandomScheduler' host="pcnicoleta@massy" out="pcnicoleta@massy"/>
+	</comment>
+	<comment> ACO Scheduler </comment>
+	
+	<remoteObject rmiBindingName="MissionScheduler"
+		type="OnlineACOScheduler"
+		host="pcnicoleta@massy"
+		out="pcnicoleta@massy"
+		nb_ants="20"
+		alpha="1"
+		beta="1"
+		gamma="1"
+		persistence="0.95"
+		Q="1.5"
+	/>
+	
+	
+	<remoteObject rmiBindingName="LaserData" host="coleclark@massy"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="coleclark@massy"/>
+	<remoteObject rmiBindingName="TimeController" host="coleclark@massy"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="coleclark@massy"/>
+	<random seed='2'/>
+	
+	Laser System
+	<laserSystemFile file="xml/bornesTN-LARGE_RANGE.xml"/>
+	Terminal
+	<terminalFile file="xml/testData/TN.xml"/>
+	StraddleCarriers
+	<clientFile file="xml/testData/vehiclesMassy.xml"/>
+</document>

@@ -1,0 +1,5 @@
+TEST SESSION OF Fri Mar 23 09:37:44 CET 2012
+====================================================================================
+TEST 1/21
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentLinear_1_100_0_0.d2cts
+J=10	M=2	DOD=0.0	EDOD=0.0	SEED=21	TERMINALSEED=100	ALGO=Linear

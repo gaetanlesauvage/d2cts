@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+<type
+		id="standard"
+		width="5"
+		height="15.4"
+		length="10"
+		innerWidth="3"
+		innerLength="6"
+		backOverLength="1"
+		frontOverLength="3"
+		cabWidth="2"
+		compatibility="all"
+		speed="8.33"
+		reverseSpeed="4.165"
+		laneSpeed="4"
+		turnBackTime="4"
+/>
+<straddleCarrier id="cav1" type="standard" slot="central-1" color="red" host="lih-tote.recherche" locationRoad="c2-c5" locationPourcent="0.0" direction="false">
+	<routing type="AStar" host="lih-tote.recherche" heuristic="YDistanceHeuristic"/>
+</straddleCarrier>
+
+<comment>
+	<straddleCarrier id="cav2" type="standard" slot="central-2" color="blue" host="sixpo.recherche" locationRoad="B-4/38" locationPourcent="0.8" direction="true">
+		<routing type="AStar" host="lih-tote.recherche"/>
+	</straddleCarrier>
+</comment>
+<comment>
+<straddleCarrier id="cav1" type="standard" slot="central-1" color="red" host="lih-tote.recherche" locationRoad="c2-c5" locationPourcent="0.1" direction="false">
+	<routing type="APSP" host="lih-tote.recherche"/>
+</straddleCarrier>
+	
+<straddleCarrier id="cav2" type="standard" slot="central-2" color="blue" host="lih-tote.recherche" locationRoad="B-4/38" locationPourcent="0.8" direction="true">
+	<routing type="APSP" host="lih-tote.recherche"/>
+</straddleCarrier>
+</comment>
+
+<comment>
+<straddleCarrier id="cav1" type="standard" slot="central-1" color="red" host="lih-tote.recherche" locationRoad="c2-c5" locationPourcent="0.0" direction="false">
+	<routing type="Dijkstra" host="lih-tote.recherche"/>
+</straddleCarrier>
+	
+<straddleCarrier id="cav2" type="standard" slot="central-2" color="blue" host="lih-tote.recherche" locationRoad="B-4/38" locationPourcent="0.8" direction="true">
+	<routing type="Dijkstra" host="lih-tote.recherche"/>
+</straddleCarrier>
+</comment>
+
+<comment>
+<straddleCarrier id="cav1" type="standard" slot="central-1" color="red" host="sixpo.recherche" locationRoad="c2-c5" locationPourcent="0.0" direction="false">
+	<routing type="AStar" host="sixpo.recherche"/>
+</straddleCarrier>
+</comment>
+
+<straddleCarrier id="cav2" type="standard" slot="central-2" color="blue" host="sixpo.recherche" locationRoad="B-4/38" locationPourcent="0.8" direction="true">
+	<routing type="AStar" host="sixpo.recherche" heuristic="YDistanceHeuristic"/>
+</straddleCarrier>
+DistanceAndSpeedHeuristic
+DijkstraHeuristic
+YDistanceHeuristic
+<comment>
+<straddleCarrier id="cav3" type="standard" slot="central-3" color="green" host="sixpo.recherche" locationRoad="A-12/40" locationPourcent="0.3" direction="true">
+	<routing type="AStar" host="sixpo.recherche"/>
+</straddleCarrier>
+</comment>
+</document>

@@ -1,0 +1,66 @@
+<document>
+<event time='00:15:00.00' type='vehicleIn' id='train_1' lanes='train3_1/4,train3_4/4'>
+	<container id='RXXU 791052 6' teu='2.25'>
+		<containerLocation container='RXXU 791052 6' pave='train' lane='train3_1/4' slot='train3_1/4-0' level='0' align='origin'/>
+	</container>
+	<container id='OTKU 397037 6' teu='2.0'>
+		<containerLocation container='OTKU 397037 6' pave='train' lane='train3_4/4' slot='train3_4/4-1' level='0' align='origin'/>
+	</container>
+	<container id='YDMU 948546 0' teu='2.0'>
+		<containerLocation container='YDMU 948546 0' pave='train' lane='train3_1/4' slot='train3_1/4-2' level='0' align='origin'/>
+	</container>
+	<container id='JOQU 048257 2' teu='2.0'>
+		<containerLocation container='JOQU 048257 2' pave='train' lane='train3_4/4' slot='train3_4/4-5' level='0' align='origin'/>
+	</container>
+	<container id='AFQU 080066 6' teu='2.0'>
+		<containerLocation container='AFQU 080066 6' pave='train' lane='train3_1/4' slot='train3_1/4-1' level='0' align='origin'/>
+	</container>
+	<container id='GXCU 506602 6' teu='2.0'>
+		<containerLocation container='GXCU 506602 6' pave='train' lane='train3_4/4' slot='train3_4/4-6' level='0' align='origin'/>
+	</container>
+	<container id='EUJU 216748 5' teu='2.0'>
+		<containerLocation container='EUJU 216748 5' pave='train' lane='train3_4/4' slot='train3_4/4-2' level='0' align='origin'/>
+	</container>
+</event>
+<mission id='unload_train1_1' container='RXXU 791052 6' kind='1'>
+	<timewindow start='00:48:17.31' end='01:12:25.97'/>
+	<timewindow start='00:51:12.35' end='01:16:48.53'/>
+	<containerLocation container='RXXU 791052 6' pave='A' lane='A-14/40' slot='A-14/40-2' level='0' align='origin'/>
+</mission>
+<mission id='unload_train1_2' container='AFQU 080066 6' kind='1'>
+	<timewindow start='00:43:33.63' end='01:05:20.45'/>
+	<timewindow start='00:46:45.23' end='01:10:07.84'/>
+	<containerLocation container='AFQU 080066 6' pave='I' lane='I-60/73' slot='I-60/73-8' level='0' align='origin'/>
+</mission>
+<mission id='unload_train1_3' container='YDMU 948546 0' kind='1'>
+	<timewindow start='00:15:46.31' end='00:23:39.46'/>
+	<timewindow start='00:18:04.20' end='00:27:06.30'/>
+	<containerLocation container='YDMU 948546 0' pave='H' lane='H-10/35' slot='H-10/35-7' level='1' align='origin'/>
+</mission>
+<mission id='unload_train1_4' container='OTKU 397037 6' kind='1'>
+	<timewindow start='00:34:51.20' end='00:52:16.79'/>
+	<timewindow start='00:37:32.37' end='00:56:18.56'/>
+	<containerLocation container='OTKU 397037 6' pave='C' lane='C-4/41' slot='C-4/41-2' level='1' align='origin'/>
+</mission>
+<mission id='unload_train1_5' container='EUJU 216748 5' kind='1'>
+	<timewindow start='00:43:21.99' end='01:05:02.99'/>
+	<timewindow start='00:46:16.34' end='01:09:24.51'/>
+	<containerLocation container='EUJU 216748 5' pave='H' lane='H-32/35' slot='H-32/35-0' level='0' align='origin'/>
+</mission>
+<mission id='reload_train1_1' container='CQKU 186102 0' kind='2'>
+	<timewindow start='01:25:04.81' end='01:26:05.59'/>
+	<timewindow start='01:28:37.05' end='01:29:52.98'/>
+	<containerLocation container='CQKU 186102 0' pave='train' lane='train3_1/4' slot='train3_1/4-0' level='0' align='origin'/>
+</mission>
+<mission id='reload_train1_2' container='XULU 126491 2' kind='2'>
+	<timewindow start='01:54:23.57' end='01:55:31.60'/>
+	<timewindow start='01:57:56.00' end='01:59:10.21'/>
+	<containerLocation container='XULU 126491 2' pave='train' lane='train3_4/4' slot='train3_4/4-2' level='0' align='origin'/>
+</mission>
+<event time='01:59:10.21' type='vehicleOut' id='train_1' lanes='train3_1/4,train3_4/4'>
+	<container id='JOQU 048257 2'/>
+	<container id='XULU 126491 2'/>
+	<container id='GXCU 506602 6'/>
+	<container id='CQKU 186102 0'/>
+</event>
+</document>

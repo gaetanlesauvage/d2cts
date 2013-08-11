@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<block id="Asie" type="SHIP" seaOrientation="NORTH WEST" borderRoadID="c1-c20">								
+<coordinate id="Asie_NW" x="442337.0042" y="198858.3767"/>		
+<coordinate id="Asie_NE" x="442891.8466" y="199058.7276"/>		
+<coordinate id="Asie_SE" x="442896.1530" y="199042.6709"/>		
+<coordinate id="Asie_SW" x="442342.9014" y="198842.0453"/>		
+<wall from="Asie_NW" to="Asie_NE"/>				
+<wall from="Asie_NE" to="Asie_SE"/>				
+<wall from="Asie_SE" to="Asie_SW"/>				
+<wall from="Asie_SW" to="Asie_NW"/>				
+								
+								
+	ID		X		Y		ROAD
+<road id="c1-c2" origin="c1" destination="c2">	
+<bayCrossroad id="Asie_W_1" x="442329.1191" y="198852.3398"/>
+<bayCrossroad id="Asie_W_2" x="442330.6521" y="198848.1090"/>
+<bayCrossroad id="Asie_W_3" x="442332.6962" y="198842.4679"/>
+</road>
+<road id="c20-c21" origin="c20" destination="c21">
+<bayCrossroad id="Asie_E_1" x="442897.5269" y="199057.5891"/>
+<bayCrossroad id="Asie_E_2" x="442898.7321" y="199053.2400"/>
+<bayCrossroad id="Asie_E_3" x="442900.3391" y="199047.4411"/>
+</road>
+
+<bay id="Asie-1/3" origin="Asie_W_1" destination="Asie_E_1" slots="45*35" in="442338.0231,198855.5550" out="442892.6265,199055.8196"/>
+<bay id="Asie-2/3" origin="Asie_W_2" destination="Asie_E_2" slots="45*35" in="442339.5514,198851.3225" out="442893.7964,199051.4577"/>
+<bay id="Asie-3/3" origin="Asie_W_3" destination="Asie_E_3" slots="45*35" in="442341.5892,198845.6791" out="442895.3562,199045.6418"/>
+
+</block>
+</document>

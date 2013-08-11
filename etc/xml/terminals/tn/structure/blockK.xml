@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<block id="K" type="YARD">
+	<coordinate id="K-NW" x="443091.4291" y="198709.6307"/>
+	<coordinate id="K-NE" x="443178.1016" y="198646.8861"/>
+	<coordinate id="K-SE" x="443154.6875" y="198614.4550"/>
+	<coordinate id="K-SW" x="443068.0150" y="198677.1996"/>
+	
+	<wall from="K-NW" to="K-NE"/>
+	<wall from="K-NE" to="K-SE"/>
+	<wall from="K-SE" to="K-SW"/>
+	<wall from="K-SW" to="K-NW"/>
+								
+<road id="c35-c36" origin="c35" destination="c36">	
+<bayCrossroad id="K_N_16" x="443151.9842" y="198680.1110"/>
+<bayCrossroad id="K_N_17" x="443155.4431" y="198677.5901"/>
+<bayCrossroad id="K_N_18" x="443158.9020" y="198675.0693"/>
+<bayCrossroad id="K_N_19" x="443162.3608" y="198672.5484"/>
+<bayCrossroad id="K_N_20" x="443165.8197" y="198670.0275"/>
+<bayCrossroad id="K_N_21" x="443169.2786" y="198667.5066"/>
+<bayCrossroad id="K_N_22" x="443172.7374" y="198664.9858"/>
+<bayCrossroad id="K_N_23" x="443176.1963" y="198662.4649"/>
+<bayCrossroad id="K_N_24" x="443179.6552" y="198659.9440"/>
+<bayCrossroad id="K_N_25" x="443183.0969" y="198657.4357"/>
+Point de sortie de M...
+<bayCrossroad id="M_S_1" x="443158.3510" y="198675.4708"/>
+<bayCrossroad id="M_S_2" x="443161.7115" y="198673.0217"/>
+<bayCrossroad id="M_S_3" x="443165.0719" y="198670.5725"/>
+<bayCrossroad id="M_S_4" x="443168.4324" y="198668.1233"/>
+<bayCrossroad id="M_S_5" x="443171.7929" y="198665.6742"/>
+<bayCrossroad id="M_S_6" x="443175.1534" y="198663.2250"/>
+<bayCrossroad id="M_S_7" x="443178.5138" y="198660.7758"/>
+<bayCrossroad id="M_S_8" x="443181.8743" y="198658.3267"/>
+<bayCrossroad id="M_S_9" x="443185.2204" y="198655.8576"/>
+<bayCrossroad id="M_S_10" x="443188.5918" y="198653.4235"/>
+
+</road>
+<road id="c31-c37" origin="c31" destination="c37">
+<bayCrossroad id="K_S_1" x="443061.5084" y="198664.6138"/>
+<bayCrossroad id="K_S_2" x="443064.9757" y="198662.1046"/>
+<bayCrossroad id="K_S_3" x="443068.4430" y="198659.5954"/>
+<bayCrossroad id="K_S_4" x="443071.9103" y="198657.0862"/>
+<bayCrossroad id="K_S_5" x="443075.3776" y="198654.5769"/>
+<bayCrossroad id="K_S_6" x="443078.8449" y="198652.0677"/>
+<bayCrossroad id="K_S_7" x="443082.3122" y="198649.5585"/>
+<bayCrossroad id="K_S_8" x="443085.7795" y="198647.0493"/>
+<bayCrossroad id="K_S_9" x="443089.2468" y="198644.5400"/>
+<bayCrossroad id="K_S_10" x="443092.7141" y="198642.0308"/>
+<bayCrossroad id="K_S_11" x="443096.1814" y="198639.5216"/>
+<bayCrossroad id="K_S_12" x="443099.6726" y="198636.9951"/>
+<bayCrossroad id="K_S_13" x="443103.1160" y="198634.5031"/>
+<bayCrossroad id="K_S_14" x="443106.5833" y="198631.9939"/>
+<bayCrossroad id="K_S_15" x="443110.0506" y="198629.4847"/>
+<bayCrossroad id="K_S_16" x="443113.5180" y="198626.9755"/>
+<bayCrossroad id="K_S_17" x="443116.9853" y="198624.4662"/>
+<bayCrossroad id="K_S_18" x="443120.4526" y="198621.9570"/>
+<bayCrossroad id="K_S_19" x="443123.9199" y="198619.4478"/>
+<bayCrossroad id="K_S_20" x="443127.3872" y="198616.9386"/>
+<bayCrossroad id="K_S_21" x="443130.8545" y="198614.4293"/>
+<bayCrossroad id="K_S_22" x="443134.3218" y="198611.9201"/>
+<bayCrossroad id="K_S_23" x="443137.7891" y="198609.4109"/>
+<bayCrossroad id="K_S_24" x="443141.2564" y="198606.9017"/>
+<bayCrossroad id="K_S_25" x="443144.7064" y="198604.4049"/>
+Points d'entrées de L...
+<bayCrossroad id="L_N_1" x="443063.1624" y="198663.4168"/>
+<bayCrossroad id="L_N_2" x="443069.8303" y="198658.5914"/>
+<bayCrossroad id="L_N_3" x="443076.4982" y="198653.7660"/>
+<bayCrossroad id="L_N_4" x="443083.1661" y="198648.9405"/>
+<bayCrossroad id="L_N_5" x="443089.8340" y="198644.1151"/>
+<bayCrossroad id="L_N_6" x="443096.5019" y="198639.2897"/>
+<bayCrossroad id="L_N_7" x="443103.5594" y="198634.1823"/>
+<bayCrossroad id="L_N_8" x="443109.8377" y="198629.6388"/>
+<bayCrossroad id="L_N_9" x="443116.5056" y="198624.8134"/>
+<bayCrossroad id="L_N_10" x="443123.1735" y="198619.9880"/>
+<bayCrossroad id="L_N_11" x="443129.8414" y="198615.1625"/>
+<bayCrossroad id="L_N_12" x="443136.5092" y="198610.3371"/>
+<bayCrossroad id="L_N_13" x="443143.1771" y="198605.5117"/>
+</road>
+
+<bay id="K-1/25" origin="K_N_1" destination="K_S_1" slots="20*6" in="443093.1798,198708.3833" out="443069.7484,198675.9447"/>
+<bay id="K-2/25" origin="K_N_2" destination="K_S_2" slots="20*6" in="443096.6467,198705.8535" out="443073.2153,198673.4349"/>
+<bay id="K-3/25" origin="K_N_3" destination="K_S_3" slots="20*6" in="443100.1136,198703.3437" out="443076.6822,198670.9251"/>
+<bay id="K-4/25" origin="K_N_4" destination="K_S_4" slots="20*6" in="443103.5805,198700.8339" out="443080.1491,198668.4153"/>
+<bay id="K-5/25" origin="K_N_5" destination="K_S_5" slots="20*6" in="443107.0474,198698.3242" out="443083.6160,198665.9055"/>
+<bay id="K-6/25" origin="K_N_6" destination="K_S_6" slots="20*6" in="443110.5143,198695.8144" out="443087.0829,198663.3957"/>
+<bay id="K-7/25" origin="K_N_7" destination="K_S_7" slots="20*6" in="443113.9812,198693.3046" out="443090.5498,198660.8860"/>
+<bay id="K-8/25" origin="K_N_8" destination="K_S_8" slots="20*6" in="443117.4481,198690.7948" out="443094.0167,198658.3762"/>
+<bay id="K-9/25" origin="K_N_9" destination="K_S_9" slots="20*6" in="443120.9150,198688.2850" out="443097.4836,198655.8664"/>
+<bay id="K-10/25" origin="K_N_10" destination="K_S_10" slots="20*6" in="443124.3819,198685.7752" out="443100.9505,198653.3566"/>
+<bay id="K-11/25" origin="K_N_11" destination="K_S_11" slots="20*6" in="443127.8488,198683.2655" out="443104.4174,198650.8468"/>
+<bay id="K-12/25" origin="K_N_12" destination="K_S_12" slots="20*6" in="443131.3157,198680.7557" out="443107.8843,198648.3370"/>
+<bay id="K-13/25" origin="K_N_13" destination="K_S_13" slots="20*6" in="443134.7826,198678.2459" out="443111.3512,198645.8273"/>
+<bay id="K-14/25" origin="K_N_14" destination="K_S_14" slots="20*6" in="443138.2495,198675.7361" out="443114.8181,198643.3175"/>
+<bay id="K-15/25" origin="K_N_15" destination="K_S_15" slots="20*6" in="443141.7164,198673.2263" out="443118.2850,198640.8077"/>
+<bay id="K-16/25" origin="K_N_16" destination="K_S_16" slots="20*6" in="443145.1833,198670.7165" out="443121.7519,198638.2979"/>
+<bay id="K-17/25" origin="K_N_17" destination="K_S_17" slots="20*6" in="443148.6502,198668.2068" out="443125.2188,198635.7881"/>
+<bay id="K-18/25" origin="K_N_18" destination="K_S_18" slots="20*6" in="443152.1171,198665.6970" out="443128.6857,198633.2783"/>
+<bay id="K-19/25" origin="K_N_19" destination="K_S_19" slots="20*6" in="443155.5840,198663.1872" out="443132.1526,198630.7686"/>
+<bay id="K-20/25" origin="K_N_20" destination="K_S_20" slots="20*6" in="443159.0509,198660.6774" out="443135.6195,198628.2588"/>
+<bay id="K-21/25" origin="K_N_21" destination="K_S_21" slots="20*6" in="443162.5178,198658.1676" out="443139.0864,198625.7490"/>
+<bay id="K-22/25" origin="K_N_22" destination="K_S_22" slots="20*6" in="443165.9847,198655.6578" out="443142.5533,198623.2392"/>
+<bay id="K-23/25" origin="K_N_23" destination="K_S_23" slots="20*6" in="443169.4516,198653.1481" out="443146.0202,198620.7294"/>
+<bay id="K-24/25" origin="K_N_24" destination="K_S_24" slots="20*6" in="443172.9185,198650.6383" out="443149.4871,198618.2196"/>
+<bay id="K-25/25" origin="K_N_25" destination="K_S_25" slots="20*6" in="443176.3682,198648.1410" out="443152.9540,198615.7099"/>
+
+</block>
+</document>

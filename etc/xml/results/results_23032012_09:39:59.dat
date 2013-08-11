@@ -1,0 +1,337 @@
+TEST SESSION OF Fri Mar 23 09:40:11 CET 2012
+====================================================================================
+TEST 1/21
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentLinear_21_100_0_0.d2cts
+J=10	M=2	DOD=0.0	EDOD=0.0	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3593.5147842648325		00:04:15.00		3		5
+straddleCarrier_2	4510.887286172261		00:20:43.00		5		5
+-------------------------------------------------------------------------------------
+OVERALL:		8104.402	00:24:58.00	8	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 67.115843407s
+====================================================================================
+====================================================================================
+TEST 2/21
+CONFIG FILE: xml/results/10missions/3vehicles/deploymentLinear_21_100_0_0.d2cts
+J=10	M=3	DOD=0.0	EDOD=0.0	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3272.8916463153773		00:01:58.00		2		4
+straddleCarrier_2	2457.6742717664197		00:00:46.00		2		3
+straddleCarrier_3	2704.351239955948		00:01:26.00		1		3
+-------------------------------------------------------------------------------------
+OVERALL:		8434.917	00:04:10.00	5	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 22.641800159s
+====================================================================================
+====================================================================================
+TEST 3/21
+CONFIG FILE: xml/results/10missions/4vehicles/deploymentLinear_21_100_0_0.d2cts
+J=10	M=4	DOD=0.0	EDOD=0.0	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	2474.95272490851		00:00:00.00		0		3
+straddleCarrier_2	3126.4004808152013		00:00:00.00		0		3
+straddleCarrier_3	1898.598477415052		00:00:00.00		0		2
+straddleCarrier_4	1493.8023899667544		00:00:00.00		0		2
+-------------------------------------------------------------------------------------
+OVERALL:		8993.754	00:00:00.00	0	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 24.686130639s
+====================================================================================
+====================================================================================
+TEST 4/21
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentLinear_21_100_0,5_0,33.d2cts
+J=10	M=2	DOD=0.5	EDOD=0.33	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3949.8717301559145		00:05:39.00		2		5
+straddleCarrier_2	3612.9697469010885		00:11:25.00		5		5
+-------------------------------------------------------------------------------------
+OVERALL:		7562.841	00:17:04.00	7	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 20.070904439s
+====================================================================================
+====================================================================================
+TEST 5/21
+CONFIG FILE: xml/results/10missions/3vehicles/deploymentLinear_21_100_0,5_0,33.d2cts
+J=10	M=3	DOD=0.5	EDOD=0.33	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3985.1747173948465		00:07:24.00		2		4
+straddleCarrier_2	2182.0496068064303		00:02:43.00		2		3
+straddleCarrier_3	2719.6188981603486		00:00:06.00		1		3
+-------------------------------------------------------------------------------------
+OVERALL:		8886.843	00:10:13.00	5	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 24.719998809s
+====================================================================================
+====================================================================================
+TEST 6/21
+CONFIG FILE: xml/results/10missions/4vehicles/deploymentLinear_21_100_0,5_0,33.d2cts
+J=10	M=4	DOD=0.5	EDOD=0.33	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	2422.3800341774086		00:00:00.00		0		3
+straddleCarrier_2	2514.2124723134893		00:00:00.00		0		3
+straddleCarrier_3	1945.8431868913583		00:05:41.00		2		2
+straddleCarrier_4	1493.8023899667544		00:00:00.00		0		2
+-------------------------------------------------------------------------------------
+OVERALL:		8376.238	00:05:41.00	2	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 22.822852559s
+====================================================================================
+====================================================================================
+TEST 7/21
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentLinear_21_100_0,5_0,66.d2cts
+J=10	M=2	DOD=0.5	EDOD=0.66	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3320.2659100575656		00:03:41.00		3		5
+straddleCarrier_2	4222.980826969826		00:19:32.00		5		5
+-------------------------------------------------------------------------------------
+OVERALL:		7543.247	00:23:13.00	8	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 20.334463736s
+====================================================================================
+====================================================================================
+TEST 8/21
+CONFIG FILE: xml/results/10missions/3vehicles/deploymentLinear_21_100_0,5_0,66.d2cts
+J=10	M=3	DOD=0.5	EDOD=0.66	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	4106.244316214504		00:01:26.00		1		4
+straddleCarrier_2	2386.2113541816757		00:12:23.00		4		3
+straddleCarrier_3	2153.91203607204		00:00:00.00		0		3
+-------------------------------------------------------------------------------------
+OVERALL:		8646.368	00:13:49.00	5	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 21.479343385s
+====================================================================================
+====================================================================================
+TEST 9/21
+CONFIG FILE: xml/results/10missions/4vehicles/deploymentLinear_21_100_0,5_0,66.d2cts
+J=10	M=4	DOD=0.5	EDOD=0.66	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	2594.7755026478058		00:00:00.00		0		3
+straddleCarrier_2	3071.876237813196		00:00:00.00		0		3
+straddleCarrier_3	1686.802211920543		00:00:00.00		0		2
+straddleCarrier_4	1627.2854921329554		00:07:02.00		2		2
+-------------------------------------------------------------------------------------
+OVERALL:		8980.739	00:07:02.00	2	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 21.849808414s
+====================================================================================
+====================================================================================
+TEST 10/21
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentLinear_21_100_0,5_1.d2cts
+J=10	M=2	DOD=0.5	EDOD=1.0	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3962.5441343653865		00:13:13.00		4		5
+straddleCarrier_2	3885.775303418079		00:14:46.00		5		5
+-------------------------------------------------------------------------------------
+OVERALL:		7848.319	00:27:59.00	9	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 19.973656449s
+====================================================================================
+====================================================================================
+TEST 11/21
+CONFIG FILE: xml/results/10missions/3vehicles/deploymentLinear_21_100_0,5_1.d2cts
+J=10	M=3	DOD=0.5	EDOD=1.0	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3850.298387249268		00:04:15.00		2		4
+straddleCarrier_2	2667.0481789037185		00:00:05.00		1		3
+straddleCarrier_3	2395.6547388635454		00:02:42.00		2		3
+-------------------------------------------------------------------------------------
+OVERALL:		8913.001	00:07:02.00	5	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 22.600772501s
+====================================================================================
+====================================================================================
+TEST 12/21
+CONFIG FILE: xml/results/10missions/4vehicles/deploymentLinear_21_100_0,5_1.d2cts
+J=10	M=4	DOD=0.5	EDOD=1.0	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3079.438361678943		00:00:00.00		0		3
+straddleCarrier_2	2794.003746657134		00:00:00.00		0		3
+straddleCarrier_3	1372.4548952475186		00:04:07.00		2		2
+straddleCarrier_4	1915.192187300321		00:07:31.00		2		2
+-------------------------------------------------------------------------------------
+OVERALL:		9161.089	00:11:38.00	4	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 22.897591321s
+====================================================================================
+====================================================================================
+TEST 13/21
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentLinear_21_100_1_0,33.d2cts
+J=10	M=2	DOD=1.0	EDOD=0.33	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	4495.2274763555315		00:20:27.00		5		5
+straddleCarrier_2	3617.60248364291		00:04:19.00		3		5
+-------------------------------------------------------------------------------------
+OVERALL:		8112.83	00:24:46.00	8	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 19.959427634s
+====================================================================================
+====================================================================================
+TEST 14/21
+CONFIG FILE: xml/results/10missions/3vehicles/deploymentLinear_21_100_1_0,33.d2cts
+J=10	M=3	DOD=1.0	EDOD=0.33	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3272.8916463153637		00:01:58.00		2		4
+straddleCarrier_2	2703.320381059162		00:01:27.00		1		3
+straddleCarrier_3	2498.679536831164		00:00:49.00		2		3
+-------------------------------------------------------------------------------------
+OVERALL:		8474.892	00:04:14.00	5	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 22.025736788s
+====================================================================================
+====================================================================================
+TEST 15/21
+CONFIG FILE: xml/results/10missions/4vehicles/deploymentLinear_21_100_1_0,33.d2cts
+J=10	M=4	DOD=1.0	EDOD=0.33	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3133.785873425553		00:00:00.00		0		3
+straddleCarrier_2	2514.2124723134893		00:00:00.00		0		3
+straddleCarrier_3	1485.0398375215352		00:00:00.00		0		2
+straddleCarrier_4	1897.035840520085		00:00:00.00		0		2
+-------------------------------------------------------------------------------------
+OVERALL:		9030.074	00:00:00.00	0	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 23.03541398s
+====================================================================================
+====================================================================================
+TEST 16/21
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentLinear_21_100_1_0,66.d2cts
+J=10	M=2	DOD=1.0	EDOD=0.66	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	4495.2274763555315		00:20:27.00		5		5
+straddleCarrier_2	3617.60248364291		00:04:19.00		3		5
+-------------------------------------------------------------------------------------
+OVERALL:		8112.83	00:24:46.00	8	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 20.462203204s
+====================================================================================
+====================================================================================
+TEST 17/21
+CONFIG FILE: xml/results/10missions/3vehicles/deploymentLinear_21_100_1_0,66.d2cts
+J=10	M=3	DOD=1.0	EDOD=0.66	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3272.8916463153637		00:01:58.00		2		4
+straddleCarrier_2	2703.320381059162		00:01:27.00		1		3
+straddleCarrier_3	2498.679536831164		00:00:49.00		2		3
+-------------------------------------------------------------------------------------
+OVERALL:		8474.892	00:04:14.00	5	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 20.738203693s
+====================================================================================
+====================================================================================
+TEST 18/21
+CONFIG FILE: xml/results/10missions/4vehicles/deploymentLinear_21_100_1_0,66.d2cts
+J=10	M=4	DOD=1.0	EDOD=0.66	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3133.785873425553		00:00:00.00		0		3
+straddleCarrier_2	2514.2124723134893		00:00:00.00		0		3
+straddleCarrier_3	1485.0398375215352		00:00:00.00		0		2
+straddleCarrier_4	1897.035840520085		00:00:00.00		0		2
+-------------------------------------------------------------------------------------
+OVERALL:		9030.074	00:00:00.00	0	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 21.531885841s
+====================================================================================
+====================================================================================
+TEST 19/21
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentLinear_21_100_1_1.d2cts
+J=10	M=2	DOD=1.0	EDOD=1.0	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	4495.22747635553		00:20:27.00		5		5
+straddleCarrier_2	3617.6024836429583		00:06:20.00		3		5
+-------------------------------------------------------------------------------------
+OVERALL:		8112.83	00:26:47.00	8	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 19.992663824s
+====================================================================================
+====================================================================================
+TEST 20/21
+CONFIG FILE: xml/results/10missions/3vehicles/deploymentLinear_21_100_1_1.d2cts
+J=10	M=3	DOD=1.0	EDOD=1.0	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3272.891646315367		00:01:58.00		2		4
+straddleCarrier_2	2815.8716086707186		00:02:54.00		2		3
+straddleCarrier_3	2498.6795368311577		00:00:49.00		2		3
+-------------------------------------------------------------------------------------
+OVERALL:		8587.443	00:05:41.00	6	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 22.698363347s
+====================================================================================
+====================================================================================
+TEST 21/21
+CONFIG FILE: xml/results/10missions/4vehicles/deploymentLinear_21_100_1_1.d2cts
+J=10	M=4	DOD=1.0	EDOD=1.0	SEED=21	TERMINALSEED=100	ALGO=Linear
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	3133.78587342556		00:00:04.00		1		3
+straddleCarrier_2	2514.212472313515		00:00:00.00		0		3
+straddleCarrier_3	1485.039837521527		00:00:00.00		0		2
+straddleCarrier_4	1897.0358405200648		00:00:00.00		0		2
+-------------------------------------------------------------------------------------
+OVERALL:		9030.074	00:00:04.00	1	10	
+Mission scheduler computing time:	00:00:00.00
+EXEC TIME: 23.102375692s
+====================================================================================

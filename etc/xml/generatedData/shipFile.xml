@@ -1,0 +1,135 @@
+<document>
+<event time='00:15:13.00' type='shipIn' capacity='227' quay='Osaka' from='0.0' to='0.09487970328041356'>
+	<shipContainerIn time='01:34:40.00' id='XRIU 104103 0' teu='2.0'>
+		<containerLocation container='XRIU 104103 0' pave='Osaka' lane='Osaka-3/3' slot='Osaka-3/3-0' level='0' align='center'/>
+	</shipContainerIn>
+	<shipContainerIn time='01:00:38.00' id='EQTU 241220 7' teu='1.0'>
+		<containerLocation container='EQTU 241220 7' pave='Osaka' lane='Osaka-3/3' slot='Osaka-3/3-0' level='0' align='center'/>
+	</shipContainerIn>
+	<shipContainerIn time='00:57:57.00' id='TSQU 307857 0' teu='2.0'>
+		<containerLocation container='TSQU 307857 0' pave='Osaka' lane='Osaka-2/3' slot='Osaka-2/3-0' level='0' align='center'/>
+	</shipContainerIn>
+</event>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='unloadShipOsaka[0.0-0.09487970328041356]WithTSQU 307857 0' container='TSQU 307857 0' kind='1'>
+		<timewindow start='00:57:57.00' end='01:07:57.00'/>
+		<timewindow start='00:59:20.20' end='01:09:20.20'/>
+		<containerLocation pave='N' lane='N-27/42' slot='N-27/42-1' level='0' align='center'/>
+	</mission>
+</event>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='unloadShipOsaka[0.0-0.09487970328041356]WithEQTU 241220 7' container='EQTU 241220 7' kind='1'>
+		<timewindow start='01:00:38.00' end='01:34:40.00'/>
+		<timewindow start='01:01:36.77' end='01:35:38.77'/>
+		<containerLocation pave='K' lane='K-6/25' slot='K-6/25-4' level='0' align='center'/>
+	</mission>
+</event>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='unloadShipOsaka[0.0-0.09487970328041356]WithXRIU 104103 0' container='XRIU 104103 0' kind='1'>
+		<timewindow start='01:34:40.00' end='01:44:40.00'/>
+		<timewindow start='01:34:58.82' end='01:44:58.82'/>
+		<containerLocation pave='G' lane='G-33/34' slot='G-33/34-5' level='0' align='center'/>
+	</mission>
+</event>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithPCRU 457828 4' container='PCRU 457828 4' kind='1'>
+		<timewindow start='01:08:14.00' end='01:08:30.03'/>
+		<timewindow start='01:11:51.00' end='01:31:55.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-1/3' slot='Osaka-1/3-1' level='0' align='center'/>
+	</mission>
+</event>
+<event time='01:31:55.00' type='shipContainerOut' containerId='PCRU 457828 4' slotId='Osaka-1/3-1'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithDRFU 184724 3' container='DRFU 184724 3' kind='1'>
+		<timewindow start='01:05:25.00' end='01:06:15.47'/>
+		<timewindow start='01:07:53.00' end='01:55:58.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-1/3' slot='Osaka-1/3-0' level='0' align='center'/>
+	</mission>
+</event>
+<event time='01:55:58.00' type='shipContainerOut' containerId='DRFU 184724 3' slotId='Osaka-1/3-0'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithYEWU 859970 7' container='YEWU 859970 7' kind='1'>
+		<timewindow start='01:56:19.00' end='02:05:14.15'/>
+		<timewindow start='02:08:51.00' end='02:17:18.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-1/3' slot='Osaka-1/3-0' level='0' align='center'/>
+	</mission>
+</event>
+<event time='02:17:18.00' type='shipContainerOut' containerId='YEWU 859970 7' slotId='Osaka-1/3-0'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithUUGU 075042 6' container='UUGU 075042 6' kind='1'>
+		<timewindow start='01:43:52.00' end='01:48:48.63'/>
+		<timewindow start='01:51:48.00' end='01:58:23.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-3/3' slot='Osaka-3/3-1' level='0' align='center'/>
+	</mission>
+</event>
+<event time='01:58:23.00' type='shipContainerOut' containerId='UUGU 075042 6' slotId='Osaka-3/3-1'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithAHYU 682660 5' container='AHYU 682660 5' kind='1'>
+		<timewindow start='00:59:38.00' end='01:00:13.69'/>
+		<timewindow start='01:02:02.00' end='01:15:45.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-2/3' slot='Osaka-2/3-1' level='0' align='center'/>
+	</mission>
+</event>
+<event time='01:15:45.00' type='shipContainerOut' containerId='AHYU 682660 5' slotId='Osaka-2/3-1'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithDSIU 659182 4' container='DSIU 659182 4' kind='1'>
+		<timewindow start='00:59:57.00' end='01:02:22.89'/>
+		<timewindow start='01:09:47.00' end='01:11:41.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-1/3' slot='Osaka-1/3-1' level='0' align='center'/>
+	</mission>
+</event>
+<event time='01:11:41.00' type='shipContainerOut' containerId='DSIU 659182 4' slotId='Osaka-1/3-1'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithPBQU 827695 6' container='PBQU 827695 6' kind='1'>
+		<timewindow start='01:59:01.00' end='01:59:27.65'/>
+		<timewindow start='02:00:58.00' end='02:08:26.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-1/3' slot='Osaka-1/3-1' level='0' align='center'/>
+	</mission>
+</event>
+<event time='02:08:26.00' type='shipContainerOut' containerId='PBQU 827695 6' slotId='Osaka-1/3-1'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithFNTU 717711 9' container='FNTU 717711 9' kind='1'>
+		<timewindow start='00:35:00.00' end='00:35:31.35'/>
+		<timewindow start='00:38:55.00' end='00:44:54.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-2/3' slot='Osaka-2/3-1' level='0' align='center'/>
+	</mission>
+</event>
+<event time='00:44:54.00' type='shipContainerOut' containerId='FNTU 717711 9' slotId='Osaka-2/3-1'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithBBNU 775730 5' container='BBNU 775730 5' kind='1'>
+		<timewindow start='01:48:56.00' end='01:49:32.87'/>
+		<timewindow start='01:51:19.00' end='02:16:32.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-3/3' slot='Osaka-3/3-0' level='0' align='center'/>
+	</mission>
+</event>
+<event time='02:16:32.00' type='shipContainerOut' containerId='BBNU 775730 5' slotId='Osaka-3/3-0'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithLWSU 171466 1' container='LWSU 171466 1' kind='1'>
+		<timewindow start='00:55:41.00' end='00:55:43.63'/>
+		<timewindow start='00:56:14.00' end='01:14:33.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-3/3' slot='Osaka-3/3-1' level='0' align='center'/>
+	</mission>
+</event>
+<event time='01:14:33.00' type='shipContainerOut' containerId='LWSU 171466 1' slotId='Osaka-3/3-1'/>
+<event time='00:15:13.00' type='newMission'>
+	<mission id='loadShipOsaka[0.0-0.09487970328041356]WithCUYU 954564 2' container='CUYU 954564 2' kind='1'>
+		<timewindow start='00:26:23.00' end='00:26:30.99'/>
+		<timewindow start='00:27:59.00' end='00:28:20.00'/>
+		<containerLocation pave='Osaka' lane='Osaka-3/3' slot='Osaka-3/3-0' level='0' align='center'/>
+	</mission>
+</event>
+<event time='00:28:20.00' type='shipContainerOut' containerId='CUYU 954564 2' slotId='Osaka-3/3-0'/>
+<event time='02:19:36.00' type='shipOut' capacity='227' quay='Osaka' from='0.0' to='0.09487970328041356'>
+	<container id='PCRU 457828 4' teu='2.0'/>
+	<container id='DRFU 184724 3' teu='1.0'/>
+	<container id='YEWU 859970 7' teu='1.0'/>
+	<container id='UUGU 075042 6' teu='1.0'/>
+	<container id='AHYU 682660 5' teu='2.0'/>
+	<container id='DSIU 659182 4' teu='1.0'/>
+	<container id='PBQU 827695 6' teu='1.0'/>
+	<container id='FNTU 717711 9' teu='2.0'/>
+	<container id='BBNU 775730 5' teu='2.0'/>
+	<container id='LWSU 171466 1' teu='1.0'/>
+	<container id='CUYU 954564 2' teu='2.0'/>
+</event>
+</document>

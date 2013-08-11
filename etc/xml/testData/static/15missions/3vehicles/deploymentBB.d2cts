@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<networkConfiguration hostname="localhost" port="2000"/>
+	
+	<remoteObject rmiBindingName="TerminalImpl" host="localhost"/>
+	
+	
+	<remoteObject rmiBindingName="display" host="localhost"/>
+	
+	
+	<remoteObject rmiBindingName="JTerminal" host="localhost" id="JTerminal1"/>
+	
+	<remoteObject rmiBindingName="MissionScheduler"
+		type="BranchAndBoundScheduler"
+		host="localhost"
+		out="localhost"
+		timeMatrixFile="../trunk/xml/testData/static/15missions/3vehicles/timeM_15-3.dat"
+		distanceMatrixFile="../trunk/xml/testData/static/15missions/3vehicles/distanceM_15-3.dat"
+		computeCosts="true"
+		solutionFile="../trunk/xml/testData/static/15missions/3vehicles/soluce_15_3.dat"
+	/>
+	<remoteObject rmiBindingName="LaserData" host="localhost"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="localhost"/>
+	<remoteObject rmiBindingName="TimeController" host="localhost"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="localhost"/>
+	<random seed='21'/>
+	
+	Laser System
+	<laserSystemFile file="xml/bornesTN-LARGE_RANGE.xml"/>
+	Terminal
+	<terminalFile file="xml/testData/static/15missions/TN.xml"/>
+	StraddleCarriers
+	<clientFile file="xml/testData/static/15missions/3vehicles/vehicles-3.xml"/>
+</document>

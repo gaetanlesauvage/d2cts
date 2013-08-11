@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<networkConfiguration hostname="localhost" port="2000"/>
+	<remoteObject rmiBindingName="TerminalImpl" host="localhost"/>
+	<remoteObject rmiBindingName="display" host="localhost"/>
+	<remoteObject rmiBindingName="JTerminal" host="localhost" id="JTerminal1"/>
+	<remoteObject rmiBindingName="LaserData" host="localhost"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="localhost"/>
+	<remoteObject rmiBindingName="TimeController" host="localhost"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="localhost"/>
+	Laser System
+	<laserSystemFile file="xml/defaultData/TN_lasersystem_large.xml"/>
+	Terminal
+	<terminalFile file="xml/defaultData/TN.xml"/>
+	StraddleCarriers
+	<clientFile file="xml/defaultData/vehicleLocal.xml"/>
+</document>

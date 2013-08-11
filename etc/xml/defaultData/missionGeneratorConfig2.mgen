@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<random seed='4'/> 
+	<terminalFile file='xml/defaultData/TN.xml'/>
+	<vehiclesFile file='xml/defaultData/vehicleLocal.xml'/>
+	
+	<containersFile file='xml/defaultData/generated/containers.cont'/>
+	
+	<train outputFile='../trunk/xml/defaultData/generated/trainFile.xml' fullRate='0.25' afterUnload='0.0' afterReload='0.75' minTime='00:00:00' maxTime='04:00:00' marginRate='0.3'/>
+	
+	<trucks outputFile='../trunk/xml/defaultData/generated/trucksFile.xml' nb='20' rateComeEmpty='0.5' rateLeaveEmpty='0.5' avgTruckTimeBeforeLeaving='00:05:00' minTime='00:00:00' maxTime='04:00:00'/>
+	<ship
+		outputFile='../trunk/xml/defaultData/generated/shipFile.xml'
+	 	minTEUCapacity='400'
+	 	maxTEUCapacity='1000'
+	 	fullRate='0.7'
+	 	twentyFeetRate='0.3'
+	 	fortyFeetRate='0.6'
+	 	capacityFactor='4' 
+	 	maxArrivalTime='01:00:00' 
+	 	minBerthTimeLength='02:00:00'
+	 	maxDepartureTime='04:00:00' 
+	 	timePerContainerOperation='00:10:00' 
+	 	afterUnload='0.68' 
+	 	afterReload='0.70'
+	 	marginRate='0.4'
+	/>
+	
+	<stocks outputFile='../trunk/xml/defaultData/generated/stocksFile.xml' nb='10' minTime='00:00:00' maxTime='04:00:00' marginTime='00:01:00' groupID='A'/>
+</document>

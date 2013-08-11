@@ -1,0 +1,42 @@
+<document>
+<event time='00:00:00.00' type='vehicleIn' id='truck_[1]' lanes='D-5/21'>
+	<container id='AUYU 564257 7' teu='2.25'>
+		<containerLocation container='AUYU 564257 7' pave='D' lane='D-5/21' slot='D-5/21-0' level='0' align='origin'/>
+	</container>
+</event>
+
+<mission id='unload_truck_[1]' truck='truck_[1]' container='AUYU 564257 7' kind='1'>
+	<timewindow start='00:26:12.00' end='00:30:19.00'/>
+	<timewindow start='00:32:19.62' end='00:32:49.62'/>
+	<containerLocation container='AUYU 564257 7' pave='E' lane='E-5/17-1' slot='E-5/17-1-2' level='0' align='origin'/>
+</mission>
+
+<event time='00:30:19.00' type='vehicleOut' id='truck_[1]' lanes='D-5/21'/>
+
+<event time='00:00:00.00' type='vehicleIn' id='truck_[2]' lanes='L-13/13'>
+	<container id='OHCU 155713 3' teu='1.0'>
+		<containerLocation container='OHCU 155713 3' pave='L' lane='L-13/13' slot='L-13/13-0' level='0' align='origin'/>
+	</container>
+</event>
+
+<mission id='unload_truck_[2]' truck='truck_[2]' container='OHCU 155713 3' kind='1'>
+	<timewindow start='00:16:56.00' end='00:20:35.00'/>
+	<timewindow start='00:21:45.45' end='00:22:15.45'/>
+	<containerLocation container='OHCU 155713 3' pave='M' lane='M-27/62' slot='M-27/62-3' level='0' align='origin'/>
+</mission>
+
+<event time='00:20:35.00' type='vehicleOut' id='truck_[2]' lanes='L-13/13'/>
+
+<event time='00:17:22.00' type='vehicleIn' id='truck_[3]' lanes='D-10/21'/>
+
+<event time='00:20:46.00' type='vehicleOut' id='truck_[3]'  lanes='D-10/21'>
+	<container id='HANU 893102 9'/>
+</event>
+
+<mission id='load_truck_[3]' truck='truck_[3]' container='HANU 893102 9' kind='2'>
+		<timewindow start='00:10:56.46' end='00:15:29.46'/>
+		<timewindow start='00:17:22.00' end='00:20:46.00'/>
+		<containerLocation container='HANU 893102 9' pave='D' lane='D-10/21' slot='D-10/21-0' level='0' align='origin'/>
+</mission>
+
+</document>
