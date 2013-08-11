@@ -1,0 +1,176 @@
+<document>
+	<terminal>
+<crossroad id="c1" x="442324.0014" y="198866.4634"/>
+<crossroad id="c2" x="442336.5848" y="198831.7366"/>
+<crossroad id="c3" x="442372.6668" y="198732.4787"/>
+<crossroad id="c4" x="442396.8938" y="198681.3101"/>
+<crossroad id="c5" x="442509.5963" y="198894.6156"/>
+<crossroad id="c6" x="442545.5203" y="198795.7476"/>
+<crossroad id="c7" x="442571.9973" y="198720.4208"/>
+<crossroad id="c8" x="442587.8874" y="198681.1346"/>
+<crossroad id="c9" x="442643.5035" y="198701.4175"/>
+<crossroad id="c10" x="442680.8308" y="198956.7753"/>
+<crossroad id="c11" x="442716.2036" y="198859.5539"/>
+<crossroad id="c12" x="442747.2874" y="198784.2362"/>
+<crossroad id="c13" x="442761.7423" y="198744.2209"/>
+<crossroad id="c14" x="442761.5047" y="198986.0599"/>
+<crossroad id="c15" x="442797.2322" y="198885.6935"/>
+<crossroad id="c16" x="442842.5890" y="198759.2503"/>
+<crossroad id="c17" x="442915.9760" y="198800.6687"/>
+<crossroad id="c18" x="442875.6473" y="198744.8090"/>
+<crossroad id="c19" x="442954.3021" y="198814.5913"/>
+<crossroad id="c20" x="442895.0455" y="199066.5433"/>
+<crossroad id="c21" x="442903.1629" y="199037.2514"/>
+<crossroad id="c22" x="442908.0393" y="199019.6376"/>
+<crossroad id="c23" x="442939.5573" y="198966.8977"/>
+<crossroad id="c24" x="442949.0052" y="198940.3420"/>
+<crossroad id="c25" x="442985.6720" y="198825.8709"/>
+<crossroad id="c26" x="442989.3106" y="198797.4088"/>
+<crossroad id="c27" x="442954.4942" y="198980.7268"/>
+<crossroad id="c28" x="443249.0777" y="198816.9148"/>
+<crossroad id="c29" x="442739.4415" y="198665.5546"/>
+<crossroad id="c30" x="443094.1040" y="198721.8453"/>
+<crossroad id="c31" x="443055.7741" y="198668.8153"/>
+<crossroad id="c32" x="443030.0751" y="198633.2447"/>
+<crossroad id="c33" x="443227.2803" y="198786.3182"/>
+<crossroad id="c34" x="443204.4944" y="198755.0171"/>
+<crossroad id="c35" x="443150.8677" y="198680.9247"/>
+<crossroad id="c36" x="443189.6633" y="198652.6499"/>
+<crossroad id="c37" x="443151.3572" y="198599.5919"/>
+<crossroad id="c38" x="443125.8935" y="198564.322"/>
+<crossroad id="c39" x="443424.0109" y="198596.1497"/>
+<crossroad id="c40" x="443343.6180" y="198541.0465"/>
+<crossroad id="c41" x="443310.1458" y="198494.651"/>
+<crossroad id="c42" x="442944.1975" y="198656.5820"/>
+<crossroad id="c43" x="442856.8642" y="198718.7924"/>
+<crossroad id="c44" x="442920.6363" y="199048.1601"/>
+<crossroad id="c45" x="442650.6918" y="198681.8946"/>
+<crossroad id="c46" x="442677.5844" y="198643.1185"/>
+<crossroad id="c47" x="442576.365" y="198641.7528"/>
+<crossroad id="c48" x="442559.9459" y="198651.0190"/>
+<crossroad id="c49" x="442654.8458" y="198670.3066"/>
+<crossroad id="c50" x="442807.6512" y="198727.3806"/>
+<crossroad id="c51" x="442512.0244" y="198653.4631"/>
+<crossroad id="c52" x="443208.6555" y="198505.6170"/>
+<crossroad id="c53" x="442727.5541" y="198698.3287"/>
+
+<crossroad id="c54" x="442562.7477" y="198671.9352"/>
+<crossroad id="c55" x="442632.2612" y="198697.2777"/>
+<crossroad id="c57" x="442654.9151" y="198705.5139"/>
+<crossroad id="c59" x="442826.8878" y="198767.8497"/>
+
+<crossroad id="c56" x="442643.5925" y="198666.2156"/>
+<crossroad id="c58" x="442665.6760" y="198675.9503"/>
+<crossroad id="c60" x="442768.9979" y="198713.3607"/>
+<crossroad id="c61" x="442765.3224" y="198723.4940"/>
+<crossroad id="c62" x="442838.1625" y="198771.5903"/>
+<crossroad id="c63" x="442962.571" y="198682.0151"/>
+
+<crossroad id="interTrain1-2_1/4" x="442567.0731" y="198659.7999"/>
+<crossroad id="interTrain1-2_2/4" x="442636.8657" y="198684.6405"/>
+<crossroad id="interTrain1-2_3/4" x="442659.4338" y="198692.8261"/>
+<crossroad id="interTrain1-2_4/4" x="442831.4672" y="198755.2241"/>
+ 
+
+<crossroad id="interTrain2-3_1/4" x="442571.1241" y="198652.9997"/>
+<crossroad id="interTrain2-3_2/4" x="442639.3481" y="198677.8021"/>
+<crossroad id="interTrain2-3_3/4" x="442661.9144" y="198685.9871"/>
+<crossroad id="interTrain2-3_4/4" x="442833.9478" y="198748.385"/>
+
+<crossroad id="interTrain3-x_1/4" x="442575.0308" y="198647.8733"/>
+<crossroad id="interTrain3-x_2/4" x="442641.4502" y="198672.0197"/>
+<crossroad id="interTrain3-x_3/4" x="442664.0122" y="198680.203"/>
+<crossroad id="interTrain3-x_4/4" x="442767.4203" y="198717.7101"/>
+
+<road id="c7-c8" origin="c7" destination="c8"/>
+<road id="c12-c13" origin="c12" destination="c13"/>
+<road id="c20-c21" origin="c20" destination="c21"/>
+<road id="c1-c20" origin="c1" destination="c20"/>
+<road id="c20-c44" origin="c20" destination="c44"/>
+<road id="c21-c44" origin="c21" destination="c44"/>
+<road id="c22-c27" origin="c22" destination="c27"/>
+<road id="c23-c27" origin="c23" destination="c27"/>
+<road id="c44-c28" origin="c44" destination="c28"/>
+<road id="c33-c34" origin="c33" destination="c34"/>
+<road id="c34-c35" origin="c34" destination="c35"/>
+<road id="c30-c31" origin="c30" destination="c31"/>
+<road id="c31-c32" origin="c31" destination="c32"/>
+<road id="c32-c42" origin="c32" destination="c42"/>
+<road id="c40-c41" origin="c40" destination="c41"/>
+<road id="c36-c37" origin="c36" destination="c37"/>
+<road id="c37-c38" origin="c37" destination="c38"/>
+<road id="c16-c18" origin="c16" destination="c18"/>
+<road id="c18-c43" origin="c18" destination="c43"/>
+<road id="c16-c62" origin="c16" destination="c62"/>
+<road id="c43-c50" origin="c43" destination="c50"/>
+<road id="c16-c43" origin="c16" destination="c43"/>
+<road id="c42-c63" origin="c42" destination="c63"/>
+<road id="c46-c58" origin="c46" destination="c58"/>
+<road id="c29-c53" origin="c29" destination="c53"/>
+
+
+
+Train
+<include file="xml/structure/train.xml"/>
+
+Dépot
+<include file="xml/structure/depot.xml"/>
+
+Pavé A
+<include file="xml/structure/paveA.xml"/>
+
+Pavé B
+<include file="xml/structure/paveB.xml"/>
+
+Pavé C
+<include file="xml/structure/paveC.xml"/>
+
+
+Pavé D
+<include file="xml/structure/paveD.xml"/>
+Pavé E
+<include file="xml/structure/paveE.xml"/>
+
+Pavé F
+<include file="xml/structure/paveF.xml"/>
+
+Pavé G
+<include file="xml/structure/paveG.xml"/>
+
+Pavé H
+<include file="xml/structure/paveH.xml"/>
+
+Pavé I
+<include file="xml/structure/paveI.xml"/>
+
+Pavé J
+<include file="xml/structure/paveJ.xml"/>								
+
+Pavé K
+<include file="xml/structure/paveK.xml"/>	
+
+Pavé L
+<include file="xml/structure/paveL.xml"/>	
+
+Pavé M
+<include file="xml/structure/paveM.xml"/>
+
+Pavé N
+<include file="xml/structure/paveN.xml"/>
+
+Pavé O
+<include file="xml/structure/paveO.xml"/>
+
+Pavé P
+<include file="xml/structure/paveP.xml"/>
+
+Pavé Asie
+<include file="xml/structure/asie.xml"/>
+
+Pavé Osaka
+<include file="xml/structure/osaka.xml"/>
+
+<include file='xml/results/containers.cont'/>
+<include file='xml/results/20missions/missions_1_0,5_1.xml'/>
+</terminal>
+</document>

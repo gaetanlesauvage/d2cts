@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+<block id="O" type="ROAD">								
+<coordinate id="O_NW" x="442656.3715" y="198666.0826"/>		
+<coordinate id="O_NE" x="442749.8620" y="198677.8840"/>		
+<coordinate id="O_SE" x="442760.3746" y="198648.9003"/>		
+<coordinate id="O_S" x="442733.4835" y="198620.6438"/>		
+<coordinate id="O_SW" x="442664.5745" y="198643.5185"/>		
+<wall from="O_NE" to="O_SE"/>				
+<wall from="O_SE" to="O_S"/>				
+<wall from="O_S" to="O_SW"/>				
+<wall from="O_SW" to="O_NW"/>				
+
+	ID		X		Y		ROAD	
+<road id="c53-c58" origin="c53" destination="c58">
+<bayCrossroad id="O_N_1" x="442681.9396" y="198681.8493" road="c53-c58"/>
+<bayCrossroad id="O_N_2" x="442688.5201" y="198684.2361" road="c53-c58"/>
+<bayCrossroad id="O_N_3" x="442695.1006" y="198686.6229" road="c53-c58"/>
+<bayCrossroad id="O_N_4" x="442701.6812" y="198689.0097" road="c53-c58"/>
+<bayCrossroad id="O_N_5" x="442708.2617" y="198691.3965" road="c53-c58"/>
+<bayCrossroad id="O_N_6" x="442714.8422" y="198693.7833" road="c53-c58"/>
+</road>
+<road id="c29-c46" origin="c29" destination="c46">
+<bayCrossroad id="O_S_1" x="442693.8480" y="198649.0175" road="c29-c46"/>
+<bayCrossroad id="O_S_2" x="442700.4285" y="198651.4043" road="c29-c46"/>
+<bayCrossroad id="O_S_3" x="442707.0090" y="198653.7911" road="c29-c46"/>
+<bayCrossroad id="O_S_4" x="442713.5895" y="198656.1779" road="c29-c46"/>
+<bayCrossroad id="O_S_5" x="442720.1700" y="198658.5647" road="c29-c46"/>
+<bayCrossroad id="O_S_6" x="442726.7505" y="198660.9515" road="c29-c46"/>
+</road>
+
+<exchangebay id="O-1/6" origin="O_N_1" destination="O_S_1" slots="45*1" in="442685.7287,198671.4025" out="442692.2072,198653.5411"/>
+<exchangebay id="O-2/6" origin="O_N_2" destination="O_S_2" slots="45*1" in="442692.3092,198673.7893" out="442698.7877,198655.9279"/>
+<exchangebay id="O-3/6" origin="O_N_3" destination="O_S_3" slots="45*1" in="442698.8898,198676.1761" out="442705.3682,198658.3147"/>
+<exchangebay id="O-4/6" origin="O_N_4" destination="O_S_4" slots="45*1" in="442705.4703,198678.5629" out="442711.9487,198660.7015"/>
+<exchangebay id="O-5/6" origin="O_N_5" destination="O_S_5" slots="45*1" in="442712.0508,198680.9897" out="442718.5293,198663.0884"/>
+<exchangebay id="O-6/6" origin="O_N_6" destination="O_S_6" slots="45*1" in="442718.6313,198683.3366" out="442725.1098,198665.4752"/>
+
+</block>
+</document>

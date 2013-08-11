@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<block id="central" type="DEPOT">
+	<coordinate id="central-A" x="442808.9894" y="198723.691"/>
+	<coordinate id="central-B" x="442826.4894" y="198670.191"/>
+	<coordinate id="central-C" x="442868.4894" y="198685.691"/>
+	<coordinate id="central-D" x="442955.9894" y="198624.191"/>
+	<coordinate id="central-E" x="442979.4894" y="198656.191"/>
+	
+	<coordinate id="central-F" x="442969.5162" y="198663.3996"/>
+	<coordinate id="central-G" x="442949.3161" y="198678.0003"/>
+	<coordinate id="central-H" x="442886.8467" y="198723.1532"/>
+	<coordinate id="central-I" x="442867.2732" y="198737.3009"/>
+	
+	<coordinate id="central-J" x="442859.7199" y="198742.7605"/>
+	<wall from="central-A" to="central-B"/>
+	<wall from="central-B" to="central-C"/>
+	<wall from="central-C" to="central-D"/>
+	<wall from="central-E" to="central-F"/>
+	<wall from="central-G" to="central-H"/>
+	<wall from="central-I" to="central-J"/>
+
+<road id="c42-c43" origin="c42" destination="c43">
+Block depot												
+<bayCrossroad id="Depot_Road_1" x="442868.7459" y="198710.1267"/>						
+<bayCrossroad id="Depot_Road_2" x="442875.0009" y="198705.6878"/>						
+<bayCrossroad id="Depot_Road_3" x="442881.2217" y="198701.2732"/>						
+<bayCrossroad id="Depot_Road_4" x="442882.4338" y="198700.4130"/>						
+<bayCrossroad id="Depot_Road_5" x="442882.8910" y="198700.0885"/>						
+<bayCrossroad id="Depot_Road_6" x="442888.0982" y="198696.3932"/>						
+<bayCrossroad id="Depot_Road_7" x="442888.5561" y="198696.0683"/>						
+<bayCrossroad id="Depot_Road_8" x="442893.7637" y="198692.3726"/>						
+<bayCrossroad id="Depot_Road_9" x="442894.2223" y="198692.0472"/>						
+<bayCrossroad id="Depot_Road_10" x="442899.4327" y="198688.3496"/>						
+<bayCrossroad id="Depot_Road_11" x="442899.8917" y="198688.0239"/>						
+<bayCrossroad id="Depot_Road_12" x="442905.0982" y="198684.3291"/>						
+<bayCrossroad id="Depot_Road_13" x="442905.5578" y="198684.0029"/>						
+<bayCrossroad id="Depot_Road_14" x="442910.7544" y="198680.3151"/>						
+<bayCrossroad id="Depot_Road_15" x="442911.2142" y="198679.9889"/>						
+<bayCrossroad id="Depot_Road_16" x="442916.4199" y="198676.2946"/>						
+<bayCrossroad id="Depot_Road_17" x="442916.8804" y="198675.9678"/>						
+<bayCrossroad id="Depot_Road_18" x="442922.0889" y="198672.2715"/>						
+<bayCrossroad id="Depot_Road_19" x="442922.5497" y="198671.9445"/>						
+<bayCrossroad id="Depot_Road_20" x="442927.7544" y="198668.2510"/>						
+<bayCrossroad id="Depot_Road_21" x="442928.2159" y="198667.9235"/>						
+<bayCrossroad id="Depot_Road_22" x="442933.3596" y="198664.2732"/>						
+<bayCrossroad id="Depot_Road_23" x="442933.8216" y="198663.9454"/>						
+</road>
+<bayCrossroad id="End_Slot_1" x="442893.9861" y="198716.6051"/>						
+<bayCrossroad id="End_Slot_2" x="442899.5917" y="198712.5024"/>						
+<bayCrossroad id="End_Slot_3" x="442905.1946" y="198708.3937"/>						
+<bayCrossroad id="End_Slot_4" x="442910.8126" y="198704.2988"/>						
+<bayCrossroad id="End_Slot_5" x="442916.4155" y="198700.1900"/>						
+<bayCrossroad id="End_Slot_6" x="442922.0310" y="198696.1186"/>						
+<bayCrossroad id="End_Slot_7" x="442927.6339" y="198692.0099"/>						
+<bayCrossroad id="End_Slot_8" x="442933.2519" y="198687.9150"/>						
+<bayCrossroad id="End_Slot_9" x="442938.8548" y="198683.8062"/>						
+<bayCrossroad id="End_Slot_10" x="442944.4079" y="198679.7550"/>						
+												
+<bayCrossroad id="End_Slot_11" x="442871.9228" y="198684.5838"/>						
+<bayCrossroad id="End_Slot_12" x="442877.5992" y="198680.5795"/>						
+<bayCrossroad id="End_Slot_13" x="442883.2730" y="198676.5692"/>						
+<bayCrossroad id="End_Slot_14" x="442888.9616" y="198672.5729"/>						
+<bayCrossroad id="End_Slot_15" x="442894.6354" y="198668.5626"/>						
+<bayCrossroad id="End_Slot_16" x="442900.3210" y="198664.5898"/>						
+<bayCrossroad id="End_Slot_17" x="442905.9948" y="198660.5795"/>						
+<bayCrossroad id="End_Slot_18" x="442911.6834" y="198656.5833"/>						
+<bayCrossroad id="End_Slot_19" x="442917.3571" y="198652.5729"/>						
+<bayCrossroad id="End_Slot_20" x="442922.9801" y="198648.6193"/>						
+												
+<bayCrossroad id="End_Slot_21" x="442842.9099" y="198707.4020"/>						
+<bayCrossroad id="End_Slot_22" x="442845.0691" y="198701.5091"/>						
+<bayCrossroad id="End_Slot_23" x="442847.2677" y="198695.5937"/>						
+<bayCrossroad id="End_Slot_24" x="442849.4269" y="198689.7008"/>						
+<bayCrossroad id="End_Slot_25" x="442851.5862" y="198683.8079"/>						
+												
+<straddleCarrierSlot id="Central_1" x="442891.3410" y="198712.9646" origin="Depot_Road_4" destination="End_Slot_1"/>
+<straddleCarrierSlot id="Central_2" x="442896.9467" y="198708.8618" origin="Depot_Road_6" destination="End_Slot_2"/>
+<straddleCarrierSlot id="Central_3" x="442902.5496" y="198704.7531" origin="Depot_Road_8" destination="End_Slot_3"/>
+<straddleCarrierSlot id="Central_4" x="442908.1676" y="198700.6582" origin="Depot_Road_10" destination="End_Slot_4"/>
+<straddleCarrierSlot id="Central_5" x="442913.7705" y="198696.5494" origin="Depot_Road_12" destination="End_Slot_5"/>
+<straddleCarrierSlot id="Central_6" x="442919.3859" y="198692.4781" origin="Depot_Road_14" destination="End_Slot_6"/>
+<straddleCarrierSlot id="Central_7" x="442924.9888" y="198688.3693" origin="Depot_Road_16" destination="End_Slot_7"/>
+<straddleCarrierSlot id="Central_8" x="442930.6068"	y="198684.2744" origin="Depot_Road_18" destination="End_Slot_8"/>
+<straddleCarrierSlot id="Central_9" x="442936.2097"	y="198680.1657"	 origin="Depot_Road_20" destination="End_Slot_9"/>
+<straddleCarrierSlot id="Central_10" x="442941.7629" y="198676.1145" origin="Depot_Road_22" destination="End_Slot_10"/>
+											
+<straddleCarrierSlot id="Central_11" x="442874.5039" y="198688.2700" origin="Depot_Road_5" destination="End_Slot_11"/>
+<straddleCarrierSlot id="Central_12" x="442880.1803" y="198684.2657" origin="Depot_Road_7" destination="End_Slot_12"/>
+<straddleCarrierSlot id="Central_13" x="442885.8541" y="198680.2553" origin="Depot_Road_9" destination="End_Slot_13"/>
+<straddleCarrierSlot id="Central_14" x="442891.5427" y="198676.2591" origin="Depot_Road_11" destination="End_Slot_14"/>
+<straddleCarrierSlot id="Central_15" x="442897.2165" y="198672.2488" origin="Depot_Road_13" destination="End_Slot_15"/>
+<straddleCarrierSlot id="Central_16" x="442902.9021" y="198668.2760" origin="Depot_Road_15" destination="End_Slot_16"/>
+<straddleCarrierSlot id="Central_17" x="442908.5759" y="198664.2657" origin="Depot_Road_17" destination="End_Slot_17"/>
+<straddleCarrierSlot id="Central_18" x="442914.2645" y="198660.2695" origin="Depot_Road_19" destination="End_Slot_18"/>
+<straddleCarrierSlot id="Central_19" x="442919.9382" y="198656.2591" origin="Depot_Road_21" destination="End_Slot_19"/>
+<straddleCarrierSlot id="Central_20" x="442925.5612" y="198652.3054" origin="Depot_Road_23" destination="End_Slot_20"/>
+												
+<straddleCarrierSlot id="Central_21" x="442847.1385" y="198708.9411" origin="Depot_Road_1" destination="End_Slot_21"/>
+<straddleCarrierSlot id="Central_22" x="442849.2977" y="198703.0482" origin="Depot_Road_1" destination="End_Slot_22"/>
+<straddleCarrierSlot id="Central_23" x="442851.4963" y="198697.1328" origin="Depot_Road_2" destination="End_Slot_23"/>
+<straddleCarrierSlot id="Central_24" x="442853.6556" y="198691.2399" origin="Depot_Road_3" destination="End_Slot_24"/>
+<straddleCarrierSlot id="Central_25" x="442855.8148" y="198685.3470" origin="Depot_Road_3" destination="End_Slot_25"/>
+</block>
+</document>

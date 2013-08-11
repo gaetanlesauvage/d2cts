@@ -1,0 +1,63 @@
+<document>
+<event time='00:00:00.00' type='vehicleIn' id='truck_[1]' lanes='D-5/21'>
+	<container id='GPEU 010539 1' teu='2.25'>
+		<containerLocation container='GPEU 010539 1' pave='D' lane='D-5/21' slot='D-5/21-0' level='0' align='origin'/>
+	</container>
+</event>
+
+	<mission id='unload_truck_[1]' truck='truck_[1]' container='GPEU 010539 1' kind='1'>
+		<timewindow start='00:26:12.00' end='00:30:19.00'/>
+		<timewindow start='00:32:19.62' end='00:32:49.62'/>
+		<containerLocation container='GPEU 010539 1' pave='E' lane='E-5/17-1' slot='E-5/17-1-2' level='0' align='origin'/>
+	</mission>
+<event time='00:30:19.00' type='vehicleOut' id='truck_[1]' lanes='D-5/21'/>
+<event time='00:00:00.00' type='vehicleIn' id='truck_[2]' lanes='L-13/13'>
+	<container id='VKYU 603343 9' teu='1.0'>
+		<containerLocation container='VKYU 603343 9' pave='L' lane='L-13/13' slot='L-13/13-0' level='0' align='origin'/>
+	</container>
+</event>
+	<mission id='unload_truck_[2]' truck='truck_[2]' container='VKYU 603343 9' kind='1'>
+		<timewindow start='00:16:56.00' end='00:20:35.00'/>
+		<timewindow start='00:21:45.45' end='00:22:15.45'/>
+		<containerLocation container='VKYU 603343 9' pave='M' lane='M-27/62' slot='M-27/62-3' level='0' align='origin'/>
+	</mission>
+<event time='00:20:35.00' type='vehicleOut' id='truck_[2]' lanes='L-13/13'/>
+<event time='00:00:00.00' type='vehicleIn' id='truck_[3]' lanes='D-10/21'>
+	<container id='OTBU 036469 2' teu='1.0'>
+		<containerLocation container='OTBU 036469 2' pave='D' lane='D-10/21' slot='D-10/21-0' level='0' align='origin'/>
+	</container>
+</event>
+	<mission id='unload_truck_[3]' truck='truck_[3]' container='OTBU 036469 2' kind='1'>
+		<timewindow start='00:17:22.00' end='00:19:16.00'/>
+		<timewindow start='00:21:16.42' end='00:21:46.42'/>
+		<containerLocation container='OTBU 036469 2' pave='I' lane='I-28/73' slot='I-28/73-4' level='0' align='origin'/>
+	</mission>
+<event time='00:19:16.00' type='vehicleOut' id='truck_[3]' lanes='D-10/21'/>
+<event time='00:27:06.00' type='vehicleIn' id='truck_[4]' lanes='D-15/21'/>
+<event time='00:30:26.00' type='vehicleOut' id='truck_[4]'  lanes='D-15/21'>
+	<container id='QPAU 651988 5'/>
+</event>
+	<mission id='load_truck_[4]' truck='truck_[4]' container='QPAU 651988 5' kind='2'>
+		<timewindow start='00:23:23.07' end='00:24:20.07'/>
+		<timewindow start='00:27:06.00' end='00:30:26.00'/>
+		<containerLocation container='QPAU 651988 5' pave='D' lane='D-15/21' slot='D-15/21-0' level='0' align='origin'/>
+	</mission>
+<event time='00:06:07.00' type='vehicleIn' id='truck_[5]' lanes='D-20/21'/>
+<event time='00:09:39.00' type='vehicleOut' id='truck_[5]'  lanes='D-20/21'>
+	<container id='SJGU 268489 7'/>
+</event>
+	<mission id='load_truck_[5]' truck='truck_[5]' container='SJGU 268489 7' kind='2'>
+		<timewindow start='00:02:38.62' end='00:04:27.62'/>
+		<timewindow start='00:06:07.00' end='00:09:39.00'/>
+		<containerLocation container='SJGU 268489 7' pave='D' lane='D-20/21' slot='D-20/21-0' level='0' align='origin'/>
+	</mission>
+<event time='00:24:00.00' type='vehicleIn' id='truck_[6]' lanes='D-19/21'/>
+<event time='00:26:03.00' type='vehicleOut' id='truck_[6]'  lanes='D-19/21'>
+	<container id='KWVU 115480 1'/>
+</event>
+	<mission id='load_truck_[6]' truck='truck_[6]' container='KWVU 115480 1' kind='2'>
+		<timewindow start='00:20:47.38' end='00:22:46.38'/>
+		<timewindow start='00:24:00.00' end='00:26:03.00'/>
+		<containerLocation container='KWVU 115480 1' pave='D' lane='D-19/21' slot='D-19/21-0' level='0' align='origin'/>
+	</mission>
+</document>

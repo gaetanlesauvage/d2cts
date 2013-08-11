@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<networkConfiguration hostname="localhost" port="2000"/>
+	<remoteObject rmiBindingName="TerminalImpl" host="localhost"/>
+	<remoteObject rmiBindingName="display" host="localhost"/>
+	<remoteObject rmiBindingName="JTerminal" host="localhost" id="JTerminal1"/>
+	<remoteObject rmiBindingName="MissionScheduler" type='OfflineACOScheduler2'
+		t="2.0" l="5.0" e="1.0" 
+		alpha="1" beta="1" gamma="1" 
+		rho="0.01" Q="10.0" sync="100000" 
+		F1="2.0" F2="5.0" F3="1.0"
+		host="localhost" out="localhost"
+	/>
+	<remoteObject rmiBindingName="LaserData" host="localhost"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="localhost"/>
+	<remoteObject rmiBindingName="TimeController" host="localhost"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="localhost"/>
+	<random seed='1'/>
+	<laserSystemFile file="xml/bornesTN-LARGE_RANGE.xml"/>
+	<terminalFile file="xml/phdTests/terminal.xml"/>
+	<clientFile file="xml/phdTests/debugVehicles.xml"/>
+</document>

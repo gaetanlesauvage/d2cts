@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	
+	<container id="cont1" teu="2">
+		<containerLocation pave="A" lane="A-4/40" slot="A-4/40-2" level="0" align="center"/>
+	</container>
+	
+	
+	<container id="cont4" teu="1">
+		<containerLocation pave="A" lane="A-12/40" slot="A-12/40-2" level="0" align="origin"/>
+	</container>
+	
+	<container id="cont2" teu="2">
+		<containerLocation pave="A" lane="A-12/40" slot="A-12/40-4" level="0" align="destination"/>
+	</container>
+	
+	<event time="00:02:20" type="newContainer">	
+		<container id="cont3" teu="2.25">
+		<containerLocation pave="A" lane="A-12/40" slot="A-12/40-3" level="0" align="center"/>
+	</container>
+	</event>
+
+<comment>
+	<container id="cont5" teu="1">
+		<containerLocation pave="A" lane="A-12/40" slot="A-12/40-4" level="2" align="destination"/>
+	</container>
+	
+		<event time="00:00:10" type="newContainer">	
+		</event>
+		<container id="cont3" teu="2.25">
+		<containerLocation pave="A" lane="A-1/40" slot="A-1/40-4" level="0" align="center"/>
+	</container>
+</comment>
+
+</document>

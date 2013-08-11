@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<vehicles>
+		<type
+			id="standard"
+			width="5"
+			height="15.4"
+			length="10"
+			innerWidth="3"
+			innerLength="6"
+			backOverLength="1"
+			frontOverLength="3"
+			cabWidth="2"
+			compatibility="all"
+			emptySpeed="4.444"
+			loadedSpeed="4.444"
+			baySpeed="1.944"
+			containerHandlingFromTruck_MIN="30"
+			containerHandlingFromTruck_MAX="30"
+			containerHandlingFromGround_MIN="30"
+			containerHandlingFromGround_MAX="30"
+			enterExitBayTime_MIN="0"
+			enterExitBayTime_MAX="0"
+			turnBackTime="0"
+		/>
+		
+		<straddleCarrier id="straddleCarrier_1" type="standard" slot="Central_1" color="red" host="localhost" locationRoad="Central_1" locationPourcent="0.5" direction="false">
+			<routing type="RDijkstra" host="localhost"/>
+		</straddleCarrier>
+
+		<straddleCarrier id="straddleCarrier_2" type="standard" slot="Central_2" color="blue" host="localhost" locationRoad="Central_2" locationPourcent="0.5" direction="false">
+			<routing type="RDijkstra" host="localhost"/>
+		</straddleCarrier>
+	</vehicles>
+
+</document>

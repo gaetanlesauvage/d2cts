@@ -1,0 +1,7 @@
+TEST SESSION OF Wed Jun 06 14:11:58 CEST 2012
+====================================================================================
+TEST 1/6
+CONFIG FILE: xml/results/50missions/7vehicles/deploymenttsp_21_100_0_0.d2cts
+J=50	M=7	DOD=0.0	EDOD=0.0	SEED=21	TERMINALSEED=100	ALGO=TSP
+tsp parameters: F1=1	e=0	t=1	gamma=1	Q=1	sync=10000	F3=10	F2=5	alpha=1	l=5	beta=1	rho=0.1	
+                            -------------------------------                            

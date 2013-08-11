@@ -1,0 +1,99 @@
+graph {
+	padding: 5px;
+	/*fill-color: rgba(220,220,220,255);*/
+	fill-color: rgba(80,80,80,255);
+	/*fill-color: rgba(120,120,120,255);*/
+}
+
+node {
+	fill-color: rgba(204,102,51,255);
+	text-size: 10;
+	text-color: black;
+	shape: circle;
+	size: 2gu;
+	z-index:3;
+	text-mode: hidden;
+}
+node.roadpoint{
+	size:0gu;
+}
+node.laneCrossroad{
+	size: 0gu;
+	fill-color: rgba(100,0,204,255);
+}
+edge{
+	shape: line;
+	size: 1gu;
+	text-alignment: center;
+	text-size: 8;
+	arrow-size: 3gu, 10gu;
+	z-index:1;
+	fill-color: rgba(128,128,128,255);
+	text-mode: hidden;
+}
+edge.selectedEdge{
+	fill-color: rgba(128,0,0,158);
+	text-mode: normal;
+}
+
+edge.lane {
+	visibility-mode: hidden;
+	size: 5gu;
+	fill-color: rgba(128,0,0,128);
+	text-mode: hidden;
+}
+edge.exchangeLane {
+	visibility-mode: hidden;
+	size: 5gu;
+	fill-color: rgba(0,0,128,128);
+	text-mode: hidden;
+}
+edge.scSlot {
+	fill-color: rgba(100,100,100,255);
+	size: 1gu;
+}
+node.depotPoint {
+	fill-color: rgba(255,255,255,0);
+	size: 1gu;
+}
+
+edge.depotWall {
+	fill-color: rgba(99,29,98,255);
+	size: 1gu;
+}
+node.pavePoint {
+	fill-color: rgba(255,255,255,0);
+	size: 5gu;
+}
+
+edge.paveWall_SHIP {
+	fill-color: rgba(0,0,75,255);
+	size: 2gu;
+}
+
+edge.paveWall_STOCK {
+	fill-color: rgba(0,128,0,255);
+	size: 2gu;
+}
+
+edge.paveWall_ROAD {
+	fill-color: rgba(128,128,128,255);
+	size: 2gu;
+}
+
+edge.paveWall_TRAIN {
+	fill-color: rgba(116,59,34,255);
+	size: 2gu;
+}
+
+sprite.ship {
+	shape: box;
+    size: 15px, 20px;
+    fill-mode: plain;   /* Default.          */
+    fill-color: red;    /* Default is black. */
+    stroke-mode: plain; /* Default is none.  */
+    stroke-color: blue; /* Default is black. */
+    text-alignment: center;
+	text-size: 14;
+	text-mode: hidden;
+}

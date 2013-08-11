@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<random seed='2'/> 
+	<terminalFile file='xml/defaultData/TN.xml'/>
+	<vehiclesFile file='xml/defaultData/vehicleLocal.xml'/>
+	
+	<containersFile file='../trunk/xml/testData/static/containers.cont'/>
+	
+	<comment>
+	<train outputFile='../trunk/xml/testData/static/generated/trainFile.xml' fullRate='0.25' afterUnload='0.0' afterReload='0.5' minTime='00:00:00' maxTime='04:00:00' marginRate='0.2'/>
+	</comment>
+	
+	<trucks outputFile='../trunk/xml/testData/static/generated/trucksFile.xml' nb='3' rateComeEmpty='0.5' rateLeaveEmpty='0.5' avgTruckTimeBeforeLeaving='00:05:00' minTime='00:00:00' maxTime='00:30:00'/>
+	
+	<stocks outputFile='../trunk/xml/testData/static/generated/stocksFile.xml' nb='3' minTime='00:00:00' maxTime='00:30:00' marginTime='00:01:00' groupID='A'/>
+</document>

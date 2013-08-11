@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<mission id="m1" container="MXJU 832576 1" kind="1">
+	<timewindow start="00:16:49.26" end="00:25:13.89"/>
+	<timewindow start="00:18:49.95" end="00:28:14.92"/>
+	<containerLocation pave="I" lane="I-16/73" slot="I-16/73-3" level="0" align="destination"/>
+</mission>
+<mission id="m2" container="IXJU 092492 0" kind="2">
+	<timewindow start="00:28:19.01" end="00:42:28.51"/>
+	<timewindow start="00:30:13.19" end="00:45:19.79"/>
+	<containerLocation pave="Osaka" lane="Osaka-1/3" slot="Osaka-1/3-9" level="1" align="destination"/>
+</mission>
+<mission id="m3" container="FJMU 141307 9" kind="2">
+	<timewindow start="00:28:40.66" end="00:43:00.99"/>
+	<timewindow start="00:29:58.55" end="00:44:57.82"/>
+	<containerLocation pave="Asie" lane="Asie-2/3" slot="Asie-2/3-25" level="1" align="center"/>
+</mission>
+<mission id="m4" container="PQDU 116090 7" kind="1">
+	<timewindow start="00:13:47.48" end="00:20:41.22"/>
+	<timewindow start="00:14:52.79" end="00:22:19.18"/>
+	<containerLocation pave="G" lane="G-10/34" slot="G-10/34-1" level="1" align="center"/>
+</mission>
+<mission id="m5" container="SALU 993230 9" kind="2">
+	<timewindow start="00:15:45.97" end="00:23:38.96"/>
+	<timewindow start="00:17:56.49" end="00:26:54.73"/>
+	<containerLocation pave="Asie" lane="Asie-2/3" slot="Asie-2/3-17" level="0" align="origin"/>
+</mission>
+<mission id="m6" container="SCYU 668700 8" kind="1">
+	<timewindow start="00:13:27.33" end="00:20:11"/>
+	<timewindow start="00:15:03.01" end="00:22:34.52"/>
+	<containerLocation pave="M" lane="M-12/62" slot="M-12/62-4" level="0" align="destination"/>
+</mission>
+<mission id="m7" container="RJVU 648281 7" kind="2">
+	<timewindow start="00:26:06.47" end="00:39:09.7"/>
+	<timewindow start="00:28:20.02" end="00:42:30.03"/>
+	<containerLocation pave="Asie" lane="Asie-1/3" slot="Asie-1/3-27" level="1" align="center"/>
+</mission>
+<mission id="m8" container="RYSU 512076 8" kind="2">
+	<timewindow start="00:32:47.21" end="00:49:10.82"/>
+	<timewindow start="00:35:39.49" end="00:53:29.23"/>
+	<containerLocation pave="Asie" lane="Asie-2/3" slot="Asie-2/3-11" level="0" align="center"/>
+</mission>
+<mission id="m9" container="DKIU 828008 8" kind="1">
+	<timewindow start="00:10:12.6" end="00:15:18.9"/>
+	<timewindow start="00:12:39.14" end="00:18:58.71"/>
+	<containerLocation pave="I" lane="I-52/73" slot="I-52/73-3" level="0" align="center"/>
+</mission>
+<mission id="m10" container="COFU 973061 9" kind="1">
+	<timewindow start="00:46:31.86" end="01:09:47.79"/>
+	<timewindow start="00:48:04.68" end="01:12:07.02"/>
+	<containerLocation pave="A" lane="A-14/40" slot="A-14/40-2" level="0" align="center"/>
+</mission>
+<mission id="m11" container="ERKU 514016 3" kind="1">
+	<timewindow start="00:23:57.99" end="00:35:56.98"/>
+	<timewindow start="00:25:13.53" end="00:37:50.3"/>
+	<containerLocation pave="G" lane="G-14/34" slot="G-14/34-6" level="1" align="center"/>
+</mission>
+<mission id="m12" container="ROHU 258851 2" kind="2">
+	<timewindow start="00:29:36.94" end="00:44:25.41"/>
+	<timewindow start="00:31:36.06" end="00:47:24.09"/>
+	<containerLocation pave="Asie" lane="Asie-3/3" slot="Asie-3/3-17" level="1" align="center"/>
+</mission>
+<mission id="m13" container="XUHU 595696 2" kind="2">
+	<timewindow start="00:08:16.2" end="00:12:24.3"/>
+	<timewindow start="00:09:23.65" end="00:14:05.47"/>
+	<containerLocation pave="Asie" lane="Asie-3/3" slot="Asie-3/3-34" level="1" align="center"/>
+</mission>
+<mission id="m14" container="QCDU 756058 3" kind="2">
+	<timewindow start="00:10:17.83" end="00:15:26.74"/>
+	<timewindow start="00:11:41.48" end="00:17:32.22"/>
+	<containerLocation pave="train" lane="train3_1/4" slot="train3_1/4-0" level="1" align="center"/>
+</mission>
+<mission id="m15" container="WYMU 125212 4" kind="2">
+	<timewindow start="00:32:18.2" end="00:48:27.3"/>
+	<timewindow start="00:33:52.78" end="00:50:49.17"/>
+	<containerLocation pave="train" lane="train3_4/4" slot="train3_4/4-3" level="0" align="destination"/>
+</mission>
+<mission id="m16" container="BJMU 020626 0" kind="1">
+	<timewindow start="00:29:51.75" end="00:44:47.63"/>
+	<timewindow start="00:31:50.09" end="00:47:45.14"/>
+	<containerLocation pave="N" lane="N-24/42" slot="N-24/42-3" level="0" align="center"/>
+</mission>
+<mission id="m17" container="TVLU 759330 5" kind="1">
+	<timewindow start="00:36:41.13" end="00:55:01.69"/>
+	<timewindow start="00:37:44.96" end="00:56:37.43"/>
+	<containerLocation pave="B" lane="B-14/38" slot="B-14/38-1" level="1" align="center"/>
+</mission>
+<mission id="m18" container="ISLU 036735 0" kind="2">
+	<timewindow start="00:36:34.05" end="00:54:51.08"/>
+	<timewindow start="00:38:23.92" end="00:57:35.88"/>
+	<containerLocation pave="Osaka" lane="Osaka-3/3" slot="Osaka-3/3-10" level="0" align="origin"/>
+</mission>
+<mission id="m19" container="XVQU 457016 0" kind="1">
+	<timewindow start="00:06:37.25" end="00:09:55.88"/>
+	<timewindow start="00:07:59.05" end="00:11:58.57"/>
+	<containerLocation pave="A" lane="A-30/40" slot="A-30/40-0" level="0" align="center"/>
+</mission>
+<mission id="m20" container="FIDU 063172 1" kind="2">
+	<timewindow start="00:08:41.93" end="00:13:02.9"/>
+	<timewindow start="00:10:03.39" end="00:15:05.09"/>
+	<containerLocation pave="train" lane="train3_4/4" slot="train3_4/4-5" level="0" align="center"/>
+</mission>
+<mission id="m21" container="KJGU 754889 7" kind="2">
+	<timewindow start="00:23:03.32" end="00:34:34.98"/>
+	<timewindow start="00:23:59.22" end="00:35:58.83"/>
+	<containerLocation pave="L" lane="L-2/13" slot="L-2/13-0" level="0" align="center"/>
+</mission>
+<mission id="m22" container="CYBU 775548 8" kind="2">
+	<timewindow start="00:27:54.51" end="00:41:51.76"/>
+	<timewindow start="00:28:37.65" end="00:42:56.47"/>
+	<containerLocation pave="L" lane="L-12/13" slot="L-12/13-0" level="0" align="center"/>
+</mission>
+<mission id="m23" container="GAFU 168439 3" kind="0">
+	<timewindow start="00:24:20.84" end="00:36:31.26"/>
+	<timewindow start="00:25:24.59" end="00:38:06.89"/>
+	<containerLocation pave="C" lane="C-26/41" slot="C-26/41-7" level="0" align="center"/>
+</mission>
+<mission id="m24" container="TXIU 696005 5" kind="0">
+	<timewindow start="00:10:39.49" end="00:15:59.24"/>
+	<timewindow start="00:12:05.23" end="00:18:07.85"/>
+	<containerLocation pave="N" lane="N-25/42" slot="N-25/42-0" level="1" align="center"/>
+</mission>
+<mission id="m25" container="OHRU 011234 1" kind="0">
+	<timewindow start="00:14:56.27" end="00:22:24.4"/>
+	<timewindow start="00:16:23.65" end="00:24:35.48"/>
+	<containerLocation pave="K" lane="K-12/25" slot="K-12/25-4" level="0" align="center"/>
+</mission>
+<mission id="m26" container="JIXU 073255 7" kind="0">
+	<timewindow start="00:06:09.7" end="00:09:14.55"/>
+	<timewindow start="00:07:52.67" end="00:11:49"/>
+	<containerLocation pave="I" lane="I-61/73-2" slot="I-61/73-2-2" level="0" align="center"/>
+</mission>
+<mission id="m27" container="STCU 729797 5" kind="0">
+	<timewindow start="00:29:58.34" end="00:44:57.52"/>
+	<timewindow start="00:30:59.21" end="00:46:28.82"/>
+	<containerLocation pave="A" lane="A-40/40" slot="A-40/40-0" level="0" align="center"/>
+</mission>
+<mission id="m28" container="FZVU 487153 2" kind="0">
+	<timewindow start="00:37:17.01" end="00:55:55.51"/>
+	<timewindow start="00:38:12.78" end="00:57:19.17"/>
+	<containerLocation pave="M" lane="M-24/62" slot="M-24/62-1" level="1" align="center"/>
+</mission>
+<mission id="m29" container="OXAU 286732 4" kind="0">
+	<timewindow start="00:24:54.93" end="00:37:22.39"/>
+	<timewindow start="00:25:47.21" end="00:38:40.81"/>
+	<containerLocation pave="F" lane="F-3/17" slot="F-3/17-0" level="0" align="center"/>
+</mission>
+<mission id="m30" container="ASEU 809038 6" kind="1">
+	<timewindow start="00:45:11.39" end="01:07:47.08"/>
+	<timewindow start="00:47:08.18" end="01:10:42.26"/>
+	<containerLocation pave="C" lane="C-35/41" slot="C-35/41-8" level="0" align="center"/>
+</mission>
+<mission id="m31" container="CMRU 528396 2" kind="0">
+	<timewindow start="00:12:15.84" end="00:18:23.76"/>
+	<timewindow start="00:13:20.32" end="00:20:00.48"/>
+	<containerLocation pave="H" lane="H-30/35" slot="H-30/35-3" level="1" align="center"/>
+</mission>
+<mission id="m32" container="TZUU 728354 1" kind="0">
+	<timewindow start="00:39:11.21" end="00:58:46.81"/>
+	<timewindow start="00:41:05.65" end="01:01:38.48"/>
+	<containerLocation pave="A" lane="A-40/40" slot="A-40/40-0" level="1" align="center"/>
+</mission>
+<mission id="m33" container="TMIU 097315 1" kind="0">
+	<timewindow start="00:26:54.78" end="00:40:22.17"/>
+	<timewindow start="00:29:18.93" end="00:43:58.39"/>
+	<containerLocation pave="M" lane="M-53/62" slot="M-53/62-0" level="0" align="origin"/>
+</mission>
+<mission id="m34" container="TYMU 870100 8" kind="0">
+	<timewindow start="00:14:44.31" end="00:22:06.47"/>
+	<timewindow start="00:15:46.2" end="00:23:39.3"/>
+	<containerLocation pave="F" lane="F-7/17" slot="F-7/17-4" level="0" align="center"/>
+</mission>
+<mission id="m35" container="ADWU 286084 3" kind="0">
+	<timewindow start="00:10:36.48" end="00:15:54.72"/>
+	<timewindow start="00:11:17.85" end="00:16:56.78"/>
+	<containerLocation pave="K" lane="K-8/25" slot="K-8/25-0" level="0" align="center"/>
+</mission>
+<mission id="m36" container="ABGU 143478 5" kind="0">
+	<timewindow start="00:44:05.05" end="01:06:07.58"/>
+	<timewindow start="00:45:02.71" end="01:07:34.07"/>
+	<containerLocation pave="E" lane="E-16/17" slot="E-16/17-0" level="0" align="origin"/>
+</mission>
+<mission id="m37" container="KSPU 119796 4" kind="0">
+	<timewindow start="00:15:26.06" end="00:23:09.1"/>
+	<timewindow start="00:16:11.81" end="00:24:17.71"/>
+	<containerLocation pave="C" lane="C-11/41-1" slot="C-11/41-1-3" level="0" align="center"/>
+</mission>
+<mission id="m38" container="ATKU 677316 8" kind="0">
+	<timewindow start="00:24:55.55" end="00:37:23.32"/>
+	<timewindow start="00:26:01.05" end="00:39:01.57"/>
+	<containerLocation pave="K" lane="K-24/25" slot="K-24/25-1" level="0" align="center"/>
+</mission>
+<mission id="m39" container="RXUU 883848 5" kind="0">
+	<timewindow start="00:39:02.3" end="00:58:33.45"/>
+	<timewindow start="00:40:21.74" end="01:00:32.61"/>
+	<containerLocation pave="E" lane="E-12/17" slot="E-12/17-3" level="0" align="destination"/>
+</mission>
+<mission id="m40" container="UFOU 815589 5" kind="0">
+	<timewindow start="00:44:41.12" end="01:07:01.68"/>
+	<timewindow start="00:46:31.04" end="01:09:46.56"/>
+	<containerLocation pave="A" lane="A-38/40" slot="A-38/40-0" level="1" align="center"/>
+</mission>
+<mission id="m41" container="OMLU 254259 5" kind="0">
+	<timewindow start="00:19:18.22" end="00:28:57.34"/>
+	<timewindow start="00:20:45.35" end="00:31:08.02"/>
+	<containerLocation pave="I" lane="I-10/73" slot="I-10/73-0" level="1" align="center"/>
+</mission>
+<mission id="m42" container="YLKU 592206 4" kind="0">
+	<timewindow start="00:42:04.89" end="01:03:07.34"/>
+	<timewindow start="00:42:55.32" end="01:04:22.97"/>
+	<containerLocation pave="B" lane="B-33/38" slot="B-33/38-4" level="0" align="center"/>
+</mission>
+<mission id="m43" container="NXBU 809220 8" kind="2">
+	<timewindow start="00:03:18.86" end="00:04:58.29"/>
+	<timewindow start="00:04:53.32" end="00:07:19.98"/>
+	<containerLocation pave="Asie" lane="Asie-3/3" slot="Asie-3/3-31" level="1" align="center"/>
+</mission>
+<mission id="m44" container="QNXU 025229 5" kind="0">
+	<timewindow start="00:45:32.78" end="01:08:19.17"/>
+	<timewindow start="00:47:12.42" end="01:10:48.63"/>
+	<containerLocation pave="M" lane="M-35/62" slot="M-35/62-4" level="1" align="center"/>
+</mission>
+<mission id="m45" container="CLRU 472875 6" kind="2">
+	<timewindow start="00:47:32.07" end="01:11:18.1"/>
+	<timewindow start="00:49:15.92" end="01:13:53.89"/>
+	<containerLocation pave="Asie" lane="Asie-1/3" slot="Asie-1/3-31" level="0" align="center"/>
+</mission>
+<mission id="m46" container="WTHU 649811 8" kind="0">
+	<timewindow start="00:48:44.99" end="01:13:07.48"/>
+	<timewindow start="00:50:53.14" end="01:16:19.71"/>
+	<containerLocation pave="A" lane="A-20/40" slot="A-20/40-4" level="1" align="center"/>
+</mission>
+<mission id="m47" container="UAAU 025287 0" kind="2">
+	<timewindow start="00:27:56.32" end="00:41:54.47"/>
+	<timewindow start="00:30:03.2" end="00:45:04.8"/>
+	<containerLocation pave="Osaka" lane="Osaka-1/3" slot="Osaka-1/3-18" level="0" align="origin"/>
+</mission>
+<mission id="m48" container="IIGU 076976 1" kind="1">
+	<timewindow start="00:41:31.3" end="01:02:16.95"/>
+	<timewindow start="00:43:24.94" end="01:05:07.41"/>
+	<containerLocation pave="G" lane="G-3/34" slot="G-3/34-4" level="0" align="center"/>
+</mission>
+<mission id="m49" container="OCHU 188294 8" kind="1">
+	<timewindow start="00:33:58.59" end="00:50:57.89"/>
+	<timewindow start="00:35:41.41" end="00:53:32.12"/>
+	<containerLocation pave="A" lane="A-19/40" slot="A-19/40-1" level="1" align="center"/>
+</mission>
+<mission id="m50" container="OIAU 298284 6" kind="0">
+	<timewindow start="00:34:01.63" end="00:51:02.45"/>
+	<timewindow start="00:35:33.33" end="00:53:20"/>
+	<containerLocation pave="H" lane="H-7/35" slot="H-7/35-2" level="0" align="center"/>
+</mission>
+<mission id="m51" container="YTZU 250981 7" kind="2">
+	<timewindow start="00:12:31.6" end="00:18:47.4"/>
+	<timewindow start="00:14:13.57" end="00:21:20.36"/>
+	<containerLocation pave="Asie" lane="Asie-3/3" slot="Asie-3/3-32" level="0" align="origin"/>
+</mission>
+<mission id="m52" container="EORU 945264 3" kind="0">
+	<timewindow start="00:16:24.27" end="00:24:36.41"/>
+	<timewindow start="00:18:02.41" end="00:27:03.62"/>
+	<containerLocation pave="I" lane="I-4/73" slot="I-4/73-0" level="1" align="center"/>
+</mission>
+<event time="0:0:0" type="affectMission" mission="m39" straddleCarrier="cav1"/>
+<event time="0:0:0" type="affectMission" mission="m16" straddleCarrier="cav1"/>
+<event time="0:0:0" type="affectMission" mission="m37" straddleCarrier="cav1"/>
+<event time="0:0:0" type="affectMission" mission="m27" straddleCarrier="cav1"/>
+	
+<event time="0:0:0" type="affectMission" mission="m45" straddleCarrier="cav2"/>
+<event time="0:0:0" type="affectMission" mission="m14" straddleCarrier="cav2"/>
+<event time="0:0:0" type="affectMission" mission="m52" straddleCarrier="cav2"/>
+
+<event time="0:0:0" type="affectMission" mission="m23" straddleCarrier="cav3"/>
+<event time="0:0:0" type="affectMission" mission="m4" straddleCarrier="cav3"/>
+<event time="0:0:0" type="affectMission" mission="m38" straddleCarrier="cav3"/>
+<event time="0:0:0" type="affectMission" mission="m2" straddleCarrier="cav3"/>
+<event time="0:0:0" type="affectMission" mission="m8" straddleCarrier="cav3"/>
+
+<event time="0:0:0" type="affectMission" mission="m21" straddleCarrier="cav4"/>
+<event time="0:0:0" type="affectMission" mission="m24" straddleCarrier="cav4"/>
+<event time="0:0:0" type="affectMission" mission="m19" straddleCarrier="cav4"/>
+<event time="0:0:0" type="affectMission" mission="m22" straddleCarrier="cav4"/>
+
+	<event time="0:0:0" type="affectMission" mission="m34" straddleCarrier="cav4"/>
+
+
+<event time="0:0:0" type="affectMission" mission="m44" straddleCarrier="cav5"/>
+<event time="0:0:0" type="affectMission" mission="m36" straddleCarrier="cav5"/>
+<event time="0:0:0" type="affectMission" mission="m3" straddleCarrier="cav5"/>
+
+<comment>
+</comment>
+<event time="0:0:0" type="affectMission" mission="m48" straddleCarrier="cav5"/>
+
+
+<event time="0:0:0" type="affectMission" mission="m30" straddleCarrier="cav6"/>
+<event time="0:0:0" type="affectMission" mission="m49" straddleCarrier="cav6"/>
+<event time="0:0:0" type="affectMission" mission="m25" straddleCarrier="cav6"/>
+<event time="0:0:0" type="affectMission" mission="m33" straddleCarrier="cav6"/>
+	
+
+<event time="0:0:0" type="affectMission" mission="m12" straddleCarrier="cav7"/>
+<event time="0:0:0" type="affectMission" mission="m35" straddleCarrier="cav7"/>
+<event time="0:0:0" type="affectMission" mission="m29" straddleCarrier="cav7"/>
+<event time="0:0:0" type="affectMission" mission="m20" straddleCarrier="cav7"/>
+<event time="0:0:0" type="affectMission" mission="m50" straddleCarrier="cav7"/>
+<event time="0:0:0" type="affectMission" mission="m46" straddleCarrier="cav7"/>
+
+<event time="0:0:0" type="affectMission" mission="m6" straddleCarrier="cav8"/>
+<comment>
+</comment>
+<event time="0:0:0" type="affectMission" mission="m32" straddleCarrier="cav8"/>
+
+<event time="0:0:0" type="affectMission" mission="m1" straddleCarrier="cav8"/>
+<event time="0:0:0" type="affectMission" mission="m9" straddleCarrier="cav8"/>
+<event time="0:0:0" type="affectMission" mission="m11" straddleCarrier="cav8"/>
+<event time="0:0:0" type="affectMission" mission="m5" straddleCarrier="cav8"/>
+<event time="0:0:0" type="affectMission" mission="m7" straddleCarrier="cav8"/>
+<event time="0:0:0" type="affectMission" mission="m41" straddleCarrier="cav8"/>
+<event time="0:0:0" type="affectMission" mission="m13" straddleCarrier="cav8"/>
+<event time="0:0:0" type="affectMission" mission="m31" straddleCarrier="cav8"/>
+<event time="0:0:0" type="affectMission" mission="m18" straddleCarrier="cav8"/>
+
+<comment>
+</comment>
+<event time="0:0:0" type="affectMission" mission="m10" straddleCarrier="cav9"/>
+
+
+<event time="0:0:0" type="affectMission" mission="m51" straddleCarrier="cav9"/>
+<event time="0:0:0" type="affectMission" mission="m43" straddleCarrier="cav9"/>
+<event time="0:0:0" type="affectMission" mission="m47" straddleCarrier="cav9"/>
+<event time="0:0:0" type="affectMission" mission="m42" straddleCarrier="cav9"/>
+<event time="0:0:0" type="affectMission" mission="m28" straddleCarrier="cav9"/>
+
+<event time="0:0:0" type="affectMission" mission="m15" straddleCarrier="cav10"/>
+<event time="0:0:0" type="affectMission" mission="m40" straddleCarrier="cav10"/>
+<event time="0:0:0" type="affectMission" mission="m26" straddleCarrier="cav10"/>
+<event time="0:30:0" type="affectMission" mission="m17" straddleCarrier="cav10"/>
+		
+</document>

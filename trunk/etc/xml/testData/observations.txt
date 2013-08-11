@@ -1,0 +1,22 @@
+Pb de convergence :
+Peu importe le nombre d'itérations, l'algorithme ne semble pas donner de meilleurs résultats au fil du temps. De la même façon, le nombre de fourmis dans les colonies ne semble pas influer sur la qualité de la solution.
+
+Pistes : 
+
+1) Evaporation : une trop forte évaporation peut remettre en cause le processus de convergence, c'est-à-dire que la solution ne peut etre graduellement améliorée car elle est remise en cause à chaque évaporation. Au contraire, une évaporation trop faible peut conduire à bloquer l'algorithme dans des optima locaux, surtout si on utilise un grand nombre de fourmis et d'itérations
+
+2) Affectation des missions : Lorsqu'une mission débute, elle est retirée du graphe. Mais les autres missions du chemin restent "colonisables" sur le graphe alors que l'affectation a été calculée pour le cavalier qui est en train d'effectuer la mission. Cette façon de retirer la mission du graphe sans supprimer le chemin pousse l'algorithme à modifier une solution déjà calculée sans tenir compte de la précédente affectation. => Solution : marquer de façon forte le chemin calculé afin de décourager les autres colonies.
+
+TODO (1) : tester la sensibilité aux paramètres : sync = 500 puis sync = 499 et sync = 501
+ 
+Test : marquer fortement le chemin choisit par la colonie lorsque la première mission débute pour faire une sorte de réservation du chemin. 1er test avec q = Q^10. 2e test avec q = Q^100.
+=> 1er constat : les résultats sont différents ce qui indique que la réservation n'est pas suffisament marquée dans le 1er test.
+Attention : dans ce test, BETA est supérieur à ALPHA et GAMMA. Donc même si le chemin est très marqué il peut être utilisé par une autre colonie.
+
+Les tests semblent incohérents! Peu importe les paramètres, la sensibilité est énorme (sur le sync size ou N par exemple). Le problème est que les missions changent de couleur trop souvent ce qui provoque l'instabilité de l'algorithme. Il faudrait introduire une notion de stabilité dans le calcul de la solution (si ph(c) < SOMME (ph,c_i) => Ne pas affecter). D'autre part, il me semble que les variations viennent de la dernière mission. Ainsi, lorsqu'il ne reste plus qu'une mission sur le graphe si elle est choisie par un sc occupé par une autre mission mais proche de cette derniere mission alors le résultat de l'algo est bon (mais on a tendance à dépasser la fenêtre de temps). Au contraire, si elle est choisie par un sc libre (au dépot) alors le chemin est plus long (mais on ne dépasse pas la fenetre de tps). => Si le sc est occupé alors diminuer son N ? Possibilité de mourrir pour une fourmi si le noeud est surpeuplé ? A voir...
+
+TODO (2) :Tester si les résultats diffèrent sans le sur-marquage du best path!
+=> impression d'avoir plus de dépassement de FT qu'avec le sur-marquage. (reservation)
+
+TODO (3) : Ecrire 2p sur les protocoles de tests et les résultats afin d'expliquer clairement le pb à S.
+

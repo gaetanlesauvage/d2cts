@@ -1,0 +1,23 @@
+TEST SESSION OF Mon Apr 16 17:39:38 CEST 2012
+====================================================================================
+TEST 1/14
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentACO_F1=1_F2=5_Sync=100_33_100_0_0.d2cts
+J=10	M=2	DOD=0.0	EDOD=0.0	SEED=33	TERMINALSEED=100	ALGO=ACO
+ACO_F1=1_F2=5_Sync=100 parameters: F1=1.0	gamma=1.0	Q=1.5	sync=100	F2=5.0	QR=0	persistence=0.99	delta=0.1	alpha=1.0	beta=1.0	
+                            -------------------------------                            
+RESULTS :
+resource ID		DISTANCE (METERS)	OVERSPENT TIME (hh:mm:ss)	TW OVERRUNS	COMPLETED MISSIONS
+-------------------------------------------------------------------------------------
+straddleCarrier_1	5670.604120503831		00:17:01.00		6		5
+straddleCarrier_2	4962.847883197013		00:00:00.00		0		5
+-------------------------------------------------------------------------------------
+OVERALL:		10633.452	00:17:01.00	6	10	
+Mission scheduler computing time:	00:01:43.70
+EXEC TIME: 321.437642814s
+====================================================================================
+====================================================================================
+TEST 2/14
+CONFIG FILE: xml/results/10missions/2vehicles/deploymentACO_F1=1_F2=5_Sync=1000_33_100_0_0.d2cts
+J=10	M=2	DOD=0.0	EDOD=0.0	SEED=33	TERMINALSEED=100	ALGO=ACO
+ACO_F1=1_F2=5_Sync=1000 parameters: F1=1.0	gamma=1.0	Q=1.5	sync=1000	F2=5.0	QR=0	persistence=0.99	delta=0.1	alpha=1.0	beta=1.0	
+                            -------------------------------                            

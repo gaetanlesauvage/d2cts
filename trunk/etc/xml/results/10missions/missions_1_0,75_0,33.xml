@@ -1,0 +1,82 @@
+<document>
+<event time='00:12:06.66' type='newMission'>
+<mission id='stockMission_A[9]' container='WPOU 584543 2' kind='0'>
+<timewindow start='00:36:42.00' end='00:39:03.08'/>
+<timewindow start='00:39:03.43' end='00:41:24.51'/>
+<containerLocation container='WPOU 584543 2' pave='G' lane='G-16/34' slot='G-16/34-3' level='0' align='origin'/>
+</mission>
+</event>
+
+<event time='00:10:56.04' type='newMission'>
+<mission id='stockMission_A[7]' container='FHWU 917934 3' kind='0'>
+<timewindow start='00:33:08.00' end='00:37:53.81'/>
+<timewindow start='00:38:26.25' end='00:43:12.06'/>
+<containerLocation container='FHWU 917934 3' pave='F' lane='F-5/17' slot='F-5/17-0' level='0' align='origin'/>
+</mission>
+</event>
+
+<event time='00:12:04.35' type='newMission'>
+<mission id='stockMission_A[8]' container='TDVU 026759 1' kind='0'>
+<timewindow start='00:36:35.00' end='00:39:34.47'/>
+<timewindow start='00:39:42.84' end='00:42:42.30'/>
+<containerLocation container='TDVU 026759 1' pave='G' lane='G-5/34' slot='G-5/34-2' level='0' align='origin'/>
+</mission>
+</event>
+
+<event time='00:00:44.88' type='newMission'>
+<mission id='stockMission_A[5]' container='OHEU 204701 3' kind='0'>
+<timewindow start='00:02:16.00' end='00:05:25.53'/>
+<timewindow start='00:05:05.23' end='00:08:14.76'/>
+<containerLocation container='OHEU 204701 3' pave='J' lane='J-37/41' slot='J-37/41-3' level='0' align='origin'/>
+</mission>
+</event>
+
+<event time='00:00:00.00' type='newMission'>
+<mission id='stockMission_A[1]' container='KABU 689870 0' kind='0'>
+<timewindow start='00:42:38.00' end='00:47:00.71'/>
+<timewindow start='00:46:00.92' end='00:50:23.63'/>
+<containerLocation container='KABU 689870 0' pave='G' lane='G-13/34' slot='G-13/34-5' level='0' align='destination'/>
+</mission>
+</event>
+
+<event time='00:00:00.00' type='newMission'>
+<mission id='stockMission_A[3]' container='LFAU 574733 7' kind='0'>
+<timewindow start='00:09:03.00' end='00:12:27.05'/>
+<timewindow start='00:11:06.99' end='00:14:31.04'/>
+<containerLocation container='LFAU 574733 7' pave='N' lane='N-32/42' slot='N-32/42-2' level='0' align='origin'/>
+</mission>
+</event>
+
+<event time='00:01:41.64' type='newMission'>
+<mission id='stockMission_A[2]' container='YFWU 339061 9' kind='0'>
+<timewindow start='00:05:08.00' end='00:08:20.90'/>
+<timewindow start='00:09:42.27' end='00:12:55.17'/>
+<containerLocation container='YFWU 339061 9' pave='G' lane='G-30/34' slot='G-30/34-2' level='0' align='origin'/>
+</mission>
+</event>
+
+<event time='00:08:49.98' type='newMission'>
+<mission id='stockMission_A[0]' container='SZEU 767735 6' kind='0'>
+<timewindow start='00:26:46.00' end='00:29:43.97'/>
+<timewindow start='00:32:38.01' end='00:35:35.98'/>
+<containerLocation container='SZEU 767735 6' pave='A' lane='A-13/40' slot='A-13/40-0' level='0' align='origin'/>
+</mission>
+</event>
+
+<event time='00:07:15.27' type='newMission'>
+<mission id='stockMission_A[4]' container='XBUU 019896 7' kind='0'>
+<timewindow start='00:21:59.00' end='00:23:45.92'/>
+<timewindow start='00:25:03.53' end='00:26:50.44'/>
+<containerLocation container='XBUU 019896 7' pave='E' lane='E-2/17' slot='E-2/17-0' level='0' align='origin'/>
+</mission>
+</event>
+
+<event time='00:00:00.00' type='newMission'>
+<mission id='stockMission_A[6]' container='GBXU 332738 4' kind='0'>
+<timewindow start='00:07:43.00' end='00:12:01.15'/>
+<timewindow start='00:10:39.32' end='00:14:57.47'/>
+<containerLocation container='GBXU 332738 4' pave='B' lane='B-12/38' slot='B-12/38-1' level='0' align='origin'/>
+</mission>
+</event>
+
+</document>

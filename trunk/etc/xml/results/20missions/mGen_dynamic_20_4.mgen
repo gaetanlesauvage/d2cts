@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<random seed='4'/>
+	<terminalFile file='xml/defaultData/TN.xml'/>
+	<vehiclesFile file='xml/defaultData/vehicleLocal.xml'/>
+	<containersFile file='xml/results/containers.cont'/>
+	<stocks outputFile='../trunk/xml/results/20missions/missions_4.xml' nb='20' minTime='00:00:00' maxTime='00:45:00' marginTime='00:02:00' groupID='A'/>
+</document>

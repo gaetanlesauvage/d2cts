@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<block id="P" type="ROAD">					
+	ID		X		Y		ROAD
+<road id="c17-c18" origin="c17" destination="c18">	
+<bayCrossroad id="P_W_1" x="442908.4233" y="198790.2073"/>
+<bayCrossroad id="P_W_2" x="442899.6430" y="198778.0456"/>
+<bayCrossroad id="P_W_3" x="442890.8627" y="198765.8839"/>
+<bayCrossroad id="P_W_4" x="442882.0823" y="198753.7223"/>
+</road>
+<bayCrossroad id="P_E_1" x="442925.3114" y="198796.5154"/>
+<bayCrossroad id="P_E_2" x="442916.5311" y="198784.3537"/>
+<bayCrossroad id="P_E_3" x="442907.7507" y="198772.1920"/>
+<bayCrossroad id="P_E_4" x="442898.9704" y="198760.0304"/>
+
+
+<exchangebay id="P-1/4" origin="P_W_1" destination="P_E_1" slots="45*1" in="442908.4233,198790.2073" out="442925.3114,198796.5154"/>
+<exchangebay id="P-2/4" origin="P_W_2" destination="P_E_2" slots="45*1" in="442899.6430,198778.0456" out="	442916.5311,198784.3537"/>
+<exchangebay id="P-3/4" origin="P_W_3" destination="P_E_3" slots="45*1" in="442890.8627,198765.8839" out="442907.7507,198772.1920"/>
+<exchangebay id="P-4/4" origin="P_W_4" destination="P_E_4" slots="45*1" in="442882.0823,198753.7223" out="442898.9704,198760.0304"/>
+</block>
+</document>

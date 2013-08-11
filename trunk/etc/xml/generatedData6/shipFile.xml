@@ -1,0 +1,138 @@
+<document>
+<event time='00:37:04.00' type='shipIn' capacity='494' quay='Asie' from='0.0' to='0.20463392075685927'>
+	<shipContainerIn time='01:37:51.00' id='VBYU 627790 4' teu='2.0'>
+		<containerLocation container='VBYU 627790 4' pave='Asie' lane='Asie-2/3' slot='Asie-2/3-1' level='0' align='center'/>
+	</shipContainerIn>
+	<shipContainerIn time='02:24:59.00' id='OQRU 996886 0' teu='2.0'>
+		<containerLocation container='OQRU 996886 0' pave='Asie' lane='Asie-3/3' slot='Asie-3/3-4' level='0' align='center'/>
+	</shipContainerIn>
+	<shipContainerIn time='00:53:23.00' id='PKMU 601724 1' teu='1.0'>
+		<containerLocation container='PKMU 601724 1' pave='Asie' lane='Asie-3/3' slot='Asie-3/3-5' level='0' align='center'/>
+	</shipContainerIn>
+	<shipContainerIn time='01:35:51.00' id='IYMU 926598 9' teu='1.0'>
+		<containerLocation container='IYMU 926598 9' pave='Asie' lane='Asie-3/3' slot='Asie-3/3-2' level='0' align='center'/>
+	</shipContainerIn>
+	<shipContainerIn time='01:30:09.00' id='AIQU 923099 8' teu='2.0'>
+		<containerLocation container='AIQU 923099 8' pave='Asie' lane='Asie-3/3' slot='Asie-3/3-1' level='0' align='center'/>
+	</shipContainerIn>
+	<shipContainerIn time='02:49:17.00' id='NRWU 518285 9' teu='2.25'>
+		<containerLocation container='NRWU 518285 9' pave='Asie' lane='Asie-1/3' slot='Asie-1/3-1' level='0' align='center'/>
+	</shipContainerIn>
+</event>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='unloadShipAsie[0.0-0.20463392075685927]WithPKMU 601724 1' container='PKMU 601724 1' kind='1'>
+		<timewindow start='00:53:23.00' end='01:03:23.00'/>
+		<timewindow start='00:56:28.18' end='01:06:28.18'/>
+		<containerLocation pave='B' lane='B-15/38' slot='B-15/38-2' level='1' align='center'/>
+	</mission>
+</event>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='unloadShipAsie[0.0-0.20463392075685927]WithAIQU 923099 8' container='AIQU 923099 8' kind='1'>
+		<timewindow start='01:30:09.00' end='01:40:09.00'/>
+		<timewindow start='01:34:55.64' end='01:44:55.64'/>
+		<containerLocation pave='J' lane='J-25/41' slot='J-25/41-0' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='unloadShipAsie[0.0-0.20463392075685927]WithIYMU 926598 9' container='IYMU 926598 9' kind='1'>
+		<timewindow start='01:35:51.00' end='01:45:51.00'/>
+		<timewindow start='01:38:03.58' end='01:48:03.58'/>
+		<containerLocation pave='A' lane='A-32/40' slot='A-32/40-0' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='unloadShipAsie[0.0-0.20463392075685927]WithVBYU 627790 4' container='VBYU 627790 4' kind='1'>
+		<timewindow start='01:37:51.00' end='01:47:51.00'/>
+		<timewindow start='01:40:10.71' end='01:50:10.71'/>
+		<containerLocation pave='A' lane='A-7/40' slot='A-7/40-6' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='unloadShipAsie[0.0-0.20463392075685927]WithOQRU 996886 0' container='OQRU 996886 0' kind='1'>
+		<timewindow start='02:24:59.00' end='02:34:59.00'/>
+		<timewindow start='02:31:31.70' end='02:41:31.70'/>
+		<containerLocation pave='M' lane='M-33/62' slot='M-33/62-1' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='unloadShipAsie[0.0-0.20463392075685927]WithNRWU 518285 9' container='NRWU 518285 9' kind='1'>
+		<timewindow start='02:49:17.00' end='02:59:17.00'/>
+		<timewindow start='02:53:05.56' end='03:03:05.56'/>
+		<containerLocation pave='F' lane='F-2/17' slot='F-2/17-3' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='loadShipAsie[0.0-0.20463392075685927]WithTKMU 309153 3' container='TKMU 309153 3' kind='1'>
+		<timewindow start='01:26:13.00' end='01:33:04.09'/>
+		<timewindow start='01:42:16.00' end='02:13:25.00'/>
+		<containerLocation pave='Asie' lane='Asie-1/3' slot='Asie-1/3-1' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='02:13:25.00' type='shipContainerOut' containerId='TKMU 309153 3' slotId='Asie-1/3-1'/>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='loadShipAsie[0.0-0.20463392075685927]WithUAVU 310862 9' container='UAVU 310862 9' kind='1'>
+		<timewindow start='00:53:17.00' end='00:58:07.25'/>
+		<timewindow start='01:07:15.00' end='02:19:00.00'/>
+		<containerLocation pave='Asie' lane='Asie-1/3' slot='Asie-1/3-6' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='02:19:00.00' type='shipContainerOut' containerId='UAVU 310862 9' slotId='Asie-1/3-6'/>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='loadShipAsie[0.0-0.20463392075685927]WithEVVU 732807 2' container='EVVU 732807 2' kind='1'>
+		<timewindow start='01:31:05.00' end='01:33:40.76'/>
+		<timewindow start='01:42:29.00' end='02:35:15.00'/>
+		<containerLocation pave='Asie' lane='Asie-3/3' slot='Asie-3/3-2' level='0' align='destination'/>
+	</mission>
+</event>
+<event time='02:35:15.00' type='shipContainerOut' containerId='EVVU 732807 2' slotId='Asie-3/3-2'/>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='loadShipAsie[0.0-0.20463392075685927]WithZXUU 740419 5' container='ZXUU 740419 5' kind='1'>
+		<timewindow start='02:20:55.00' end='02:35:21.55'/>
+		<timewindow start='02:39:35.00' end='02:48:07.00'/>
+		<containerLocation pave='Asie' lane='Asie-3/3' slot='Asie-3/3-2' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='02:48:07.00' type='shipContainerOut' containerId='ZXUU 740419 5' slotId='Asie-3/3-2'/>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='loadShipAsie[0.0-0.20463392075685927]WithLABU 909238 3' container='LABU 909238 3' kind='1'>
+		<timewindow start='00:43:46.00' end='00:45:06.35'/>
+		<timewindow start='00:55:02.00' end='01:02:58.00'/>
+		<containerLocation pave='Asie' lane='Asie-2/3' slot='Asie-2/3-6' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='01:02:58.00' type='shipContainerOut' containerId='LABU 909238 3' slotId='Asie-2/3-6'/>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='loadShipAsie[0.0-0.20463392075685927]WithAMXU 407258 9' container='AMXU 407258 9' kind='1'>
+		<timewindow start='01:27:19.00' end='01:31:00.70'/>
+		<timewindow start='01:48:35.00' end='02:22:53.00'/>
+		<containerLocation pave='Asie' lane='Asie-2/3' slot='Asie-2/3-4' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='02:22:53.00' type='shipContainerOut' containerId='AMXU 407258 9' slotId='Asie-2/3-4'/>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='loadShipAsie[0.0-0.20463392075685927]WithVNCU 338445 6' container='VNCU 338445 6' kind='1'>
+		<timewindow start='00:56:37.00' end='00:57:43.22'/>
+		<timewindow start='01:02:20.00' end='02:12:34.00'/>
+		<containerLocation pave='Asie' lane='Asie-2/3' slot='Asie-2/3-6' level='0' align='destination'/>
+	</mission>
+</event>
+<event time='02:12:34.00' type='shipContainerOut' containerId='VNCU 338445 6' slotId='Asie-2/3-6'/>
+<event time='00:37:04.00' type='newMission'>
+	<mission id='loadShipAsie[0.0-0.20463392075685927]WithQGZU 396622 1' container='QGZU 396622 1' kind='1'>
+		<timewindow start='01:34:05.00' end='02:13:37.43'/>
+		<timewindow start='02:36:40.00' end='02:42:31.00'/>
+		<containerLocation pave='Asie' lane='Asie-3/3' slot='Asie-3/3-6' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='02:42:31.00' type='shipContainerOut' containerId='QGZU 396622 1' slotId='Asie-3/3-6'/>
+<event time='02:51:49.00' type='shipOut' capacity='494' quay='Asie' from='0.0' to='0.20463392075685927'>
+	<container id='TKMU 309153 3' teu='2.0'/>
+	<container id='UAVU 310862 9' teu='1.0'/>
+	<container id='EVVU 732807 2' teu='1.0'/>
+	<container id='ZXUU 740419 5' teu='1.0'/>
+	<container id='LABU 909238 3' teu='1.0'/>
+	<container id='AMXU 407258 9' teu='1.0'/>
+	<container id='VNCU 338445 6' teu='1.0'/>
+	<container id='QGZU 396622 1' teu='2.0'/>
+</event>
+</document>

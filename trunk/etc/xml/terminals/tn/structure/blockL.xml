@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+<block id="L" type="ROAD">							
+	<coordinate id="L-NW" x="443051.6250" y="198654.4978"/>		
+	<coordinate id="L-NE" x="443138.2976" y="198591.7532"/>		
+	<coordinate id="L-SE" x="443127.3772" y="198576.6273"/>		
+	<coordinate id="L-SW" x="443040.6241" y="198639.2604"/>
+	<wall from="L-NW" to="L-NE"/>
+	<wall from="L-NE" to="L-SE"/>
+	<wall from="L-SE" to="L-SW"/>
+	<wall from="L-SW" to="L-NW"/>
+				
+	ID		X		Y		ROAD	
+
+<road id="c32-c38" origin="c32" destination="c38">							
+<bayCrossroad id="L_S_1" x="443037.4695" y="198627.9259"/>
+<bayCrossroad id="L_S_2" x="443044.1513" y="198623.1196"/>
+<bayCrossroad id="L_S_3" x="443050.8331" y="198618.3134"/>
+<bayCrossroad id="L_S_4" x="443057.5149" y="198613.5071"/>
+<bayCrossroad id="L_S_5" x="443064.1967" y="198608.7009"/>
+<bayCrossroad id="L_S_6" x="443070.8785" y="198603.8946"/>
+<bayCrossroad id="L_S_7" x="443077.5602" y="198599.0884"/>
+<bayCrossroad id="L_S_8" x="443084.2420" y="198594.2822"/>
+<bayCrossroad id="L_S_9" x="443090.9238" y="198589.4759"/>
+<bayCrossroad id="L_S_10" x="443097.6056" y="198584.6697"/>
+<bayCrossroad id="L_S_11" x="443104.2874" y="198579.8634"/>
+<bayCrossroad id="L_S_12" x="443110.9692" y="198575.0572"/>
+<bayCrossroad id="L_S_13" x="443117.6509" y="198570.2510"/>
+</road>
+
+
+<exchangebay id="L-1/13" origin="L_N_1" destination="L_S_1" slots="45*1" in="443054.9578,198652.0845" out="443043.9608,198636.8514"/>
+<exchangebay id="L-2/13" origin="L_N_2" destination="L_S_2" slots="45*1" in="443061.6258,198647.2580" out="443050.6341,198632.0335"/>
+<exchangebay id="L-3/13" origin="L_N_3" destination="L_S_3" slots="45*1" in="443068.2929,198642.4315" out="443057.3074,198627.2155"/>
+<exchangebay id="L-4/13" origin="L_N_4" destination="L_S_4" slots="45*1" in="443074.9600,198637.6050" out="443063.9807,198622.3976"/>
+<exchangebay id="L-5/13" origin="L_N_5" destination="L_S_5" slots="45*1" in="443081.6271,198632.7785" out="443070.6540,198617.5797"/>
+<exchangebay id="L-6/13" origin="L_N_6" destination="L_S_6" slots="45*1" in="443088.2942,198627.9520" out="443077.3273,198612.7617"/>
+<exchangebay id="L-7/13" origin="L_N_7" destination="L_S_7" slots="45*1" in="443094.9613,198623.1255" out="443084.0007,198607.9438"/>
+<exchangebay id="L-8/13" origin="L_N_8" destination="L_S_8" slots="45*1" in="443101.6284,198618.2990" out="443090.6740,198603.1259"/>
+<exchangebay id="L-9/13" origin="L_N_9" destination="L_S_9" slots="45*1" in="443108.2956,198613.4724" out="443097.3473,198598.3080"/>
+<exchangebay id="L-10/13" origin="L_N_10" destination="L_S_10" slots="45*1" in="443114.9627,198608.6459" out="443104.0206,198593.4900"/>
+<exchangebay id="L-11/13" origin="L_N_11" destination="L_S_11" slots="45*1" in="443121.6298,198603.8194" out="443110.6939,198588.6721"/>
+<exchangebay id="L-12/13" origin="L_N_12" destination="L_S_12" slots="45*1" in="443128.2969,198598.9929" out="443117.3672,198583.8542"/>
+<exchangebay id="L-13/13" origin="L_N_13" destination="L_S_13" slots="45*1" in="443134.9640,198594.1664" out="443124.0405,198579.0362"/>
+</block>	
+</document>

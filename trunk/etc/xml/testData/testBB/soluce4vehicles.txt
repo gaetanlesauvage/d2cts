@@ -1,0 +1,72 @@
+straddleCarrier_2	stockMission_A[0]
+straddleCarrier_1	stockMission_A[2]
+straddleCarrier_2	stockMission_A[3]
+straddleCarrier_2	stockMission_A[4]
+straddleCarrier_2	stockMission_A[9]
+straddleCarrier_1	stockMission_A[5]
+straddleCarrier_1	stockMission_A[7]
+straddleCarrier_4	stockMission_A[1]
+straddleCarrier_4	stockMission_A[6]
+straddleCarrier_4	stockMission_A[8]
+
+5 vehicles:
+BEST SOLUTION FOUND : (8021.813451966835 | 00:00:00.00)
+
+straddleCarrier_1@stockMission_A[0] d=478.4923122178062 t=00:00:15.10 endT=00:04:22.31 origin=DEPOT origin->this=(172.709394136433 | 00:00:53.90) this->this=(305.7829180813732 | 00:02:04.32)
+straddleCarrier_2@stockMission_A[2] d=1207.0468814878577 t=00:05:32.30 endT=00:09:44.94 origin=DEPOT origin->this=(335.2468871087466 | 00:01:23.70) this->this=(393.3076821613051 | 00:02:08.36)
+straddleCarrier_2@stockMission_A[5] d=2028.8843547211568 t=00:09:44.94 endT=00:15:20.29 origin=stockMission_A[2] origin->this=(103.99334407851138 | 00:01:18.86) this->this=(717.8441291547878 | 00:03:26.29)
+straddleCarrier_1@stockMission_A[3] d=2423.2268014445663 t=00:04:22.31 endT=00:10:27.01 origin=stockMission_A[0] origin->this=(93.10781376773119 | 00:01:09.23) this->this=(301.2346329556785 | 00:01:55.00)
+straddleCarrier_2@stockMission_A[7] d=3162.5332090629886 t=00:15:20.29 endT=00:19:31.54 origin=stockMission_A[5] origin->this=(43.081802451567256 | 00:00:50.94) this->this=(696.2246051668552 | 00:03:20.30)
+straddleCarrier_5@stockMission_A[1] d=3937.356232895675 t=00:00:00.00 endT=00:04:51.45 origin=DEPOT origin->this=(362.0740947074878 | 00:01:31.47) this->this=(412.74892912519886 | 00:02:19.03)
+straddleCarrier_5@stockMission_A[6] d=4173.236647616075 t=00:04:51.45 endT=00:13:44.90 origin=stockMission_A[1] origin->this=(132.42712501540683 | 00:01:16.00) this->this=(103.45328970499355 | 00:01:05.90)
+straddleCarrier_1@stockMission_A[4] d=4874.701191469658 t=00:10:27.01 endT=00:14:48.35 origin=stockMission_A[3] origin->this=(85.5317736566412 | 00:01:09.65) this->this=(615.9327701969419 | 00:03:11.68)
+straddleCarrier_1@stockMission_A[9] d=5627.345951589072 t=00:14:48.35 endT=00:19:19.61 origin=stockMission_A[4] origin->this=(370.75057828340374 | 00:02:17.51) this->this=(381.89418183601015 | 00:02:13.76)
+straddleCarrier_5@stockMission_A[8] d=8021.813451966835 t=00:13:44.90 endT=00:26:14.92 origin=stockMission_A[6] origin->this=(484.49445479082044 | 00:02:30.70) this->this=(799.4540740407185 | 00:03:43.41)
+ (compute time : 29:38:39.07 evaluated nodes : 420882959)
+
+4véhicules sans tri :
+ 
+ BEST SOLUTION FOUND : (8021.921690323528 | 00:00:00.00)
+
+straddleCarrier_1@stockMission_A[2] d=721.6595811227924 t=00:05:33.83 endT=00:09:44.94 origin=DEPOT origin->this=(328.3518989614873 | 00:01:22.17) this->this=(393.3076821613051 | 00:02:08.36)
+straddleCarrier_2@stockMission_A[0] d=1207.046881487858 t=00:00:13.57 endT=00:04:22.31 origin=DEPOT origin->this=(179.6043822836923 | 00:00:55.43) this->this=(305.7829180813732 | 00:02:04.32)
+straddleCarrier_1@stockMission_A[5] d=2028.8843547211573 t=00:09:44.94 endT=00:15:20.29 origin=stockMission_A[2] origin->this=(103.99334407851138 | 00:01:18.86) this->this=(717.8441291547878 | 00:03:26.29)
+straddleCarrier_1@stockMission_A[7] d=2768.1907623395796 t=00:15:20.29 endT=00:19:31.53 origin=stockMission_A[5] origin->this=(43.081802451567256 | 00:00:50.94) this->this=(696.2246051668552 | 00:03:20.30)
+straddleCarrier_2@stockMission_A[3] d=3162.533209062989 t=00:04:22.31 endT=00:10:27.01 origin=stockMission_A[0] origin->this=(93.10781376773119 | 00:01:09.23) this->this=(301.2346329556785 | 00:01:55.00)
+straddleCarrier_2@stockMission_A[4] d=3863.997752916572 t=00:10:27.01 endT=00:14:48.34 origin=stockMission_A[3] origin->this=(85.5317736566412 | 00:01:09.65) this->this=(615.9327701969419 | 00:03:11.68)
+straddleCarrier_2@stockMission_A[9] d=4616.642513035986 t=00:14:48.34 endT=00:19:19.61 origin=stockMission_A[4] origin->this=(370.75057828340374 | 00:02:17.51) this->this=(381.89418183601015 | 00:02:13.76)
+straddleCarrier_4@stockMission_A[1] d=5384.572547979147 t=00:00:02.06 endT=00:04:51.45 origin=DEPOT origin->this=(355.18110581796304 | 00:01:29.94) this->this=(412.74892912519886 | 00:02:19.03)
+straddleCarrier_4@stockMission_A[6] d=5620.452962699547 t=00:04:51.45 endT=00:13:44.90 origin=stockMission_A[1] origin->this=(132.42712501540683 | 00:01:16.00) this->this=(103.45328970499355 | 00:01:05.90)
+straddleCarrier_4@stockMission_A[8] d=8021.921690323528 t=00:13:44.90 endT=00:26:16.51 origin=stockMission_A[6] origin->this=(484.49445479082044 | 00:02:30.70) this->this=(799.4540740407185 | 00:03:43.41)
+ (compute time : 00:58:57.86 evaluated nodes : 1039333830)
+ 
+ 4 véhicules avec tri :
+ BEST SOLUTION FOUND : (8021.921690323528 | 00:00:00.00)
+
+straddleCarrier_2@stockMission_A[0] d=485.3873003650655 t=00:00:13.57 endT=00:04:22.31 origin=DEPOT origin->this=(179.6043822836923 | 00:00:55.43) this->this=(305.7829180813732 | 00:02:04.32)
+straddleCarrier_1@stockMission_A[2] d=1207.046881487858 t=00:05:33.83 endT=00:09:44.94 origin=DEPOT origin->this=(328.3518989614873 | 00:01:22.17) this->this=(393.3076821613051 | 00:02:08.36)
+straddleCarrier_2@stockMission_A[3] d=1601.3893282112676 t=00:04:22.31 endT=00:10:27.01 origin=stockMission_A[0] origin->this=(93.10781376773119 | 00:01:09.23) this->this=(301.2346329556785 | 00:01:55.00)
+straddleCarrier_2@stockMission_A[4] d=2302.8538720648507 t=00:10:27.01 endT=00:14:48.34 origin=stockMission_A[3] origin->this=(85.5317736566412 | 00:01:09.65) this->this=(615.9327701969419 | 00:03:11.68)
+straddleCarrier_2@stockMission_A[9] d=3055.4986321842644 t=00:14:48.34 endT=00:19:19.61 origin=stockMission_A[4] origin->this=(370.75057828340374 | 00:02:17.51) this->this=(381.89418183601015 | 00:02:13.76)
+straddleCarrier_1@stockMission_A[5] d=3877.3361054175634 t=00:09:44.94 endT=00:15:20.29 origin=stockMission_A[2] origin->this=(103.99334407851138 | 00:01:18.86) this->this=(717.8441291547878 | 00:03:26.29)
+straddleCarrier_1@stockMission_A[7] d=4616.642513035986 t=00:15:20.29 endT=00:19:31.53 origin=stockMission_A[5] origin->this=(43.081802451567256 | 00:00:50.94) this->this=(696.2246051668552 | 00:03:20.30)
+straddleCarrier_4@stockMission_A[1] d=5384.572547979147 t=00:00:02.06 endT=00:04:51.45 origin=DEPOT origin->this=(355.18110581796304 | 00:01:29.94) this->this=(412.74892912519886 | 00:02:19.03)
+straddleCarrier_4@stockMission_A[6] d=5620.452962699547 t=00:04:51.45 endT=00:13:44.90 origin=stockMission_A[1] origin->this=(132.42712501540683 | 00:01:16.00) this->this=(103.45328970499355 | 00:01:05.90)
+straddleCarrier_4@stockMission_A[8] d=8021.921690323528 t=00:13:44.90 endT=00:26:16.51 origin=stockMission_A[6] origin->this=(484.49445479082044 | 00:02:30.70) this->this=(799.4540740407185 | 00:03:43.41)
+ (compute time : 00:59:22.51 evaluated nodes : 1039284870)
+ 
+ 4 véhicules 11 missions
+ BEST SOLUTION FOUND : (10191.147291035775 | 00:00:00.00) => 10370m 00:00:00
+
+straddleCarrier_1@stockMission_A[2] d=747.2345847823967 t=00:05:06.68 endT=00:09:51.45 origin=DEPOT origin->this=(334.48565565719787 | 00:01:25.32) this->this=(412.74892912519886 | 00:02:19.03)
+straddleCarrier_1@stockMission_A[9] d=1062.5346053842272 t=00:09:51.45 endT=00:31:46.73 origin=stockMission_A[2] origin->this=(127.1072105240805 | 00:01:20.97) this->this=(188.1928100777501 | 00:01:49.24)
+straddleCarrier_2@stockMission_A[0] d=2044.4940292599083 t=00:04:00.76 endT=00:10:36.15 origin=DEPOT origin->this=(324.6779783823137 | 00:01:33.24) this->this=(657.2814454933673 | 00:03:15.74)
+straddleCarrier_4@stockMission_A[1] d=2722.7492905011604 t=00:04:52.32 endT=00:09:31.73 origin=DEPOT origin->this=(296.36107940524215 | 00:01:14.68) this->this=(381.89418183601015 | 00:02:13.76)
+straddleCarrier_2@stockMission_A[8] d=3530.2799456958155 t=00:10:36.15 endT=00:31:11.63 origin=stockMission_A[0] origin->this=(298.72689781850477 | 00:02:19.31) this->this=(508.80375737615026 | 00:02:41.00)
+straddleCarrier_4@stockMission_A[4] d=4273.8218639658135 t=00:09:31.73 endT=00:15:27.01 origin=stockMission_A[1] origin->this=(442.3072853143197 | 00:02:29.17) this->this=(301.2346329556785 | 00:01:55.00)
+straddleCarrier_3@stockMission_A[3] d=5496.188477164014 t=00:05:21.69 endT=00:12:16.71 origin=DEPOT origin->this=(526.1420080313462 | 00:02:07.31) this->this=(696.2246051668552 | 00:03:20.30)
+straddleCarrier_4@stockMission_A[5] d=6197.653021017597 t=00:15:27.01 endT=00:19:48.35 origin=stockMission_A[4] origin->this=(85.5317736566412 | 00:01:09.65) this->this=(615.9327701969419 | 00:03:11.68)
+straddleCarrier_3@stockMission_A[6] d=7045.462580838884 t=00:12:16.71 endT=00:22:25.02 origin=stockMission_A[3] origin->this=(88.60048509668282 | 00:01:02.36) this->this=(759.2090747246041 | 00:03:34.62)
+straddleCarrier_3@stockMission_A[7] d=7797.496896775584 t=00:22:25.02 endT=00:29:58.74 origin=stockMission_A[6] origin->this=(488.456781632115 | 00:02:38.13) this->this=(263.5775343045856 | 00:01:51.16)
+straddleCarrier_4@stockMission_A[10] d=10191.147291035775 t=00:19:48.35 endT=00:41:37.53 origin=stockMission_A[5] origin->this=(366.05717364523707 | 00:02:17.57) this->this=(799.4540740407185 | 00:03:43.41)
+ (compute time : 15:18:44.07 evaluated nodes : -290,988,205)

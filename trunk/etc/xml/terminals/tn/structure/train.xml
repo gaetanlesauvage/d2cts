@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<road id="interTrain1-2_1-2" origin="interTrain1-2_1/4" destination="interTrain1-2_2/4"/>
+	<road id="interTrain1-2_2-3" origin="interTrain1-2_2/4" destination="interTrain1-2_3/4"/>
+	<road id="interTrain1-2_3-4" origin="interTrain1-2_3/4" destination="interTrain1-2_4/4"/>
+
+	<road id="interTrain2-3_1-2" origin="interTrain2-3_1/4" destination="interTrain2-3_2/4"/>
+	<road id="interTrain2-3_2-3" origin="interTrain2-3_2/4" destination="c45"/>
+	<road id="interTrain2-3_2-4" origin="c45" destination="interTrain2-3_3/4"/>
+	<road id="interTrain2-3_3-5" origin="interTrain2-3_3/4" destination="c61"/>
+	<road id="interTrain2-3_4-6" origin="c61" destination="interTrain2-3_4/4"/>
+<road id="interTrain3-x_1-2" origin="interTrain3-x_1/4" destination="interTrain3-x_2/4"/>
+<road id="interTrain3-x_2-3" origin="interTrain3-x_2/4" destination="interTrain3-x_3/4"/>
+<road id="interTrain3-x_3-4" origin="interTrain3-x_3/4" destination="interTrain3-x_4/4"/>
+
+au dessus des voies 
+
+
+sous les voies
+<road id="c47-c56" origin="c47" destination="c56"/>
+<road id="c56-c49" origin="c56" destination="c49"/>
+<road id="c49-c58" origin="c49" destination="c58"/>
+
+<road id="c53-c60" origin="c53" destination="c60"/>
+
+traverse au centre des voies
+<block id="train" type="RAILWAY">
+		<coordinate id="wall-A" x="442576.1032" y="198646.4778"/>
+		<coordinate id="wall-B" x="442642.0235" y="198670.4427"/>
+		<coordinate id="wall-C" x="442664.5844" y="198678.6257"/>
+		<coordinate id="wall-D" x="442767.9924" y="198716.1327"/>
+		<wall from="wall-A" to="wall-B"/>
+		<wall from="wall-C" to="wall-D"/> 
+<road id="traverse1" origin="c9" destination="c45">
+	<bayCrossroad id="train1_middle" x="442646.9347" y="198692.1445" road="traverse1"/>
+	<bayCrossroad id="train2_middle" x="442649.3903" y="198685.3119" road="traverse1"/>
+</road>
+
+<road id="traverse2" origin="c45" destination="c49">
+	<bayCrossroad id="train3_middle" x="442651.8721" y="198678.4773" road="traverse2"/>
+</road>
+diagonales
+<road id="traverse_1-0" origin="interTrain1-2_2/4" destination="c9"/>
+<road id="traverse_0-1" origin="c9" destination="interTrain1-2_3/4"/>
+
+<road id="traverse_1-2" origin="interTrain1-2_2/4" destination="c45"/>
+<road id="traverse_3-2" origin="interTrain3-x_2/4" destination="c45"/>
+<road id="traverse_2-1" origin="c45" destination="interTrain1-2_3/4"/>
+<road id="traverse_2-3" origin="c45" destination="interTrain3-x_3/4"/>
+<road id="traverse_3-4" origin="interTrain3-x_2/4" destination="c49"/>
+<road id="traverse_4-3" origin="c49" destination="interTrain3-x_3/4"/>
+
+bas
+<road id="verticaleTrain1-1/4" origin="c54" destination="interTrain1-2_1/4">
+	<bayCrossroad id="train1_1/4" x="442566.1245" y="198662.6760"/>
+</road>
+
+<road id="verticaleTrain1-2/4" origin="interTrain1-2_1/4" destination="interTrain2-3_1/4">
+	<bayCrossroad id="train2_1/4" x="442568.7689" y="198656.0804"/>
+</road>
+
+<road id="verticaleTrain1-3/4" origin="interTrain2-3_1/4" destination="interTrain3-x_1/4">
+	<bayCrossroad id="train3_1/4" x="442573.5314" y="198649.9431"/>
+</road>
+
+<road id="verticaleTrain1-4/4" origin="interTrain3-x_1/4" destination="c47"/>
+
+<road id="verticaleTrain2-1/4" origin="c55" destination="interTrain1-2_2/4">
+	<bayCrossroad id="train1_2/4" x="442635.6246" y="198688.0742"/>
+</road>
+
+<road id="verticaleTrain2-2/4" origin="interTrain1-2_2/4" destination="interTrain2-3_2/4">
+	<bayCrossroad id="train2_2/4" x="442638.1513" y="198681.0927"/>
+</road>
+
+<road id="verticaleTrain2-3/4" origin="interTrain2-3_2/4" destination="interTrain3-x_2/4">
+	<bayCrossroad id="train3_2/4" x="442640.6270" y="198674.3355"/>
+</road>
+
+<road id="verticaleTrain2-4/4" origin="interTrain3-x_2/4" destination="c56"/>
+milieu haut
+<road id="verticaleTrain3-1/4" origin="c57" destination="interTrain1-2_3/4">
+	<bayCrossroad id="train1_3/4" x="442658.2300" y="198696.2300"/>
+</road>
+
+<road id="verticaleTrain3-2/4" origin="interTrain1-2_3/4" destination="interTrain2-3_3/4">
+	<bayCrossroad id="train2_3/4" x="442660.71" y="198689.3508"/>
+</road>
+
+<road id="verticaleTrain3-3/4" origin="interTrain2-3_3/4" destination="interTrain3-x_3/4">
+	<bayCrossroad id="train3_3/4" x="442663.14" y="198682.5873"/>
+</road>
+
+<road id="verticaleTrain3-4/4" origin="interTrain3-x_3/4" destination="c58"/>
+haut
+<road id="verticaleTrain4-1/5" origin="c59" destination="interTrain1-2_4/4">
+	<bayCrossroad id="train1_4/4" x="442830.26" y="198758.65"/>
+</road>
+<road id="verticaleTrain4-2/5" origin="interTrain1-2_4/4" destination="interTrain2-3_4/4">
+	<bayCrossroad id="train2_4/4" x="442832.78" y="198751.8020"/>
+</road>
+
+<road id="verticaleTrain4-3/5" origin="interTrain2-3_4/4" destination="interTrain3-x_4/4"/>
+<road id="verticaleTrain4-5/5" origin="interTrain3-x_4/4" destination="c60"/>
+<road id="verticaleTrain4-4/5" origin="c61" destination="interTrain3-x_4/4">
+	<bayCrossroad id="train3_4/4" x="442766.6300" y="198719.9900"/>
+</road>
+Connexion gauche du pavé
+<road id="c48-c54" origin="c48" destination="c54"/>
+<road id="c48-train1" origin="c48" destination="train1_1/4"/>
+<road id="c48-interTrain1-2" origin="c48" destination="interTrain1-2_1/4"/>
+<road id="c48-train2" origin="c48" destination="train2_1/4"/>
+<road id="c48-interTrain2-2" origin="c48" destination="interTrain2-3_1/4"/>
+<road id="c48-train3" origin="c48" destination="train3_1/4"/>
+<road id="c48-interTrain3-x" origin="c48" destination="interTrain3-x_1/4"/>
+<road id="c48-c47" origin="c48" destination="c47"/>
+<road id="c51-c48" origin="c51" destination="c48"/>
+<road id="c51-c47" origin="c51" destination="c47"/>
+Connexion coté droit du pavé
+<road id="c60-c50" origin="c60" destination="c50"/>
+<road id="interTrain3-x_4/4-c50" origin="interTrain3-x_4/4" destination="c50"/>
+<road id="c50-interTrain2-3_4/4" origin="c50" destination="interTrain2-3_4/4"/>
+<road id="c59-c16" origin="c59" destination="c16"/>
+<road id="train1-c16" origin="train1_4/4" destination="c16"/>
+<road id="interTrain1-2_4/4-c16" origin="interTrain1-2_4/4" destination="c16"/>
+<road id="train2-c16" origin="train2_4/4" destination="c16"/>
+<road id="interTrain2-3_4/4-c16" origin="interTrain2-3_4/4" destination="c16"/>
+	
+<bay id="train1_1/4" bayGroup="train1" origin="train1_1/4" destination="train1_2/4" slots="45*1-40*2-20*1" in="442566.0831,198662.7764" out="442635.6738,198687.9229"/>
+<bay id="train2_1/4" bayGroup="train2" origin="train2_1/4" destination="train2_2/4" slots="45*1-40*3" in="442568.8125,198656.0278" out="442638.1059,198681.2189"/>
+<bay id="train3_1/4" bayGroup="train3" origin="train3_1/4" destination="train3_2/4" slots="45*1-40*2-20*1" in="442573.4358,198649.9717" out="442640.5902,198674.3852"/>
+
+
+<road id="train1_2/4" origin="train1_2/4" destination="train1_middle"/>
+<road id="train2_2/4" origin="train2_2/4" destination="train2_middle"/>
+<road id="train3_2/4" origin="train3_2/4" destination="train3_middle"/>
+
+<road id="train1_3/4" origin="train1_middle" destination="train1_3/4"/>
+<road id="train2_3/4" origin="train2_middle" destination="train2_3/4"/>
+<road id="train3_3/4" origin="train3_middle" destination="train3_3/4"/>
+
+<bay id="train1_4/4" bayGroup="train1" origin="train1_3/4" destination="train1_4/4" slots="45*2-40*10" in="442658.2395,198696.2294" out="442830.2245,198758.6501"/>
+<bay id="train2_4/4" bayGroup="train2" origin="train2_3/4" destination="train2_4/4" slots="45*2-40*10" in="442660.6747,198689.4048" out="442832.7081,198751.8027"/>
+<bay id="train3_4/4" bayGroup="train3" origin="train3_3/4" destination="train3_4/4" slots="45*1-40*7" in="442663.2200,198682.3903" out="442766.5621,198720.0763"/>
+</block>
+</document>

@@ -1,0 +1,37 @@
+<document>
+	<remoteHost hostname="sixpo.recherche"
+				baseDir="/home/gaetan/workspace/CalasRMI/bin"
+				classpath=".:/home/gaetan/workspace/gs-core/bin:/home/gaetan/workspace/gs-core/lib/mbox2.jar:/home/gaetan/workspace/gs-core/lib/pherd.jar:/opt/libs/gs-core-scala-bin.jar:/opt/libs/gs-ui-scala-bin.jar:/opt/libs/scala-library.jar"
+	/>
+	<comment>
+	<remoteHost hostname="lih-tote.recherche"
+				baseDir="/home/gaetan/CalasRMI"
+				classpath=".:/home/gaetan/gs-core/bin:/home/gaetan/gs-core/lib/mbox2.jar:/opt/libs/gs-core-scala-bin.jar:/opt/libs/gs-ui-scala-bin.jar:/opt/libs/scala-library.jar"
+	/>
+	</comment>
+	<remoteHost hostname="scott.univ-lehavre.fr"
+				baseDir="/home/lesauvage/public_html/Calas/bin"
+				classpath=".:/home/lesauvage/public_html/libs/GS/gs-core-bin.jar"
+	/>
+	<networkConfiguration hostname="sixpo.recherche" port="2000"/>
+	
+	<remoteObject rmiBindingName="TerminalImpl" host="sixpo.recherche"/>
+	<remoteObject rmiBindingName="display" host="sixpo.recherche"/>
+	
+	<remoteObject rmiBindingName="JTerminal" host="sixpo.recherche" id="JTerminal1"/>
+	<comment>
+	<remoteObject rmiBindingName="MissionGraph" host="sixpo.recherche" out="sixpo.recherche"/>
+	</comment>
+	<remoteObject rmiBindingName="LaserData" host="sixpo.recherche"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="sixpo.recherche"/>
+	<remoteObject rmiBindingName="TimeController" host="sixpo.recherche"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="sixpo.recherche"/>
+	<remoteObject rmiBindingName="XMLWriter" host="scott.univ-lehavre.fr" url="/home/lesauvage/public_html/Calas/xmlMessages.xml"/>
+	
+	Laser System
+	<laserSystemFile file="xml/bornesTN.xml"/>
+	Terminal
+	<terminalFile file="xml/TN.xml"/>
+	StraddleCarriers
+	<clientFile file="xml/vehiclesFac.xml"/>
+</document>

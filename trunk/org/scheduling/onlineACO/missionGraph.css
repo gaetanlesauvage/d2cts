@@ -1,0 +1,12 @@
+graph {
+	fill-color: rgb(50,50,50);
+}
+sprite.weight{
+	shape: box;
+	visibility-mode: normal;
+	text-size: 8;
+	text-mode: normal;
+	text-style: bold;
+	text-padding: 1px;
+	size-mode: fit;
+}

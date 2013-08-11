@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<networkConfiguration hostname="sixpo@massy" port="2000"/>
+	
+	<remoteObject rmiBindingName="TerminalImpl" host="sixpo@massy"/>
+	
+	
+	<remoteObject rmiBindingName="display" host="sixpo@massy"/>
+	
+	
+	<remoteObject rmiBindingName="JTerminal" host="sixpo@massy" id="JTerminal1"/>
+	
+	<remoteObject rmiBindingName="MissionScheduler" type='OnlineACOScheduler' host="pcnicoleta@massy" out="pcnicoleta@massy"/>
+	
+	<remoteObject rmiBindingName="LaserData" host="sixpo@massy"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="sixpo@massy"/>
+	<remoteObject rmiBindingName="TimeController" host="sixpo@massy"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="sixpo@massy"/>
+	
+	
+	Laser System
+	<laserSystemFile file="xml/bornesTN-LARGE_RANGE.xml"/>
+	Terminal
+	<terminalFile file="xml/generatedData/TN.xml"/>
+	StraddleCarriers
+	<clientFile file="xml/generatedData/vehiclesDistrib2.xml"/>
+	<comment>
+	<database
+		name = "projet_eads"
+		server = "obliviongate.univ-lehavre.fr"
+		port = "3306"
+		user = "d2cts"
+		password= "eadscalas"
+		scriptsDirectory = "http://scott.univ-lehavre.fr/~lesauvage/projet_eads/"
+	/>
+	</comment>
+</document>

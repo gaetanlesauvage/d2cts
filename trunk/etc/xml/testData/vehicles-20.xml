@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<vehicles>
+<type
+		id="standard"
+		width="5"
+		height="15.4"
+		length="10"
+		innerWidth="3"
+		innerLength="6"
+		backOverLength="1"
+		frontOverLength="3"
+		cabWidth="2"
+		compatibility="all"
+		emptySpeed="4.444"
+		loadedSpeed="4.444"
+		baySpeed="1.944"
+		containerHandlingFromTruck_MIN="30"
+		containerHandlingFromTruck_MAX="30"
+		containerHandlingFromGround_MIN="30"
+		containerHandlingFromGround_MAX="30"
+		enterExitBayTime_MIN="0"
+		enterExitBayTime_MAX="0"
+		turnBackTime="0"
+/>
+
+<comment>
+	Available routing algorithms : 
+		- APSP
+		- RDijkstra
+		- Dijkstra
+		- AStar
+</comment>		
+<straddleCarrier id="straddleCarrier_1" type="standard" slot="Central_1" color="red" host="localhost" locationRoad="Central_1" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_2" type="standard" slot="Central_2" color="blue" host="localhost" locationRoad="Central_2" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_3" type="standard" slot="Central_3" color="green" host="localhost" locationRoad="Central_3" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_4" type="standard" slot="Central_4" color="yellow" host="localhost" locationRoad="Central_4" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_5" type="standard" slot="Central_5" color="sienna" host="localhost" locationRoad="Central_5" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_6" type="standard" slot="Central_11" color="orange" host="localhost" locationRoad="Central_11" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_7" type="standard" slot="Central_12" color="magenta" host="localhost" locationRoad="Central_12" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+<straddleCarrier id="straddleCarrier_8" type="standard" slot="Central_13" color="olive" host="localhost" locationRoad="Central_13" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_9" type="standard" slot="Central_14" color="DarkOrchid" host="localhost" locationRoad="Central_14" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_10" type="standard" slot="Central_15" color="LightSeaGreen" host="localhost" locationRoad="Central_15" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_11" type="standard" slot="Central_6" color="red" host="localhost" locationRoad="Central_6" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_12" type="standard" slot="Central_7" color="blue" host="localhost" locationRoad="Central_7" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_13" type="standard" slot="Central_8" color="green" host="localhost" locationRoad="Central_8" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_14" type="standard" slot="Central_9" color="yellow" host="localhost" locationRoad="Central_9" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_15" type="standard" slot="Central_10" color="sienna" host="localhost" locationRoad="Central_10" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_16" type="standard" slot="Central_16" color="orange" host="localhost" locationRoad="Central_16" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_17" type="standard" slot="Central_17" color="magenta" host="localhost" locationRoad="Central_17" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+<straddleCarrier id="straddleCarrier_18" type="standard" slot="Central_18" color="olive" host="localhost" locationRoad="Central_18" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_19" type="standard" slot="Central_19" color="DarkOrchid" host="localhost" locationRoad="Central_19" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+<straddleCarrier id="straddleCarrier_20" type="standard" slot="Central_20" color="LightSeaGreen" host="localhost" locationRoad="Central_20" locationPourcent="0.5" direction="false">
+	<routing type="RDijkstra" host="localhost"/>
+</straddleCarrier>
+
+</vehicles>
+
+</document>

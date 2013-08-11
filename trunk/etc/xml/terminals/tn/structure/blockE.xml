@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+
+<road id="c14-c15" origin="c14" destination="c15"/>
+<block id="E" type="YARD">
+	<coordinate id="E-NW" x="442689.8956" y="198952.1256"/>
+	<coordinate id="E-NE" x="442759.3257" y="198977.475"/>
+	<coordinate id="E-SE" x="442789.0593" y="198895.7104"/>
+	<coordinate id="E-S" x="442758.2744" y="198884.4795"/>
+	<coordinate id="E-C" x="442756.1223" y="198890.4295"/>
+	<coordinate id="E-SW" x="442717.5191" y="198876.4668"/>
+	<wall from="E-NW" to="E-NE"/>
+	<wall from="E-NE" to="E-SE"/>
+	<wall from="E-SE" to="E-S"/>
+	<wall from="E-S" to="E-C"/>
+	<wall from="E-C" to="E-SW"/>
+	<wall from="E-SW" to="E-NW"/>
+	
+<road id="c10-c14" origin="c10" destination="c14">
+<bayCrossroad id="E_N_1" x="442689.1110" y="198959.7415"/>
+<bayCrossroad id="E_N_2" x="442692.6354" y="198961.0227"/>
+<bayCrossroad id="E_N_3" x="442696.1597" y="198962.3040"/>
+<bayCrossroad id="E_N_4" x="442699.6840" y="198963.5853"/>
+<bayCrossroad id="E_N_5" x="442706.1453" y="198965.9342"/>
+<bayCrossroad id="E_N_6" x="442713.5464" y="198968.6249"/>
+<bayCrossroad id="E_N_7" x="442717.0707" y="198969.9061"/>
+<bayCrossroad id="E_N_8" x="442720.5951" y="198971.1874"/>
+<bayCrossroad id="E_N_9" x="442724.1179" y="198972.4681"/>
+<bayCrossroad id="E_N_10" x="442727.8565" y="198973.8272"/>
+<bayCrossroad id="E_N_11" x="442731.8296" y="198975.2716"/>
+<bayCrossroad id="E_N_12" x="442735.8143" y="198976.7203"/>
+<bayCrossroad id="E_N_13" x="442739.7875" y="198978.1647"/>
+<bayCrossroad id="E_N_14" x="442743.7606" y="198979.6091"/>
+<bayCrossroad id="E_N_15" x="442747.7337" y="198981.0535"/>
+<bayCrossroad id="E_N_16" x="442751.6951" y="198982.4937"/>
+<bayCrossroad id="E_N_17" x="442754.8263" y="198983.6320"/>
+</road>
+<road id="c11-c15" origin="c11" destination="c15">
+<bayCrossroad id="E_S_1" x="442724.6906" y="198862.2918"/>
+<bayCrossroad id="E_S_2" x="442728.2621" y="198863.4439"/>
+<bayCrossroad id="E_S_3" x="442731.8335" y="198864.5961"/>
+<bayCrossroad id="E_S_4" x="442735.4050" y="198865.7482"/>
+<bayCrossroad id="E_S_5" x="442741.9527" y="198867.8605"/>
+<bayCrossroad id="E_S_6" x="442749.4528" y="198870.2800"/>
+<bayCrossroad id="E_S_7" x="442753.0242" y="198871.4322"/>
+<bayCrossroad id="E_S_8" x="442756.7179" y="198872.6237"/>
+<bayCrossroad id="E_S_9" x="442760.1657" y="198873.7360"/>
+<bayCrossroad id="E_S_10" x="442763.9542" y="198874.9581"/>
+<bayCrossroad id="E_S_11" x="442767.9805" y="198876.2570"/>
+<bayCrossroad id="E_S_12" x="442772.0185" y="198877.5597"/>
+<bayCrossroad id="E_S_13" x="442776.0448" y="198878.8585"/>
+<bayCrossroad id="E_S_14" x="442780.0710" y="198880.1574"/>
+<bayCrossroad id="E_S_15" x="442784.0973" y="198881.4562"/>
+<bayCrossroad id="E_S_16" x="442788.1118" y="198882.7513"/>
+<bayCrossroad id="E_S_17" x="442791.2848" y="198883.7749"/>
+Points Nord de F
+<bayCrossroad id="F_N_1" x="442727.6887" y="198863.2590"/>
+<bayCrossroad id="F_N_2" x="442731.5838" y="198864.5155"/>
+<bayCrossroad id="F_N_3" x="442735.4789" y="198865.7721"/>
+<bayCrossroad id="F_N_4" x="442739.3740" y="198867.0286"/>
+<bayCrossroad id="F_N_5" x="442743.2691" y="198868.2852"/>
+<bayCrossroad id="F_N_6" x="442747.1643" y="198869.5417"/>
+<bayCrossroad id="F_N_7" x="442751.0594" y="198870.7983"/>
+<bayCrossroad id="F_N_8" x="442754.9545" y="198872.0548"/>
+<bayCrossroad id="F_N_9" x="442758.8496" y="198873.3114"/>
+<bayCrossroad id="F_N_10" x="442762.7447" y="198874.5679"/>
+<bayCrossroad id="F_N_11" x="442766.6398" y="198875.8245"/>
+<bayCrossroad id="F_N_12" x="442770.5349" y="198877.0810"/>
+<bayCrossroad id="F_N_13" x="442774.4300" y="198878.3376"/>
+<bayCrossroad id="F_N_14" x="442778.3251" y="198879.5941"/>
+<bayCrossroad id="F_N_15" x="442782.2202" y="198880.8507"/>
+<bayCrossroad id="F_N_16" x="442786.1153" y="198882.1072"/>
+<bayCrossroad id="F_N_17" x="442790.0104" y="198883.3638"/>
+</road>
+<bayCrossroad id="E_C_1" x="442727.7874" y="198906.6580"/>		
+<bayCrossroad id="E_C_2" x="442731.8951" y="198895.4074"/>		
+
+<bay id="E-1/17" origin="E_N_1" destination="E_S_1" slots="45*5" in="442691.6569,198952.7686" out="442719.2823,198877.1046"/>
+<bay id="E-2/17" origin="E_N_2" destination="E_S_2" slots="45*5" in="442695.1794,198954.0547" out="442722.8087,198878.3801"/>
+<bay id="E-3/17" origin="E_N_3" destination="E_S_3" slots="45*5" in="442698.7020,198955.3409" out="442726.3352,198879.6556"/>
+<bay id="E-4/17" origin="E_N_4" destination="E_S_4" slots="45*5" in="442702.2246,198956.6270" out="442729.8616,198880.9311"/>
+												
+<bay id="E-5/17-1" origin="E_N_5" destination="E_C_1" slots="45*3-20*1" in="442708.6826,198958.9848" out="442727.7874,198906.6580"/>
+<bay id="E-5/17-2" origin="E_C_2" destination="E_S_5" slots="45*1" in="442731.8951,198895.4074" out="442737.4027,198880.2945"/>
+												
+<bay id="E-6/17" origin="E_N_6" destination="E_S_6" slots="45*5" in="442716.0800,198961.6857" out="442743.7321,198885.9480"/>
+<bay id="E-7/17" origin="E_N_7" destination="E_S_7" slots="45*5" in="442719.6025,198962.9718" out="442747.2585,198887.2235"/>
+<bay id="E-8/17" origin="E_N_8" destination="E_S_8" slots="45*5" in="442723.1251,198964.2579" out="442750.7850,198888.4990"/>
+<bay id="E-9/17" origin="E_N_9" destination="E_S_9" slots="45*5" in="442726.6476,198965.5440" out="442754.1938,198889.7320"/>
+												
+<bay id="E-10/17" origin="E_N_10" destination="E_S_10" slots="40*7" in="442730.3945,198966.9120" out="442760.2015,198885.1825"/>
+<bay id="E-11/17" origin="E_N_11" destination="E_S_11" slots="40*7" in="442734.3656,198968.3619" out="442764.1726,198886.6312"/>
+<bay id="E-12/17" origin="E_N_12" destination="E_S_12" slots="40*7" in="442738.3367,198969.8117" out="442768.1557,198888.0844"/>
+<bay id="E-13/17" origin="E_N_13" destination="E_S_13" slots="40*7" in="442742.3078,198971.2616" out="442772.1270,198889.5332"/>
+<bay id="E-14/17" origin="E_N_14" destination="E_S_14" slots="40*7" in="442746.2789,198972.7115" out="442776.0985,198890.9821"/>
+<bay id="E-15/17" origin="E_N_15" destination="E_S_15" slots="40*7" in="442750.2500,198974.1614" out="442780.0700,198892.4309"/>
+<bay id="E-16/17" origin="E_N_16" destination="E_S_16" slots="40*7" in="442754.2211,198975.6113" out="442784.0301,198893.8757"/>
+<bay id="E-17/17" origin="E_N_17" destination="E_S_17" slots="40*6" in="442757.3402,198976.7500" out="442787.0736,198894.9860"/>
+</block>
+</document>

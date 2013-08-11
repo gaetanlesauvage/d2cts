@@ -1,0 +1,133 @@
+<html>
+<head> <title> Locations </title> </head>
+<body>
+<h1> Locations </h1>
+
+
+<form action="selectLocationsAccordingToTime.php" method="post">
+<table>
+    <tr>
+      <td> Host </td>
+      <td> <input type="text" name="host" value="obliviongate.univ-lehavre.fr"/> </td>
+    </tr>
+    <tr>
+      <td> DB Name </td>
+      <td> <input type="text" name="dbName" value="projet_eads"/> </td>
+    </tr>
+    <tr>
+      <td> User </td>
+      <td><input type="text" name="user" value="d2cts"/> </td>
+    </tr>
+    <tr>
+      <td> Password </td>
+      <td><input type="password" name="password" value="eadscalas"/> </td>
+    </tr>
+    <tr>
+      <td> Sim </td>
+      <td><input type="text" name="sim" value="04/05/2011 13:45:42"/></td>
+    </tr>
+    <tr>
+      <td> From Time </td>
+      <td><input type="text" name="timeFrom" value="00:00:00.00"/> </td>
+    </tr>
+    <tr>
+    <td> To Time </td>
+    <td><input type="text" name="timeTo" value="00:00:01.00"/> </td>
+    </tr>
+    <tr>
+      <td colspan='2'><input type="submit" value="Valider"/> </td>
+    </tr>
+</table>
+</form>
+<h1> Events </h1>
+<form action="selectEventsAccordingToTime.php" method="post">
+<table>
+    <tr>
+      <td> Host </td>
+      <td> <input type="text" name="host" value="obliviongate.univ-lehavre.fr"/> </td>
+    </tr>
+    <tr>
+      <td> DB Name </td>
+      <td> <input type="text" name="dbName" value="projet_eads"/> </td>
+    </tr>
+    <tr>
+      <td> User </td>
+      <td><input type="text" name="user" value="d2cts"/> </td>
+    </tr>
+    <tr>
+      <td> Password </td>
+      <td><input type="password" name="password" value="eadscalas"/> </td>
+    </tr>
+    <tr>
+      <td> Sim </td>
+      <td><input type="text" name="sim" value="04/05/2011 13:45:42"/></td>
+    </tr>
+    <tr>
+      <td> From Time </td>
+      <td><input type="text" name="timeFrom" value="00:00:00.00"/> </td>
+    </tr>
+    <tr>
+    <td> To Time </td>
+    <td><input type="text" name="timeTo" value="00:00:01.00"/> </td>
+    </tr>
+    <tr>
+      <td colspan='2'><input type="submit" value="Valider"/> </td>
+    </tr>
+</table>
+</form>
+<h1> Select </h1>
+<form action="select.php" method="post">
+<table>
+    <tr>
+      <td> Host </td>
+      <td> <input type="text" name="host" value="obliviongate.univ-lehavre.fr"/> </td>
+    </tr>
+    <tr>
+      <td> DB Name </td>
+      <td> <input type="text" name="dbName" value="projet_eads"/> </td>
+    </tr>
+    <tr>
+      <td> User </td>
+      <td><input type="text" name="user" value="d2cts"/> </td>
+    </tr>
+    <tr>
+      <td> Password </td>
+      <td><input type="password" name="password" value="eadscalas"/> </td>
+    </tr>
+    <tr>
+      <td> Request </td>
+      <td><input type="text" name="request" value="SELECT * FROM simulations"/></td>
+    </tr>
+    	<td colspan='2'><input type="submit" value="Valider"/> </td>
+    </tr>
+</table>
+</form>
+<h1> Insert </h1>
+<form action="insert.php" method="post">
+<table>
+    <tr>
+      <td> Host </td>
+      <td> <input type="text" name="host" value="obliviongate.univ-lehavre.fr"/> </td>
+    </tr>
+    <tr>
+      <td> DB Name </td>
+      <td> <input type="text" name="dbName" value="projet_eads"/> </td>
+    </tr>
+    <tr>
+      <td> User </td>
+      <td><input type="text" name="user" value="d2cts"/> </td>
+    </tr>
+    <tr>
+      <td> Password </td>
+      <td><input type="password" name="password" value="eadscalas"/> </td>
+    </tr>
+    <tr>
+      <td> Request </td>
+      <td><input type="text" name="request" value="INSERT INTO simulations VALUES ('01/01/2001 00:00:00','xml/generatedData/TN.xml','xml/generatedData/vehicles.xml','1')" /></td>
+    </tr>
+    	<td colspan='2'><input type="submit" value="Valider"/> </td>
+    </tr>
+</table>
+</form>
+</body>
+</html>

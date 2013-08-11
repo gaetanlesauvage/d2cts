@@ -1,0 +1,35 @@
+Observation 1:
+Distance : les meilleurs résultats obtenus sont paramétrés par F1>F2
+Overspent Time : les meilleurs résultats obtenus sont également paramétrés par F1>F2 !
+
+Observation 2:
+La performance des algorithmes est généralement proportionnellement inverse au degré de dynamicité des simulations
+
+Observation 3:
+L'algorithme fourmi est plus performant que l'algorithme glouton concernant la distance totale parcourue
+
+Observation 4:
+L'algorithme glouton est globalement plus performant que l'algorithme fourmi concernant le temps de dépassement des fenêtres de temps
+
+Observation 5:
+a) Lorsque le nombre de ressources est clairement insuffisant:
+L'algorithme glouton est globalement plus performant que l'algorithme fourmi concernant le nombre de fenêtres de temps dépassées
+
+b) Lorsque le nombre de ressources est suffisant:
+L'algorithme fourmi est globalement plus performant que l'algorithme glouton concernant le nombre de fenêtres de temps dépassées
+
+Observation 6:
+Le temps de calcul de l'algorithme fourmi est proportionnel à la valeur de son paramètre de synchronisation
+
+Observation 7:
+Le temps de calcul de l'algorithme glouton est inversement proportionnel au degré de dynamicité
+
+
+Propositions
+1) Il faut refaire des tests avec F1 beaucoup plus grand que F2 et inversement
+ F1=50 F2 = 1 et F1=1 F2=50
+2) Il faut également pousser les tests pour avoir plus d'éléments de comparaison
+3) F1 trop grand par rapport à F2 ?
+4) Caractéristique intrinsèque de l'algo glouton qui cherche d'abord à minimiser le temps dépassé, puis les distances
+5) a et b : l'algorithme fourmi a du mal à minimiser les retard et la distance parcourue lorsque le nombre de ressources est insuffisant. C'est le problème rencontré lorsque le degré sortant d'un noeud du graphe est supérieur au nombre de ressources. Dans ce cas le noeud laissé de coté n'est intégré à une solution que lorsque ses frères ont été supprimés du graphe.
+

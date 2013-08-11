@@ -1,0 +1,7 @@
+TEST SESSION OF Thu Mar 22 18:32:52 CET 2012
+====================================================================================
+TEST 1/1
+CONFIG FILE: xml/results/10missions/4vehicles/deploymentbb_1_100_0_0.d2cts
+J=10	M=4	DOD=0.0	EDOD=0.0	SEED=21	TERMINALSEED=100	ALGO=BranchAndBound
+bb parameters: timeMatrixFile=../trunk/xml/results/10missions/timeM-10.dat	distanceMatrixFile=../trunk/xml/results/10missions/distanceM_10.dat	solutionInitFile=xml/results/10missions/soluce_10.dat	solutionFile=xml/results/10missions/soluce_10.dat	computeCosts=false	
+                            -------------------------------                            

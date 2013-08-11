@@ -1,0 +1,52 @@
+<document>
+<event time='00:00:00.00' type='vehicleIn' id='train_1' lanes='train3_1/4,train3_4/4'>
+	<container id='TPTU 846003 8' teu='2.0'>
+		<containerLocation container='TPTU 846003 8' pave='train' lane='train3_4/4' slot='train3_4/4-5' level='0' align='origin'/>
+	</container>
+	<container id='TVEU 355242 6' teu='2.0'>
+		<containerLocation container='TVEU 355242 6' pave='train' lane='train3_4/4' slot='train3_4/4-1' level='0' align='origin'/>
+	</container>
+</event>
+<mission id='unload_train1_1' container='TVEU 355242 6' kind='1'>
+	<timewindow start='00:29:45.18' end='00:44:37.77'/>
+	<timewindow start='00:31:58.98' end='00:47:58.47'/>
+	<containerLocation container='TVEU 355242 6' pave='C' lane='C-41/41' slot='C-41/41-11' level='0' align='origin'/>
+</mission>
+<mission id='unload_train1_2' container='TPTU 846003 8' kind='1'>
+	<timewindow start='00:04:03.64' end='00:06:05.46'/>
+	<timewindow start='00:07:01.25' end='00:10:31.87'/>
+	<containerLocation container='TPTU 846003 8' pave='I' lane='I-50/73' slot='I-50/73-4' level='0' align='origin'/>
+</mission>
+<mission id='reload_train1_1' container='VAYU 845737 4' kind='2'>
+	<timewindow start='03:53:52.50' end='03:54:52.32'/>
+	<timewindow start='03:57:04.59' end='03:58:10.68'/>
+	<containerLocation container='VAYU 845737 4' pave='train' lane='train3_4/4' slot='train3_4/4-0' level='0' align='origin'/>
+</mission>
+<mission id='reload_train1_2' container='NQTU 170837 0' kind='2'>
+	<timewindow start='02:25:49.28' end='02:26:42.58'/>
+	<timewindow start='02:28:39.80' end='02:29:36.73'/>
+	<containerLocation container='NQTU 170837 0' pave='train' lane='train3_4/4' slot='train3_4/4-6' level='0' align='origin'/>
+</mission>
+<mission id='reload_train1_3' container='SZZU 195395 7' kind='2'>
+	<timewindow start='03:08:13.61' end='03:09:04.35'/>
+	<timewindow start='03:10:52.27' end='03:11:43.92'/>
+	<containerLocation container='SZZU 195395 7' pave='train' lane='train3_4/4' slot='train3_4/4-7' level='0' align='origin'/>
+</mission>
+<mission id='reload_train1_4' container='IELU 689094 0' kind='2'>
+	<timewindow start='02:32:22.81' end='02:33:36.10'/>
+	<timewindow start='02:35:27.17' end='02:36:26.03'/>
+	<containerLocation container='IELU 689094 0' pave='train' lane='train3_4/4' slot='train3_4/4-1' level='0' align='origin'/>
+</mission>
+<mission id='reload_train1_5' container='JRUU 380725 9' kind='2'>
+	<timewindow start='02:58:35.33' end='02:59:35.79'/>
+	<timewindow start='03:01:13.08' end='03:02:01.84'/>
+	<containerLocation container='JRUU 380725 9' pave='train' lane='train3_4/4' slot='train3_4/4-2' level='0' align='origin'/>
+</mission>
+<event time='03:58:10.68' type='vehicleOut' id='train_1' lanes='train3_1/4,train3_4/4'>
+	<container id='VAYU 845737 4'/>
+	<container id='NQTU 170837 0'/>
+	<container id='IELU 689094 0'/>
+	<container id='SZZU 195395 7'/>
+	<container id='JRUU 380725 9'/>
+</event>
+</document>

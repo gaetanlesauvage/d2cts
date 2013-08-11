@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<document>
+	<networkConfiguration hostname="localhost" port="2000"/>
+	<remoteObject rmiBindingName="TerminalImpl" host="localhost"/>
+	<remoteObject rmiBindingName="display" host="localhost"/>
+	<remoteObject rmiBindingName="JTerminal" host="localhost" id="JTerminal1"/>
+	<remoteObject rmiBindingName="MissionScheduler" type="BranchAndBoundScheduler"
+		host="localhost"
+		out="localhost"
+		t="2.0" l="5.0" e="1.0"
+		timeMatrixFile="xml/phdTests/time_4_3.dat"
+		distanceMatrixFile="xml/phdTests/distance_4_3.dat"
+		computeCosts="true"
+		solutionFile="xml/phdTests/soluce_4_3.dat"
+	/>
+	<remoteObject rmiBindingName="LaserData" host="localhost"/>
+	<remoteObject rmiBindingName="TimeScheduler" host="localhost"/>
+	<remoteObject rmiBindingName="TimeController" host="localhost"/>
+	<remoteObject rmiBindingName="XMLTerminalComponentParser" host="localhost"/>
+	<random seed='4'/>
+	<laserSystemFile file="xml/bornesTN-LARGE_RANGE.xml"/>
+	<terminalFile file="xml/phdTests/terminal.xml"/>
+	<clientFile file="xml/phdTests/debugVehicles.xml"/>
+</document>

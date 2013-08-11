@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<scenario name="static-1" terminal="tn">
+		Laser System
+		<include file="etc/xml/scenario/lasersystems/tn-large-range.xml"/>
+		
+		Vehicles
+		<include file="etc/xml/scenario/vehicles/tn-sc-10.xml"/>
+		
+		Containers
+		<include file="etc/xml/scenario/containers/containers.xml"/>
+		Missions
+		<include file="etc/xml/scenario/missions/missions-set-1.xml"/>
+		
+	</scenario>
+</document>

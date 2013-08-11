@@ -1,0 +1,122 @@
+<document>
+<event time='00:26:12.00' type='vehicleIn' id='truck_[1]' lanes='D-5/21'>
+	<container id='MPBU 064128 2' teu='2.25'>
+		<containerLocation container='MPBU 064128 2' pave='D' lane='D-5/21' slot='D-5/21-0' level='0' align='origin'/>
+	</container>
+</event>
+<event time='00:07:42.00' type='newMission'>
+	<mission id='unload_truck_[1]' truck='truck_[1]' container='MPBU 064128 2' kind='1'>
+		<timewindow start='00:26:12.00' end='00:30:19.00'/>
+		<timewindow start='00:31:46.36' end='00:32:16.36'/>
+		<containerLocation container='MPBU 064128 2' pave='E' lane='E-6/17' slot='E-6/17-4' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:30:19.00' type='vehicleOut' id='truck_[1]' lanes='D-5/21'/>
+<event time='00:03:22.00' type='vehicleIn' id='truck_[2]' lanes='D-15/21'>
+	<container id='PTOU 674107 7' teu='2.25'>
+		<containerLocation container='PTOU 674107 7' pave='D' lane='D-15/21' slot='D-15/21-0' level='0' align='origin'/>
+	</container>
+</event>
+<event time='00:02:15.00' type='newMission'>
+	<mission id='unload_truck_[2]' truck='truck_[2]' container='PTOU 674107 7' kind='1'>
+		<timewindow start='00:03:22.00' end='00:06:15.00'/>
+		<timewindow start='00:07:39.73' end='00:08:09.73'/>
+		<containerLocation container='PTOU 674107 7' pave='B' lane='B-10/38' slot='B-10/38-3' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:06:15.00' type='vehicleOut' id='truck_[2]' lanes='D-15/21'/>
+<event time='00:08:33.00' type='vehicleIn' id='truck_[3]' lanes='D-17/21'>
+	<container id='LKHU 057468 8' teu='1.0'>
+		<containerLocation container='LKHU 057468 8' pave='D' lane='D-17/21' slot='D-17/21-0' level='0' align='origin'/>
+	</container>
+</event>
+<event time='00:02:13.00' type='newMission'>
+	<mission id='unload_truck_[3]' truck='truck_[3]' container='LKHU 057468 8' kind='1'>
+		<timewindow start='00:08:33.00' end='00:09:40.00'/>
+		<timewindow start='00:10:55.78' end='00:11:25.78'/>
+		<containerLocation container='LKHU 057468 8' pave='C' lane='C-10/41' slot='C-10/41-8' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:09:40.00' type='vehicleOut' id='truck_[3]' lanes='D-17/21'/>
+<event time='00:01:16.00' type='vehicleIn' id='truck_[4]' lanes='D-21/21'>
+	<container id='CIDU 697067 2' teu='1.0'>
+		<containerLocation container='CIDU 697067 2' pave='D' lane='D-21/21' slot='D-21/21-0' level='0' align='origin'/>
+	</container>
+</event>
+<event time='00:00:35.00' type='newMission'>
+	<mission id='unload_truck_[4]' truck='truck_[4]' container='CIDU 697067 2' kind='1'>
+		<timewindow start='00:01:16.00' end='00:04:33.00'/>
+		<timewindow start='00:05:29.42' end='00:05:59.42'/>
+		<containerLocation container='CIDU 697067 2' pave='H' lane='H-6/35' slot='H-6/35-5' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:04:33.00' type='vehicleOut' id='truck_[4]' lanes='D-21/21'/>
+<event time='00:19:03.00' type='vehicleIn' id='truck_[5]' lanes='P-2/4'>
+	<container id='TNRU 364104 6' teu='2.0'>
+		<containerLocation container='TNRU 364104 6' pave='P' lane='P-2/4' slot='P-2/4-0' level='0' align='origin'/>
+	</container>
+</event>
+<event time='00:02:05.00' type='newMission'>
+	<mission id='unload_truck_[5]' truck='truck_[5]' container='TNRU 364104 6' kind='1'>
+		<timewindow start='00:19:03.00' end='00:21:29.00'/>
+		<timewindow start='00:23:32.41' end='00:24:02.41'/>
+		<containerLocation container='TNRU 364104 6' pave='I' lane='I-67/73' slot='I-67/73-1' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:21:29.00' type='vehicleOut' id='truck_[5]' lanes='P-2/4'/>
+<event time='00:18:31.00' type='vehicleIn' id='truck_[6]' lanes='L-11/13'/>
+<event time='00:22:15.00' type='vehicleOut' id='truck_[6]'  lanes='L-11/13'>
+	<container id='SVZU 942922 4'/>
+</event>
+<event time='00:16:09.00' type='newMission'>
+	<mission id='load_truck_[6]' truck='truck_[6]' container='SVZU 942922 4' kind='2'>
+		<timewindow start='00:16:30.38' end='00:17:39.38'/>
+		<timewindow start='00:18:31.00' end='00:22:15.00'/>
+		<containerLocation container='SVZU 942922 4' pave='L' lane='L-11/13' slot='L-11/13-0' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:10:32.00' type='vehicleIn' id='truck_[7]' lanes='D-9/21'/>
+<event time='00:11:56.00' type='vehicleOut' id='truck_[7]'  lanes='D-9/21'>
+	<container id='DSOU 499679 3'/>
+</event>
+<event time='00:09:05.00' type='newMission'>
+	<mission id='load_truck_[7]' truck='truck_[7]' container='DSOU 499679 3' kind='2'>
+		<timewindow start='00:07:57.64' end='00:09:28.64'/>
+		<timewindow start='00:10:32.00' end='00:11:56.00'/>
+		<containerLocation container='DSOU 499679 3' pave='D' lane='D-9/21' slot='D-9/21-0' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:20:41.00' type='vehicleIn' id='truck_[8]' lanes='O-4/6'/>
+<event time='00:22:15.00' type='vehicleOut' id='truck_[8]'  lanes='O-4/6'>
+	<container id='HTHU 571923 5'/>
+</event>
+<event time='00:13:31.00' type='newMission'>
+	<mission id='load_truck_[8]' truck='truck_[8]' container='HTHU 571923 5' kind='2'>
+		<timewindow start='00:16:20.44' end='00:19:40.44'/>
+		<timewindow start='00:20:41.00' end='00:22:15.00'/>
+		<containerLocation container='HTHU 571923 5' pave='O' lane='O-4/6' slot='O-4/6-0' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:18:49.00' type='vehicleIn' id='truck_[9]' lanes='D-20/21'/>
+<event time='00:21:44.00' type='vehicleOut' id='truck_[9]'  lanes='D-20/21'>
+	<container id='KGAU 088554 4'/>
+</event>
+<event time='00:17:29.00' type='newMission'>
+	<mission id='load_truck_[9]' truck='truck_[9]' container='KGAU 088554 4' kind='2'>
+		<timewindow start='00:14:04.78' end='00:16:53.78'/>
+		<timewindow start='00:18:49.00' end='00:21:44.00'/>
+		<containerLocation container='KGAU 088554 4' pave='D' lane='D-20/21' slot='D-20/21-0' level='0' align='origin'/>
+	</mission>
+</event>
+<event time='00:24:32.00' type='vehicleIn' id='truck_[10]' lanes='O-5/6'/>
+<event time='00:25:11.00' type='vehicleOut' id='truck_[10]'  lanes='O-5/6'>
+	<container id='PGSU 844709 5'/>
+</event>
+<event time='00:08:11.00' type='newMission'>
+	<mission id='load_truck_[10]' truck='truck_[10]' container='PGSU 844709 5' kind='2'>
+		<timewindow start='00:21:44.82' end='00:22:39.82'/>
+		<timewindow start='00:24:32.00' end='00:25:11.00'/>
+		<containerLocation container='PGSU 844709 5' pave='O' lane='O-5/6' slot='O-5/6-0' level='0' align='origin'/>
+	</mission>
+</event>
+</document>

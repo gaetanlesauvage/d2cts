@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<scheduler type="OnlineACOScheduler"
+		ALPHA="1"
+		BETA="1"
+		GAMMA="1"
+		DELTA="0.01"
+		ETA="0.99"
+		LAMBDA="1.5"
+		LAMBDA_RETURN="0"
+		SYNC="100"
+		F1="1"
+		F2="5"
+		F3="0"
+		T="1"
+		L="1"
+		E="1"
+	/>
+</document>
