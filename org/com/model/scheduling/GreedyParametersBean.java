@@ -1,5 +1,8 @@
 package org.com.model.scheduling;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.scheduling.MissionSchedulerEvalParameters;
 
 public enum GreedyParametersBean implements SchedulingParametersBeanInterface{
@@ -16,9 +19,14 @@ public enum GreedyParametersBean implements SchedulingParametersBeanInterface{
 	}
 
 	@Override
-	public void setValue(Double value){
-		this.value = value;
+	public void setValue(Object o) {
+		if(o instanceof String){
+			this.value = Double.parseDouble((String)o);
+		} else {
+			this.value = (Double)o;
+		}
 	}
+	
 	@Override
 	public Double getValueAsDouble(){
 		return this.value;
@@ -77,5 +85,13 @@ public enum GreedyParametersBean implements SchedulingParametersBeanInterface{
 			t[i++] = p.name;
 		
 		return t;
+	}
+	
+	public static List<GreedyParametersBean> getAll(){
+		List<GreedyParametersBean> l = new ArrayList<>(values().length);
+		for(GreedyParametersBean b : values()){
+			l.add(b);
+		}
+		return l;
 	}
 }

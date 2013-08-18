@@ -1,5 +1,8 @@
 package org.com.model.scheduling;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.scheduling.MissionSchedulerEvalParameters;
 
 public enum BBParametersBean implements SchedulingParametersBeanInterface{
@@ -19,8 +22,21 @@ public enum BBParametersBean implements SchedulingParametersBeanInterface{
 	}
 
 	@Override
-	public void setValue(Double value) {
-		this.value = value;
+	public void setValue(Object o) {
+		if(o instanceof String && type != ParameterType.STRING){
+			switch(type){
+			case DOUBLE :
+				this.value = Double.parseDouble((String)o);
+				break;
+			case INTEGER :
+				this.value = Integer.parseInt((String)o);
+				break;
+			default:
+				break;
+			}
+		} else {
+			this.value = o;
+		}
 	}
 
 	@Override
@@ -71,6 +87,14 @@ public enum BBParametersBean implements SchedulingParametersBeanInterface{
 				return param;
 		}
 		return null;
+	}
+	
+	public static List<BBParametersBean> getAll(){
+		List<BBParametersBean> l = new ArrayList<>(BBParametersBean.values().length);
+		for(BBParametersBean b : values()){
+			l.add(b);
+		}
+		return l;
 	}
 	
 	public static String[] names(){

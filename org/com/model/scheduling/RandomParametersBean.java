@@ -1,5 +1,8 @@
 package org.com.model.scheduling;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.scheduling.MissionSchedulerEvalParameters;
 
 public enum RandomParametersBean implements SchedulingParametersBeanInterface {
@@ -16,8 +19,12 @@ public enum RandomParametersBean implements SchedulingParametersBeanInterface {
 	}
 
 	@Override
-	public void setValue(Double value) {
-		this.value = value;
+	public void setValue(Object o) {
+		if(o instanceof String){
+			this.value = Double.parseDouble((String)o);
+		} else {
+			this.value = (Double)o;
+		}
 	}
 
 	@Override
@@ -78,6 +85,14 @@ public enum RandomParametersBean implements SchedulingParametersBeanInterface {
 			t[i++] = p.name;
 		
 		return t;
+	}
+	
+	public static List<RandomParametersBean> getAll() {
+		List<RandomParametersBean> l = new ArrayList<>(values().length);
+		for (RandomParametersBean b : values()) {
+			l.add(b);
+		}
+		return l;
 	}
 	
 }

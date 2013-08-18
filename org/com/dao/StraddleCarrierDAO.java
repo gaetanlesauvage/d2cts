@@ -114,6 +114,6 @@ public class StraddleCarrierDAO implements D2ctsDao<StraddleCarrierBean>{
 	
 	@Override
 	public int size(){
-		return beans.size();
+		return beans == null ? -1 : beans.size(); 
 	}
 }

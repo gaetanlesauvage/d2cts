@@ -19,7 +19,7 @@ public class SchedulingAlgorithmDAO implements
 	private static SchedulingAlgorithmDAO instance;
 
 	private static final String LOAD_QUERY = "SELECT ID, NAME, CLASS FROM SCHEDULING_ALGORITHM";
-
+	
 	private PreparedStatement psLoad;
 
 	private Map<Integer, SchedulingAlgorithmBean> beans;

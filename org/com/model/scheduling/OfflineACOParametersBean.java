@@ -1,5 +1,8 @@
 package org.com.model.scheduling;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.scheduling.MissionSchedulerEvalParameters;
 import org.scheduling.offlineACO.OfflineSchedulerParameters;
 
@@ -19,9 +22,14 @@ public enum OfflineACOParametersBean implements SchedulingParametersBeanInterfac
 	}
 
 	@Override
-	public void setValue(Double value){
-		this.value = value;
+	public void setValue(Object o) {
+		if(o instanceof String){
+			this.value = Double.parseDouble((String)o);
+		} else {
+			this.value = (Double)o;
+		}
 	}
+	
 	@Override
 	public Double getValueAsDouble(){
 		return this.value;
@@ -83,5 +91,13 @@ public enum OfflineACOParametersBean implements SchedulingParametersBeanInterfac
 	@Override
 	public Integer getValueAsInteger() {
 		return this.value.intValue();
+	}
+	
+	public static List<OfflineACOParametersBean> getAll() {
+		List<OfflineACOParametersBean> l = new ArrayList<>(values().length);
+		for (OfflineACOParametersBean b : values()) {
+			l.add(b);
+		}
+		return l;
 	}
 }
