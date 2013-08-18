@@ -1,0 +1,249 @@
+\documentclass[
+a4paper,
+11pt,
+twoside,
+onecolumn,
+openright,      % les chapitre commencent sur la page de droite
+%shotrims,       % affiche des trucs en plus en bordure
+leqno,          % numéro des équation à droite
+%flen,           % équation alignées à gauche
+%openbib,       % chaque partie d'une ref sur une ligne
+final   % bonne qualité (lent)
+        % OU
+%draft,  % mauvaise qualité (rapide)
+]{phdlasl}
+
+\newenvironment{changemargin}[2]{\begin{list}{}{	%Pour changer les marges d'une partie du document seulement
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{#1}%
+\addtolength{\rightmargin}{#2}%
+}\item }{\end{list}}
+
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage[french]{varioref}
+
+\usepackage{fullpage}				%Pour utiliser toute la largeur de la page
+\usepackage{amsmath}				%Pour les formules
+\usepackage{xcolor} 				%Pour mettre le texte en couleur
+\usepackage{listings}				%Pour les boxes de code
+\usepackage{subfloat} 				%Pour mettre des sous figures
+\usepackage{wrapfig}				%Pour enrouler du texte autour d'une figure
+\usepackage{tikz}				%Pour dessiner des graphes
+  \usetikzlibrary{arrows,automata}
+
+\usepackage{multirow}				%Pour les tableaux 
+\usepackage{array}
+
+\usepackage{subfig}				%Sous-figures
+\usepackage{placeins}				%positionnement des figures
+
+\usepackage[french,ruled,lined,linesnumbered]{algorithm2e}				%Pour les algos
+% \SetKwIF{Si}{SinonSi}{Sinon}{si}{alors}{sinon si}{alors}{finsi}	%Pour le FinSi
+
+
+
+\usepackage[tight,french]{minitoc}
+ \mtcsettitle{minitoc}{}
+ \mtcsetrules{*}{off}
+ \mtcsetdepth{minitoc}{3}
+
+\usepackage{graphicx}
+\usepackage{eurosym} %pour le symbole euro
+
+\usepackage[pdftex,	 
+bookmarks = true,	% Signets
+bookmarksnumbered = true,	% Signets numérotés
+pdfpagemode = None,	% Signets/vignettes fermé à l'ouverture
+pdfstartview = FitH,	% La page prend toute la largeur
+pdfpagelayout = SinglePage,	% Vue par page
+colorlinks = false,	% Liens en couleur
+urlcolor = blue,	% Couleur des liens externes
+pdfborder = {0 0 0}	% Style de bordure : ici, pas de bordure
+]{hyperref}	% Utilisation de HyperTeX
+
+\usepackage{alltt} %Pour mettre le code XML
+
+
+
+\definecolor{codebgcolor}{rgb}{0.9,0.9,0.9}
+%\definecolor{codecolor}{rgb}{0.25,0.466,0.368}
+\definecolor{codecolor}{rgb}{0,0,0}
+\definecolor{codekwcolor}{rgb}{0.666,0.0,0.109}
+\definecolor{codestringcolor}{rgb}{0.0,0.75,0.0}
+\definecolor{codecommentcolor}{rgb}{0.5,0.5,0.5}
+\lstset{%
+  backgroundcolor=\color{codebgcolor},%
+  basicstyle=\scriptsize\ttfamily\color{codecolor},
+  showstringspaces=false,
+  keywordstyle=\itshape\color{codekwcolor},
+  %identifierstyle=\ttfamily,
+  stringstyle=\color{codestringcolor},
+  commentstyle=\color{codecommentcolor},
+  rulecolor=\color{black},
+  frame=single,%
+  mathescape=true,%
+  breaklines=true,%
+  breakatwhitespace=true,%
+  tabsize=1,%
+  lineskip={-1.75pt}%
+}
+
+% \newcommand{\libraryCommand}[1]{((#1))}
+% \begingroup%
+%   \catcode`W=\active%
+%   \gdef\wrapThat#1W{\libraryCommand{#1}W}%
+% \endgroup
+
+\begin{document}
+
+	% PAGE DE TITRE
+   	\include{chapitres/titre}
+
+	% PAGE DE REMERCIEMENTS
+	\include{chapitres/remerciements}
+
+	%Citation, dédicace
+	\begin{Dedicace}
+	 Dédicace
+	\end{Dedicace}
+
+	% RESUME ET ABSTRACT
+	\include{chapitres/resume}
+
+	% TABLE DES MATIERES
+	\tableofcontents
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%          	INTRODUCTION		%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter*{Introduction}\label{chapitre:introduction}
+	\addcontentsline{toc}{chapter}{Introduction}
+	%%%%%%%%%%
+	\input{chapitres/introduction}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%          Chap 1 : Etat de l'art	%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter{Contexte théorique}\label{chapitre:art}
+
+	\section*{Introduction}\label{partie:art-introduction}
+	\addcontentsline{toc}{section}{Introduction}
+	\input{chapitres/art/introduction}
+	
+	%%%%%%%%%%
+	\section{Dynamique et incertitude en optimisation}\label{partie:art-Incertitude}
+	\input{chapitres/art/incertitude}
+
+	%%%%%%%%%%
+	\section{Problèmes de voyageurs de commerce}\label{part:art-TSP}
+	\input{chapitres/art/tsp}
+
+	%%%%%%%%%%
+	\section{Problèmes de tournées de véhicules}\label{partie:art-VRP}
+	\input{chapitres/art/vrp}
+
+	%%%%%%%%%%
+	\section{Problèmes d'ateliers}\label{part:art-JSSP}
+	\input{chapitres/art/jssp}
+
+	%%%%%%%%%%
+	\section*{Conclusions}\label{partie:art-conclusions}
+	\addcontentsline{toc}{section}{Conclusions}
+	\input{chapitres/art/conclusions}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%       Chap 2 : APPLICATION	 	%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter{Applications aux terminaux à conteneurs}\label{chapitre:application}
+
+	\section*{Introduction}\label{partie:application-introduction}
+	\addcontentsline{toc}{section}{Introduction}
+        \input{chapitres/application/introduction}
+
+	%%%%%%%%%%
+	\section{Structure et organisation des terminaux à conteneurs}\label{partie:application-terminaux}
+	\input{chapitres/application/terminaux}	
+
+	%%%%%%%%%%
+	\section{Optimisation des terminaux à conteneurs}\label{partie:application-optimisationTerminaux}
+	\input{chapitres/application/optTerminaux}
+
+	%%%%%%%%%%
+	\section*{Conclusions}\label{partie:application-conclusions}
+	\addcontentsline{toc}{section}{Conclusions}
+	\input{chapitres/application/conclusions}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%       Chap 3 : Ordo et affectation 	%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter{Ordonnancement et affectation des missions des chariots cavaliers}\label{chapitre:ordo}
+	\input{chapitres/ordo/ordonnancement}
+	\section*{Conclusions}\label{partie:ordo-conclusions}
+	\addcontentsline{toc}{section}{Conclusions}
+	\input{chapitres/ordo/conclusions}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%       Chap 4 : SIMULATION	 	%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter{Simulateur de terminal à conteneurs}\label{chapitre:simulation}
+
+	\section*{Introduction}\label{partie:simulation-introduction}
+	\addcontentsline{toc}{section}{Introduction}
+	\input{chapitres/simulation/introduction}
+
+	%%%%%%%%%%
+	\section{Spécifications}\label{partie:simulation-specification}
+	\input{chapitres/simulation/specifications}
+
+	%%%%%%%%%%
+% 	\section{Architecture}\label{partie:simulation-architecture}
+	\input{chapitres/simulation/architecture}
+
+	%%%%%%%%%%
+	\section*{Conclusions}\label{partie:simulation-conclusions}
+	\addcontentsline{toc}{section}{Conclusions}
+	\input{chapitres/simulation/conclusions}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%            RESULTATS		 	%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter{Expérimentations et résultats}\label{chapitre:resultats}
+
+	\section*{Introduction}\label{partie:resultats-introduction}
+	\addcontentsline{toc}{section}{Introduction}
+	\input{chapitres/resultats/introduction}
+
+	%%%%%%%%%%
+	\section{Routage des chariots cavaliers}\label{partie:resultats-routage}
+	\input{chapitres/resultats/routage}	
+
+	%%%%%%%%%%
+	\section{Ordonnancement et Affectation des missions aux chariots cavaliers}\label{partie:resultats-ordonnancement}
+	\input{chapitres/resultats/ordonnancement}
+	
+	%%%%%%%%%%
+	\section*{Conclusions}\label{partie:resultats-conclusions}
+	\addcontentsline{toc}{section}{Conclusions}
+	\input{chapitres/resultats/conclusions}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%         	 CONCLUSIONS		%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter*{Conclusions}\label{chapitre:conclusions}
+	\addcontentsline{toc}{chapter}{Conclusions}
+	\input{chapitres/conclusions}	
+	
+	
+      % BIBLIOGRAPHIE
+      \bibliographystyle{apalike}
+      \bibliography{bibliographie/bibliographie_these}  % include bibliography
+      
+      % INDEX ?
+      %\include{index}
+\end{document}

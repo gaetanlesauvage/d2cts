@@ -1,0 +1,176 @@
+\label{sec:jssp}
+
+\subsection*{Introduction}
+Dans cette section nous introduiront les problèmes d'ateliers. De nombreux problèmes de tournées de véhicules peuvent ainsi être modélisé par des problèmes d'ateliers et nottament par le problème de \textit{Job Shop}. Nous passerons donc en revue les méthodes de résolution utilisées puis nous aborderont la version dynamique du problème en insistant sur les méthodes de résolution basées sur les algorithmes fourmis.
+
+\subsection{Définition et variantes du problème}
+Un ordonnancement consiste à affecter dans le temps des tâches à des ressources. Les problèmes d'ateliers consistent à produire un ordonnancement qui optimise la fabrication de produits au sein d'une usine de production en affectant des tâches à des machines.
+Dans ces problèmes, $m$ machines $M_j$ ($\forall j \in [1..m]$) doivent effectuer $n$ tâches (\textit{Jobs}) $J_i$ ($\forall i \in [1..n]$). L'objectif est de produire un ordonnancement, c'est-à-dire d'associer chaque tâche à une ou plusieurs périodes de temps sur une ou plusieurs machines, de façon à minimiser ou maximiser un ou plusieurs critères tout en respectant certaines contraintes.
+Chaque tâche $J_i$ est divisée en $n_i$ opérations $O_{i1}, \cdots, O_{in_i}$ et une date de disponibilité (\textit{release date}) $r_i$ correspondant à la date à partir de laquelle la première opération ($O_{i1}$) de la tâche $J_i$ peut être effectuée. D'autre part chaque opération $O_{ij}$ est associée à une liste de machines $\mu_{ij} \subseteq \{M_1,\cdots,M_m\}$ sur lesquelles elle peut être réalisée. Dans le cas où $\mu_{ij}$ ne comporte pas qu'une seule machine alors le problème est dit \textit{Multi-Purpose Machines} (MPM).
+Le coût de la réalisation de la tâche $J_i$ au temps $t$ est définie par la fonction $f_i(t)$.
+Un ordonnancement est dit réalisable (ou valide) si et seulement si deux intervalles de temps ne se chevauchent pas sur une même machine, si deux intervalles de temps alloué à une même tâche ne se recoupent pas et si les contraintes spécifiques du problème sont respectées.
+L'optimisation consiste à fournir un ordonnancement minimal c'est-à-dire minimisant un ou plusieurs critères.
+
+\subsubsection{Notation de Graham et al.}
+Devant le nombre important de types de problèmes d'ateliers, Graham et al. ont introduits dans \cite{Graham1979} une notation en trois parties : $\{\alpha | \beta | \gamma \}$ permettant de déterminer et de classer les problèmes les uns par rapport aux autres. Dans cette notation le champ $\alpha$ correspond à l'environnement machine du problème, $\beta$ aux caractéristiques des tâches, et $\gamma$ indique le (ou les) critère(s) d'optimalité.
+
+\paragraph{Environnement machine ($\alpha$)}
+
+L'environnement machine peut prendre plusieurs valeurs. Lorsque $\alpha$ est vide, cela signifie que chaque tâche $J_i$ doit être effectuée sur une unique machine déterminée. Si $\alpha=P$ alors les machines sont parallèles et similaires.
+
+Si $\alpha=Q$, alors les machines sont parallèles et uniformes c'est-à-dire que la durée d'exécution d'une tâche $J_i$ sur la machine $M_j$ dépendra de la vitesse (\textit{speed}) $s_j$ de $M_j$. Si $\alpha=R$ alors les machines sont parallèles et indépendantes c'est-à-dire que la vitesse de la machine $M_j$ dépend de la tâche à effectuer et que les vitesses d'exécution de la tâche $J_i$ dépend également de la machine sur laquelle elle sera effectuée.
+
+Si $\alpha \in \{G, X, O, J, F\}$  alors le problème est appelé \textit{General Shop} ($\alpha=G$). Ce problème général est caractérisée par le découpage des tâches en opérations. Lorsque $\alpha=J$ le problème est appelé \textit{Job Shop} et comporte une relation de précédence entre les opérations $O_{i1},\cdots,O_{in_i}$ d'une tâche $J_i$. Ainsi, il n'est pas possible d'effectuer une opération $O_{il}$ tant que $O_{ik}$ (avec $k<l$) n'a pas été réalisée. Dans le \textit{Flow Shop} ($\alpha=F$), au moins une opération de chaque tâche doit être effectuée par chaque machine et une machine ne peut traiter qu'une seule tâche à la fois. L'\textit{Open Shop} ($\alpha=O$) reprend les contraintes du \textit{Flow Shop} sans la relation de précédence entre les opérations d'une tâche. Ainsi au moins une tâche de chaque job doit être effectuée sur chacune des machines mais $O_{il}$ peut être réalisée avant $O_{ik}$ (avec $k<l$, $i=1,\cdots,n$).
+
+\paragraph{Caractéristiques des tâches ($\beta$)}
+
+La classification de Graham et al. définit les caractéristiques des tâches grâce à 6 éléments $\beta_1$, $\beta_2$, $\beta_3$, $\beta_4$, $\beta_5$ et $\beta_6$.
+\begin{itemize}
+ \item $\beta_1=pmtn$ si les tâches sont préemptibles c'est-à-dire si l'exécution des tâches peut être interrompue puis relancée même sur d'autres machines.
+ \item $\beta_2$ décrit la relation de précédence entre les tâches et peut prendre les valeurs \textit{prec}, \textit{intree}, \textit{outtree}, \textit{tree}, \textit{chains}, ou \textit{sp-graph}.
+ \item $\beta_3 = r_i$ si les tâches comportent des dates de disponibilité (\textit{release date}).
+ \item $\beta_4$ décrit la durée d'exécution des tâches ou le nombre d'opérations. Si les tâches ont toutes la même durée d'exécution on dit alors qu'elles ont une durée unitaire et $\beta_4=1$.
+ \item $\beta_5= d_i$ si les tâches doivent être réalisées avant une certaine date limite (\textit{due date}).
+ \item $\beta_6$ indique si les tâches doivent être regroupées afin d'être ordonnancées (\textit{batching problem}). Dans ce cas $\beta_6$ vaut \textit{p-batch} ou {s-batch} selon si la longueur du groupe correspond à la durée maximale des tâches du groupe ou à la somme de ces durées.
+\end{itemize}
+D'autres caractéristiques peuvent être également prises en compte et nottament dans les problèmes où l'exécution d'une tâche $J_i$ par une machine $M_j$ requiert une durée de mise en place (\textit{setup time}). En effet, dans certains de ces problèmes les durées de mise en place d'une tâche dépend de la tâche exécutée précédemment par la machine. Dans ce cas, on dit que le coût de mise en place est dépendent de la séquence (\textit{sequence dependent setup times}) et $\beta = ST_{SD}$. Un tour d'horizon de ces problèmes a été rédigé par Allahverdi et al. (voir \cite{Allahverdi1999}).
+
+\paragraph{Critères d'optimalité ($\gamma$)}
+
+Graham et al. définissent deux principaux types de critères d'optimalité. D'une part les critères d'étranglement (\textit{bottleneck objective}) correspondant minimiser la valeur maximale des fonctions de coût du problème et d'autre part, les critères de somme (\textit{sum objective} visant à minimiser la somme des fonctions de coût du problème. Si la fonction de coût n'est pas spécifiée dans la notation, $\gamma$ vaudra $f_{max}$ ou $\sum f_i$.
+La fonction d'évaluation peut concerner :
+\begin{itemize}
+ \item la date de fin d'exécution de l'ensemble des tâches (\textit{makespan}) et dans ce cas $\gamma = C_{max}$
+ \item la durée totale de traitement (\textit{total flow time}) où $\gamma = \sum C_i$
+ \item la durée totale de traitement pondérée (\textit{weighted total flow time} : $\gamma = \sum w_i C_i$
+ \item le retard algébrique (\textit{lateness}) définit comme la différence entre la date limite de la tâche et sa date de fin d'exécution : $L_i = C_i - d_i$. Dans ce cas $\gamma = \sum L_i$ ou $\gamma = \max L_i$
+ \item le retard (\textit{tardiness}) définit comme le max entre le retard algébrique et 0 ($T_i = \max \{0, C_i - d_i\}$) : $\gamma = \sum T_i$ ou $\gamma = \max T_i$
+ \item l'avance (\textit{earliness}) définit ainsi : $E_i = \max \{0, d_i - C_i\}$. Dans ce cas $\gamma = \sum E_i$ ou $\gamma = \max E_i$
+ \item le retard algébrique, le retard, ou l'avance pondérés : $\gamma = \sum w_i L_i$, $\gamma = \sum w_i T_i$, $\gamma = \sum w_i E_i$.
+\end{itemize}
+
+Tous ces critères sont présents dans la littérature mais il est important de remarquer que la plupart des problèmes rencontrés tentent de minimiser le \textit{makespan}.
+
+\subsubsection{Lien avec les problèmes de tournées de véhicules}
+
+Le problème abordé dans cette thèse bien qu'assimilé de prime abord à un problème de tournées de véhicules peut être également modélisé en tant que problème d'atelier. En effet, les véhicules correspondent aux machines et les clients à visiter correspondent à des tâches. La durée de déplacement entre deux clients ou entre le dépôt et un client est assimilée à la durée de mise en place (\textit{setup time}) de la tâche sur la machine. De fait, les durées de mise en place sont dépendent de la séquence (\textit{sequence dependent setup times}. La durée nécessaire aux véhicules pour rentrer au dépôt en fin de tournée correspond au temps d'arrêt de la tâche sur la machine (\textit{removal time}).
+Chacun de ces problèmes concernent l'optimisation d'une planification et d'une affectation de ressources à des tâches. Néanmoins, les méthodes de résolution peuvent être différente d'un problème à l'autre et c'est pourquoi il peut être intéressant d'essayer de transformer un problème de tournée de véhicule en problème d'atelier (et vice versa).
+Dans \cite{Beck2003,Beck2006}, Beck et al. montrent que cette transformation ne conduit pas forcément à l'obtention de meilleurs résultats. Les auteurs indiquent qu'il est nécessaire d'adapter la représentation du problème nottament en ajoutant certaines contraintes.
+
+\subsection{Méthodes de résolution}
+
+Dans \cite{Brucker2007}, Brucker a dressé une revue des différents problèmes d'ordonnancement. Nous ne nous intéresserons ici qu'aux problèmes d'ateliers et nottament au problème de \textit{Job Shop}. La NP-Complétude de ce problème a été démontrée par Lenstra et Rinooy Kan dans \cite{Lenstra1979} et la difficulté est telle que l'instance proposée par Muth et Thomson en 1963 dans \cite{Muth1963} comportant 10 machines et 10 tâches n'a été résolue de façon optimale qu'en 1989 (voir \cite{Carlier1989}). Dans \cite{Jain1998} et \cite{Blazewicz1996}, respectivement Jain et Meeran et Blazewicz et al. ont dressé un état de l'art des méthodes de résolution de ce problème.
+
+\subsubsection{Résolution exacte}
+Concernant les méthodes déterministes, le premier algorithme efficace a été introduit par en 1954 par Johnson dans \cite{Johnson1954}. Cet algorithme permet de résoudre un problème de \textit{Flow Shop} à deux machines. Ce fut le premier algorithme visant à minimiser le \textit{makespan}. D'autres travaux ont traité de problèmes comportant 2 machines (voir \cite{Akers1956,Jackson1956,Hefetz1982}), mais restent inapplicables pour des instances plus importantes.
+
+\subsubsection{Résolution p-approchée}
+Lorsqu'il est impossible d'utiliser une méthode exacte, il est possible d'approcher le résultat avec une marge garantie par rapport à l'optimal. Ces algorithmes appelés ``p-approchés'' (\textit{p-approximated}) consistent en effet à garantir une solution dont le score est supérieur à $p$\% du score optimal. Shmoys et al. ont proposé plusieurs algorithmes p-approchés par rapport au pire des cas (voir \cite{Shmoys1994}) et en 1997 Williamson et al. ont apporté la preuve qu'il n'existe pas d'algorithme polynomial p-approché pour $p < \frac{5}{4}$ (voir \cite{Williamson1997}). Jain et Meeran indiquent dans leur tour d'horizon qu'il n'existe aucun algorithmes déterministe ou p-approchés efficaces pour des problèmes comportant au moins 3 machines et 3 tâches. French et al. ont d'ailleurs indiqué dans \cite{French1982} qu'aucun algorithme efficace ne sera jamais développé pour la majorité des problèmes d'ordonnancement.
+
+\subsubsection{Résolution mathématique}
+Lorsqu'il n'est pas possible d'utiliser une méthode exacte ou p-approchée, la recherche s'est orientée vers des méthodes énumératives. Le principe est de générer les ordonnancement un par un en utilisant des procédés d'élagage de l'espace des solutions. En effet, lorsqu'une solution construite est vérifiée comme sous optimale, l'exploration d'une partie de l'espace des solutions devient inutile. Ce procédé est repris par les méthodes de programmation linéaire en nombre entiers (\textit{Mixed Integer Linear Programming}), de relaxation Lagrangienne (\textit{Lagrangian Relaxation}) et de décomposition (\textit{Decomposition Methods}). Toutefois, le nombre de variables générées afin de relâcher les contraintes augmente de façon exponentielle et rend ces procédés applicables uniquement sur de très petites instances. Jain et Meeran ajoutent que ces méthodes donnent de mauvais résultats à cause d'une trop grande déviation par rapport à l'optimum.
+
+Des algorithmes de \textit{Branch and Bound} ont été utilisés afin de résoudre des problèmes d'ateliers. Les deux principales stratégies de branchement sont la \textit{General Active Schedules: GAS} (voir \cite{Lageweg1977}) et la \textit{Settling Essential Conflicts: SEC} (voir \cite{Barker1985}). $GAS$ procède à l'énumération des solutions dans un ordre prédéfini alors que $SEC$ utilise une heuristique visant à déterminer l'ordre de parcours des opérations deux à deux. Les premiers algorithmes de \textit{Branch and Bound} appliqués aux problèmes d'ateliers ont été ceux de Balas en 1969 (voir \cite{Balas1969}) et Florian et al. en 1971 dans \cite{Florian1971}. Des améliorations successives ont été apportées par Calier et Pinson entre 1988 et 1994 sur le calcul de la borne inférieure de l'algorithme (voir \cite{Pinson1988,Carlier1989,Carlier1990,Carlier1994}). Toutes ces approches utilisent un graphe disjonctif afin de représenter les incompatibilités des tâches et des machines. Ces méthodes demandent un 
+temps considérable pour obtenir une solution exacte à des problèmes de taille importante. Néanmoins ils permettent d'obtenir des solutions approchées assez rapidement.
+
+\subsubsection{Heuristiques}
+
+Pour obtenir encore plus rapidement des solutions approchées, des heuristiques ont été définies dont deux sont les plus largement répandues dans la littérature. \\
+
+La première utilise des règles de priorités et ont été utilisées nottament par Baker dans \cite{Baker1974}, French dans \cite{French1982}, Morton et Pentico dans \cite{Morton1993}. Parmi les règles de priorités les plus utilisées on peut citer : 
+\begin{itemize}
+ \item \textit{First Fit} : les tâches sont exécutées dans l'ordre d'arrivée (indice de la tâche);
+ \item \textit{Shortest Processing Time} : les tâches les plus courtes sont prioritaires;
+ \item \textit{Longest Processing Time} : les tâches les plus longues à exécutées sont traitées en premier;
+ \item \textit{Most Work Remaining} : les tâches comportant le plus d'opérations non traitées sont prioritaires.
+\end{itemize}
+
+Une revue de littérature concernant ces règles de priorités peut être trouvée dans \cite{Panwalkar1977}.\\
+
+La deuxième heuristique est celle du goulot d'étranglement (\textit{bottleneck}) et consiste à réaliser un ordonnancement au plus tôt sur chaque machine afin d'identifier les goulets d'étranglement c'est-à-dire les tâches retardant l'ensemble du processus. Une fois identifiée la tâche bloquante est déplacée dans le plan de charge des machines afin de minimiser le \textit{makespan}. Ce mécanisme d'amélioration locale est répété tant qu'il existe des goulots d'étranglement. Cette procédure appelée \textit{Shifting Bottleneck Procedure}: SBP a été introduite en 1988 dans \cite{Adams1988} par Adams et al. D'autres procédures fonctionnant sur le même principe ont été proposées par Applegate et Cook (voir \cite{Applegate1991}), Dauzère-Pérès et Lassere (voir \cite{Dauzere1993}), Balas et al. (voir \cite{Balas1995}) et par Balas et Vazacopoulos (voir \cite{Balas1998}).
+
+\subsubsection{Métaheuristiques}
+
+Des métaheuristiques ont également été employées pour résoudre les problèmes d'ateliers comme les méthodes de recuit simulé, de recherche tabou, les algorithmes génétiques ainsi que les algorithmes à colonies de fourmis.
+
+\paragraph{Recuit Simulé (\textit{Simulated Annealing})}
+
+La méthode du recuit a été utilisée pour résoudre le problème du \textit{Job Shop} pour la première fois par Matsuo et al en 1989 (voir \cite{Matsuo1989}). Ils ont appliqué la métaheuristique pour résoudre un problème à une machine avec comme critère d'optimalité la minimisation du retard pondéré (\textit{weighted tardiness}). Parallèlement, Van Laarhoven et al. ont proposé un recuit simulé pour le problème général de \textit{Job Shop} visant à minimiser le \textit{makespan}. Le recuit simulé permet ainsi d'améliorer les solutions obtenues par les autres méthodes de résolution de l'époque pour des problèmes comportant jusqu'à 30 tâches et 20 machines. En revanche le temps d'exécution est supérieur au temps requis pour les méthodes heuristiques et nottament celle du goulot d'étranglement.
+
+\paragraph{Recherche Tabou (\textit{Tabu Search})}
+
+Dans \cite{Blazewicz1996}, Blazewicz et al. indiquent que le critère d'optimisation dans une recherche locale est de minimiser la dégradation induite par l'affectation d'une tâche dans le plan de charge d'une machine.
+En 1993, dans \cite{DellAmico1993}, Dell'Amico et Trubian ont trouvé la solution optimale à un problème comportant 5 machines et 20 tâches en seulement deux minutes et trente secondes grâce à une procédure de recherche tabou. 
+L'algorithme le plus connu est nommé \textit{Parallel Tabu Search} de Taillard. Il a été proposé en 1994 dans \cite{Taillard1994}. L'originalité de cet algorithme repose sur l'utilisation d'une mémoire de taille variable. Ainsi, la taille de la liste tabou est modifiée dynamiquement toutes les 15 itérations. Combiné à une parallélisation du processus, l'algorithme de Taillard permet d'obtenir de très bonnes solutions pour des instances même très grandes (jusqu'à 20 machines et 100 tâches).
+En 1995, Barnes et Chambers ont résolu un problème d'ateliers en utilisant la meilleur solution parmi les solutions fournies par 14 heuristiques différentes en tant que solution initiale à une procédure de recherche tabou (voir \cite{Barnes1995}).
+La même année, Sun et al. ont développé dans \cite{Sun1995} une méthode de recherche tabou et ont montré qu'elle était plus performante que l'heuristique du goulot d'étranglement.
+En 1996, Song et Lee ont utilisé une méthode de recherche tabou pour résoudre un problème d'atelier périodique (\textit{Periodic Job Shop Scheduling Problem}: PJSSP) dans lequel un ensemble de produits sont construits de façon répétée (voir \cite{Song1996}). En 1998, Almeida et Centeno ont appliqué la recherche tabou au problème de Job Shop à 1 seule machine dont le critère d'optimalité est la minimisation de l'avance et du retard (earliness and tardiness) (voir \cite{Almeida1998}). Une approche similaire a été utilisée par James dans \cite{James1997} afin de résoudre la version à plusieurs machines de ce problème.
+Cependant, selon Blazewicz et al., Les méthodes tabou les plus efficaces pour les problèmes de \textit{Job Shop} sont celles proposées par Nowicki et Smutnicki (voir \cite{Nowicki1996}) et Balas et Vazacopulos (voir \cite{Balas1998}).
+L'algorithme de Nowicki et Smutnicki a été proposé en 1993 puis publié en 1996 et consiste à utiliser non pas une seule meilleur solution mais une liste des meilleurs solutions. Cet algorithme cumule une recherche tabou et un processus de \textit{backtracking}. Ainsi lorsqu'une solution améliorant la meilleur solution courante est trouvée, elle est ajoutée en tête de liste. Lorsque plus aucune meilleur solution n'est trouvée par l'algorithme où que la condition d'arrêt a été rencontrée (temps d'exécution maximum, ou itération maximale), alors l'algorithme est relancé avec une ancienne meilleur solution jusqu'à ce que la liste des meilleurs solutions soit vide. Cette méthode a permis d'obtenir la solution optimale à un problème comportant 5 machines et 20 tâches en seulement 3 secondes.
+L'algorithme de Balas et Vazacopulos (proposé en 1995 puis publié en 1998) consiste à inverser plusieurs arcs disjonctifs sur un chemin critique à chaque itération. Leur méthode consiste à construire une énumération partielle des solutions sous forme d'arbre où chaque noeud correspond à un ordonnancement, et chaque arc représente l'inversion de deux opérations sur un chemin critique. Les auteurs ont inclus cette méthode de recherche locale guidée utilisant un arbre de solutions à l'intérieur de la méthode du goulot d'étranglement. La recherche tabou est ainsi utilisée en tant que phase de post-optimisation de l'heuristique. Les résultats obtenus par les auteurs montrent que l'algorithme permet d'obtenir des solutions optimales ou proches de l'optimal de façon très rapide à diverses instances classiques de la littérature.
+Enfin, en 2001, Schmidt a proposé dans \cite{Schmidt2001} une méthode tabou pour résoudre la version du problème où le coût de mise en place est dépendant de la séquence (\textit{Job Shop Scheduling Problem with Sequence Dependent Setup Times}: JSSP-ST$_{sd}$).
+
+\paragraph{Algorithmes génétiques (\textit{Genetic Algorithms})}
+
+La première tentative de résolution d'un problème de \textit{Job Shop} a été réalisée par Davis en 1985 (voir \cite{Davis1985}). Depuis, de nombreux algorithmes génétiques ont été élaborés et adaptés aux problèmes de \textit{Job Shop}. Ainsi on peut distinguer les approches utilisant une modélisation des chromosomes par des enchaînements de règles de priorité et celles utilisant la modélisation des chromosomes utilisée pour le problème de voyageur de commerce et qui consiste à définir des permutations de tâches. Concernant la première approche, elle a été utilisée nottament par Della Croce et al. dans \cite{DellaCroce1995}. Leur algorithme est appelé \textit{Priority-rule based Genetic Algorithm}: P-GA et consiste à déterminer la meilleure séquence de règles de priorités à utiliser pour résoudre le problème. Cette approche est l'une des plus performantes. La seconde représentation a été nottament introduite par Bierwirth dans \cite{Bierwirth1995} pour répondre au problème posé par la médiocre performance des 
+opérateurs de croisements (voir \cite{Dorndorf1995} et \cite{Bierwirth1995}). 
+Tout comme pour le problème de voyageurs de commerce, les algorithmes génétiques les plus performants sont en réalité des méthodes hybrides combinant un environnement génétique et une recherche locale. En 1995, Dorndorf et Pesch ont introduit l'algorithme \textit{Shifting Bottleneck Genetic Algorithm}: SB-GA qui comme son nom l'indique utilise l'heuristique du goulot d'étranglement au sein d'un algorithme génétique. Cette méthode donne des résultats comparables à ceux de Della Croce et al. et de façon plus rapide. En 1991, Nakano et Yamada (voir \cite{Nakano1991}) puis en 1994 Aarts et al. (voir \cite{Aarts1994}) ont développé des algorithmes génétiques guidés par des méthodes de recherche locale (\textit{Guided Local Search based Genetic Algorithm}: GLS-GA).
+Plus récemment, Gonçalves et al. ont présenté dans \cite{Goncalves2005} un algorithme génétique hybride combinant un algorithme similaire au \textit{Priority-rule based Genetic Algorithm} de Della Croce et al. et une heuristique locale. L'algorithme se montre plus performant que la plupart des méthodes de la littérature à l'exception de la méthode tabou de Nowicki et Smutnicki (voir \cite{Nowicki1996}).
+
+\paragraph{Optimisation par colonies de fourmis (\textit{Ant Colony Optimization})}
+
+Le premier algorithme de colonies de fourmis utilisé pour résoudre un problème de Job Shop a été proposé par Colorni et al. en 1994 dans \cite{Colorni1994}. L'algorithme est basé sur le \textit{Ant System} de Dorigo et al. (voir \cite{Dorigo1992}). Le principe est de minimiser le \textit{makespan} d'un ordonnancement en modélisant les possibilités d'ordonnancement des opérations des tâches par un graphe complet. Chaque arc est pondéré par deux valeurs: d'une part la trace de phéromone (mémoire), et d'autre part une valeur représentant l'attractivité de l'utilisation de l'arc dans l'ordonnancement (heuristique). Les fourmis colonisent ainsi le graphe et chaque sommet visité est inséré dans une liste tabou. Lorsque la liste est pleine, la qualité de l'ordonnancement est évalué et de la phéromone est déposée sur les arcs utilisés en fonction de la qualité obtenue. Les auteurs ont montré que cette méthode permettait d'obtenir des solutions proches de l'optimal sans pour autant demander de modifications 
+importantes afin de l'adapter spécifiquement au problème.
+Plus récemment, dans \cite{Udomsakdigool2011} Udomsakdigool et Kachitvichyanukul ont étendu l'utilisation d'un algorithme fourmis pour résoudre la version multi-critères du problème avec contraintes de temps (\textit{Multi-criteria Job Shop Scheduling Problem with Time Windows}). Le but est ici de minimiser la combinaison linéaire pondérée de la durée de fin d'exécution (\textit{makespan}), la durée moyenne de traitement (\textit{mean flow time}), ainsi que du retard moyen (\textit{mean tardiness}). Les fourmis sont ainsi séparées en 3 colonies utilisant chacune leur propre heuristique représentant chacun des objectifs. Les auteurs ont testé leur algorithme sur des instances comportant jusqu'à 15 tâches et 10 machines et ont montré que l'algorithme permet d'obtenir rapidement des solutions de bonne qualité.
+
+Dans \cite{Ponnambalam2005}, Ponnambalam et al. ont introduit un algorithme fourmis pour résoudre des instances de grandes taille (20 tâches et 15 machines) du Flexible Job Shop Scheduling Problem (FJSSP). Dans ce problème introduit pour la première fois par Brücker et Schlie (voir \cite{Brucker1990}), toutes les machines sont capables de réaliser n'importe quelle opération. Le problème est NP-difficile pour des instances comportant plus de 2 machines.
+Dans \cite{Xing2010}, Xing et al. ont utilisé une méthode hybride d'optimisation pour le FJSSP utilisant à la fois des modèles à base de connaissance, et des modèles fourmis. L'algorithme mémorise les éléments interessants des itérations précédentes pour guider l'algorithme fourmis vers les meilleurs solutions.
+
+Un tour d'horizon des algorithmes utilisés pour résoudre les problèmes de Job Shop avec des coûts de mise en place dépendant de la séquence (JSSP-ST$_{sd}$) peut être trouvé dans \cite{Allahverdi2008}. Même si les méthodes de résolution évoquées dans les paragraphes précédents sont destinés au problème statique du \textit{Job Shop}, certaines techniques peuvent être utilisées lors de la résolution des versions dynamique du problème.
+
+\subsection{Problème dynamique}
+
+Dans sa version dynamique le problème d'atelier (\textit{Dynamic Job Shop Scheduling Problem}: DJSSP) prend en compte des événements (voir \cite{Ramasesh1990}). Cela implique qu'un ordonnancement calculé peut devenir caduque au cours de l'exécution.
+
+\subsubsection{Identification et politiques de gestion de la dynamique}
+Différents événements peuvent se produire. Selon Ouelhadj et Petrovic, ces événements peuvent être liés soit aux ressources, soit aux tâches (voir \cite{Ouelhadj2009}). En effet, dans les environnements réels de production, d'une part les machines peuvent tomber en panne ou les temps de mise en place peuvent être variables, et d'autre part les tâches peuvent arriver en retard ou en avance à l'atelier ou peuvent être annulées au dernier moment, etc.
+
+Dans \cite{Ouelhadj2009}, Ouelhadj et Petrovic établissent un tour d'horizon concernant le DJSSP et indiquent qu'il existe 4 approches pour traiter ce problème : 
+\begin{itemize}
+ \item ordonnancement complètement réactif;
+ \item ordonnancement prédictif et réactif;
+ \item ordonnancement robuste prédictif et réactif;
+ \item ordonnancement robuste pro-actif.
+\end{itemize}
+
+Dans \cite{Suresh1993}, Suresh et Chaundhuri regroupent ces approches en deux classes : l'ordonnancement réactif d'une part et l'ordonnancement prédictif d'autre part. Dans les systèmes réactifs, l'ordonnancement est calculé en fonction des événements qui surviennent. L'approche mixte (prédictive et réactive) est la plus rencontrée et consiste à calculer un ordonnancement statique avant le début de l'exécution en tenant compte des événements futurs puis de recalculer cet ordonnancement lorsqu'un événement survient pendant l'exécution. Dans les systèmes prédictifs, l'ordonnancement est déterminé de façon à faciliter la gestion des événements futurs potentiels.
+Chacune de ces approches nécessite des opérations de replanification. Selon Ouelhadj et Petrovic, il existe 3 politiques de replanification dans la littérature : 
+\begin{itemize}
+ \item la replanification périodique (\textit{periodic rescheduling});
+ \item la replanification guidée par l'évenement (\textit{event driven rescheduling});
+ \item la replanification mixte (\textit{hybrid rescheduling}).
+\end{itemize}
+Les auteurs expliquent que la politique de replanification périodique peut être suffisante pour gérer la dynamique du problème à condition de déterminer de façon précise la taille de la période. Toutefois, les auteurs indiquent que dans chaque article étudié dans leur tour d'horizon, la politique de replanification guidée par l'événement donne de meilleurs résultats que la politique de replanification périodique.
+
+Dans la politique de replanification guidée par l'événement il est question de prendre en compte les nouvelles caractéristiques du problème. Il est donc possible soit de recalculer totalement l'ordonnancement, soit de réparer l'ordonnancement à chaque fois qu'un événement le rend invalide. Cependant, la première méthode se révèle inutilisable en pratique à cause du délai trop court entre deux arrivées d'événements.
+
+\subsubsection{Méthodes de résolution}
+
+Tout comme pour la version dynamique du problème de tournées de véhicules, il n'est plus possible d'utiliser des méthodes exactes de résolution, qui même dans le cas statiques ne sont quasiment jamais utilisées dans les environnements réels de production. En effet, les délais de calcul d'une nouvelle solution deviendraient supérieurs à l'intervalle de temps entre deux événements. Plusieurs études ont été portées sur des méthodes heuristiques et métaheuristiques, ainsi que sur les techniques utilisées en intelligence artificielle et sur des approches multi-agents pour résoudre le DJSSP.
+
+Dans \cite{Gere1966}, Gere a introduits des heuristiques à la fois pour le problème statique de \textit{Job Shop} et pour le DJSSP. L'auteur a mesuré l'efficacité de chaque heuristique et a montré que le choix de l'heuristique la plus adaptée au problème est plus important dans la qualité de la solution que le choix de la règle de priorités à utiliser pour les tâches. Gere a conclu que les heuristiques basées sur l'anticipation amélioraient de façon significative la qualité de la solution sans augmenter de façon trop importante le temps de calcul de cette solution.
+
+Les méthodes utilisées en intelligence artificielle sont également applicables au DJSSP comme les algorithmes à base de connaissance, les réseaux de neurones artificiels, les raisonnements à base de cas, la logique floue ou encore les réseaux de Petri.
+
+De récentes approches utilisant des Systèmes Multi-Agents (SMA) ont été développées pour résoudre la version dynamique du problème d'atelier. Dans \cite{Yoo2002}, Yoo et Müller ont introduit un système multi-agents utilisant une méthode de recuit simulé pour optimiser les solutions proposées par les agents.
+
+Les métaheuristiques constituent les principales méthodes de résolution du DJSSP. Les algorithmes génétiques sont les plus souvent rencontrés dans la littérature. Lin et al. ont proposé dans \cite{Lin1997} un algorithme génétique pour le DJSSP et ont dans un premier temps comparé les performances de leur algorithme avec les résultats obtenus en utilisant des règles de priorités dans le cadre d'une replanification intégrale. Puis, dans un second temps, ils ont montré que l'utilisation d'une partie du génome de la génération précédente permet une replanification efficace lors de l'arrivée d'un événement.
+Dans \cite{Qi2000}, Qi et al. ont proposé un algorithme génétique parallèle à plusieurs populations pour résoudre le DJSSP multi-critère. Les auteurs ont implémenté leur algorithme sur la plateforme MATLAB et ont pu ainsi vérifier que leur technique obtenait des résultats de qualité proche de l'optimal tout en nécessitant peu de temps de calcul et en conservant une grande flexibilité face aux critères d'évaluation utilisés. Dans \cite{Madureira2001}, Madureira et al.  présentent un algorithme génétique pour résoudre la version dynamique du problème d'ordonnancement à une machine (\textit{Dynamic Single Machine Scheduling Problem} : DSMSP) ainsi qu'un algorithme génétique permettant de résoudre le DJSSP. Leur approche construit des prédictions de planification en fonction des éléments connus au moment du calcul.
+
+Bien que répandus pour résoudre la version statique des problèmes de tournées de véhicules et du problème d'ateliers, les algorithme d'optimisation par colonies des fourmis ne sont que très peu utilisés dans la résolution de la version dynamique du problème de \textit{Job Shop}. Dans \cite{Vogel2002}, Vogel et al. ont proposé un algorithme fourmis fonctionnant en continu pour résoudre le \textit{Real World Shop Floor Scheduling Problem}. Leur algorithme est comparé aux performances des heuristiques à base de règles de priorités et à un algorithme génétique. Les auteurs concluent que les résultats obtenus n'égalent pas pour le moment ceux de l'algorithme génétique mais que la piste est prometteuse et permettra d'ouvrir la voie aux travaux futurs.
+Plus récemment, Zhou et al. ont proposés dans \cite{Zhou2008} un algorithme d'optimisation par colonies de fourmis pour résoudre le DJSSP. Les auteurs ont mesuré les performances de l'algorithme sur deux problèmes comportant les mêmes tâches mais avec des degrés de dynamicité différents. Ils ont montré que l'algorithme fourmis était performant dans les deux cas et qu'augmenter le nombre de fourmis ou le nombre d'itérations maximum n'améliorait pas forcément la qualité de la solution fournie.
+
+Les méthodes de résolution adaptées à la dynamique évoquées dans la première partie de ce chapitre ont donc été utilisées avec succès dans la résolution de la version dynamique du problème de Job Shop. Néanmoins, la littérature reste mince concernant ce problème et des travaux supplémentaire seront nécessaire à la création et à la validation de méthodes efficaces et robustes.
+
+\subsection*{Conclusion}
+Dans cette partie nous avons passé en revue les caractéristiques des problèmes d'ateliers et plus précisément du problème de \textit{Job Shop}. Tout comme pour les problèmes de voyageurs de commerce et de tournées de véhicules des méthodes de résolution exacte et approchées ont été utilisées. D'ailleurs, Beck et al. ont montré dans \cite{Beck2003} que les problèmes de \textit{Job Shop} et de tournées de véhicules étaient similaires. Néanmoins, tout comme pour les problèmes de tournées de véhicules, seules les méthodes approchées sont utilisées dans les problèmes concrets à cause de la complexité du problème et des délais relativement cours rencontrés dans les environnements de production réels.

@@ -1,0 +1,114 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: theseGL.aux
+A level-1 auxiliary file: chapitres/titre.aux
+A level-1 auxiliary file: chapitres/remerciements.aux
+A level-1 auxiliary file: chapitres/resume.aux
+The style file: apalike.bst
+Reallocated field_info (elt_size=4) to 10698 items from 5000.
+Database file #1: bibliographie/bibliographie_these.bib
+I was expecting a `,' or a `}'---line 583 of file bibliographie/bibliographie_these.bib
+ :   
+ :   publisher = {Springer},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 2530 of file bibliographie/bibliographie_these.bib
+ :     
+ :     type = {Technical Report}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Repeated entry---line 2613 of file bibliographie/bibliographie_these.bib
+ : @techreport{Christofides1976
+ :                             ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 2687 of file bibliographie/bibliographie_these.bib
+ : @article{Gendreau1999
+ :                      ,
+I'm skipping whatever remains of this entry
+A bad cross reference---entry "Kiraly2011"
+refers to entry "DBLP:series/sci/2011-366", which doesn't exist
+A bad cross reference---entry "Beck2003"
+refers to entry "DBLP:conf/aips/2003", which doesn't exist
+A bad cross reference---entry "Nakano1991"
+refers to entry "DBLP:conf/icga/1991", which doesn't exist
+A bad cross reference---entry "Lin1997"
+refers to entry "DBLP:conf/icga/1997", which doesn't exist
+Warning--I didn't find a database entry for "DBLP:series/sci/2011-366"
+Warning--I didn't find a database entry for "DBLP:conf/aips/2003"
+Warning--I didn't find a database entry for "DBLP:conf/icga/1991"
+Warning--I didn't find a database entry for "DBLP:conf/icga/1997"
+Name 1 in "S~G Ponnambalam, N~Jawahar, and B~S Girish" has a comma at the end for entry Ponnambalam2005
+while executing---line 1020 of file apalike.bst
+Name 1 in "S~G Ponnambalam, N~Jawahar, and B~S Girish" has a comma at the end for entry Ponnambalam2005
+while executing---line 1020 of file apalike.bst
+Warning--empty publisher in Barricelli1957
+Warning--empty booktitle in Bodin1983
+Warning--can't use both volume and number fields in Bodin1983
+Warning--empty booktitle in Bramel2001
+Warning--empty journal in Carlier1990
+Warning--empty journal in Cordeau2001
+Warning--there's a number but no volume in Doerner2000
+Warning--empty institution in Dorigo1991
+Warning--empty booktitle in Gambardella1995
+Warning--empty institution in Gambardella1999
+Warning--empty institution in Talbi2001
+Warning--there's a number but no volume in Hefetz1982
+Warning--can't use both author and editor fields in Holland1975
+Warning--can't use both volume and number fields in Holland1975
+Warning--empty publisher in Gromicho1992
+Warning--there's a number but no volume in Jackson1956
+Warning--empty journal in Jain1998
+Warning--empty chapter and pages in Johnson1997
+Warning--empty publisher in Johnson1997
+Warning--empty institution in Kilby1998
+Warning--empty publisher in Kiraly2011
+Warning--empty journal in Madureira2001
+Warning--can't use both author and editor fields in Neumann1966
+Warning--empty institution in Pillac2011
+Warning--empty school in Pinson1988
+Name 1 in "S~G Ponnambalam, N~Jawahar, and B~S Girish" has a comma at the end for entry Ponnambalam2005
+while executing---line 1095 of file apalike.bst
+Warning--empty school in Thangiah1991
+Warning--empty school in Troyon1988
+Warning--empty institution in Widrow1960
+You've used 259 entries,
+            1935 wiz_defined-function locations,
+            2155 strings with 48991 characters,
+and the built_in function-call counts, 107149 in all, are:
+= -- 10630
+> -- 3881
+< -- 213
++ -- 1439
+- -- 1250
+* -- 9154
+:= -- 18161
+add.period$ -- 831
+call.type$ -- 259
+change.case$ -- 1878
+chr.to.int$ -- 256
+cite$ -- 287
+duplicate$ -- 4073
+empty$ -- 7824
+format.name$ -- 1693
+if$ -- 21415
+int.to.chr$ -- 4
+int.to.str$ -- 0
+missing$ -- 258
+newline$ -- 1319
+num.names$ -- 798
+pop$ -- 1485
+preamble$ -- 1
+purify$ -- 1896
+quote$ -- 0
+skip$ -- 3125
+stack$ -- 0
+substring$ -- 8504
+swap$ -- 616
+text.length$ -- 56
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 1516
+warning$ -- 28
+while$ -- 857
+width$ -- 0
+write$ -- 3442
+(There were 11 error messages)

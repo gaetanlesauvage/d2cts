@@ -1,0 +1,664 @@
+\addtocounter{figure}{4}
+
+\begin{figure}[hb]
+\tiny
+\centering
+\begin{changemargin}{-1cm}{-1cm}
+\subfloat[Arbre des solutions d'un problème à 2 machines et 3 missions]{\label{subfig:arbreBBinit}
+\begin{tikzpicture}[grow=down,level 1/.style={sibling distance=3cm},level 2/.style={sibling distance=0.75cm},level 3/.style={sibling distance=0.25cm},yscale=1.5]
+ \node {}
+ child{ node[rotate=270]{\{$M_1$\}\{$\emptyset$\}}
+  child {	node[rotate=270] {\{$M_1,M_2$\}\{$\emptyset$\}}
+		  child {	node[rotate=270] {\{$M_1,M_2,M_3$\}\{$\emptyset$\}} }
+		  child {	node[rotate=270] {\{$M_1,M_2$\}\{$M_3$\}}	}
+	}
+  child {	node[rotate=270] {\{$M_1$\}\{$M_2$\}}	
+		  child {	node[rotate=270] {\{$M_1,M_3$\}\{$M_2$\}} }
+		  child {	node[rotate=270] {\{$M_1$\}\{$M_2,M_3$\}}}
+	}
+  child {	node[rotate=270] {\{$M_1,M_3$\}\{$\emptyset$\}}
+		  child {	node[rotate=270] {\{$M_1,M_3,M_2$\}\{$\emptyset$\}} }
+		  child {	node[rotate=270] {\{$M_1,M_3$\}\{$M_2$\}}}
+	}
+  child {	node[rotate=270] {\{$M_1$\}\{$M_3$\}}
+		  child {	node[rotate=270] {\{$M_1,M_2$\}\{$M_3$\}} }
+		  child {	node[rotate=270] {\{$M_1$\}\{$M_3,M_2$\}}}
+	}
+  }
+ child{ node[rotate=270]{\{$M_2$\}\{$\emptyset$\}}
+  child {	node[rotate=270] {\{$M_2,M_1$\}\{$\emptyset$\}}
+		  child {	node[rotate=270] {\{$M_2,M_1,M_3$\}\{$\emptyset$\}} }
+		  child {	node[rotate=270] {\{$M_2,M_1$\}\{$M_3$\}}	}
+	}
+  child {	node[rotate=270] {\{$M_2$\}\{$M_1$\}}	
+		  child {	node[rotate=270] {\{$M_2,M_3$\}\{$M_1$\}} }
+		  child {	node[rotate=270] {\{$M_2$\}\{$M_1,M_3$\}}}
+	}
+  child {	node[rotate=270] {\{$M_2,M_3$\}\{$\emptyset$\}}
+		  child {	node[rotate=270] {\{$M_2,M_3,M_1$\}\{$\emptyset$\}} }
+		  child {	node[rotate=270] {\{$M_2,M_3$\}\{$M_1$\}}}
+	}
+  child {	node[rotate=270] {\{$M_2$\}\{$M_3$\}}
+		  child {	node[rotate=270] {\{$M_2,M_1$\}\{$M_3$\}} }
+		  child {	node[rotate=270] {\{$M_2$\}\{$M_3,M_1$\}}}
+	}
+  }
+  child{ node[rotate=270]{\{$M_3$\}\{$\emptyset$\}}
+  child {	node[rotate=270] {\{$M_3,M_1$\}\{$\emptyset$\}}
+		  child {	node[rotate=270] {\{$M_3,M_1,M_2$\}\{$\emptyset$\}} }
+		  child {	node[rotate=270] {\{$M_3,M_1$\}\{$M_2$\}}	}
+	}
+  child {	node[rotate=270] {\{$M_3$\}\{$M_1$\}}	
+		  child {	node[rotate=270] {\{$M_3,M_2$\}\{$M_1$\}} }
+		  child {	node[rotate=270] {\{$M_3$\}\{$M_1,M_2$\}}}
+	}
+  child {	node[rotate=270] {\{$M_3,M_2$\}\{$\emptyset$\}}
+		  child {	node[rotate=270] {\{$M_3,M_2,M_1$\}\{$\emptyset$\}} }
+		  child {	node[rotate=270] {\{$M_3,M_2$\}\{$M_1$\}}}
+	}
+  child {	node[rotate=270] {\{$M_3$\}\{$M_2$\}}
+		  child {	node[rotate=270] {\{$M_3,M_1$\}\{$M_2$\}} }
+		  child {	node[rotate=270] {\{$M_3$\}\{$M_2,M_1$\}}}
+	}
+  }
+  child{ node[rotate=270]{\{$\emptyset$\}\{$M_1$\}}
+  child {	node[rotate=270] {\{$M2$\}\{$M_1$\}}
+		  child {	node[rotate=270] {\{$M_2,M_3$\}\{$M_1$\}} }
+		  child {	node[rotate=270] {\{$M_2$\}\{$M_1,M_3$\}}	}
+	}
+  child {	node[rotate=270] {\{$\emptyset$\}\{$M_1,M_2$\}}	
+		  child {	node[rotate=270] {\{$M_3$\}\{$M_1,M_2$\}} }
+		  child {	node[rotate=270] {\{$\emptyset$\}\{$M_1,M_2,M_3$\}}}
+	}
+  child {	node[rotate=270] {\{$M_3$\}\{$M_1$\}}
+		  child {	node[rotate=270] {\{$M_3,M_2$\}\{$M_1$\}} }
+		  child {	node[rotate=270] {\{$M_3$\}\{$M_1,M_2$\}}}
+	}
+  child {	node[rotate=270] {\{$\emptyset$\}\{$M_1,M_3$\}}
+		  child {	node[rotate=270] {\{$M_2$\}\{$M_1,M_3$\}} }
+		  child {	node[rotate=270] {\{$\emptyset$\}\{$M_1,M_3,M_2$\}}}
+	}
+  }
+ child{ node[rotate=270]{\{$\emptyset$\}\{$M_2$\}}
+  child {	node[rotate=270] {\{$M_1$\}\{$M_2$\}}
+		  child {	node[rotate=270] {\{$M_1,M_3$\}\{$M_2$\}} }
+		  child {	node[rotate=270] {\{$M_1$\}\{$M_2,M_3$\}}	}
+	}
+  child {	node[rotate=270] {\{$\emptyset$\}\{$M_2,M_1$\}}	
+		  child {	node[rotate=270] {\{$M_3$\}\{$M_2,M_1$\}} }
+		  child {	node[rotate=270] {\{$\emptyset$\}\{$M_2,M_1,M_3$\}}}
+	}
+  child {	node[rotate=270] {\{$M_3$\}\{$M_2$\}}
+		  child {	node[rotate=270] {\{$M_3,M_1$\}\{$M_2$\}} }
+		  child {	node[rotate=270] {\{$M_3$\}\{$M_2,M_1$\}}}
+	}
+  child {	node[rotate=270] {\{$\emptyset$\}\{$M_2,M_3$\}}
+		  child {	node[rotate=270] {\{$M_1$\}\{$M_2,M_3$\}} }
+		  child {	node[rotate=270] {\{$\emptyset$\}\{$M_2,M_3,M_1$\}}}
+	}
+  }
+  child{ node[rotate=270]{\{$\emptyset$\}\{$M_3$\}}
+  child {	node[rotate=270] {\{$M_1$\}\{$M_3$\}}
+		  child {	node[rotate=270] {\{$M_1,M_2$\}\{$M_3$\}} }
+		  child {	node[rotate=270] {\{$M_1$\}\{$M_3,M_2$\}}	}
+	}
+  child {	node[rotate=270] {\{$\emptyset$\}\{$M_3,M_1$\}}	
+		  child {	node[rotate=270] {\{$M_2$\}\{$M_3,M_1$\}} }
+		  child {	node[rotate=270] {\{$\emptyset$\}\{$M_3,M_1,M_2$\}}}
+	}
+  child {	node[rotate=270] {\{$M_2$\}\{$M_3$\}}
+		  child {	node[rotate=270] {\{$M_2,M_1$\}\{$M_3$\}} }
+		  child {	node[rotate=270] {\{$M_2$\}\{$M_3,M_1$\}}}
+	}
+  child {	node[rotate=270] {\{$\emptyset$\}\{$M_3,M_2$\}}
+		  child {	node[rotate=270] {\{$M_1$\}\{$M_3,M_2$\}} }
+		  child {	node[rotate=270] {\{$\emptyset$\}\{$M_3,M_2,M_1$\}}}
+	}
+  }
+  ;
+\end{tikzpicture} 
+}
+\end{changemargin}
+\end{figure}
+
+\begin{figure}[hb]
+ \ContinuedFloat
+ \tiny
+ \centering
+ \begin{changemargin}{-1cm}{-1cm}
+\subfloat[Initialisation de la borne supérieure]{\label{subfig:arbreBBinitBorne}
+\begin{tikzpicture}[grow=down,level 1/.style={sibling distance=3cm},level 2/.style={sibling distance=0.75cm},level 3/.style={sibling distance=0.25cm},level 4/.style={sibling distance=0.25cm},yscale=1.5]
+ \node {}
+ child[color=black]{ node[rotate=270,color=black]{\{$M_1$\}\{$\emptyset$\}}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2$\}\{$\emptyset$\}}
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2,M_3$\}\{$\emptyset$\}}
+		    child[color=blue] { node[rotate=270,color=red] {1829}}
+		  }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_2$\}\{$M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3,M_2$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3$\}\{$M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_2$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}}}
+	}
+  }
+ child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$M_2$\}\{$\emptyset$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1,M_3$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3,M_1$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}}}
+	}
+  }
+  child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$M_3$\}\{$\emptyset$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1,M_2$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2,M_1$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}}}
+	}
+  }
+  child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$\emptyset$\}\{$M_1$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M2$\}\{$M_1$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_2$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_2,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_3,M_2$\}}}
+	}
+  }
+ child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$\emptyset$\}\{$M_2$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_1,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_3,M_1$\}}}
+	}
+  }
+  child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$\emptyset$\}\{$M_3$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_2$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_1,M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_2,M_1$\}}}
+	}
+  }
+  ;
+\end{tikzpicture} 
+}
+\end{changemargin}
+\end{figure}
+
+\begin{figure}[hb]
+ \ContinuedFloat
+ \tiny
+ \centering
+ \begin{changemargin}{-1cm}{-1cm}
+\subfloat[recherche d'une nouvelle borne supérieure : ici 1229]{\label{subfig:arbreBBrech}
+\begin{tikzpicture}[grow=down,level 1/.style={sibling distance=3cm},level 2/.style={sibling distance=0.75cm},level 3/.style={sibling distance=0.25cm},level 4/.style={sibling distance=0.25cm},yscale=1.5]
+ \node {}
+ child[color=black]{ node[rotate=270,color=black]{\{$M_1$\}\{$\emptyset$\}}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2$\}\{$\emptyset$\}}
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2,M_3$\}\{$\emptyset$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {1829}}
+		  }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2$\}\{$M_3$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {1972}}
+		  }
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1$\}\{$M_2$\}}	
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_3$\}\{$M_2$\}} 
+		    child[color=blue] { node[rotate=270,color=red] {1229}}
+		  }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3,M_2$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3$\}\{$M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_2$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}}}
+	}
+  }
+ child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$M_2$\}\{$\emptyset$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1,M_3$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3,M_1$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}}}
+	}
+  }
+  child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$M_3$\}\{$\emptyset$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1,M_2$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2,M_1$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}}}
+	}
+  }
+  child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$\emptyset$\}\{$M_1$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M2$\}\{$M_1$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_2$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_2,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_3,M_2$\}}}
+	}
+  }
+ child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$\emptyset$\}\{$M_2$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_1,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_3,M_1$\}}}
+	}
+  }
+  child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$\emptyset$\}\{$M_3$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_2$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_1,M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_2,M_1$\}}}
+	}
+  }
+  ;
+\end{tikzpicture} 
+}
+\end{changemargin}
+\end{figure}
+
+\begin{figure}[hb]
+ \ContinuedFloat
+ \tiny
+ \centering
+ \begin{changemargin}{-1cm}{-1cm}
+\subfloat[Coupure du sous-arbre de la branche $\{M2,M1\}\{\emptyset\}$]{\label{subfig:arbreBBcoupure}
+\begin{tikzpicture}[grow=down,level 1/.style={sibling distance=3cm},level 2/.style={sibling distance=0.75cm},level 3/.style={sibling distance=0.25cm},level 4/.style={sibling distance=0.25cm},yscale=1.5]
+ \node {}
+ child[color=black]{ node[rotate=270,color=black]{\{$M_1$\}\{$\emptyset$\}}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2$\}\{$\emptyset$\}}
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2,M_3$\}\{$\emptyset$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {1829}}
+		  }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2$\}\{$M_3$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {1972}}
+		  }
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1$\}\{$M_2$\}}	
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_3$\}\{$M_2$\}} 
+		    child[color=blue] { node[rotate=270,color=blue] {1229}}
+		  }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1$\}\{$M_2,M_3$\}}
+		    child[color=blue] { node[rotate=270,color=red] {1211}}
+		  }
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_3$\}\{$\emptyset$\}}
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_3,M_2$\}\{$\emptyset$\}} 
+		    child[color=blue] { node[rotate=270,color=blue] {7491}}
+		  }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_3$\}\{$M_2$\}}}
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1$\}\{$M_3$\}}
+ 		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2$\}\{$M_3$\}} }
+ 		  child[color=black] {	node[rotate=270,color=black] {\{$M_1$\}\{$M_3,M_2$\}}
+		      child[color=blue] { node[rotate=270,color=blue] {7008}}
+ 		  }
+	}
+  }
+ child[color=black]{ node[rotate=270,color=black]{\{$M_2$\}\{$\emptyset$\}}
+  child[color=black] {	node[rotate=270,color=green] {\{$M_2,M_1$\}\{$\emptyset$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1,M_3$\}\{$\emptyset$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3,M_1$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}}}
+	}
+  }
+  child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$M_3$\}\{$\emptyset$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1,M_2$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$\emptyset$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2,M_1$\}\{$\emptyset$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}}}
+	}
+  }
+  child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$\emptyset$\}\{$M_1$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M2$\}\{$M_1$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_2$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_2,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_1,M_3,M_2$\}}}
+	}
+  }
+ child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$\emptyset$\}\{$M_2$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_1,M_3$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_2,M_3,M_1$\}}}
+	}
+  }
+  child[color=lightgray]{ node[rotate=270,color=lightgray]{\{$\emptyset$\}\{$M_3$\}}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_2$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}}	}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_1$\}}	
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_1,M_2$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}}}
+	}
+  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_2$\}}
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}} }
+		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_2,M_1$\}}}
+	}
+  }
+  ;
+\end{tikzpicture} 
+}
+\end{changemargin}
+\end{figure}
+
+\begin{figure}[hb]
+ \ContinuedFloat
+ \tiny
+ \centering
+ \begin{changemargin}{-1cm}{-1cm}
+\subfloat[La solution optimale se situe sur la branche rouge]{\label{subfig:arbreBBfinal}
+\begin{tikzpicture}[grow=down,level 1/.style={sibling distance=3cm},level 2/.style={sibling distance=0.75cm},level 3/.style={sibling distance=0.25cm},level 4/.style={sibling distance=0.25cm},yscale=1.5]
+ \node {}
+ child[color=black]{ node[rotate=270,color=black]{\{$M_1$\}\{$\emptyset$\}}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2$\}\{$\emptyset$\}}
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2,M_3$\}\{$\emptyset$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {1829}}
+		  }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2$\}\{$M_3$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {1972}}
+		  }
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1$\}\{$M_2$\}}	
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_3$\}\{$M_2$\}} 
+		    child[color=blue] { node[rotate=270,color=blue] {1229}}
+		  }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1$\}\{$M_2,M_3$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {1211}}
+		  }
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_3$\}\{$\emptyset$\}}
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_3,M_2$\}\{$\emptyset$\}} 
+		    child[color=blue] { node[rotate=270,color=blue] {7491}}
+		  }
+% 		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_3$\}\{$M_2$\}}}
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_1$\}\{$M_3$\}}
+%  		  child[color=black] {	node[rotate=270,color=black] {\{$M_1,M_2$\}\{$M_3$\}} }
+ 		  child[color=black] {	node[rotate=270,color=black] {\{$M_1$\}\{$M_3,M_2$\}}
+		      child[color=blue] { node[rotate=270,color=blue] {7008}}
+ 		  }
+	}
+  }
+ child[color=red]{ node[rotate=270,color=red]{\{$M_2$\}\{$\emptyset$\}}
+  child[color=black] {	node[rotate=270,color=green] {\{$M_2,M_1$\}\{$\emptyset$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1,M_3$\}\{$\emptyset$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}}	}
+	}
+  child[color=red] {	node[rotate=270,color=red] {\{$M_2$\}\{$M_1$\}}	
+		  child[color=red] {	node[rotate=270,color=red] {\{$M_2,M_3$\}\{$M_1$\}} 
+		      child[color=red] { node[rotate=270,color=red] {1186}}
+		  }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_2$\}\{$M_1,M_3$\}}
+		      child[color=blue] { node[rotate=270,color=blue] {1266}}
+		  }
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_2,M_3$\}\{$\emptyset$\}}
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_2,M_3,M_1$\}\{$\emptyset$\}} 
+		      child[color=blue] { node[rotate=270,color=blue] {8642}}
+		  }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}}}
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_2$\}\{$M_3$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}} }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_2$\}\{$M_3,M_1$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {7893}}
+		  }
+	}
+  }
+  child[color=black]{ node[rotate=270,color=black]{\{$M_3$\}\{$\emptyset$\}}
+%   child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$\emptyset$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1,M_2$\}\{$\emptyset$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}}	}
+% 	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_3$\}\{$M_1$\}}	
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_3,M_2$\}\{$M_1$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {7491}}
+		  }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_3$\}\{$M_1,M_2$\}}
+		    child[color=blue] { node[rotate=270,color=blue] {1547}}
+		  }
+	}
+  child[color=black] {	node[rotate=270,color=green] {\{$M_3,M_2$\}\{$\emptyset$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2,M_1$\}\{$\emptyset$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}}}
+	}
+  child[color=black] {	node[rotate=270,color=black] {\{$M_3$\}\{$M_2$\}}
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_3,M_1$\}\{$M_2$\}} 
+		      child[color=blue] { node[rotate=270,color=blue] {8330}}
+		  }
+		  child[color=black] {	node[rotate=270,color=black] {\{$M_3$\}\{$M_2,M_1$\}}
+		      child[color=blue] { node[rotate=270,color=blue] {2084}}
+		  }
+	}
+  }
+  child[color=black]{ node[rotate=270,color=black]{\{$\emptyset$\}\{$M_1$\}}
+%   child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M2$\}\{$M_1$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_3$\}\{$M_1$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}}	}
+% 	}
+  child[color=black] {	node[rotate=270,color=black] {\{$\emptyset$\}\{$M_1,M_2$\}}	
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}} }
+		  child[color=black] {	node[rotate=270,color=black] {\{$\emptyset$\}\{$M_1,M_2,M_3$\}}
+		      child[color=blue] { node[rotate=270,color=blue] {1474}}
+		  }
+	}
+%   child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_2$\}\{$M_1$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_1,M_2$\}}}
+% 	}
+  child[color=black] {	node[rotate=270,color=black] {\{$\emptyset$\}\{$M_1,M_3$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_1,M_3$\}} }
+		  child[color=black] {	node[rotate=270,color=black] {\{$\emptyset$\}\{$M_1,M_3,M_2$\}}
+		      child[color=blue] { node[rotate=270,color=blue] {6996}}
+		  }
+	}
+  }
+ child[color=black]{ node[rotate=270,color=black]{\{$\emptyset$\}\{$M_2$\}}
+%   child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_3$\}\{$M_2$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}}	}
+% 	}
+  child[color=black] {	node[rotate=270,color=green] {\{$\emptyset$\}\{$M_2,M_1$\}}	
+	}
+%   child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3,M_1$\}\{$M_2$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_3$\}\{$M_2,M_1$\}}}
+% 	}
+  child[color=black] {	node[rotate=270,color=black] {\{$\emptyset$\}\{$M_2,M_3$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_2,M_3$\}} }
+		  child[color=black] {	node[rotate=270,color=black] {\{$\emptyset$\}\{$M_2,M_3,M_1$\}}
+		      child[color=blue] { node[rotate=270,color=blue] {8038}}
+		  }
+	}
+  }
+  child[color=black]{ node[rotate=270,color=black]{\{$\emptyset$\}\{$M_3$\}}
+%   child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1,M_2$\}\{$M_3$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}}	}
+% 	}
+  child[color=black] {	node[rotate=270,color=green] {\{$\emptyset$\}\{$M_3,M_1$\}}	
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_1,M_2$\}}}
+	}
+%   child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2,M_1$\}\{$M_3$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_2$\}\{$M_3,M_1$\}}}
+% 	}
+  child[color=black] {	node[rotate=270,color=green] {\{$\emptyset$\}\{$M_3,M_2$\}}
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$M_1$\}\{$M_3,M_2$\}} }
+% 		  child[color=lightgray] {	node[rotate=270,color=lightgray] {\{$\emptyset$\}\{$M_3,M_2,M_1$\}}}
+	}
+  }
+  ;
+\end{tikzpicture} 
+}
+\caption{Exemple de fonctionnement de l'algorithme de résolution exacte}
+\label{fig:arbreBB}
+\end{changemargin}
+\end{figure}

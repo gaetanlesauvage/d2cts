@@ -1,0 +1,3 @@
+%Conclusion sur la simulation
+$D^2CTS$ est un simulateur de terminal portuaire à conteneurs conçu et développé durant cette thèse dans le cadre du projet CALAS. Il permet de mettre à l'épreuve les méthodes de résolution élaborées également durant cette thèse grâce à un environnement réaliste.
+Cet outil utilise la technologie \verb!JAVA! pour fonctionner ainsi qu'une description \verb!XML! des différents éléments du terminal. Ces deux langages permettent une grande souplesse tant au niveau de l'exécution qu'au niveau des développements futurs.

@@ -1,0 +1,370 @@
+\label{sec:incertitude}
+
+
+\subsection{Définition}
+%Définition d'optimisation
+L'optimisation peut être définie comme le processus visant à améliorer une situation vis-à-vis de son niveau de performance actuel. Mathématiquement, l'optimisation revient à minimiser ou maximiser une fonction objectif en agissant sur des paramètres tout en respectant un ensemble de contraintes. Par exemple, un commerçant cherche à définir le prix de vente de chacun de ses produits afin de maximiser son bénéfice global. Le but ici est de chercher le prix permettant de générer le plus de ventes. Un prix trop élevé repoussera les clients alors qu'un prix trop faible ne permettra pas de dégager suffisamment de marge. Stratégiquement, il est possible de définir un prix très faible pour un ensemble de produits afin d'attirer les clients dans la boutique et ainsi de pouvoir fixer un prix plus élevé sur les autres produits. Mathématiquement cet exemple consiste à maximiser la fonction $\sum \limits_{i=1}^n \left( (P_i-p_i)\cdot q_i \right)$, où $P_i$ est le prix d'achat de l'article $i$, $p_i$ son prix de vente et $q_i$ la quantité vendue.
+
+On distingue deux types d'optimisation. Tout d'abord l'optimisation déterministe dans laquelle la réaction du système à la modification des paramètres est parfaitement calculable. D'autre part l'optimisation sous incertitude dans laquelle des composantes du système sont inconnues ou mal connues et peuvent rendre inadaptée voire inapplicable la solution calculée.
+
+%Opt sous incertitude
+L'incertitude peut être décrite de façon stochastique ou bornée. Dans le premier cas, on cherche généralement à optimiser le système dans le cas moyen (minimiser l'espérance mathématique de la fonction d'évaluation). Dans la représentation par intervalle borné, c'est le pire des cas qui est la plupart du temps l'objet de l'optimisation. Ainsi, une plage de valeurs possibles est prise dans un intervalle donné, et le cas le plus défavorable est utilisé afin de garantir un niveau de performance peu importe la dégradation du système liée à l'incertitude. On parle ainsi d'optimisation robuste. Le critère du regret maximal est également très répandu en optimisation robuste. Il se définit comme l'écart minimum entre les valeurs obtenues sur différents scénarios pour chaque stratégie étudiée.  %citer des papiers sur l'opt robuste
+%figure pour le regret ?
+
+%Opt Dynamique
+Parallèlement, on distingue l'optimisation statique de l'optimisation dynamique. Dans cette dernière, le système évolue dans le temps. Dans ce cas, il devient nécessaire d'adapter les paramètres au cours de cette évolution, on parle alors de contrôle optimal (ou commande optimale). Chaque action aura des conséquences sur l'état futur du système. Dans le cas d'un problème déterministe il sera possible de calculer l'évolution du système en fonction de chaque action (scénarios, trajectoires). En revanche, si de l'incertitude est introduite dans le système, il devient impossible de prévoir son comportement futur. Par exemple, un système de guidage missile qui tente de calculer la trajectoire permettant d'atteindre un objectif en dépensant le moins d'énergie possible, adaptera la trajectoire si l'objectif est mobile. Le déplacement de l'objectif peut-être totalement prévisible (train, autre missile...) ou incertain (véhicule piloté par un humain). Dans ce dernier cas, il faudra effectuer des corrections de 
+trajectoire à chaque nouvel état du système.
+
+% Dans sa thèse de doctorat (voir \cite{Chachuat2001}), Chachuat a défini l'optimisation comme ``la démarche qui consiste à améliorer une performance, par rapport à un état de référence, sous l'action d'un ou plusieurs paramètres''. L'auteur donne également une définition de l'optimisation statique et dynamique : ``lorsque le comportement du procédé est décrit par des relations algébriques entre les variables d'état et les paramètres du système, on parle d'optimisation statique. Lorsqu'au contraire le procédé présente une évolution temporelle, i.e. lorsque l'évolution dynamique du système est décrite par des relations d'état différentielles, on parle d'optimisation dynamique''.
+
+%Optimisation transformation en problème décisionnel
+\subsection{Optimisation et problème décisionnel}
+Tout problème d'optimisation peut être vu comme un problème décisionnel. En effet le problème peut être énoncé de la façon suivante : existe-t-il une valeur de $V$ pour laquelle $f(V) \leq k$ ? Avec $V$ vecteur de paramètres et $k$ une valeur donnée. Par exemple, le problème bien connu du sac-à-dos (\textit{Knapsack Problem}) consiste à choisir des objets ayant chacun un poids $p_i$ et une valeur $v_i$, pour remplir un sac-à-dos en cherchant a maximiser la somme des valeurs sans dépasser le poids maximal autorisé $p_{MAX}$. Le problème peut être formulé de la façon suivante. Pour chaque $x_i$, variable binaire indiquant si l'objet $i$ est mis dans le sac ($x_i=1$) ou non ($x_i=0$), existe-t-il une valeur pour laquelle $\sum \limits_{i=1}^{n} p_ix_i \leq k_{MAX}$ et $\sum \limits_{i=1}^{n} v_ix_i \geq v$ pour $v$ donné ? Il suffit pour résoudre ce problème de procéder de façon itérative en diminuant la valeur de $v$ et d'arrêter la recherche dès qu'aucune solution n'est trouvée pour un $v$ donné.
+
+%NP-complétude
+Notons qu'un problème de décision peut-être NP-complet alors qu'un problème d'optimisation ne peut-être que NP-difficile. Ainsi, sous forme de problème d'optimisation, le problème du sac-à-dos est NP-difficile, alors que dans sa version décisionnelle, ce problème est NP-complet.\\
+
+%Prise de décision et incertitude
+La plupart des problèmes d'optimisation prennent leurs origines de situations réelles dans lesquelles des décideurs doivent agir en prenant en compte leur environnement afin de prendre la décision qui s'adapte le mieux à la situation rencontrée. Mais dans certains cas, voire dans la plupart des cas réels, les décideurs n'ont qu'une connaissance partielle de leur environnement, parfois même une vision subjective, biaisée par leurs vécu et leurs émotions. Comment est-il  possible, dans ces conditions, de déterminer les actions à réaliser pour obtenir la meilleure réponse possible au problème d'optimisation ?
+
+\subsection{Identifier l'incertitude}
+
+L'incertitude peut provenir de 3 sources différentes :
+\begin{itemize}
+  \item le jeu de données
+  \item le scénario
+  \item l'interprétation
+\end{itemize}
+La première source concerne l'incertitude sur les données du problème. Dans un problème d'ordonnancement par exemple, il peut s'agir d'incertitude au niveau des durées d'exécution des tâches, ou de la date limite. Il peut également concerner les coûts de traitement, les probabilités de panne du système, etc.
+
+L'incertitude liée au scénario concerne le contexte de l'application de la solution calculée. Ainsi, le coût de la main d’œuvre, le prix du carburant ou de l'électricité pour les machines, par exemple, font partie du contexte de l'exécution.
+
+Enfin, l'incertitude liée à la subjectivité du décideur influence également la qualité de la solution calculée. Les valeurs ainsi que la culture propre à chaque individu influence leur comportement et provoque des divergences dans leurs réactions. Par exemple, une personne habituée à jouer au casino sera plus enclin à prendre des risques qu'un gestionnaire habitué à rationaliser chaque décision. Toute décision prise en fonction d'éléments subjectifs est une source d'incertitude.\\
+
+Après avoir identifié les sources potentielles d'incertitude dans un problème, il est nécessaire de déterminer la façon dont elle va être gérée.
+%Faut-il gérer l'incertitude ?
+\subsection{Gérer l'incertitude}
+ 
+Il existe des moyens de gérer l'incertitude. Les systèmes prenant en compte cette incertitude sont dits pro-actifs, ou anticipatifs. Ils ont pour objectif de calculer une solution robuste, c'est-à-dire valable peu importe les valeurs prises par les éléments sujets à l'incertitude.
+
+Toutefois cette gestion est limitée aux cas où l'incertitude est quantifiable (obéit à une loi stochastique par exemple) ou bornée. Lorsque l'incertitude est trop importante, c'est-à-dire que les éléments sujets à l'incertitude sont trop nombreux ou que l'incertitude n'est pas quantifiable, il est impossible d'envisager une prise en compte efficace. Il est important dans ce cas d'être réactif fasse à la découverte de nouvelles informations concernant le problème. Les systèmes comportant cette spécificité sont appelés systèmes réactifs. Dans ces systèmes, il est possible de détecter une variation si l'application d'une solution calculée ne donne pas les même résultats escomptés. Il est alors possible d'agir afin de prendre en compte cette variation dans le calcul d'une nouvelle solution. 
+
+Dans cette thèse nous ne voulons pas essayer de prévoir l'imprévisible, de faire des prédictions, mais plutôt, à contrario, de s'adapter à tout événement. C'est pourquoi la solution proposée dans la suite de ce manuscrit sera inscrite dans la classe des systèmes réactifs. De plus, nous nous baserons sur la robustesse non pas de la solution proposée, mais plutôt par la robustesse de l'algorithme permettant d'obtenir la solution.
+
+
+%Optimisation Dynamique
+\subsection{Gestion de la dynamique}
+%Def
+L'optimisation dynamique peut être définie comme le processus visant à améliorer une situation vis-à-vis de son niveau de performance actuel au fil du temps. La fonction mathématique à minimiser ou maximiser sera également dépendante du temps. Dans \cite{Powell1995}, Powell et al. ont défini : 
+\begin{itemize}
+ \item qu'un problème est dynamique si au moins l'un de ses paramètres est fonction du temps;
+ \item qu'un modèle est dynamique s'il incorpore de façon explicite les interactions entre les activités au fil du temps;
+ \item qu'une application est dynamique si le problème sous-jacent doit être résolu à chaque fois qu'une nouvelle information est reçue.\\
+\end{itemize}
+
+
+%Dynamique : évolution du systeme
+Du fait de l'évolution temporelle du système, une solution calculée au temps $t$ peut ainsi devenir caduque au temps $t+n$. À l'inverse de l'optimisation statique, il n'existe aucune garantie sur la stabilité des composantes du système dans le temps. Par exemple, le commerçant qui cherche à définir ses prix de vente pour maximiser son bénéfice devra prendre en compte l'évolution des prix d'achat de ses marchandises ainsi que le pouvoir d'achat de sa clientèle. La solution calculée à l'ouverture de son commerce ne sera peut-être plus la solution optimale six mois plus tard. Dans cet exemple, le commerçant a besoin d'informations concernant ses ventes afin de pouvoir calculer ses prix (quantité vendue). Il est donc possible de s'appuyer sur les résultats précédents pour définir les prix futurs. En revanche, dans le cas où l'optimisation est basée sur la situation courante, à l'instant $t$, il est impossible d'utiliser la solution calculée précédemment. La dynamique joue alors un rôle hautement perturbateur 
+dans le processus d'optimisation et le plus souvent rend impossible l'application de méthodes de résolution exacte qui demanderont un temps de calcul supérieur à la durée de validité de la solution fournie.\\
+
+
+%Dynamique et incertitude
+En optimisation, la dynamique peut être vue comme un vecteur d'incertitude. Les composantes du système apparaissent, disparaissent, et évoluent au fil du temps. La connaissance que l'on a du système, sa perception, est alors elle même sujet à la dynamique. La dynamique étant une source d'incertitude elle peut provenir du jeu de données (les valeurs des données changent au fil du temps), du scénario (des événements surviennent au cours de l'exécution), ou de l'interprétation (la perception du décideur peut évoluer).\\
+
+Dans \cite{Psaraftis1988,Psaraftis1995}, Psaraftis a identifié les problèmes liés à la dynamique dans le cadre d'un problème de tournée de véhicules (\ref{sec:vrp}) :
+\begin{itemize}
+ \item \textbf{évolution} : prise en compte du temps;
+ \item \textbf{qualité} : l'information est de meilleur qualité lorsqu'elle est connue en avance;
+ \item \textbf{incertitude} : l'état futur du système est incertain;
+ \item \textbf{importance des événements proches du terme} : plus un événement est proche de sa date de déclenchement, plus il est important pour le système;
+ \item \textbf{importance du mécanisme de mise à jour de l'information} : il faut être en mesure de communiquer efficacement les multiples variations d'information dans le système;
+ \item \textbf{réajustements} : les solutions calculées au préalables peuvent devenir sous-optimales avec le temps;
+ \item \textbf{réduction des temps de calcul} : besoin de pouvoir recalculer une solution entre deux événements;
+ \item \textbf{report infini} : possibilité de devoir retarder une tâche à l'infini si des nouvelles tâches plus urgentes arrivent au fil du temps;
+ \item \textbf{fonction objective adaptée à la dynamique} : les fonctions objectif classique peuvent ne plus s'appliquer au problème car bien souvent l'horizon de planification est inconnu;
+ \item \textbf{flexibilité des contraintes temporelles} : il est parfois plus avantageux, dans les problèmes dynamique, de dépasser une fenêtre de temps plutôt que de décaler une tâche dont la fenêtre de temps n'est pas atteinte;
+ \item \textbf{optimisation des ressources} : le fait de ne pas connaître l'évolution de la demande fait qu'il est difficile de réduire au minimum le nombre de ressources à utiliser (engorgement), d'autre part une partie des ressources risquent de ne pas être utilisées si la demande est insuffisante.
+\end{itemize}
+ 
+
+%Mesure de dynamicité
+On parle de dynamicité d'un scénario lorsqu'on mesure la part de dynamique dans le problème. Dans \cite{Larsen2000}, Allan Larsen indique trois principales mesures du degré de dynamicité.
+
+Tout d’abord, le degré de dynamicité (\textit{Degree Of Dynamism} : \textbf{dod}) est défini par Lund et al. (voir \cite{Lund1996}) comme le rapport entre le nombre de requêtes dynamiques et le nombre total de requêtes (voir eq. \ref{eq:dyn:dod}).
+\begin{figure*}
+ \begin{equation}
+    \label{eq:dyn:dod}
+    dod = \frac{\eta_d}{\eta_s+\eta_d}
+ \end{equation}
+\end{figure*} 
+Si cette mesure permet de quantifier la part de dynamique dans un scénario, elle ne permet pas d'évaluer son influence sur le système. En effet, cette mesure ne prend pas en compte la date d’arrivée des requêtes. Si les requêtes dynamiques entrent dans le système en début de scénario, le système est considéré comme aussi dynamique que si elles entraient en toute fin. Pourtant, plus ces requêtes sont connues tard et plus le système doit être réactif afin de calculer une solution dans les temps. Ces retards ont donc un impact négatif sur les performances et il est important de les prendre en compte dans la mesure de dynamicité. Pour cette raison, Larsen a défini le degré effectif de dynamicité (\textit{Effective Degree Of Dynamism} : \textbf{edod}) selon l'équation \ref{eq:dyn:edod}.
+%formule
+\begin{figure*}
+ \begin{equation}
+    \label{eq:dyn:edod}
+    edod = \frac{\sum \limits_{i=1}^{\eta_d}\left( \frac{t_i}{T} \right)}{\eta_s+\eta_d}
+ \end{equation}
+\end{figure*} 
+Ici, $\eta_s$ et $\eta_d$ sont respectivement le nombre de requêtes statiques et dynamiques. $t_i$ est la date d’arrivée d’une requête $i$ (avec $0 < ti < T$ ) et $T$ correspond à la date de fin de scénario. Cette
+mesure prend en compte la moyenne des dates d’arrivées des requêtes dans le système. Plus les requêtes dynamiques arrivent tard, et plus $edod$ sera important. Si $edod = 0$, alors le système est totalement statique. Si $edod = 1$, le système est purement dynamique.
+
+Un certain nombre de problèmes d'optimisation utilisent des fenêtres de temps comme pour le problème de voyageur de commerce (voir \ref{sec:tsp}), le problème de tournées de véhicules (voir \ref{sec:vrp}) ou encore les problèmes d'ateliers (voir \ref{sec:jssp}). Larsen a adapté $edod$ afin de prendre en compte l'écart temporel entre la date d'arrivée d'une requête dans le système et sa date d'exécution au plus tard. En effet, si une requête est connue à la fin de sa fenêtre de temps, le respect de celle-ci est problématique. En revanche, une requête arrivant bien avant sa date limite pourra être traitée dans les temps. Le degré effectif de dynamicité avec fenêtre de temps (\textit{Effective Degree Of Dynamism with Time Window} : \textbf{edod-tw}) se défini selon l'équation \ref{eq:dyn:edod-tw} où $r_i$ est le temps de réaction (\textit{reaction time}) de la requête $i$, ce qui correspond à l'écart entre la date d'exécution au plus tard de la requête $i$ et sa date d'arrivée dans le système ($t_i$).
+\begin{figure*}
+ \begin{equation}
+    \label{eq:dyn:edod-tw}
+    edod-tw = \frac{1}{\eta_s+\eta_d} \cdot \sum \limits_{i=1}^{\eta_s+\eta_d} \left( 1 - \frac{r_i}{T} \right)
+ \end{equation}
+\end{figure*} 
+Ces mesures permettent de quantifier de façon efficace la difficulté introduite dans le système par la dynamique.
+
+\subsection{Méthodes de résolutions adaptées aux environnements dynamiques}
+
+Les modifications provoquées par la dynamique imposent une grande réactivité de la méthode de résolution du problème. Pour pouvoir prendre en compte les solutions calculées pour un instant $t$, dans le calcul de solutions valides à $t+n$, il faut que la méthode d'optimisation utilise une forme de mémoire. C'est pour cette raison que les méthodes de recherche tabou, les réseaux de neurones artificiels, les algorithmes génétiques ainsi que les algorithmes fourmis sembles adaptés et seront détaillés dans les paragraphes suivants.
+
+La recherche tabou est une métaheuristique à trajectoire. Elle consiste à effectuer une recherche locale grâce à une heuristique, rapide en terme de calcul, et à mémoriser les trajectoires étudiées afin de ne pas les évaluer de nouveau avant un certain temps.
+Les réseaux de neurones artificiels consistent à relier des neurones modélisés par une fonction mathématique simple et à déterminer par un mécanisme d'apprentissage des pondérations entre eux. Ce sont ces poids qui représentent la part de mémoire de l'algorithme ou plutôt une réponse déterministe à un stimulus précis. Lorsque l'environnement évolue, une adaptation des poids pourra être nécessaire.
+En 2004, Rayward et Smith ont indiqué dans \cite{Rayward1994} que les algorithmes génétiques étaient robustes. Cette remarque est en effet liée à la possibilité intrinsèque de l'algorithme de s'adapter aux variations de l'environnement grâce notamment à la taille du génome ainsi qu'aux opérateurs permettant un brassage effectif de la population de gènes.
+Quant aux algorithmes fourmis, ils font partie de la famille des métaheuristiques à apprentissage et population. Ici, la mémoire est modélisée par le système de marquage des fourmis par dépôt de phéromones. Les traces de phéromones s'évaporent avec le temps ce qui permet en quelque sorte ``d'oublier'' certaines solutions passées.
+
+\subsubsection{Recherche tabou}
+La recherche tabou (Tabu Search), a été proposée pour la première fois par Glover en 1986 (voir \cite{Glover1986}\cite{Glover1989}\cite{Glover1990}). Elle consiste à voyager dans l'espace des solutions  à partir du voisinage de la solution courante en ne conservant que la position minimisant la fonction objectif. Afin d'empêcher l'algorithme de visiter une nouvelle fois des parties de l'espace de recherche déjà étudiées, une sorte de mémoire est ajoutée sous forme de liste tabou dans laquelle les solutions déjà épuisées sont insérées. Appliquée au problème du voyageur de commerce, cette méthode consiste à construire un tour grâce à une heuristique quelconque (plus proches voisins par exemple) puis d'étudier les solutions voisines en inversant deux à deux les positions des arêtes à l'intérieur du tour. La meilleure solution ainsi obtenue est alors étudiée à son tour et la solution de départ est ajoutée à la liste tabou. L'algorithme se poursuit tant que le nombre maximal d'itérations n'est pas atteint ou que toutes les solutions voisines sont déjà dans la liste tabou.
+
+\subsubsection{Réseaux de neurones artificiels}
+Les réseaux de neurones artificiels (Artificial Neural Networks) ont été introduits par McCulloh et Pitts en 1943 (\cite{McCulloch1943}). Ils se sont basés sur les observations de W. James, père du concept de la mémoire associative qui a défini un principe de fonctionnement qui deviendra plus tard la loi de Hebb. Ainsi, en 1949, Hebb a expliqué le conditionnement chez l'animal (expérience du chien de Pavlov par exemple), par les propriétés des neurones. Selon lui, il est donc possible de modifier les réactions d'un animal vis-à-vis d'un stimulus grâce à un processus d'apprentissage. En 1948, Von Neumann défini l'automate cellulaire (voir \cite{Neumann1966}). Cet automate est capable d'accomplir une tâche élémentaire et de se multiplier pour y parvenir. Les automates cellulaires sont à la base notamment du jeu de la vie de Conway (voir \cite{Conway1970}), où l'état des cellules est déterminé en fonction de règles de voisinage.\\
+
+%Neurone artificiel et réseaux de neurones : définition
+Un neurone artificiel est un automate pourvu d'une fonction de transfert (non linéaire bornée). Cette fonction a pour entrée un vecteur $x$ associé à un vecteur $w$ de pondération (coefficients synaptiques) ainsi qu'à un éventuel biais ($b$) (voir fig. \ref{fig:tsp:nn:potentiel}). La fonction d'activation peut-être continue ou à seuil (voir fig. \ref{fig:tsp:nn:fonctionSeuil}), et s'active ou non en fonction du signal reçu en entrée.\\
+
+\begin{figure}[h]
+  \centering
+  $y=f(\sum \limits^{N}_{i=1} w_i\cdot x_i + b)$
+  \caption{Potentiel d'activation d'un neurone}
+  \label{fig:tsp:nn:potentiel}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{equation*}
+  f(x)= \begin{cases}
+        1 & \text{si } x>0\\
+        -1 & \text{sinon}
+       \end{cases}
+  \end{equation*}
+  \caption{Exemple de fonction d'activation à seuil}
+  \label{fig:tsp:nn:fonctionSeuil}
+\end{figure}
+
+Dans un réseau de neurones, les neurones sont reliés les uns aux autres par des relations de voisinage formant ainsi un graphe orienté. L'activation ou la non-activation des neurones prédécesseurs d'un neurone déterminera la sortie de ce neurone.\\
+
+Les réseaux de neurones peuvent être bouclés ou non. Dans un réseau non bouclé, le graphe représentant le réseau est acyclique. Dans les réseaux bouclés (ou récurrents), le graphe contient au moins un cycle.\\
+
+La pondération des neurones peut être déterminée par un processus d'apprentissage qui peut être supervisé ou non. L'apprentissage supervisé consiste à fournir des paramètres d'entrée associés à des valeurs de sorties désirées. Les poids sont donc modifiés afin d'assurer l'obtention de la sortie fournie. Dans le cas de l'apprentissage non supervisé, aucune sortie désirée n'est fournie et il s'agit alors de déterminer les poids permettant de grouper les composantes de $X$ selon une fonction $F_w$ permettant une bonne généralisation (voir \cite{Kohonen1982}).\\
+
+%Réseaux de Neurones en optimisation
+Concernant le domaine de l'optimisation, le premier champ d'application fut la reconnaissance de formes. Ainsi, en 1957, Rosenblatt a développé le modèle du Perceptron (voir \cite{Rosenblatt1958}). En 1960, Widrow a introduit le modèle Adaline (\textit{Adaptative Linear Element}, voir \cite{Widrow1960}) basé sur le perceptron de Rosenblatt mais utilisant un processus d'apprentissage différent, qui sera plus tard à l'origine de l'algorithme de rétropropagation de gradient utilisé couramment avec les Perceptrons multicouches.
+
+%Les limites
+En 1969, Minsky et Papert ont montré dans \cite{Minsky1969} les limites du modèle du Perceptron, ce qui a eu pour effet de décourager la recherche sur les réseaux de neurones artificiels.
+
+%A new hope...
+Suite à l'article de Hopfield (voir \cite{Hopfield1982}), en 1982, utilisant une méthode d'apprentissage basée sur un résultat escompté, les recherches sur les réseaux de neurones artificiels reprennent. Ainsi, en 1983, la Machine de Boltzmann permet de lever les limitations du Perceptron décrites par Minsky. En 1985, apparaît l'algorithme d'apprentissage par rétropropagation de gradient, utilisé dans les réseaux multicouches.
+
+%Cartes auto-adaptatives
+Plus récemment, des réseaux de neurones appelés cartes auto-organisatrices (ou auto-adaptatives) ont été développé par Kohonen (voir \cite{Kohonen1982}). Elles peuvent être utilisées notamment pour la compression de données, d'images. Le principe est d'entraîner un réseau de neurones afin de reproduire une image d'entrée sans recopier chacun de ses pixels. Dans le cas d'une image en couleurs, chaque pixel peut être codé grâce à 3 entiers $r$, $v$ et $b$ tels que $0\leq r, v, b < 2^8$, décrivant une couleur par ses composantes : rouge ($r$), vert ($v$) et bleu ($b$). Un pixel peut donc être stocké sur 24 bits (3 octets). Une image de résolution $1980$x$1080$ comporte $2073600$ pixels, et représente donc $49766400$ bits (environ 5.93Mo). Le but de la compression est de diminuer le nombre de pixels à stocker sans pour autant dégrader l'image de façon trop importante. Pour cela chaque neurone sera chargé de décrire un groupe de pixels de l'image. Les neurones sont initialisés de façon aléatoire, puis un 
+processus d'apprentissage non-supervisé permet de déterminer quels 
+neurones décrivent le mieux chaque groupe de pixels. Le résultat de la compression regroupe la description de chaque neurone ainsi que les couples $\{$groupe de pixels, neurone descripteur$\}$.\\
+
+\subsubsection{Algorithmes génétiques}
+
+Les algorithmes génétiques (Genetic Algorithms) sont une métaheuristique reposant sur la théorie de l'évolution. Cette méthode générale a été introduite en 1954 par Barricelli (voir \cite{Barricelli1957}) puis développée par Fraser à partir de 1957 (voir \cite{Fraser1957}). Mais c'est à partir des travaux de Holland dans les années 1970 (voir \cite{Holland1975}) que les algorithmes génétiques se sont démocratisés.
+%Fonctionnement
+Le principe est de représenter une solution (ici appelée individu) sous forme de chromosome (suite de gènes). Un nombre important d'individus (population, ou génome) est généré. Puis des opérateurs génétiques sont appliqués sur les gènes des chromosomes~:
+\begin{itemize}
+ \item \textbf{La sélection}~: cet opérateur consiste à déterminer quels individus seront conservés dans la génération suivante
+ \item \textbf{Le croisement}~: cet opérateur consiste à simuler la reproduction de deux individus et ainsi à créer un nouvel individu conservant une partie des gènes de chacun de ses parents (hérédité).
+ \item \textbf{La mutation}~: cet opérateur vise à altérer une partie des gènes d'un individu. Le but est de favoriser l'exploration de l'espace de recherche afin d'empêcher de piéger l'algorithme sur des optima locaux.
+\end{itemize}
+
+L'algorithme se déroule de la façon suivante. Tout d'abord une population initiale est générée (la plupart du temps de façon aléatoire). Les individus sont évalués. L'opérateur de sélection est ensuite appliqué et permet de sélectionner des couples d'individus. La génération suivante ne comportant pas les individus non sélectionnés, la population est complétée par les résultats de l'opérateur de croisement sur les individus sélectionnés. Enfin, l'opérateur de mutation est appliqué sur une très petite partie des individus (choisis de aléatoirement) et consiste généralement à ne modifier qu'une infime portion de leur génome afin de ne pas annihiler les effets de la sélection et du croisement sur la convergence de l'algorithme. Le processus est répété un nombre fixé d'itération ou quant la meilleure solution trouvée atteint un score objectif préalablement fixé.
+
+La plus grande difficulté dans l'implémentation de cet algorithme réside dans le codage des chromosomes. En effet, il faut que les chromosomes puissent être facilement construits tout en permettant d'appliquer les opérateurs sans provoquer d'inconsistance. Ainsi, dans certains problèmes il est impossible de croiser deux individu sans garantir la validité de l'individu ainsi créé. Or, c'est bien cet opérateur de croisement qui permet d'améliorer la convergence de l'algorithme et lui permet d'être plus performant qu'une recherche basée sur un recuit simulé ou une recherche tabou. D'autre part, la fonction d'évaluation d'un individu doit être rapide à calculer car c'est d'elle (ainsi que de la taille du problème) que dépendra le temps d'exécution de l'algorithme.
+%Détailler les méthodes de sélection ?
+Il existe bien-sûr différentes méthodes de sélection des individus. Les plus courantes sont~: 
+\begin{itemize}
+ \item la sélection par rang~: les n meilleurs individus sont choisis
+ \item la sélection par tournoi~: deux individus aléatoirement choisis sont mis en compétition, celui ayant le meilleur score est sélectionné
+ \item la sélection uniforme~: les individus ont tous la même probabilité d'être choisis
+ \item la sélection par probabilité~: les individus ont une probabilité $p_i = \frac{score_i}{\sum_n^{N}{score_n}}$ d'être choisis.
+\end{itemize}
+
+\subsubsection{Algorithmes fourmis}
+L'optimisation par colonie de fourmis (Ant Colony Optimization) est également une métaheuristique basée sur une observation du vivant.
+
+Cette technique est issue de l'observation de Deneubourg en 1983 (voir \cite{Deneubourg1983}) et 1989 (voir \cite{Goss1989}) qui a montré que les fourmis étaient capable collectivement de trouver le plus court chemin entre leur nid et une source de nourriture.
+En effet, Deneubourg a observé que les fourmis commençaient à coloniser les chemins de façon aléatoire puis au fil du temps commençaient à suivre le même chemin. Il s'avère que ce chemin est le plus court.
+Ce phénomène est dû à la méthode de communication des fourmis. Elles utilisent un marqueur chimique~: la phéromone afin d'indiquer, dans le cas d'une recherche de nourriture, l'attractivité d'un chemin.
+Ainsi, un chemin permettant de trouver de la nourriture contiendra de la phéromone et sera donc suivi par les autres fourmis de la colonie.
+
+Le point fort de cette méthode de communication indirecte, appelée stigmergie (voir \cite{Grasse1959}), est de permettre de trouver un chemin optimal sans pour autant qu'il n'ai été parcouru en totalité par une fourmi. En effet, la solution optimale est construite en cherchant le chemin comportant le plus de phéromone entre le nid et la source de nourriture. Les fourmis construisant leurs chemins en déposant de la phéromone, c'est bien la somme des dépôts de toutes les fourmis qui permettra de découvrir le chemin globalement optimal. Chaque individu agit positivement sur le choix des composantes du chemin (processus auto-catalytique).
+
+D'autre part, la phéromone étant volatile, le chemin comportant le plus de phéromone sera celui sur lequel elle se sera le moins évaporée.
+Ce sera donc le chemin le plus court qui contiendra le plus de phéromone.
+Ce phénomène d'évaporation (rétroaction négative) permet également aux fourmis de ne pas réutiliser des chemins qui étaient les plus attractifs (les plus court) au moment de leur découverte.
+
+L'algorithme de colonie de fourmi fut inventé par Dorigo lors de sa thèse en 1991 (voir \cite{Dorigo1992} et \cite{Dorigo1991}). Il a indiqué que la méta-heuristique pouvait s'appliquer à tout problème d'optimisation~: recherche de plus court chemin, problèmes d'ordonnancement de tâches, problème de tournées de véhicules, problème d'affectations quadratique, etc.
+Les fourmis artificielles de Dorigo et al. sont légèrement différentes des fourmis réelles. Elles ont une mémoire leur permettant d'éviter de coloniser des morceaux de chemin qu'elles ont déjà parcouru. D'autre part, leur vision leur permet de choisir une destination en fonction de la distance vis à vis de leur position courante. Ce sont ces légères différences qui vont permettre aux algorithmes fourmis de converger plus rapidement vers la solution optimale.
+
+Dans \cite{Dorigo1992}, Dorigo et al. présentent l'algorithme $Ant$-$System$ avec 3 variantes concernant le marquage des chemins~: $Ant$-$density$, $Ant$-$quantity$ et $Ant$-$cycle$.
+
+$Ant$-$System$ est défini comme suit~: 
+\begin{itemize}
+  \item Soit $\tau_{ij}(t)$ l'intensité de la trace de phéromone sur l'arc $(i,j)$ au temps $t$ ;
+  \item Soit $\Delta_{ij}(t,t+1)$ la quantité de phéromone déposée sur l'arc $(i,j)$ par les fourmis entre le temps $t$ et $t+1$ ;
+  \item Soit $\rho$ un coefficient de persistance de la trace de phéromone tel que $0\leq\rho\leq1$ ;
+  \item À chaque fin de parcours les traces de phéromones sont ainsi mises à jour (eq. \ref{eq:as:evoph})~: 
+  \begin{equation}
+    \tau_{ij}(t+1)=\rho\cdot\tau_{ij}(t)+\Delta_{ij}(t,t+1)
+    \label{eq:as:evoph}
+  \end{equation}
+  \item Soit $\eta_{ij}$ l'attractivité de l'arc $(i,j)$ (représentant l'inverse de sa longueur ($1/d_{ij}$ dans le cas d'une recherche de plus court chemin par exemple).
+  \item Une fourmi $k$ choisi sa destination en fonction de la loi de transition proportionnelle suivante (eq. \ref{eq:as:transition})~: 
+  \begin{equation}
+   p_{ij}(t) =
+   \begin{cases}
+    \frac{[\tau_{ij}(t)]^\alpha\cdot[\eta_{ij}]^\beta}{\sum\limits_{l \in \text{visibles}} [\tau_{il}(t)]^\alpha\cdot[\eta_{il}]^\beta} & \text{si } j \text{ n'a pas déjà été visité}\\
+    0 & \text{sinon}
+   \end{cases}
+   \label{eq:as:transition}
+  \end{equation}
+  où $\alpha$ et $\beta$ sont des paramètres permettant de contrôler l'importance de l'heuristique d'attractivité ($\eta_{ij}$) par rapport à l'intensité de la trace de phéromone ($\tau_{ij}(t)$).
+\end{itemize}
+
+Les variantes $Ant$-$density$, $Ant$-$quantity$ et $Ant$-$cycle$, se définissent par rapport à la politique de dépôt de phéromone.
+Dans $Ant$-$density$, la fourmi dépose une quantité fixe de phéromone sur chaque arc $(i,j)$ qu'elle emprunte (eq. \ref{eq:ph:density})~:
+\begin{equation}
+ \Delta_{i,j}^k(t,t+1)=
+  \begin{cases}
+    Q & \text{si la fourmi } k \text{ va de } i \text{ à } j \text{ entre le temps } t \text{ et } t+1\\
+    0 & \text{sinon}
+  \end{cases}
+  \label{eq:ph:density}
+\end{equation}
+
+Dans $Ant$-$quantity$, la fourmi dépose une quantité de phéromone fonction de la pondération $w_{ij}$ de l'arc emprunté (eq. \ref{eq:ph:quantity})~:
+\begin{equation}
+ \Delta_{i,j}^k(t,t+1)=
+  \begin{cases}
+    \frac{Q}{w_{ij}} & \text{si la fourmi } k \text{ va de } i \text{ à } j \text{ entre le temps } t \text{ et } t+1\\
+    0 & \text{sinon}
+  \end{cases}
+  \label{eq:ph:quantity}
+\end{equation}
+
+Dans $Ant$-$cycle$, la fourmi dépose une quantité de phéromone fonction de la somme des pondérations du chemin suivi~: $L_k=\sum\limits_{a_{ij}}^{\text{chemin}} w_{ij}$ (eq. \ref{eq:ph:cycle})~:
+\begin{equation}
+ \Delta_{i,j}^k(t,t+n)=
+  \begin{cases}
+    \frac{Q}{L_k} & \text{si la fourmi } k \text{ emprunte l'arc } (i,j) \text{ dans son chemin}\\
+    0 & \text{sinon}
+  \end{cases}
+  \label{eq:ph:cycle}
+\end{equation}
+
+%Elitisme
+Une stratégie élitiste est également définie. Elle consiste à renforcer la trace de phéromone sur le meilleur chemin trouvé jusqu'à présent par une quantité de phéromone égale au nombre de fourmis élitistes multiplié par $Q^*$ sur la somme des pondérations des arcs du meilleur chemin (eq. \ref{eq:as:elit})~: 
+\begin{equation}
+ e \cdot Q^* / L^*
+ \label{eq:as:elit}
+\end{equation}
+Dorigo et al. ont montré que l'utilisation de cette stratégie permettait de converger plus rapidement vers l'optimum global à partir d'une certaine valeur de $e$, mais qu'au delà de cette valeur l'algorithme peut être piégé dans des optimum locaux.\\
+
+Le principal inconvénient de cette métaheuristique réside dans le nombre de ses paramètres. Il faut en effet définir une valeur pour $\alpha$ et $\beta$, pour $\rho$, et dans le cas où la stratégie élitiste est utilisée il faut également déterminer les valeurs de $Q*$ et de $e$.
+
+%Variantes
+Suite au succès d'$Ant$-$System$, des extensions ont été développées et sont regroupées sous le terme d'ACO (Ant Colony Optimization, ie. Optimisation par Colonie de Fourmis) (voir \cite{Geurts1998}). Les plus connues sont~:
+
+\begin{itemize}
+ \item \textbf{Elitist Ant System} ($AS_{elite}$): de la phéromone est déposée à chaque itération sur les arcs du meilleur chemin découvert ;
+ 
+ \item \textbf{Min-Max Ant System} ($MMAS$)~: développé en 2000 par Stützle et Hoos (voir \cite{Stutzle2000}). Il repose sur l'ajout d'une borne inférieure et supérieure d'intensité de phéromone. Ainsi, à l'initialisation, une quantité $q=\tau_{\text{max}}$ est déposée sur tous les arcs, puis la version élitiste d'$Ant$-$System$ se déroule normalement et lors du processus d'évaporation, les arcs contenant une quantité de phéromone inférieure à $\tau_{\text{min}}$ sont réinitialisés à la valeur $\tau_{\text{min}}$ ;
+ 
+ \item \textbf{Ant Colony System} ($ACS$)~: dans cette version d'$Ant$-$System$ appliquée au problème du voyageur de commerce (voir \cite{Dorigo1997})~:
+  \begin{itemize}
+    \item le paramètre $\alpha$ d'$Ant$-$System$ a été rendu constant et vaut $1$ ;
+    \item $\alpha$ devient le paramètre d'évaporation globale modifiant ainsi la formule d'évolution de la phéromone d'$Ant$-$System$ (eq. \ref{eq:as:evoph} devient eq. \ref{eq:acs:evoph})~: 
+    \begin{equation}
+      \tau_{ij}=(1-\alpha) \cdot \tau_{ij} + \alpha \cdot \Delta\tau_{ij}
+      \label{eq:acs:evoph}
+    \end{equation}
+    \begin{equation*}
+	\text{où } \Delta\tau_{ij}=
+       \begin{cases}
+        1/L^* & \text{si } (i,j)\in \text{meilleur chemin global}\\
+        0 & \text{sinon}
+       \end{cases}
+    \end{equation*}
+    \item lors de la construction de leur chemin, les fourmis déposent de la phéromone localement selon la règle suivante (eq. \ref{eq:acs:localevoph})~: 
+    \begin{equation}
+      \tau_{ij}=(1-\rho) \cdot \tau_{ij} + \rho \cdot \Delta\tau_{ij}
+      \label{eq:acs:localevoph}
+    \end{equation}
+    \begin{equation*}
+      \text{où } 0<\rho<1 \text{ est le paramètre d'évaporation locale.}
+    \end{equation*}
+    Dorigo et al. ont défini plusieurs politiques de dépôt local de phéromone. On trouve ainsi les politiques~: 
+      \begin{itemize}
+       \item d'absence de dépôt local de phéromone où $\Delta\tau_{ij}=0$
+       \item de marquage constant où $\Delta\tau_{ij}=\tau_0$ ($\tau_0$ est la valeur d'initialisation de la marque de phéromone)
+       \item $Ant-Q$ (voir \cite{Gambardella1995}), basée sur l'algorithme $Q$-learning, où $\Delta\tau_{ij}= \gamma \cdot \max\limits_{l \in J_k(j)} \tau_{jl}$ (0$\leq\gamma\leq$1 est un paramètre)
+      \end{itemize}
+    \item une fois que toutes les fourmis ont terminé leur chemin, la règle globale de dépôt de phéromone est appliquée (eq. \ref{eq:acs:evoph})
+    \item la règle de transition utilisée est appelée règle de transition pseudo aléatoire et suit la formule suivante (eq. \ref{eq:acs:transition})~: 
+    \begin{equation} 
+      v = \begin{cases}
+           arg \max\limits_{j \in J_k(i)} \{ [\tau_{i,j}]\cdot[\eta_{i,j}]^\beta\} & \text{si } q\leq q_0\\
+           S & \text{sinon}
+          \end{cases}
+     \label{eq:acs:transition}
+    \end{equation}
+    
+    Ainsi, un nombre $0<q<1$ est tiré au sort. S'il est inférieur à $q_0$, alors la fourmi choisi la ville ayant le meilleur score. Sinon, la fourmi choisi une ville selon la formule classique d'$Ant$-$System$ (voir eq. \ref{eq:as:transition}).
+  \end{itemize}
+  \item \textbf{Rank-based Ant System} ($AS_{rank}$)~: toujours appliquée au problème de voyageur de commerce, cette variante d'Ant-System est basée sur le renforcement des pistes de phéromones des $\sigma$ meilleures fourmis de la colonie \cite{Bullnheimer1997}. Les fourmis sont classés selon la longueur de leur solution et la formule de dépôt de phéromone devient~: 
+    \begin{equation}
+      \tau_{ij}(t+1) = \rho \cdot \tau_{ij} + \Delta\tau_{ij} + \Delta\tau^*_{ij}
+    \end{equation}
+    \begin{equation*}
+      \text{Avec }\Delta\tau_{ij} = \sum\limits_{\mu=1}^{\sigma-1} \Delta\tau^{\mu}_{ij}
+    \end{equation*}
+    \begin{equation*}
+      \text{et }\Delta\tau_{ij}^{\mu} = 
+      \begin{cases}
+	(\sigma - \mu) \cdot \frac{Q}{L_{\mu}} & \text{si la } \mu^{eme} \text{ meilleure fourmi emprunte l'arc } (i,j) \\
+	0 & \text{sinon}
+      \end{cases}
+    \end{equation*}
+    \begin{equation*}
+      \text{et }\Delta\tau_{ij}^{*} = 
+      \begin{cases}
+	\sigma \cdot \frac{Q}{L_{*}} & \text{si l'arc } (i,j) \text{ fait partie du meilleur chemin} \\
+	0 & \text{sinon}
+      \end{cases}
+    \end{equation*}
+ \end{itemize}
+
+\subsection*{Conclusion}
+Dans cette partie nous avons introduit la notion d'optimisation dynamique sous incertitude. Nous nous placerons volontairement dans cette thèse dans l'idée de ne pas chercher à évaluer les valeurs futures des données incertaines, ou à prévoir l'évolution du système. Nous proposeront une solution au problème d'optimisation étudié appartenant à la classe des systèmes réactifs. D'autre part, dans les problèmes classiques d'optimisation dynamique rencontrés dans la littérature, c'est la fonction objectif qui évolue au fil du temps. Dans le problème étudié dans cette thèse c'est l'environnement qui est sujet à la dynamique et qui influence le système d'optimisation. Nous avons donc développé, non pas une fonction dynamique, mais un algorithme suffisamment flexible pour s'adapter à l'optimisation dynamique.
+
+% \subsection{État de l'art}
+% En ordonnancement sous incertitude, la durée exacte de la tâche n'est connue qu'au cours de son exécution, parfois même qu'une fois terminée!
+% 
+% Robustesse : aptitude à résister à l'à-peu-près (Roy 2004).
+% Procédure : ensemble de consignes
+% Résultat : provient de l'application d'une procédure à une version
+% Méthode : famille de procédures similaires
+% 
+% Gabrel, Merrat, Wu (Juin 2010) : Critère de la bw-Robustesse : 2 paramètres :
+% \begin{itemize}
+%   \item \textbf{b} : valeur que l'on ne veut pas dépasser (bound) dans le plus de scénarios possibles
+%   \item \textbf{w} : valeur qu'on n'accepte pas de dépasser quelque soit le scénario (warranty).
+% \end{itemize}
+% La valeur d'une solution sur le critère de la bw-robustesse est le nombre de scénarios vérifiant la contrainte sur b. Sur les scénarios restants, la valeur du chemin est dans l'intervalle $]b,w]$.

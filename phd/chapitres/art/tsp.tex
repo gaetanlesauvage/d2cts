@@ -1,0 +1,572 @@
+%Section de l'état de l'art sur les Plus Court Chemins
+\label{sec:tsp}
+
+\subsection{Définition}
+\label{sec:tsp:definition}
+
+Le problème du voyageur de commerce (PVC), ou en anglais \textit{Traveling Salesman Problem} (TSP), est un problème classique d'optimisation combinatoire de recherche de cycle hamiltonien de poids minimal dans un graphe complet.
+Dans ce problème un voyageur de commerce doit rendre visite à une liste de clients situés dans des villes.
+Il s'agit donc de calculer le plus court chemin depuis la ville de départ du voyageur de commerce (appelée dépôt), passant une fois par chaque ville à visiter, puis revenant au point de départ du voyageur.\\
+
+Soit $G = (V,E,w)$ le graphe complet composé des $n \in V$ villes à visiter et d'une fonction $w$ de pondération des arêtes $e_{i,j} \in E$ ($\forall i,j \in V$, $i \neq j$).\\
+
+Le nombre de cycles possibles évolue de façon combinatoire en fonction du nombre de villes à visiter. Le graphe étant complet, il existe $(|V|-1)!$ chemins possibles car il commence et fini forcément par la ville du voyageur de commerce. La fonction de coût étant symétrique dans un graphe non orienté, il revient au même d'effectuer un chemin dans un sens que dans l'autre d'où la réduction du nombre de possibilités à $\frac{(|V|-1)!}{2}$.\\
+
+Il existe plusieurs variantes de ce problème dans lesquelles~: 
+\begin{itemize}
+ \item le graphe est asymétrique (Asymetric TSP)~: $G = (V,A,w)$. Le nombre de solutions est ici $(|V|-1)!$
+ \item des contraintes supplémentaires sont ajoutées~: 
+ \begin{itemize}
+  \item Fenêtres de temps (TSP-TW)~: chaque ville doit être visitée dans une certaine période de temps. Dans ce cas, la fonction de pondération utilise le temps de parcours et non plus la distance entre deux villes. Il s'agit donc de trouver le cycle hamiltonien de poids minimal respectant les contraintes temporelles.
+  \item Capacité~: le voyageur doit repasser par son point de départ tous les $n$ villes visitées.
+  \item Précédence~: le voyageur doit visiter certaines villes avant de pouvoir en visiter d'autres.
+ \end{itemize}
+ \item la fonction objectif est multicritère~: dans la version comportant des fenêtres de temps, le but du voyageur est de visiter tous ses clients en minimisant la distance totale parcourue et en minimisant le retard. Dans ce cas il existe 3 façons d'associer les différents critères~: 
+   \begin{itemize}
+    \item Dominance Pareto
+    \item Priorisation (l'un puis l'autre)
+    \item Linéarisation (association pondérée des critères pour n'en former qu'un seul)
+   \end{itemize}
+\end{itemize}
+
+ \subsection{Historique}
+ \label{sec:tsp:historique}
+ 
+ Dans \cite{Schrijver2005}, Schrijver à dressé un historique du problème du voyageur de commerce.
+ 
+ Les premières traces de la problématique remontent à 1882 dans un manuel pour voyageur de commerce. La première formulation mathématique du problème a été donnée par Karl Menger en 1930. Il a également présenté l'algorithme de recherche exhaustive permettant de trouver la solution optimale en parcourant toutes les solutions et a observé la non-optimalité de l'heuristique du plus proche voisin. Entre 1931 et 1934, Hassler Whitney aurait introduit pour la première fois le nom de Traveling Salesman Problem.
+ 
+ La principale avancée dans la résolution exacte du problème est apparue en 1954. Dantzig, Fulkerson et Johnson présentèrent plusieurs nouvelles méthodes de résolution du problème mettant en avant l'utilisation de la méthode des ``Cutting Planes'' (plans de coupes) leur permettant de résoudre une instance du problème comportant 49 villes (voir \cite{Dantzig1954}).
+ 
+ C'est en 1956 que Flood fit le rapprochement entre le problème du voyageur de commerce et les jeux de Hamilton consistant à rechercher des chemins hamiltoniens dans un graphe. En 1972, Karp a caractérisé le problème de recherche de cycle hamiltonien de poids minimal dans un graphe comme appartenant à la classe des problèmes NP-Complet, ce qui par conséquent classe le problème du voyageur de commerce comme NP-difficile.
+ 
+ Dans les années 1980 des instances comportant jusqu'à 2392 villes ont été résolues par des méthodes de Branch-and-Bound et de Cutting Planes.
+ 
+ En 2005, Cook a trouvé la solution optimale à une instance du problème comportant 33810 villes. Un an plus tard, en 2006, Applegate a résolu une instance comportant 85900 villes.
+
+\subsection{Méthodes de résolution}
+
+Le problème du voyageur de commerce étant NP-difficile il n'existe pas d'algorithme permettant de le résoudre en temps polynomial. Toutefois des méthodes de résolution exacte ont été développées au cours des 80 dernières années et ont permis, conjointement au progrès technologique (puissance brute des micro processeurs, grilles de calculs, etc.), de résoudre des instances de taille intéressante (jusqu'à 85900 villes). D'autres chercheurs se sont intéressés à la résolution approchée du problème afin de fournir des solutions proches de la solution optimale et parfois même avec une garantie de performance.
+
+Nous présenterons ici les méthodes de résolution exacte, puis approchée, en détaillant dans ce cas les approches heuristiques et les résolutions utilisant des méta-heuristiques.
+
+\subsubsection{Méthodes de résolution exacte}
+
+Il existe différentes approches de résolution exacte pour le problème du voyageur de commerce qui ont permis de résoudre des instances de taille de plus en plus importante au fil du temps.\\
+
+Tout d'abord, la plus naturelle est la recherche exhaustive (Brute Force Search). Elle a été décrite par Menger dans \cite{Menger1928}. Cette méthode consiste à construire toutes les permutations de villes et mesure la combinaison de coût minimum ($O(n!)$).
+
+Au début des années 1960, Bellman décrit dans \cite{Bellman1962} une méthode de résolution par programmation dynamique (Dynamic Programming) du problème de voyageur de commerce. L'approche est basée sur le fait que le coût de la visite d'une ville dépend uniquement du chemin précédemment parcouru. Mais c'est l'algorithme de Held-Karp \cite{Held1961}, présenté quelques mois avant celui de Bellman, qui s'avère le plus performant et résout le problème en $O(n^22^n)$.
+
+Dès 1963, Little et al. proposent dans \cite{Little1963} un algorithme de séparation et évaluation (Branch and Bound) pour résoudre le problème de voyageur de commerce. Cette méthode consiste à calculer une borne inférieure sur le cycle de poids minimal trouvé jusqu'à présent. Les tours sont construits grâce à la méthode de recherche exhaustive tant que la borne n'est pas atteinte. Lorsqu'un tour complet est construit une nouvelle borne est définie et permet de resserrer l'espace de recherche aux solutions inférieures ou égales à celle-ci (voir \cite{Balas1985}). L'algorithme de Little et al. permet de résoudre des instances du problème jusqu'à 40 villes.
+
+Ce sont finalement les méthodes de résolution par programmation linéaire qui s'avèrent les plus performantes pour résoudre le problème du voyageur de commerce. Elles utilisent une définition du problème sous forme de minimisation d'une fonction linéaire sur un polyèdre convexe. L'algorithme du Simplexe \cite{Dantzig63} permet ainsi de résoudre des instances jusqu'à 200 villes.
+
+Enfin, des méthodes basées sur des procédures de séparation et évaluation, et sur l'optimisation linéaire ont été adaptées à des instances particulières du problème. Ces adaptations ``sur-mesures'' permettent ainsi de résoudre des instances de très grande taille. En 2006, Applegate a résolu un problème comportant 85900 villes (voir \cite{Applegate2006}).
+
+\subsubsection{Méthodes de résolution approchée}
+
+Dans la littérature on trouve deux grandes classes de méthodes de résolution approchée du problème du voyageur de commerce. D'une part les méthodes de construction, et d'autre part les méthodes d'amélioration de solution.
+
+\paragraph{Heuristiques constructivistes~:}
+\label{sec:tsp:resolution:approchee:constructivistes}
+La première heuristique utilisée pour résoudre le problème du voyageur de commerce fut la méthode des plus proches voisins (Nearest Neighbour). Dès le début des années 1930 Menger a montré la non optimalité de cet algorithme glouton qui consiste à construire un chemin de façon itérative en sélectionnant à chaque itération la ville la plus proche. Cette méthode permet d'obtenir très rapidement des cycles assez court (environ 25\% de l'optimal dans les instances comportant des villes réparties aléatoirement dans l'espace). Cependant l'heuristique des plus proches voisins peut conduire à de très mauvais résultats dans certains cas particuliers.
+
+En 2007, Ray et al. ont proposé dans \cite{Ray2007} l'heuristique des plus proches fragments (Nearest Fragment). Il s'agit d'une variante de la méthode des plus proches voisins qui permet d'obtenir de meilleurs résultats en sélectionnant à chaque itération le groupe de villes le plus proche. Le fait de regrouper les villes en clusters permet de répartir les effets de la recherche locale sur une plage plus large de l'espace de recherche. Il s'agit d'une heuristique moins locale que celle des plus proches voisins.
+
+D'autres heuristiques permettent de réduire localement les cycles en calculant les arbres couvrants de poids minimal grâce aux algorithmes de Kruskal (voir \cite{Kruskal1956}) ou de Prim (voir \cite{Prim1957}). Ainsi, à chaque ville visitée la ville voisine étant la racine du sous arbre de poids minimal est choisie et insérée dans le tour. Là aussi les performances ne sont pas proches de l'optimal.
+
+En 1976, Christofides a présenté dans un rapport technique (voir \cite{Christofides1976}) une nouvelle heuristique permettant de résoudre les instances du problème vérifiant l'inégalité triangulaire précisant que la distance entre les villes $i$ et $k$ est inférieure ou égale à la distance entre les villes $i$ et $j$ plus la distance entre $j$ et $k$~:
+\begin{equation}
+   w_{i,k} \leq w_{i,j} + w_{j,k} \text{ avec $i\neq j\neq k$} \text{ $\forall i, j, k$}    
+\end{equation}
+Son algorithme permet d'obtenir une solution approchée garantie à 1.5 fois la solution optimale.
+
+En 1990 Bentley à définit une heuristique de construction d'un cycle hamiltonien sous forme de tour bitonique (voir \cite{Bentley1990}). Le principe est de relier les villes en formant un polygone monotone en cherchant le polygone ayant le périmètre le plus court. Pour maintenir la propriété de monotonie du polygone il peut être nécessaire d'inverser des arêtes.
+
+En 2004, Kahng et Reda ont proposé une heuristique basée sur l’enchaînement de deux couplages sur le graphe (voir \cite{Kahng2004}). Le second couplage est réalisé sur le graphe privé des arêtes présentent dans le premier couplage. Le résultat de ces deux couplages successifs est un ensemble de cycles. La seconde phase de l'algorithme de Kahng et Reda consiste à assembler ces cycles pour former un tour comportant tous les sommets du graphe. Leur heuristique donne de meilleurs résultats que les autres heuristiques de construction de tour évoquée précédemment.
+
+\paragraph{Heuristiques d'amélioration~:}
+\label{sec:tsp:resolution:approchee:amelioration}
+
+Concernant les méthodes d'amélioration les principales heuristiques sont basées sur la suppression de certaines arêtes dans la solution préalablement calculée puis à l'ajout d'arêtes permettant de reconnecter le chemin de en minimisant la distance totale. L'heuristique $V$-$opt$ consiste à retirer un nombre variable d'arêtes à la solution calculée puis de rajouter autant de nouvelles arêtes afin de reconnecter le cycle. Ainsi, en 1973, Lin et Kernighan proposèrent l'heuristique $2$-$opt$ (voir \cite{Lin1973}) qui est une heuristique dérivée de $V$-$opt$ où le nombre d'arête à supprimé est fixé à 2. Ainsi, à chaque itération, 2 arêtes sont échangées dans la solution. D'autres approches utilisent un nombre fixe $k$ d'arêtes à chaque itération ($k$-$opt$). La méthode la plus utilisée est $3$-$opt$. En 1990, Johnson a étendu l'algorithme de Lin-Kernighan en construisant une solution grâce à l'heuristique $3$-$opt$ puis en déplaçant au moins 4 arêtes dans la solution afin d'empêcher l'algorithme de rester bloqué 
+sur une solution localement optimale (voir \cite{Johnson1990}).
+
+En 1991, Martin et al. ont introduit un algorithme basé sur la procédure de Markov chain Monte Carlo (MCMC) (voir \cite{Martin1991}). Ils ont ainsi résolu de façon optimale des instance du problème jusqu'à 783 villes. Pour des instances plus grandes, leur procédure améliore le score de l'heuristique 3-opt de 1.6\% et l'algorithme de Lin-Kernighan de 1.3\%.
+
+\paragraph{Métaheuristiques~:}
+\label{sec:tsp:resolution:approchee:metaheuristique}
+Des méthodes plus généralistes (méta-heuristiques) sont également largement répandues dans la littérature afin de résoudre de façon approchée le problème du voyageur de commerce.
+
+%SIMULATED ANNEALING
+\subparagraph{Le recuit simulé} (\textit{Simulated Annealing}) est une métaheuristique pouvant être utilisée pour résoudre des instances du problème de voyageur de commerce. 
+Cette méthode a été inventé en 1983 par Kirkpatrick, Gelatt et Vecchi (voir \cite{Kirkpatrick1983}) et fonctionne selon une analogie avec des phénomènes physiques et quantiques. En effet, en métallurgie, les matériaux sont chauffés pour être façonnés, puis refroidis lentement. Cette baisse de température peut fragiliser le matériau si elle est trop rapide. Une opération de recuit (réchauffement) est alors utilisée pour permettre aux atomes de se placer dans la configuration la plus stable et ainsi redonner toute sa solidité au matériau.
+
+Du point de vue de l'optimisation, il s'agit de parcourir un espace de recherche très vaste de façon locale en parcourant le voisinage d'une solution (refroidissement). Des solutions performantes diminuent l'énergie du système et des solutions moins performantes fragilisent le système (augmentent son énergie).
+
+Une solution dégradant l'énergie du système est acceptée selon une probabilité $\mathrm{e}^{-\frac{\Delta_E}{T}}$ (règle de Metropolis \cite{Metropolis1953}) où $T$ est un paramètre virtuel de température et $\Delta_E$ est l'écart d'énergie entre la meilleure solution trouvée et la solution courante. Ce processus permet d'empêcher l'algorithme de rester piégé sur une solution localement optimale.
+
+Au fil de la recherche le seuil de performance (la température) est diminué afin de resserrer la recherche autour de la solution courante. L'algorithme s’arrête quand l'énergie de la solution trouvée est inférieure à un niveau d'énergie défini par avance (la qualité de la solution est satisfaisante), ou que le nombre maximal d'itérations a été atteint.
+
+Dès 1983 Kirkpatrick et al. ont résolu grâce à leur algorithme une instance du voyageur de commerce contenant 6000 villes alors que la plus grande instance résolue à cette époque ne contenait que 318 villes.
+
+%TABU SEARCH
+\subparagraph{La recherche tabou} (\textit{Tabu Search}) a été appliquée pour la première fois au PVC par Glover dans \cite{Glover1986}. L'algorithme utilise l'heuristique $2-opt$ afin de parcourir l'espace des solutions associée à une mémoire afin de ne pas explorer le voisinage d'une solution déjà étudiée précédemment. Dans sa thèse de doctorat, Troyon décrit un algorithme tabou appliqué au problème du voyageur de commerce et qui utilise également l'heuristique $2-opt$ (voir \cite{Troyon1988}). Dans \cite{Malek1989}, Malek et al. ont développé un algorithme tabou appliqué à des instances du PVC comportant de 25 à 100 villes capable d'être exécuté en environnement parallèle. Ils ont montré que la méthode de recherche tabou était plus performante que la méthode du recuit simulé en terme de temps de calculs tout en obtenant des performances similaires en terme de qualité de solution.
+
+%Neural Networks
+\subparagraph{Les réseaux de neurones artificiels} (\textit{Artificial Neural Networks}) ont été utilisés dans trois principales méthodes pour résoudre le problème du voyageur de commerce.
+
+Tout d'abord, en 1985, Hopfield résout le problème du voyageur de commerce de taille $n$ en utilisant un réseau de $n^2$ neurones (voir \cite{Hopfield1985}). Il s'agit d'un réseau bouclé sans apprentissage où toute sortie d'un neurone est reliée à une entrée de tous les neurones (même à lui-même). Le principe de l'algorithme est de chercher, par la méthode d'apprentissage, la configuration des poids des neurones permettant de minimiser la distance parcourue par le voyageur de commerce.
+
+D'autre part, en 1987, Durbin et al. ont proposé et étudié une approche par ``filet élastique`` (\textit{elastic net}) (voir \cite{Durbin1987} et \cite{Durbin1989}) vis-à-vis de la résolution du problème de voyageur de commerce. Le principe est d'associer l'espace en deux dimensions où sont positionnées les $n$ villes et une chaîne de $n$ neurones artificiels. En 1992, Ritter et al. ont amélioré la méthode en utilisant un nombre de neurones supérieur au nombre de villes et en initialisant les poids sur un cercle (appelé $N$-gon) positionné sur le centre de gravité des villes (voir \cite{Ritter1992}). Le cercle est alors graduellement étendu jusqu'à se trouver suffisamment proche de chaque ville pour former une tournée. L'algorithme cherche à minimiser à la fois la taille du cercle, et la distance entre le cercle et les villes. Ce modèle donne de meilleur résultats que celui de Hopfield. En effet, sur un problème de taille 30, la méthode de Hopfield obtient un tour de longueur $5.07$ après plusieurs essais 
+alors que la méthode de Durbin et al. donne une longueur de $4.26$ dès le premier résultat.
+
+Enfin, en 1988, Angéniol et al. (\cite{Angeniol1988}) ont également résolu le problème de voyageur de commerce grâce à une carte auto-organisatrice (\textit{Self Organized Map}) et ont permis de démocratiser cette méthode de résolution. Ainsi, Favata et Walker \cite{Favala1991}, Budinich et Rosario \cite{Budinich1996}, Aras et al. \cite{Aras1999}, ou plus récemment Leung et al. \cite{Leung2004}, ont utilisé une carte auto-organisatrice pour résoudre des problèmes de voyageurs de commerce comportant jusqu'à 2400 villes et ont montré que cette méthode obtenait des résultats comparables à ceux obtenus par le méthode du filet élastique.
+
+%GA
+\subparagraph{Les algorithmes génétiques} (\textit{Genetic Algorithms}) ont largement été utilisés pour résoudre le problème de voyageur de commerce. Un état de l'art des différents opérateurs et codages de chromosomes pour le problème du voyageur de commerce a été établi par Larra\~naga et al. dans \cite{Larranaga1999}. La façon la plus classique de résoudre le problème consiste à coder les chromosomes sous forme de suite de villes. Un chromosome contient donc toutes les villes dans un certain ordre. C'est sur cet ordre que l'algorithme va agir afin de converger vers la combinaison de villes permettant de minimiser la distance à parcourir. Ainsi, le chromosome $\{v_1, v_2, v_3, v_4, v_5\}$ signifie que le voyageur de commerce devra aller de son point de départ à la ville $v_1$, puis à $v_2$, ..., jusqu'à la ville $v_5$, puis enfin revenir à son point de départ.
+La fonction d'évaluation consiste à additionner les distances à parcourir ($O(n)$).
+Concernant l'opérateur de croisement, il n'est pas possible d'associer les moitiés de deux chromosomes en garantissant la validité de la solution. Par exemple le croisement entre deux chromosomes tels que décrits dans la figure \ref{subfig:mauvaisCroisementTSP} peut donner un chromosome non valide (qui n'appartient pas à l'ensemble $S$ des solutions possibles). Ainsi, la figure \ref{subfig:bonCroisementTSP} montre un croisement consistant a recopier le début d'un des parents, puis de recopier les villes manquantes dans l'ordre dans lequel elles apparaissent dans le chromosome de l'autre parent.
+
+L'opérateur de mutation consiste à inverser deux villes dans le chromosome afin de modifier ses gènes sans pour autant produire une solution invalide (voir figure \ref{fig:mutationTSP}).
+
+\begin{figure}[h]
+\centering
+\tiny  
+   \begin{tabular}{|c|c|c|c|c|}
+	  \hline
+	  \textcolor{blue}{$v_1$} & \textcolor{green}{$v_2$} & \textcolor{blue}{$v_3$} & \textcolor{green}{$v_4$}	& \textcolor{blue}{$v_5$}\\
+	  \hline
+  \end{tabular}\\
+  $\downarrow$\\
+  \begin{tabular}{|c|c|c|c|c|}
+	  \hline
+	  \textcolor{blue}{$v_1$} & \textcolor{green}{$v_4$} & \textcolor{blue}{$v_3$} & \textcolor{green}{$v_2$}	& \textcolor{blue}{$v_5$}\\
+	  \hline
+  \end{tabular}\\
+  \caption{Opérateur de mutation pour un chromosome modélisant une solution à un problème de voyageur de commerce}
+  \label{fig:mutationTSP}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\tiny
+\subfloat[Croisement non valide]{\label{subfig:mauvaisCroisementTSP}
+   \begin{tabular}{c}
+   \begin{tabular}{|c|c|c||c|c|}
+	  \hline
+	  \textcolor{blue}{$v_1$} & \textcolor{blue}{$v_2$} & \textcolor{blue}{$v_3$} & \textcolor{blue}{$v_4$}	& \textcolor{blue}{$v_5$}\\
+	  \hline
+  \end{tabular}\\\\
+  \begin{tabular}{|c|c|c||c|c|}
+	  \hline
+	  \textcolor{green}{$v_3$} & \textcolor{green}{$v_2$} & \textcolor{green}{$v_5$} & \textcolor{green}{$v_1$} & \textcolor{green}{$v_4$}\\
+	  \hline
+  \end{tabular}\\\\
+  $\downarrow$\\
+  \begin{tabular}{ccc}
+    \begin{tabular}{|c|c|c|c|c|}
+	  \hline
+	  \textcolor{blue}{$v_1$} & \textcolor{blue}{$v_2$} & \textcolor{blue}{$v_3$} & \textcolor{green}{$v_1$} & \textcolor{green}{$v_4$}\\
+	  \hline
+    \end{tabular} &
+    $\cup$ &
+    \begin{tabular}{|c|c|c|c|c|}
+	      \hline
+	      \textcolor{green}{$v_3$} & \textcolor{green}{$v_2$} & \textcolor{green}{$v_5$} & \textcolor{blue}{$v_4$} & \textcolor{blue}{$v_5$}\\
+	      \hline
+    \end{tabular}
+  \end{tabular}\\
+  \shortstack{$\downarrow$\\$\notin S$}
+  \end{tabular}
+}
+  
+  \subfloat[Croisement valide]{\label{subfig:bonCroisementTSP}
+  \begin{tabular}{c}
+  \begin{tabular}{|c|c|c||c|c|}
+	  \hline
+	  \textcolor{blue}{$v_1$} & \textcolor{blue}{$v_2$} & \textcolor{blue}{$v_3$} & \textcolor{blue}{$v_4$}	& \textcolor{blue}{$v_5$}\\
+	  \hline
+  \end{tabular}\\\\
+  \begin{tabular}{|c|c|c||c|c|}
+	  \hline
+	  \textcolor{green}{$v_3$} & \textcolor{green}{$v_2$} & \textcolor{green}{$v_5$} & \textcolor{green}{$v_1$} & \textcolor{green}{$v_4$}\\
+	  \hline
+  \end{tabular}\\\\
+  $\downarrow$\\
+  \begin{tabular}{ccc}
+    \begin{tabular}{|c|c|c|c|c|}
+	  \hline
+	  \textcolor{blue}{$v_1$} & \textcolor{blue}{$v_2$} & \textcolor{blue}{$v_3$} & \textcolor{green}{$v_5$} & \textcolor{green}{$v_4$}\\
+	  \hline
+    \end{tabular} &
+    $\cup$ &
+    \begin{tabular}{|c|c|c|c|c|}
+	      \hline
+	      \textcolor{green}{$v_3$} & \textcolor{green}{$v_2$} & \textcolor{green}{$v_5$} & \textcolor{blue}{$v_1$} & \textcolor{blue}{$v_4$}\\
+	      \hline
+    \end{tabular}
+  \end{tabular}\\
+  $\downarrow$\\
+  $\in S$
+  \end{tabular}
+  }
+  \label{fig:croisementTSP}
+  \caption{Exemple d'une méthode non-valide (\ref{subfig:mauvaisCroisementTSP}) et d'une autre méthode valide (\ref{subfig:bonCroisementTSP}) de croisement de deux chromosomes représentant une solution au problème de voyageur de commerce}
+\end{figure}
+
+\subparagraph{L'optimisation par colonie de fourmis} (\textit{Ant Colony Optimization}) est également une métaheuristique basée sur une observation du vivant utilisée pour résoudre le problème du voyageur de commerce.
+%Application au TSP
+Dans \cite{Dorigo1991}, Dorigo et al. ont ainsi appliqué $Ant$-$System$ pour résoudre une instance de 30 villes du problème du voyageur de commerce. Ils ont ont établi que $Ant$-$cycle$ donne de meilleurs résultats que les deux autres variantes. Ils ont également montré que~:
+\begin{itemize}
+ \item les meilleurs résultats sont obtenus en utilisant un nombre de fourmis proche du nombre de villes à visiter ;
+ \item la valeur du paramètre $Q$ peut être choisie arbitrairement et n'influence pas ni la capacité de l'algorithme à trouver une solution optimale, ni la rapidité de cette convergence ; 
+ \item la disposition initiale des fourmis sur le graphe n'influence que très peu la convergence de l'algorithme (avec des résultats légèrement meilleurs en utilisant une répartition aléatoire) ;
+ \item l'utilisation d'une version élitiste permet d'améliorer la convergence.
+ \item l'utilisation de bons paramètres permettait de trouver beaucoup plus rapidement des solutions proches de l'optimal.
+\end{itemize}
+
+Les auteurs ont comparé les résultats obtenus avec la stratégie $Ant$-$cycle$ avec les performances des heuristiques $2-opt$ et $Lin-Kernighan$ (voir \ref{sec:tsp:resolution:approchee:amelioration}). Les résultats montrent que l'algorithme fourmis dépasse les performances de l'heuristique $2-opt$ et donne le même résultat que l'algorithme de $Lin-Kernighan$.
+
+Concernant le paramétrage, Dorigo et al. ont indiqué que $\{{\alpha\text{=}1,~} {\beta\text{=}2,~} {\rho\text{=}0.5,~} {Q^*\text{=}100,~} {e\text{=}5}\}$ est une bonne configuration permettant de résoudre le problème de voyageur de commerce de taille 30 en utilisant $Ant$-$cycle$.\\
+
+ Dans \cite{Dorigo1997}, Dorigo et Gambardella ont montré que l'algorithme \textit{Ant Colony System} donne de meilleurs résultats avec le marquage constant de phéromone sur diverses instances du problème de taille 50 ainsi que sur des instances bien connues de 30 et 48 villes. Le score moyen ainsi obtenu sur 25 exécutions est meilleur que celui obtenu en utilisant $Ant-Q$, ou sans utiliser le marquage en fonction du meilleur chemin trouvé ($\Delta\tau_{ij}=0$), ou encore sans utiliser le marquage local.
+ 
+ Selon les auteurs le paramétrage de l'algorithme est relativement indépendant du problème. Ils ont défini l'ensemble de paramètre suivant : $\{\beta$=2, $q_0$=0.9, $\alpha$=$\rho$=0.1, $\tau_0$=$(n\cdot L_{nn})^{-1}\}$ où $L_{nn}$ correspond à la longueur du chemin construit grâce à l'heuristique du plus proche voisin (voir \ref{sec:tsp:resolution:approchee:constructivistes}) et $n$ est le nombre de villes de l'instance du problème.
+ Comparé aux autres métaheuristiques comme notamment le recuit simulé ou les algorithmes génétiques, Dorigo et Gambardella ont montré qu'$ACS$ donne de meilleurs résultats sur des problèmes de taille 50, 75 et 100. $ACS$ permet à chaque fois de trouver la solution optimale et ce plus rapidement que les autres méthodes.
+ 
+%Convergence
+Les algorithmes fourmis sont, avec les algorithmes génétiques, la méthode la plus efficace pour trouver rapidement une solution proche de l'optimale au instances de taille diverses du problème de voyageur de commerce. Toutefois, l'inconvénient majeur de cette métaheuristique concerne inexistence, à l'heure actuelle, de preuve de convergence pour toutes les variantes d'algorithmes fourmis (voir \cite{Gutjahr2000,Dorigo2005}).
+
+%Conclusion sur le TSP ?
+
+\subsection{Généralisation à \textit{m} voyageurs : The Multiple Traveling Salesman Problem (M-TSP)}
+
+\subsubsection{Définition}
+Le problème de voyageur de commerce évoqué précédemment (voir \ref{sec:tsp:definition}) est défini pour 1 unique voyageur. Néanmoins, il existe une version généralisée à $m$ voyageurs, où $M$ est l'ensemble des voyageurs de commerce, qui caractérisée par la minimisation de la distance des tournées de plusieurs voyageurs sur un ensemble de $n$ villes. Les villes doivent être ainsi visitées une et une seule fois par n'importe lequel des voyageurs. Deux voyageurs différents ne peuvent donc pas visiter la même ville dans leur tournée respective. Comme dans le problème classique, la tournée de chaque voyageur doit commencer et se terminer au dépôt. 
+Il est évident que lorsque $m$=1, il s'agit du problème classique du voyageur de commerce comme défini précédemment.
+
+%Variantes
+Cette généralisation du problème est encore plus difficile que le problème classique (où $m=1$) car il s'agit de déterminer l'affectation des villes aux voyageurs ainsi que d'optimiser l'ordre de passage des voyageurs dans les villes de leur tournée respective. Il n'existe donc pas non plus d'algorithme polynomial pour le résoudre et toutes les variantes du problème classique se retrouvent dans le problème des multi-voyageurs de commerce (PMVC).
+
+Les variantes les plus courantes utilisent~: 
+\begin{itemize}
+ \item un graphe asymétrique (Asymetric M-TSP)~: $G = (V,A,w)$;
+ \item des vitesses différentes en fonction des voyageurs~: $G = (V,E,w_k)$ si le graphe est symétrique, ou $G = (V,A,w_k)$ dans le cas asymétrique, $\forall k \in M$;
+ \item une fonction objectif basée sur la minimisation~:
+  \begin{itemize}
+    \item de la somme des distances parcourues par les voyageurs (critère \textit{\mbox{MinSum}}); %MBOX pour empêcher la césure
+    \item de la distance du plus long tour parmi les tours de tous les voyageurs (critère \textit{\mbox{MinMax}}, voir \cite{Franca1995}). %MBOX pour empêcher la césure
+  \end{itemize}
+ \item une fonction objectif multicritère (répondre aux contraintes en minimisant $m$ et la somme des longueurs des tours de chaque voyageur);
+ \item plusieurs dépôts : il existe deux sous variantes : 
+ \begin{itemize}
+  \item en fin de parcours, les voyageurs doivent retourner au dépôt depuis lequel ils ont débuté leur tournée respective départ (voir \cite{Laporte1988});
+  \item en fin de parcours, les voyageurs doivent retourner dans un dépôt, peu importe lequel (voir \cite{YangGuoXing1995})~:
+    \begin{itemize}
+      \item il peut y avoir plusieurs voyageurs dans le même dépôt;
+      \item il ne peut y avoir qu'un seul voyageur par dépôt.
+    \end{itemize}
+  \end{itemize}
+ \item des contraintes supplémentaires~: 
+ \begin{itemize}
+  \item Fenêtres de temps (M-TSP-TW)~: chaque ville doit être visitée au cours d'une certaine période de temps;
+  \item Capacité~: un voyageur doit repasser par son point de départ dès qu'il a visité $n$ villes;
+  \item Précédence~: un voyageur doit visiter certaines villes avant de pouvoir en visiter d'autres;\\
+ \end{itemize}
+\end{itemize}
+
+Les versions du problème comportant une contrainte de capacité sont généralement catégorisés en tant que problèmes de tournées de véhicules (Vehicle Routing Problem) et seront évoqués dans la partie \ref{sec:vrp} de ce manuscrit.
+
+\subsubsection{Problèmes rencontrés}
+  Contrairement au PVC classique, la littérature ne contient que très peu de références au PMVC. En 2006, Bektas a dressé, dans \cite{Bektas2006}, une liste des problèmes réels pouvant être résolus grâce à une modélisation sous forme de $m$-$TSP$ : 
+  \begin{itemize}
+   \item Le problème de l'imprimeur de presse : il s'agit d'affecter des pages à imprimer à des paires de rouleaux d'impression (recto-verso)de forme diverses (4 pages, 6 pages, 8 pages) afin d'imprimer des versions différentes d'un journal périodique. Il faut déterminer quelle forme sera utilisée dans quelle série d'impression et à quel endroit dans la série.
+   \item Le problème de l'annonceur de presse : il s'agit de déterminer les publicités à imprimer dans les encarts de journaux en fonction de leur ville ou région de distribution.
+   \item Le problème de gestion de ressources : il s'agit de répartir un ensemble de ressources (employés, véhicules...) sur un ensemble de tâches à effectuer à des endroits différents. Par exemple~: dans le problème des réparateurs de cabines téléphoniques, un ensemble de réparateurs doivent réparer un certain nombre cabines téléphoniques réparties géographiquement. Il faut ici minimiser la distance totale parcourue par les réparateurs, ou minimiser le nombre de réparateurs utilisés.
+   \item Le problème des bus de ramassage scolaires : une flotte de bus scolaires doivent parcourir un ensemble d'arrêts. L'objectif est de minimiser le nombre de bus ainsi que la distance parcourue tout en assurant que la capacité des bus permettent de transporter tous les élèves et que le temps d'une tournée ne dépasse pas une durée maximale prédéfinie.
+   \item La planification de missions : déterminer l'ordonnancement optimal afin que les ressources accomplissent les missions dans le temps le plus court possible.
+  \end{itemize}
+  
+  Bektas indique également que le PMVC peut être utilisé pour proposer des solutions à des sous-problèmes d'autres problèmes d'optimisation comme l'ordonnancement et l'affectation des portiques de (dé)chargement de navires sur un terminal à conteneurs par exemple. Dans \cite{Kim2004}, Kim et Park utilisent une modélisation sous forme de PMVC afin de définir des bornes inférieures de façon précise pour leur algorithme de Branch and Bound leur permettant de répartir les opération de manutention en fonction de leur position géographique.
+  
+  De part sa proximité avec le problème de tournées de véhicules, le PMVC peut être utilisé pour minimiser la distance parcourue par la flotte de véhicules ou minimiser le nombre de véhicules utilisés pour servir tous les clients en respectant les contraintes du problème. Ainsi, dans \cite{Mitrovic-Minic2006}, les auteurs proposent de minimiser le nombre de voyageurs de commerce dans le cadre d'un PMVC avec fenêtres de temps en modélisant 2 graphes de précédence~: l'un sur le minimum des fenêtres de temps, et l'autre sur le maximum. Grâce à cette modélisation il est possible de déterminer de façon polynomiale le nombre de voyageurs nécessaires pour visiter toutes les villes sans jamais dépasser une fenêtre de temps.
+  
+  \subsubsection{Formulation du problème}
+  Bektas a identifié plusieurs formulations du problème dans la littérature.
+  
+  Une formulation sous forme de programmation linéaire permet à la méthode du simplexe de Dantzig (voir \cite{Dantzig1954}), également utilisée pour le PVC, de  rester applicable au PMVC. Cependant, les contraintes dérivées permettant d'empêcher de créer des sous-tours ne contenant pas le dépôt augmentent exponentiellement avec la taille du problème. Miller et al. ont proposé dans \cite{Miller1960} d'introduire d'autres variables continues permettant d'éviter ce problème en générant un nombre polynomial de contraintes d'élimination de sous-tours.
+  Laporte et Norbert ont également proposés une formulation du problème induisant un nombre exponentiel de contraintes d'élimination de sous-tours. Leur formulation permet de minimiser à la fois la distance totale parcourue ainsi que le nombre de voyageurs de commerce.
+  
+  Tout comme pour le PVC classique, Christofides et al. ont proposé une formulation basée sur l'utilisation d'un arbre caractérisé par un centre de degré $k$ (le sommet représentant le dépôt possède $k$ arcs adjacents) afin de résoudre le problème (voir \cite{Christofides1981}). Laporte \cite{Laporte1980} a étendu utilisation de cette formulation afin de déterminer une borne inférieure pour un problème de tournée de véhicules (voir \ref{sec:vrp}).
+  
+  Enfin, une formulation basée sur des flots a été dérivée d'un modèle de problème de tournées de véhicules proposé par Christofides (\cite{Christofides1981}) est adaptée au PMVC en excluant les contraintes de capacité et de coût.
+  
+ \subsubsection{Méthodes de résolution}
+  Dans \cite{Bektas2006}, Bektas a également indiqué les méthodes de résolution utilisées (exactes et approchées). Il existe selon lui 2 façons de résoudre le $m$-$TSP$~: 
+  \begin{itemize}
+   \item résoudre $m$ fois le problème de voyageur de commerce; 
+   \item modéliser le $m$-$TSP$ sur 1 seul graphe et résoudre le problème de voyageur de commerce.
+  \end{itemize}
+  
+  %Transformation en TSP
+  \paragraph{Transformation en problème de voyageur de commerce classique}
+  Afin de pouvoir utiliser les méthodes de résolution du problème classique de voyageur de commerce, il est courant de chercher à transformer le PMVC en PVC classique. Le principe le plus répandu consiste à ajouter m-1 villes fictives représentant le dépôt pour les $m$ voyageurs de commerce. Les poids des arêtes entre ces sommets fictifs sont fixés à $+\infty$ et les coûts des arêtes reliant ces sommets aux autres sommets sont fixés à $0$.
+  
+  Bellmore et Hong ont montré dans \cite{Bellmore1974} que le PMVC asymétrique avec $m$ voyageurs et $n$ villes peut être converti en problème asymétrique classique de voyageur de commerce avec $(m+n-1)$ nœuds. Un coût est associé à chaque voyageur et est pris en compte dès que le voyageur est utilisé dans la solution. Hong et Padberg ont également développés un graphe contenant $(n+m+4)$ sommets. Ainsi, Russell a proposé une heuristique de résolution basée sur la transformation du PMVC en PVC grâce à un graphe étendu (voir \cite{Russel1977}). Leur algorithme est une extension de l'heuristique de Lin-Kernighan (voir \ref{sec:tsp:resolution:approchee:amelioration}).
+  
+  Jonker et Volgenant (voir \cite{Jonker1988}) ont quant à eux utilisé le même nombre de sommets que pour le PVC classique mais en réduisant le nombre d'arcs. Ils ont indiqués que d'ajouter des copies du dépôt dégrade fortement le problème.\\
+  
+  En ce qui concerne la résolution directe, c'est-à-dire sans transformation du problème multi voyageurs, plusieurs approches ont été définies au fil du temps.
+  
+  \paragraph{Résolution exacte}
+  %résolution directe du m-tsp :
+  
+  Laporte et Norbert ont été les premiers à proposer une méthode de résolution exacte au PMVC (voir \cite{Laporte1980}). Leur algorithme est basé sur la méthode du \textit{Branch and Price} et consiste à relaxer certaines contraintes du problème. Après chaque solution proposée, l'algorithme vérifie qu'aucune contrainte n'est violée. Si c'est le cas une nouvelle contrainte est introduite afin d'éliminer les sous-tours. Une autre version de leur algorithme consiste à évaluer les violations de contraintes avant d'obtenir une solution complète et montre de meilleurs résultats.
+  Gavish et Srikanth ont proposé une méthode de résolution basée sur le principe du \textit{Branch and Bound} (voir \cite{Gavish1986}) pour résoudre des instances de taille plus importante du PMVC symétrique.
+  Enfin, Gromicho et al. ont proposé un algorithme de \textit{Branch and Bound} pour résoudre le PMVC ou le nombre de voyageurs est fixé (voir \cite{Gromicho1992}). Ils utilisent une procédure d'affectation sur le problème relaxé et utilisent une borne inférieure déterminée grâce à différentes procédures de relaxation (r-arborescence et r-anti-arborescence). Ce procédé a permis de résoudre des instances de taille $n$=120 et $2\leq m\leq 12$.
+  
+  \paragraph{Résolution approchée}
+  %V-opt
+  Seules les métaheuristiques utilisées pour résoudre le problème classique peuvent être appliquée au problème multi-voyageurs sans requérir de transformation du problème.
+  %METAH : TABU SEARCH -> SIMULATED ANNEALING -> Neural Networks -> GA
+  Ainsi, Ryan et al. ont utilisé une recherche tabou pour résoudre le PMVC avec fenêtres de temps (voir \cite{Ryan1998}).
+  Song et al. ont utilisé un algorithme de recuit simulé pour résoudre de façon approchée le PMVC avec des coûts fixes associés aux voyageurs. Ils ont réussi à résoudre des problèmes contenant 400 villes et 3 voyageurs (voir \cite{Song2003}).\\
+  
+  En 1989, Wacholder et al. ont proposé une méthode basée sur les réseaux de neurones d'Hopfield pour résoudre le PMVC (voir \cite{Wacholder1989}). Toutefois leur modèle a été jugé trop complexe. Dans \cite{Hsu1991}, les auteurs ont développé un réseau de neurones permettant de résoudre successivement $m$ problèmes classiques de voyageur de commerce. En 1994, Vakhutinsky et al. ont proposé un réseau de neurones artificiels basé sur la méthode du filet élastique afin de résoudre le PMVC (voir \cite{Vakhutinsky1994}). Dans \cite{Somhom1999} et \cite{Modares1999}, Somhom et al. ont introduit une méthode de résolution à base de réseau de neurones pour résoudre le problème des multi-voyageurs de commerce en prenant comme objectif de minimiser la distance de la route la plus longue parmi les routes des voyageurs. Cet objectif a été nommé \textit{MinMax}. Les performance de cet algorithme sont meilleures que celles des méthodes basées sur le filet élastique.\\
+  
+  Fogel a introduit une approche évolutionnaire considérant deux voyageurs de commerce et une fonction d'évaluation minimisant la différence de distance entre les deux tours (voir \cite{Fogel1990}). L'auteur a montré que les solutions obtenues étaient très proches de la solution optimale.
+  D'autres auteurs ont utilisé des algorithmes génétiques afin de résoudre le PMVC. Une approche récente de Tang et al. (voir \cite{Tang2000}) consiste à transformer le PMVC en problème de voyageur de commerce classique et d'appliquer un algorithme génétique. Les auteurs utilisent ainsi un unique chromosome contenant les tournées des voyageurs, codées par des entiers (indices des villes), et séparées par un gène spécifique permettant d'identifier la fin d'un tour et le début de la tournée du voyageur suivant (voir fig. \ref{fig:mtsp:monochromosome}). Un chromosome aura donc une taille égale à $m+n-1$. Cette technique a été baptisée ``one-chromosome technique''.
+  
+  \begin{figure}
+   \centering
+   \begin{displaymath}
+	\underbrace{
+	  \begin{tabular}{|*{4}{p{0.4cm}|}}
+	    \hline
+	    \centering 2 & \centering 5 & \centering 14 & \centering 6 \tabularnewline
+	    \hline
+          \end{tabular}
+         }_{\text{Voyageur \no 1}}
+        \begin{tabular}{|p{0.4cm}|}
+ 	  \hline
+	  \centering -1 \tabularnewline
+ 	  \hline
+        \end{tabular}
+	\underbrace{
+	  \begin{tabular}{|*{4}{p{0.4cm}|}}
+ 	    \hline
+	    \centering 1 & \centering 11 & \centering 8 & \centering 13 \tabularnewline
+ 	    \hline
+          \end{tabular}
+        }_{\text{Voyageur \no 2}}
+        \begin{tabular}{|p{0.4cm}|}
+ 	  \hline
+	  \centering -2 \tabularnewline
+ 	  \hline
+        \end{tabular}
+        \underbrace{
+	  \begin{tabular}{|*{3}{p{0.4cm}|}}
+ 	    \hline
+	    \centering 4 & \centering 10 & \centering 3 \tabularnewline
+ 	    \hline
+          \end{tabular}
+        }_{\text{Voyageur \no 3}}
+        \begin{tabular}{|p{0.4cm}|}
+          \hline
+         \centering -3 \tabularnewline
+          \hline
+        \end{tabular}
+        \underbrace{
+	  \begin{tabular}{|*{4}{p{0.4cm}|}}
+ 	    \hline
+	    \centering 12 & \centering 15 & \centering 9 & \centering 7 \tabularnewline
+ 	    \hline
+          \end{tabular}
+	 }_{\text{Voyageur \no 4}}
+    \end{displaymath}
+    \caption{Exemple de chromosome codé selon la méthode de Tang et al. pour $n=15$ et $m=4$.}
+    \label{fig:mtsp:monochromosome}
+  \end{figure}
+  
+  En 2001, Park a introduit un codage utilisant 2 chromosomes (voir \cite{Park2001}), l'un pour les villes et l'autre pour les voyageurs (voir fig. \ref{fig:mtsp:bichromosomes}). L'association de ces deux chromosomes permet d'obtenir des tuples $\{$ville, voyageur$\}$ représentant une solution au problème. Chaque voyageur devra parcourir les villes associées dans l'ordre où elles apparaissent dans le chromosome des villes. Ce codage est appelé ``two-chromosomes~technique''.
+  
+  \begin{figure}
+  \centering
+  \begin{tabular}{p{2cm} c}
+    Villes~: & \begin{tabular}{|*{15}{p{0.4cm}|}}
+    \hline
+     \centering 1 & \centering 2 & \centering 5 & \centering 12 & \centering 4 & \centering 14 & \centering 15& \centering 6 & \centering 11 & \centering  9& \centering  7 & \centering 8 & \centering 10 & \centering 3 & \centering 13 \tabularnewline
+     \hline
+    \end{tabular} \tabularnewline
+    
+    Voyageurs~: & \begin{tabular}{|*{15}{p{0.4cm}|}}
+    \hline
+     \centering 2 & \centering 1 & \centering 1 & \centering 4 & \centering 3 & \centering 1 & \centering 4 & \centering 1 & \centering  2 & \centering 4 & \centering 4 & \centering 2 & \centering 3 & \centering 3 & \centering 2 \tabularnewline
+     \hline
+    \end{tabular}
+    \tabularnewline
+    \end{tabular}
+    
+    \caption{Exemple de chromosome codé selon la méthode à deux chromosomes pour $n=15$ et $m=4$.}
+    \label{fig:mtsp:bichromosomes}
+  \end{figure}
+
+  
+  Notons qu'avec ces deux types de codage, avec un ou deux chromosomes, la population peut contenir plusieurs individus décrivant les mêmes solutions sans avoir le même code génétique. La population peut donc contenir plusieurs fois les mêmes solutions avec des individus différents. Ainsi, Carter et Ragsdale ont introduit une nouvelle forme de codage utilisant un seul chromosome mais contenant deux parties (voir \cite{Carter2006}). La première partie du chromosome contient $n$ gènes représentant les villes à parcourir. La seconde partie du chromosome contient $m$ gènes qui décrivent le nombre de villes associées à chaque voyageur (voir fig. \ref{fig:mtsp:chromosome2parties}). Ce procédé permet de réduire l'espace de recherche en évitant la récurrence des solutions. En revanche les opérations de croisement et de mutations deviennent plus délicates car la somme des gènes de la seconde partie du chromosome doit être égale à $n$.
+  
+  \begin{figure}
+   \centering
+   \begin{tabular}{c|c}
+    \centering Villes & \centering Villes par voyageur \tabularnewline
+    \centering
+    \ensuremath{
+    \underbrace{
+      \begin{tabular}{|*{4}{p{0.4cm}|}}
+      \hline
+      \centering 2 & \centering 5 & \centering 14 & \centering 6 \tabularnewline
+      \hline
+      \end{tabular}
+    }_{\ensuremath{v_{1}}}
+    \underbrace{
+      \begin{tabular}{|*{4}{p{0.4cm}|}}
+	    \hline
+	    \centering 1 & \centering 11 & \centering 8 & \centering 13 \tabularnewline
+	    \hline
+	  \end{tabular}
+	}_{v_{2}}
+      \underbrace{
+	  \begin{tabular}{|*{3}{p{0.4cm}|}}
+	    \hline
+	    \centering 4 & \centering 10 & \centering 3 \tabularnewline
+	    \hline
+	  \end{tabular}
+	}_{v_{3}}
+	\underbrace{
+	  \begin{tabular}{|*{4}{p{0.4cm}|}}
+	    \hline
+	    \centering 12 & \centering 15 & \centering 9 & \centering 7 \tabularnewline
+	    \hline
+	  \end{tabular}
+	}_{v_{4}}
+  }
+  &
+  \ensuremath{
+     \underbrace{
+	\begin{tabular}{|p{0.4cm}|}
+	  \hline
+	  \centering 4 \tabularnewline
+	  \hline
+        \end{tabular}
+     }_{v_{1}}
+     \underbrace{
+	\begin{tabular}{|p{0.4cm}|}
+	  \hline
+	  \centering 4 \tabularnewline
+	  \hline
+        \end{tabular}
+     }_{v_{2}}
+     \underbrace{
+	\begin{tabular}{|p{0.4cm}|}
+	  \hline
+	  \centering 3 \tabularnewline
+	  \hline
+        \end{tabular}
+     }_{v_{3}}
+     \underbrace{
+	\begin{tabular}{|p{0.4cm}|}
+	  \hline
+	  \centering 4 \tabularnewline
+	  \hline
+        \end{tabular}
+     }_{v_{4}}
+     }
+    \end{tabular}
+    \caption{Exemple de chromosome à deux parties pour $n=15$ et $m=4$.}
+    \label{fig:mtsp:chromosome2parties}
+  \end{figure}
+
+  Les résultats de l'étude de Carter et Ragsdale (voir \cite{Carter2006}) montrent que les codages utilisant un seul chromosome sont plus performant que celui à deux chromosomes. Le codage par chromosomes à deux parties se révèle également plus performant que le codage avec un seul chromosome à une seule partie et spécialement lorsque l'objectif est de répartir l'effort entre les différents voyageurs.
+  
+  
+  Plus récemment, Kiràly et Abonyi ont proposé un algorithme génétique utilisant la technique des multi-chromosomes (voir \cite{Kiraly2011}). Dans leur modèle, il existe $m$ chromosomes et les opérateurs génétiques consistent à échanger des morceaux de code génétique entre ces chromosomes (voir Fig. \ref{fig:mtsp:multichromosomes}). Cette modélisation revient, sous une forme différente, à utiliser le codage en un seul chromosome à deux parties. Le principal avantage de ce codage réside donc dans sa clarté et sa facilité d'implémentation.\\
+  
+\begin{figure}
+ \centering
+ \begin{tabular}{p{6cm} p{8cm}}
+   \small Population initiale~: & \begin{tabular}{c}
+    $m_1=$
+   \begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}|}
+    \hline 
+      \centering 2 & \centering 5 & \centering 14 & \centering 6 \tabularnewline
+    \hline
+   \end{tabular}\\
+   $m_2=$ \begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}}
+    \cline{1-3}
+     \centering 1 & \centering 11 & \centering 8 & \tabularnewline
+    \cline{1-3}
+   \end{tabular}\\
+   $m_3=$ \begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}|}
+    \hline
+     \centering 4 & \centering 10 & \centering 3 & \centering 13 \tabularnewline
+    \hline
+   \end{tabular}\\
+   $m_4=$ \begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}|}
+   \hline
+    \centering 12 & \centering 15 & \centering 9 & \centering 7 \tabularnewline
+   \hline
+   \end{tabular}\\
+  \end{tabular}
+  \tabularnewline
+  \tabularnewline
+  \small Après croisement entre $m_1$ et $m_3$~: & \begin{tabular}{c}
+   $m_1=$
+   \begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}|}
+    \hline 
+      \centering 2 & \centering 5 & \centering 10 & \centering 3 & \centering 13 \tabularnewline
+    \hline
+   \end{tabular}\\
+   $m_2=$ \begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}p{0.5cm}}
+    \cline{1-3}
+     \centering 1 & \centering 11 & \centering 8 & & \tabularnewline
+    \cline{1-3}
+   \end{tabular}\\
+   $m_3=$ \begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}p{0.5cm}}
+    \cline{1-3}
+     \centering 4 & \centering 14 & \centering 6 & & \tabularnewline
+    \cline{1-3}
+   \end{tabular}\\
+   $m_4=$ \begin{tabular}{|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}|p{0.5cm}}
+   \cline{1-4}
+    \centering 12 & \centering 15 & \centering 9 & \centering 7 & \tabularnewline
+   \cline{1-4}
+    \end{tabular}\\
+   \end{tabular}
+  \end{tabular}
+  \caption{Exemple du modèle génétique multi-chromosomes de Kiràly et Abonyi pour $n=15$ et $m=4$}
+   \label{fig:mtsp:multichromosomes}
+\end{figure}
+
+
+%ACO
+Junjie et Dingwei ont développé un algorithme fourmi pour résoudre directement le problème des multi-voyageurs de commerce (voir \cite{Junjie2006}. Ils utilisent une contrainte supplémentaire afin de limiter le nombre de villes qu'un voyageur peut visiter. Ainsi, l'algorithme fonctionne de la façon suivante.
+Une fourmi débute son parcourt en modélisant le tour du voyageur $i$.
+Ce voyageur devra parcourir $n_i$ villes (avec $n_i$ nombre aléatoire et $n_i\leq MAX$). La fourmi choisi sa destination selon la règle définie par Dorigo et al. (voir \cite{Dorigo1992}) parmi la liste des villes non visitée. Lorsque la fourmi a parcourut ses $n_i$ villes, elle continue en cherchant le tour du voyageur suivant ($j$) en parcourant $n_j$ villes (avec $n_j$ nombre aléatoire tel que $n_j\leq MAX$). Le parcourt d'une fourmi s’arrête lorsque toutes les villes ont été visitées. Le processus marquage s'applique lorsqu'une solution a été trouvée (marquage local) et lorsqu'un nombre défini de solutions ont été trouvées (marquage global). La formule de marquage correspond à celle de Dorigo et al. utilisée par $Ant$-$System$.
+Leur algorithme présente de meilleurs résultats que l'algorithme génétique modifié sur des instances de grandes taille.
+
+En 2008, Vallivaara a proposé un algorithme fourmi afin de résoudre la version \textit{MinMax} du problème (voir \cite{Vallivaara2008}). L'algorithme s'intitule \textit{Team Ant Colony Optimization} (TACO) et consiste à remplacer chaque fourmi des algorithmes fourmis traditionnels, comme $Ant$-$System$ par exemple, par des groupes de fourmis.
+Chaque groupe, ou équipe, de $m$ fourmis (où $m$ correspond au nombre de voyageurs de commerce) possède sa propre liste de villes visitées et les membres du groupe choisissent leur destination parmi les villes de cette liste. À chaque itération c'est la fourmi ayant la tournée la plus courte se déplace. Ce processus constructiviste permettant de distribuer les villes de façon uniforme pour chaque voyageur de commerce conduit souvent à des routes sous-optimales. C'est pourquoi Vallivaara a introduit une procédure de reconstruction des chemins qui consiste à vérifier, pour chaque ajout de ville dans le chemin d'une fourmi, si l'insertion de cette ville dans la tournée d'un autre membre du groupe ne permettrait pas d'améliorer la solution.
+Enfin, Vallivaara utilisent une procédure $2$-$opt$, puis $3-opt$ afin d'améliorer la solution de l'algorithme TACO. 
+Les résultats obtenus sont meilleurs que ceux des réseaux de neurones sur diverses instances du problème contenant de $51$ à $417$ villes pour $m \in \{2,3,4\}$.
+
+\subsection*{Conclusion}
+
+Dans cette section nous avons introduit le problème du voyageur de commerce ainsi que ses diverses variantes. Nous avons dressé un état de l'art des méthodes les plus couramment utilisées afin de résoudre le problème de voyageur de commerce de façon exacte ou approchée et en détaillant dans ce dernier cas les méthodes de construction, d'amélioration et les métaheuristiques.
+
+Les méthodes de résolution exactes permettent de résoudre des instances de petite taille  grâce à des méthodes de programmation dynamique et de Branch and Bound. Des méthodes basée sur la programmation linéaire permettent de résoudre des instances de taille significative (jusqu'à 200 villes). Combinées, les méthodes de Branch and Bound et la programmation linéaire, apportent des solutions à des problèmes de taille importante (jusqu'à 85900 villes) mais le temps de calcul est encore très long (136 années CPU à l'échelle d'un AMD Opteron 250 de 2.4GHz).
+
+Les méthodes approchées permettent, quant à elles, de fournir des solutions exactes ou proches de l'optimal à des problèmes de taille importante dans un temps raisonnable. Elles concernent les méthodes de construction heuristique (plus proches voisins, plus proches fragments, recherche d'arbres couvrants de poids minimal, algorithme de Christofides, tour bitonique, couplages successifs), les méthodes d'amélioration de tour (V-opt et k-opt ainsi que ses dérivées Lin-Kernighan, 2-opt et 3opt, et d'autre part les méthodes à base de chênes de Markov (MCMC)). Mais ce sont les métaheuristiques qui permettent d'approcher les solutions optimales des problèmes les plus grands (recherche tabou, recuit simulé, réseaux de neurones artificiels, algorithmes génétiques, les algorithme de colonie de fourmis).
+
+Pour plus d'informations sur les méthodes locales d'optimisation pour le problème de voyageur de commerce, le lecteur pourra se référer à \cite{Johnson1997}. Les instances du problème évoquées dans cet état de l'art sont disponibles à cette adresse~: \href{http://www.tsp.gatech.edu/}{http://www.tsp.gatech.edu/}.
+
+La version généralisée du problème à $m$ voyageurs a également été étudiée. Il existe deux paradigmes de résolution du problème : d'une part résoudre $m$ problèmes de voyageur de commerce, et d'autre part résoudre le problème classique issu de la transformation du problème multiple. Là aussi plusieurs méthodes de résolutions existes. Concernant les méthodes exactes, des méthodes de \textit{Branch and Price} et de \textit{Branch and Bound} permettent de résoudre des instances de 120 villes pour 2 à 12 voyageurs. Les méthodes approchées permettent de résoudre des instances plus importantes grâce à des méta-heuristiques (recherche tabou, recuit simulé, réseaux de neurones artificiels, algorithmes génétiques et algorithmes fourmis). 
