@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.6)
+The top-level auxiliary file: majestic.aux
+The style file: majecstic.bst
+Database file #1: ../../Articles/Bibliography/biblio.bib
+I was expecting a `,' or a `}'---line 7 of file ../../Articles/Bibliography/biblio.bib
+ : 
+ : OPTpages = {1-31}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 326 of file ../../Articles/Bibliography/biblio.bib
+ :  
+ :  month = {May}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty year in Bertelle02
+Warning--empty year in Bullnheimer97
+You've used 22 entries,
+            2118 wiz_defined-function locations,
+            631 strings with 8203 characters,
+and the built_in function-call counts, 6232 in all, are:
+= -- 591
+> -- 329
+< -- 2
++ -- 137
+- -- 108
+* -- 379
+:= -- 1114
+add.period$ -- 66
+call.type$ -- 22
+change.case$ -- 116
+chr.to.int$ -- 0
+cite$ -- 24
+duplicate$ -- 249
+empty$ -- 464
+format.name$ -- 108
+if$ -- 1268
+int.to.chr$ -- 0
+int.to.str$ -- 22
+missing$ -- 16
+newline$ -- 112
+num.names$ -- 44
+pop$ -- 136
+preamble$ -- 1
+purify$ -- 98
+quote$ -- 0
+skip$ -- 166
+stack$ -- 0
+substring$ -- 222
+swap$ -- 38
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 88
+warning$ -- 2
+while$ -- 53
+width$ -- 24
+write$ -- 231
+(There were 2 error messages)

@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.07pt}
+\select@language {english}
+\beamer@sectionintoc {1}{Description du terminal}{3}{0}{1}
+\beamer@sectionintoc {2}{Optimisation du terminal}{7}{0}{2}
+\beamer@sectionintoc {3}{Simulateur}{10}{0}{3}

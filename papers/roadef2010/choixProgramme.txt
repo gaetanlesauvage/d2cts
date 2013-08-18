@@ -1,0 +1,74 @@
+ SI : Gestion du transport aérien 1, 10:35-12:15
+Amphi MBI
+Présidée par Catherine Mancel
+
+   1. Allocation de créneaux de décollage sans conflit en programmation par contraintes,
+      Cyril Allignol, Nicolas Barnier
+   2. Un algorithme de colonies de fourmis pour résoudre des conflits aériens,
+      Nicolas Durand, Jean-Marc Alliot
+   3. Planification de trajectoires avion optimales et sans conflits,
+      Nour Dougui, Daniel Delahaye, Stéphane Puechmorel, Marcel Mongeau
+   4. Commande optimale : application aux procédures de décollage et atterrissage des avions de ligne,
+      Mohamed Houacine, Salah Khardi
+
+ SI : Ordonnancement robuste, 14:00-15:40
+Salle MD003
+Présidée par Eric Sanlaville
+
+   1. Approches réactives robustifiées pour l’ordonnancement des trains sur une voie unique en présence d’aléas,
+      Mohand Ait Alamara, Francis Sourd, Mohamed Ali Aloulou
+   2. Le problème d'ordonnancement de projet multi-agent : un partage équitable du stress,
+      Thomas Lehaux, Cyril Briand
+   3. Problème d'ordonnancement de forages d'exploration sous incertitudes endogènes,
+      Anna Robert
+   4. Une approche d'optimisation robuste pour l'ordonnancement de projet sous contraintes de ressources avec durées incertaines,
+      Christian Artigues, Roel Leus
+--> OU
+Problèmes de tournées, 14:00-15:40
+Salle MD006
+Présidée par H. Murat Afsar
+
+   1. Définition d'un split en profondeur pour les problèmes de tournées,
+      Christophe Duhamel, Philippe Lacomme, Caroline Prodhon
+   2. Une nouvelle mesure de distance pour l’ACVRP,
+      Marie-Eléonore Marmion, Laetitia Jourdan, Clarisse Dhaenens
+   3. Problème de tournées de véhicules avec routes multiples pour optimiser des travaux agricoles,
+      Florent Hernandez, Dominique Feillet, Rodolphe Giroudeau, Olivier Naud, Jean-Claude König
+   4. Résolution du problème de tournées sur arc avec fenêtres de temps souples,
+      H. Murat Afsar
+
+ SI : Modèles et approches novatrices en transport de marchandises 2, 16:10-17:50
+Amphi MBII
+Présidée par Michel Gendreau
+
+   1. Algorithme exact pour le problème du cycle Hamiltonien avec minimisation des labels et deux variantes,
+      Nicolas Jozefowiez, Gilbert Laporte, Frédéric Semet
+   2. Simple and effective look-ahead heuristics for the vehicle routing problem,
+      Christian Prins, Jorge E. Mendoza
+   3. Résolution de problèmes combinatoires riches par l'approche coopérative de décomposition par attributs,
+      Teodor Gabriel Crainic, Michel Gendreau, Nadia Lahrichi, Walter Rei, Thibaut Vidal
+   4. Le problème de tournées de véhicules multi-zones multi-périodes avec fenêtres de temps,
+      Michel Gendreau, Teodor Gabriel Crainic, Yuvraj Gajpal
+
+Jeudi : 
+ SI : Bermudes 1, 09:50-11:05
+Salle MD006
+Présidée par Ameur Soukhal
+
+   1. Heuristique à divergence limitée pour les problèmes d’ordonnancement avec contraintes de délais,
+      Wafa Karoui, Marie-José Huguet, Pierre Lopez, Mohamed Haouari
+   2. Minimisation des encours sur une machine pour des tâches sujettes à des phénomènes d'usure ou d'apprentissage,
+      Julien Moncel
+   3. Couplage métaheuristique - simulation pour l’organisation d'activités de livraison et de collecte,
+      Virginie André, Julie Faucher, Nathalie Grangeon, Sylvie Norre
+ SI : Robustesse en RO-AD 2, 11:10-12:25
+Amphi MBI
+Présidée par Yannis Siskos
+
+   1. Investir sur les réseaux de transport gaziers sans regretter : par quoi commence-t-on ?,
+      Slawomir Pietrasz, Cécile Murat, Virginie Gabrel
+   2. Affectation de ressources équitable et robuste grâce à un modèle multi-critères,
+      Emmanuel Medernach, Eric Sanlaville
+   3. Robustesse et désagrégation en aide à la décision multicritère,
+      Yannis Siskos
+

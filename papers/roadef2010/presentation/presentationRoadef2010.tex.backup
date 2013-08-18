@@ -1,0 +1,159 @@
+\documentclass{beamer}
+% Prévoir à peu près un transparent par minute d'exposé.
+% Deux ou trois sections semble être une bonne chose.
+\mode<presentation>
+{
+	\usetheme{Warsaw}
+	\setbeamercovered{highly dynamic}
+	\setbeamercovered{invisible}
+}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+%\usepackage{hyperref}
+
+\setbeamersize{text margin left=20pt}
+\setbeamersize{text margin right=20pt}
+
+\defbeamertemplate*{footline}{infolines theme}
+{
+	\leavevmode%
+	\hbox{%
+		\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+			\usebeamerfont{author in head/foot}G. Lesauvage
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+			\usebeamerfont{title in head/foot}\insertshorttitle
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+			\usebeamerfont{date in head/foot}Mars 2011\hspace*{2em}
+			\insertframenumber{}/\inserttotalframenumber\hspace*{2ex}
+		\end{beamercolorbox}
+	}%
+	\vskip0pt%
+}
+
+\date{\tiny 2-4 mars 2011}
+\title[ROADEF 2011]
+{
+	D²CTS : un simulateur de terminal à conteneurs
+}
+
+\author
+{
+	S. Balev, F. Guinand  \and \textbf{G. Lesauvage}
+}
+
+\institute[LITIS]
+{
+	
+ \begin{columns}
+ 		\begin{column}[l]{6cm}
+ 			\begin{center}
+ 			\includegraphics[height=.1\textheight]{fig/logouniversiteduhavre.png} \\
+ 			\tiny\textit{Unit\'{e} de Formation et de Recherche des Sciences et Techniques}
+ 			\end{center}
+ 		\end{column}
+ 		\begin{column}[r]{6cm}
+ 			\begin{center}
+ 			\includegraphics[height=.135\textheight]{fig/logolitis.png} \\
+ 			\tiny\textit{Laboratoire d'Informatique et du Traitement de l'Information et des Syst\`{e}mes}
+ 			\end{center}
+ 		\end{column}
+ 	\end{columns}
+
+ 	
+}
+
+\normalsize
+
+ \AtBeginSection[Plan]
+ {
+ \begin{frame}<beamer>
+ \frametitle{Plan}
+ \tableofcontents[currentsection]
+ \end{frame}
+ }
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\subject{ROADEF 2011 Saint Etienne}
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Plan}
+\tableofcontents
+\end{frame}
+
+\section{Présentation et objectifs}
+  \subsection{Projet CALAS}
+\begin{frame}
+\frametitle{Le projet CALAS}
+\begin{columns}
+    \begin{column}[l]{5.5cm}	
+	\begin{itemize}
+		\item Système de mesure laser
+		\item Entreprises : 
+			\begin{itemize}
+			 \item \textit{Laser Data Technology Terminal}
+	 		 \item Terminaux de Normandie
+			 \item EADS/Astrium
+			\end{itemize}
+		
+		 \item Laboratoires : 
+			 \begin{itemize}
+			    \item LMAH
+			    \item LITIS
+			  \end{itemize}
+	\end{itemize}
+    \end{column}
+    \begin{column}[r]{4.5cm}
+		\begin{flushright}
+		  \includegraphics[height=.37\textheight]{fig/angles.jpg}
+		\end{flushright}
+    \end{column}
+ \end{columns}	
+	\begin{block}{Objectifs du projet CALAS : }
+		\begin{minipage}[]{\columnwidth}
+			Connaître l'état du terminal en temps réel, c'est-à-dire à la fois la position des conteneurs et celle des engins de manutention.
+		\end{minipage}
+	\end{block}
+	
+
+\end{frame}
+  \subsection{D²CTS}
+\begin{frame}
+\frametitle{D²CTS}
+  Dynamic and Distributed Container Terminal Simulator : simulateur dynamique et distribué de terminal à conteneurs
+  \begin{block}{Objectif : }
+   	\begin{minipage}[]{\columnwidth}
+		Simuler un terminal à conteneur à la fois dans sa structure et dans sa dynamique
+	\end{minipage}
+  \end{block}
+  \begin{block}{But final : }
+   	\begin{minipage}[]{\columnwidth}
+		Mettre à l'épreuve différents algorithmes d'optimisation du terminal
+	\end{minipage}
+  \end{block}
+
+\section{Modélisation}
+  \subsection{Graphe routier}
+  \subsection{Réseau de stockage}
+  \subsection{Système de localisation laser}
+  \subsection{Mobilité}
+  \subsection{Temporalité}
+  \subsection{Évenements}
+
+\section{Les données}
+    \subsection{Structure}
+    \subsection{Collecte}
+
+\section{Les problèmes simulés}
+    \subsection{Ordonnancement de missions}
+    \subsection{Routage des véhicules}
+
+\section{Démonstration}
+
+\end{document}

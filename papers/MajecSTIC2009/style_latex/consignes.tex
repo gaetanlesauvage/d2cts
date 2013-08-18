@@ -1,0 +1,605 @@
+%
+% Fichier exemple pour MajecSTIC 2009
+% -----------------------------------
+% Par le comité de pilotage MajecSTIC
+% majecstic-pilotage@irisa.fr
+% 
+% Vous pouvez éditer ce fichier pour composer votre article. Respectez la 
+% langue française, pour vous aider ce document comporte des consignes 
+% typographiques ainsi que des conseils pour la composition des figures et 
+% des algorithmes.
+%
+%
+%
+%%%%%% NE PAS MODIFIER
+%
+% gillemets a la francaise
+\def\leftnote#1{\leavevmode\vadjust{\setbox1=\vtop{\hsize 20mm
+	\parindent=0pt\small\baselineskip=9pt
+	\rightskip=4mm plus 4mm#1}
+	\hbox{\kern-2cm\smash{\box1}}}}
+% encore quelques petits symboles particuliers
+	\font\myl=manfnt
+	\def\panneau{{\myl\char"7F}}
+	\def\boxone{{\myl\char"1C}}
+	\def\boxtwo{{\myl\char"1D}}
+	\def\ortf{{\myl\char"1E}}
+	\def\fleurone{{\myl\char"26}}
+	\def\fleurtwo{{\myl\char"27}}
+	\def\diams{{\myl\char"23}}
+	\def\cible{{\myl\char"24}}
+	\def\carre{{\myl\char"25}}
+	\def\fleche{{\myl\char"79}}
+	\def\panneaubis{{\myl\char"7E}}
+\def\panneauinverse{{\myl\char"00}}
+
+% Conserver ces commandes (Debut)
+\documentclass[twoside,a4paper,10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{majecstic2009,euler,palatino}
+\usepackage[french,ruled,vlined,linesnumbered]{algorithm2e}
+\dontprintsemicolon
+\Setnlskip{0.5em}
+\incmargin{1.2em}
+\usepackage{epsfig,shadow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{vmargin}
+\setpapersize{A4}
+% Conserver ces commandes (Fin)
+
+%===========================================================
+%                               Title
+%===========================================================
+\newcommand{\filet}{\noindent\rule[0mm]{\textwidth}{0.2mm}}
+\pagestyle{myheadings}
+
+\toappear{1} % Conserver cette ligne pour la version finale
+
+\begin{document}
+
+\parindent=0pt
+
+% À FAIRE modifier en ajoutant votre titre.
+% Le titre courant peut-être trop long, dans ce cas indiquez un titre 
+% plus court dans la commande shorttitle (sinon, indiquez le même)
+\title{\Large\bf MajecSTIC 2009: consignes typographiques et autres instructions}
+% \shorttitle{MajecSTIC 2009: consignes et conseils}
+
+\markboth{Comité de pilotage MajecSTIC}{MajecSTIC 2009: consignes et instructions}
+
+
+% À FAIRE Indiquez vos noms ici. Nom1, Nom2 et Nom3. Utilisez $^i$ pour 
+% l'adresse i.
+\author{Comité de pilotage MajecSTIC$^1$\thanks{Ce style est
+            fondé sur un style original développé pour les conférences 
+            CFSE/Renpar et Sympaa, par Christophe Cérin et d'autres, que nous 
+            remercions chaleureusement.}
+    et Étienne Rivière$^2$}
+
+% À FAIRE Indiquez vos addresses ici. Attention, la première addresse commence
+% juste après le { de la commande.
+\address{1: Université de Quelque Part, Institut Machin, 
+30 impasse de l'anglicisme, 12345 Ville - France.\\
+2: NTNU, Institutt for datateknikk og informasjonsvitenskap, 
+NO-7491 Trondheim - Norvège.\\ 
+~\\
+Contact: \texttt{majecstic-pilotage@irisa.fr}
+}
+
+\maketitle
+
+%===========================================================         %
+%R\'esum\'e
+%===========================================================  
+
+\Resume{Ce document décrit les consignes générales pour composer un article
+pour MajecSTIC. Votre résumé comprendra au plus une quinzaine de lignes. Il ne
+doit pas contenir de références bibliographiques, et doit présenter le
+contexte de vos travaux, car votre public n'est pas ici composé uniquement de
+spécialistes de votre domaine, mais ausside jeunes chercheurs de l'ensemble
+des STIC.}
+
+\MotsCles{un maximum de 5 mots significatifs, en français, doivent être 
+	isolés sous forme de mots-clés.}
+	% 5 mots cl\'es seulement!!!
+
+%=========================================================
+\section{Introduction}
+%=========================================================
+
+Ce texte donne les consignes à respecter pour garantir la qualité et
+l'homogénéité des articles à paraître dans les actes de la
+conf\'erence. 
+
+Les consignes générales sont résumées ici :
+\begin{itemize}
+    \item Il est important de vous rappeler que votre article va être lu (mais 
+    aussi évalué) par des chercheurs qui ne sont pas nécessairement de votre 
+    domaine, aussi vous prendrez soin de bien présenter une vue générale du
+    domaine ainsi qu'une justification de la problématique.
+    \item Vous composerez les mathématiques avec le style euler (déjà mis
+    en place par le fichier de style).
+    \item Vous composerez les algorithmes en utilisant le mode français du
+    paquetage algorithm2e.
+    \item Vous utiliserez le fichier de style bibtex francisé fourni.
+    \item De manière générale, il faut essayer de respecter les conventions
+    typographiques du français, qui ne sont pas les mêmes que pour l'anglais.
+\end{itemize}
+
+\paragraph{Pour compiler ce document}
+
+\begin{verbatim}
+    pdflatex consignes
+    bibtex consignes
+    pdflatex consignes
+    pdflatex consignes
+\end{verbatim}
+
+Les figures en postscript seront converties en pdf avec \verb|epstopdf|. Vous
+pouvez utiliser ce document comme exemple et le squelette fourni comme point
+de départ.
+
+%=========================================================
+\section{Consignes propres à MajecSTIC}
+%=========================================================
+
+Votre article doit porter sur un sujet de recherche pertinent et pour lequel
+vous proposez une piste ou un résultat intéressant. Nous vous faisons
+confiance sur ce point (qui sera évalué par des spécialistes de votre
+domaine). Toutefois, MajecSTIC n'est pas une conférence de spécialistes
+auxquels il ne serait pas nécessaire d'introduire le contexte ! Votre article
+sera lu par des spécialistes de votre domaine, mais aussi par des jeunes
+chercheurs de tous les domaines STIC, il convient donc, au moins dans une
+première partie de l'article, de permettre à ces jeunes chercheurs de
+comprendre là où vous vous situez, en quoi votre approche est intéressante et
+ce qu'elle apporte, et là ou vous souhaitez amener le lecteur. Dans une
+deuxième partie, vous pouvez introduire des éléments demandant un bagage plus
+conséquent, mais un \og{} béotien \fg{} doit au moins avoir retenu quelles étaient
+les questions pertinentes que vous traitiez. En particulier, la présentation
+de votre article doit répondre aux questions suivantes.
+
+\begin{itemize}
+    \item Quel est le contexte de l'étude ?
+    \item Quel est le problème ?
+    \item Est-ce vraiment un problème, et en quoi est-il difficile ? 
+    (C'est-à-dire, est-il pertinent, n'existe t-il pas de solutions triviales 
+    ?)
+    \item Quels sont les méthodes, les algorithmes, les techniques existantes, 
+    sur quoi sont-ils fondés, et pourquoi ceux-ci ne sont-ils pas 
+    adaptés à votre problème particulier ou à votre champ d'étude ? Bien 
+    entendu, il est des cas où il n'existe pas de travaux apparentés aussi 
+    clairement, il convient donc de l'indiquer.
+    \item En quoi la méthode présentée apporte un plus ou une nouveauté par 
+    rapport à l'existant ?
+\end{itemize}
+
+Si c'est le cas, vous pouvez citer des exemples d'utilisations des méthodes ou
+idées que vous manipulez dans d'autres domaines des STIC, ou pointer la
+similitude et les différences avec d'autres problèmes dans d'autres domaines.
+
+%=========================================================
+\section{Typographie}
+%=========================================================
+
+Merci de respecter les consignes de composition suivantes. L'ensemble des
+textes est composé en {\em Palatino\/}, corps 10, minuscules, interligné comme
+sur la présente sortie (interlignage 13pts, espacement 0,2pts). Les
+mathématiques sont composés avec les fontes Euler (pour la composition en
+\LaTeX). Les marges et les interlignes ne sont pas modifiables. Par ailleurs
+les auteurs qui désirent mettre en valeur un terme peuvent le faire en
+utilisant l'\emph{emphase} (\verb|\emph{}|) ou le {\bf gras}, mais ne pas
+utiliser le soulignement qui est une faute typographique.
+
+\subsection{Les espaces entre les ponctuations du fran\c cais}
+
+\begin{center}
+\begin{tabular}{rcl}
+AVANT & & APR\`ES\cr
+\hline
+\hline
+pas de blanc & , & espace justifiante\cr
+pas de blanc & . &  espace justifiante\cr
+espace fine ins\'ecable & ; &  espace justifiante\cr
+espace fine ins\'ecable & ! &  espace justifiante\cr
+espace fine ins\'ecable & ? &  espace justifiante\cr
+espace mots ins\'ecable & : &  espace justifiante\cr
+espace justifiante & -- &  espace justifiante\cr
+espace justifiante & \og{} & espace mots ins\'ecable \cr
+espace mots ins\'ecable & \fg{} &  espace justifiante\cr
+espace justifiante & ( & pas de blanc \cr
+pas de blanc & ) &  espace justifiante \cr
+espace justifiante & [ & pas de blanc \cr
+pas de blanc & ] &  espace justifiante\cr
+\hline
+\hline
+\end{tabular}
+\end{center}
+
+Un espace insécable signifie qu'on ne peut pas couper à cet endroit (caractère \verb|~|), une espace justifiante est un blanc qui peut \og{} s'étendre ou
+s'allonger\fg{} (un espace ou une ligne en \LaTeX). Par exemple, une citation se fait comme ceci : \verb|His new book~\cite{knuth:tacp4:2010}| 
+
+\subsection{Les guillemets}
+
+Les guillemets anglais sont `` et '' alors que les guillemets du français sont
+\og{} et \fg{} (typographiés ici avec les macros \verb|\og{}| et \verb|\fg{}|
+respectivement).
+
+\subsection{Dates}
+
+Les noms des jours, des mois, les adjectifs de nationalit\'e, les
+titres de civilit\'e pas de capitale initiale (12 janvier, fran\c cais,
+ma\^{\i}tre de conf\'erences). 
+
+\subsection{Les signes de ponctuation} 
+
+Rappels: ils contribuent \`a la logique du discours.
+\begin{itemize}
+
+\item Le point termine une phrase. Confondu avec les \ldots Supprimez le
+dans les titres~;
+
+\item Le ? termine une phrase interrogative. On le garde dans les
+titres~;
+
+\item Le ! peut \^etre gard\'e dans les titres centr\'es~;
+
+\item La virgule s\'epare sujets, compl\'ements, \'epith\`etes,
+attributs et propositions de m\^eme nature non unis par une conjonction
+de coordination~;
+
+\begin{itemize}
+
+\item Deux \og{} ni\fg{} peu \'eloign\'es ne sont pas s\'epar\'es par ,
+
+\item pas de , avant une (, --, [ \`a moins que le crochet annonce une
+restitution~;
+
+\item etc pr\'ec\'ed\'e par une virgule;
+
+\end{itemize}
+
+\item Le ; s'emploie pour s\'eparer dans une phrase les parties dont
+une au moins est d\'ej\`a subdivis\'ee par la virgule ou pour s\'eparer
+des propositions \og{} longues\fg{} -- Dans une liste;
+
+\item Les: introduisent une explication, une citation ou un discours.
+
+\end{itemize}
+
+\subsection{La coupure des mots du fran\c cais} 
+
+Le style \LaTeX{} fourni gère déjà bon nombre de règles de césure. Néanmoins,
+si vous avez besoin d'une césure particulière, que vous déclarez en début du
+fichier par la commande :
+
+ \begin{center}\verb|\hyphenation{par-fait}|\end{center}
+
+ voici les règles de césure qui s'appliquent :
+
+\begin{itemize}
+
+\item pour les mots simples (deux syllabes)~: pas de difficult\'e. Pour les
+mots compos\'es, la division devra tenir compte de l'\'etymologie~;
+
+\item la division \'etymologique n'exclut pas la coupure syllabique;
+
+\item la division d'apr\`es la prononciation est la seule admise si la
+coupure \'etymologique entra\^{\i}ne un changement de prononciation.
+
+\end{itemize}
+
+Enfin,
+
+\begin{itemize}
+
+\item Les coupures isolant une seule lettre sont \`a proscrire;
+
+\item de m\^eme pour les coupures de d\'ebut et de fin qui isolent deux
+lettres~;
+
+\item Les mots compos\'es sont coup\'es au --; on \'evitera de couper
+le dernier mot d'une page impaire; on ne coupera pas un mot apr\`es
+l'apostrophe.
+
+\item la coupure des mots \'etrangers se fera selon la langue
+\'etrang\`ere.
+
+\end{itemize}
+
+\subsection{Les notes (en bas de page)} 
+
+Ce sont des commentaires explicatifs\footnote{Ceci est un renvoi en bas de
+page}. Leur caract\`ere accessoire justifie leur composition dans un corps
+inf\'erieur. Emplacement: en bas de page. Dans un tableau, la note se trouve
+\`a l'int\'erieur du cadre. La note\footnote{Ceci est un deuxième renvoi en
+bas de page} est s\'epar\'ee soit par une ligne de blancs, un (amorce) filet
+maigre. La note est num\'erot\'ee. Vous veillerez à ne pas en abuser.
+
+\subsection{Les majuscules} 
+
+Seule la premi\`ere lettre d'un titre prend une majuscule. Il n'y a
+pas d'article d\'efini en d\'ebut ni de point en fin de titre.  Il y a
+beaucoup de cas d'esp\`ece!!! Pas de majuscules pour:
+
+\begin{itemize}
+
+\item les organismes qui ne sont pas uniques: l'universit\'e de Picardie~;
+
+\item les noms de jours et de mois;
+
+\item les titres et qualit\'es s'\'ecrivent avec une minuscule: le
+pr\'esident de la R\'epublique, le pape, l'ayatollah Romin\'e, le g\'en\'eral
+Lebol, le ministre de l'\'education nationale.
+
+\end{itemize}
+
+\subsection{Les sigles} 
+
+Les tendances actuelles sont les suivantes:
+
+\begin{itemize}
+
+\item plus de points dans les sigles;
+
+\item  majuscule sur la premi\`ere lettre d'un sigle lorsqu'il
+est pronon\-\c ca\-ble~;
+
+\item en petite capitale un sigle que l'on \'epelle: Laria, {\sc Sncf}
+
+\end{itemize}
+
+\subsection{Les listes} 
+
+En gros deux classes: celles qui font partie d'une phrase unique /
+celles qui sont compos\'ees de plusieurs phrases.
+
+\begin{enumerate}
+
+\item les \'el\'ements d'une liste commencent par une minuscule et se
+terminent par un ; sauf le dernier \'el\'ement, s'il termine la
+phrase, prend un point;
+
+\item les \'el\'ements de liste form\'es de plusieurs phrases se comportent
+comme des phrases.
+
+\end{enumerate}
+
+\subsection{Figures et Tables}
+
+Les figures seront, à l'exception seule des captures d'écran et photographies,
+en format vectoriel. Des exemples de logiciels sont
+\textsc{xfig}\footnote{Pour utiliser des formules mathématiques dans vos
+figures, voir
+\url{http://www.iecn.u-nancy.fr/Divers/inclusionsFormulesDansXfigPourLatex.html}},
+\textsc{omnigraffle}, \textsc{inkscape}, \textsc{illustrator} et surtout
+\textsc{gnuplot}. Pour que vos figures aient la même taille en largeur et
+utilisent la même taille de fonte dans le rendu final, il faut que la fonte
+utilisée pour la création du fichier inclus soit toujours le même (par
+exemple, Helvetica en 24 points) et que l'inclusion se fasse en spécifiant la
+largeur de la figure par rapport à la largeur de la colonne de texte. Par
+exemple, la figure~\ref{fig:exemple} utilise 20~\% de la largeur disponible.
+
+\begin{figure}[h]
+    \begin{center}
+       \includegraphics[width=0.2\linewidth]{./figures/exemple_de_figure}
+    \end{center}
+    \caption{\label{fig:exemple}Exemple de figure.}
+\end{figure}
+
+Un tableau exemple est donné par le tableau~\ref{tab:exemple}.
+
+\begin{table}[htbp]
+    \begin{center}
+        \begin{tabular}{|p{0.06\linewidth}|p{0.6\linewidth}|}
+            \hline
+            2003 & Marseille \\
+            \hline
+            2004 & Calais \\
+            \hline
+            2005 & Rennes \\
+            \hline
+            2006 & Lorient \\
+            \hline
+            2007 & Caen \\
+            \hline
+            2008 & Marseille \\
+            \hline
+            2009 & Avignon \\
+            \hline
+            2010 & L'appel à candidatures pour l'année suivante est lancé aux 
+                   environs de la conférence de l'année courante. \\
+            \hline
+        \end{tabular}
+        \caption{\label{tab:exemple}Exemple de tableau}
+    \end{center}
+\end{table}
+%===========================================================
+
+\subsection{Les algorithmes}
+
+Ils seront composés en utilisant le package \texttt{algorithm2e} dont vous
+trouverez la documentation au format PDF dans le dossier courant.
+L'algorithme~\ref{alg:exemple} montre un exemple. Attention à bien mettre les
+; à la fin des lignes correspondant à une commande (mais pas à la fin des
+commentaires). Comme indiqué dans la documentation, il faut utiliser les
+mots-clés français : \verb|\eSI{}{}{}| et pas \verb|\eIf{}{}{}|,
+\verb|\Entree{}| et pas \verb|\Input{}|, et ainsi de suite.
+ 
+
+    \begin{algorithm}
+  
+        \Entree{Les entrées de l'algorithme} 
+        \Sortie{Ce qu'il en ressort} 
+        % pour aerer un peu
+        \BlankLine 
+        % l'utilisation d'un bloc debut/fin n'est pas obligatoire
+        \Deb{
+            % utilisation d'un si/sinon
+            \eSi{condition à vérifier} { % debut du si
+                faire quelque chose \;
+                ne pas oublier les points-virgules a la fin des lignes\;
+            } { % debut du sinon
+                faire autre chose\;
+                $x \leftarrow \left( \sum_{p \in {\cal R}}^{\infty}\frac{1}{p}\right)$\;
+            }
+
+            % exemple de boucle 
+            \Tq{condition}{
+            \tcp{commentaire}
+                faire en boucle\;
+            }
+
+            % exemple de traitement par cas
+            \Suivant{valeur de $f$}{
+                \lCas{$f < 10$}{ $f \leftarrow $ \texttt{unAutreAlgo}($f$)\; }
+                \lCas{$f > 10$}{ $f \leftarrow -\frac{1}{2}$\;}
+                \Autre{
+                    operation 1\;
+                    \lPourTous{$x \in {\cal P}$}{$x \leftarrow x^2$\;}
+                }
+            }
+        }
+        \caption{\label{alg:exemple}Exemple d'algorithme} 
+   
+    \end{algorithm} 
+
+
+\subsection{Les mathématiques}
+
+Les lettres majuscules sont toujours compos\'ees en romain. Par contre
+les minuscules repr\'esentant les variables ou inconnues, les
+fonctions, les constantes litt\'erales, les param\`etres entiers
+($i,j,k$) sont en {\it italique}.
+Sauf dans: $$\sin(a+b)=\sin a\cos b + \sin b \cos a$$ et e (base des
+log) et i (complexes) sont en romain!!! ainsi que les constantes
+fondamentales de la physique et de la chimie.
+
+Des lettres capitales ajour\'ees ou grasses sont employ\'ees pour
+d\'esigner certains ensembles:
+$$\mathbb{NQRZ}\quad\text{et}\quad\boldsymbol{NQRZ}$$
+
+Les caract\`eres d'anglaise et de ronde permettent d'\'eviter des
+notations semblables dans un m\^eme texte~:
+
+\hbox to \textwidth{$P$ repr\'esente la pression \hfil ${\mathcal P}$:
+probabilit\'e} \hbox to \textwidth{$C$ repr\'esente un point\hfil
+${\mathcal C}$: une courbe}
+
+Il y a des blancs plus ou moins importants entre les symboles (avant
+et apr\`es) unaires et binaires.
+
+On peut d\'efinir ses propres symboles~:
+$$\boxplus\ \rtimes\ \veebar\ \circledcirc\ \ltimes\ \hslash\ \complement
+\ \eth\ \angle$$
+
+
+\subsubsection{Quelques symboles particuliers}
+
+\def\mol{\mathrm{mol}}
+Compos\'es en romain:
+$$
+\begin{array}{|c|l|}
+\hline
+\mathrm{e} & \hbox{base des logarithmes n\'ep\'erien}\cr
+\mathrm{i}  & \hbox{base des nombres complexes}\\
+\mathrm{N, N_A, {\cal N}}=6,02.10^{23}\, \mol^{-1}& \hbox{Nombre d'Avogadro  }\\
+\mathrm{h}=6,63.10^{-34} \mathrm{J.s}  & \hbox{Constante de Planck}\\
+\mathrm{R}=8,31 \mathrm{J.K^{-1}.}\,\mol^{-1}  & \hbox{Constante des gaz parfaits}\\
+\epsilon_0=8,854.10^{-12} \mathrm{F. m^{-1}}  & \hbox{permitivit\'e du vide}\\
+\mathcal{F}=9,65.10^{3}\mathrm{C}  & \hbox{Constante de Faraday}\\
+\hline
+\end{array}
+$$
+
+\subsubsection{Alphabet grec}
+
+En principe, seules les lettres capitales qui ne pr\'esentent pas de
+ressemblance avec des latines sont utilis\'ees~:
+
+$$\Gamma, \Delta, \Theta, \Lambda, \Sigma, \Pi, \Phi, \Omega, \Psi,
+\Upsilon, \Xi$$
+
+Idem pour les minuscules grec:
+
+\panneau\ Il y a des risques de confusion: $\epsilon$ et $\in$, $\zeta$ et
+$\xi$, $u,v$ et $\nu$, $\rho$ et $p$, $\theta$ et $\Theta$, $\delta$
+et $\partial$, $n$ et $\eta$\ldots
+
+\subsubsection{Exposants et indices}
+
+
+Ils sont soit litt\'eraux ($i^{n}$), soit num\'erique ($i^2$).  Les
+exposants litt\'eraux sont en italique. Cas des indices litt\'eraux:
+en italique sauf \og{} s'ils repr\'esentent des abr\'eviations ou des
+rep\`eres destin\'es \`a diff\'erencier des grandeurs du m\^eme ordre
+\fg{} (Code Typographique). Lorsque la lettre en indice est 
+l'abr\'eviation d'un nom propre elle est en capitale.
+
+\subsubsection{Composition des formules}
+
+$0$ et pas le symbole O!
+
+Alignement des exposants et des indices: $A_2^2$
+
+Le produit de facteurs sont compos\'es coll\'es: $ax^2+bx+c=0$
+
+La ponctuation qui suit une expression est compos\'ee en romain.
+
+Les (), [] et \{\} (dans cet ordre de choix) refermant que des termes
+``simples'' doivent \^etre du m\^eme corps~: $[n-(2p+1)(2p+2)]$,
+
+MAIS
+
+$$
+y=a\left[\left(x+\frac{b}{2a}\right)^2-\frac{b^2-4ac}{4a^2}\right]
+$$
+
+(remarquer la hauteur des divers \'el\'ements qu'ils r\'eunissent!!!)
+
+Pour faciliter la lecture, les formules math\'ematiques seront le plus
+souvent sorties du texte et centr\'ees. Lorsqu'une formule est longue
+$\leftrightarrow$ \'eviter de couper dans l'int\'erieur des (), [] et
+\{\} \ldots les lignes doublantes doivent commencer par un signe
+op\'eratoire ou relationnel (premi\`ere ligne justifi\'ee \`a gauche,
+seconde ligne justifi\'ee \`a droite).
+
+Les minuscules peuvent aussi repr\'esenter des unit\'es de mesure et
+dans ce cas elles sont en romain: {\rmfamily 15g} et $g$
+(acc\'el\'eration).
+
+De m\^eme: $\cos(x), \sin(x), \log_2(16)$ sont en romain!\\
+$cos(x), sin(x), log_2(16) =$ NON!!!
+
+
+\section{Références bibliographiques}
+
+Les r\'ef\'erences sont rassembl\'ees en fin d'article; leur num\'ero, du
+type~\cite{bogdanoff:these} ou~\cite{sonia:point}, est plac\'e entre crochets
+dans le texte. Une citation multiple, par
+exemple~\cite{bogdanoff:these,sonia:point} est automatiquement triée dans
+l'ordre numérique des citations. Vous devez utiliser le style bibtex
+\verb|majecstic.bst| fourni.
+
+\bibliographystyle{majecstic}
+\bibliography{references}
+
+% À FAIRE: remerciements (ou supprimez les deux lignes suivantes)
+{\filet \small\\
+{\em Vous pouvez placer ici des remerciements}\\ \filet } 
+
+
+\end{document}
+% fin
+
+
+
+
+
+
+
+
