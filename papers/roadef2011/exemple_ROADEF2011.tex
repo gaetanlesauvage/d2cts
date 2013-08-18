@@ -1,0 +1,130 @@
+% Exemple d'utilisation de la classe roadef2011 pour le congrès ROADEF 2011
+
+\documentclass{roadef2011}
+
+\usepackage{pslatex}
+
+\begin{document}
+
+
+% Le titre du papier
+\title{ROADEF, modèle de document \LaTeX{} pour un résumé, librement inspiré du modèle 2010}
+
+% Le titre court
+\def\shorttitle{Titre court}
+
+% Les auteurs et leur numéro d'affiliation
+\author{Alexandre Dolgui\inst{1}, Dominique Feillet\inst{2}, Xavier Delorme\inst{1}}
+
+
+% Les affiliations (par ordre croissant des numéros d'affiliation) séparées par \and
+\institute{
+LSTI ; École des Mines de Saint-Étienne\\ 158, cours Fauriel, 42023 Saint-Étienne cedex, France \\
+\email{ \{dolgui,delorme\}@emse.fr}
+\and
+CMP ; École des Mines de Saint-Étienne\\ 880, route de Mimet, 13541 Gardanne, France \\ 
+\email{feillet@emse.fr}
+}
+
+
+% Création de la page de titre
+\maketitle
+\thispagestyle{empty}
+
+% Les mots-clés
+\keywords{recherche opérationnelle, optimisation.}
+
+
+\section{Introduction}
+
+Les paragraphes de texte courant seront de style RoadefTexte. Les paragraphes de texte courant seront de style RoadefTexte. Les paragraphes de texte courant seront de style RoadefTexte. Les marges sont de 2,5 cm partout, avec une reliure à gauche de 0,5 cm \cite{Palpant08}.
+
+\section{Système de référence}
+
+\subsection{Renvoi à une illustration, tableau ou formule}
+
+Un renvoi à une illustration (figure, graphique...), à un tableau ou à une formule pourra se faire de deux façons différentes : la figure (\ref{figure_stock}) représente un réseau de télécommunication ou le réseau de télécommunication (voir figure~\ref{figure_stock}) est simple et efficace.\footnote{Life itself is matter of OR.}
+
+\subsection{Renvoi bibliographique}
+
+Les renvois bibliographiques devront être mis entre crochets \cite{Palpant08} ou \cite{Palpant08,Liberti98}.
+
+\subsection{Illustration, formule et légende}
+
+Insérez les illustrations dans un paragraphe de style RoadefIllustration. La légende sera positionnée en dessous et en style RoadefLegende.
+
+Insérez vos formules dans un paragraphe de style RoadefFormule. 
+
+\begin{equation}
+E=MC^2
+\end{equation}
+
+\begin{figure}[!ht]
+\begin{center}
+\centerline{\epsfig{file=figure_stock.eps,height=6cm}}
+\caption[Fig]{Gestion de stock ROP}
+\label{figure_stock}
+\end{center}
+\end{figure}
+
+\begin{theoreme}
+  Un exemple de théorème. Les environnements suivants sont également disponibles : remarque, propriete, corollaire, definition, notation, proposition, exemple, preuve.
+\end{theoreme}
+
+\subsection{Tableau}
+
+Le contenu du tableau~\ref{tableau} sera en style RoadefTexteTableau. Le titre du tableau sera positionné en dessous du tableau, dans le style RoadefLegende.
+
+\begin{table}[!ht]
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+& Simulation Règle de gestion 1 & Simulation Règle de gestion 2\\
+\hline
+Stock moyen & 123 & 218\\
+\hline
+\end{tabular}
+\caption{Comparaison des politiques de gestion}
+\label{tableau}
+\end{center}
+\end{table}
+
+\subsection{Liste}
+
+Voici une liste :
+
+\begin{itemize}
+\item remarque
+\item propriété
+\end{itemize}
+
+\section{Conclusions et perspectives}
+
+Utilisez le style \textit{plain} pour vos références.
+
+Bon courage pour la rédaction !
+
+
+% La bibliographie
+
+\bibliographystyle{plain}
+
+% Version "on-line" de la bibliographie, mais il est
+% également possible d'utiliser un fichier ".bib" et d'utiliser BibTeX
+
+
+\begin{thebibliography}{2}
+%
+\bibitem{Palpant08}
+M. Palpant, C. Oliva, C. Artigues, P. Michelon and M. Didi Biha.
+Models and methods for frequency allocation with cumulative interference constraints. 
+\emph{International Transactions in Operational Research}, 15(3)\string:307--324, 2008.
+
+\bibitem{Liberti98}
+J.C. Liberti and T.S. Rappaport. 
+\emph{Smart Antennas for Wireless Communications}, Prentice Hall, 1999.
+
+\end{thebibliography}
+
+
+\end{document}

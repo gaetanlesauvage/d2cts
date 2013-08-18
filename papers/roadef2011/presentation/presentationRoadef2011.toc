@@ -1,0 +1,16 @@
+\beamer@endinputifotherversion {3.07pt}
+\select@language {english}
+\beamer@sectionintoc {1}{Pr\IeC {\'e}sentation et objectifs}{3}{0}{1}
+\beamer@sectionintoc {2}{Mod\IeC {\'e}lisation}{7}{0}{2}
+\beamer@subsectionintoc {2}{1}{Structure}{8}{0}{2}
+\beamer@subsectionintoc {2}{2}{Syst\IeC {\`e}me de localisation laser}{10}{0}{2}
+\beamer@subsectionintoc {2}{3}{Mobilit\IeC {\'e}}{11}{0}{2}
+\beamer@subsectionintoc {2}{4}{Temporalit\IeC {\'e}}{15}{0}{2}
+\beamer@subsectionintoc {2}{5}{\IeC {\'E}venements}{17}{0}{2}
+\beamer@sectionintoc {3}{Collecte et structure des donn\IeC {\'e}es}{24}{0}{3}
+\beamer@sectionintoc {4}{Les probl\IeC {\`e}mes simul\IeC {\'e}s}{29}{0}{4}
+\beamer@subsectionintoc {4}{1}{Architecture du terminal}{30}{0}{4}
+\beamer@subsectionintoc {4}{2}{Positionnement des conteneurs dangereux}{34}{0}{4}
+\beamer@subsectionintoc {4}{3}{Ordonnancement de missions}{36}{0}{4}
+\beamer@subsectionintoc {4}{4}{Routage des v\IeC {\'e}hicules}{42}{0}{4}
+\beamer@sectionintoc {5}{D\IeC {\'e}monstration}{45}{0}{5}

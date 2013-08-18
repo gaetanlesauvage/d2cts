@@ -1,0 +1,80 @@
+% Exemple d'utilisation de la classe roadef2011 pour le congrès ROADEF 2011
+\documentclass{roadef2011}
+
+\usepackage{pslatex}
+
+\begin{document}
+
+
+% Le titre du papier
+\title{Routage des chariots cavaliers sur un terminal portuaire à conteneurs}
+
+% Le titre court
+\def\shorttitle{Routage des chariots cavaliers sur un terminal}
+
+% Les auteurs et leur numéro d'affiliation
+\author{Gaëtan Lesauvage, Stefan Balev, Frédéric Guinand}
+
+
+% Les affiliations (par ordre croissant des numéros d'affiliation) séparées par \and
+\institute{
+LITIS EA 4108, Université du Havre\\ 25 rue Ph. Lebon, BP 540\\76058 Le Havre Cedex, France \\
+\email{ gaetanlesauvage@gmail.com, \{stefan.balev,frederic.guinand\}@univ-lehavre.fr}
+}
+
+
+% Création de la page de titre
+\maketitle
+\thispagestyle{empty}
+
+% Les mots-clés
+\keywords{problème de plus courts chemins, graphe dynamique, terminal à conteneurs, optimisation multi-critères, méta-heuristique}
+
+\section{Contexte}
+
+Un terminal portuaire à conteneurs est un système complexe ouvert composé de plusieurs entités en interactions. Divers engins de manutention permettent de déplacer les conteneurs au sein du terminal afin de répondre le plus efficacement possible aux demandes des navires, trains ou camions en attente de chargement ou de déchargement. La gestion d'un terminal portuaire à conteneurs\cite{Lesauvage2009} relève de plusieurs problèmes d'optimisation. Le but étant de minimiser les temps d'attente des clients tout en minimisant les coûts d'exploitation du terminal, il est nécessaire de réduire les temps de déplacement des véhicules, de soigner l'affectation des missions à ces véhicules et également de répartir efficacement les conteneurs au sein du terminal. Tous ces facteurs font varier la qualité de service offerte aux clients du terminal. 
+
+
+\section{Problématique}
+%Déplacements des chariots pour des missions
+Nous nous intéressons ici à l'optimisation des déplacements des véhicules et en particulier aux chariots cavaliers. Les chariots cavaliers ont pour mission de déplacer des conteneurs à l'intérieur du terminal. Chaque mission comporte deux fenêtres de temps : l'une pour la collecte du conteneur et l'autre pour la livraison. Le non-respect de ces fenêtres de collecte et de livraison entraîne un coût supplémentaire pour le terminal. Les déplacements des chariots cavaliers doivent donc prendre en compte ces fenêtres de temps.
+
+%Temps d'attente
+D'autre part, les itinéraires possibles sont relativement réduits sur le terminal mais les chariots ne peuvent se croiser que sur les routes. En effet, ils enjambent les conteneurs stockés dans les travées et ne peuvent donc pas se croiser à l'intérieur de celles-ci. Ces blocages peuvent causer des retards importants pour la réalisation d'une mission. Notre but est donc de définir les itinéraires des chariots cavaliers prenant en compte les temps d'attente en entrée de travées afin de minimiser à la fois la durée totale du parcours (déplacement et blocage), le coût de déplacement (distance) et l'écart de temps entre la date d'arrivée du chariot et la fenêtre de temps.
+
+%Graphe routier
+\section{Modélisation du problème}
+Le graphe routier du terminal est donc un graphe partiellement FIFO, c'est-à-dire que les arcs modélisant les travées sont FIFO alors que les arcs modélisant les routes ne le sont pas. De plus, ce graphe est dynamique car la durée de parcours d'un arcs dépend à la fois de la distance à parcourir et du temps. En effet, la durée de parcours d'un arc dépend directement de la vitesse du chariot (chariot plein ou vide) et également du trafic sur l'arc au moment de la traversée. De cette façon, nous définissons la durée de parcours de l'arc $(i,j)$ par le véhicule $v$ au temps $t$ par cette formule : 
+	\begin{equation}
+	  duree(i, j , t, v) = (distance(i,j) / vitesse(v, i, j, t)) + attente(i,j,t)
+	\end{equation}
+
+Pour les arcs $(i,j)$ non FIFO du graphe, le temps d'attente $attente(i,j,t)$ sera toujours nul.\\
+
+%Complexité
+Dans un tel graphe, le problème du plus court chemin en temps peut être résolu en temps polynomial\cite{Orda1990}. En revanche, le problème de plus court chemin en coût, où l'évaluation du chemin calculé résulte à la fois de la distance parcourue et du temps d'attente, est $NP-difficile$\cite{Ahuja2003}. Le problème ici étudié est un problème de plus court chemin en coût sur un graphe FIFO avec des temps d'attente non restreints. Toutefois ce problème doit être vu dans sa globalité. En effet, l'optimisation globale repose sur l'ensemble des optimisations de chaque véhicule. Ainsi, lorsqu'on affecte une route à un chariot il faut vérifier si une légère modification d'une route déjà établie pour un autre véhicule n'améliorerait pas de façon significative la solution globale. Pour trouver la meilleur solution globale, il faudrait alors calculer toutes les permutations possibles des solutions locales. Le problème global est donc $NP-complet$.
+
+%\subsection{État de l'art}
+
+%A rajouter dans la section algorithme : 
+%Dynamic algorithms : incremental, decremental, fully dynamic
+%Waiting models : Unrestricted waiting, Forbidden waiting, Source Waiting
+
+\section{Solutions proposées}
+
+Dans un premier temps nous appliquons l'algorithme $UW1$\cite{Orda1990} d'Orda et Rom. Celui-ci est basé sur l'algorithme de Dijkstra et permet de calculer un plus court chemin dans un problème avec temps d'attente non restreints. Nous comparons cette approche avec un routage par plus court chemin classique sans prise en compte des temps d'attente.
+
+%Méta heuristiq
+Puis, dans un second temps, nous proposons des pistes de résolution du problème global. Pour répondre aux contraintes de l'environnement, l'algorithme proposé doit être robuste et complètement dynamique. Ainsi, nous développons des algorithmes méta-heuristiques comme les algorithmes mémétiques et les colonies de fourmis pour résoudre ce problème.
+  %Genetiq
+Les algorithmes mémétiques reposent sur un codage simple d'une solution sous forme de chromosome. Ici, un chromosome sera une suite ordonnée de véhicules. Une solution au problème global consiste en effet à calculer les itinéraires de chaque véhicule dans l'ordre donné afin de répondre aux contraintes posées par les fenêtres de temps des arcs. L'algorithme converge ensuite vers la solution optimale suite à une succession d'opérateurs, comme la sélection et la mutation, sur la population de chromosomes.
+  %ACO
+D'autre part, nous définissons un algorithme de colonies de fourmis où chaque colonie correspond à un véhicule. Chaque individu d'une colonie dépose de la phéromone (marqueur volatile) sur son chemin en fonction de sa qualité. Nous introduisons ensuite un mécanisme de compétition entre les colonies afin de voir émerger la solution globale, c'est-à-dire les itinéraires des véhicules.
+
+Ces solutions présentent l'avantage de fournir une solution à tout moment et donc permettent de borner le temps de calcul à une constante donnée, rendant cette solution réellement applicable sur le terminal.
+
+% La bibliographie
+\bibliographystyle{plain}
+\bibliography{biblio}
+
+\end{document}
