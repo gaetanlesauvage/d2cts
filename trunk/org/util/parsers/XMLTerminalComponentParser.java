@@ -606,12 +606,15 @@ public class XMLTerminalComponentParser implements ContentHandler {
 		double outX = Double.parseDouble(st.nextToken());
 		double outY = Double.parseDouble(st.nextToken());
 		if (atts.getIndex("laneGroup") >= 0) {
-			lane = new Bay(id, cOrigin, cDestination, directed, pave,
+			/*lane = new Bay(id, cOrigin, cDestination, directed, pave,
 					new Coordinates(inX, inY), new Coordinates(outX, outY),
 					atts.getValue("laneGroup"));
-		} else
-			lane = new Bay(id, cOrigin, cDestination, directed, pave,
-					new Coordinates(inX, inY), new Coordinates(outX, outY));
+			*/
+			lane = new Bay(id, cOrigin, cDestination, directed, pave, atts.getValue("laneGroup"));
+		} else {
+			//lane = new Bay(id, cOrigin, cDestination, directed, pave, new Coordinates(inX, inY), new Coordinates(outX, outY));
+			lane = new Bay(id, cOrigin, cDestination, directed, pave);
+		}
 		this.pave.addLane(lane);
 		String slots = atts.getValue("slots");
 		StringTokenizer stSlots = new StringTokenizer(slots, "-");
@@ -625,8 +628,7 @@ public class XMLTerminalComponentParser implements ContentHandler {
 			int quantity = Integer.parseInt(stSlots1.nextToken());
 			tSlots[i++] = new SlotBuilderHelper(type, quantity);
 		}
-		getRemoteTerminal().addSlots(lane.getId(),
-				lane.addSlots(tSlots, this.pave.getType()));
+		//getRemoteTerminal().addSlots(lane.getId(), lane.addSlots(tSlots, this.pave.getType()));
 	}
 
 	private void laneCrossroad(Attributes atts) {
@@ -697,11 +699,11 @@ public class XMLTerminalComponentParser implements ContentHandler {
 		} else {
 			rp = roadPoints.get(id);
 		}
-		String mainRoad = "";
+		/*String mainRoad = "";
 		if (inRoad) {
 			mainRoad = road.getId();
-		}
-		getRemoteTerminal().addRoadPoint(rp, mainRoad);
+		}*/
+		getRemoteTerminal().addRoadPoint(rp);
 	}
 
 	private void routing(Attributes atts)
