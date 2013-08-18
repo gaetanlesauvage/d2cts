@@ -71,8 +71,7 @@ public class NewSimulationDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger
-			.getLogger(NewSimulationDialog.class);
+	private static final Logger log = Logger.getLogger(NewSimulationDialog.class);
 
 	public static final int WIDTH = 750;
 	public static final int HEIGHT = 300;
@@ -86,9 +85,9 @@ public class NewSimulationDialog extends JDialog {
 	private static final String SCHEDULING_ALGORITHM_COLUMN_NAME = "SCHEDULING ALGORITHM";
 
 	private Integer scID;
-	
+
 	private SchedulingAlgorithmBean schedulingAlgorithmBean;
-	
+
 	private SimulationParameter parameters;
 
 	private Thread waitThreadScID;
@@ -100,7 +99,7 @@ public class NewSimulationDialog extends JDialog {
 	private JSpinner jtfSeed;
 
 	private JButton jbLoad;
-	
+
 	private SchedulingAlgorithmBean lastSelected = null;
 
 	public NewSimulationDialog(JFrame frame) {
@@ -133,9 +132,8 @@ public class NewSimulationDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (jcb.getSelectedIndex() > -1) {
-					SchedulingAlgorithmBean selected = (SchedulingAlgorithmBean) jcb
-					.getSelectedItem();
-					if(lastSelected == null || !selected.getName().equals(lastSelected.getName())) {
+					SchedulingAlgorithmBean selected = (SchedulingAlgorithmBean) jcb.getSelectedItem();
+					if (lastSelected == null || !selected.getName().equals(lastSelected.getName())) {
 						updateParameters(selected);
 						lastSelected = selected;
 					}
@@ -150,40 +148,32 @@ public class NewSimulationDialog extends JDialog {
 
 		DefaultTableCellRenderer alignCenter = new DefaultTableCellRenderer();
 
-		TableColumn tcID = new TableColumn(SCENARIO_ID_COLUMN_INDEX, 50,
-				alignCenter, null);
+		TableColumn tcID = new TableColumn(SCENARIO_ID_COLUMN_INDEX, 50, alignCenter, null);
 		tcID.setHeaderValue(columnsName[SCENARIO_ID_COLUMN_INDEX]);
-		
-		TableColumn tcName = new TableColumn(SCENARIO_NAME_COLUMN_INDEX, 75,
-				alignCenter, null);
+
+		TableColumn tcName = new TableColumn(SCENARIO_NAME_COLUMN_INDEX, 75, alignCenter, null);
 		tcName.setHeaderValue(columnsName[SCENARIO_NAME_COLUMN_INDEX]);
-		
-		TableColumn tcDate = new TableColumn(SCENARIO_DATE_REC_COLUMN_INDEX,
-				75, alignCenter, null);
+
+		TableColumn tcDate = new TableColumn(SCENARIO_DATE_REC_COLUMN_INDEX, 75, alignCenter, null);
 		tcDate.setHeaderValue(columnsName[SCENARIO_DATE_REC_COLUMN_INDEX]);
-		
-		TableColumn tcContent = new TableColumn(
-				SCENARIO_CONTENT_FILE_COLUMN_INDEX, 100, alignCenter, null);
-		tcContent
-				.setHeaderValue(columnsName[SCENARIO_CONTENT_FILE_COLUMN_INDEX]);
-		
+
+		TableColumn tcContent = new TableColumn(SCENARIO_CONTENT_FILE_COLUMN_INDEX, 100, alignCenter, null);
+		tcContent.setHeaderValue(columnsName[SCENARIO_CONTENT_FILE_COLUMN_INDEX]);
+
 		TableCellEditor jcbce = new DefaultCellEditor(jcb);
 		jcbce.getCellEditorValue();
-		TableColumn tc = new TableColumn(SCHEDULING_ALGORITHM_COLUMN_INDEX,
-				150, alignCenter, jcbce);
+		TableColumn tc = new TableColumn(SCHEDULING_ALGORITHM_COLUMN_INDEX, 150, alignCenter, jcbce);
 		tc.setHeaderValue(SCHEDULING_ALGORITHM_COLUMN_NAME);
-		
+
 		TableModel tm = new DefaultTableModel(s.size(), columnsName.length);
 
 		int rowIndex = 0;
 		for (ScenarioBean scenario : s) {
 			tm.setValueAt(scenario.getId(), rowIndex, SCENARIO_ID_COLUMN_INDEX);
-			tm.setValueAt(scenario.getName(), rowIndex,
-					SCENARIO_NAME_COLUMN_INDEX);
-			tm.setValueAt(scenario.getDate_rec(), rowIndex,
-					SCENARIO_DATE_REC_COLUMN_INDEX);
-			tm.setValueAt(scenario.getFile(), rowIndex,
-					SCENARIO_CONTENT_FILE_COLUMN_INDEX);
+			tm.setValueAt(scenario.getName(), rowIndex, SCENARIO_NAME_COLUMN_INDEX);
+			tm.setValueAt(scenario.getDate_rec(), rowIndex, SCENARIO_DATE_REC_COLUMN_INDEX);
+			tm.setValueAt(scenario.getFile(), rowIndex, SCENARIO_CONTENT_FILE_COLUMN_INDEX);
+			
 			rowIndex++;
 		}
 
@@ -205,22 +195,18 @@ public class NewSimulationDialog extends JDialog {
 		alignCenter.setHorizontalAlignment(JLabel.CENTER);
 		alignCenter.setFont(GraphicDisplay.font);
 
-		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
-				jtScenario.getModel());
+		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jtScenario.getModel());
 		sorter.setSortsOnUpdates(true);
 		jtScenario.setRowSorter(sorter);
 
 		jtScenario.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		jtScenario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane jsp = new JScrollPane(jtScenario,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane jsp = new JScrollPane(jtScenario, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		jtfSeed = new JSpinner(new SpinnerNumberModel(Terminal.DEFAULT_SEED,
-				Long.MIN_VALUE, Long.MAX_VALUE, 1));
+		jtfSeed = new JSpinner(new SpinnerNumberModel(Terminal.DEFAULT_SEED, Long.MIN_VALUE, Long.MAX_VALUE, 1));
 
 		jbLoad = new JButton("OK");
-		jtScenario.addMouseListener(new MouseAdapter(){
+		jtScenario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				updateLoadButton();
@@ -233,81 +219,52 @@ public class NewSimulationDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if (jtScenario.getSelectedRow() != -1) {
 					// Create Simu with scenario ID =
-					scID = (Integer) jtScenario.getValueAt(
-							jtScenario.getSelectedRow(),
-							SCENARIO_ID_COLUMN_INDEX);
+					scID = (Integer) jtScenario.getValueAt(jtScenario.getSelectedRow(), SCENARIO_ID_COLUMN_INDEX);
 					// scID = (Integer) tm.getValueAt(jt.getSelectedRow(),
 					// SCENARIO_ID_COLUMN_INDEX);
-					schedulingAlgorithmBean = (SchedulingAlgorithmBean) jtScenario
-							.getColumn(SCHEDULING_ALGORITHM_COLUMN_NAME)
-							.getCellEditor().getCellEditorValue();
+					schedulingAlgorithmBean = (SchedulingAlgorithmBean) jtScenario.getColumn(SCHEDULING_ALGORITHM_COLUMN_NAME).getCellEditor()
+							.getCellEditorValue();
 					SchedulingParametersBeanInterface parameter = null;
 					// Parameters
 
 					for (int i = 0; i < jtParameters.getColumnCount(); i++) {
 						switch (schedulingAlgorithmBean.getName()) {
 						case OnlineACOScheduler.rmiBindingName:
-							parameter = OnlineACOParametersBean
-									.get(jtParameters.getColumnModel()
-											.getColumn(i).getHeaderValue()
-											.toString());
+							parameter = OnlineACOParametersBean.get(jtParameters.getColumnModel().getColumn(i).getHeaderValue().toString());
 							break;
 						case LinearMissionScheduler.rmiBindingName:
-							parameter = LinearParametersBean.get(jtParameters
-									.getColumnModel().getColumn(i)
-									.getHeaderValue().toString());
+							parameter = LinearParametersBean.get(jtParameters.getColumnModel().getColumn(i).getHeaderValue().toString());
 							break;
 						case RandomMissionScheduler.rmiBindingName:
-							parameter = RandomParametersBean.get(jtParameters
-									.getColumnModel().getColumn(i)
-									.getHeaderValue().toString());
+							parameter = RandomParametersBean.get(jtParameters.getColumnModel().getColumn(i).getHeaderValue().toString());
 							break;
 						case GreedyMissionScheduler.rmiBindingName:
-							parameter = GreedyParametersBean.get(jtParameters
-									.getColumnModel().getColumn(i)
-									.getHeaderValue().toString());
+							parameter = GreedyParametersBean.get(jtParameters.getColumnModel().getColumn(i).getHeaderValue().toString());
 							break;
 						case BB.rmiBindingName:
-							parameter = BBParametersBean.get(jtParameters
-									.getColumnModel().getColumn(i)
-									.getHeaderValue().toString());
+							parameter = BBParametersBean.get(jtParameters.getColumnModel().getColumn(i).getHeaderValue().toString());
 							break;
 						case BranchAndBound.rmiBindingName:
-							parameter = BranchAndBoundParametersBean
-									.get(jtParameters.getColumnModel()
-											.getColumn(i).getHeaderValue()
-											.toString());
+							parameter = BranchAndBoundParametersBean.get(jtParameters.getColumnModel().getColumn(i).getHeaderValue().toString());
 							break;
 						case OfflineACOScheduler.rmiBindingName:
-							parameter = OfflineACOParametersBean
-									.get(jtParameters.getColumnModel()
-											.getColumn(i).getHeaderValue()
-											.toString());
+							parameter = OfflineACOParametersBean.get(jtParameters.getColumnModel().getColumn(i).getHeaderValue().toString());
 							break;
 						case OfflineACOScheduler2.rmiBindingName:
-							parameter = OfflineACO2ParametersBean
-									.get(jtParameters.getColumnModel()
-											.getColumn(i).getHeaderValue()
-											.toString());
+							parameter = OfflineACO2ParametersBean.get(jtParameters.getColumnModel().getColumn(i).getHeaderValue().toString());
 							break;
 						}
 						if (parameter != null) {
-							Object o = jtParameters.getValueAt(0, jtParameters
-									.getColumnModel().getColumn(i)
-									.getModelIndex());
+							Object o = jtParameters.getValueAt(0, jtParameters.getColumnModel().getColumn(i).getModelIndex());
 							if (o != null && o instanceof String) {
-								parameter.setValue(Double.parseDouble(o
-										.toString()));
+								parameter.setValue(Double.parseDouble(o.toString()));
 							} else {
-								log.error("Invalid parameter "
-										+ parameter.name() + " = " + o);
+								log.error("Invalid parameter " + parameter.name() + " = " + o);
 								return;
 							}
 						}
 					}
-					System.out.println("SCENARIO " + scID
-							+ " with scheduling algorithm "
-							+ schedulingAlgorithmBean + " chosen!");
+					System.out.println("SCENARIO " + scID + " with scheduling algorithm " + schedulingAlgorithmBean + " chosen!");
 					NewSimulationDialog.this.setVisible(false);
 					synchronized (waitThreadScID) {
 						waitThreadScID.notify();
@@ -336,31 +293,24 @@ public class NewSimulationDialog extends JDialog {
 		TableModel tmp = new DefaultTableModel(1, 5);
 		ListSelectionModel smp = new DefaultListSelectionModel();
 		smp.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		jtParameters = new JTable(tmp, tcmp, smp);
 		jtParameters.setFont(GraphicDisplay.font);
 		jtParameters.getTableHeader().setFont(GraphicDisplay.fontBold);
 
 		jtParameters.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		pParameters = new JScrollPane(jtParameters,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		pParameters = new JScrollPane(jtParameters, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		jtParameters.setRowHeight(20);
 		jtParameters.setEnabled(false);
 
 		Insets defaultInsets = new Insets(5, 5, 5, 5);
 		Insets noInsets = new Insets(0, 5, 0, 5);
 
-		GridBagConstraints cJSPScenario = new GridBagConstraints(0, 0, 1, 3,
-				1d, 8d, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+		GridBagConstraints cJSPScenario = new GridBagConstraints(0, 0, 1, 3, 1d, 8d, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				defaultInsets, 0, 0);
-		cJSPParameters = new GridBagConstraints(0, 3, 1, 1, 1d, 1d,
-				GridBagConstraints.BASELINE, GridBagConstraints.BOTH, noInsets,
-				0, -5);
+		cJSPParameters = new GridBagConstraints(0, 3, 1, 1, 1d, 1d, GridBagConstraints.BASELINE, GridBagConstraints.BOTH, noInsets, 0, -5);
 
-		GridBagConstraints cButtons = new GridBagConstraints(0, 4, 1, 1, 1d,
-				0.5d, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				noInsets, 0, 0);
+		GridBagConstraints cButtons = new GridBagConstraints(0, 4, 1, 1, 1d, 0.5d, GridBagConstraints.CENTER, GridBagConstraints.BOTH, noInsets, 0, 0);
 
 		GridBagLayout gbl = new GridBagLayout();
 		this.setLayout(gbl);
@@ -370,14 +320,12 @@ public class NewSimulationDialog extends JDialog {
 		this.add(jsp);
 		this.add(pParameters);
 		this.add(pSouth);
-		
+
 		jtScenario.setFillsViewportHeight(true);
 		jtParameters.setFillsViewportHeight(true);
 
 		this.setLocationRelativeTo(super.getOwner());
-		this.setLocation(
-				(int) ((super.getOwner().getWidth() / 2d) - (WIDTH / 2d)),
-				(int) ((super.getOwner().getHeight() / 2d) - (HEIGHT / 2d)));
+		this.setLocation((int) ((super.getOwner().getWidth() / 2d) - (WIDTH / 2d)), (int) ((super.getOwner().getHeight() / 2d) - (HEIGHT / 2d)));
 		this.setSize(new Dimension(WIDTH, HEIGHT));
 	}
 
@@ -392,11 +340,10 @@ public class NewSimulationDialog extends JDialog {
 					e.printStackTrace();
 				}
 				Number n = (Number) jtfSeed.getValue();
-				
+
 				schedulingAlgorithmBean.setParameters(getParameters());
-				
-				parameters = new SimulationParameter(scID,
-						schedulingAlgorithmBean, n.longValue());
+
+				parameters = new SimulationParameter(scID, schedulingAlgorithmBean, n.longValue());
 			}
 		};
 		waitThreadScID.start();
@@ -412,15 +359,13 @@ public class NewSimulationDialog extends JDialog {
 
 	private void updateLoadButton() {
 		int selectedRow = jtScenario.getSelectedRow();
-		if (selectedRow > -1
-				&& jtScenario.getModel().getValueAt(selectedRow,
-						SCHEDULING_ALGORITHM_COLUMN_INDEX) != null) {
+		if (selectedRow > -1 && jtScenario.getModel().getValueAt(selectedRow, SCHEDULING_ALGORITHM_COLUMN_INDEX) != null) {
 			jbLoad.setEnabled(jtScenario.getSelectedRowCount() != 0);
 		}
 	}
 
-	private SchedulingParametersBeanInterface[] getParameters(){
-		switch(schedulingAlgorithmBean.getName()){
+	private SchedulingParametersBeanInterface[] getParameters() {
+		switch (schedulingAlgorithmBean.getName()) {
 		case OnlineACOScheduler.rmiBindingName:
 			return OnlineACOParametersBean.values();
 		case OfflineACOScheduler.rmiBindingName:
@@ -440,14 +385,13 @@ public class NewSimulationDialog extends JDialog {
 		}
 		return null;
 	}
-	
+
 	private void updateParameters(SchedulingAlgorithmBean bean) {
 		ListSelectionModel sm = new DefaultListSelectionModel();
 		sm.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		TableColumnModel cm = new DefaultTableColumnModel();
 		TableCellRenderer alignCenter = new TableCellRendererCentered();
-		DefaultParametersDAO defaultParameters = DefaultParametersDAO
-				.getInstance();
+		DefaultParametersDAO defaultParameters = DefaultParametersDAO.getInstance();
 		String[] names = null;
 		ParameterType[] types = null;
 
@@ -492,8 +436,7 @@ public class NewSimulationDialog extends JDialog {
 			// Create columns
 			int i = 0;
 			for (String name : names) {
-				DefaultParametersBean dfBean = defaultParameters.get(name
-						.toUpperCase());
+				DefaultParametersBean dfBean = defaultParameters.get(name.toUpperCase());
 				TableCellEditor editor = null;
 
 				if (types[i] == ParameterType.DOUBLE) {
@@ -508,11 +451,11 @@ public class NewSimulationDialog extends JDialog {
 					dm.setValueAt(dfBean.getValue(), 0, i);
 				} else {
 					System.err.println("No parameter " + name);
-					if(types[i] == ParameterType.DOUBLE)
+					if (types[i] == ParameterType.DOUBLE)
 						dm.setValueAt(new Double(1.0), 0, i);
-					else if(types[i] == ParameterType.STRING)
+					else if (types[i] == ParameterType.STRING)
 						dm.setValueAt("", 0, i);
-					else if(types[i] == ParameterType.INTEGER)
+					else if (types[i] == ParameterType.INTEGER)
 						dm.setValueAt(new Integer(1), 0, i);
 				}
 				TableColumn col = new TableColumn(i, 50, alignCenter, editor);

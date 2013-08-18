@@ -62,7 +62,6 @@ public class SimulationRunner implements Runnable {
 	public static final int WAITING_SLEEP_TIME = 20;
 
 	private XMLReader saxReader, saxNetworkConfigReader;
-	private XMLNetworkConfigurationParser NCParser;
 	private MainFrame mainFrame;
 
 	private JDialog frame;
@@ -89,7 +88,7 @@ public class SimulationRunner implements Runnable {
 			"Creating Straddle Carriers...", "Creating Mission Scheduler...",
 			"Building Time Controller" };
 
-	public SimulationRunner(String configFile, MainFrame mainFrame, boolean x11) {
+	public SimulationRunner(String simID, MainFrame mainFrame, boolean x11) {
 
 		this.x11 = x11;
 

@@ -17,9 +17,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -40,12 +37,12 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import org.apache.log4j.Logger;
 import org.com.DbMgr;
+import org.com.dao.SimulationDAO;
 import org.com.model.SchedulingAlgorithmBean;
 import org.com.model.SimulationBean;
 import org.conf.parameters.ReturnCodes;
 import org.display.system.JTerminal;
 import org.graphstream.ui.swingViewer.View;
-import org.runner.SimulationRunner;
 import org.system.Terminal;
 import org.time.TimeController;
 import org.util.SimulationParameter;
@@ -65,7 +62,7 @@ public class MainFrame {
 	private JMenu menuFile;
 	private JMenu menuOptions;
 	private JMenu menuControl;
-	private JMenuItem stepSize, newSimulation, open, openLast, replay,
+	private JMenuItem stepSize, newSimulation, load, loadLast, replay,
 			initialStateGenerator, missionsGenerator, lhEventsGenerator;
 	private JMenuItem jmiHiddenPlayPause, jmiNextStep, jmiStop;
 
@@ -74,7 +71,7 @@ public class MainFrame {
 	private Toolbar toolbar;
 
 	private JSplitPane splitPane;
-	private SimulationRunner op;
+	// private SimulationRunner op;
 	public static final String skinNAME = "org.pushingpixels.substance.api.skin.MistSilverSkin";
 
 	// public static final SubstanceLookAndFeel skin = new
@@ -88,12 +85,12 @@ public class MainFrame {
 	public static final int WIDTH = 1180;
 	public static final int HEIGHT = 720;
 
-	public static MainFrame getInstance(){
-		if(instance == null)
+	public static MainFrame getInstance() {
+		if (instance == null)
 			instance = new MainFrame();
 		return instance;
 	}
-	
+
 	private MainFrame() {
 		initialStateGenerator = new JMenuItem("Initial state generator");
 		initialStateGenerator.setMnemonic('i');
@@ -115,10 +112,6 @@ public class MainFrame {
 
 			@Override
 			public void run() {
-				// JDialog.setDefaultLookAndFeelDecorated(true);
-				// JFrame.setDefaultLookAndFeelDecorated(true);
-				// SubstanceLookAndFeel.setSkin(skinNAME);
-
 				frame = new JFrame("D²CTS");
 
 				frame.setFont(GraphicDisplay.font);
@@ -139,7 +132,6 @@ public class MainFrame {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						setFocusOnJTerminal();
-						// System.out.println("Clicked");
 					}
 				};
 				MouseMotionListener focusMouseMotionListener = new MouseMotionAdapter() {
@@ -155,17 +147,17 @@ public class MainFrame {
 				menuFile.addMouseListener(focusMouseListener);
 				menuFile.addMouseMotionListener(focusMouseMotionListener);
 
-				newSimulation = new JMenuItem("new");
+				newSimulation = new JMenuItem("New");
 				newSimulation.setMnemonic('n');
 				newSimulation.setAccelerator(KeyStroke.getKeyStroke(
 						KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
 				newSimulation.setFont(GraphicDisplay.font);
 
-				open = new JMenuItem("open");
-				open.setMnemonic('o');
-				open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
+				load = new JMenuItem("Load");
+				load.setMnemonic('o');
+				load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
 						InputEvent.CTRL_DOWN_MASK));
-				open.setFont(GraphicDisplay.font);
+				load.setFont(GraphicDisplay.font);
 
 				menuControl = new JMenu("Control");
 				menuControl.setFont(GraphicDisplay.font);
@@ -220,30 +212,31 @@ public class MainFrame {
 				menuControl.add(jmiNextStep);
 				menuControl.add(jmiStop);
 
-				openLast = new JMenuItem("open last");
-				openLast.setEnabled(false);
+				loadLast = new JMenuItem("Load last");
+				loadLast.setEnabled(false);
 				try {
 					File f = new File(this.getClass()
-							.getResource("/display/lastOpen.dat").getPath());
+							.getResource("/display/lastOpenSimulation.dat")
+							.getPath());
 					Scanner scan = new Scanner(f);
 					lastOpen = scan.nextLine();
 					scan.close();
-					openLast.setEnabled(true);
+					loadLast.setEnabled(true);
 				} catch (Exception e1) {
-					File f = new File("./display/lastOpen.dat");
+					File f = new File("./conf/lastOpenSimulation.dat");
 					try {
 						lastOpen = new Scanner(f).nextLine();
-						openLast.setEnabled(true);
+						loadLast.setEnabled(true);
 					} catch (Exception e2) {
 
 					}
 
 				}
 
-				openLast.setMnemonic('l');
-				openLast.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
+				loadLast.setMnemonic('l');
+				loadLast.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
 						InputEvent.CTRL_DOWN_MASK));
-				openLast.setFont(GraphicDisplay.font);
+				loadLast.setFont(GraphicDisplay.font);
 
 				replay = new JMenuItem("replay simulation");
 				replay.setMnemonic('r');
@@ -259,15 +252,15 @@ public class MainFrame {
 				missionsGenerator.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						open.setEnabled(false);
-						openLast.setEnabled(false);
+						load.setEnabled(false);
+						loadLast.setEnabled(false);
 						replay.setEnabled(false);
 						initialStateGenerator.setEnabled(false);
 						missionsGenerator.setEnabled(false);
 						lhEventsGenerator.setEnabled(false);
 						new MissionFileGeneratorMenu(MainFrame.this);
-						open.setEnabled(true);
-						openLast.setEnabled(true);
+						load.setEnabled(true);
+						loadLast.setEnabled(true);
 						replay.setEnabled(true);
 						initialStateGenerator.setEnabled(true);
 						missionsGenerator.setEnabled(true);
@@ -284,15 +277,15 @@ public class MainFrame {
 				lhEventsGenerator.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						open.setEnabled(false);
-						openLast.setEnabled(false);
+						load.setEnabled(false);
+						loadLast.setEnabled(false);
 						replay.setEnabled(false);
 						initialStateGenerator.setEnabled(false);
 						missionsGenerator.setEnabled(false);
 						lhEventsGenerator.setEnabled(false);
 						new LHFileGeneratorMenu(MainFrame.this);
-						open.setEnabled(true);
-						openLast.setEnabled(true);
+						load.setEnabled(true);
+						loadLast.setEnabled(true);
 						replay.setEnabled(true);
 						initialStateGenerator.setEnabled(true);
 						missionsGenerator.setEnabled(true);
@@ -303,8 +296,8 @@ public class MainFrame {
 				replay.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						open.setEnabled(false);
-						openLast.setEnabled(false);
+						load.setEnabled(false);
+						loadLast.setEnabled(false);
 						replay.setEnabled(false);
 						initialStateGenerator.setEnabled(false);
 						missionsGenerator.setEnabled(false);
@@ -313,16 +306,16 @@ public class MainFrame {
 					}
 				});
 
-				openLast.addActionListener(new ActionListener() {
+				loadLast.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						open.setEnabled(false);
-						openLast.setEnabled(false);
+						load.setEnabled(false);
+						loadLast.setEnabled(false);
 						replay.setEnabled(false);
 						initialStateGenerator.setEnabled(false);
 						missionsGenerator.setEnabled(false);
 						lhEventsGenerator.setEnabled(false);
-						openSimulation(lastOpen);
+						loadSimulation(lastOpen);
 					}
 				});
 
@@ -349,95 +342,63 @@ public class MainFrame {
 						final NewSimulationDialog simDialog = new NewSimulationDialog(
 								frame);
 						// Lock call
-						SimulationParameter parameters = simDialog.getSelection(); 
-						Integer scenarioID = parameters.getScenarioID(); 
-						
-						SchedulingAlgorithmBean schedulingAlgorithm = parameters.getSchedulingAlgorithmBean();
+						SimulationParameter parameters = simDialog
+								.getSelection();
+						Integer scenarioID = parameters.getScenarioID();
+
+						SchedulingAlgorithmBean schedulingAlgorithm = parameters
+								.getSchedulingAlgorithmBean();
 						if (scenarioID != null && schedulingAlgorithm != null) {
 							// Create a simulation according to the given
 							// scenario properties
-							
+
 							SimulationBuilder builder = new SimulationBuilder(
-									scenarioID, schedulingAlgorithm, parameters.getSeed());
+									scenarioID, schedulingAlgorithm, parameters
+											.getSeed());
 							builder.build();
-							final SimulationBean bean = builder.getSimulationBean();
+							final SimulationBean bean = builder
+									.getSimulationBean();
 							if (bean != null) {
 								SwingUtilities.invokeLater(new Runnable() {
-									
+
 									@Override
 									public void run() {
-										Terminal.getInstance().setTextDisplay(GraphicDisplayPanel.getInstance());
+										Terminal.getInstance().setTextDisplay(
+												GraphicDisplayPanel
+														.getInstance());
 
 									}
 								});
-								Thread.currentThread().setName("D2ctsLoaderThread");
-								SimulationLoader.getInstance().load(bean);								
-								
+								Thread.currentThread().setName(
+										"D2ctsLoaderThread");
+								SimulationLoader.getInstance().load(bean);
+
 								// Terminal.getInstance().drawElements();
 							}
 						}
 					}
 				});
 
-				open.addActionListener(new ActionListener() {
+				load.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-
-						int returnVal = fc.showOpenDialog(frame);
-						if (returnVal == JFileChooser.APPROVE_OPTION) {
-							File configFile = fc.getSelectedFile();
-							File base = new File("");
-
-							System.out.println("Parent = "
-									+ base.getAbsolutePath());
-							lastOpen = base.toURI()
-									.relativize(configFile.toURI()).getPath();
-							System.out.println("Last Open : " + lastOpen);
-
-							// URL url =
-							// this.getClass().getResource("/display/");
-
-							try {
-								File f = new File("./display/lastOpen.dat");
-								if (f.exists())
-									f.delete();
-								f.createNewFile();
-								// new File(url.getPath()+"tmp.dat");
-								PrintWriter pw;
-
-								pw = new PrintWriter(f);
-
-								pw.append(lastOpen);
-								pw.flush();
-								pw.close();
-
-							} catch (FileNotFoundException e1) {
-								e1.printStackTrace();
-							} catch (IOException e2) {
-								// TODO : FIX ISSUE : CANNOT CREATE THE FILE
-								// WHEN EXECUTE PROGRAM FROM A JAR FILE
-							}
-							open.setEnabled(false);
-							openLast.setEnabled(false);
-							replay.setEnabled(false);
-							initialStateGenerator.setEnabled(false);
-							missionsGenerator.setEnabled(false);
-							lhEventsGenerator.setEnabled(false);
-							// This is where a real application would open the
-							// file.
-							System.out.println("Opening: "
-									+ configFile.getName() + ".");
-							openSimulation(lastOpen);
-						} else {
-							System.out
-									.println("Open command cancelled by user.");
+						//Set simulation chooser panel as in New Simulation
+						//SIM ID - DATE REC - SCENARIO ID - SCENARIO NAME - TERMINAL ID - TERMINAL LABEL
+						final LoadSimulationDialog simDialog = new LoadSimulationDialog(frame);
+						// Lock call
+						Integer simID = simDialog.getSelection();
+						
+						if (simID != null) {
+							// Open the given simulation
+							loadSimulation(simID+"");
 						}
 					}
 				});
-
+						
+						
 				menuFile.add(newSimulation);
-				menuFile.add(open);
-				menuFile.add(openLast);
+				menuFile.add(load);
+				menuFile.add(loadLast);
 				menuFile.addSeparator();
 				menuFile.add(replay);
 				menuFile.addSeparator();
@@ -541,12 +502,16 @@ public class MainFrame {
 		return toolbar;
 	}
 
-	public void openSimulation(final String configFile) {
+	public void loadSimulation(final String simID) {
 		frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		op = new SimulationRunner(configFile, MainFrame.this, true);
-		jmiHiddenPlayPause.setEnabled(true);
-		jmiNextStep.setEnabled(true);
+		// op = new SimulationRunner(configFile, MainFrame.this, true);
 
+		SimulationBean bean = SimulationDAO.getInstance().get(
+				Integer.parseInt(simID));
+		SimulationLoader.getInstance().load(bean);
+
+		jmiNextStep.setEnabled(true);
+		jmiHiddenPlayPause.setEnabled(true);
 	}
 
 	/*
@@ -604,6 +569,7 @@ public class MainFrame {
 
 		Thread t = new Thread() {
 			public void run() {
+				Thread.currentThread().setName("ClosingThread");
 				stepSize.setEnabled(false);
 				jdClosing = new JDialog(frame, "Closing...", false);
 				jdClosing.add(
@@ -632,8 +598,8 @@ public class MainFrame {
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		open.setEnabled(true);
-		openLast.setEnabled(true);
+		load.setEnabled(true);
+		loadLast.setEnabled(true);
 		replay.setEnabled(true);
 		initialStateGenerator.setEnabled(true);
 		missionsGenerator.setEnabled(true);
@@ -643,7 +609,7 @@ public class MainFrame {
 		jmiNextStep.setEnabled(false);
 		jmiStop.setEnabled(false);
 
-		op.destroy();
+		// op.destroy();
 
 	}
 
@@ -672,8 +638,8 @@ public class MainFrame {
 	}
 
 	public void enableMenus() {
-		open.setEnabled(true);
-		openLast.setEnabled(true);
+		load.setEnabled(true);
+		loadLast.setEnabled(true);
 		replay.setEnabled(true);
 		initialStateGenerator.setEnabled(true);
 		missionsGenerator.setEnabled(true);
@@ -696,14 +662,14 @@ public class MainFrame {
 		menuControl.setEnabled(state);
 	}
 
-	public void setSimReady () {
-		SwingUtilities.invokeLater(new Runnable(){
-			public void run () {
+	public void setSimReady() {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
 				setGraphicDisplay(GraphicDisplayPanel.getInstance().getPanel());
 				getToolbar().setTimeControler(new TimeController());
 				setJTerminal(JTerminal.getInstance().getPanel());
 				setSimReady(true);
 			}
-		});	
+		});
 	}
 }
