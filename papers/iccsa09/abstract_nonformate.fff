@@ -1,0 +1,58 @@
+\begin{figure*}
+
+\fbox{\begin{minipage}{0.45\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{Shemas/missionGraphComplet.png} \\
+
+\end{center}
+
+\end{minipage}}
+\caption{Mission graph for 2 straddle carriers and 4 missions }
+\label{missiongraph}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+
+\fbox{\begin{minipage}{0.45\textwidth}
+\begin{algorithmic}[1]
+\FORALL{colony c}
+\FORALL{ant of colony c}
+\STATE choose an unvisited destination according to the pheromone track
+\STATE move towards it according to the ant speed
+\STATE spread pheromone according to the destination quality
+\ENDFOR
+\ENDFOR
+\STATE evaporation
+\end{algorithmic}
+
+\end{minipage}}
+\caption{Colored Ant System main algorithm}
+\label{algo}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+
+\fbox{\begin{minipage}{0.45\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{Shemas/terminal.png}
+\end{center}
+\end{minipage}}
+\caption{Terminal view in the simulator}
+\label{tview}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}
+
+\fbox{\begin{minipage}{0.45\textwidth}
+  \begin{center}
+\includegraphics[width=\textwidth]{Shemas/aco.PNG}
+\end{center}
+\end{minipage}}
+\caption{Mission graph view in the simulator}
+\label{acoview}
+\end{figure*}
+\efloatseparator
+ 

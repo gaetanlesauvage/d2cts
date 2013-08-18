@@ -1,0 +1,65 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.6)
+The top-level auxiliary file: dynamical_handling_of_SC_activities.aux
+The style file: IEEEtran.bst
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Database file #1: IEEEabrv.bib
+Database file #2: biblio.bib
+I was expecting a `,' or a `}'---line 7 of file biblio.bib
+ : 
+ : OPTpages = {1-31}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 327 of file biblio.bib
+ :  
+ :  month = {May}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.12 (2007/01/11) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty year in Bertelle02
+Warning--empty year in Bullnheimer97
+
+Done.
+You've used 23 entries,
+            4024 wiz_defined-function locations,
+            1313 strings with 18674 characters,
+and the built_in function-call counts, 11530 in all, are:
+= -- 921
+> -- 279
+< -- 40
++ -- 140
+- -- 58
+* -- 515
+:= -- 1965
+add.period$ -- 47
+call.type$ -- 23
+change.case$ -- 23
+chr.to.int$ -- 93
+cite$ -- 25
+duplicate$ -- 924
+empty$ -- 1023
+format.name$ -- 74
+if$ -- 2570
+int.to.chr$ -- 0
+int.to.str$ -- 23
+missing$ -- 173
+newline$ -- 92
+num.names$ -- 23
+pop$ -- 441
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 894
+stack$ -- 0
+substring$ -- 240
+swap$ -- 600
+text.length$ -- 9
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 23
+warning$ -- 2
+while$ -- 40
+width$ -- 25
+write$ -- 217
+(There were 2 error messages)
