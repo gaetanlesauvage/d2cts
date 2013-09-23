@@ -1445,6 +1445,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		String type = atts.getValue("type");
 		switch (type) {
 		case OnlineACOScheduler.rmiBindingName:
+			
 			// Retrieve parameters
 			for (OnlineACOParametersBean parameter : OnlineACOParametersBean
 					.values()) {
@@ -1454,7 +1455,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
 						OnlineACOParametersDAO.getInstance(
-								simulationID).insert(parameter);
+								simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1472,7 +1473,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
 						OfflineACOParametersDAO.getInstance(
-								simulationID).insert(parameter);
+								simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1490,7 +1491,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
 						OfflineACO2ParametersDAO.getInstance(
-								simulationID).insert(parameter);
+								simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1508,7 +1509,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
 						LinearParametersDAO.getInstance(
-								simulationID).insert(parameter);
+								simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1525,7 +1526,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
 						GreedyParametersDAO.getInstance(
-								simulationID).insert(parameter);
+								simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1543,7 +1544,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
 						RandomParametersDAO.getInstance(
-								simulationID).insert(parameter);
+								simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1561,7 +1562,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
 						BranchAndBoundParametersDAO.getInstance(
-								simulationID).insert(parameter);
+								simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1579,7 +1580,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
 						BBParametersDAO.getInstance(
-								simulationID).insert(parameter);
+								simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);

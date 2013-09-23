@@ -403,11 +403,4 @@ public abstract class RoutingAlgorithm implements Routing {
 	public void unlock() {
 		locked = false;
 	}
-
-	public void destroy() {
-		vehicle = null;
-		straddleCarrierId = null;
-		rmiBindingName = null;
-		out = null;
-	}
 }

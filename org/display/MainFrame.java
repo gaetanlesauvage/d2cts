@@ -43,8 +43,12 @@ import org.com.model.SimulationBean;
 import org.conf.parameters.ReturnCodes;
 import org.display.system.JTerminal;
 import org.graphstream.ui.swingViewer.View;
+import org.positioning.LaserSystem;
+import org.scheduling.MissionScheduler;
+import org.scheduling.onlineACO.Ant;
 import org.system.Terminal;
 import org.time.TimeController;
+import org.time.TimeScheduler;
 import org.util.SimulationParameter;
 import org.util.building.SimulationLoader;
 import org.util.dbLoading.SimulationBuilder;
@@ -62,8 +66,7 @@ public class MainFrame {
 	private JMenu menuFile;
 	private JMenu menuOptions;
 	private JMenu menuControl;
-	private JMenuItem stepSize, newSimulation, load, loadLast, replay,
-			initialStateGenerator, missionsGenerator, lhEventsGenerator;
+	private JMenuItem stepSize, newSimulation, load, loadLast, replay, initialStateGenerator, missionsGenerator, lhEventsGenerator;
 	private JMenuItem jmiHiddenPlayPause, jmiNextStep, jmiStop;
 
 	private JFileChooser fc;
@@ -81,6 +84,8 @@ public class MainFrame {
 	private String lastOpen = "";
 	private JDialog jdClosing;
 	private View view;
+
+	//private Component savedContentPane;
 	// TOTO
 	public static final int WIDTH = 1180;
 	public static final int HEIGHT = 720;
@@ -94,8 +99,7 @@ public class MainFrame {
 	private MainFrame() {
 		initialStateGenerator = new JMenuItem("Initial state generator");
 		initialStateGenerator.setMnemonic('i');
-		initialStateGenerator.setAccelerator(KeyStroke.getKeyStroke(
-				KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
+		initialStateGenerator.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
 		initialStateGenerator.setFont(GraphicDisplay.font);
 		initialStateGenerator.addActionListener(new ActionListener() {
 			@Override
@@ -116,13 +120,18 @@ public class MainFrame {
 
 				frame.setFont(GraphicDisplay.font);
 				frame.getRootPane().setFont(GraphicDisplay.font);
+				JPanel pWait = new JPanel();
+				pWait.setBackground(new Color(100,100,100,128));
+				pWait.setSize(frame.getSize());
+				frame.getRootPane().setGlassPane(pWait);
+
+
 
 				toolbar = new Toolbar(MainFrame.this);
 				frame.add(toolbar, BorderLayout.PAGE_START);
 
 				fc = new JFileChooser(baseDirectory);
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(
-						"D2CTS configuration files", "d2cts");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("D2CTS configuration files", "d2cts");
 				fc.setFileFilter(filter);
 
 				menuBar = new JMenuBar();
@@ -149,14 +158,12 @@ public class MainFrame {
 
 				newSimulation = new JMenuItem("New");
 				newSimulation.setMnemonic('n');
-				newSimulation.setAccelerator(KeyStroke.getKeyStroke(
-						KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
+				newSimulation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
 				newSimulation.setFont(GraphicDisplay.font);
 
 				load = new JMenuItem("Load");
 				load.setMnemonic('o');
-				load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
-						InputEvent.CTRL_DOWN_MASK));
+				load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
 				load.setFont(GraphicDisplay.font);
 
 				menuControl = new JMenu("Control");
@@ -166,8 +173,7 @@ public class MainFrame {
 				menuControl.addMouseMotionListener(focusMouseMotionListener);
 
 				jmiHiddenPlayPause = new JMenuItem("Play / Pause");
-				jmiHiddenPlayPause.setAccelerator(KeyStroke.getKeyStroke(
-						KeyEvent.VK_SPACE, 0));
+				jmiHiddenPlayPause.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0));
 				jmiHiddenPlayPause.setFont(GraphicDisplay.font);
 				jmiHiddenPlayPause.addActionListener(new ActionListener() {
 					@Override
@@ -177,8 +183,7 @@ public class MainFrame {
 				});
 
 				jmiNextStep = new JMenuItem("Next Step");
-				jmiNextStep.setAccelerator(KeyStroke.getKeyStroke(
-						KeyEvent.VK_ENTER, 0));
+				jmiNextStep.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
 				jmiNextStep.setFont(GraphicDisplay.font);
 				jmiNextStep.addActionListener(new ActionListener() {
 					@Override
@@ -194,8 +199,7 @@ public class MainFrame {
 				});
 
 				jmiStop = new JMenuItem("Stop");
-				jmiStop.setAccelerator(KeyStroke.getKeyStroke(
-						KeyEvent.VK_ESCAPE, 0));
+				jmiStop.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
 				jmiStop.setFont(GraphicDisplay.font);
 				jmiStop.addActionListener(new ActionListener() {
 					@Override
@@ -215,9 +219,7 @@ public class MainFrame {
 				loadLast = new JMenuItem("Load last");
 				loadLast.setEnabled(false);
 				try {
-					File f = new File(this.getClass()
-							.getResource("/display/lastOpenSimulation.dat")
-							.getPath());
+					File f = new File(this.getClass().getResource("/display/lastOpenSimulation.dat").getPath());
 					Scanner scan = new Scanner(f);
 					lastOpen = scan.nextLine();
 					scan.close();
@@ -234,20 +236,17 @@ public class MainFrame {
 				}
 
 				loadLast.setMnemonic('l');
-				loadLast.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
-						InputEvent.CTRL_DOWN_MASK));
+				loadLast.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
 				loadLast.setFont(GraphicDisplay.font);
 
 				replay = new JMenuItem("replay simulation");
 				replay.setMnemonic('r');
-				replay.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,
-						InputEvent.CTRL_DOWN_MASK));
+				replay.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
 				replay.setFont(GraphicDisplay.font);
 
 				missionsGenerator = new JMenuItem("Missions generator");
 				missionsGenerator.setMnemonic('m');
-				missionsGenerator.setAccelerator(KeyStroke.getKeyStroke(
-						KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK));
+				missionsGenerator.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK));
 				missionsGenerator.setFont(GraphicDisplay.font);
 				missionsGenerator.addActionListener(new ActionListener() {
 					@Override
@@ -268,11 +267,9 @@ public class MainFrame {
 					}
 				});
 
-				lhEventsGenerator = new JMenuItem(
-						"Laser head range events generator");
+				lhEventsGenerator = new JMenuItem("Laser head range events generator");
 				lhEventsGenerator.setMnemonic('l');
-				lhEventsGenerator.setAccelerator(KeyStroke.getKeyStroke(
-						KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
+				lhEventsGenerator.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
 				lhEventsGenerator.setFont(GraphicDisplay.font);
 				lhEventsGenerator.addActionListener(new ActionListener() {
 					@Override
@@ -309,20 +306,13 @@ public class MainFrame {
 				loadLast.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						load.setEnabled(false);
-						loadLast.setEnabled(false);
-						replay.setEnabled(false);
-						initialStateGenerator.setEnabled(false);
-						missionsGenerator.setEnabled(false);
-						lhEventsGenerator.setEnabled(false);
-						loadSimulation(lastOpen);
+						loadLast();
 					}
 				});
 
 				JMenuItem exit = new JMenuItem("exit");
 				exit.setMnemonic('e');
-				exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
-						InputEvent.CTRL_DOWN_MASK));
+				exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
 				exit.setFont(GraphicDisplay.font);
 				exit.addActionListener(new ActionListener() {
 					@Override
@@ -339,63 +329,17 @@ public class MainFrame {
 				newSimulation.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						final NewSimulationDialog simDialog = new NewSimulationDialog(
-								frame);
-						// Lock call
-						SimulationParameter parameters = simDialog
-								.getSelection();
-						Integer scenarioID = parameters.getScenarioID();
-
-						SchedulingAlgorithmBean schedulingAlgorithm = parameters
-								.getSchedulingAlgorithmBean();
-						if (scenarioID != null && schedulingAlgorithm != null) {
-							// Create a simulation according to the given
-							// scenario properties
-
-							SimulationBuilder builder = new SimulationBuilder(
-									scenarioID, schedulingAlgorithm, parameters
-											.getSeed());
-							builder.build();
-							final SimulationBean bean = builder
-									.getSimulationBean();
-							if (bean != null) {
-								SwingUtilities.invokeLater(new Runnable() {
-
-									@Override
-									public void run() {
-										Terminal.getInstance().setTextDisplay(
-												GraphicDisplayPanel
-														.getInstance());
-
-									}
-								});
-								Thread.currentThread().setName(
-										"D2ctsLoaderThread");
-								SimulationLoader.getInstance().load(bean);
-
-								// Terminal.getInstance().drawElements();
-							}
-						}
+						newSimulation();
 					}
 				});
 
 				load.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						//Set simulation chooser panel as in New Simulation
-						//SIM ID - DATE REC - SCENARIO ID - SCENARIO NAME - TERMINAL ID - TERMINAL LABEL
-						final LoadSimulationDialog simDialog = new LoadSimulationDialog(frame);
-						// Lock call
-						Integer simID = simDialog.getSelection();
-						
-						if (simID != null) {
-							// Open the given simulation
-							loadSimulation(simID+"");
-						}
+						loadSimulation();
 					}
 				});
-						
-						
+
 				menuFile.add(newSimulation);
 				menuFile.add(load);
 				menuFile.add(loadLast);
@@ -418,8 +362,7 @@ public class MainFrame {
 				stepSize = new JMenuItem("Set step size");
 				stepSize.setMnemonic('s');
 				stepSize.setFont(GraphicDisplay.font);
-				stepSize.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-						InputEvent.CTRL_DOWN_MASK));
+				stepSize.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
 				stepSize.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
@@ -450,13 +393,11 @@ public class MainFrame {
 				Point p = new Point(0, 0);
 				frame.setLocation(p);
 
-				frame.setIconImage(new ImageIcon(this.getClass().getResource(
-						MAINFRAME_ICON_URL), "logo").getImage());
+				frame.setIconImage(new ImageIcon(this.getClass().getResource(MAINFRAME_ICON_URL), "logo").getImage());
 
 				splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true);
 
-				frame.getContentPane().setBackground(
-						new Color(255, 255, 255, 0));
+				frame.getContentPane().setBackground(new Color(255, 255, 255, 0));
 				frame.getContentPane().add(splitPane, BorderLayout.CENTER);
 
 				// frame.setUndecorated(true);
@@ -489,29 +430,36 @@ public class MainFrame {
 		return frame;
 	}
 
-	public void setSimReady(boolean ready) {
+	/*public void setSimReady(boolean ready) {
 		if (ready) {
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-			stepSize.setEnabled(true);
-			toolbar.activate();
+			
 
 		}
-	}
+	}*/
 
 	public Toolbar getToolbar() {
 		return toolbar;
 	}
 
+	public void setWaitMode(boolean on){
+		if(on){
+			frame.getRootPane().getGlassPane().setVisible(true);
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			System.out.println("Wait mode on in thread "+Thread.currentThread().getName());
+		} else {
+			frame.getRootPane().getGlassPane().setVisible(false);
+//			frame.repaint();
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			
+			System.out.println("Wait mode off in thread "+Thread.currentThread().getName());
+		}
+	}
+
 	public void loadSimulation(final String simID) {
-		frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		// op = new SimulationRunner(configFile, MainFrame.this, true);
-
-		SimulationBean bean = SimulationDAO.getInstance().get(
-				Integer.parseInt(simID));
+		SimulationBean bean = SimulationDAO.getInstance().get(Integer.parseInt(simID));
+		Terminal.getInstance().setTextDisplay(GraphicDisplayPanel.getInstance());
 		SimulationLoader.getInstance().load(bean);
-
-		jmiNextStep.setEnabled(true);
-		jmiHiddenPlayPause.setEnabled(true);
 	}
 
 	/*
@@ -561,35 +509,22 @@ public class MainFrame {
 	}
 
 	public void closeSimulation() {
-		try {
-			DbMgr.getInstance().commitAndClose();
-		} catch (SQLException e) {
-			log.fatal(e.getMessage(), e);
-		}
+
 
 		Thread t = new Thread() {
 			public void run() {
 				Thread.currentThread().setName("ClosingThread");
 				stepSize.setEnabled(false);
 				jdClosing = new JDialog(frame, "Closing...", false);
-				jdClosing.add(
-						new JLabel("Closing simulation...", JLabel.CENTER),
-						BorderLayout.CENTER);
+				jdClosing.add(new JLabel("Closing simulation...", JLabel.CENTER), BorderLayout.CENTER);
 				jdClosing.setSize(300, 75);
 				frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				jdClosing.setCursor(Cursor
-						.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				jdClosing.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				jdClosing.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-				jdClosing.setLocation(
-						frame.getLocation().x
-								+ (frame.getSize().width / 2 - jdClosing
-										.getSize().width / 2),
-						frame.getLocation().y
-								+ (frame.getSize().height / 2 - jdClosing
-										.getSize().height / 2));
+				jdClosing.setLocation(frame.getLocation().x + (frame.getSize().width / 2 - jdClosing.getSize().width / 2), frame.getLocation().y
+						+ (frame.getSize().height / 2 - jdClosing.getSize().height / 2));
 				jdClosing.setAlwaysOnTop(true);
 				jdClosing.setVisible(true);
-
 			}
 		};
 		SwingUtilities.invokeLater(t);
@@ -598,6 +533,21 @@ public class MainFrame {
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
+
+		try {
+			DbMgr.getInstance().commitAndClose();
+			Terminal.closeInstance();
+			MissionScheduler.closeInstance();
+			LaserSystem.closeInstance();
+			JTerminal.closeInstance();
+			TimeScheduler.closeInstance();
+			GraphicDisplayPanel.closeInstance();
+			SimulationLoader.closeInstance();
+			Ant.resetAll();
+		} catch (SQLException e) {
+			log.fatal(e.getMessage(), e);
+		}
+
 		load.setEnabled(true);
 		loadLast.setEnabled(true);
 		replay.setEnabled(true);
@@ -609,8 +559,8 @@ public class MainFrame {
 		jmiNextStep.setEnabled(false);
 		jmiStop.setEnabled(false);
 
-		// op.destroy();
-
+		closeJDClosing();
+		log.info("---------------------------------------------------------------");
 	}
 
 	public String getLocalHostName() {
@@ -622,10 +572,8 @@ public class MainFrame {
 			@Override
 			public void run() {
 				jdClosing.setVisible(false);
-				frame.setCursor(Cursor
-						.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				jdClosing.setCursor(Cursor
-						.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				jdClosing.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				jdClosing.dispose();
 			}
 		});
@@ -668,8 +616,167 @@ public class MainFrame {
 				setGraphicDisplay(GraphicDisplayPanel.getInstance().getPanel());
 				getToolbar().setTimeControler(new TimeController());
 				setJTerminal(JTerminal.getInstance().getPanel());
-				setSimReady(true);
 			}
 		});
+	}
+
+	private void loadLast() {
+		Thread t = new Thread(){
+			public void run(){
+				Thread.currentThread().setName("D2ctsLoaderThread");
+				try{
+					SwingUtilities.invokeAndWait(new Runnable(){
+						public void run(){
+							setWaitMode(true);
+							load.setEnabled(false);
+							loadLast.setEnabled(false);
+							replay.setEnabled(false);
+							initialStateGenerator.setEnabled(false);
+							missionsGenerator.setEnabled(false);
+							lhEventsGenerator.setEnabled(false);		
+						}
+					});
+				} catch (Exception e){
+					log.error(e);
+				}
+
+				loadSimulation(lastOpen);
+
+				try{
+					SwingUtilities.invokeAndWait(new Runnable(){
+						public void run(){
+							jmiNextStep.setEnabled(true);
+							jmiHiddenPlayPause.setEnabled(true);
+							stepSize.setEnabled(true);
+							toolbar.activate();
+							setWaitMode(false);
+						}
+					});
+				} catch (Exception e){
+					log.error(e);
+				}
+			}
+		};
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.start();
+
+	}
+
+	private void loadSimulation(){
+		Thread t = new Thread(){
+			public void run(){
+				try{
+					SwingUtilities.invokeAndWait(new Runnable(){
+						public void run(){
+							setWaitMode(true);
+							load.setEnabled(false);
+							loadLast.setEnabled(false);
+							replay.setEnabled(false);
+							initialStateGenerator.setEnabled(false);
+							missionsGenerator.setEnabled(false);
+							lhEventsGenerator.setEnabled(false);
+						}
+					});
+				} catch(Exception e){
+					log.error(e);
+				}
+				// Set simulation chooser panel as in New Simulation
+				// SIM ID - DATE REC - SCENARIO ID - SCENARIO NAME -
+				// TERMINAL ID - TERMINAL LABEL
+				final LoadSimulationDialog simDialog = new LoadSimulationDialog(frame);
+				// Lock call
+				final Integer simID = simDialog.getSelection();
+
+				if (simID != null) {
+					// Open the given simulation
+					Thread.currentThread().setName("D2ctsLoaderThread");
+					loadSimulation(simID + "");
+				}
+
+				try{
+					SwingUtilities.invokeAndWait(new Runnable(){
+						public void run(){
+							jmiNextStep.setEnabled(true);
+							jmiHiddenPlayPause.setEnabled(true);
+							stepSize.setEnabled(true);
+							toolbar.activate();
+							setWaitMode(false);
+						}
+					});
+				} catch(Exception e){
+					log.error(e);
+				}
+			}
+		};
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.start();
+
+	}
+
+	private void newSimulation(){
+		Thread t = new Thread(){
+			public void run(){
+				try{
+					SwingUtilities.invokeAndWait(new Runnable(){
+						public void run(){
+							setWaitMode(true);
+							load.setEnabled(false);
+							loadLast.setEnabled(false);
+							replay.setEnabled(false);
+							initialStateGenerator.setEnabled(false);
+							missionsGenerator.setEnabled(false);
+							lhEventsGenerator.setEnabled(false);
+						}
+					});
+				} catch(Exception e){
+					log.error(e);
+				}
+
+				final NewSimulationDialog simDialog = new NewSimulationDialog(frame);
+				// Lock call
+				SimulationParameter parameters = simDialog.getSelection();
+				if(parameters != null){
+					Integer scenarioID = parameters.getScenarioID();
+
+					SchedulingAlgorithmBean schedulingAlgorithm = parameters.getSchedulingAlgorithmBean();
+					if (scenarioID != null && schedulingAlgorithm != null) {
+						// Create a simulation according to the given
+						// scenario properties
+
+						SimulationBuilder builder = new SimulationBuilder(scenarioID, schedulingAlgorithm, parameters.getSeed());
+						builder.build();
+						final SimulationBean bean = builder.getSimulationBean();
+						if (bean != null) {
+//							SwingUtilities.invokeLater(new Runnable() {
+//								@Override
+//								public void run() {
+									Terminal.getInstance().setTextDisplay(GraphicDisplayPanel.getInstance());
+
+//								}
+//							});
+							Thread.currentThread().setName("D2ctsLoaderThread");
+							SimulationLoader.getInstance().load(bean);
+
+							try{
+								SwingUtilities.invokeAndWait(new Runnable(){
+									public void run(){
+										jmiNextStep.setEnabled(true);
+										jmiHiddenPlayPause.setEnabled(true);
+										stepSize.setEnabled(true);
+										toolbar.activate();
+										setWaitMode(false);
+									}
+								});
+							} catch(Exception e){
+								log.error(e);
+							}
+						}
+					}
+				}
+			}
+		};
+		
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.start();
 	}
 }

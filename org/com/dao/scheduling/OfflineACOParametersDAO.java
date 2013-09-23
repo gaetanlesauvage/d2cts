@@ -3,29 +3,40 @@ package org.com.dao.scheduling;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.com.DbMgr;
 import org.com.model.scheduling.OfflineACOParametersBean;
+import org.com.model.scheduling.ParameterBean;
 import org.scheduling.offlineACO.OfflineACOScheduler;
 
-public class OfflineACOParametersDAO
-		extends
-		AbstractSchedulingParameterDAO<OfflineACOScheduler, OfflineACOParametersBean> {
-	private static OfflineACOParametersDAO instance;
-	private boolean loaded;
+public class OfflineACOParametersDAO extends AbstractSchedulingParameterDAO<OfflineACOScheduler> {
+	private static Map<Integer, OfflineACOParametersDAO> instances;
 
 	private OfflineACOParametersDAO(Integer simID) {
-		super();
-		this.simID = simID;
-		this.loaded = false;
+		super(simID);
 	}
 
 	public static OfflineACOParametersDAO getInstance(Integer simID) {
-		if (instance == null) {
-			instance = new OfflineACOParametersDAO(simID);
+		if(instances == null)
+			instances = new HashMap<>();
+		
+		if (instances.containsKey(simID))
+			return instances.get(simID);
+		else {
+			OfflineACOParametersDAO instance = new OfflineACOParametersDAO(simID);
+			instances.put(simID, instance);
+			return instance;
 		}
-		return instance;
+	}
+	
+	public static Iterator<OfflineACOParametersDAO> getInstances(){
+		if(instances == null){
+			instances = new HashMap<>();
+		}
+		return instances.values().iterator();
 	}
 
 	@Override
@@ -35,28 +46,25 @@ public class OfflineACOParametersDAO
 		}
 		beans = new ArrayList<>();
 
-		psLoad.setInt(1, simID);
+		psLoad.setString(1, OfflineACOScheduler.rmiBindingName);
+		psLoad.setInt(2, simID);
+		
 		ResultSet rs = psLoad.executeQuery();
 
 		while (rs.next()) {
 			OfflineACOParametersBean parameter = OfflineACOParametersBean.get(rs.getString("NAME"));
-			parameter.setValue(rs.getString("VALUE"));
-			parameter.setSQLID(rs.getInt("ID") == 0 ? null : rs.getInt("ID"));
-			beans.add(parameter);
+			ParameterBean p = new ParameterBean(parameter.name(), parameter.getType());
+			p.setValue(rs.getString("VALUE"));
+			beans.add(p);
 		}
 
 		if (rs != null) {
 			rs.close();
 		}
-
 		loaded = true;
 	}
 
-	@Override
-	public List<OfflineACOParametersBean> get() throws SQLException {
-		if (!loaded) {
-			load();
-		}
-		return OfflineACOParametersBean.getAll();
+	public static void closeInstance() {
+		instances = null;
 	}
 }

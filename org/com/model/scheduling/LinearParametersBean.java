@@ -75,7 +75,7 @@ public enum LinearParametersBean implements SchedulingParametersBeanInterface {
 
 	public static LinearParametersBean get(String name) {
 		for (LinearParametersBean param : LinearParametersBean.values()) {
-			if (param.name.equals(name))
+			if (param.name.equalsIgnoreCase(name))
 				return param;
 		}
 		return null;
@@ -90,11 +90,19 @@ public enum LinearParametersBean implements SchedulingParametersBeanInterface {
 		return t;
 	}
 
-	public static List<LinearParametersBean> getAll() {
-		List<LinearParametersBean> l = new ArrayList<>(values().length);
+	public static List<ParameterBean> getAll() {
+		List<ParameterBean> l = new ArrayList<>(values().length);
 		for (LinearParametersBean b : values()) {
-			l.add(b);
+			l.add(b.getParameter());
 		}
 		return l;
+	}
+	
+	@Override
+	public ParameterBean getParameter(){
+		ParameterBean p = new ParameterBean(name, ParameterType.DOUBLE);
+		p.setValue(value);
+		p.setSQLID(getSQLID());
+		return p;
 	}
 }

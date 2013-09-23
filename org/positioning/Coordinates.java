@@ -50,8 +50,4 @@ public class Coordinates implements Comparable<Coordinates> {
 		buffer.trimToSize();
 		return buffer.toString();
 	}
-
-	public void destroy() {
-		x=y=z=null;
-	}
 }

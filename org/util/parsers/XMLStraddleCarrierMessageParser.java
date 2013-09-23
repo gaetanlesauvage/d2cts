@@ -177,7 +177,5 @@ public class XMLStraddleCarrierMessageParser implements ContentHandler {
 
 	}
 
-	public void destroy() {
-
-	}
+	
 }

@@ -58,6 +58,7 @@ public class LaserHeadDAO implements D2ctsDao<LaserHeadBean>{
 		if(psLoad != null){
 			psLoad.close();
 		}
+		instances = null;
 		log.info("LaserHeadDAO of terminal "+scenarioID+" closed.");
 	}
 

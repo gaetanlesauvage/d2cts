@@ -8,7 +8,9 @@ import org.missions.Mission;
 import org.missions.MissionState;
 import org.missions.Workload;
 import org.scheduling.display.JMissionScheduler;
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 import org.time.event.AffectMission;
 import org.vehicles.StraddleCarrier;
 
@@ -24,6 +26,10 @@ public class LinearMissionScheduler extends MissionScheduler {
 			init();
 	}
 
+	public static void closeInstance(){
+		//Nothing to do
+	}
+	
 	@Override
 	public String getId() {
 		return LinearMissionScheduler.rmiBindingName;
@@ -32,9 +38,9 @@ public class LinearMissionScheduler extends MissionScheduler {
 	protected void init() {
 		init = true;
 		step = 0;
-		sstep = rts.getStep() + 1;
-		for (String s : rt.getMissionsName()) {
-			Mission m = rt.getMission(s);
+		sstep = TimeScheduler.getInstance().getStep() + 1;
+		for (String s : Terminal.getInstance().getMissionsName()) {
+			Mission m = Terminal.getInstance().getMission(s);
 			if (!pool.contains(m))
 				pool.add(m);
 			else
@@ -42,8 +48,8 @@ public class LinearMissionScheduler extends MissionScheduler {
 						+ " not added because already present in the pool");
 			// addMission(new Time(step), m);
 		}
-		for (String s : rt.getStraddleCarriersName()) {
-			StraddleCarrier rsc = rt.getStraddleCarrier(s);
+		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
+			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
 			addResource(new Time(step), rsc);
 		}
 
@@ -86,10 +92,10 @@ public class LinearMissionScheduler extends MissionScheduler {
 					Mission m = pool.remove(0);
 					rsc.addMissionInWorkload(m);
 
-					AffectMission am = new AffectMission(rts.getTime(),
+					AffectMission am = new AffectMission(TimeScheduler.getInstance().getTime(),
 							m.getId(), rsc.getId());
 					am.writeEventInDb();
-					TextDisplay rtOut = rt.getTextDisplay();
+					TextDisplay rtOut = Terminal.getInstance().getTextDisplay();
 					if (rtOut != null) {
 						rtOut.setVehicleToMission(m.getId(), rsc.getId());
 					}
@@ -98,7 +104,7 @@ public class LinearMissionScheduler extends MissionScheduler {
 				// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
 			}
 			computeTime = System.nanoTime() - tNow;
-			rt.flushAllocations();
+			Terminal.getInstance().flushAllocations();
 		}
 	}
 
@@ -129,7 +135,7 @@ public class LinearMissionScheduler extends MissionScheduler {
 			}
 		}
 		if (terminated)
-			rts.computeEndTime();
+			TimeScheduler.getInstance().computeEndTime();
 
 		super.incrementNumberOfCompletedMissions(resourceID);
 	}

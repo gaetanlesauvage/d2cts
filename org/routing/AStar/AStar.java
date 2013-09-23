@@ -30,7 +30,6 @@ import org.vehicles.models.SpeedCharacteristics;
 
 public class AStar {
 	private String origin, destination;
-	private static Terminal rt;
 	private SpeedCharacteristics speed;
 	private HashMap<String, String> cameFrom;
 	private TreeSet<AStarNode> open;
@@ -42,9 +41,7 @@ public class AStar {
 	public AStar(String origin, String dest, SpeedCharacteristics s) {
 		this.origin = origin;
 		this.destination = dest;
-		if (AStar.rt == null) {
-			AStar.rt = Terminal.getInstance();
-		}
+		
 		this.speed = s;
 	}
 
@@ -61,8 +58,8 @@ public class AStar {
 	public void compute() {
 		init();
 
-		RoadPoint rpOrigin = rt.getNode(origin);
-		RoadPoint rpDestination = rt.getNode(destination);
+		RoadPoint rpOrigin = Terminal.getInstance().getNode(origin);
+		RoadPoint rpDestination = Terminal.getInstance().getNode(destination);
 		AStarNode first = new AStarNode(origin, null, 0, heuristic.heuristic(
 				rpOrigin, rpDestination));
 		open.add(first);
@@ -79,11 +76,11 @@ public class AStar {
 				openDic.remove(runningNode.getNodeId());
 
 				close.put(runningNode.getNodeId(), runningNode);
-				RoadPoint rpRuninngNode = rt.getNode(runningNode.getNodeId());
+				RoadPoint rpRuninngNode = Terminal.getInstance().getNode(runningNode.getNodeId());
 				for (String connexNode : rpRuninngNode.getConnexNodesIds()) {
-					RoadPoint rpConnexNode = rt.getNode(connexNode);
+					RoadPoint rpConnexNode = Terminal.getInstance().getNode(connexNode);
 					double h = heuristic.heuristic(rpConnexNode, rpDestination);
-					Road by = rt.getRoadBetween(rpRuninngNode.getId(),
+					Road by = Terminal.getInstance().getRoadBetween(rpRuninngNode.getId(),
 							connexNode);
 					double g = runningNode.getG()
 							+ heuristic.cost(rpRuninngNode, rpConnexNode, by);
@@ -135,10 +132,6 @@ public class AStar {
 			path = new RoutingPath();
 		else
 			path.clear();
-	}
-
-	public void destroy() {
-		rt = null;
 	}
 
 	public void setHeuristic(AStarHeuristic h) {

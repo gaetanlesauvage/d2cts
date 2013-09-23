@@ -24,8 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.exceptions.IllegalSlotChangeException;
+import org.system.Terminal;
 import org.system.container_stocking.Container;
 import org.time.Time;
+import org.time.TimeScheduler;
 
 public class VehicleIn extends DynamicEvent {
 	private List<String> slotIds;
@@ -93,7 +95,7 @@ public class VehicleIn extends DynamicEvent {
 
 	@Override
 	public void execute() {
-		boolean b = terminal.vehicleIn(vehicleID, originalTime, slotIds,
+		boolean b = Terminal.getInstance().vehicleIn(vehicleID, originalTime, slotIds,
 				containers);
 		// System.out.println("VEHICLE IN : "+vehicleID+" = "+b+" at "+slotIds.get(0));
 		if (!b) {
@@ -102,8 +104,8 @@ public class VehicleIn extends DynamicEvent {
 				alreadyAdviced = true;
 			}
 
-			super.time = scheduler.getTime();
-			scheduler.registerDynamicEvent(this);
+			super.time = TimeScheduler.getInstance().getTime();
+			TimeScheduler.getInstance().registerDynamicEvent(this);
 		} else
 			writeEventInDb();
 	}

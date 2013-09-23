@@ -70,6 +70,7 @@ public class BlockDAO implements D2ctsDao<BlockBean> {
 		if (psLoadWallPoints != null) {
 			psLoadWallPoints.close();
 		}
+		instances = null;
 		log.info("BlockDAO of terminal " + terminalID + " closed.");
 	}
 

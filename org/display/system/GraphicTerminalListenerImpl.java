@@ -224,7 +224,8 @@ public class GraphicTerminalListenerImpl implements GraphicTerminalListener {
 		}
 		// if(!spStraddle.getAttribute("ui.style").equals(style))
 		// spStraddle.addAttribute( "ui.style", style);
-		spStraddle.setAttribute("ui.style", style);
+		if(!spStraddle.getAttribute("ui.style").equals(style))
+			spStraddle.setAttribute("ui.style", style);
 	}
 
 	@Override
@@ -291,18 +292,6 @@ public class GraphicTerminalListenerImpl implements GraphicTerminalListener {
 	public void roadSelected(String roadId) {
 		System.out
 		.println("TODO GraphicTerminalListener.roadSelected(String roadId) !");
-	}
-
-	@Override
-	public void destroy() {
-		JTerminal.getInstance().destroy();
-		System.out.println("GraphicTerminalListener destroyed !");
-
-		try {
-			this.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override

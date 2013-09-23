@@ -49,9 +49,5 @@ public class SelectedSlot {
 	public String getPreviousStyle(){
 		return previousStyle;
 	}
-	public void destroy(){
-		id = "";
-		slotId = "";
-		previousStyle = null;
-	}
+	
 }

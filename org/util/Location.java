@@ -20,7 +20,6 @@
 package org.util;
 
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.positioning.Coordinates;
@@ -40,12 +39,7 @@ import org.system.RoadPoint;
  * @since 2009
  *
  */
-public class Location implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8482426369425737472L;
-	
+public class Location {
 	/**
 	 * Gives the rate of a location on a given road taking into account the non-linearity of this road
 	 * @param c The location
@@ -113,11 +107,8 @@ public class Location implements Serializable{
 	}
 	
 	private Road road;
-	
 	private Coordinates coords;
-	
 	private double pourcent;
-	
 	private boolean direction; //true = origin -> destination | false = destination -> origin
 
 	/**
@@ -331,9 +322,4 @@ public class Location implements Serializable{
 		else return nextPourcent < targetRate;
 	}
 
-
-	public void destroy() {
-		coords.destroy();
-		road.destroy();
-	}
 }

@@ -3,9 +3,11 @@ package org.scheduling;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.missions.Mission;
-import org.scheduling.offlineACO.OfflineACOScheduler;
 import org.scheduling.onlineACO.OnlineACOScheduler;
 import org.vehicles.StraddleCarrier;
 
@@ -16,11 +18,11 @@ public class ScheduleTask<E extends ScheduleEdge> {
 	protected Mission m;
 
 	// Cost from P to D;
-	private HashMap<String, Double> cost;
-	private double distance;
+	private Map<String, Double> cost;
+	private Double distance;
 
 	// Map outgoing edges by target node ID
-	protected HashMap<String, E> outgoingEdges;
+	protected SortedMap<String, E> outgoingEdges;
 
 	public ScheduleTask(ScheduleTask<E> toCopy) {
 		this(toCopy.m);
@@ -35,8 +37,8 @@ public class ScheduleTask<E extends ScheduleEdge> {
 
 	public ScheduleTask(Mission m) {
 		this.m = m;
-		outgoingEdges = new HashMap<String, E>();
-		cost = new HashMap<String, Double>();
+		outgoingEdges = new TreeMap<>();
+		cost = new HashMap<>();
 		distance = Double.NEGATIVE_INFINITY;
 	}
 
@@ -119,9 +121,9 @@ public class ScheduleTask<E extends ScheduleEdge> {
 		if (outgoingEdges != null) {
 			if (outgoingEdges.size() > 0) {
 
-				if (this == OfflineACOScheduler.getInstance().SOURCE_NODE
-						|| this == OnlineACOScheduler.getDepotNode()
-						|| this == OnlineACOScheduler.getEndNode()) {
+				if (this == MissionScheduler.getInstance().SOURCE_NODE
+						|| this == OnlineACOScheduler.getInstance().getDepotNode()
+						|| this == OnlineACOScheduler.getInstance().getEndNode()) {
 					for (ScheduleEdge e : outgoingEdges.values()) {
 						e.destroy();
 					}

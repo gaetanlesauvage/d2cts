@@ -24,7 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
@@ -34,6 +33,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -43,6 +44,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
 import org.com.model.scheduling.OnlineACOParametersBean;
 import org.display.GraphicDisplay;
 import org.exceptions.EmptyResourcesException;
@@ -72,14 +74,11 @@ import org.scheduling.aco.graph.AntNode;
 import org.scheduling.aco.graph.DepotNode;
 import org.scheduling.aco.graph.EndNode;
 import org.scheduling.display.JMissionScheduler;
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 import org.util.Location;
 import org.vehicles.StraddleCarrier;
-//import javax.swing.JLabel;
-//import javax.swing.JSpinner;
-//import javax.swing.SpinnerNumberModel;
-//import javax.swing.event.ChangeEvent;
-//import javax.swing.event.ChangeListener;
 
 /**
  * Mission Scheduler using an ACO based algorithm
@@ -88,84 +87,83 @@ import org.vehicles.StraddleCarrier;
  * @since 2011
  */
 public final class OnlineACOScheduler extends MissionScheduler {
+	public static final Logger log = Logger.getLogger(OnlineACOScheduler.class);
+
 	// RMI
 	public static final String rmiBindingName = "OnlineACOScheduler";
 
+	public static OnlineACOScheduler getInstance() {
+		return (OnlineACOScheduler) MissionScheduler.instance;
+	}
+
 	// Mission Graph
-	private static Graph graph;
-	private static DepotNode depot;
-	private static EndNode end;
+	private Graph graph;
+	private DepotNode depot;
+	private EndNode end;
 
 	// Mission Graph GUI
-	private static SpriteManager spriteManager;
-	private static Viewer viewer;
-	private static View view;
-	private static GraphRenderer renderer;
-	private static ACOLayout layout;
-	private static GraphicNode selectedNode = null;
-	private static JToolBar jtb;
+	private SpriteManager spriteManager;
+	private Viewer viewer;
+	private View view;
+	private GraphRenderer renderer;
+	private ACOLayout layout;
+	private GraphicNode selectedNode;
+	private JToolBar jtb;
 
 	// ACO Graph data
-	private static final Map<String, AntMissionNode> missionsNodes = new HashMap<String, AntMissionNode>();
-	private static final Map<String, AntHill> hillsNodes = new HashMap<String, AntHill>();
+	private SortedMap<String, AntMissionNode> missionsNodes;
+	private SortedMap<String, AntHill> hillsNodes;
 
 	// ACO
-	private static ACOParameters globalParameters;
+	private ACOParameters globalParameters;
 
 	// TIME SYNCHRONIZATION
 	// private static JSpinner jsSyncSize;
-	private static int syncSize;
+	private int syncSize;
 	// private static boolean interrupt = false;
 	// private static Thread algoThread;
 
 	// OPTIONS
-	private static JCheckBox jcbDisplayWeights;
-	private static JProgressBar jpb;
-	private static JDialog progressBarFrame;
+	private JCheckBox jcbDisplayWeights;
+	private JProgressBar jpb;
+	private JDialog progressBarFrame;
 
-	private static HashMap<String, Location> lastLocations;
-	private static HashMap<String, String> currentMissions;
+	private Map<String, Location> lastLocations;
+	private Map<String, String> currentMissions;
 
 	/**
 	 * Max number of ants in a colony
 	 */
-	private static int nbAntMax; // Used to iterate one ant of each colony at a
+	private int nbAntMax; // Used to iterate one ant of each colony at a
 	// time
-	private static ArrayList<AntMissionNode> toDestroy;
+	private List<AntMissionNode> toDestroy;
 
-	
-	
 	/* ======================== CONSTRUCTORS ======================== */
 	/**
 	 * Constructor with default host
 	 */
 	public OnlineACOScheduler() {
 		super();
+		// FIXME check why this test is necessary
 		if (globalParameters == null) {
 			globalParameters = OnlineACOParametersBean.getACOParameters();
 			evalParameters = OnlineACOParametersBean.getEvalParameters();
-			/*double alpha = 1.0;
-			double beta = 1.2;
-			double persistence = 0.92;
-			double gamma = 1.0;
-			double delta = 0.2;
-			double Q = 1.5;
-			double QR = 0;
-			double F1 = 1;
-			double F2 = 5;
-			double F3 = 10;
-			syncSize = 100;
-			globalParameters = new ACOParameters(alpha, beta, gamma, delta,
-					persistence, Q, QR, syncSize, F1, F2, F3);*/
-			//System.out
-			//.println("GLOBAL PARAMETERS WERE UNDEFINED. -> SET TO DEFAULT");
 		}
-		System.out.println("ACO PARAMETERS: " + globalParameters);
-		lastLocations = new HashMap<String, Location>();
-		currentMissions = new HashMap<String, String>();
-		MissionScheduler.instance = this;   
-		if(!init)
+
+		log.info("ACO PARAMETERS: " + globalParameters);
+
+		lastLocations = new HashMap<>();
+		currentMissions = new HashMap<>();
+		missionsNodes = new TreeMap<>();
+		hillsNodes = new TreeMap<String, AntHill>();
+
+		MissionScheduler.instance = this;
+		if (!init)
 			init();
+	}
+
+	public static void closeInstance() {
+		// Nothing to do
 	}
 
 	/**
@@ -173,7 +171,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The start node of the graph.
 	 */
-	public static DepotNode getDepotNode() {
+	public DepotNode getDepotNode() {
 		return depot;
 	}
 
@@ -182,7 +180,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The end node of the graph.
 	 */
-	public static EndNode getEndNode() {
+	public EndNode getEndNode() {
 		return end;
 	}
 
@@ -193,7 +191,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * @param newAntCount
 	 *            New ant count in the colony where an ant has been added.
 	 */
-	public static void antAdded(int newAntCount) {
+	public void antAdded(int newAntCount) {
 		if (nbAntMax < newAntCount)
 			nbAntMax = newAntCount;
 	}
@@ -202,7 +200,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * Update the max count of ants in a colony when an ant has been removed in
 	 * a colony.
 	 */
-	public static void antRemoved() {
+	public void antRemoved() {
 		// FIND NEW MAX ANT COUNT
 		nbAntMax = 0;
 		for (AntHill hill : hillsNodes.values()) {
@@ -224,7 +222,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		init = true;
 		computeTime = 0;
 		step = 0;
-		sstep = rts.getStep() + 1;
+		sstep = TimeScheduler.getInstance().getStep() + 1;
 
 		lock.lock();
 		graphChanged = true;
@@ -244,15 +242,13 @@ public final class OnlineACOScheduler extends MissionScheduler {
 
 		spriteManager = new SpriteManager(graph);
 
-		graph.addAttribute("ui.stylesheet",
-				"url('org/scheduling/onlineACO/missionGraph.css')");
+		graph.addAttribute("ui.stylesheet", "url('org/scheduling/onlineACO/missionGraph.css')");
 		graph.addAttribute("ui.antialias");
 		graph.addAttribute("ui.quality");
 		// System.setProperty(
 		// "gs.ui.renderer","org.graphstream.ui.j2dviewer.J2DGraphRenderer" );
 		// //DEPRECATED
-		System.setProperty("org.graphstream.ui.renderer",
-				"org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 
 		viewer = new Viewer(graph, ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
 
@@ -286,8 +282,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 					// jsSyncSize.addChangeListener(cl);
 					// JLabel jlSyncSize = new JLabel("Synchronization size: ");
 					// jlSyncSize.setFont(GraphicDisplay.fontBold);
-					jtb = new JToolBar("MissionSchedulerToolBar",
-							JToolBar.HORIZONTAL);
+					jtb = new JToolBar("MissionSchedulerToolBar", JToolBar.HORIZONTAL);
 					// jtb.add(jlSyncSize);
 					// jtb.add(jsSyncSize);
 					// jtb.addSeparator();
@@ -302,13 +297,11 @@ public final class OnlineACOScheduler extends MissionScheduler {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							for (AntEdge edge : depot.getDestinations()) {
-								edge.displayWeight(jcbDisplayWeights
-										.isSelected());
+								edge.displayWeight(jcbDisplayWeights.isSelected());
 							}
 							for (AntMissionNode n : missionsNodes.values()) {
 								for (AntEdge edge : n.getDestinations()) {
-									edge.displayWeight(jcbDisplayWeights
-											.isSelected());
+									edge.displayWeight(jcbDisplayWeights.isSelected());
 								}
 							}
 						}
@@ -317,17 +310,14 @@ public final class OnlineACOScheduler extends MissionScheduler {
 					jtb.add(jcbDisplayWeights);
 
 					view = viewer.addView("view", renderer, false);
-					for (MouseMotionListener ml : view
-							.getMouseMotionListeners()) {
+					for (MouseMotionListener ml : view.getMouseMotionListeners()) {
 						view.removeMouseMotionListener(ml);
 					}
 					view.addMouseListener(new MouseAdapter() {
 						public void mousePressed(MouseEvent e) {
 
 							if (e.getButton() == MouseEvent.BUTTON1) {
-								ArrayList<GraphicElement> elts = renderer
-										.allNodesOrSpritesIn(e.getX(),
-												e.getY(), e.getX(), e.getY());
+								ArrayList<GraphicElement> elts = renderer.allNodesOrSpritesIn(e.getX(), e.getY(), e.getX(), e.getY());
 								if (elts != null && elts.size() > 0) {
 									for (int i = 0; i < elts.size(); i++) {
 										GraphicElement ge = elts.get(i);
@@ -348,56 +338,36 @@ public final class OnlineACOScheduler extends MissionScheduler {
 
 						public void mouseClicked(MouseEvent e) {
 							if (e.getButton() == MouseEvent.BUTTON1) {
-								ArrayList<GraphicElement> elts = renderer
-										.allNodesOrSpritesIn(e.getX(),
-												e.getY(), e.getX(), e.getY());
+								ArrayList<GraphicElement> elts = renderer.allNodesOrSpritesIn(e.getX(), e.getY(), e.getX(), e.getY());
 								if (elts != null && elts.size() > 0) {
 									for (int i = 0; i < elts.size(); i++) {
 										String id = elts.get(i).getId();
 										if (spriteManager.hasSprite(id)) {
-											Sprite s = spriteManager
-													.getSprite(id);
+											Sprite s = spriteManager.getSprite(id);
 											String values = "";
-											DecimalFormat df = new DecimalFormat(
-													"#.########");
-											Object[] t = s
-													.getAttribute("ui.pie-values");
+											DecimalFormat df = new DecimalFormat("#.########");
+											Object[] t = s.getAttribute("ui.pie-values");
 											if (t != null) {
 												int j = 0;
 												for (Object o : t) {
-													values += df
-															.format((Double) o);
+													values += df.format((Double) o);
 													if (j < t.length - 1)
 														values += " , ";
 													j++;
 												}
 
-												AntMissionNode amn = missionsNodes
-														.get(id);
+												AntMissionNode amn = missionsNodes.get(id);
 												String pop = "POP=(";
-												for (AntHill hill : hillsNodes
-														.values()) {
-													pop += hill.getID()
-															+ ": "
-															+ amn.getAntCount(hill
-																	.getID())
-																	+ " , ";
+												for (AntHill hill : hillsNodes.values()) {
+													pop += hill.getID() + ": " + amn.getAntCount(hill.getID()) + " , ";
 												}
 												pop.trim();
 												if (hillsNodes.size() > 0)
-													pop.substring(0,
-															pop.length() - 3);
+													pop.substring(0, pop.length() - 3);
 												pop += ")";
-												System.out.println(pop
-														+ " PH = ["
-														+ amn.getPheromoneValues()
-														+ "]");
+												System.out.println(pop + " PH = [" + amn.getPheromoneValues() + "]");
 
-												System.out
-												.println("sprite " + id
-														+ " @ " + s
-														+ " values : "
-														+ values);
+												System.out.println("sprite " + id + " @ " + s + " values : " + values);
 											}
 										}
 									}
@@ -416,8 +386,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 						@Override
 						public void mouseDragged(MouseEvent e) {
 							if (selectedNode != null) {
-								view.moveElementAtPx(selectedNode, e.getX(),
-										e.getY());
+								view.moveElementAtPx(selectedNode, e.getX(), e.getY());
 							}
 						}
 					});
@@ -447,20 +416,18 @@ public final class OnlineACOScheduler extends MissionScheduler {
 			System.out.println("MissionGraph created !");
 
 		int current = 1;
-		List<StraddleCarrier> lResources = rt.getStraddleCarriers();
+		List<StraddleCarrier> lResources = Terminal.getInstance().getStraddleCarriers();
 		int overall = lResources.size();
 		for (StraddleCarrier rsc : lResources) {
-			System.out.println("Adding resource " + rsc.getId() + " ("
-					+ current + "/" + overall + ")");
+			System.out.println("Adding resource " + rsc.getId() + " (" + current + "/" + overall + ")");
 			current++;
 			insertResource(rsc);
 		}
 		current = 1;
-		List<Mission> lTasks = rt.getMissions();
+		List<Mission> lTasks = Terminal.getInstance().getMissions();
 		overall = lTasks.size();
 		for (Mission m : lTasks) {
-			System.out.println("Adding task " + m.getId() + " (" + current
-					+ "/" + overall + ")");
+			System.out.println("Adding task " + m.getId() + " (" + current + "/" + overall + ")");
 			current++;
 			insertMission(m);
 		}
@@ -469,17 +436,13 @@ public final class OnlineACOScheduler extends MissionScheduler {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
 				public void run() {
-					progressBarFrame = new JDialog((JFrame) null,
-							"Please wait...", false);
+					progressBarFrame = new JDialog((JFrame) null, "Please wait...", false);
 					progressBarFrame.setResizable(false);
 					progressBarFrame.setAlwaysOnTop(true);
 					progressBarFrame.add(jpb, BorderLayout.CENTER);
 					progressBarFrame.setSize(250, 70);
-					progressBarFrame.setLocation((int) (jms.getLocation()
-							.getX() + ((jms.getWidth() - progressBarFrame
-									.getWidth()) / 2.0)), (int) (jms.getLocation()
-											.getY() + ((jms.getHeight() - progressBarFrame
-													.getHeight()) / 2.0)));
+					progressBarFrame.setLocation((int) (jms.getLocation().getX() + ((jms.getWidth() - progressBarFrame.getWidth()) / 2.0)),
+							(int) (jms.getLocation().getY() + ((jms.getHeight() - progressBarFrame.getHeight()) / 2.0)));
 				}
 			});
 
@@ -540,7 +503,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 				for (AntHill h : hillsNodes.values())
 					h.updateBestPath();
 			}
-			rt.flushAllocations();
+			Terminal.getInstance().flushAllocations();
 
 			lock.lock();
 			precomputed = false;
@@ -623,7 +586,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		String rscID = rsc.getId();
 
 		resources.add(rsc);
-		
+
 		vehicles.put(rscID, rsc);
 		if (jms != null)
 			jms.addResource(rsc);
@@ -654,8 +617,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		scheduleResources.put(rscID, ahn);
 		lastLocations.put(ahn.getID(), rsc.getLocation());
 		for (AntMissionNode m : missionsNodes.values()) {
-			if (rsc.getModel().isCompatible(
-					m.getMission().getContainer().getDimensionType())) {
+			if (rsc.getModel().isCompatible(m.getMission().getContainer().getDimensionType())) {
 				ahn.addAntMissionNode(m);
 			}
 		}
@@ -686,8 +648,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 *            Distance made since the last update
 	 */
 	@Override
-	protected void updateResourceLocation(String resourceID,
-			UpdateInfo updateInfo) {
+	protected void updateResourceLocation(String resourceID, UpdateInfo updateInfo) {
 		super.updateResourceLocation(resourceID, updateInfo);
 		AntHill n = hillsNodes.get(resourceID);
 		StraddleCarrier rsc = n.getStraddleCarrier();
@@ -697,12 +658,10 @@ public final class OnlineACOScheduler extends MissionScheduler {
 			Load load = rsc.getCurrentLoad();
 			if (load == null) {
 				// UPDATE WEIGHT IF CHANGED OF ROAD
-				if (!lastLocations.get(resourceID).getRoad().getId()
-						.equals(newLocation.getRoad().getId())) {
+				if (!lastLocations.get(resourceID).getRoad().getId().equals(newLocation.getRoad().getId())) {
 					// System.out.println("Update weights 1");
 					for (AntMissionNode matchingMission : n.getMissions()) {
-						if (matchingMission != null
-								&& matchingMission.in != null) {
+						if (matchingMission != null && matchingMission.in != null) {
 							for (AntEdge e : matchingMission.in.values())
 								e.addCost(n.getStraddleCarrier());
 						}
@@ -721,8 +680,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 					currentMissions.put(resourceID, load.getMission().getId());
 					// UPDATE WEIGHTS
 					for (AntMissionNode matchingMission : n.getMissions()) {
-						if (matchingMission != null
-								&& matchingMission.in != null) {
+						if (matchingMission != null && matchingMission.in != null) {
 							for (AntEdge e : matchingMission.in.values()) {
 								e.addCost(rsc);
 							}
@@ -765,8 +723,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 
 		for (String modelID : resourceModels.keySet()) {
 			try {
-				Path p = getTravelPath(m, m,
-						vehicles.get(resourceModels.get(modelID).get(0)));
+				Path p = getTravelPath(m, m, vehicles.get(resourceModels.get(modelID).get(0)));
 				amn.addMissionCostFor(modelID, p.getCost());
 				amn.setDistance(p.getCostInMeters());
 			} catch (EmptyResourcesException e) {
@@ -805,17 +762,11 @@ public final class OnlineACOScheduler extends MissionScheduler {
 					if (h != null) {
 						StraddleCarrier resource = h.getStraddleCarrier();
 
-						if (resource.getCurrentLoad() != null
-								&& resource.getCurrentLoad().getMission()
-								.getId().equals(m.getId())) {
-							System.err
-							.println("REMOVING " + m.getId()
-									+ " MARK BEST PATH WITH COLOR "
-									+ h.getID());
+						if (resource.getCurrentLoad() != null && resource.getCurrentLoad().getMission().getId().equals(m.getId())) {
+							System.err.println("REMOVING " + m.getId() + " MARK BEST PATH WITH COLOR " + h.getID());
 							h.markBestPath();
 						} else if (resource.getCurrentLoad() == null) {
-							System.err.println(resource.getId()
-									+ " is IDLE at " + m.getId() + " removal!");
+							System.err.println(resource.getId() + " is IDLE at " + m.getId() + " removal!");
 						}
 					}
 				}
@@ -828,8 +779,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 
 				if (pool.size() == 0) {
 					Sprite lastSprite = spriteManager.addSprite("lastSprite");
-					lastSprite.addAttribute("ui.style",
-							"visibility-mode: hidden;");
+					lastSprite.addAttribute("ui.style", "visibility-mode: hidden;");
 				}
 
 				return true;
@@ -868,8 +818,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		if (missionsToStart.containsKey(t))
 			toStartList = missionsToStart.get(t);
 		else
-			toStartList = Collections
-			.synchronizedList(new ArrayList<MissionStartedHelper>());
+			toStartList = Collections.synchronizedList(new ArrayList<MissionStartedHelper>());
 
 		toStartList.add(new MissionStartedHelper(m, resourceID));
 		missionsToStart.put(t, toStartList);
@@ -901,8 +850,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		if (missionsToRemove.containsKey(t))
 			toRemoveList = missionsToRemove.get(t);
 		else
-			toRemoveList = Collections
-			.synchronizedList(new ArrayList<Mission>());
+			toRemoveList = Collections.synchronizedList(new ArrayList<Mission>());
 
 		int i = 0;
 		for (Mission m2 : toRemoveList) {
@@ -930,8 +878,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		if (missionsToUpdate.containsKey(t))
 			toUpdateList = missionsToUpdate.get(t);
 		else
-			toUpdateList = Collections
-			.synchronizedList(new ArrayList<Mission>());
+			toUpdateList = Collections.synchronizedList(new ArrayList<Mission>());
 
 		int i = 0;
 		for (Mission m2 : toUpdateList) {
@@ -981,8 +928,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		if (resourceToAdd.containsKey(t))
 			toAddList = resourceToAdd.get(t);
 		else
-			toAddList = Collections
-			.synchronizedList(new ArrayList<StraddleCarrier>());
+			toAddList = Collections.synchronizedList(new ArrayList<StraddleCarrier>());
 
 		int i = 0;
 		for (StraddleCarrier rsc2 : toAddList) {
@@ -1006,8 +952,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		if (resourceToRemove.containsKey(t))
 			toRemoveList = resourceToRemove.get(t);
 		else
-			toRemoveList = Collections
-			.synchronizedList(new ArrayList<String>());
+			toRemoveList = Collections.synchronizedList(new ArrayList<String>());
 
 		int i = 0;
 		for (String rsc2 : toRemoveList) {
@@ -1024,8 +969,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	}
 
 	@Override
-	public void updateResourceLocation(Time t, String straddleID,
-			double distance, double travelTime) {
+	public void updateResourceLocation(Time t, String straddleID, double distance, double travelTime) {
 		// System.err.println("URL : "+straddleID+" "+distance+" "+travelTime);
 		lock.lock();
 		graphChangedByUpdate++;
@@ -1035,8 +979,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		if (resourceToUpdate.containsKey(t))
 			toUpdateMap = resourceToUpdate.get(t);
 		else
-			toUpdateMap = Collections
-			.synchronizedMap(new HashMap<String, UpdateInfo>());
+			toUpdateMap = Collections.synchronizedMap(new HashMap<String, UpdateInfo>());
 
 		toUpdateMap.put(straddleID, new UpdateInfo(distance, travelTime));
 		resourceToUpdate.put(t, toUpdateMap);
@@ -1048,7 +991,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The graph
 	 */
-	public static Graph getGraph() {
+	public Graph getGraph() {
 		return graph;
 	}
 
@@ -1057,7 +1000,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The list of nodes corresponding to missions
 	 */
-	public static List<AntMissionNode> getMissionNodes() {
+	public List<AntMissionNode> getMissionNodes() {
 		return new ArrayList<AntMissionNode>(missionsNodes.values());
 	}
 
@@ -1066,7 +1009,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The list of hills
 	 */
-	public static List<AntHill> getHills() {
+	public List<AntHill> getHills() {
 		return new ArrayList<AntHill>(hillsNodes.values());
 	}
 
@@ -1075,7 +1018,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The SpriteManager
 	 */
-	public static SpriteManager getSpriteManager() {
+	public SpriteManager getSpriteManager() {
 		return spriteManager;
 	}
 
@@ -1089,7 +1032,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The layout
 	 */
-	public static ACOLayout getLayout() {
+	public ACOLayout getLayout() {
 		return layout;
 	}
 
@@ -1115,7 +1058,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return True if the weights are showed, False otherwise
 	 */
-	public static boolean displayWeights() {
+	public boolean displayWeights() {
 		return jcbDisplayWeights.isSelected();
 	}
 
@@ -1124,7 +1067,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The parameters of the ACO algorithm
 	 */
-	public static ACOParameters getGlobalParameters() {
+	public ACOParameters getGlobalParameters() {
 		return globalParameters;
 	}
 
@@ -1144,7 +1087,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @param p
 	 */
-	public static void setGlobalParameters(ACOParameters p) {
+	public void setGlobalParameters(ACOParameters p) {
 		globalParameters = p;
 	}
 
@@ -1156,7 +1099,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	// interrupt = interrupted;
 	// }
 
-	public static int getSyncSize() {
+	public int getSyncSize() {
 		return syncSize;
 	}
 
@@ -1196,69 +1139,71 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	public void destroy() {
 		super.destroy();
 
-		jtb = null;
+		//jtb = null;
 		// for(ChangeListener listener : jsSyncSize.getChangeListeners())
 		// jsSyncSize.removeChangeListener(listener);
 		// jsSyncSize = null;
-		for (ActionListener listener : jcbDisplayWeights.getActionListeners())
-			jcbDisplayWeights.removeActionListener(listener);
-		jcbDisplayWeights = null;
 
-		for (AntHill ah : hillsNodes.values()) {
-			ah.destroy();
-		}
-		hillsNodes.clear();
+		//for (ActionListener listener : jcbDisplayWeights.getActionListeners())
+//			jcbDisplayWeights.removeActionListener(listener);
+//		jcbDisplayWeights = null;
 
-		for (AntMissionNode n : missionsNodes.values()) {
-			n.destroy();
-		}
-		missionsNodes.clear();
-		for (AntMissionNode n : toDestroy) {
-			n.destroy();
-		}
-		toDestroy.clear();
-		toDestroy = null;
+		
+//		for (AntMissionNode n : missionsNodes.values()) {
+//			n.destroy();
+//		}
+//		missionsNodes.clear();
+//		for (AntMissionNode n : toDestroy) {
+//			n.destroy();
+//		}
+		
+//		for (AntHill ah : hillsNodes.values()) {
+//			ah.destroy();
+//		}
+//		hillsNodes.clear();
 
-		depot.destroy();
-		end.destroy();
+//		toDestroy.clear();
+//		toDestroy = null;
 
-		Iterator<? extends Sprite> sprites = spriteManager.spriteIterator();
-		List<String> toRemove = new ArrayList<String>(
-				spriteManager.getSpriteCount());
-		while (sprites.hasNext()) {
-			toRemove.add(sprites.next().getId());
-		}
-		for (String sID : toRemove) {
-			spriteManager.removeSprite(sID);
-		}
+//		depot.destroy();
+//		end.destroy();
 
-		globalParameters = null;
+//		Iterator<? extends Sprite> sprites = spriteManager.spriteIterator();
+//		List<String> toRemove = new ArrayList<String>(spriteManager.getSpriteCount());
+//		while (sprites.hasNext()) {
+//			toRemove.add(sprites.next().getId());
+//		}
+//		for (String sID : toRemove) {
+//			spriteManager.removeSprite(sID);
+//		}
+
+//		globalParameters = null;
 
 		// algoThread = null;
-		graph = null;
+//		graph = null;
 
-		lastLocations.clear();
-		lastLocations = null;
-		layout = null;
+//		lastLocations.clear();
+//		lastLocations = null;
+//		layout = null;
 
 		progressBarFrame.dispose();
-		jpb = null;
+//		jpb = null;
 
-		progressBarFrame = null;
+//		progressBarFrame = null;
 
-		selectedNode = null;
-		spriteManager = null;
+//		selectedNode = null;
+//		spriteManager = null;
 
-		for (MouseMotionListener mml : view.getMouseMotionListeners())
-			view.removeMouseMotionListener(mml);
-		for (MouseListener ml : view.getMouseListeners())
-			view.removeMouseListener(ml);
-		view = null;
-		viewer = null;
-		renderer = null;
+//		for (MouseMotionListener mml : view.getMouseMotionListeners())
+//			view.removeMouseMotionListener(mml);
+//		for (MouseListener ml : view.getMouseListeners())
+//			view.removeMouseListener(ml);
+//		view = null;
+//		viewer = null;
+//		renderer = null;
 
-		depot = null;
-		end = null;
+//		depot = null;
+//		end = null;
 	}
 
 	/* ========================== OTHERS ========================== */
@@ -1270,12 +1215,12 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * @param to
 	 *            Destination node of the edge to remove
 	 */
-	public static void removeEdge(AntNode from, AntNode to) {
+	public void removeEdge(AntNode from, AntNode to) {
 		from.removeOutgoingEdge(to);
 		to.removeIncomingEdge(from);
 	}
 
-	public static void removeNode(String ID) {
+	public void removeNode(String ID) {
 		graph.removeNode(ID);
 	}
 
@@ -1286,7 +1231,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 *            Length in PX
 	 * @return Length in GU
 	 */
-	public static double toGu(final double px) {
+	public double toGu(final double px) {
 		Camera cam = view.getCamera();
 		GraphMetrics metrics = cam.getMetrics();
 		return metrics.lengthToGu(px, Units.PX);
@@ -1302,15 +1247,14 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		return l;
 	}
 
-	public static Graph getSubGraph(String color) {
+	public Graph getSubGraph(String color) {
 		Graph g = new DefaultGraph("subGraph(" + color + ")");
 		Node start = g.addNode(depot.getID());
 		start.addAttribute("weight", 0);
 
 		for (AntMissionNode amn : missionsNodes.values()) {
 			// System.out.print("amn.color = "+amn.getColor()+" | color = "+color);
-			if (graph.getNode(amn.getID()) != null
-					&& amn.getColor().equals(color)) {
+			if (graph.getNode(amn.getID()) != null && amn.getColor().equals(color)) {
 
 				Node n = g.addNode(amn.getID());
 				n.addAttribute("weight", 0.0 - amn.getPheromone(color));
@@ -1318,7 +1262,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 			}
 			// else System.out.println(" => 2");
 		}
-		Node end = g.addNode(OnlineACOScheduler.end.getID());
+		Node end = g.addNode(this.end.getID());
 		end.addAttribute("weight", 0);
 
 		for (Node n : g.getNodeSet()) {
@@ -1326,8 +1270,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 				if (n != n2) {
 					AntEdge edge = getAntEdge(n.getId(), n2.getId());
 					if (edge != null) {
-						Edge e = g.addEdge(n.getId() + "-" + n2.getId(), n, n2,
-								true);
+						Edge e = g.addEdge(n.getId() + "-" + n2.getId(), n, n2, true);
 						e.addAttribute("weight", edge.getCost(color));
 					}
 				}
@@ -1347,24 +1290,23 @@ public final class OnlineACOScheduler extends MissionScheduler {
 			Iterator<Edge> eIT = n.getLeavingEdgeIterator();
 			while (eIT.hasNext()) {
 				Edge e = eIT.next();
-				System.out.println("\t" + e.getTargetNode().getId() + " : W="
-						+ e.getAttribute("weight"));
+				System.out.println("\t" + e.getTargetNode().getId() + " : W=" + e.getAttribute("weight"));
 			}
 		}
 
 		System.out.println("---------------- END GRAPH --------------");
 	}
 
-	private static AntEdge getAntEdge(String origin, String destination) {
+	private AntEdge getAntEdge(String origin, String destination) {
 		AntNode nFrom = getNode(origin);
 		AntNode to = getNode(destination);
-		if (origin.equals(end.getID()))
+		if (origin.equals(this.end.getID()))
 			return null;
 		else
 			return nFrom.getEdgeTo(to);
 	}
 
-	public static AntNode getNode(String ID) {
+	public AntNode getNode(String ID) {
 		AntNode n = null;
 		if (ID.equals(depot.getID()))
 			n = depot;

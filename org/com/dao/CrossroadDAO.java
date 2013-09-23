@@ -58,6 +58,7 @@ public class CrossroadDAO implements D2ctsDao<CrossroadBean>{
 		if(psLoad != null){
 			psLoad.close();
 		}
+		instances = null;
 		log.info("CrossroadDAO of terminal "+terminalID+" closed.");
 	}
 

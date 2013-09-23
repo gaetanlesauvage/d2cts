@@ -43,6 +43,7 @@ public class ScenarioDAO implements D2ctsDao<ScenarioBean>{
 		if(scenariosStatement != null){
 			scenariosStatement.close();
 		}
+		instance = null;
 		log.info("ScenarioDAO closed.");
 	}
 	

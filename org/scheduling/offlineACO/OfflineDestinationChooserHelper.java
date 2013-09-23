@@ -68,7 +68,7 @@ public class OfflineDestinationChooserHelper implements Comparable<OfflineDestin
 		this.weight = weight;
 		this.foreignPheromone = foreignPheromone;
 		
-		if(parameters == null) parameters = OfflineACOScheduler.getGlobalParameters();
+		if(parameters == null) parameters = OfflineACOScheduler.getInstance().getGlobalParameters();
 	}
 
 	/**

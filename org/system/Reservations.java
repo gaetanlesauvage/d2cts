@@ -54,7 +54,6 @@ public class Reservations {
 	 */
 	private Road road;
 
-
 	/**
 	 * Build a reservations table for the given road
 	 * 
@@ -83,8 +82,7 @@ public class Reservations {
 		Time t = r.getTimeWindow().getMin();
 
 		if (table.containsKey(t)) {
-			System.out.println("Key already in map ! " + t + " content = "
-					+ table.get(t));
+			System.out.println("Key already in map ! " + t + " content = " + table.get(t));
 			// removeReservation(t);
 			return false;
 		} else {
@@ -123,8 +121,7 @@ public class Reservations {
 		while (tAvant != null) {
 			Reservation avant = table.get(tAvant);
 			if (avant.getTimeWindow().getMax().compareTo(t) >= 0) {
-				Terminal.getInstance().unreserve(avant.getRoadId(),
-						avant.getStraddleCarrierId(), avant.getTimeWindow());
+				Terminal.getInstance().unreserve(avant.getRoadId(), avant.getStraddleCarrierId(), avant.getTimeWindow());
 				toReAdd.put(tAvant, avant);
 				// System.out.println("1) ToReAdd.put("+tAvant+", "+avant+") time = "+Time.getTimeScheduler().getTime());
 				tAvant = table.lowerKey(tAvant);
@@ -135,8 +132,7 @@ public class Reservations {
 		// Meanwhile
 		if (table.containsKey(t)) {
 			Reservation pendant = table.get(t);
-			Terminal.getInstance().unreserve(pendant.getRoadId(),
-					pendant.getStraddleCarrierId(), pendant.getTimeWindow());
+			Terminal.getInstance().unreserve(pendant.getRoadId(), pendant.getStraddleCarrierId(), pendant.getTimeWindow());
 			toReAdd.put(t, pendant);
 			// System.out.println("2) ToReAdd.put("+t+", "+pendant+") time = "+Time.getTimeScheduler().getTime());
 		}
@@ -148,8 +144,7 @@ public class Reservations {
 			Reservation apres = table.get(tApres);
 			if (apres.getTimeWindow().getMin().compareTo(tMax) <= 0) {
 				// System.err.println("3) tApres = "+tApres+" apres = "+apres.getRoadId()+" "+apres.getTimeWindow()+" time = "+Time.getTimeScheduler().getTime());
-				Terminal.getInstance().unreserve(apres.getRoadId(),
-						apres.getStraddleCarrierId(), apres.getTimeWindow());
+				Terminal.getInstance().unreserve(apres.getRoadId(), apres.getStraddleCarrierId(), apres.getTimeWindow());
 
 				toReAdd.put(tApres, apres);
 				// System.out.println("3) ToReAdd.put("+tApres+", "+apres+") time = "+Time.getTimeScheduler().getTime());
@@ -159,8 +154,7 @@ public class Reservations {
 		}
 
 		// Now add reservation !
-		Terminal.getInstance().reserveRoad(this.road.getId(), toAdd.getStraddleCarrierId(),
-				toAdd.getTimeWindow(), toAdd.getPriority());
+		Terminal.getInstance().reserveRoad(this.road.getId(), toAdd.getStraddleCarrierId(), toAdd.getTimeWindow(), toAdd.getPriority());
 		// System.out.println("After adding toAdd "+this);
 
 		// Re add other reservations
@@ -173,17 +167,14 @@ public class Reservations {
 			double startTimeToS = startTime.getInSec();
 			double rStartTimeToS = r.getTimeWindow().getMin().getInSec();
 			Time gap = new Time(Math.abs(rStartTimeToS - startTimeToS));
-			TimeWindow tw = new TimeWindow(new Time(r.getTimeWindow().getMin(),
-					gap), new Time(r.getTimeWindow().getMax(), gap));
+			TimeWindow tw = new TimeWindow(new Time(r.getTimeWindow().getMin(), gap), new Time(r.getTimeWindow().getMax(), gap));
 
-			Reservation r2 = new Reservation(Terminal.getInstance().getTime(), new String(
-					r.getStraddleCarrierId()), new String(r.getRoadId()), tw,
+			Reservation r2 = new Reservation(Terminal.getInstance().getTime(), new String(r.getStraddleCarrierId()), new String(r.getRoadId()), tw,
 					new Integer(r.getPriority()));
 			// System.out.println("ReAdd r2 = "+r2);
 			// Add the new reservation
 			// addReservation(r2);
-			Terminal.getInstance().reserveRoad(road.getId(), r2.getStraddleCarrierId(),
-					r2.getTimeWindow(), r2.getPriority());
+			Terminal.getInstance().reserveRoad(road.getId(), r2.getStraddleCarrierId(), r2.getTimeWindow(), r2.getPriority());
 			// System.out.println("After adding r2 "+this);
 
 			// Tell to the vehicle to recompute its path !
@@ -217,16 +208,15 @@ public class Reservations {
 			Reservation previous = table.get(tPrev);
 			// if (previous ends after current starts) => cannot make
 			// reservation
-			if (previous.getStraddleCarrierId()
-					.equals(r.getStraddleCarrierId())) {
+			if (previous.getStraddleCarrierId().equals(r.getStraddleCarrierId())) {
 				toUnreserve.add(previous);
-			} else if (previous.getTimeWindow().getMax()
-					.compareTo(r.getTimeWindow().getMin()) >= 0) {
+			} else if (previous.getTimeWindow().getMax().compareTo(r.getTimeWindow().getMin()) >= 0) {
 				// Pas ok
 				if (r.getPriority() > previous.getPriority()) {
-					System.out
-							.println("Trying to know if we can make reservation "
-									+ r);
+					if(r.getRoadId().equals("A-29/40") && r.getStraddleCarrierId().equals("straddle_carrier_10")){
+						System.err.println("here");
+					}
+					System.out.println("Trying to know if we can make reservation " + r);
 					// System.out.println("Must decal previous reservations. : TODO !");
 					bringForwardPutBackAndAdd(r);
 					return true;
@@ -238,11 +228,11 @@ public class Reservations {
 		if (r2 != null) {
 			if (!r2.getStraddleCarrierId().equals(r.getStraddleCarrierId())) {
 				if (r.getPriority() > r2.getPriority()) {
-					System.out
-							.println("Trying to know if we can make reservation "
-									+ r);
-					System.out
-							.println("Must decal current and next reservations.");
+					if(r.getRoadId().equals("A-29/40") && r.getStraddleCarrierId().equals("straddle_carrier_10")){
+						System.err.println("here");
+					}
+					System.out.println("Trying to know if we can make reservation " + r);
+					System.out.println("Must decal current and next reservations.");
 					bringForwardPutBackAndAdd(r);
 					return true;
 				} else
@@ -257,23 +247,18 @@ public class Reservations {
 			Reservation after = table.get(tAfter);
 			// if (after starts before current ends) => cannot make reservation
 			try {
-				if (after.getStraddleCarrierId().equals(
-						r.getStraddleCarrierId())) {
-					if (after.getTimeWindow().getMin()
-							.compareTo(r.getTimeWindow().getMax()) <= 0) {
+				if (after.getStraddleCarrierId().equals(r.getStraddleCarrierId())) {
+					if (after.getTimeWindow().getMin().compareTo(r.getTimeWindow().getMax()) <= 0) {
 						// Pas ok
 						if (r.getPriority() > after.getPriority()) {
-							System.out
-									.println("Trying to know if we can make reservation "
-											+ r);
+							if(r.getRoadId().equals("A-29/40") && r.getStraddleCarrierId().equals("straddle_carrier_10")){
+								System.err.println("here");
+							}
+							System.out.println("Trying to know if we can make reservation " + r);
 							System.out.println("Must decal next reservations.");
-							System.out
-									.println("Before decal next reservations : \n"
-											+ this);
+							System.out.println("Before decal next reservations : \n" + this);
 							bringForwardPutBackAndAdd(r);
-							System.out
-									.println("After decal next reservations : \n"
-											+ this);
+							System.out.println("After decal next reservations : \n" + this);
 							return true;
 						} else
 							return false;
@@ -314,20 +299,16 @@ public class Reservations {
 	 *         current road @
 	 */
 	public TimeWindow getFirstAvailableTimeWindow(Reservation r) {
-		Reservation tmp = new Reservation(r.getDate(), ""
-				+ r.getStraddleCarrierId(), "" + r.getRoadId(), new TimeWindow(
-				new Time(r.getTimeWindow().getMin()), new Time(r
-						.getTimeWindow().getMax())), r.getPriority());
+		Reservation tmp = new Reservation(r.getDate(), "" + r.getStraddleCarrierId(), "" + r.getRoadId(), new TimeWindow(new Time(r.getTimeWindow()
+				.getMin()), new Time(r.getTimeWindow().getMax())), r.getPriority());
 
 		while (!canMakeReservation(tmp)) {
 			Time tMin2 = new Time(tmp.getTimeWindow().getMin().toStep() + 1);
 			Time tMax2 = new Time(tmp.getTimeWindow().getMax().toStep() + 1);
 			TimeWindow tw = new TimeWindow(tMin2, tMax2);
-			tmp = new Reservation(r.getDate(), r.getStraddleCarrierId(),
-					r.getRoadId(), tw, tmp.getPriority());
+			tmp = new Reservation(r.getDate(), r.getStraddleCarrierId(), r.getRoadId(), tw, tmp.getPriority());
 		}
-		return new TimeWindow(tmp.getTimeWindow().getMin(), tmp.getTimeWindow()
-				.getMax());
+		return new TimeWindow(tmp.getTimeWindow().getMin(), tmp.getTimeWindow().getMax());
 	}
 
 	/**
@@ -376,9 +357,8 @@ public class Reservations {
 	public Reservation removeReservation(Reservation r) {
 		Reservation r2 = table.remove(r.getTimeWindow().getMin());
 		if (r2 == null) {
-			System.out.println("No reservation has been found on "
-					+ this.road.getId() + " for " + r.getStraddleCarrierId()
-					+ " starting at " + r.getTimeWindow().getMin());
+			System.out.println("No reservation has been found on " + this.road.getId() + " for " + r.getStraddleCarrierId() + " starting at "
+					+ r.getTimeWindow().getMin());
 			new Exception().printStackTrace();
 			return r2;
 		}
@@ -417,9 +397,7 @@ public class Reservations {
 	public boolean removeReservation(String straddleCarrierID, Time at) {
 		Reservation r = table.remove(at);
 		if (r == null) {
-			System.out.println("No reservation has been found on "
-					+ this.road.getId() + " for " + straddleCarrierID
-					+ " starting at " + at);
+			System.out.println("No reservation has been found on " + this.road.getId() + " for " + straddleCarrierID + " starting at " + at);
 			new Exception().printStackTrace();
 			return false;
 		}
@@ -497,8 +475,7 @@ public class Reservations {
 		ArrayList<Time> l = index.get(straddleID);
 		for (Time time : l) {
 			Reservation r = table.get(time);
-			if (r.getTimeWindow().getMin().getInSec() >= t.getInSec()
-					&& r.getTimeWindow().getMax().getInSec() <= t.getInSec()) {
+			if (r.getTimeWindow().getMin().getInSec() >= t.getInSec() && r.getTimeWindow().getMax().getInSec() <= t.getInSec()) {
 				return r;
 			}
 		}
@@ -518,8 +495,7 @@ public class Reservations {
 	public Reservation getNextReservation(Time time, String straddleID) {
 		Time from = new Time(time, new Time(1), false);
 		Entry<Time, Reservation> e = table.higherEntry(from);
-		while (e != null
-				&& !e.getValue().getStraddleCarrierId().equals(straddleID)) {
+		while (e != null && !e.getValue().getStraddleCarrierId().equals(straddleID)) {
 			e = table.higherEntry(e.getKey());
 		}
 
@@ -534,21 +510,21 @@ public class Reservations {
 		}
 	}
 
-	public void destroy() {
+//	public void destroy() {
 		/*
 		 * for(Reservation r : table.values()){ r.destroy(); } for(Reservation r
 		 * : endTimeTable.values()){ r.destroy(); } table.clear();
 		 */
-		table = null;
+//		table = null;
 		// endTimeTable.clear();
-		endTimeTable = null;
+//		endTimeTable = null;
 
-		road = null;
+//		road = null;
 		/*
 		 * for(ArrayList<Time> l : index.values()){ for(Time t : l) t.destroy();
 		 * }
 		 */
 		// index.clear();
-		index = null;
-	}
+//		index = null;
+//	}
 }

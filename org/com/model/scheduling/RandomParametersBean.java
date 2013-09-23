@@ -20,10 +20,10 @@ public enum RandomParametersBean implements SchedulingParametersBeanInterface {
 
 	@Override
 	public void setValue(Object o) {
-		if(o instanceof String){
-			this.value = Double.parseDouble((String)o);
+		if (o instanceof String) {
+			this.value = Double.parseDouble((String) o);
 		} else {
-			this.value = (Double)o;
+			this.value = (Double) o;
 		}
 	}
 
@@ -57,42 +57,49 @@ public enum RandomParametersBean implements SchedulingParametersBeanInterface {
 	}
 
 	public static RandomParametersBean get(String name) {
-		for (RandomParametersBean param : RandomParametersBean
-				.values()) {
-			if (param.name.equals(name))
+		for (RandomParametersBean param : RandomParametersBean.values()) {
+			if (param.name.equalsIgnoreCase(name))
 				return param;
 		}
 		return null;
 	}
-	
-	public static ParameterType[] types(){
+
+	public static ParameterType[] types() {
 		ParameterType[] t = new ParameterType[values().length];
-		for(int i=0; i<values().length; i++){
+		for (int i = 0; i < values().length; i++) {
 			t[i] = ParameterType.DOUBLE;
 		}
 		return t;
 	}
-	
+
 	@Override
 	public Integer getValueAsInteger() {
 		return this.value.intValue();
 	}
-	
+
 	public static String[] names() {
 		String[] t = new String[RandomParametersBean.values().length];
 		int i = 0;
-		for(RandomParametersBean p : RandomParametersBean.values())
+		for (RandomParametersBean p : RandomParametersBean.values())
 			t[i++] = p.name;
-		
+
 		return t;
 	}
-	
-	public static List<RandomParametersBean> getAll() {
-		List<RandomParametersBean> l = new ArrayList<>(values().length);
+
+	public static List<ParameterBean> getAll() {
+		List<ParameterBean> l = new ArrayList<>(values().length);
 		for (RandomParametersBean b : values()) {
-			l.add(b);
+			l.add(b.getParameter());
 		}
 		return l;
 	}
-	
+
+	@Override
+	public ParameterBean getParameter() {
+		ParameterBean p = new ParameterBean(name, ParameterType.DOUBLE);
+		p.setValue(value);
+		p.setSQLID(getSQLID());
+		return p;
+	}
+
 }

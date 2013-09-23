@@ -8,5 +8,6 @@ public interface SchedulingParametersBeanInterface {
 	public Integer getSQLID();
 	public void setSQLID(Integer id);
 	public String name();
+	public ParameterBean getParameter();
 	
 }

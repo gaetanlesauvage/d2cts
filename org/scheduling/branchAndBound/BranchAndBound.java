@@ -26,6 +26,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.concurrent.locks.ReentrantLock;
@@ -41,6 +42,7 @@ import org.scheduling.aco.graph.DepotNode;
 import org.scheduling.display.JMissionScheduler;
 import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 import org.time.TimeWindow;
 import org.vehicles.StraddleCarrier;
 import org.vehicles.models.SpeedCharacteristics;
@@ -57,13 +59,12 @@ public class BranchAndBound extends MissionScheduler {
 	 * RMI BINDING NAME
 	 */
 	public static final String rmiBindingName = "BranchAndBound";
-	// DATA
 
 	/**
 	 * If TRUE then the costs (time and distance) are computed by the simulator
 	 * and stored in the matrix files
 	 */
-	public static boolean evalCosts = false;
+	private boolean evalCosts = false;
 
 	/**
 	 * Used to get each resource
@@ -104,15 +105,17 @@ public class BranchAndBound extends MissionScheduler {
 	/*
 	 * MissionID , <ResourceID , Time>
 	 */
-	private HashMap<String, HashMap<String, Time>> missionsStartTime;
-
-	static Terminal rt;
+	private Map<String, HashMap<String, Time>> missionsStartTime;
 
 	@Override
 	public String getId() {
 		return BranchAndBound.rmiBindingName;
 	}
 
+	public static void closeInstance(){
+	
+	}
+	
 	// CONSTRUCTORS
 	/**
 	 * Default constructor
@@ -172,16 +175,14 @@ public class BranchAndBound extends MissionScheduler {
 		lock = new ReentrantLock();
 		missionsStartTime = new HashMap<String, HashMap<String, Time>>();
 
-		rt = MissionScheduler.rt;
-
-		step = rts.getStep() + 1;
+		step = TimeScheduler.getInstance().getStep() + 1;
 		sstep = step;
-		for (String s : rt.getStraddleCarriersName()) {
-			StraddleCarrier rsc = rt.getStraddleCarrier(s);
+		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
+			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
 			addResource(new Time(step), rsc);
 		}
-		for (String s : rt.getMissionsName()) {
-			Mission m = rt.getMission(s);
+		for (String s : Terminal.getInstance().getMissionsName()) {
+			Mission m = Terminal.getInstance().getMission(s);
 			addMission(new Time(step), m);
 		}
 
@@ -296,7 +297,6 @@ public class BranchAndBound extends MissionScheduler {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -413,7 +413,7 @@ public class BranchAndBound extends MissionScheduler {
 				}
 			}
 		}
-		rt.flushAllocations();
+		Terminal.getInstance().flushAllocations();
 	}
 
 	/**
@@ -547,7 +547,7 @@ public class BranchAndBound extends MissionScheduler {
 			}
 		}
 		if (terminated)
-			rts.computeEndTime();
+			TimeScheduler.getInstance().computeEndTime();
 
 		super.incrementNumberOfCompletedMissions(resourceID);
 	}
@@ -607,20 +607,6 @@ public class BranchAndBound extends MissionScheduler {
 		solution.put(leaf.resource, l);
 
 		return getSolution(leaf.parent, solution);
-	}
-
-	/* ========================== DESTRUCTOR ========================== */
-	public void destroy() {
-
-		missionsStartTime.clear();
-		missionsStartTime = null;
-		evalNodes = null;
-		costs = null;
-		bestSolution = null;
-
-		System.out.println("Branch And Bound Mission Scheduler DESTROYED!");
-
-		super.destroy();
 	}
 
 	public Time getContainerHandlingTime(String task, String resource, MissionPhase phase) {

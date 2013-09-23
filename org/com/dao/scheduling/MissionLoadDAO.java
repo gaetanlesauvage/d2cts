@@ -135,4 +135,8 @@ public class MissionLoadDAO implements D2ctsDao<LoadBean> {
 	public int size() {
 		return beans.size();
 	}
+
+	public static void closeInstance() {
+		instances = null;
+	}
 }

@@ -97,10 +97,4 @@ public class TimeWindow implements Comparable<TimeWindow> {
 	public int compareTo(TimeWindow tw){
 		return getMin().compareTo(tw.getMin());
 	}
-
-	public void destroy() {
-		min.destroy();
-		max.destroy();
-		min=max=null;
-	}
 }

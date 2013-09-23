@@ -94,7 +94,9 @@ public class LocalScore {
 	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		sb.append(resource.getID()+"\t time="+new Time(times.get(times.size()-1))+" d="+distance+"m\tt(d)="+new Time(distanceInSeconds)+"\toverTime="+new Time(overspentTime)+"\twaitTime="+new Time(waitTime));
+		Double t = times.get(times.size()-1);
+		
+		sb.append(resource.getID()+"\t time="+new Time(t == null ? Double.NaN : t)+" d="+distance+"m\tt(d)="+new Time(distanceInSeconds)+"\toverTime="+new Time(overspentTime)+"\twaitTime="+new Time(waitTime));
 		return sb.toString();
 	}
 
@@ -121,14 +123,6 @@ public class LocalScore {
 			return sbString.substring(0,sbString.length()-" -> ".length());
 		}
 		else return "nil";
-	}
-
-	public void destroy() {
-		resource = null;
-		if(path!=null){
-			path.clear();
-			path = null;
-		}
 	}
 
 	public void addDistance(double distance){

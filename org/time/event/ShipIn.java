@@ -21,7 +21,9 @@ package org.time.event;
 
 import java.util.HashMap;
 
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 
 public class ShipIn extends DynamicEvent {
 	private static final String TYPE = "ShipIn";
@@ -70,14 +72,14 @@ public class ShipIn extends DynamicEvent {
 
 	@Override
 	public void execute() {
-		boolean b = terminal.shipIn(capacity, paveID, berthFromRate,
+		boolean b = Terminal.getInstance().shipIn(capacity, paveID, berthFromRate,
 				berthToRate, containersToUnload);
 		if (!b) {
 			if (!alreadyAdviced) {
 				System.out.println(this);
 				alreadyAdviced = true;
 			}
-			scheduler.registerDynamicEvent(this);
+			TimeScheduler.getInstance().registerDynamicEvent(this);
 		} else
 			writeEventInDb();
 	}

@@ -62,6 +62,7 @@ public class EventDAO implements D2ctsDao<EventBean> {
 		if (psLoad != null) {
 			psLoad.close();
 		}
+		instances = null;
 		log.info("EventDAO of scenario " + scenarioID + " closed.");
 	}
 

@@ -19,7 +19,6 @@
  */
 package org.system;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,11 +32,7 @@ import org.system.container_stocking.BlockType;
  * @author Ga&euml;tan Lesauvage
  * @since 2009
  */
-public class Depot extends Block implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8094678872792082528L;
+public class Depot extends Block {
 	
 	/**
 	 * Gravity center of the depot 
@@ -183,10 +178,10 @@ public class Depot extends Block implements Serializable{
 	public ConcurrentHashMap<String, String> getWalls(){
 		return walls;
 	}
-	public void destroy() {
-		gravityCenter = null;
-		recomputeGravityCenter = null;
-		slots.clear();
-		slots = null;
-	}
+//	public void destroy() {
+//		gravityCenter = null;
+//		recomputeGravityCenter = null;
+//		slots.clear();
+//		slots = null;
+//	}
 }

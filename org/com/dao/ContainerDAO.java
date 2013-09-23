@@ -71,6 +71,7 @@ public class ContainerDAO implements D2ctsDao<ContainerBean> {
 		if (psLoad != null) {
 			psLoad.close();
 		}
+		instances = null;
 		log.info("ContainerDAO of terminal " + scenarioID + " closed.");
 	}
 

@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
@@ -39,6 +38,8 @@ import org.util.Location;
 import org.vehicles.StraddleCarrier;
 
 public abstract class MissionScheduler implements DiscretObject {
+	public static final Logger log = Logger.getLogger(MissionScheduler.class);
+	
 	/**
 	 * Tasks
 	 */
@@ -60,17 +61,11 @@ public abstract class MissionScheduler implements DiscretObject {
 	// RMI
 	public static String rmiBindingName = "MissionScheduler";
 
-	protected static TextDisplay out;
-
-	// Remote system
-	protected static Terminal rt;
-	protected static TimeScheduler rts;
+	protected TextDisplay out;
 
 	protected JMissionScheduler jms;
 
 	public static final boolean DEBUG = false;
-
-	public static Random RANDOM;
 
 	/**
 	 * Current step of the algorithm
@@ -82,9 +77,7 @@ public abstract class MissionScheduler implements DiscretObject {
 	 */
 	protected static long sstep;
 
-	private static final Logger log = Logger.getLogger(MissionScheduler.class);
-
-	// TASKS BUFFERS
+		// TASKS BUFFERS
 	protected SortedMap<Time, List<Mission>> missionsToUpdate = new TreeMap<>();
 	protected SortedMap<Time, List<Mission>> missionsToAdd = new TreeMap<>();
 	protected SortedMap<Time, List<Mission>> missionsToRemove = new TreeMap<>();
@@ -159,6 +152,46 @@ public abstract class MissionScheduler implements DiscretObject {
 		return instance;
 	}
 
+	public static void closeInstance() {
+		if(instance != null){
+			switch (rmiBindingName) {
+			case LinearMissionScheduler.rmiBindingName:
+				LinearMissionScheduler.closeInstance();
+				break;
+			case RandomMissionScheduler.rmiBindingName:
+				RandomMissionScheduler.closeInstance();
+				break;
+			case GreedyMissionScheduler.rmiBindingName:
+				GreedyMissionScheduler.closeInstance();;
+				break;
+			case BranchAndBound.rmiBindingName:
+				BranchAndBound.closeInstance();
+				break;
+			case BB.rmiBindingName:
+				BB.closeInstance();
+				break;
+			case OnlineACOScheduler.rmiBindingName:
+				OnlineACOScheduler.closeInstance();
+				break;
+			case OfflineACOScheduler.rmiBindingName:
+				OfflineACOScheduler.closeInstance();
+				break;
+			case OfflineACOScheduler2.rmiBindingName:
+				OfflineACOScheduler2.closeInstance();
+				break;
+			default:
+				Exception e = new Exception(
+						"WRONG MISSION SCHEDULER SPECIFIED !");
+				log.fatal(e.getMessage(), e);
+				break;
+			}
+			instance.destroy();
+			instance = null;
+			init = false;
+		}
+		
+	}
+
 	/* ======================== CONSTRUCTORS ======================== */
 	/**
 	 * Constructor
@@ -167,11 +200,7 @@ public abstract class MissionScheduler implements DiscretObject {
 		this.pool = new ArrayList<>();
 		this.resources = new ArrayList<>();
 		this.vehicles = new HashMap<>();
-		
-		rt = Terminal.getInstance();
-		rts = TimeScheduler.getInstance();
 
-		RANDOM = rt.getRandom();
 		lock = new ReentrantLock();
 		SOURCE_NODE = new ScheduleTask<ScheduleEdge>((Mission) null);
 
@@ -195,7 +224,7 @@ public abstract class MissionScheduler implements DiscretObject {
 		// RESOURCES
 		scheduleResources = new HashMap<>();
 
-		rts.recordDiscretObject(this);
+		TimeScheduler.getInstance().recordDiscretObject(this);
 	}
 
 	/**
@@ -224,13 +253,13 @@ public abstract class MissionScheduler implements DiscretObject {
 
 		if (from != null) {
 			ContainerLocation clFrom = from.getDestination();
-			Slot slotFrom = rt.getSlot(clFrom.getSlotId());
+			Slot slotFrom = Terminal.getInstance().getSlot(clFrom.getSlotId());
 			fromLocation = slotFrom.getLocation();
 		} else {
 			if (rsc.getCurrentLoad() != null) {
 				ContainerLocation cl = rsc.getCurrentLoad().getMission()
 						.getDestination();
-				Slot slotFrom = rt.getSlot(cl.getSlotId());
+				Slot slotFrom = Terminal.getInstance().getSlot(cl.getSlotId());
 				fromLocation = slotFrom.getLocation();
 			} else {
 				fromLocation = rsc.getLocation();
@@ -577,7 +606,7 @@ public abstract class MissionScheduler implements DiscretObject {
 		for (String vehicleID : vehicles.keySet()) {
 			e3.addCost(vehicles.get(vehicleID));
 			((ScheduleTask<ScheduleEdge>) MissionScheduler.getInstance().SOURCE_NODE)
-					.addDestination(e3);
+			.addDestination(e3);
 			e4.addCost(vehicles.get(vehicleID));
 			n.addDestination(e4);
 		}
@@ -657,7 +686,7 @@ public abstract class MissionScheduler implements DiscretObject {
 			toStartList = missionsToStart.get(t);
 		else
 			toStartList = Collections
-					.synchronizedList(new ArrayList<MissionStartedHelper>());
+			.synchronizedList(new ArrayList<MissionStartedHelper>());
 
 		toStartList.add(new MissionStartedHelper(m, resourceID));
 		missionsToStart.put(t, toStartList);
@@ -685,7 +714,7 @@ public abstract class MissionScheduler implements DiscretObject {
 			toRemoveList = missionsToRemove.get(t);
 		else
 			toRemoveList = Collections
-					.synchronizedList(new ArrayList<Mission>());
+			.synchronizedList(new ArrayList<Mission>());
 
 		int i = 0;
 		for (Mission m2 : toRemoveList) {
@@ -714,7 +743,7 @@ public abstract class MissionScheduler implements DiscretObject {
 			toUpdateList = missionsToUpdate.get(t);
 		else
 			toUpdateList = Collections
-					.synchronizedList(new ArrayList<Mission>());
+			.synchronizedList(new ArrayList<Mission>());
 
 		int i = 0;
 		for (Mission m2 : toUpdateList) {
@@ -766,16 +795,16 @@ public abstract class MissionScheduler implements DiscretObject {
 		else
 			toAddList = new ArrayList<>();
 
-		int i = 0;
-		for (StraddleCarrier rsc2 : toAddList) {
-			int comp = rsc2.getId().compareTo(rsc.getId());
-			if (comp >= 0)
-				break;
-			else
-				i++;
-		}
-		toAddList.add(i, rsc);
-		resourceToAdd.put(t, toAddList);
+			int i = 0;
+			for (StraddleCarrier rsc2 : toAddList) {
+				int comp = rsc2.getId().compareTo(rsc.getId());
+				if (comp >= 0)
+					break;
+				else
+					i++;
+			}
+			toAddList.add(i, rsc);
+			resourceToAdd.put(t, toAddList);
 	}
 
 	public boolean removeResource(Time t, StraddleCarrier rsc) {
@@ -790,18 +819,18 @@ public abstract class MissionScheduler implements DiscretObject {
 		else
 			toRemoveList = new ArrayList<>();
 
-		int i = 0;
-		for (String rsc2 : toRemoveList) {
-			int comp = rsc2.compareTo(rsc.getId());
-			if (comp >= 0)
-				break;
-			else
-				i++;
-		}
-		toRemoveList.add(i, rsc.getId());
-		resourceToRemove.put(t, toRemoveList);
+			int i = 0;
+			for (String rsc2 : toRemoveList) {
+				int comp = rsc2.compareTo(rsc.getId());
+				if (comp >= 0)
+					break;
+				else
+					i++;
+			}
+			toRemoveList.add(i, rsc.getId());
+			resourceToRemove.put(t, toRemoveList);
 
-		return resources.contains(rsc);
+			return resources.contains(rsc);
 	}
 
 	public void updateResourceLocation(Time t, String straddleID,
@@ -818,8 +847,8 @@ public abstract class MissionScheduler implements DiscretObject {
 		else
 			toUpdateMap = new HashMap<>();
 
-		toUpdateMap.put(straddleID, new UpdateInfo(distance, travelTime));
-		resourceToUpdate.put(t, toUpdateMap);
+			toUpdateMap.put(straddleID, new UpdateInfo(distance, travelTime));
+			resourceToUpdate.put(t, toUpdateMap);
 	}
 
 	/* ========================== GETTERS AND SETTERS ========================== */
@@ -890,40 +919,39 @@ public abstract class MissionScheduler implements DiscretObject {
 	 * Destruct the object
 	 */
 	public void destroy() {
-		jms.destroy();
+		if(jms != null){
+			jms.destroy();
+		}
+		
+		//pool.clear();
+		//resources.clear();
 
-		pool.clear();
-		resources.clear();
+//		out = null;
 
-		rt = null;
-		rts = null;
-		out = null;
+//		missionsToAdd.clear();
+//		missionsToRemove.clear();
+//		missionsToUpdate.clear();
+//		missionsToStart.clear();
 
-		missionsToAdd.clear();
-		missionsToRemove.clear();
-		missionsToUpdate.clear();
-		missionsToStart.clear();
+//		jms = null;
+//		SOURCE_NODE = null;
 
-		RANDOM = null;
-		jms = null;
-		SOURCE_NODE = null;
+//		resourceToAdd.clear();
+//		resourceToRemove.clear();
+//		resourceToUpdate.clear();
+//		vehicles.clear();
+//		resourceModels.clear();
 
-		resourceToAdd.clear();
-		resourceToRemove.clear();
-		resourceToUpdate.clear();
-		vehicles.clear();
-		resourceModels.clear();
+//		scheduleResources.clear();
+//		scheduleTasks.clear();
 
-		scheduleResources.clear();
-		scheduleTasks.clear();
-
-		lock = null;
+//		lock = null;
 	}
 
 	public double getTimeFor(String id) {
 		StraddleCarrier rsc = vehicles.get(id);
 		if (rsc.getCurrentLoad() == null)
-			return rts.getTime().getInSec();
+			return TimeScheduler.getInstance().getTime().getInSec();
 		else
 			return rsc.getCurrentLoad().getMission().getDeliveryTimeWindow()
 					.getMax().getInSec();

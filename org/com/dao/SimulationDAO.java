@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,29 +17,23 @@ import org.com.DbMgr;
 import org.com.dao.scheduling.AbstractSchedulingParameterDAO;
 import org.com.model.SchedulingAlgorithmBean;
 import org.com.model.SimulationBean;
-import org.com.model.scheduling.SchedulingParametersBeanInterface;
+import org.com.model.scheduling.ParameterBean;
+import org.scheduling.MissionSchedulerEvalParameters;
 
 public class SimulationDAO implements D2ctsDao<SimulationBean> {
 	private static final Logger log = Logger.getLogger(SimulationDAO.class);
 
-	private static final String LOAD_QUERY = "SELECT ID, DATE_REC, CONTENT, SCHEDULING_ALGORITHM, SEED FROM SIMULATION";
+	private static final String LOAD_QUERY = "SELECT ID, DATE_REC, CONTENT, SCHEDULING_ALGORITHM, SEED FROM SIMULATION ORDER BY ID";
 	private static final String INSERT_SIMULATION_QUERY = "INSERT INTO SIMULATION (DATE_REC, CONTENT, SCHEDULING_ALGORITHM, SEED) VALUES (?, ?, ?, ?)";
-	
-	//private static final String LOAD_PARAMETER_QUERY = "SELECT ID_PARAM FROM SIMULATION_SCHEDULING_PARAMETERS WHERE SIM_ID = ?";
-	//private static final String INSERT_PARAMETERS_QUERY = "INSERT INTO SIMULATION_SCHEDULING_PARAMETERS (ID_PARAM, ID_SIM) VALUES (?, ?, ?)";
-	
-	
-	private static final String LAST_INSERTED_BEAN_QUERY = LOAD_QUERY
-			+ " WHERE DATE_REC IN (SELECT MAX(DATE_REC) FROM SIMULATION)";
+
+	private static final String LAST_INSERTED_BEAN_QUERY = "SELECT ID, DATE_REC, CONTENT, SCHEDULING_ALGORITHM, SEED FROM SIMULATION WHERE DATE_REC IN (SELECT MAX(DATE_REC) FROM SIMULATION) ORDER BY ID";
 
 	private static SimulationDAO instance;
 
-	private HashSet<SimulationBean> beans;
+	private List<SimulationBean> beans;
 
 	private PreparedStatement loadStatement;
-	
 	private PreparedStatement insertStatement;
-	
 	private PreparedStatement lastInsertedBeanStatement;
 
 	public static final SimulationDAO getInstance() {
@@ -49,7 +44,6 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 	}
 
 	private SimulationDAO() {
-
 		try {
 			load();
 		} catch (SQLException e) {
@@ -57,14 +51,16 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 		}
 	}
 
-	public SimulationBean get(Integer simID){
-		if(simID != null){
-			for(SimulationBean bean : beans){
-				if(bean.getId().intValue() == simID.intValue()) return bean;
+	public SimulationBean get(Integer simID) {
+		if (simID != null) {
+			for (SimulationBean bean : beans) {
+				if (bean.getId().intValue() == simID.intValue())
+					return bean;
 			}
 		}
 		return null;
 	}
+
 	@Override
 	public void close() throws SQLException {
 		if (loadStatement != null) {
@@ -76,6 +72,7 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 		if (lastInsertedBeanStatement != null) {
 			lastInsertedBeanStatement.close();
 		}
+		instance = null;
 		log.info("SimulationDAO closed.");
 	}
 
@@ -85,37 +82,25 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 			Connection c = DbMgr.getInstance().getConnection();
 			loadStatement = c.prepareStatement(getLoadQuery());
 		}
-		
-		beans = new HashSet<>();
+
+		beans = new ArrayList<>();
 
 		ResultSet rs = loadStatement.executeQuery();
 		SchedulingAlgorithmDAO saDAO = SchedulingAlgorithmDAO.getInstance();
 		while (rs.next()) {
 			SimulationBean bean = new SimulationBean();
 			bean.setId(rs.getInt("ID"));
-			bean.setDate_rec(rs.getDate("DATE_REC"));
+			bean.setDate_rec(new Date(rs.getTimestamp("DATE_REC").getTime()));
 			bean.setContent(rs.getInt("CONTENT"));
-			
+
 			SchedulingAlgorithmBean algo = saDAO.get(rs.getInt("SCHEDULING_ALGORITHM"));
-			
-			//TODO Load algo parameters...
-			
-			
-			/*loadParametersStatement.setInt(1, bean.getId());
-			ResultSet rsParameters = loadParametersStatement.executeQuery();
-			List<SchedulingParametersBeanInterface> parameters = new ArrayList<>(); 
-			while(rsParameters.next()){
-				
-			}*/
-			AbstractSchedulingParameterDAO<?, ?> parametersDAO = AbstractSchedulingParameterDAO.getInstance(algo.getName(), bean.getId());
-			parametersDAO.load();
-			List<?> l = parametersDAO.get();
-			algo.setParameters(l.toArray(new SchedulingParametersBeanInterface[l.size()]));
-			
-			
+			AbstractSchedulingParameterDAO<?> parametersDAO = AbstractSchedulingParameterDAO.getInstance(algo.getName(), bean.getId());
+
+			algo.setParameters(parametersDAO.get());
+
 			bean.setSchedulingAlgorithm(algo);
 			long seed = rs.getLong("SEED");
-			if(!rs.wasNull())
+			if (!rs.wasNull())
 				bean.setSeed(new Long(seed));
 			beans.add(bean);
 		}
@@ -143,8 +128,7 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 
 		if (lastInsertedBeanStatement == null) {
 			Connection c = DbMgr.getInstance().getConnection();
-			lastInsertedBeanStatement = c
-					.prepareStatement(LAST_INSERTED_BEAN_QUERY);
+			lastInsertedBeanStatement = c.prepareStatement(LAST_INSERTED_BEAN_QUERY);
 		}
 
 		SchedulingAlgorithmDAO saDAO = SchedulingAlgorithmDAO.getInstance();
@@ -157,14 +141,12 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 			b.setContent(rs.getInt("CONTENT"));
 			SchedulingAlgorithmBean algo = saDAO.get(rs.getInt("SCHEDULING_ALGORITHM"));
 
-			AbstractSchedulingParameterDAO<?, ?> parametersDAO = AbstractSchedulingParameterDAO.getInstance(algo.getName(), b.getId());
-			parametersDAO.load();
-			List<?> l = parametersDAO.get();
-			algo.setParameters(l.toArray(new SchedulingParametersBeanInterface[l.size()]));
-			
+			AbstractSchedulingParameterDAO<?> parametersDAO = AbstractSchedulingParameterDAO.getInstance(algo.getName(), b.getId());
+			algo.setParameters(parametersDAO.get());
+
 			b.setSchedulingAlgorithm(algo);
 			long seed = rs.getLong("SEED");
-			if(!rs.wasNull())
+			if (!rs.wasNull())
 				b.setSeed(new Long(seed));
 		} else {
 			log.error("Cannot retrieve last created simulation!");
@@ -180,38 +162,47 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 	public int insert(SimulationBean bean) throws SQLException {
 		if (insertStatement == null) {
 			Connection c = DbMgr.getInstance().getConnection();
-			insertStatement = c.prepareStatement(INSERT_SIMULATION_QUERY,Statement.RETURN_GENERATED_KEYS);
+			insertStatement = c.prepareStatement(INSERT_SIMULATION_QUERY, Statement.RETURN_GENERATED_KEYS);
 		}
-		insertStatement.setTimestamp(1,
-				new Timestamp(System.currentTimeMillis()));
+		insertStatement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 		insertStatement.setInt(2, bean.getContent());
 
 		insertStatement.setInt(3, bean.getSchedulingAlgorithm().getId());
-		if(bean.getSeed()!=null)
+		if (bean.getSeed() != null)
 			insertStatement.setDouble(4, bean.getSeed());
 		else
 			insertStatement.setNull(4, Types.DOUBLE);
 		int res = insertStatement.executeUpdate();
 
 		ResultSet rs = insertStatement.getGeneratedKeys();
-		   if (rs != null && rs.first()) {
-		      // on récupère l'id généré
-		      bean.setId(rs.getInt(1));
-		   }
-		if(rs != null){
+		if (rs != null && rs.first()) {
+			// récupère l'id généré
+			bean.setId(rs.getInt(1));
+		}
+
+		if (rs != null) {
 			rs.close();
 		}
-		
-		AbstractSchedulingParameterDAO<?, ?> parametersDAO = AbstractSchedulingParameterDAO.getInstance(bean.getSchedulingAlgorithm().getName(), bean.getId());
-		parametersDAO.load();
-		parametersDAO.save();
-		
+
+		AbstractSchedulingParameterDAO<?> parametersDAO = AbstractSchedulingParameterDAO.getInstance(bean.getSchedulingAlgorithm().getName(),
+				bean.getId());
+		MissionSchedulerEvalParameters m = bean.getSchedulingAlgorithm().getEvalParameters();
+		ParameterBean[] parameters = new ParameterBean[3 + bean.getSchedulingAlgorithm().getParameters().size()];
+		int i = 0;
+		for (ParameterBean p : m.getParameters()) {
+			parameters[i++] = p;
+		}
+		for (ParameterBean p : bean.getSchedulingAlgorithm().getParameters().values()) {
+			parameters[i++] = p;
+		}
+		parametersDAO.save(parameters);
+
 		DbMgr.getInstance().getConnection().commit();
 		return res;
 	}
 
 	@Override
-	public int size(){
+	public int size() {
 		return beans.size();
 	}
 }

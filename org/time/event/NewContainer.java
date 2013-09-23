@@ -19,8 +19,10 @@
  */
 package org.time.event;
 
+import org.system.Terminal;
 import org.system.container_stocking.ContainerLocation;
 import org.time.Time;
+import org.time.TimeScheduler;
 
 public class NewContainer extends DynamicEvent {
 	protected String id;
@@ -42,11 +44,11 @@ public class NewContainer extends DynamicEvent {
 	@Override
 	public void execute() {
 		try {
-			terminal.addContainer(id, teu, location);
+			Terminal.getInstance().addContainer(id, teu, location);
 			writeEventInDb();
 		} catch (Exception e) {
 			// System.out.println("Event delayed : "+getType()+" "+location);
-			scheduler.registerDynamicEvent(this);
+			TimeScheduler.getInstance().registerDynamicEvent(this);
 		}
 	}
 

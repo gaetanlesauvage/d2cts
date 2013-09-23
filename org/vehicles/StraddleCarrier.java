@@ -125,9 +125,6 @@ public class StraddleCarrier implements DiscretObject {
 
 	private Routing routing;
 
-	private static Terminal terminal;
-	// private static RemoteTextDisplay terminalOut;
-
 	private double secByStep = -1;
 	private XMLStraddleCarrierMessageParser straddleMessageParser;
 
@@ -136,8 +133,7 @@ public class StraddleCarrier implements DiscretObject {
 	private boolean checkedOnce;
 	private boolean recomputeDestination = false;
 
-	public StraddleCarrier(String id, StraddleCarrierSlot slot, String model,
-			String color, boolean autoHandling) {
+	public StraddleCarrier(String id, StraddleCarrierSlot slot, String model, String color, boolean autoHandling) {
 		this.slot = slot;
 		this.color = color;
 		this.autoHandling = autoHandling;
@@ -145,16 +141,12 @@ public class StraddleCarrier implements DiscretObject {
 
 		this.id = id;
 
-		if (terminal == null)
-			terminal = Terminal.getInstance();
+		this.model = Terminal.getInstance().getStraddleCarrierModel(model);
 
-		this.model = terminal.getStraddleCarrierModel(model);
-
-		terminal.addStraddleCarrier(this);
+		Terminal.getInstance().addStraddleCarrier(this);
 
 		try {
-			parser = XMLReaderFactory
-					.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
+			parser = XMLReaderFactory.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
 			straddleMessageParser = new XMLStraddleCarrierMessageParser(this);
 			parser.setContentHandler(straddleMessageParser);
 		} catch (SAXException e) {
@@ -186,24 +178,19 @@ public class StraddleCarrier implements DiscretObject {
 		workload = new Workload(this);
 	}
 
-	public StraddleCarrier(String id, StraddleCarrierSlot slot, String model,
-			String color, Location l, boolean autoHandling) {
+	public StraddleCarrier(String id, StraddleCarrierSlot slot, String model, String color, Location l, boolean autoHandling) {
 		this.autoHandling = autoHandling;
 		this.slot = slot;
 		this.color = color;
 		this.currentLocation = l;
 		this.id = id;
 
-		if (terminal == null)
-			terminal = Terminal.getInstance();
+		this.model = Terminal.getInstance().getStraddleCarrierModel(model);
 
-		this.model = terminal.getStraddleCarrierModel(model);
-
-		terminal.addStraddleCarrier(this);
+		Terminal.getInstance().addStraddleCarrier(this);
 
 		try {
-			parser = XMLReaderFactory
-					.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
+			parser = XMLReaderFactory.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
 			straddleMessageParser = new XMLStraddleCarrierMessageParser(this);
 			parser.setContentHandler(straddleMessageParser);
 		} catch (SAXException e) {
@@ -243,8 +230,7 @@ public class StraddleCarrier implements DiscretObject {
 		}
 	}
 
-	public void removeMissionInWorkload(String mID)
-			throws MissionNotFoundException {
+	public void removeMissionInWorkload(String mID) throws MissionNotFoundException {
 		if (workload == null) {
 			throw new MissionNotFoundException(mID);
 		} else {
@@ -284,7 +270,7 @@ public class StraddleCarrier implements DiscretObject {
 			workload.insert(m);
 		} else {
 			Load l = workload.getLoad(m.getId());
-			terminal.missionAffected(l, id);
+			Terminal.getInstance().missionAffected(l, id);
 		}
 
 	}
@@ -292,9 +278,7 @@ public class StraddleCarrier implements DiscretObject {
 	public void apply() {
 		if (!autoHandling) {
 			if (futureLocation.getPourcent() != currentLocation.getPourcent()
-					|| !futureLocation.getRoad().getId()
-							.equals(currentLocation.getRoad().getId())
-					|| handledContainerChanged) {
+					|| !futureLocation.getRoad().getId().equals(currentLocation.getRoad().getId()) || handledContainerChanged) {
 				writeLocationInDB();
 				if (handledContainerChanged)
 					handledContainerChanged = false;
@@ -346,8 +330,7 @@ public class StraddleCarrier implements DiscretObject {
 			for (int i = 0; i < currentPath.size(); i++) {
 				PathNode pn = currentPath.get(i);
 				if (pn.getTimeWindow() != null)
-					terminal.unreserve(pn.getLocation().getRoad().getId(),
-							this.getId(), pn.getTimeWindow());
+					Terminal.getInstance().unreserve(pn.getLocation().getRoad().getId(), this.getId(), pn.getTimeWindow());
 			}
 			// terminal.unreserve(currentLocation.getRoad().getId(), this.id);
 		}
@@ -355,13 +338,10 @@ public class StraddleCarrier implements DiscretObject {
 			Routing rr = getRouting();
 			try {
 
-				Path newPath = rr.getShortestPath(currentLocation,
-						currentDestination, TimeScheduler.getInstance()
-								.getTime());
+				Path newPath = rr.getShortestPath(currentLocation, currentDestination, TimeScheduler.getInstance().getTime());
 				boolean b = newPath.reserve();
 				if (!b) {
-					System.out.println(roadStartTime
-							+ "> CAN'T RESERVE PATH : \n" + newPath);
+					System.out.println(roadStartTime + "> CAN'T RESERVE PATH : \n" + newPath);
 					new Exception().printStackTrace();
 
 				} else {
@@ -378,15 +358,12 @@ public class StraddleCarrier implements DiscretObject {
 
 					if (currentPath.size() == 1) {
 						if (currentLocation.getRoad().isDirected() == false) {
-							if (currentLocation.getDirection() == l2
-									.getDirection()) {
+							if (currentLocation.getDirection() == l2.getDirection()) {
 
 								// Demi tour
-								waitTime += model.getSpeedCharacteristics()
-										.getTurnBackTime();
+								waitTime += model.getSpeedCharacteristics().getTurnBackTime();
 								turnBack = true;
-								currentLocation
-										.setDirection(!l2.getDirection());
+								currentLocation.setDirection(!l2.getDirection());
 							}
 							/*
 							 * else{ System.out.println("In good direction !");
@@ -396,18 +373,14 @@ public class StraddleCarrier implements DiscretObject {
 						}
 					} else {
 
-						if (currentLocation.getRoad().getId()
-								.equals(l2.getRoad().getId())) {
+						if (currentLocation.getRoad().getId().equals(l2.getRoad().getId())) {
 							if (currentLocation.getRoad().isDirected() == false) {
-								if (currentLocation.getDirection() != l2
-										.getDirection()) {
+								if (currentLocation.getDirection() != l2.getDirection()) {
 
 									// Demi tour
-									waitTime += model.getSpeedCharacteristics()
-											.getTurnBackTime();
+									waitTime += model.getSpeedCharacteristics().getTurnBackTime();
 									turnBack = true;
-									currentLocation.setDirection(l2
-											.getDirection());
+									currentLocation.setDirection(l2.getDirection());
 								}
 
 							}
@@ -430,15 +403,12 @@ public class StraddleCarrier implements DiscretObject {
 	public void fail(String failureType, Time repairDuration) {
 		this.failureType = failureType;
 		this.repairDuration = repairDuration;
-		System.err.println(TimeScheduler.getInstance().getTime() + "> " + id
-				+ " failure! type=" + failureType);
+		System.err.println(TimeScheduler.getInstance().getTime() + "> " + id + " failure! type=" + failureType);
 		if (failureType.equals("move") || failureType.equals("both")) {
 			// Mod speed with towing speed
 			available = 2;
 			try {
-				waitTime += getRouting().getShortestPath(
-						new Location(slot, 0.5), currentLocation,
-						TimeScheduler.getInstance().getTime()).getCost();
+				waitTime += getRouting().getShortestPath(new Location(slot, 0.5), currentLocation, TimeScheduler.getInstance().getTime()).getCost();
 				// System.err.println("STRADDLECARRIER : "+new
 				// Time(waitTime+"s")+" to wait for the tailing truck!");
 			} catch (NoPathFoundException e) {
@@ -454,11 +424,9 @@ public class StraddleCarrier implements DiscretObject {
 			} catch (MissionNotFoundException e) {
 				e.printStackTrace();
 			}
-			System.err.println(TimeScheduler.getInstance().getTime() + "> "
-					+ id + " : load removed of workload!");
+			System.err.println(TimeScheduler.getInstance().getTime() + "> " + id + " : load removed of workload!");
 			currentLoad.reschedule();
-			System.err.println(TimeScheduler.getInstance().getTime() + "> "
-					+ id + " : mission rescheduled!");
+			System.err.println(TimeScheduler.getInstance().getTime() + "> " + id + " : mission rescheduled!");
 			currentLoad = null;
 		} else {
 			loadToResume = new Load(currentLoad);
@@ -466,45 +434,37 @@ public class StraddleCarrier implements DiscretObject {
 		}
 
 		checkedOnce = false;
-		System.err.println(TimeScheduler.getInstance().getTime() + "> " + id
-				+ " : available = " + available);
+		System.err.println(TimeScheduler.getInstance().getTime() + "> " + id + " : available = " + available);
 
 		// if handling a container
 		if (!handledContainerId.equals("")) {
-			System.err.println(TimeScheduler.getInstance().getTime() + "> "
-					+ id + " : handling a container (" + handledContainerId
-					+ ")!");
+			System.err.println(TimeScheduler.getInstance().getTime() + "> " + id + " : handling a container (" + handledContainerId + ")!");
 			// If can't use the spreader
 			if (!failureType.equals("spreader") && !failureType.equals("both")) {
-				System.err.println(TimeScheduler.getInstance().getTime() + "> "
-						+ id + " : can use its spreader!");
+				System.err.println(TimeScheduler.getInstance().getTime() + "> " + id + " : can use its spreader!");
 				// can use the spreader
 				// Drop container
-				Container load = terminal.getContainer(handledContainerId);
+				Container load = Terminal.getInstance().getContainer(handledContainerId);
 				List<String> alreadyTried = new ArrayList<String>();
 
-				Bay l = terminal.findClosestLane(currentLocation, alreadyTried);
+				Bay l = Terminal.getInstance().findClosestLane(currentLocation, alreadyTried);
 
 				Slot closest = null;
 				int level = -1;
 				ContainerAlignment alignment = null;
 
 				while (closest == null) {
-					List<Slot> slots = terminal.getExitsSlots(l.getId());
+					List<Slot> slots = Terminal.getInstance().getExitsSlots(l.getId());
 
 					List<Slot> sortedSlots = new ArrayList<Slot>(slots.size());
-					List<Double> sortedDistances = new ArrayList<Double>(
-							slots.size());
+					List<Double> sortedDistances = new ArrayList<Double>(slots.size());
 					// Sort slots
 					for (int i = 0; i < slots.size(); i++) {
 						Slot s = slots.get(i);
-						if (s.getTEU() >= load.getTEU()
-								&& terminal.getBlock(s.getPaveId()).getType() == BlockType.YARD) {
-							double d = Location.getLength(currentLocation
-									.getCoords(), s.getLocation().getCoords());
+						if (s.getTEU() >= load.getTEU() && Terminal.getInstance().getBlock(s.getPaveId()).getType() == BlockType.YARD) {
+							double d = Location.getLength(currentLocation.getCoords(), s.getLocation().getCoords());
 							int index = 0;
-							while (index < sortedDistances.size()
-									&& sortedDistances.get(index) < d) {
+							while (index < sortedDistances.size() && sortedDistances.get(index) < d) {
 								index++;
 							}
 							sortedDistances.add(index, d);
@@ -514,10 +474,8 @@ public class StraddleCarrier implements DiscretObject {
 
 					// Choose slot
 					for (Slot s : sortedSlots) {
-						for (int i = 0; i < s.getLevels().size() + 1
-								&& closest == null; i++) {
-							for (ContainerAlignment align : ContainerAlignment
-									.values()) {
+						for (int i = 0; i < s.getLevels().size() + 1 && closest == null; i++) {
+							for (ContainerAlignment align : ContainerAlignment.values()) {
 								if (s.canAddContainer(load, i, align.getValue())) {
 									closest = s;
 									level = i;
@@ -533,8 +491,7 @@ public class StraddleCarrier implements DiscretObject {
 					if (closest == null) {
 						// Choose new lane and retry
 						alreadyTried.add(l.getId());
-						l = terminal.findClosestLane(currentLocation,
-								alreadyTried);
+						l = Terminal.getInstance().findClosestLane(currentLocation, alreadyTried);
 						if (l == null)
 							break;
 					}
@@ -543,28 +500,18 @@ public class StraddleCarrier implements DiscretObject {
 				if (closest == null) {
 					// NO lane containing an available slot found !
 					// SO go to the depot with container !
-					System.err.println(TimeScheduler.getInstance().getTime()
-							+ "> " + id + " : no compatible slot found!");
+					System.err.println(TimeScheduler.getInstance().getTime() + "> " + id + " : no compatible slot found!");
 					// TODO choose between the found slot or the depot + repair
 					// time (currentLocation->slot <
 					// (currentLocation->depot+repairTime))
 				} else {
 
-					ContainerLocation cl = new ContainerLocation(
-							handledContainerId, closest.getPaveId(), closest
-									.getLocation().getRoad().getId(),
+					ContainerLocation cl = new ContainerLocation(handledContainerId, closest.getPaveId(), closest.getLocation().getRoad().getId(),
 							closest.getId(), level, alignment.getValue());
-					System.err.println(TimeScheduler.getInstance().getTime()
-							+ "> " + id
-							+ " : handled container will be dropped at " + cl);
-					Mission dropMission = new Mission("drop"
-							+ handledContainerId,
-							MissionKinds.STAY.getIntValue(), new TimeWindow(
-									TimeScheduler.getInstance().getTime(),
-									TimeScheduler.getInstance().getTime()),
-							new TimeWindow(TimeScheduler.getInstance()
-									.getTime(), TimeScheduler.getInstance()
-									.getTime()), handledContainerId, cl);
+					System.err.println(TimeScheduler.getInstance().getTime() + "> " + id + " : handled container will be dropped at " + cl);
+					Mission dropMission = new Mission("drop" + handledContainerId, MissionKinds.STAY.getIntValue(), new TimeWindow(TimeScheduler
+							.getInstance().getTime(), TimeScheduler.getInstance().getTime()), new TimeWindow(TimeScheduler.getInstance().getTime(),
+							TimeScheduler.getInstance().getTime()), handledContainerId, cl);
 					addMissionInWorkload(dropMission);
 				}
 			}
@@ -585,12 +532,9 @@ public class StraddleCarrier implements DiscretObject {
 		// "sprite-shape: image; sprite-orientation: origin; width:"+this.model.getWidth()+"gu;height:"+this.model.getHeight()+"gu;border-width: 1gu; border-color: black;z-index: 100;";
 
 		String imageFileName = getImageURL();
-		String style = "shape: box; fill-mode: image-scaled; fill-image: url('"
-				+ Terminal.IMAGE_FOLDER.substring(1) + "sc_" + imageFileName
-				+ "'); sprite-orientation: "
-				+ (currentLocation.getDirection() ? "to" : "from") + "; size: "
-				+ this.model.getLength() + "gu, " + this.model.getWidth()
-				+ "gu; z-index: 100;";
+		String style = "shape: box; fill-mode: image-scaled; fill-image: url('" + Terminal.IMAGE_FOLDER.substring(1) + "sc_" + imageFileName
+				+ "'); sprite-orientation: " + (currentLocation.getDirection() ? "to" : "from") + "; size: " + this.model.getLength() + "gu, "
+				+ this.model.getWidth() + "gu; z-index: 100;";
 		return style;
 	}
 
@@ -636,8 +580,7 @@ public class StraddleCarrier implements DiscretObject {
 	}
 
 	public String getSchedulingCSSStyle() {
-		String style = "shape: circle; fill-mode: plain; size-mode: normal; size: 20px; fill-color: "
-				+ color + "; visibility-mode: hidden;";
+		String style = "shape: circle; fill-mode: plain; size-mode: normal; size: 20px; fill-color: " + color + "; visibility-mode: hidden;";
 		return style;
 	}
 
@@ -686,7 +629,7 @@ public class StraddleCarrier implements DiscretObject {
 	public void getOut() {
 		System.out.println("Here -1 " + id);
 		new Exception().printStackTrace();
-		terminal.straddleCarrierActivityChanged("IDLE", this.id);
+		Terminal.getInstance().straddleCarrierActivityChanged("IDLE", this.id);
 		Bay l = (Bay) currentLocation.getRoad();
 		System.out.println("Here");
 		BayCrossroad c = null;
@@ -697,10 +640,9 @@ public class StraddleCarrier implements DiscretObject {
 			c = (BayCrossroad) l.getOrigin();
 			System.out.println("Here 3");
 		}
-		Road r = terminal.getRoad(c.getMainRoad());
+		Road r = Terminal.getInstance().getRoad(c.getMainRoad());
 		System.out.println("Here 4");
-		Location destination = new Location(r, Location.getPourcent(
-				c.getLocation(), r), currentLocation.getDirection());
+		Location destination = new Location(r, Location.getPourcent(c.getLocation(), r), currentLocation.getDirection());
 		System.out.println("Here 5");
 		goTo(destination, true);
 		System.out.println("Here 6");
@@ -708,7 +650,7 @@ public class StraddleCarrier implements DiscretObject {
 
 	public void gotoDepot() {
 		if (!workload.isEmpty()) {
-			terminal.straddleCarrierActivityChanged(Mission.DEPOT, this.id);
+			Terminal.getInstance().straddleCarrierActivityChanged(Mission.DEPOT, this.id);
 			Location destination = new Location(slot, 0.5);
 			goTo(destination, true);
 		}
@@ -731,8 +673,7 @@ public class StraddleCarrier implements DiscretObject {
 		if (available > 0) {
 			if (!checkedOnce) {
 				checkedOnce = true;
-				if (currentLoad != null
-						&& currentLoad.getState() == MissionState.STATE_ACHIEVED) {
+				if (currentLoad != null && currentLoad.getState() == MissionState.STATE_ACHIEVED) {
 					lastLoad = currentLoad;
 					currentLoad = null;
 					// GO BACK TO DEPOT
@@ -742,8 +683,7 @@ public class StraddleCarrier implements DiscretObject {
 						System.out.println("Here 7");
 					}
 				} else {
-					Load l = workload.checkLoad(TimeScheduler.getInstance()
-							.getTime());
+					Load l = workload.checkLoad(TimeScheduler.getInstance().getTime());
 					if (l != null && l.getMission().getId().startsWith("drop")) {
 						try {
 							workload.startMission(l.getMission().getId());
@@ -754,14 +694,11 @@ public class StraddleCarrier implements DiscretObject {
 						l.nextPhase();
 						currentLoad = l;
 						lastLoad = l;
-						terminal.straddleCarrierActivityChanged(l.getMission()
-								.getId(), this.id);
+						Terminal.getInstance().straddleCarrierActivityChanged(l.getMission().getId(), this.id);
 
 						destinationReached = false;
 						setDestination(l.getMission().getDestination());
-						System.err.println(TimeScheduler.getInstance()
-								.getTime()
-								+ "> DROP CONTAINER MISSION STARTED!");
+						System.err.println(TimeScheduler.getInstance().getTime() + "> DROP CONTAINER MISSION STARTED!");
 					} else {
 						gotoDepot();
 						System.out.println("Here 8");
@@ -769,14 +706,13 @@ public class StraddleCarrier implements DiscretObject {
 				}
 			}
 		} else {
-			if (currentLoad != null
-					&& currentLoad.getState() == MissionState.STATE_ACHIEVED) {
+			if (currentLoad != null && currentLoad.getState() == MissionState.STATE_ACHIEVED) {
 				currentLoad = null;
 				// GO BACK TO DEPOT
 				if (!currentLocation.getRoad().getId().equals(slot.getId())) {
 					// GO TO DEPOT
 					gotoDepot();
-					//System.out.println("Here 9");
+					// System.out.println("Here 9");
 				}
 			} else if (currentLoad == null) {
 				Time t = TimeScheduler.getInstance().getTime();
@@ -794,22 +730,14 @@ public class StraddleCarrier implements DiscretObject {
 						currentLoad = l;
 						lastLoad = l;
 
-						terminal.straddleCarrierActivityChanged(m.getId(),
-								this.id);
-						terminal.missionAffected(currentLoad, this.id);
+						Terminal.getInstance().straddleCarrierActivityChanged(m.getId(), this.id);
+						Terminal.getInstance().missionAffected(currentLoad, this.id);
 						destinationReached = false;
 						setDestination(m.getContainer().getLocation());
-						if (currentLocation
-								.getRoad()
-								.getId()
-								.equals(m.getContainer().getLocation()
-										.getRoad().getId())) {
-							if (m.getPickupTimeWindow().getMin().toStep() < t
-									.toStep()) {
+						if (currentLocation.getRoad().getId().equals(m.getContainer().getLocation().getRoad().getId())) {
+							if (m.getPickupTimeWindow().getMin().toStep() < t.toStep()) {
 								// Get out and wait
-								new Exception(id
-										+ " should get out and wait !!!")
-										.printStackTrace();
+								new Exception(id + " should get out and wait !!!").printStackTrace();
 
 							}
 						}
@@ -822,11 +750,10 @@ public class StraddleCarrier implements DiscretObject {
 				} else {
 					// GO BACK TO DEPOT
 
-					if (!currentLocation.getRoad().getId().equals(slot.getId())
-							&& (goToList == null || goToList.size() == 0)) {
+					if (!currentLocation.getRoad().getId().equals(slot.getId()) && (goToList == null || goToList.size() == 0)) {
 						// GO TO DEPOT
 						gotoDepot();
-						//System.out.println("Here 10");
+						// System.out.println("Here 10");
 					}
 				}
 			}
@@ -841,18 +768,17 @@ public class StraddleCarrier implements DiscretObject {
 	 * pwCom3DView.write(line); pwCom3DView.flush(); }
 	 */
 
-	public void modMission(String modMissionId, MissionPhase modMissionPhase,
-			ContainerLocation contLocation) {
-		System.out.println("Mod mission : " + modMissionId + " phase = "
-				+ modMissionPhase + " time = " + this.waitTime);
+	public void modMission(String modMissionId, MissionPhase modMissionPhase, ContainerLocation contLocation) {
+		System.out.println("Mod mission : " + modMissionId + " phase = " + modMissionPhase + " time = " + this.waitTime);
 		try {
 			Load l = workload.remove(modMissionId);
 
 			l.setPhase(modMissionPhase);
 			if (modMissionPhase == MissionPhase.PHASE_DELIVERY) {
 				l.getMission().setDestination(contLocation);
-				Terminal.getInstance().addMission(l.getMission());
-				terminal.missionChanged(l);
+				Terminal t = Terminal.getInstance();
+				t.addMission(l.getMission());
+				t.missionChanged(l);
 				workload.insert(l);
 
 			}
@@ -867,9 +793,8 @@ public class StraddleCarrier implements DiscretObject {
 		 * 
 		 * }
 		 */
-		terminal.modMission(modMissionId, modMissionPhase, contLocation);
-		if (currentLoad != null
-				&& currentLoad.getMission().getId().equals(modMissionId)) {
+		Terminal.getInstance().modMission(modMissionId, modMissionPhase, contLocation);
+		if (currentLoad != null && currentLoad.getMission().getId().equals(modMissionId)) {
 			currentLoad = workload.getCurrentLoad();
 			setDestination(currentLoad.getMission().getDestination());
 			destinationReached = false;
@@ -877,32 +802,28 @@ public class StraddleCarrier implements DiscretObject {
 		// System.out.println("Mission "+modMissionId+" modifyied : "+l+" "+l.getPhase()+" "+l.getState()+" mission : "+currentLoad.getMission());
 	}
 
-	public void modMission(String modMissionId, MissionPhase modMissionPhase,
-			Time waitTime) {
-		System.out.println("Mod mission : " + modMissionId + " phase = "
-				+ modMissionPhase + " time = " + this.waitTime);
+	public void modMission(String modMissionId, MissionPhase modMissionPhase, Time waitTime) {
+		System.out.println("Mod mission : " + modMissionId + " phase = " + modMissionPhase + " time = " + this.waitTime);
 		try {
 			Load l = workload.remove(modMissionId);
 			l.setPhase(modMissionPhase);
 			if (modMissionPhase == MissionPhase.PHASE_DELIVERY) {
 				TimeWindow delTW = l.getMission().getDeliveryTimeWindow();
-				Time min = new Time(TimeScheduler.getInstance().getTime(),
-						waitTime);
+				Time min = new Time(TimeScheduler.getInstance().getTime(), waitTime);
 				Time max = delTW.getMax();
 				if (min.toStep() > max.toStep())
 					max = new Time(max, waitTime);
 				delTW = new TimeWindow(min, max);
 
 				l.getMission().setDeliveryTimeWindow(delTW);
-				Terminal.getInstance().addMission(l.getMission());
+				Terminal t = Terminal.getInstance();
+				t.addMission(l.getMission());
 				// terminal.missionStatusChanged(l);
-				terminal.missionChanged(l);
+				t.missionChanged(l);
 				workload.insert(l);
 			}
-			if (currentLoad != null
-					&& currentLoad.getMission().getId().equals(modMissionId)) {
-				System.out.println("CurrentLoad updated ! " + l + " "
-						+ l.getPhase());
+			if (currentLoad != null && currentLoad.getMission().getId().equals(modMissionId)) {
+				System.out.println("CurrentLoad updated ! " + l + " " + l.getPhase());
 				currentLoad = workload.getCurrentLoad();
 			}
 		} catch (MissionNotFoundException e) {
@@ -946,46 +867,42 @@ public class StraddleCarrier implements DiscretObject {
 		// Time tNow = TimeScheduler.getInstance().getTime();
 		// Time tNextStep = new Time(tNow.toStep()+1);
 		if (waitTime == 0) {
-			if ((l.getPourcent() == 0 || l.getPourcent() == 1.0)
-					&& l.getRoad() instanceof Bay
-					&& !terminal.isLaneDrivable(l.getRoad().getId())) {
+			if ((l.getPourcent() == 0 || l.getPourcent() == 1.0) && l.getRoad() instanceof Bay
+					&& !Terminal.getInstance().isLaneDrivable(l.getRoad().getId())) {
 				return l;
 			}
 
 			if (turnBack)
 				turnBack = false;
 			if (timeOfMoveInS > 0.0) {
-				double speed = model.getSpeed((available < 2),
-						!handledContainerId.equals(""),
-						l.getRoad() instanceof Bay);
+				double speed = model.getSpeed((available < 2), !handledContainerId.equals(""), l.getRoad() instanceof Bay);
 
 				double distanceOfThisMove = speed * (timeOfMoveInS);
-				double oneMoveRate = distanceOfThisMove
-						/ l.getRoad().getLength();
-				if (l.getRoad().getId()
-						.equals(currentDestination.getRoad().getId())/*
-																	 * &&currentPath
-																	 * .size()
-																	 * == 0
-																	 */) {
+				double oneMoveRate = distanceOfThisMove / l.getRoad().getLength();
+				if (l.getRoad().getId().equals(currentDestination.getRoad().getId())/*
+																					 * &&
+																					 * currentPath
+																					 * .
+																					 * size
+																					 * (
+																					 * )
+																					 * ==
+																					 * 0
+																					 */) {
 					// Sur la bonne route
 					// System.out.println("MOVE : "+timeOfMoveInS+" Location= "+l+" Target : "+currentDestination);
 					// System.out.println("Final road reached !");
 					Location destination = currentDestination;
-					if (hasReachedLocation(l, destination)
-							|| willReachLocation(l, destination, oneMoveRate)) {
+					if (hasReachedLocation(l, destination) || willReachLocation(l, destination, oneMoveRate)) {
 						// System.out.println(TimeScheduler.getInstance().getTime()+"> "+id+" : Destination reached !");
 						destinationReached = true;
 						// On deduis le tps de deplacement inutilement compte
-						double overDoneRate = Math.abs(l.getPourcent()
-								- currentDestination.getPourcent());
-						double overDoneLength = overDoneRate
-								* l.getRoad().getLength();
+						double overDoneRate = Math.abs(l.getPourcent() - currentDestination.getPourcent());
+						double overDoneLength = overDoneRate * l.getRoad().getLength();
 						double inS = overDoneLength / speed;
 						overDoneTime = new Time(inS);
 						// On se place exactement a l'endroit indique
-						tmpFutureLocation = new Location(destination.getRoad(),
-								destination.getPourcent(), l.getDirection());
+						tmpFutureLocation = new Location(destination.getRoad(), destination.getPourcent(), l.getDirection());
 
 						// Time tNow = TimeScheduler.getInstance().getTime();
 						// Time gap = new Time(tNow,roadStartTime,false);
@@ -998,14 +915,9 @@ public class StraddleCarrier implements DiscretObject {
 							// Sens inverse
 							goRate = -oneMoveRate;
 						}
-						double goalRate = LaserSystem.getInstance()
-								.getCollisionRate(id, l,
-										l.getPourcent() + goRate);
-						if (goalRate != l.getPourcent() + goRate
-								&& goalRate > 0) {
-							System.out.println("2) Straddle carrier " + id
-									+ " has been blocked at " + goalRate
-									+ " ! Traffic : ");
+						double goalRate = LaserSystem.getInstance().getCollisionRate(id, l, l.getPourcent() + goRate);
+						if (goalRate != l.getPourcent() + goRate && goalRate > 0) {
+							System.out.println("2) Straddle carrier " + id + " has been blocked at " + goalRate + " ! Traffic : ");
 							for (String traffic : l.getRoad().getTraffic()) {
 								System.out.println("\t" + traffic);
 							}
@@ -1026,8 +938,7 @@ public class StraddleCarrier implements DiscretObject {
 							 */
 							new java.util.Scanner(System.in).nextLine();
 						}
-						tmpFutureLocation = Location.moveFromOf(l,
-								goalRate - l.getPourcent());
+						tmpFutureLocation = Location.moveFromOf(l, goalRate - l.getPourcent());
 					}
 				} else {
 					double currentRate = l.getPourcent();
@@ -1052,12 +963,9 @@ public class StraddleCarrier implements DiscretObject {
 							endReached = true;
 						}
 					}
-					double goalRate = LaserSystem.getInstance()
-							.getCollisionRate(id, l, currentRate + goRate);
+					double goalRate = LaserSystem.getInstance().getCollisionRate(id, l, currentRate + goRate);
 					if (goalRate != currentRate + goRate && goalRate > 0) {
-						System.out.println("Straddle carrier " + id
-								+ " has been blocked at " + goalRate
-								+ " ! Traffic : ");
+						System.out.println("Straddle carrier " + id + " has been blocked at " + goalRate + " ! Traffic : ");
 						for (String traffic : l.getRoad().getTraffic()) {
 							System.out.println("\t" + traffic);
 						}
@@ -1065,17 +973,14 @@ public class StraddleCarrier implements DiscretObject {
 						if (goRate > 0) {
 							Bay dest = (Bay) currentLocation.getRoad();
 							BayCrossroad lc = (BayCrossroad) dest.getOrigin();
-							Road r = terminal.getRoad(lc.getMainRoad());
-							double rate = Location.getPourcent(
-									lc.getLocation(), r);
+							Road r = Terminal.getInstance().getRoad(lc.getMainRoad());
+							double rate = Location.getPourcent(lc.getLocation(), r);
 							goTo(new Location(r, rate, true), false);
 						} else {
 							Bay dest = (Bay) currentLocation.getRoad();
-							BayCrossroad lc = (BayCrossroad) dest
-									.getDestination();
-							Road r = terminal.getRoad(lc.getMainRoad());
-							double rate = Location.getPourcent(
-									lc.getLocation(), r);
+							BayCrossroad lc = (BayCrossroad) dest.getDestination();
+							Road r = Terminal.getInstance().getRoad(lc.getMainRoad());
+							double rate = Location.getPourcent(lc.getLocation(), r);
 							goTo(new Location(r, rate, true), false);
 						}
 
@@ -1090,39 +995,28 @@ public class StraddleCarrier implements DiscretObject {
 						PathNode pn = pop();
 
 						// Location = target
-						double overLength = poll.getLength(Math.abs(percent
-								- poll.getPourcent()));
+						double overLength = poll.getLength(Math.abs(percent - poll.getPourcent()));
 						double inS = (overLength / speed);
 						if (currentPath.size() > 0) {
 							Location next = currentPath.peek().getLocation();
 							// boolean isOpen =
 							// terminal.willBeOpen(next.getRoad().getId(), new
 							// Time(TimeScheduler.getInstance().getTime().toStep()+1));
-							boolean isOpen = next.getRoad() instanceof Bay ? terminal
-									.isLaneDrivable(next.getRoad().getId())
-									: true;
+							boolean isOpen = next.getRoad() instanceof Bay ? Terminal.getInstance().isLaneDrivable(next.getRoad().getId()) : true;
 							// boolean isOpen = next.getRoad().isOpenFor(this,
 							// tNow);
 							// if(/*id.equals("cav4")&&*/next.getRoad().getId().equals("F-7/17"))
 							// System.out.println(next.getRoad().getId()+"  open at "+tNow+" for "+id+" ? = "+isOpen+" next.reservations = "+next.getRoad().getReservationsTable());
 							if (!isOpen) {
 								turnBack = false;
-								waitTime = Math.max(TimeScheduler.getInstance()
-										.getSecondsPerStep(), waitTime);
+								waitTime = Math.max(TimeScheduler.getInstance().getSecondsPerStep(), waitTime);
 
-								if (currentLoad != null
-										&& currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY
-										&& currentLoad.getMission()
-												.getDestination().getLaneId()
-												.equals(next.getRoad().getId())) {
-									Time nextTime = new Time(TimeScheduler
-											.getInstance().getTime(), new Time(
-											waitTime));
+								if (currentLoad != null && currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY
+										&& currentLoad.getMission().getDestination().getLaneId().equals(next.getRoad().getId())) {
+									Time nextTime = new Time(TimeScheduler.getInstance().getTime(), new Time(waitTime));
 									// Slot sDest =
 									// terminal.getSlot(currentLoad.getMission().getDestination().getSlotId());
-									Location dest = currentPath.get(
-											currentPath.size() - 1)
-											.getLocation();
+									Location dest = currentPath.get(currentPath.size() - 1).getLocation();
 
 									double travelTime;
 									try {
@@ -1130,224 +1024,73 @@ public class StraddleCarrier implements DiscretObject {
 										// getRouting().getShortestPath(poll,
 										// dest,
 										// nextTime).getCost()-currentLoad.getMission().getContainer().getHandlingTime().getInSec();
-										travelTime = getRouting()
-												.getShortestPath(poll, dest,
-														nextTime).getCost();// -getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
+										travelTime = getRouting().getShortestPath(poll, dest, nextTime).getCost();// -getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
 
-										Time deliveryTime = new Time(nextTime,
-												new Time(travelTime));
-										if (deliveryTime.toStep() < currentLoad
-												.getMission()
-												.getDeliveryTimeWindow()
-												.getMin().toStep()) {
-											double toWait = new Time(
-													currentLoad
-															.getMission()
-															.getDeliveryTimeWindow()
-															.getMin().toStep()
-															- deliveryTime
-																	.toStep())
-													.getInSec();
-											Reservations resa = Terminal
-													.getInstance()
-													.getReservations(
-															dest.getRoad()
-																	.getId());
-											Reservation r = resa
-													.getNextReservation(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															id);
+										Time deliveryTime = new Time(nextTime, new Time(travelTime));
+										if (deliveryTime.toStep() < currentLoad.getMission().getDeliveryTimeWindow().getMin().toStep()) {
+											double toWait = new Time(currentLoad.getMission().getDeliveryTimeWindow().getMin().toStep()
+													- deliveryTime.toStep()).getInSec();
+											Reservations resa = Terminal.getInstance().getReservations(dest.getRoad().getId());
+											Reservation r = resa.getNextReservation(TimeScheduler.getInstance().getTime(), id);
 											if (r != null) {
-												terminal.unreserve(dest
-														.getRoad().getId(), id,
-														r.getTimeWindow());
-												Time from = new Time(
-														TimeScheduler
-																.getInstance()
-																.getTime(),
-														new Time(toWait));
-												Time to = new Time(from, r
-														.getTimeWindow()
-														.getLength());
-												TimeWindow tw2 = new TimeWindow(
-														from, to);
-												terminal.reserveRoad(dest
-														.getRoad().getId(), id,
-														tw2, r.getPriority());
+												Terminal.getInstance().unreserve(dest.getRoad().getId(), id, r.getTimeWindow());
+												Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+												Time to = new Time(from, r.getTimeWindow().getLength());
+												TimeWindow tw2 = new TimeWindow(from, to);
+												Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, r.getPriority());
 											} else {
-												Time from = new Time(
-														TimeScheduler
-																.getInstance()
-																.getTime(),
-														new Time(toWait));
-												Time to = new Time(
-														from,
-														new Time(
-																getRouting()
-																		.getShortestPath(
-																				new Location(
-																						dest.getRoad(),
-																						0,
-																						true),
-																				new Location(
-																						dest.getRoad(),
-																						1,
-																						true))
-																		.getCost()));
-												TimeWindow tw2 = new TimeWindow(
-														from, to);
-												terminal.reserveRoad(
-														dest.getRoad().getId(),
-														id,
-														tw2,
-														Reservation.PRIORITY_GO_IN);
+												Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+												Time to = new Time(from, new Time(getRouting().getShortestPath(new Location(dest.getRoad(), 0, true),
+														new Location(dest.getRoad(), 1, true)).getCost()));
+												TimeWindow tw2 = new TimeWindow(from, to);
+												Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, Reservation.PRIORITY_GO_IN);
 											}
 
-											System.out
-													.println("(1) Straddle "
-															+ id
-															+ " is too early ! Will wait "
-															+ toWait
-															+ "s ! (t="
-															+ nextTime
-															+ " travelTime["
-															+ poll.getRoad()
-																	.getId()
-															+ "->"
-															+ dest.getRoad()
-																	.getId()
-															+ "]="
-															+ travelTime
-															+ " delivery_min="
-															+ currentLoad
-																	.getMission()
-																	.getDeliveryTimeWindow()
-																	.getMin()
-															+ ")");
+											System.out.println("(1) Straddle " + id + " is too early ! Will wait " + toWait + "s ! (t=" + nextTime
+													+ " travelTime[" + poll.getRoad().getId() + "->" + dest.getRoad().getId() + "]=" + travelTime
+													+ " delivery_min=" + currentLoad.getMission().getDeliveryTimeWindow().getMin() + ")");
 											waitTime += toWait;
 										}
 									} catch (NoPathFoundException e) {
 										e.printStackTrace();
 									}
-								} else if (currentLoad != null
-										&& currentLoad.getPhase() == MissionPhase.PHASE_PICKUP
-										&& currentLoad.getMission()
-												.getContainer().getLocation()
-												.getRoad().getId()
-												.equals(next.getRoad().getId())) {
-									Time nextTime = new Time(TimeScheduler
-											.getInstance().getTime(), new Time(
-											waitTime));
+								} else if (currentLoad != null && currentLoad.getPhase() == MissionPhase.PHASE_PICKUP
+										&& currentLoad.getMission().getContainer().getLocation().getRoad().getId().equals(next.getRoad().getId())) {
+									Time nextTime = new Time(TimeScheduler.getInstance().getTime(), new Time(waitTime));
 									// Slot sDest =
 									// terminal.getSlot(currentLoad.getMission().getDestination().getSlotId());
-									Location dest = currentPath.get(
-											currentPath.size() - 1)
-											.getLocation();
+									Location dest = currentPath.get(currentPath.size() - 1).getLocation();
 									double travelTime;
 									try {
 										// travelTime =
 										// getRouting().getShortestPath(poll,
 										// dest,
 										// nextTime).getCost()-currentLoad.getMission().getContainer().getHandlingTime().getInSec();
-										travelTime = getRouting()
-												.getShortestPath(poll, dest,
-														nextTime).getCost();// -getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
+										travelTime = getRouting().getShortestPath(poll, dest, nextTime).getCost();// -getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
 
-										Time pickupTime = new Time(nextTime,
-												new Time(travelTime));
-										if (pickupTime.toStep() < currentLoad
-												.getMission()
-												.getPickupTimeWindow().getMin()
-												.toStep()) {
-											double toWait = new Time(
-													currentLoad
-															.getMission()
-															.getPickupTimeWindow()
-															.getMin().toStep()
-															- pickupTime
-																	.toStep())
-													.getInSec();
-											Reservations resa = Terminal
-													.getInstance()
-													.getReservations(
-															dest.getRoad()
-																	.getId());
-											Reservation r = resa
-													.getNextReservation(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															id);
+										Time pickupTime = new Time(nextTime, new Time(travelTime));
+										if (pickupTime.toStep() < currentLoad.getMission().getPickupTimeWindow().getMin().toStep()) {
+											double toWait = new Time(currentLoad.getMission().getPickupTimeWindow().getMin().toStep()
+													- pickupTime.toStep()).getInSec();
+											Reservations resa = Terminal.getInstance().getReservations(dest.getRoad().getId());
+											Reservation r = resa.getNextReservation(TimeScheduler.getInstance().getTime(), id);
 											if (r != null) {
-												terminal.unreserve(dest
-														.getRoad().getId(), id,
-														r.getTimeWindow());
-												Time from = new Time(
-														TimeScheduler
-																.getInstance()
-																.getTime(),
-														new Time(toWait));
-												Time to = new Time(from, r
-														.getTimeWindow()
-														.getLength());
-												TimeWindow tw2 = new TimeWindow(
-														from, to);
-												terminal.reserveRoad(dest
-														.getRoad().getId(), id,
-														tw2, r.getPriority());
+												Terminal.getInstance().unreserve(dest.getRoad().getId(), id, r.getTimeWindow());
+												Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+												Time to = new Time(from, r.getTimeWindow().getLength());
+												TimeWindow tw2 = new TimeWindow(from, to);
+												Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, r.getPriority());
 											} else {
-												Time from = new Time(
-														TimeScheduler
-																.getInstance()
-																.getTime(),
-														new Time(toWait));
-												Time to = new Time(
-														from,
-														new Time(
-																getRouting()
-																		.getShortestPath(
-																				new Location(
-																						dest.getRoad(),
-																						0,
-																						true),
-																				new Location(
-																						dest.getRoad(),
-																						1,
-																						true))
-																		.getCost()
-																		));
-												TimeWindow tw2 = new TimeWindow(
-														from, to);
-												terminal.reserveRoad(
-														dest.getRoad().getId(),
-														id,
-														tw2,
-														Reservation.PRIORITY_GO_IN);
+												Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+												Time to = new Time(from, new Time(getRouting().getShortestPath(new Location(dest.getRoad(), 0, true),
+														new Location(dest.getRoad(), 1, true)).getCost()));
+												TimeWindow tw2 = new TimeWindow(from, to);
+												Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, Reservation.PRIORITY_GO_IN);
 											}
 
-											System.out
-													.println("(1-2) Straddle "
-															+ id
-															+ " is too early ! Will wait "
-															+ toWait
-															+ "s ! (t="
-															+ nextTime
-															+ " travelTime["
-															+ poll.getRoad()
-																	.getId()
-															+ "->"
-															+ dest.getRoad()
-																	.getId()
-															+ "]="
-															+ travelTime
-															+ " delivery_min="
-															+ currentLoad
-																	.getMission()
-																	.getPickupTimeWindow()
-																	.getMin()
-															+ ")");
+											System.out.println("(1-2) Straddle " + id + " is too early ! Will wait " + toWait + "s ! (t=" + nextTime
+													+ " travelTime[" + poll.getRoad().getId() + "->" + dest.getRoad().getId() + "]=" + travelTime
+													+ " delivery_min=" + currentLoad.getMission().getPickupTimeWindow().getMin() + ")");
 											waitTime += toWait;
 										}
 									} catch (NoPathFoundException e) {
@@ -1357,38 +1100,20 @@ public class StraddleCarrier implements DiscretObject {
 								}
 								repush(pn);
 							} else {
-								if (!next.getRoad().getId()
-										.equals(poll.getRoad().getId())) {
-									RoadPoint rp = poll.getRoad()
-											.getIntersectNode(next.getRoad());
+								if (!next.getRoad().getId().equals(poll.getRoad().getId())) {
+									RoadPoint rp = poll.getRoad().getIntersectNode(next.getRoad());
 									if (rp == null)
-										rp = next.getRoad().getIntersectNode(
-												poll.getRoad());
+										rp = next.getRoad().getIntersectNode(poll.getRoad());
 									if (rp == null)
-										System.out
-												.println("THERE IS NO INTERSECT NODE BETWEEN "
-														+ next.getRoad()
-																.getId()
-														+ " AND "
-														+ poll.getRoad()
-																.getId());
+										System.out.println("THERE IS NO INTERSECT NODE BETWEEN " + next.getRoad().getId() + " AND "
+												+ poll.getRoad().getId());
 
-									if (currentLoad != null
-											&& currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY
-											&& currentLoad
-													.getMission()
-													.getDestination()
-													.getLaneId()
-													.equals(next.getRoad()
-															.getId())) {
-										Time nextTime = new Time(TimeScheduler
-												.getInstance().getTime(),
-												new Time(waitTime));
+									if (currentLoad != null && currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY
+											&& currentLoad.getMission().getDestination().getLaneId().equals(next.getRoad().getId())) {
+										Time nextTime = new Time(TimeScheduler.getInstance().getTime(), new Time(waitTime));
 										// Slot sDest =
 										// terminal.getSlot(currentLoad.getMission().getDestination().getSlotId());
-										Location dest = currentPath.get(
-												currentPath.size() - 1)
-												.getLocation();
+										Location dest = currentPath.get(currentPath.size() - 1).getLocation();
 
 										double travelTime;
 										try {
@@ -1396,135 +1121,44 @@ public class StraddleCarrier implements DiscretObject {
 											// getRouting().getShortestPath(poll,
 											// dest,
 											// nextTime).getCost()-currentLoad.getMission().getContainer().getHandlingTime().getInSec();
-											travelTime = getRouting()
-													.getShortestPath(poll,
-															dest, nextTime)
-													.getCost();// -
+											travelTime = getRouting().getShortestPath(poll, dest, nextTime).getCost();// -
 											// getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
 
-											Time deliveryTime = new Time(
-													nextTime, new Time(
-															travelTime));
-											if (deliveryTime.toStep() < currentLoad
-													.getMission()
-													.getDeliveryTimeWindow()
-													.getMin().toStep()) {
-												double toWait = new Time(
-														currentLoad
-																.getMission()
-																.getDeliveryTimeWindow()
-																.getMin()
-																.toStep()
-																- deliveryTime
-																		.toStep())
-														.getInSec();
-												Reservations resa = Terminal
-														.getInstance()
-														.getReservations(
-																dest.getRoad()
-																		.getId());
-												Reservation r = resa
-														.getNextReservation(
-																TimeScheduler
-																		.getInstance()
-																		.getTime(),
-																id);
+											Time deliveryTime = new Time(nextTime, new Time(travelTime));
+											if (deliveryTime.toStep() < currentLoad.getMission().getDeliveryTimeWindow().getMin().toStep()) {
+												double toWait = new Time(currentLoad.getMission().getDeliveryTimeWindow().getMin().toStep()
+														- deliveryTime.toStep()).getInSec();
+												Reservations resa = Terminal.getInstance().getReservations(dest.getRoad().getId());
+												Reservation r = resa.getNextReservation(TimeScheduler.getInstance().getTime(), id);
 												if (r != null) {
-													terminal.unreserve(dest
-															.getRoad().getId(),
-															id,
-															r.getTimeWindow());
-													Time from = new Time(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															new Time(toWait
-																	));
-													Time to = new Time(from, r
-															.getTimeWindow()
-															.getLength());
-													TimeWindow tw2 = new TimeWindow(
-															from, to);
-													terminal.reserveRoad(dest
-															.getRoad().getId(),
-															id, tw2,
-															r.getPriority());
+													Terminal.getInstance().unreserve(dest.getRoad().getId(), id, r.getTimeWindow());
+													Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+													Time to = new Time(from, r.getTimeWindow().getLength());
+													TimeWindow tw2 = new TimeWindow(from, to);
+													Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, r.getPriority());
 												} else {
-													Time from = new Time(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															new Time(toWait
-																));
-													Time to = new Time(
-															from,
-															new Time(
-																	getRouting()
-																			.getShortestPath(
-																					new Location(
-																							dest.getRoad(),
-																							0,
-																							true),
-																					new Location(
-																							dest.getRoad(),
-																							1,
-																							true))
-																			.getCost()
-																			));
-													TimeWindow tw2 = new TimeWindow(
-															from, to);
-													terminal.reserveRoad(
-															dest.getRoad()
-																	.getId(),
-															id,
-															tw2,
-															Reservation.PRIORITY_GO_IN);
+													Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+													Time to = new Time(from, new Time(getRouting().getShortestPath(
+															new Location(dest.getRoad(), 0, true), new Location(dest.getRoad(), 1, true)).getCost()));
+													TimeWindow tw2 = new TimeWindow(from, to);
+													Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, Reservation.PRIORITY_GO_IN);
 												}
-												System.out
-														.println("(2) Straddle "
-																+ id
-																+ " is too early ! Will wait "
-																+ toWait
-																+ "s ! (t="
-																+ nextTime
-																+ " travelTime["
-																+ poll.getRoad()
-																		.getId()
-																+ "->"
-																+ dest.getRoad()
-																		.getId()
-																+ "]="
-																+ travelTime
-																+ " delivery_min="
-																+ currentLoad
-																		.getMission()
-																		.getDeliveryTimeWindow()
-																		.getMin()
-																+ ")");
+												System.out.println("(2) Straddle " + id + " is too early ! Will wait " + toWait + "s ! (t="
+														+ nextTime + " travelTime[" + poll.getRoad().getId() + "->" + dest.getRoad().getId() + "]="
+														+ travelTime + " delivery_min=" + currentLoad.getMission().getDeliveryTimeWindow().getMin()
+														+ ")");
 												waitTime += toWait;
 
 											}
 										} catch (NoPathFoundException e) {
 											e.printStackTrace();
 										}
-									} else if (currentLoad != null
-											&& currentLoad.getPhase() == MissionPhase.PHASE_PICKUP
-											&& currentLoad
-													.getMission()
-													.getContainer()
-													.getLocation()
-													.getRoad()
-													.getId()
-													.equals(next.getRoad()
-															.getId())) {
-										Time nextTime = new Time(TimeScheduler
-												.getInstance().getTime(),
-												new Time(waitTime));
+									} else if (currentLoad != null && currentLoad.getPhase() == MissionPhase.PHASE_PICKUP
+											&& currentLoad.getMission().getContainer().getLocation().getRoad().getId().equals(next.getRoad().getId())) {
+										Time nextTime = new Time(TimeScheduler.getInstance().getTime(), new Time(waitTime));
 										// Slot sDest =
 										// terminal.getSlot(currentLoad.getMission().getDestination().getSlotId());
-										Location dest = currentPath.get(
-												currentPath.size() - 1)
-												.getLocation();
+										Location dest = currentPath.get(currentPath.size() - 1).getLocation();
 
 										double travelTime;
 										try {
@@ -1532,111 +1166,32 @@ public class StraddleCarrier implements DiscretObject {
 											// getRouting().getShortestPath(poll,
 											// dest,
 											// nextTime).getCost()-currentLoad.getMission().getContainer().getHandlingTime().getInSec();
-											travelTime = getRouting()
-													.getShortestPath(poll,
-															dest, nextTime)
-													.getCost();// -
+											travelTime = getRouting().getShortestPath(poll, dest, nextTime).getCost();// -
 											// getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
 
-											Time pickupTime = new Time(
-													nextTime, new Time(
-															travelTime));
-											if (pickupTime.toStep() < currentLoad
-													.getMission()
-													.getPickupTimeWindow()
-													.getMin().toStep()) {
-												double toWait = new Time(
-														currentLoad
-																.getMission()
-																.getPickupTimeWindow()
-																.getMin()
-																.toStep()
-																- pickupTime
-																		.toStep())
-														.getInSec();
-												Reservations resa = Terminal
-														.getInstance()
-														.getReservations(
-																dest.getRoad()
-																		.getId());
-												Reservation r = resa
-														.getNextReservation(
-																TimeScheduler
-																		.getInstance()
-																		.getTime(),
-																id);
+											Time pickupTime = new Time(nextTime, new Time(travelTime));
+											if (pickupTime.toStep() < currentLoad.getMission().getPickupTimeWindow().getMin().toStep()) {
+												double toWait = new Time(currentLoad.getMission().getPickupTimeWindow().getMin().toStep()
+														- pickupTime.toStep()).getInSec();
+												Reservations resa = Terminal.getInstance().getReservations(dest.getRoad().getId());
+												Reservation r = resa.getNextReservation(TimeScheduler.getInstance().getTime(), id);
 												if (r != null) {
-													terminal.unreserve(dest
-															.getRoad().getId(),
-															id,
-															r.getTimeWindow());
-													Time from = new Time(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															new Time(toWait
-																	));
-													Time to = new Time(from, r
-															.getTimeWindow()
-															.getLength());
-													TimeWindow tw2 = new TimeWindow(
-															from, to);
-													terminal.reserveRoad(dest
-															.getRoad().getId(),
-															id, tw2,
-															r.getPriority());
+													Terminal.getInstance().unreserve(dest.getRoad().getId(), id, r.getTimeWindow());
+													Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+													Time to = new Time(from, r.getTimeWindow().getLength());
+													TimeWindow tw2 = new TimeWindow(from, to);
+													Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, r.getPriority());
 												} else {
-													Time from = new Time(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															new Time(toWait
-																	));
-													Time to = new Time(
-															from,
-															new Time(
-																	getRouting()
-																			.getShortestPath(
-																					new Location(
-																							dest.getRoad(),
-																							0,
-																							true),
-																					new Location(
-																							dest.getRoad(),
-																							1,
-																							true))
-																			.getCost()
-																			));
-													TimeWindow tw2 = new TimeWindow(
-															from, to);
-													terminal.reserveRoad(
-															dest.getRoad()
-																	.getId(),
-															id,
-															tw2,
-															Reservation.PRIORITY_GO_IN);
+													Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+													Time to = new Time(from, new Time(getRouting().getShortestPath(
+															new Location(dest.getRoad(), 0, true), new Location(dest.getRoad(), 1, true)).getCost()));
+													TimeWindow tw2 = new TimeWindow(from, to);
+													Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, Reservation.PRIORITY_GO_IN);
 												}
-												System.out
-														.println("(2-2) Straddle "
-																+ id
-																+ " is too early ! Will wait "
-																+ toWait
-																+ "s ! (t="
-																+ nextTime
-																+ " travelTime["
-																+ poll.getRoad()
-																		.getId()
-																+ "->"
-																+ dest.getRoad()
-																		.getId()
-																+ "]="
-																+ travelTime
-																+ " delivery_min="
-																+ currentLoad
-																		.getMission()
-																		.getPickupTimeWindow()
-																		.getMin()
-																+ ")");
+												System.out.println("(2-2) Straddle " + id + " is too early ! Will wait " + toWait + "s ! (t="
+														+ nextTime + " travelTime[" + poll.getRoad().getId() + "->" + dest.getRoad().getId() + "]="
+														+ travelTime + " delivery_min=" + currentLoad.getMission().getPickupTimeWindow().getMin()
+														+ ")");
 												waitTime += toWait;
 
 											}
@@ -1645,31 +1200,17 @@ public class StraddleCarrier implements DiscretObject {
 										}
 									}
 
-									Location newLoc = new Location(
-											next.getRoad(),
-											Location.getAccuratePourcent(
-													rp.getLocation(),
-													next.getRoad()),
+									Location newLoc = new Location(next.getRoad(), Location.getAccuratePourcent(rp.getLocation(), next.getRoad()),
 											next.getDirection());
 									// moveContainer(newLoc);
 									return move(inS, newLoc);
 								} else {
-									if (currentLoad != null
-											&& currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY
-											&& currentLoad
-													.getMission()
-													.getDestination()
-													.getLaneId()
-													.equals(next.getRoad()
-															.getId())) {
-										Time nextTime = new Time(TimeScheduler
-												.getInstance().getTime(),
-												new Time(waitTime));
+									if (currentLoad != null && currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY
+											&& currentLoad.getMission().getDestination().getLaneId().equals(next.getRoad().getId())) {
+										Time nextTime = new Time(TimeScheduler.getInstance().getTime(), new Time(waitTime));
 										// Slot sDest =
 										// terminal.getSlot(currentLoad.getMission().getDestination().getSlotId());
-										Location dest = currentPath.get(
-												currentPath.size() - 1)
-												.getLocation();
+										Location dest = currentPath.get(currentPath.size() - 1).getLocation();
 
 										double travelTime;
 										try {
@@ -1677,134 +1218,43 @@ public class StraddleCarrier implements DiscretObject {
 											// getRouting().getShortestPath(poll,
 											// dest,
 											// nextTime).getCost()-currentLoad.getMission().getContainer().getHandlingTime().getInSec();
-											travelTime = getRouting()
-													.getShortestPath(poll,
-															dest, nextTime)
-													.getCost();// -getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
+											travelTime = getRouting().getShortestPath(poll, dest, nextTime).getCost();// -getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
 
-											Time deliveryTime = new Time(
-													nextTime, new Time(
-															travelTime));
-											if (deliveryTime.toStep() < currentLoad
-													.getMission()
-													.getDeliveryTimeWindow()
-													.getMin().toStep()) {
-												double toWait = new Time(
-														currentLoad
-																.getMission()
-																.getDeliveryTimeWindow()
-																.getMin()
-																.toStep()
-																- deliveryTime
-																		.toStep())
-														.getInSec();
-												Reservations resa = Terminal
-														.getInstance()
-														.getReservations(
-																dest.getRoad()
-																		.getId());
-												Reservation r = resa
-														.getNextReservation(
-																TimeScheduler
-																		.getInstance()
-																		.getTime(),
-																id);
+											Time deliveryTime = new Time(nextTime, new Time(travelTime));
+											if (deliveryTime.toStep() < currentLoad.getMission().getDeliveryTimeWindow().getMin().toStep()) {
+												double toWait = new Time(currentLoad.getMission().getDeliveryTimeWindow().getMin().toStep()
+														- deliveryTime.toStep()).getInSec();
+												Reservations resa = Terminal.getInstance().getReservations(dest.getRoad().getId());
+												Reservation r = resa.getNextReservation(TimeScheduler.getInstance().getTime(), id);
 												if (r != null) {
-													terminal.unreserve(dest
-															.getRoad().getId(),
-															id,
-															r.getTimeWindow());
-													Time from = new Time(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															new Time(toWait
-																	));
-													Time to = new Time(from, r
-															.getTimeWindow()
-															.getLength());
-													TimeWindow tw2 = new TimeWindow(
-															from, to);
-													terminal.reserveRoad(dest
-															.getRoad().getId(),
-															id, tw2,
-															r.getPriority());
+													Terminal.getInstance().unreserve(dest.getRoad().getId(), id, r.getTimeWindow());
+													Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+													Time to = new Time(from, r.getTimeWindow().getLength());
+													TimeWindow tw2 = new TimeWindow(from, to);
+													Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, r.getPriority());
 												} else {
-													Time from = new Time(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															new Time(toWait
-																	));
-													Time to = new Time(
-															from,
-															new Time(
-																	getRouting()
-																			.getShortestPath(
-																					new Location(
-																							dest.getRoad(),
-																							0,
-																							true),
-																					new Location(
-																							dest.getRoad(),
-																							1,
-																							true))
-																			.getCost()
-																			));
-													TimeWindow tw2 = new TimeWindow(
-															from, to);
-													terminal.reserveRoad(
-															dest.getRoad()
-																	.getId(),
-															id,
-															tw2,
-															Reservation.PRIORITY_GO_IN);
+													Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+													Time to = new Time(from, new Time(getRouting().getShortestPath(
+															new Location(dest.getRoad(), 0, true), new Location(dest.getRoad(), 1, true)).getCost()));
+													TimeWindow tw2 = new TimeWindow(from, to);
+													Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, Reservation.PRIORITY_GO_IN);
 												}
 
-												System.out
-														.println("(3) Straddle "
-																+ id
-																+ " is too early ! Will wait "
-																+ toWait
-																+ "s ! (t="
-																+ nextTime
-																+ " travelTime["
-																+ poll.getRoad()
-																		.getId()
-																+ "->"
-																+ dest.getRoad()
-																		.getId()
-																+ "]="
-																+ travelTime
-																+ " delivery_min="
-																+ currentLoad
-																		.getMission()
-																		.getDeliveryTimeWindow()
-																		.getMin()
-																+ ")");
+												System.out.println("(3) Straddle " + id + " is too early ! Will wait " + toWait + "s ! (t="
+														+ nextTime + " travelTime[" + poll.getRoad().getId() + "->" + dest.getRoad().getId() + "]="
+														+ travelTime + " delivery_min=" + currentLoad.getMission().getDeliveryTimeWindow().getMin()
+														+ ")");
 												waitTime += toWait;
 											}
 										} catch (NoPathFoundException e) {
 											e.printStackTrace();
 										}
-									} else if (currentLoad != null
-											&& currentLoad.getPhase() == MissionPhase.PHASE_PICKUP
-											&& currentLoad
-													.getMission()
-													.getContainer()
-													.getLocation()
-													.getRoad()
-													.getId()
-													.equals(next.getRoad()
-															.getId())) {
-										Time nextTime = new Time(TimeScheduler
-												.getInstance().getTime(),
-												new Time(waitTime));
+									} else if (currentLoad != null && currentLoad.getPhase() == MissionPhase.PHASE_PICKUP
+											&& currentLoad.getMission().getContainer().getLocation().getRoad().getId().equals(next.getRoad().getId())) {
+										Time nextTime = new Time(TimeScheduler.getInstance().getTime(), new Time(waitTime));
 										// Slot sDest =
 										// terminal.getSlot(currentLoad.getMission().getDestination().getSlotId());
-										Location dest = currentPath.get(
-												currentPath.size() - 1)
-												.getLocation();
+										Location dest = currentPath.get(currentPath.size() - 1).getLocation();
 
 										double travelTime;
 										try {
@@ -1812,111 +1262,32 @@ public class StraddleCarrier implements DiscretObject {
 											// getRouting().getShortestPath(poll,
 											// dest,
 											// nextTime).getCost()-currentLoad.getMission().getContainer().getHandlingTime().getInSec();
-											travelTime = getRouting()
-													.getShortestPath(poll,
-															dest, nextTime)
-													.getCost();// -getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
+											travelTime = getRouting().getShortestPath(poll, dest, nextTime).getCost();// -getMaxContainerHandlingTime((Lane)dest.getRoad()).getInSec();
 
-											Time pickupTime = new Time(
-													nextTime, new Time(
-															travelTime));
-											if (pickupTime.toStep() < currentLoad
-													.getMission()
-													.getPickupTimeWindow()
-													.getMin().toStep()) {
-												double toWait = new Time(
-														currentLoad
-																.getMission()
-																.getPickupTimeWindow()
-																.getMin()
-																.toStep()
-																- pickupTime
-																		.toStep())
-														.getInSec();
-												Reservations resa = Terminal
-														.getInstance()
-														.getReservations(
-																dest.getRoad()
-																		.getId());
-												Reservation r = resa
-														.getNextReservation(
-																TimeScheduler
-																		.getInstance()
-																		.getTime(),
-																id);
+											Time pickupTime = new Time(nextTime, new Time(travelTime));
+											if (pickupTime.toStep() < currentLoad.getMission().getPickupTimeWindow().getMin().toStep()) {
+												double toWait = new Time(currentLoad.getMission().getPickupTimeWindow().getMin().toStep()
+														- pickupTime.toStep()).getInSec();
+												Reservations resa = Terminal.getInstance().getReservations(dest.getRoad().getId());
+												Reservation r = resa.getNextReservation(TimeScheduler.getInstance().getTime(), id);
 												if (r != null) {
-													terminal.unreserve(dest
-															.getRoad().getId(),
-															id,
-															r.getTimeWindow());
-													Time from = new Time(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															new Time(toWait
-																));
-													Time to = new Time(from, r
-															.getTimeWindow()
-															.getLength());
-													TimeWindow tw2 = new TimeWindow(
-															from, to);
-													terminal.reserveRoad(dest
-															.getRoad().getId(),
-															id, tw2,
-															r.getPriority());
+													Terminal.getInstance().unreserve(dest.getRoad().getId(), id, r.getTimeWindow());
+													Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+													Time to = new Time(from, r.getTimeWindow().getLength());
+													TimeWindow tw2 = new TimeWindow(from, to);
+													Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, r.getPriority());
 												} else {
-													Time from = new Time(
-															TimeScheduler
-																	.getInstance()
-																	.getTime(),
-															new Time(toWait
-																	));
-													Time to = new Time(
-															from,
-															new Time(
-																	getRouting()
-																			.getShortestPath(
-																					new Location(
-																							dest.getRoad(),
-																							0,
-																							true),
-																					new Location(
-																							dest.getRoad(),
-																							1,
-																							true))
-																			.getCost()
-																			));
-													TimeWindow tw2 = new TimeWindow(
-															from, to);
-													terminal.reserveRoad(
-															dest.getRoad()
-																	.getId(),
-															id,
-															tw2,
-															Reservation.PRIORITY_GO_IN);
+													Time from = new Time(TimeScheduler.getInstance().getTime(), new Time(toWait));
+													Time to = new Time(from, new Time(getRouting().getShortestPath(
+															new Location(dest.getRoad(), 0, true), new Location(dest.getRoad(), 1, true)).getCost()));
+													TimeWindow tw2 = new TimeWindow(from, to);
+													Terminal.getInstance().reserveRoad(dest.getRoad().getId(), id, tw2, Reservation.PRIORITY_GO_IN);
 												}
 
-												System.out
-														.println("(3-2) Straddle "
-																+ id
-																+ " is too early ! Will wait "
-																+ toWait
-																+ "s ! (t="
-																+ nextTime
-																+ " travelTime["
-																+ poll.getRoad()
-																		.getId()
-																+ "->"
-																+ dest.getRoad()
-																		.getId()
-																+ "]="
-																+ travelTime
-																+ " delivery_min="
-																+ currentLoad
-																		.getMission()
-																		.getPickupTimeWindow()
-																		.getMin()
-																+ ")");
+												System.out.println("(3-2) Straddle " + id + " is too early ! Will wait " + toWait + "s ! (t="
+														+ nextTime + " travelTime[" + poll.getRoad().getId() + "->" + dest.getRoad().getId() + "]="
+														+ travelTime + " delivery_min=" + currentLoad.getMission().getPickupTimeWindow().getMin()
+														+ ")");
 												waitTime += toWait;
 											}
 										} catch (NoPathFoundException e) {
@@ -1929,10 +1300,7 @@ public class StraddleCarrier implements DiscretObject {
 							}
 						}
 					} else {
-						return move(
-								0.0,
-								new Location(l.getRoad(), percent, l
-										.getDirection()));
+						return move(0.0, new Location(l.getRoad(), percent, l.getDirection()));
 					}
 				}
 
@@ -1964,51 +1332,40 @@ public class StraddleCarrier implements DiscretObject {
 	 */
 
 	public void moveContainer() {
-		if (available > 0 && currentLoad == null
-				&& !handledContainerId.equals("")) {
+		if (available > 0 && currentLoad == null && !handledContainerId.equals("")) {
 			if (failureType.equals("move")) {
 				setHandledContainerId("");
-				terminal.getTextDisplay().setVehicleLoad(this.id, "NA");
+				Terminal.getInstance().getTextDisplay().setVehicleLoad(this.id, "NA");
 			} else {
-				Container c = terminal.getContainer(handledContainerId);
+				Container c = Terminal.getInstance().getContainer(handledContainerId);
 				double h = ContainerKind.getHeight(c.getDimensionType());
 				double z = (h / 2.0) + h * Slot.SLOT_MAX_LEVEL;
-				Location l = new Location(currentLocation.getRoad(),
-						currentLocation.getPourcent(),
-						currentLocation.getDirection());
+				Location l = new Location(currentLocation.getRoad(), currentLocation.getPourcent(), currentLocation.getDirection());
 				Coordinates coords = l.getCoords();
 				coords.z = z;
 				l.setCoords(coords);
-				terminal.containerMoved(handledContainerId, l);
+				Terminal.getInstance().containerMoved(handledContainerId, l);
 			}
 		} else {
-			if (currentLoad != null
-					&& currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY) {
+			if (currentLoad != null && currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY) {
 				if (currentLoad.getMission().getContainer() == null)
 					System.err.println("Container null for " + id);
-				double h = ContainerKind.getHeight(currentLoad.getMission()
-						.getContainer().getDimensionType());
+				double h = ContainerKind.getHeight(currentLoad.getMission().getContainer().getDimensionType());
 				double z = (h / 2.0) + h * Slot.SLOT_MAX_LEVEL;
-				Location l = new Location(currentLocation.getRoad(),
-						currentLocation.getPourcent(),
-						currentLocation.getDirection());
+				Location l = new Location(currentLocation.getRoad(), currentLocation.getPourcent(), currentLocation.getDirection());
 				Coordinates c = l.getCoords();
 				c.z = z;
 				l.setCoords(c);
-				if (!handledContainerId.equals(currentLoad.getMission()
-						.getContainerId())) {
-					setHandledContainerId(currentLoad.getMission()
-							.getContainerId());
-					GraphicDisplayPanel out = terminal.getTextDisplay();
+				if (!handledContainerId.equals(currentLoad.getMission().getContainerId())) {
+					setHandledContainerId(currentLoad.getMission().getContainerId());
+					GraphicDisplayPanel out = Terminal.getInstance().getTextDisplay();
 					if (out != null)
 						out.setVehicleLoad(this.id, handledContainerId);
 				}
-				terminal.containerMoved(currentLoad.getMission().getContainer()
-						.getId(), l);
-			} else if (!(currentLoad != null && currentLoad.getPhase() == MissionPhase.PHASE_UNLOAD)
-					&& !handledContainerId.equals("")) {
+				Terminal.getInstance().containerMoved(currentLoad.getMission().getContainer().getId(), l);
+			} else if (!(currentLoad != null && currentLoad.getPhase() == MissionPhase.PHASE_UNLOAD) && !handledContainerId.equals("")) {
 				setHandledContainerId("");
-				GraphicDisplayPanel out = terminal.getTextDisplay();
+				GraphicDisplayPanel out = Terminal.getInstance().getTextDisplay();
 				if (out != null)
 					out.setVehicleLoad(this.id, "NA");
 			}
@@ -2044,7 +1401,7 @@ public class StraddleCarrier implements DiscretObject {
 			readLocationInDB();
 			if (available == 0) {
 				if (!handledContainerId.equals("")) {
-					terminal.containerMoved(handledContainerId, currentLocation);
+					Terminal.getInstance().containerMoved(handledContainerId, currentLocation);
 				}
 			}
 		} else {
@@ -2053,42 +1410,26 @@ public class StraddleCarrier implements DiscretObject {
 			else if (available == 0)
 				missionHandling();
 
-			if (currentLoad != null
-					&& (goToList.size() == 0 || goToList.get(0)
-							.isInterruptible())) {
+			if (currentLoad != null && (goToList.size() == 0 || goToList.get(0).isInterruptible())) {
 				if (destinationReached) {
 					// END CURRENT PHASE
 					if (currentLoad.getPhase() == MissionPhase.PHASE_PICKUP) {
 						// currentLocation = futureLocation;
 						if (currentLoad.getMission().getContainer() == null) {
-							System.out.println(currentLoad.getMission()
-									.getContainerId()
-									+ " is not yet on the terminal !");
+							System.out.println(currentLoad.getMission().getContainerId() + " is not yet on the terminal !");
 						} else {
-							if (currentLoad.getMission().getContainer()
-									.getContainerLocation() != null
-									&& terminal.getTime().toStep() >= currentLoad
-											.getMission().getPickupTimeWindow()
-											.getMin().toStep()) {
+							if (currentLoad.getMission().getContainer().getContainerLocation() != null
+									&& Terminal.getInstance().getTime().toStep() >= currentLoad.getMission().getPickupTimeWindow().getMin().toStep()) {
 								if (recomputeDestination) {
 									recomputeDestination = false;
-									setDestination(currentLoad.getMission()
-											.getContainer()
-											.getContainerLocation());
+									setDestination(currentLoad.getMission().getContainer().getContainerLocation());
 									destinationReached = false;
 								} else {
-									boolean b = terminal.unstackContainer(
-											currentLoad.getMission()
-													.getContainer(), this
-													.getId());
+									boolean b = Terminal.getInstance().unstackContainer(currentLoad.getMission().getContainer(), this.getId());
 									if (b) {
 										Time handlingT = getContainerHandlingTime();// currentLoad.getMission().getContainer().getHandlingTime();
-										Time tPrevious = new Time(TimeScheduler
-												.getInstance().getTime(),
-												new Time(1), false);
-										handlingTimeEnd = new Time(tPrevious,
-												new Time(handlingT,
-														overDoneTime, false));
+										Time tPrevious = new Time(TimeScheduler.getInstance().getTime(), new Time(1), false);
+										handlingTimeEnd = new Time(tPrevious, new Time(handlingT, overDoneTime, false));
 										overDoneTime = null;
 										if (currentLoad != null) {
 											currentLoad.nextPhase();
@@ -2111,8 +1452,7 @@ public class StraddleCarrier implements DiscretObject {
 						handlingTimeEnd = null;
 						// Here compute overDoneTime for loading
 						// (handlingTimeEnd - currentTime)
-						ContainerLocation dest = currentLoad.getMission()
-								.getDestination();
+						ContainerLocation dest = currentLoad.getMission().getDestination();
 						currentLoad.nextPhase();
 						setDestination(dest);
 						destinationReached = false;
@@ -2124,8 +1464,7 @@ public class StraddleCarrier implements DiscretObject {
 						// currentLocation = futureLocation;
 						// System.out.println("BEFORE "+currentLocation);
 						Time handlingTime = getContainerHandlingTime();
-						boolean b = terminal.deliverContainer(id,
-								currentLoad.getMission(), handlingTime);
+						boolean b = Terminal.getInstance().deliverContainer(id, currentLoad.getMission(), handlingTime);
 						if (b) {
 							currentLoad.nextPhase();
 							// int currentPhase = currentLoad.getPhase();
@@ -2134,19 +1473,13 @@ public class StraddleCarrier implements DiscretObject {
 							// if(currentPhase==phase){
 							// Time handlingT =
 							// getContainerHandlingTime();//currentLoad.getMission().getContainer().getHandlingTime();
-							Time tPrevious = new Time(TimeScheduler
-									.getInstance().getTime(), new Time(1),
-									false);
-							handlingTimeEnd = new Time(tPrevious, new Time(
-									handlingTime, overDoneTime, false));
+							Time tPrevious = new Time(TimeScheduler.getInstance().getTime(), new Time(1), false);
+							handlingTimeEnd = new Time(tPrevious, new Time(handlingTime, overDoneTime, false));
 							overDoneTime = null;
 							destinationReached = false;
 							// }
 						} else {
-							System.out.println(id
-									+ "> COULD NOT DELIVER CONTAINER "
-									+ currentLoad.getMission().getContainerId()
-									+ " !");
+							System.out.println(id + "> COULD NOT DELIVER CONTAINER " + currentLoad.getMission().getContainerId() + " !");
 						}
 
 					} else if (currentLoad.getPhase() == MissionPhase.PHASE_UNLOAD) {
@@ -2195,17 +1528,13 @@ public class StraddleCarrier implements DiscretObject {
 							setDestination(goToList.get(0).getTarget());
 						} else {
 							if (available > 0) {
-								terminal.updateStraddleFailureRepairTime(id,
-										repairDuration);
+								Terminal.getInstance().updateStraddleFailureRepairTime(id, repairDuration);
 							}
 							if (currentLoad != null) {
 								if (currentLoad.getPhase() == MissionPhase.PHASE_PICKUP)
-									setDestination(currentLoad.getMission()
-											.getContainer()
-											.getContainerLocation());
+									setDestination(currentLoad.getMission().getContainer().getContainerLocation());
 								else if (currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY)
-									setDestination(currentLoad.getMission()
-											.getDestination());
+									setDestination(currentLoad.getMission().getDestination());
 							}
 						}
 						// if(g.isInterruptible()==false)
@@ -2226,37 +1555,28 @@ public class StraddleCarrier implements DiscretObject {
 	}
 
 	public Time getMaxContainerHandlingTime(Bay l) {
-		Block p = terminal.getBlock(l.getPaveId());
+		Block p = Terminal.getInstance().getBlock(l.getPaveId());
 		if (p.getType() == BlockType.RAILWAY || p.getType() == BlockType.ROAD) {
-			return new Time(model.getSpeedCharacteristics()
-					.getContainerHandlingTimeFromTruckMAX());
+			return new Time(model.getSpeedCharacteristics().getContainerHandlingTimeFromTruckMAX());
 		} else {
-			return new Time(model.getSpeedCharacteristics()
-					.getContainerHandlingTimeFromGroundMAX());
+			return new Time(model.getSpeedCharacteristics().getContainerHandlingTimeFromGroundMAX());
 		}
 	}
 
 	private Time getContainerHandlingTime() {
 		if (currentLocation.getRoad() instanceof Bay) {
 			Bay l = (Bay) currentLocation.getRoad();
-			Block p = terminal.getBlock(l.getPaveId());
+			Block p = Terminal.getInstance().getBlock(l.getPaveId());
 			if (p == null)
-				return new Time(Math.max(model.getSpeedCharacteristics()
-						.getContainerHandlingTimeFromGroundMAX(), model
-						.getSpeedCharacteristics()
+				return new Time(Math.max(model.getSpeedCharacteristics().getContainerHandlingTimeFromGroundMAX(), model.getSpeedCharacteristics()
 						.getContainerHandlingTimeFromTruckMAX()));
-			if (p.getType() == BlockType.RAILWAY
-					|| p.getType() == BlockType.ROAD) {
-				return new Time(model.getSpeedCharacteristics()
-						.getContainerHandlingTimeFromTruck());
+			if (p.getType() == BlockType.RAILWAY || p.getType() == BlockType.ROAD) {
+				return new Time(model.getSpeedCharacteristics().getContainerHandlingTimeFromTruck());
 			} else {
-				return new Time(model.getSpeedCharacteristics()
-						.getContainerHandlingTimeFromGround());
+				return new Time(model.getSpeedCharacteristics().getContainerHandlingTimeFromGround());
 			}
 		} else
-			return new Time(Math.max(model.getSpeedCharacteristics()
-					.getContainerHandlingTimeFromGroundMAX(), model
-					.getSpeedCharacteristics()
+			return new Time(Math.max(model.getSpeedCharacteristics().getContainerHandlingTimeFromGroundMAX(), model.getSpeedCharacteristics()
 					.getContainerHandlingTimeFromTruckMAX()));
 	}
 
@@ -2273,8 +1593,7 @@ public class StraddleCarrier implements DiscretObject {
 			}
 			workload.insert(currentLoad);
 			if (currentLoad.getPhase() == MissionPhase.PHASE_LOAD) {
-				if (!handledContainerId.equals(currentLoad.getMission()
-						.getContainerId())) {
+				if (!handledContainerId.equals(currentLoad.getMission().getContainerId())) {
 					currentLoad.setPhase(MissionPhase.PHASE_PICKUP);
 				} else
 					currentLoad.nextPhase();
@@ -2283,15 +1602,13 @@ public class StraddleCarrier implements DiscretObject {
 			}
 
 			if (currentLoad.getPhase() == MissionPhase.PHASE_PICKUP)
-				setDestination(currentLoad.getMission().getContainer()
-						.getContainerLocation());
+				setDestination(currentLoad.getMission().getContainer().getContainerLocation());
 			else if (currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY)
 				setDestination(currentLoad.getMission().getDestination());
 
 			destinationReached = false;
 		}
-		terminal.straddleCarrierMoved(id, currentLocation, currentLocation, 0,
-				getCSSStyle());
+		Terminal.getInstance().straddleCarrierMoved(id, currentLocation, currentLocation, 0, getCSSStyle());
 	}
 
 	public void sendMessageTo(String rmiAdress) {
@@ -2299,7 +1616,7 @@ public class StraddleCarrier implements DiscretObject {
 	}
 
 	private void setDestination(ContainerLocation dest) {
-		Bay l = terminal.getBay(dest.getLaneId());
+		Bay l = Terminal.getInstance().getBay(dest.getLaneId());
 		// Slot s = terminal.getSlot(dest.getSlotId());
 
 		// Location l2 = new Location(l, s.getCoords(),true);
@@ -2317,24 +1634,18 @@ public class StraddleCarrier implements DiscretObject {
 		if (currentPath.getCost() == Double.POSITIVE_INFINITY) {
 			// NO WAY !
 			if (currentLoad.getPhase() == MissionPhase.PHASE_PICKUP) {
-				int action = listener.cantPickupContainer(id,
-						new UnreachableContainerException(currentLoad
-								.getMission().getContainer()
-								.getContainerLocation()));
+				int action = listener.cantPickupContainer(id, new UnreachableContainerException(currentLoad.getMission().getContainer()
+						.getContainerLocation()));
 				if (action == StraddleCarrierProblemListener.ABORT_MISSION) {
 					abortCurrentMission();
 				} else if (action == StraddleCarrierProblemListener.GO_TO_PICKUP_ORIGIN_AND_SEE) {
-					goTo(new Location(currentLoad.getMission().getContainer()
-							.getLocation().getRoad(), 0.0), false);
+					goTo(new Location(currentLoad.getMission().getContainer().getLocation().getRoad(), 0.0), false);
 
 				} else if (action == StraddleCarrierProblemListener.GO_TO_PICKUP_DESTINATION_AND_SEE) {
-					goTo(new Location(currentLoad.getMission().getContainer()
-							.getLocation().getRoad(), 1.0), false);
+					goTo(new Location(currentLoad.getMission().getContainer().getLocation().getRoad(), 1.0), false);
 				}
 			} else if (currentLoad.getPhase() == MissionPhase.PHASE_DELIVERY) {
-				listener.cantDeliverContainerOnUnreachableSlot(id,
-						new UnreachableSlotException(currentLoad.getMission()
-								.getDestination()), out);
+				listener.cantDeliverContainerOnUnreachableSlot(id, new UnreachableSlotException(currentLoad.getMission().getDestination()), out);
 			}
 		}
 		if (currentPath == null)
@@ -2346,10 +1657,8 @@ public class StraddleCarrier implements DiscretObject {
 		this.out = display;
 	}
 
-	private boolean willReachLocation(Location currentLocation,
-			Location target, double oneMoveRate) {
-		return currentLocation.willReachRate(target.getPourcent(),
-				target.getDirection() ? oneMoveRate : -oneMoveRate);
+	private boolean willReachLocation(Location currentLocation, Location target, double oneMoveRate) {
+		return currentLocation.willReachRate(target.getPourcent(), target.getDirection() ? oneMoveRate : -oneMoveRate);
 	}
 
 	/**
@@ -2386,72 +1695,33 @@ public class StraddleCarrier implements DiscretObject {
 		return false;
 	}
 
-	public Terminal getTerminal() {
-		return terminal;
-	}
-
-	public void destroy() {
-		if (currentPath != null) {
-			currentPath.destroy();
-			currentPath = null;
-		}
-		this.routing.destroy();
-
-		// FIXME
-		// databaseManager = null;
-
-		terminal = null;
-
-		if (straddleMessageParser != null) {
-			straddleMessageParser.destroy();
-			straddleMessageParser = null;
-		}
-
-		parser = null;
-		slot = null;
-		if (workload != null) {
-			workload.destroy();
-			workload = null;
-		}
-
-		this.model = null;
-
-		if (goToList != null) {
-			this.goToList.clear();
-			this.goToList = null;
-		}
-
-		handledContainerId = null;
-		color = null;
-		id = null;
-		listener = null;
-		currentDestination = null;
-		currentLoad = null;
-		lastLoad = null;
-		currentLocation = null;
-		futureLocation = null;
-		roadStartTime = null;
-		if (overDoneTime != null) {
-			overDoneTime.destroy();
-			overDoneTime = null;
-		}
-	}
+//	public void destroy() {
+//		this.routing.destroy();
+//	}
 
 	public double getCurrentSpeed() {
 		SpeedCharacteristics speed = model.getSpeedCharacteristics();
 		Road r = currentLocation.getRoad();
 		double s = 0;
-		if (r instanceof Bay) {
-			s = speed.getLaneSpeed();
-		} else {
-			s = speed.getSpeed();
-		}
+
 		if (available == 0) {
 			if (!handledContainerId.equals("")) {
 				return speed.getLoadedSpeed();
-			} else
+			} else {
+				if (r instanceof Bay) {
+					s = speed.getLaneSpeed();
+				} else {
+					s = speed.getSpeed();
+				}
 				return s;
+			}
 		} else {
+			if (r instanceof Bay) {
+				s = speed.getLaneSpeed();
+			} else {
+				s = speed.getSpeed();
+			}
+
 			return s * StraddleCarrierFailure.TOWING_SPEED_RATIO;
 		}
 	}
@@ -2460,36 +1730,29 @@ public class StraddleCarrier implements DiscretObject {
 		String imageFileName = color;
 
 		if (available == 0) {
-			if (currentLoad == null
-					|| currentLoad.getState() == MissionState.STATE_ACHIEVED)
+			if (currentLoad == null || currentLoad.getState() == MissionState.STATE_ACHIEVED)
 				imageFileName += "_free";
 		} else
 			imageFileName += "_HS";
 		if (currentLocation.getDirection()) {
 			// Si carre haut gauche : inversion
-			if (currentLocation.getRoad().getOrigin().getLocation().x > currentLocation
-					.getRoad().getDestination().getLocation().x) {
-				if (currentLocation.getRoad().getOrigin().getLocation().y < currentLocation
-						.getRoad().getDestination().getLocation().y) {
+			if (currentLocation.getRoad().getOrigin().getLocation().x > currentLocation.getRoad().getDestination().getLocation().x) {
+				if (currentLocation.getRoad().getOrigin().getLocation().y < currentLocation.getRoad().getDestination().getLocation().y) {
 					imageFileName += "_inv";
 				}
 			} else { // Si carre haut droite : inversion
-				if (currentLocation.getRoad().getOrigin().getLocation().y < currentLocation
-						.getRoad().getDestination().getLocation().y) {
+				if (currentLocation.getRoad().getOrigin().getLocation().y < currentLocation.getRoad().getDestination().getLocation().y) {
 					imageFileName += "_inv";
 				}
 			}
 		} else {
 
-			if (currentLocation.getRoad().getOrigin().getLocation().x < currentLocation
-					.getRoad().getDestination().getLocation().x) {
-				if (currentLocation.getRoad().getOrigin().getLocation().y > currentLocation
-						.getRoad().getDestination().getLocation().y) {
+			if (currentLocation.getRoad().getOrigin().getLocation().x < currentLocation.getRoad().getDestination().getLocation().x) {
+				if (currentLocation.getRoad().getOrigin().getLocation().y > currentLocation.getRoad().getDestination().getLocation().y) {
 					imageFileName += "_inv";
 				}
 			} else {
-				if (currentLocation.getRoad().getOrigin().getLocation().y > currentLocation
-						.getRoad().getDestination().getLocation().y) {
+				if (currentLocation.getRoad().getOrigin().getLocation().y > currentLocation.getRoad().getDestination().getLocation().y) {
 					imageFileName += "_inv";
 				}
 			}
@@ -2503,16 +1766,11 @@ public class StraddleCarrier implements DiscretObject {
 	}
 
 	public String getIconURL() {
-		return this
-				.getClass()
-				.getResource(
-						STRADDLECARRIER_ICON_PREFIX_URL + color
-								+ STRADDLECARRIER_ICON_SUFFIX_URL).getFile();
+		return this.getClass().getResource(STRADDLECARRIER_ICON_PREFIX_URL + color + STRADDLECARRIER_ICON_SUFFIX_URL).getFile();
 	}
 
 	public ImageIcon getIcon() {
-		return new ImageIcon(this.getClass().getResource(
-				STRADDLECARRIER_ICON_PREFIX_URL + getImageURL()));
+		return new ImageIcon(this.getClass().getResource(STRADDLECARRIER_ICON_PREFIX_URL + getImageURL()));
 	}
 
 	public boolean isAvailable() {

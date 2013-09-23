@@ -29,35 +29,19 @@ import org.system.Terminal;
 import org.system.container_stocking.ContainerLocation;
 import org.system.container_stocking.Slot;
 import org.time.Time;
-import org.time.TimeScheduler;
 import org.time.TimeWindow;
 
 public abstract class DynamicEvent {
-
-	// protected static final DatabaseManager databaseManager =
-	// NetworkConfiguration.databaseManager;
-	protected static Terminal terminal;
-	protected static TimeScheduler scheduler;
 	protected Time time;
 	protected String value;
 	protected String type;
 
 	protected DynamicEvent(Time time, String type) {
-		if (terminal == null)
-			terminal = Terminal.getInstance();
-		if (scheduler == null)
-			scheduler = TimeScheduler.getInstance();
-
 		this.time = time;
 		this.type = type;
 	}
 
 	protected DynamicEvent(Time time, String type, String value) {
-		if (terminal == null)
-			terminal = Terminal.getInstance();
-		if (scheduler == null)
-			scheduler = TimeScheduler.getInstance();
-
 		this.time = time;
 		this.type = type;
 		this.value = value;

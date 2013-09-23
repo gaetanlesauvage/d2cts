@@ -20,6 +20,7 @@
 package org.time.event;
 
 import org.conf.parameters.ReturnCodes;
+import org.system.Terminal;
 import org.time.Time;
 import org.vehicles.StraddleCarrier;
 
@@ -42,7 +43,7 @@ public class StraddleCarrierFailure extends DynamicEvent {
 
 	@Override
 	public void execute() {
-		StraddleCarrier rsc = terminal.getStraddleCarrier(straddleCarrierID);
+		StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(straddleCarrierID);
 		if (rsc == null) {
 			new Exception("Straddle carrier " + straddleCarrierID
 					+ " not found ! Program will exit.").printStackTrace();

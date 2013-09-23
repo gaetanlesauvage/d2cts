@@ -409,7 +409,5 @@ public class Path{
 		return sb.toString();
 	
 	}
-	public void destroy() {
-		
-	}
+	
 }

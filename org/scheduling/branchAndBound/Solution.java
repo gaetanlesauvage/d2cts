@@ -27,6 +27,7 @@ import org.missions.Mission;
 import org.missions.MissionPhase;
 import org.scheduling.MissionScheduler;
 import org.scheduling.aco.graph.DepotNode;
+import org.system.Terminal;
 import org.time.Time;
 import org.vehicles.StraddleCarrier;
 
@@ -171,7 +172,7 @@ class Solution implements Comparable<Solution> {
 		distance += parent.distance;
 
 		// Beware of the TWs !
-		Mission m = BranchAndBound.rt.getMission(task);
+		Mission m = Terminal.getInstance().getMission(task);
 		Time tBS = timeBeforeStart.get(resource);
 		if (tBS == null) {
 			timeBeforeStart.put(resource,

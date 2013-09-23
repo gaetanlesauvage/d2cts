@@ -22,6 +22,7 @@ package org.system.container_stocking;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.exceptions.ContainerNotFoundException;
 import org.exceptions.EmptyLevelException;
 import org.exceptions.EmptySlotException;
@@ -55,6 +56,7 @@ public class Slot {
 	public static final int SLOT_VEHICLE_MAX_LEVEL = 1;
 
 	public static final double WIDTH = 2.44;
+	
 	private Location location;
 	private Bay lane;
 	private String id, paveID;
@@ -65,6 +67,8 @@ public class Slot {
 	private double teuSize;
 
 	private int maxLevels;
+	
+	private static final Logger log = Logger.getLogger(Slot.class);
 
 	public Slot(String id, Bay lane, Location location, double teuSize, BlockType paveType){
 		this.paveType = paveType;
@@ -90,6 +94,14 @@ public class Slot {
 		return location.getCoords();
 	}
 
+	public int hashCode () {
+		return id.hashCode();
+	}
+	
+	public boolean equals( Object o ){
+		return o.hashCode() == hashCode();
+	}
+	
 	public String getCSSStyle(){
 		String style = "";
 		/* CSS Save when box will be available
@@ -160,7 +172,11 @@ public class Slot {
 	public Container pop (String id) throws EmptySlotException, NotAccessibleContainerException, ContainerNotFoundException {
 		//System.out.println("Before pop : "+this);
 		Container c = null;
-		if(levels.size()==0) throw new EmptySlotException(this.id);
+		if(levels.size()==0) {
+			EmptySlotException e = new EmptySlotException(this.id);
+			log.error(e.getMessage(),e);
+			throw e;
+		}
 		Level lastLevel = levels.get(levels.size()-1);
 		try {
 			c = lastLevel.removeContainer(id);
@@ -524,19 +540,5 @@ public class Slot {
 
 	public int getMaxLevel(){
 		return maxLevels;
-	}
-
-	public void destroy() {
-		id=null;
-		lane.destroy();
-		lane=null;
-		for(Level l : levels) l.destroy();
-		levels.clear();
-		levels=null;
-		location.destroy();
-		location=null;
-		paveID=null;
-		paveType=null;
-		
 	}
 }

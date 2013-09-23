@@ -88,6 +88,10 @@ public class XMLWriterImpl implements RecordableObject {
 		}
 		return instance;
 	}
+	
+	public static void closeInstance() {
+		instance = null;
+	}
 
 	public void destroy() {
 		host = null;

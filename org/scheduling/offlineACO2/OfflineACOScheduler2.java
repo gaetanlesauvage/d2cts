@@ -5,9 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.com.model.scheduling.OfflineACO2ParametersBean;
 import org.exceptions.EmptyResourcesException;
@@ -29,7 +29,9 @@ import org.scheduling.aco.graph.DepotNode;
 import org.scheduling.display.JMissionScheduler;
 import org.scheduling.offlineACO.OfflineSchedulerParameters;
 import org.scheduling.offlineACO.OfflineSchedulerStats;
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 import org.vehicles.StraddleCarrier;
 
 /**
@@ -50,12 +52,12 @@ import org.vehicles.StraddleCarrier;
 public class OfflineACOScheduler2 extends MissionScheduler {
 	public static final String rmiBindingName = "OfflineACOScheduler2";
 
-	private static List<OfflineAnt2> ants;
-	private static OfflineSchedulerParameters parameters;
+	private List<OfflineAnt2> ants;
+	private OfflineSchedulerParameters parameters;
 	private GlobalScore currentBest;
 	// private OfflineAnt2 currentBestAnt;
 	private static final int MAX_ANTS = 12; // SET TO 1 FOR DEBUG
-	private static int syncSize;
+	private int syncSize;
 	private OfflineSchedulerStats stats;
 
 	public OfflineACOScheduler2() {
@@ -70,6 +72,14 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 		MissionScheduler.instance = this;
 		if(!init)
 			init();
+	}
+	
+	public static void closeInstance(){
+		//Nothing to do
+	}
+	
+	public static OfflineACOScheduler2 getInstance(){
+		return (OfflineACOScheduler2)MissionScheduler.instance;
 	}
 
 	@Override
@@ -90,7 +100,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 
 		computeTime = 0;
 		step = 0;
-		sstep = rts.getStep() + 1;
+		sstep = TimeScheduler.getInstance().getStep() + 1;
 
 		lock.lock();
 		graphChanged = true;
@@ -108,7 +118,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 			System.out.println("MissionGraph created !");
 
 		int current = 1;
-		List<StraddleCarrier> lResources = rt.getStraddleCarriers();
+		List<StraddleCarrier> lResources = Terminal.getInstance().getStraddleCarriers();
 		int overall = lResources.size();
 		for (StraddleCarrier rsc : lResources) {
 			System.out.println("Adding resource " + rsc.getId() + " ("
@@ -117,7 +127,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 			insertResource(rsc);
 		}
 		current = 1;
-		List<Mission> lTasks = rt.getMissions();
+		List<Mission> lTasks = Terminal.getInstance().getMissions();
 		overall = lTasks.size();
 		for (Mission m : lTasks) {
 			System.out.println("Adding task " + m.getId() + " (" + current
@@ -195,7 +205,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 							if (ants.size() > fitSize) {
 								int dif = ants.size() - fitSize;
 								for (int i = 0; i < dif; i++) {
-									OfflineAnt2 a = ants.remove(RANDOM
+									OfflineAnt2 a = ants.remove(Terminal.getInstance().getRandom()
 											.nextInt(ants.size()));
 									System.err.println("ANT " + a.getID()
 											+ " REMOVED");
@@ -233,7 +243,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 			long before = System.nanoTime();
 			// System.out.println("APPLY : ");
 			// AFFECT SOLUTION
-			HashMap<String, LocalScore> solutions = best.getSolution();
+			Map<String, LocalScore> solutions = best.getSolution();
 			for (String colonyID : solutions.keySet()) {
 				StraddleCarrier vehicle = vehicles.get(colonyID);
 
@@ -272,7 +282,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 				}
 			}
 
-			rt.flushAllocations();
+			Terminal.getInstance().flushAllocations();
 
 			lock.lock();
 			precomputed = false;
@@ -293,6 +303,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 		sstep++;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initSolution() {
 		Collections.sort(pool);
 
@@ -307,8 +318,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 			}
 		}
 
-		for (ScheduleTask<? extends ScheduleEdge> n : MissionScheduler
-				.getInstance().getTasks()) {
+		for (ScheduleTask<? extends ScheduleEdge> n : MissionScheduler.getInstance().getTasks()) {
 			for (ScheduleEdge e : n.getDestinations()) {
 				// System.out.println(e.getID()+" max cost = "+e.getMaxCost());
 				sumD += e.getMaxCost();
@@ -346,33 +356,6 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 				+ sumE * parameters.getF3();
 		System.out.println("MAX_ETA = " + maxEta);
 		parameters.setLambda(maxEta);
-
-		/*
-		 * GlobalScore gs = new GlobalScore(); for(ScheduleResource res :
-		 * scheduleResources.values()) gs.addScore(new LocalScore(res));
-		 * 
-		 * Iterator<String> resIDIterator =
-		 * gs.getSolution().keySet().iterator(); for(Mission m : pool){
-		 * if(!resIDIterator.hasNext()) { resIDIterator =
-		 * gs.getSolution().keySet().iterator(); } String resID =
-		 * resIDIterator.next();
-		 * 
-		 * ScheduleTask<? extends ScheduleEdge> t =
-		 * scheduleTasks.get(m.getId()); ScheduleResource r =
-		 * scheduleResources.get(resID); LocalScore currentScore =
-		 * gs.getSolution().get(resID);
-		 * gs.addScore(r.simulateVisitNode(currentScore, (OfflineNode2)t)); }
-		 * System
-		 * .out.println("After initializing solution best score = "+gs.getDistance
-		 * ()+" | "+new Time(gs.getDistanceInSeconds()+"s")+" | "+new
-		 * Time(gs.getOverspentTime()+"s")+" | "+new
-		 * Time(gs.getWaitTime()+"s")+" | "
-		 * +gs.getScore()+" => \n"+gs.getSolutionString()); best = gs;
-		 * traceScores.append(step+"\t"+best.getScore()+"\n");
-		 * traceScores.flush(); //for(int i=0; i<100; i++)
-		 * OfflineAnt2.spreadPheromone(best); for(int i = 0 ; i<ants.size() ;
-		 * i++) OfflineAnt2.spreadPheromone(best);
-		 */
 	}
 
 	@Override
@@ -484,16 +467,16 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 		computeTime += (after - before);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void evaporation() {
 		// Evaporation
-		for (ScheduleTask<OfflineEdge2> n : MissionScheduler.getInstance()
-				.getTasks()) {
+		for (ScheduleTask<OfflineEdge2> n : MissionScheduler.getInstance().getTasks()) {
 			List<OfflineEdge2> destinations = n.getDestinations();
 			for (OfflineEdge2 edge : destinations) {
 				edge.evaporate();
 			}
 		}
-		@SuppressWarnings("unchecked")
+		
 		List<OfflineEdge2> l = (List<OfflineEdge2>) MissionScheduler
 				.getInstance().SOURCE_NODE.getDestinations();
 		for (OfflineEdge2 edge : l) {
@@ -606,15 +589,15 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 	 * 
 	 * @param p
 	 */
-	public static void setGlobalParameters(OfflineSchedulerParameters p) {
+	public void setGlobalParameters(OfflineSchedulerParameters p) {
 		parameters = p;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<OfflineNode2> getNodes() {
 		ArrayList<OfflineNode2> l = new ArrayList<OfflineNode2>(
 				MissionScheduler.getInstance().getTasks().size());
-		for (ScheduleTask<? extends ScheduleEdge> t : MissionScheduler
-				.getInstance().getTasks()) {
+		for (ScheduleTask<? extends ScheduleEdge> t : MissionScheduler.getInstance().getTasks()) {
 			OfflineNode2 n = (OfflineNode2) t;
 			l.add(n);
 		}
@@ -637,7 +620,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 		return null;
 	}
 
-	public static OfflineSchedulerParameters getGlobalParameters() {
+	public OfflineSchedulerParameters getGlobalParameters() {
 		return parameters;
 	}
 }

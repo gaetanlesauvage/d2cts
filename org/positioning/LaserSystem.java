@@ -19,13 +19,19 @@
  */
 package org.positioning;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.com.dao.StraddleCarrierLocationDAO;
+import org.com.model.StraddleCarrierLocationBean;
 import org.conf.parameters.ReturnCodes;
 import org.display.TextDisplay;
 import org.system.Terminal;
@@ -42,12 +48,16 @@ public class LaserSystem implements DiscretObject {
 	private Map<String, LaserHead> heads;
 	private Map<String, Location> locations;
 	private Map<String, StraddleCarrier> vehicles;
-	
+
 	public static LaserSystem getInstance() {
 		if (instance == null) {
 			instance = new LaserSystem();
 		}
 		return instance;
+	}
+
+	public static void closeInstance() {
+		instance = null;
 	}
 
 	public static final String rmiBindingName = "LaserData";
@@ -57,6 +67,8 @@ public class LaserSystem implements DiscretObject {
 	}
 
 	private TextDisplay out;
+
+	private static final Logger log = Logger.getLogger(LaserSystem.class);
 
 	private static String id = null;
 
@@ -87,67 +99,57 @@ public class LaserSystem implements DiscretObject {
 	}
 
 	// TODO improve the search of vehicle on the same road ?
-	public double getCollisionRate(String straddleID, Location current,
-			double goalRate) {
+	public double getCollisionRate(String straddleID, Location current, double goalRate) {
 		if (current.getRoad() instanceof Bay) {
 			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(straddleID);
 			double currentRate = goalRate;
-			double halfRate = current
-					.getPourcent(rsc.getModel().getLength() / 2.0);
+			double halfRate = current.getPourcent(rsc.getModel().getLength() / 2.0);
 			if (current.getDirection())
 				currentRate += halfRate;
 			else
 				currentRate -= halfRate;
 			for (LaserHead lh : getVisibleHeads(current.getCoords())) {
-				List<String> list = lh.getVisibleStraddleCarriers();
+				Set<String> list = lh.getVisibleStraddleCarriers();
 				for (String id : list) {
 					if (!id.equals(straddleID)) {
-						StraddleCarrier rsc2 = Terminal.getInstance()
-								.getStraddleCarrier(id);
+						StraddleCarrier rsc2 = Terminal.getInstance().getStraddleCarrier(id);
 
 						Location l = lh.getLocation(id);
 						if (l != null) {
 							double rs2Rate = l.getPourcent();
 							if (rs2Rate > 0 && rs2Rate < 1) {
 								if (current.getDirection())
-									rs2Rate -= current.getPourcent(rsc2
-											.getModel().getLength() / 2.0);
+									rs2Rate -= current.getPourcent(rsc2.getModel().getLength() / 2.0);
 								else
-									rs2Rate += current.getPourcent(rsc2
-											.getModel().getLength() / 2.0);
+									rs2Rate += current.getPourcent(rsc2.getModel().getLength() / 2.0);
 
-								if (l.getRoad().getId()
-										.equals(current.getRoad().getId())) {
+								if (l.getRoad().getId().equals(current.getRoad().getId())) {
 									if (current.getDirection()) {
 										// Add the length of the vehicle to the
 										// distance computing and returning...
-										if (rs2Rate < currentRate
-												&& l.getPourcent() >= current
-														.getPourcent()) {
+										if (rs2Rate < currentRate && l.getPourcent() >= current.getPourcent()) {
 											return rs2Rate - halfRate;
 										}
 									} else {
-										if (rs2Rate > currentRate
-												&& rs2Rate <= current
-														.getPourcent()) {
+										if (rs2Rate > currentRate && rs2Rate <= current.getPourcent()) {
 											return rs2Rate + halfRate;
 										}
 									}
 								}
 							}
 						} else
-							System.out.println(lh.getId() + " can't locate "
-									+ id + " !");
+							System.out.println(lh.getId() + " can't locate " + id + " !");
 					}
 				}
 			}
 			/*
-			 * for(String id : Terminal.getInstance().getStraddleCarriersName()){
+			 * for(String id :
+			 * Terminal.getInstance().getStraddleCarriersName()){
 			 * if(!id.equals(straddleID)){ StraddleCarrier rsc2 =
-			 * Terminal.getInstance().getStraddleCarrier(id); //Location or future location
-			 * ??? System.out.println("LZ 3"); Location l = rsc2.getLocation();
-			 * System.out.println("LZ 4"); double rs2Rate = l.getPourcent();
-			 * if(current.getDirection()) rs2Rate -=
+			 * Terminal.getInstance().getStraddleCarrier(id); //Location or
+			 * future location ??? System.out.println("LZ 3"); Location l =
+			 * rsc2.getLocation(); System.out.println("LZ 4"); double rs2Rate =
+			 * l.getPourcent(); if(current.getDirection()) rs2Rate -=
 			 * current.getPourcent(rsc2.getModel().getLength()/2.0); else
 			 * rs2Rate += current.getPourcent(rsc2.getModel().getLength()/2.0);
 			 * 
@@ -180,27 +182,24 @@ public class LaserSystem implements DiscretObject {
 		Iterator<String> itKeys = heads.keySet().iterator();
 		while (itKeys.hasNext()) {
 			LaserHead head = heads.get(itKeys.next());
-			double distance = Distances.getDistance(head.getLocation(),
-					location);
+			double distance = Distances.getDistance(head.getLocation(), location);
 			if (distance <= head.getRange().x)
 				visibles.add(head);
 		}
 		return visibles;
 	}
 
-	public void updateStraddleCarrierCoordinates(StraddleCarrier rsc,
-			Location location) {
+	public void updateStraddleCarrierCoordinates(StraddleCarrier rsc, Location location) {
 		Location old = locations.get(rsc.getId());
 		locations.put(rsc.getId(), location);
 		rsc.moveContainer();
-		Terminal.getInstance().straddleCarrierMoved(rsc.getId(), old, location,
-				rsc.getCurrentSpeed(), rsc.getCSSStyle());
+		Terminal.getInstance().straddleCarrierMoved(rsc.getId(), old, location, rsc.getCurrentSpeed(), rsc.getCSSStyle());
 	}
 
-	public List<LaserHead> getCommonHeads(String sc1, String sc2) {
-		ArrayList<LaserHead> l = new ArrayList<LaserHead>();
+	public Set<LaserHead> getCommonHeads(String sc1, String sc2) {
+		Set<LaserHead> l = new HashSet<>();
 		for (LaserHead lh : heads.values()) {
-			List<String> visibles = lh.getVisibleStraddleCarriers();
+			Set<String> visibles = lh.getVisibleStraddleCarriers();
 			boolean first = false;
 			boolean second = false;
 			for (String s : visibles) {
@@ -230,15 +229,34 @@ public class LaserSystem implements DiscretObject {
 
 			Location cBefore = locations.get(rscId);
 			List<LaserHead> visibleHeads = getVisibleHeads(c);
-			if (visibleHeads.size() > 0
-					&& (cBefore == null || !cBefore.getCoords().equals(c)))
+			if (visibleHeads.size() > 0 && (cBefore == null || !cBefore.getCoords().equals(c))) {
 				updateStraddleCarrierCoordinates(rsc, l);
-			else {
+				saveLocation(l, c, rscId);
+			} else {
 				Terminal.getInstance().straddleCarrierStopped(rsc.getId());
 			}
+
 			for (LaserHead lh : visibleHeads) {
 				lh.detectStraddleCarrier(rsc.getId(), l);
 			}
+		}
+	}
+
+	private void saveLocation(Location l, Coordinates c, String rscId) {
+		// Sauvegarde des positions des vehicules
+		StraddleCarrierLocationBean bean = new StraddleCarrierLocationBean();
+		bean.setSimID(Terminal.getInstance().getSimulationID());
+		bean.setStraddleCarrierName(rscId);
+		bean.setRoad(l.getRoad().getId());
+		bean.setDirection(l.getDirection());
+		bean.setT(TimeScheduler.getInstance().getTime().getSQLTime());
+		bean.setX(c.x);
+		bean.setY(c.y);
+		bean.setZ(c.z);
+		try {
+			StraddleCarrierLocationDAO.getInstance(Terminal.getInstance().getSimulationID()).insert(bean);
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
 		}
 	}
 
@@ -255,27 +273,26 @@ public class LaserSystem implements DiscretObject {
 	public void updateLaserHeadRange(String lhID, double range) {
 		LaserHead lh = heads.get(lhID);
 		if (lh == null) {
-			new Exception("Laser Head " + lhID + " not found!")
-					.printStackTrace();
+			new Exception("Laser Head " + lhID + " not found!").printStackTrace();
 			System.exit(ReturnCodes.LASER_HEAD_NOT_FOUND.getCode());
 		}
 		lh.setRangeRate(range);
 	}
 
-	public void destroy() {
-		/*
-		 * for(LaserHead lh : heads.values()){ lh.destroy(); }
-		 */
-		heads.clear();
-		locations.clear();
-		vehicles.clear();
-		if (Terminal.getInstance().getListener() != null) {
-			Terminal.getInstance().getListener().hideLaserHeads();
-		}
-		id = null;
-		this.out = null;
-		// out = null;
-	}
+//	public void destroy() {
+//		/*
+//		 * for(LaserHead lh : heads.values()){ lh.destroy(); }
+//		 */
+//		heads.clear();
+//		locations.clear();
+//		vehicles.clear();
+//		if (Terminal.getInstance().getListener() != null) {
+//			Terminal.getInstance().getListener().hideLaserHeads();
+//		}
+//		id = null;
+//		this.out = null;
+//		// out = null;
+//	}
 
 	public Collection<LaserHead> getHeads() {
 		return heads.values();

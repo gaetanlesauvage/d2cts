@@ -64,6 +64,7 @@ public class RoadDAO implements D2ctsDao<RoadBean>{
 		if(psLoadRoadPoints != null){
 			psLoadRoadPoints.close();
 		}
+		instances = null;
 		log.info("RoadDAO of terminal "+terminalID+" closed.");
 	}
 

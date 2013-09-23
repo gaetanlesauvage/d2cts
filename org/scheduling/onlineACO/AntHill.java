@@ -22,7 +22,8 @@ package org.scheduling.onlineACO;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.exceptions.MissionNotFoundException;
 import org.missions.Mission;
@@ -76,7 +77,7 @@ public class AntHill extends ScheduleResource {
 	/**
 	 * Map listing all the matching missions
 	 */
-	private ConcurrentHashMap<String, AntMissionNode> missions;
+	private SortedMap<String, AntMissionNode> missions;
 
 	/**
 	 * Constructor
@@ -89,7 +90,7 @@ public class AntHill extends ScheduleResource {
 		super(rsc);
 		this.color = StraddleCarrierColor.getColor(rsc.getColor());
 		this.ants = new ArrayList<Ant>();
-		this.missions = new ConcurrentHashMap<String, AntMissionNode>();
+		this.missions = new TreeMap<>();
 	}
 
 	/* =========================== GETTERS =========================== */
@@ -173,7 +174,7 @@ public class AntHill extends ScheduleResource {
 	private void missionAdded(){
 		//ADD an ant
 		ants.add(new Ant(this));
-		OnlineACOScheduler.antAdded(getAntCount());
+		OnlineACOScheduler.getInstance().antAdded(getAntCount());
 	}
 
 	/**
@@ -188,7 +189,7 @@ public class AntHill extends ScheduleResource {
 		//Clear after to avoid concurrent modification exceptions
 		Ant a =	ants.remove(0);
 		a.destroy();
-		OnlineACOScheduler.antRemoved();
+		OnlineACOScheduler.getInstance().antRemoved();
 
 		//	boolean notfound = false;
 		try {
@@ -291,7 +292,7 @@ public class AntHill extends ScheduleResource {
 		for(AntEdge e : source.getDestinations()){
 			AntNode destination = (AntNode) e.getNodeTo();
 
-			if(destination != OnlineACOScheduler.getEndNode()){
+			if(destination != OnlineACOScheduler.getInstance().getEndNode()){
 				AntMissionNode target = (AntMissionNode)destination;
 				if(target.getColor().equals(ID)){
 					ArrayList<AntNode> l = new ArrayList<AntNode>(path.getPath().size()+1);
@@ -299,7 +300,7 @@ public class AntHill extends ScheduleResource {
 					l.add(destination);
 
 					double eCost = 0.0;
-					if(source == OnlineACOScheduler.getDepotNode()) eCost = e.getCost(ID);
+					if(source == OnlineACOScheduler.getInstance().getDepotNode()) eCost = e.getCost(ID);
 					else eCost = e.getCost(modelID);
 
 					BestPath b = getBestPath(new BestPath(path.getScoreInPH()+target.getPheromone(ID), path.getScoreInWeight()+eCost, l), criteria);
@@ -369,7 +370,7 @@ public class AntHill extends ScheduleResource {
 	public void updateBestPath() {
 
 		ArrayList<AntNode> l = new ArrayList<AntNode>();
-		l.add(OnlineACOScheduler.getDepotNode());
+		l.add(OnlineACOScheduler.getInstance().getDepotNode());
 		BestPath bW = getBestPath(new BestPath(0,0,l), PHEROMONE_CRITERIA);
 		//System.err.println(ID+"'s BEST PATH : "+bW);
 		if(bW.size()==1) {
@@ -390,13 +391,14 @@ public class AntHill extends ScheduleResource {
 		for(AntNode n : currentBest.getPath()){
 			if(n instanceof AntMissionNode){
 				AntMissionNode amn = (AntMissionNode)n;
-				double q = OnlineACOScheduler.getGlobalParameters().getLAMBDA();
+				double q = OnlineACOScheduler.getInstance().getGlobalParameters().getLAMBDA();
 				amn.spreadInstantPheromone(ID, q);
 				System.out.println(q+" pheromone spread on "+amn.getID()+" ph="+amn.getPheromone(ID));
 			}
 		}
 	}
 	
+	//TODO Online / offline[2] => TEST!
 	@SuppressWarnings("unchecked")
 	public void visitNode(ScheduleTask<? extends ScheduleEdge> task){
 //		System.err.println("VISIT NODE "+task.getID()+" BY "+getID());
@@ -409,20 +411,19 @@ public class AntHill extends ScheduleResource {
 			edge = previousTask.getEdgeTo((ScheduleTask<ScheduleEdge>) task);
 		}
 		else{
-			edge = OnlineACOScheduler.getDepotNode().getEdgeTo((ScheduleTask<AntEdge>) task);
+			edge = OnlineACOScheduler.getInstance().getDepotNode().getEdgeTo((ScheduleTask<AntEdge>) task);
 		}
 
 		if(edge==null){
-			AntNode origin = OnlineACOScheduler.getDepotNode();
-			if(previousTask!=MissionScheduler.getInstance().SOURCE_NODE) origin = OnlineACOScheduler.getNode(previousTask.getID());
+			AntNode origin = OnlineACOScheduler.getInstance().getDepotNode();
+			if(!previousTask.getID().equals(MissionScheduler.getInstance().SOURCE_NODE.getID()))
+				origin = OnlineACOScheduler.getInstance().getNode(previousTask.getID());
 			edge = new AntEdge(origin, (AntNode)task);
 			for(StraddleCarrier rsc : MissionScheduler.getInstance().getResources()){
 				edge.addCost(rsc);
 			}
-			System.err.println("t: "+task.getID()+" previous: "+previousTask.getID());
-			new Exception("Edge was null : "+edge.getID()).printStackTrace();
-			
 		}
+		
 		else if(edge.getNodeTo()==null) new Exception("Edge has no destination").printStackTrace();
 		else if(edge.getNodeTo().getMission()==null) new Exception("Node "+edge.getNodeTo().getID()+" has no attached mission").printStackTrace();
 		Mission m = edge.getNodeTo().getMission();
@@ -489,7 +490,7 @@ public class AntHill extends ScheduleResource {
 			edge = previousTask.getEdgeTo((ScheduleTask<AntEdge>) task);
 		}
 		else{
-			edge = OnlineACOScheduler.getDepotNode().getEdgeTo((ScheduleTask<AntEdge>) task);
+			edge = OnlineACOScheduler.getInstance().getDepotNode().getEdgeTo((ScheduleTask<AntEdge>) task);
 		}
 		
 		if(edge==null || edge.getID()==null) new Exception("Edge is null").printStackTrace();

@@ -3,18 +3,21 @@ package org.scheduling;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.missions.Mission;
+import org.scheduling.onlineACO.OnlineACOScheduler;
 import org.time.Time;
 import org.vehicles.StraddleCarrier;
 import org.vehicles.models.SpeedCharacteristics;
 
 public class ScheduleResource {
 
-	protected static final HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
-	protected static int nonvisited = 0;
+	protected static final Map<String, Boolean> visited = new HashMap<String, Boolean>();
+	
+	protected static volatile int nonvisited = 0;
 
-	protected static final ArrayList<ScheduleResource> resources = new ArrayList<ScheduleResource>();
+	protected static final List<ScheduleResource> resources = new ArrayList<ScheduleResource>();
 	protected static GlobalScore globalScore = new GlobalScore();
 
 	protected String ID;
@@ -133,6 +136,9 @@ public class ScheduleResource {
 		currentTime = tLeaveD;
 		// System.err.println("5");
 
+		if(task.getID().equals(OnlineACOScheduler.getInstance().SOURCE_NODE.getID())){
+			System.err.println("Wath out!!!");
+		}
 		score.addEdge(edge, currentTime);
 		score.addNode(task);
 		// System.err.println("6");
@@ -298,8 +304,6 @@ public class ScheduleResource {
 
 	public void destroy() {
 		if (globalScore != null) {
-			globalScore.reset();
-			globalScore.destroy();
 			globalScore = null;
 		}
 
@@ -308,12 +312,6 @@ public class ScheduleResource {
 		if (visited.size() > 0) {
 			visited.clear();
 		}
-
-		ID = null;
-		modelID = null;
-		score.destroy();
-		score = null;
-		vehicle = null;
 	}
 
 	protected ScheduleTask<? extends ScheduleEdge> getLocation() {

@@ -49,9 +49,5 @@ public class SelectedVehicle {
 	public String getPreviousStyle(){
 		return previousStyle;
 	}
-	public void destroy(){
-		id = "";
-		vehicleId = "";
-		previousStyle = null;
-	}
+	
 }

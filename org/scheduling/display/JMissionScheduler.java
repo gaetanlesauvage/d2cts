@@ -59,6 +59,7 @@ public class JMissionScheduler implements Runnable{
 		
 		frame.setVisible(true);
 	}
+	
 	public void addTab(JPanel tab, String name){
 		jtp.add(name,tab);
 		
@@ -70,16 +71,13 @@ public class JMissionScheduler implements Runnable{
 	
 		
 	public void destroy(){
-		
-		indicatorPane.destroy();
-		jtp.removeAll();
-		jtp = null;
+		//indicatorPane.destroy();
+		//jtp.removeAll();
+		//jtp = null;
 		
 		frame.setVisible(false);
 		frame.dispose();
-		frame = null;
-		
-		
+		//frame = null;
 	}
 
 	public IndicatorPane getIndicatorPane() {

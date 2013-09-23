@@ -20,6 +20,7 @@
 package org.scheduling.onlineACO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.scheduling.aco.graph.AntEdge;
 import org.scheduling.aco.graph.AntNode;
@@ -39,7 +40,7 @@ public class ACOLayout {
 	/**
 	 * Nodes to locate
 	 */
-	private ArrayList<ArrayList<AntNode>> nodes;
+	private List<List<AntNode>> nodes;
 	/**
 	 * MAX number of node on the same column
 	 */
@@ -51,7 +52,7 @@ public class ACOLayout {
 	 * Constructor
 	 */
 	public ACOLayout(){
-		nodes = new ArrayList<ArrayList<AntNode>>();
+		nodes = new ArrayList<List<AntNode>>();
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class ACOLayout {
 			}
 		}
 
-		ArrayList<AntNode> l = null;
+		List<AntNode> l = null;
 		if(x < nodes.size()){
 			l = nodes.get(x);
 		}
@@ -118,7 +119,7 @@ public class ACOLayout {
 	 */
 	public void apply(){
 		for(int i=0 ; i<nodes.size(); i++){
-			ArrayList<AntNode> level = nodes.get(i);
+			List<AntNode> level = nodes.get(i);
 			for(int j=0 ; j<level.size() ; j++){
 				AntNode n = level.get(j);
 				n.node.setAttribute("x",i);
@@ -131,7 +132,7 @@ public class ACOLayout {
 	 * Compute the Y location of the nodes
 	 */
 	private void optimizeY(){
-		for(ArrayList<AntNode> level : nodes){
+		for(List<AntNode> level : nodes){
 
 			for(int i=0 ; i<level.size() ; i++){
 				AntNode n = level.get(i);
@@ -185,13 +186,13 @@ public class ACOLayout {
 			System.err.println("n is null!!!");
 			new Exception().printStackTrace();
 		}
-		ArrayList<AntNode> oldLevel = nodes.get(getX(n));
+		List<AntNode> oldLevel = nodes.get(getX(n));
 		//If it is the last node of the level then shift down every other levels
 		if(oldLevel.size()==1) {
 			//Will be removed
 			if(getX(n) < nodes.size()-1){
 				for(int j = getX(n)+1 ; j<nodes.size(); j++){
-					ArrayList<AntNode> level = nodes.get(j);
+					List<AntNode> level = nodes.get(j);
 					nodes.set(j-1, level);
 					//Apply the row
 					for(AntNode node : level) node.node.addAttribute("x", j-1);
@@ -204,7 +205,7 @@ public class ACOLayout {
 		else{
 			if(oldLevel.size()==maxSize){
 				int times =0;
-				for(ArrayList<AntNode> l : nodes){
+				for(List<AntNode> l : nodes){
 					if(l.size()==maxSize) times++;
 
 				}
@@ -235,7 +236,7 @@ public class ACOLayout {
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<nodes.size(); i++){
-			ArrayList<AntNode> level = nodes.get(i);
+			List<AntNode> level = nodes.get(i);
 			sb.append("Level "+i+" : ");
 			for(int j=0; j<level.size();j++){
 				sb.append("["+level.get(j).node.getAttribute("y")+"]="+level.get(j).getID()+" | ");

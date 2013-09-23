@@ -50,6 +50,7 @@ import org.com.model.scheduling.LinearParametersBean;
 import org.com.model.scheduling.OfflineACO2ParametersBean;
 import org.com.model.scheduling.OfflineACOParametersBean;
 import org.com.model.scheduling.OnlineACOParametersBean;
+import org.com.model.scheduling.ParameterBean;
 import org.com.model.scheduling.ParameterType;
 import org.com.model.scheduling.RandomParametersBean;
 import org.com.model.scheduling.SchedulingParametersBeanInterface;
@@ -173,7 +174,7 @@ public class NewSimulationDialog extends JDialog {
 			tm.setValueAt(scenario.getName(), rowIndex, SCENARIO_NAME_COLUMN_INDEX);
 			tm.setValueAt(scenario.getDate_rec(), rowIndex, SCENARIO_DATE_REC_COLUMN_INDEX);
 			tm.setValueAt(scenario.getFile(), rowIndex, SCENARIO_CONTENT_FILE_COLUMN_INDEX);
-			
+
 			rowIndex++;
 		}
 
@@ -256,8 +257,8 @@ public class NewSimulationDialog extends JDialog {
 						}
 						if (parameter != null) {
 							Object o = jtParameters.getValueAt(0, jtParameters.getColumnModel().getColumn(i).getModelIndex());
-							if (o != null && o instanceof String) {
-								parameter.setValue(Double.parseDouble(o.toString()));
+							if (o != null) {
+								parameter.setValue(o);
 							} else {
 								log.error("Invalid parameter " + parameter.name() + " = " + o);
 								return;
@@ -341,9 +342,11 @@ public class NewSimulationDialog extends JDialog {
 				}
 				Number n = (Number) jtfSeed.getValue();
 
-				schedulingAlgorithmBean.setParameters(getParameters());
-
-				parameters = new SimulationParameter(scID, schedulingAlgorithmBean, n.longValue());
+				ParameterBean[] parameters2 = getParameters();
+				if(parameters2 != null){
+					schedulingAlgorithmBean.setParameters(parameters2);
+					parameters = new SimulationParameter(scID, schedulingAlgorithmBean, n.longValue());
+				}
 			}
 		};
 		waitThreadScID.start();
@@ -364,24 +367,26 @@ public class NewSimulationDialog extends JDialog {
 		}
 	}
 
-	private SchedulingParametersBeanInterface[] getParameters() {
-		switch (schedulingAlgorithmBean.getName()) {
-		case OnlineACOScheduler.rmiBindingName:
-			return OnlineACOParametersBean.values();
-		case OfflineACOScheduler.rmiBindingName:
-			return OfflineACOParametersBean.values();
-		case OfflineACOScheduler2.rmiBindingName:
-			return OfflineACO2ParametersBean.values();
-		case LinearMissionScheduler.rmiBindingName:
-			return LinearParametersBean.values();
-		case GreedyMissionScheduler.rmiBindingName:
-			return GreedyParametersBean.values();
-		case RandomMissionScheduler.rmiBindingName:
-			return RandomParametersBean.values();
-		case BranchAndBound.rmiBindingName:
-			return BranchAndBoundParametersBean.values();
-		case BB.rmiBindingName:
-			return BBParametersBean.values();
+	private ParameterBean[] getParameters() {
+		if(schedulingAlgorithmBean != null){
+			switch (schedulingAlgorithmBean.getName()) {
+			case OnlineACOScheduler.rmiBindingName:
+				return OnlineACOParametersBean.getAll().toArray(new ParameterBean[OnlineACOParametersBean.values().length]);
+			case OfflineACOScheduler.rmiBindingName:
+				return OfflineACOParametersBean.getAll().toArray(new ParameterBean[OfflineACOParametersBean.values().length]);
+			case OfflineACOScheduler2.rmiBindingName:
+				return OfflineACO2ParametersBean.getAll().toArray(new ParameterBean[OfflineACO2ParametersBean.values().length]);
+			case LinearMissionScheduler.rmiBindingName:
+				return LinearParametersBean.getAll().toArray(new ParameterBean[LinearParametersBean.values().length]);
+			case GreedyMissionScheduler.rmiBindingName:
+				return GreedyParametersBean.getAll().toArray(new ParameterBean[GreedyParametersBean.values().length]);
+			case RandomMissionScheduler.rmiBindingName:
+				return RandomParametersBean.getAll().toArray(new ParameterBean[RandomParametersBean.values().length]);
+			case BranchAndBound.rmiBindingName:
+				return BranchAndBoundParametersBean.getAll().toArray(new ParameterBean[BranchAndBoundParametersBean.values().length]);
+			case BB.rmiBindingName:
+				return BBParametersBean.getAll().toArray(new ParameterBean[BBParametersBean.values().length]);
+			}
 		}
 		return null;
 	}

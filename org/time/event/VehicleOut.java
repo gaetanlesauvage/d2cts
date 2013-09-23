@@ -22,8 +22,10 @@ package org.time.event;
 import java.util.List;
 
 import org.exceptions.IllegalSlotChangeException;
+import org.system.Terminal;
 import org.system.container_stocking.Container;
 import org.time.Time;
+import org.time.TimeScheduler;
 
 public class VehicleOut extends DynamicEvent {
 	private List<String> slotIds;
@@ -91,17 +93,17 @@ public class VehicleOut extends DynamicEvent {
 
 	@Override
 	public void execute() {
-		boolean b = terminal.vehicleOut(ID, originalDepartureTime, slotIds,
+		boolean b = Terminal.getInstance().vehicleOut(ID, originalDepartureTime, slotIds,
 				containers);
 		// System.out.println("VEHICLE OUT : "+ID+" = "+b);
 		if (!b) {
 
-			super.time = new Time(scheduler.getTime(), new Time(1));
+			super.time = new Time(TimeScheduler.getInstance().getTime(), new Time(1));
 			if (!alreadyAdviced) {
 				System.out.println(time + " : " + cannotReachSlotMsg());
 				alreadyAdviced = true;
 			}
-			scheduler.registerDynamicEvent(this);
+			TimeScheduler.getInstance().registerDynamicEvent(this);
 		} else {
 			System.out.println("Vehicle OUT : " + ID);
 			writeEventInDb();

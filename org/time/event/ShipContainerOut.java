@@ -1,6 +1,8 @@
 package org.time.event;
 
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 
 public class ShipContainerOut extends ContainerOut {
 	private String destinationSlotID;
@@ -20,12 +22,12 @@ public class ShipContainerOut extends ContainerOut {
 
 	@Override
 	public void execute() {
-		if (!terminal.shipCanLoadContainer(destinationSlotID, containerId)) {
+		if (!Terminal.getInstance().shipCanLoadContainer(destinationSlotID, containerId)) {
 			if (!alreadyAdviced) {
 				System.out.println(msg());
 				alreadyAdviced = true;
 			}
-			scheduler.registerDynamicEvent(this);
+			TimeScheduler.getInstance().registerDynamicEvent(this);
 		} else
 			super.execute();
 	}

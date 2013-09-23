@@ -61,6 +61,7 @@ public class StraddleCarrierDAO implements D2ctsDao<StraddleCarrierBean>{
 		if(psLoad != null){
 			psLoad.close();
 		}
+		instances = null;
 		log.info("StraddleCarrierDAO of scenario "+scenarioID+" closed.");
 	}
 

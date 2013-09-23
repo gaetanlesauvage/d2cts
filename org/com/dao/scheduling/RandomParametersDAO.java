@@ -3,27 +3,41 @@ package org.com.dao.scheduling;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.com.DbMgr;
+import org.com.model.scheduling.ParameterBean;
+import org.com.model.scheduling.ParameterType;
 import org.com.model.scheduling.RandomParametersBean;
 import org.scheduling.random.RandomMissionScheduler;
 
-public class RandomParametersDAO extends AbstractSchedulingParameterDAO<RandomMissionScheduler, RandomParametersBean> {
-	private static RandomParametersDAO instance;
-	private boolean loaded;
+public class RandomParametersDAO extends AbstractSchedulingParameterDAO<RandomMissionScheduler> {
+	private static Map<Integer, RandomParametersDAO> instances;
 
 	private RandomParametersDAO(Integer simID) {
-		super();
-		this.simID = simID;
-		this.loaded = false;
+		super(simID);
 	}
 
 	public static RandomParametersDAO getInstance(Integer simID) {
-		if (instance == null) {
-			instance = new RandomParametersDAO(simID);
+		if (instances == null)
+			instances = new HashMap<>();
+
+		if (instances.containsKey(simID))
+			return instances.get(simID);
+		else {
+			RandomParametersDAO instance = new RandomParametersDAO(simID);
+			instances.put(simID, instance);
+			return instance;
 		}
-		return instance;
+	}
+
+	public static Iterator<RandomParametersDAO> getInstances() {
+		if (instances == null) {
+			instances = new HashMap<>();
+		}
+		return instances.values().iterator();
 	}
 
 	@Override
@@ -33,28 +47,35 @@ public class RandomParametersDAO extends AbstractSchedulingParameterDAO<RandomMi
 		}
 		beans = new ArrayList<>();
 
-		psLoad.setInt(1, simID);
+		psLoad.setString(1, RandomMissionScheduler.rmiBindingName);
+		psLoad.setInt(2, simID);
+
 		ResultSet rs = psLoad.executeQuery();
 
 		while (rs.next()) {
 			RandomParametersBean parameter = RandomParametersBean.get(rs.getString("NAME"));
-			parameter.setValue(rs.getString("VALUE"));
-			parameter.setSQLID(rs.getInt("ID") == 0 ? null : rs.getInt("ID"));
-			beans.add(parameter);
+			ParameterBean p = new ParameterBean(parameter.name(),ParameterType.DOUBLE);
+			p.setValue(rs.getString("VALUE"));
+			p.setSQLID(rs.getInt("ID") == 0 ? null : rs.getInt("ID"));
+			beans.add(p);
 		}
 
 		if (rs != null) {
 			rs.close();
 		}
-
+		System.err.println("Random loaded!!!");
 		loaded = true;
 	}
 
-	@Override
+	public static void closeInstance() {
+		instances = null;
+	}
+
+	/*@Override
 	public List<RandomParametersBean> get() throws SQLException {
 		if (!loaded) {
 			load();
 		}
 		return RandomParametersBean.getAll();
-	}
+	}*/
 }

@@ -134,14 +134,4 @@ public class DijkstraHandler extends RoutingAlgorithm {
 	public List<String> getNodesIds() {
 		return new ArrayList<String>(distances.keySet());
 	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-		distances = null;
-
-		computed = null;
-		speed = null;
-		straddleCarrierId = null;
-	}
 }

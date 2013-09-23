@@ -3,27 +3,40 @@ package org.com.dao.scheduling;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.com.DbMgr;
 import org.com.model.scheduling.GreedyParametersBean;
+import org.com.model.scheduling.ParameterBean;
 import org.scheduling.greedy.GreedyMissionScheduler;
 
-public class GreedyParametersDAO extends AbstractSchedulingParameterDAO<GreedyMissionScheduler, GreedyParametersBean> {
-	private static GreedyParametersDAO instance;
-	private boolean loaded;
-
+public class GreedyParametersDAO extends AbstractSchedulingParameterDAO<GreedyMissionScheduler> {
+	private static Map<Integer, GreedyParametersDAO> instances;
+	
 	private GreedyParametersDAO(Integer simID) {
-		super();
-		this.simID = simID;
-		loaded = false;
+		super(simID);
 	}
 
 	public static GreedyParametersDAO getInstance(Integer simID) {
-		if (instance == null) {
-			instance = new GreedyParametersDAO(simID);
+		if(instances == null)
+			instances = new HashMap<>();
+		
+		if (instances.containsKey(simID))
+			return instances.get(simID);
+		else {
+			GreedyParametersDAO instance = new GreedyParametersDAO(simID);
+			instances.put(simID, instance);
+			return instance;
 		}
-		return instance;
+	}
+	
+	public static Iterator<GreedyParametersDAO> getInstances(){
+		if(instances == null){
+			instances = new HashMap<>();
+		}
+		return instances.values().iterator();
 	}
 
 	@Override
@@ -33,29 +46,27 @@ public class GreedyParametersDAO extends AbstractSchedulingParameterDAO<GreedyMi
 		}
 		beans = new ArrayList<>();
 
-		psLoad.setInt(1, simID);
+		psLoad.setString(1, GreedyMissionScheduler.rmiBindingName);
+		psLoad.setInt(2, simID);
+		
 		ResultSet rs = psLoad.executeQuery();
 
 		while (rs.next()) {
 			GreedyParametersBean parameter = GreedyParametersBean.get(rs.getString("NAME"));
-			parameter.setValue(rs.getString("VALUE"));
-			parameter.setSQLID(rs.getInt("ID") == 0 ? null : rs.getInt("ID"));
-			beans.add(parameter);
+			ParameterBean p = new ParameterBean(parameter.name(), parameter.getType());
+			p.setValue(rs.getString("VALUE"));
+			p.setSQLID(rs.getInt("ID") == 0 ? null : rs.getInt("ID"));
+			beans.add(p);
 		}
 
 		if (rs != null) {
 			rs.close();
 		}
-		
 		loaded = true;
 	}
-	
-	@Override
-	public List<GreedyParametersBean> get() throws SQLException {
-		if (!loaded) {
-			load();
-		}
 
-		return GreedyParametersBean.getAll();
+	public static void closeInstance() {
+		instances = null;
 	}
+
 }

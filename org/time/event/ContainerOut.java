@@ -19,6 +19,7 @@
  */
 package org.time.event;
 
+import org.system.Terminal;
 import org.time.Time;
 
 public class ContainerOut extends DynamicEvent {
@@ -32,7 +33,7 @@ public class ContainerOut extends DynamicEvent {
 
 	@Override
 	public void execute() {
-		terminal.removeContainer(containerId);
+		Terminal.getInstance().removeContainer(containerId);
 		writeEventInDb();
 	}
 

@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -22,7 +22,9 @@ import org.scheduling.ScheduleEdge;
 import org.scheduling.ScheduleResource;
 import org.scheduling.ScheduleTask;
 import org.scheduling.display.JMissionScheduler;
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 import org.vehicles.StraddleCarrier;
 
 public class BB extends MissionScheduler {
@@ -47,18 +49,22 @@ public class BB extends MissionScheduler {
 		if(!init)
 			init();
 	}
+	
+	public static void closeInstance(){
+		//Nothing to do
+	}
 
 	@Override
 	protected void init() {
 		init = true;
-		step = rts.getStep() + 1;
+		step = TimeScheduler.getInstance().getStep() + 1;
 		sstep = step;
-		for (String s : rt.getStraddleCarriersName()) {
-			StraddleCarrier rsc = rt.getStraddleCarrier(s);
+		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
+			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
 			addResource(new Time(step), rsc);
 		}
-		for (String s : rt.getMissionsName()) {
-			Mission m = rt.getMission(s);
+		for (String s : Terminal.getInstance().getMissionsName()) {
+			Mission m = Terminal.getInstance().getMission(s);
 			addMission(new Time(step), m);
 		}
 
@@ -125,7 +131,7 @@ public class BB extends MissionScheduler {
 		if (precomputed) {
 			pool.clear();
 
-			HashMap<String, LocalScore> solutions = best.getSolution();
+			Map<String, LocalScore> solutions = best.getSolution();
 			for (String colonyID : solutions.keySet()) {
 				StraddleCarrier vehicle = vehicles.get(colonyID);
 
@@ -163,7 +169,7 @@ public class BB extends MissionScheduler {
 				}
 			}
 
-			rt.flushAllocations();
+			Terminal.getInstance().flushAllocations();
 
 			precomputed = false;
 			step++;
@@ -424,7 +430,7 @@ public class BB extends MissionScheduler {
 	private void writeSolution(GlobalScore toWrite, String fileName)
 			throws FileNotFoundException {
 		String s = "";
-		HashMap<String, LocalScore> solMap = toWrite.getSolution();
+		Map<String, LocalScore> solMap = toWrite.getSolution();
 		for (String rID : solMap.keySet()) {
 			LocalScore local = solMap.get(rID);
 			for (ScheduleEdge edge : local.getPath()) {

@@ -11,7 +11,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.com.DbMgr;
 import org.com.dao.D2ctsDao;
-import org.com.model.scheduling.SchedulingParametersBeanInterface;
+import org.com.model.scheduling.ParameterBean;
 import org.scheduling.LinearMissionScheduler;
 import org.scheduling.MissionScheduler;
 import org.scheduling.bb.BB;
@@ -22,12 +22,12 @@ import org.scheduling.offlineACO2.OfflineACOScheduler2;
 import org.scheduling.onlineACO.OnlineACOScheduler;
 import org.scheduling.random.RandomMissionScheduler;
 
-public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler, B extends SchedulingParametersBeanInterface> implements D2ctsDao<B> {
+public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler> implements D2ctsDao<ParameterBean> {
 	protected static final Logger log = Logger.getLogger(OnlineACOParametersDAO.class);
 
 	protected final String LOAD_QUERY = "SELECT p.ID, p.NAME, p.VALUE FROM SIMULATION_SCHEDULING_PARAMETERS ssp"
-			+ " INNER JOIN SIMULATION s ON s.ID = ?" + " INNER JOIN SCHEDULING_ALGORITHM sa ON s.SCHEDULING_ALGORITHM = sa.ID"
-			+ " INNER JOIN SCHEDULING_PARAMETER p ON ssp.ID_PARAM = p.ID" + " WHERE sa.NAME = '" + E.rmiBindingName + "'";
+			+ " INNER JOIN SIMULATION s ON s.ID = ssp.ID_SIM" + " INNER JOIN SCHEDULING_ALGORITHM sa ON s.SCHEDULING_ALGORITHM = sa.ID"
+			+ " INNER JOIN SCHEDULING_PARAMETER p ON ssp.ID_PARAM = p.ID" + " WHERE sa.NAME = ? AND s.ID = ?";
 
 	protected final String CHECK_IF_EXISTS_SIM_SCHED_PARAMS = "SELECT ID FROM SIMULATION_SCHEDULING_PARAMETERS WHERE ID_SIM = ? AND ID_PARAM = ?";
 	protected final String SAVE_PARAMETERS_VALUES_QUERY = "INSERT INTO SCHEDULING_PARAMETER (NAME,VALUE) VALUES (?,?)";
@@ -40,16 +40,18 @@ public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler,
 	protected PreparedStatement psInsertSimulationParametersValues;
 	protected PreparedStatement psCheckSimulationParametersValues;
 
-	protected List<B> beans;
+	protected List<ParameterBean> beans;
 
 	protected Integer simID;
-
-	protected AbstractSchedulingParameterDAO() {
-
+	protected boolean loaded;
+	
+	protected AbstractSchedulingParameterDAO(Integer simID) {
+		this.loaded = false;
+		this.simID = simID;
 	}
 
 	@Override
-	public Iterator<B> iterator() {
+	public Iterator<ParameterBean> iterator() {
 		if (beans == null)
 			beans = new ArrayList<>(1);
 		return beans.iterator();
@@ -72,11 +74,23 @@ public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler,
 		if (psCheckSimulationParametersValues != null) {
 			psCheckSimulationParametersValues.close();
 		}
+		
+		BBParametersDAO.closeInstance();
+		BranchAndBoundParametersDAO.closeInstance();
+		DefaultParametersDAO.closeInstance();
+		GreedyParametersDAO.closeInstance();
+		LinearParametersDAO.closeInstance();
+		MissionLoadDAO.closeInstance();
+		OfflineACO2ParametersDAO.closeInstance();
+		OfflineACOParametersDAO.closeInstance();
+		OnlineACOParametersDAO.closeInstance();
+		RandomParametersDAO.closeInstance();
+		
 		log.info("DAO of " + E.rmiBindingName + " closed for simulation " + simID + ".");
 	}
 
 	@Override
-	public int insert(B param) throws SQLException {
+	public int insert(ParameterBean param) throws SQLException {
 		if (psInsertParametersValues == null) {
 			psInsertParametersValues = DbMgr.getInstance().getConnection()
 					.prepareStatement(SAVE_PARAMETERS_VALUES_QUERY, Statement.RETURN_GENERATED_KEYS);
@@ -133,7 +147,41 @@ public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler,
 			psCheckSimulationParametersValues.setInt(1, simID);
 			psInsertSimulationParametersValues.setInt(1, simID);
 
-			for(B p : get()){
+			for(ParameterBean p : get()){
+				insert(p);
+				psCheckSimulationParametersValues.setInt(2, p.getSQLID());
+				ResultSet rs = psCheckSimulationParametersValues.executeQuery();
+				int sID = 0;
+				
+				if(rs.next()){
+					sID = rs.getInt("ID");
+					rs.close();
+				}
+				if (sID == 0) {
+					psInsertSimulationParametersValues.setInt(2, p.getSQLID());
+					psInsertSimulationParametersValues.addBatch();
+				}
+
+			}
+			psInsertSimulationParametersValues.executeBatch();
+			
+			return true;
+		}
+		return false;
+	}
+
+	public boolean save(ParameterBean[] parameters) throws SQLException {
+		if (simID != null) {
+			if (psInsertSimulationParametersValues == null)
+				psInsertSimulationParametersValues = DbMgr.getInstance().getConnection().prepareStatement(SAVE_SIMULATION_PARAMETERS_VALUES_QUERY);
+			if (psCheckSimulationParametersValues == null)
+				psCheckSimulationParametersValues = DbMgr.getInstance().getConnection().prepareStatement(CHECK_IF_EXISTS_SIM_SCHED_PARAMS);
+
+			// check if already inserted
+			psCheckSimulationParametersValues.setInt(1, simID);
+			psInsertSimulationParametersValues.setInt(1, simID);
+
+			for(ParameterBean p : parameters){
 				insert(p);
 				psCheckSimulationParametersValues.setInt(2, p.getSQLID());
 				ResultSet rs = psCheckSimulationParametersValues.executeQuery();
@@ -152,13 +200,11 @@ public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler,
 			
 			psInsertSimulationParametersValues.executeBatch();
 			
-			DbMgr.getInstance().getConnection().commit();
-			
 			return true;
 		}
 		return false;
 	}
-
+	
 	@Override
 	public String getLoadQuery() {
 		return LOAD_QUERY;
@@ -169,9 +215,18 @@ public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler,
 		return beans.size();
 	}
 
-	public abstract List<B> get() throws SQLException;
-
-	public static AbstractSchedulingParameterDAO<?, ?> getInstance(String className, Integer simID) {
+	public ParameterBean[] get() throws SQLException {
+		if(!loaded){
+			load();
+		}
+		ParameterBean[] t = new ParameterBean[beans.size()];
+		for(int i=0; i<beans.size();i++)
+			t[i] = beans.get(i);
+		
+		return t;
+	}
+	
+	public static AbstractSchedulingParameterDAO<?> getInstance(String className, Integer simID) {
 		switch (className) {
 		case OnlineACOScheduler.rmiBindingName:
 			return OnlineACOParametersDAO.getInstance(simID);
