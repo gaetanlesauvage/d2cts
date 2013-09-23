@@ -48,6 +48,7 @@ public class StraddleCarrierModelDAO implements D2ctsDao<StraddleCarrierModelBea
 		if(psLoad != null){
 			psLoad.close();
 		}
+		instance = null;
 		log.info("StraddleCarrierModelDAO closed.");
 	}
 

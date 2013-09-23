@@ -14,20 +14,19 @@ import org.com.dao.scheduling.OfflineACO2ParametersDAO;
 import org.com.dao.scheduling.OfflineACOParametersDAO;
 import org.com.dao.scheduling.OnlineACOParametersDAO;
 import org.com.dao.scheduling.RandomParametersDAO;
-import org.com.model.SimulationBean;
 
 public class DAOMgr {
 	private static final Logger log = Logger.getLogger(DAOMgr.class);
 	
 	public static void closeAllDAO() throws SQLException{
 		//TODO change with getLastLoadedSimulationID();
-		SimulationBean lastSim = SimulationDAO.getInstance().getLastInsertedBean();
-		Integer simulationID = null;
+		//SimulationBean lastSim = SimulationDAO.getInstance().getLastInsertedBean();
+		//Integer simulationID = null;
 		//Integer scenarioID = null;
-		if(lastSim != null){
-			simulationID = lastSim.getId();
-			//scenarioID = lastSim.getContent();
-		}
+		//if(lastSim != null){
+		//	simulationID = lastSim.getId();
+		//	//scenarioID = lastSim.getContent();
+		//}
 		
 		SimulationDAO.getInstance().close();
 		ScenarioDAO.getInstance().close();
@@ -44,14 +43,32 @@ public class DAOMgr {
 		BlockTypeDAO.getInstance().close();
 		SeaOrientationDAO.getInstance().close();
 		
-		OnlineACOParametersDAO.getInstance(simulationID).close();
-		OfflineACO2ParametersDAO.getInstance(simulationID).close();
-		OfflineACOParametersDAO.getInstance(simulationID).close();
-		LinearParametersDAO.getInstance(simulationID).close();
-		GreedyParametersDAO.getInstance(simulationID).close();
-		RandomParametersDAO.getInstance(simulationID).close();
-		BranchAndBoundParametersDAO.getInstance(simulationID).close();
-		BBParametersDAO.getInstance(simulationID).close();
+		//Scheduling parameters
+		for(Iterator<OnlineACOParametersDAO> it = OnlineACOParametersDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
+		for(Iterator<OfflineACO2ParametersDAO> it = OfflineACO2ParametersDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
+		for(Iterator<OfflineACOParametersDAO> it = OfflineACOParametersDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
+		for(Iterator<LinearParametersDAO> it = LinearParametersDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
+		for(Iterator<GreedyParametersDAO> it = GreedyParametersDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
+		for(Iterator<RandomParametersDAO> it = RandomParametersDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
+		for(Iterator<BranchAndBoundParametersDAO> it = BranchAndBoundParametersDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
+		for(Iterator<BBParametersDAO> it = BBParametersDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
+		
 		
 		for(Iterator<SlotDAO> it = SlotDAO.getInstances(); it.hasNext(); ){
 			it.next().close();
@@ -75,6 +92,10 @@ public class DAOMgr {
 		}
 		
 		for(Iterator<EventDAO> it = EventDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
+		
+		for(Iterator<StraddleCarrierLocationDAO> it = StraddleCarrierLocationDAO.getInstances(); it.hasNext(); ){
 			it.next().close();
 		}
 		

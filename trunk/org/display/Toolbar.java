@@ -70,7 +70,7 @@ public class Toolbar extends JToolBar {
 
 	private TimeController controller;
 	private MainFrame mainFrame;
-	private static TimeScheduler timeScheduler;
+	
 
 	private volatile long stepValue;
 	private Time timeValue;
@@ -139,9 +139,7 @@ public class Toolbar extends JToolBar {
 		threaded.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (Toolbar.timeScheduler == null)
-					timeScheduler = TimeScheduler.getInstance();
-				timeScheduler.setThreaded(threaded.isSelected());
+				TimeScheduler.getInstance().setThreaded(threaded.isSelected());
 				Toolbar.this.mainFrame.setFocusOnJTerminal();
 			}
 		});
@@ -153,10 +151,8 @@ public class Toolbar extends JToolBar {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				int value = normalizedModel.getNumber().intValue();
-				if (Toolbar.timeScheduler == null)
-					timeScheduler = TimeScheduler.getInstance();
-
-				timeScheduler.setNormalizationTime(value);
+				
+				TimeScheduler.getInstance().setNormalizationTime(value);
 				Toolbar.this.mainFrame.setFocusOnJTerminal();
 			}
 		});
@@ -166,9 +162,7 @@ public class Toolbar extends JToolBar {
 		sync.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (Toolbar.timeScheduler == null)
-					timeScheduler = TimeScheduler.getInstance();
-				timeScheduler.setSynchronized(sync.isSelected());
+				TimeScheduler.getInstance().setSynchronized(sync.isSelected());
 				if (sync.isSelected()) {
 					normalized.setEnabled(false);
 					jlNormalizedMs.setEnabled(false);
@@ -196,10 +190,8 @@ public class Toolbar extends JToolBar {
 				}
 				sync.setSelected(false);
 
-				if (Toolbar.timeScheduler == null)
-					timeScheduler = TimeScheduler.getInstance();
-				timeScheduler.setSynchronized(false);
-				timeScheduler.setNormalizationTime(0);
+				TimeScheduler.getInstance().setSynchronized(false);
+				TimeScheduler.getInstance().setNormalizationTime(0);
 				Toolbar.this.mainFrame.setFocusOnJTerminal();
 			}
 		});
@@ -418,7 +410,6 @@ public class Toolbar extends JToolBar {
 			resetView.setEnabled(false);
 			resetTime.setEnabled(false);
 
-			timeScheduler = null;
 			Toolbar.this.mainFrame.closeSimulation();
 		}
 	}

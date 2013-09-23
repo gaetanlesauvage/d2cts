@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.conf.parameters.ReturnCodes;
@@ -39,7 +41,6 @@ import org.scheduling.onlineACO.AntHill;
 import org.scheduling.onlineACO.OnlineACOScheduler;
 import org.system.Terminal;
 import org.system.container_stocking.ContainerKind;
-import org.time.Time;
 import org.vehicles.StraddleCarrier;
 import org.vehicles.models.StraddleCarrierModel;
 
@@ -55,7 +56,7 @@ public class AntMissionNode extends AntNode {
 	private Sprite pie;
 	private boolean pieLocated;
 
-	private ConcurrentHashMap<String, HashMap<String, Ant>> population;
+	private SortedMap<String, SortedMap<String, Ant>> population;
 
 	private String uicolor;
 
@@ -72,13 +73,13 @@ public class AntMissionNode extends AntNode {
 	private String colorMAX = "";
 	private String previousColorMAX = "";
 
-	private Time travelTimeFromDepot, travelTimeToDepot;
+	//private Time travelTimeFromDepot, travelTimeToDepot;
 
 	public AntMissionNode(Mission m) {
 		super(m);
 		this.pieLocated = false;
 		this.uicolor = DEFAULT_STYLE_COLOR;
-		population = new ConcurrentHashMap<String, HashMap<String, Ant>>();
+		population = new TreeMap<>();
 		if (m.getMissionKind() == MissionKinds.IN)
 			node.addAttribute("ui.class", "missionIN");
 		else if (m.getMissionKind() == MissionKinds.OUT)
@@ -103,7 +104,7 @@ public class AntMissionNode extends AntNode {
 		// Edge from hills
 		int colorIndex = 0;
 
-		List<AntHill> hills = OnlineACOScheduler.getHills();
+		List<AntHill> hills = OnlineACOScheduler.getInstance().getHills();
 		int hillsCount = hills.size();
 
 		for (AntHill hill : hills) {
@@ -117,9 +118,9 @@ public class AntMissionNode extends AntNode {
 						colors += ",";
 					colors += hill.getStyleColor();
 					matchingHills.put(hill.getID(), hill);
-					pheromone.put(hill.getID(), OnlineACOScheduler
+					pheromone.put(hill.getID(), OnlineACOScheduler.getInstance()
 							.getGlobalParameters().getLambda());
-					population.put(hill.getID(), new HashMap<String, Ant>());
+					population.put(hill.getID(), new TreeMap<String, Ant>());
 					pheromoneRates.put(hill.getID(), 1.0 / (hillsCount + 0.0));
 					this.colorIndex.put(hill.getID(), colorIndex++);
 				}
@@ -140,7 +141,7 @@ public class AntMissionNode extends AntNode {
 			e.printStackTrace();
 		}
 
-		pie = OnlineACOScheduler.getSpriteManager().addSprite(getID());
+		pie = OnlineACOScheduler.getInstance().getSpriteManager().addSprite(getID());
 		pie.addAttribute("ui.pie-values", pheromoneRates.values().toArray());
 		pie.addAttribute("ui.style", "shape: pie-chart; fill-color: " + colors
 				+ "; size: 20px, 20px; z-index: 4;");
@@ -168,7 +169,7 @@ public class AntMissionNode extends AntNode {
 
 	private void connect() throws EmptyResourcesException {
 
-		List<AntMissionNode> nodes = OnlineACOScheduler.getMissionNodes();
+		List<AntMissionNode> nodes = OnlineACOScheduler.getInstance().getMissionNodes();
 		ArrayList<AntMissionNode> in = new ArrayList<AntMissionNode>(
 				nodes.size());
 		ArrayList<AntMissionNode> out = new ArrayList<AntMissionNode>(
@@ -228,15 +229,15 @@ public class AntMissionNode extends AntNode {
 		}
 
 		if (in.size() == 0) {
-			AntEdge source = new AntEdge(OnlineACOScheduler.getDepotNode(),
+			AntEdge source = new AntEdge(OnlineACOScheduler.getInstance().getDepotNode(),
 					this);
 			this.addIncomingEdge(source);
-			OnlineACOScheduler.getDepotNode().addOutgoingEdge(source);
+			OnlineACOScheduler.getInstance().getDepotNode().addOutgoingEdge(source);
 		}
 		if (out.size() == 0) {
-			AntEdge sink = new AntEdge(this, OnlineACOScheduler.getEndNode());
+			AntEdge sink = new AntEdge(this, OnlineACOScheduler.getInstance().getEndNode());
 			this.addOutgoingEdge(sink);
-			OnlineACOScheduler.getEndNode().addIncomingEdge(sink);
+			OnlineACOScheduler.getInstance().getEndNode().addIncomingEdge(sink);
 		}
 
 		// MUST CALL CLEAN AFTER ADDING ALL NODES OF THE CURRENT STEP
@@ -277,8 +278,8 @@ public class AntMissionNode extends AntNode {
 	}
 
 	public static void clean() {
-		for (AntMissionNode from : OnlineACOScheduler.getMissionNodes()) {
-			for (AntMissionNode to : OnlineACOScheduler.getMissionNodes()) {
+		for (AntMissionNode from : OnlineACOScheduler.getInstance().getMissionNodes()) {
+			for (AntMissionNode to : OnlineACOScheduler.getInstance().getMissionNodes()) {
 				if (from != to && from.outgoingEdges.containsKey(to.getID())) {
 					clean(from, to);
 				}
@@ -329,7 +330,7 @@ public class AntMissionNode extends AntNode {
 
 	public void addAnt(Ant a) {
 		String color = a.getHill().getID();
-		HashMap<String, Ant> map = population.get(color);
+		SortedMap<String, Ant> map = population.get(color);
 		map.put(a.getID(), a);
 		population.put(color, map);
 	}
@@ -364,7 +365,7 @@ public class AntMissionNode extends AntNode {
 		if (!pieLocated) {
 			double xgu = 0;
 			if (PIE_DISTANCE > 0) {
-				xgu = OnlineACOScheduler.toGu(PIE_DISTANCE);
+				xgu = OnlineACOScheduler.getInstance().toGu(PIE_DISTANCE);
 			}
 			pie.setPosition(xgu, 0, 90);
 			pieLocated = true;
@@ -381,7 +382,7 @@ public class AntMissionNode extends AntNode {
 	// -> 1 commit each simulation step
 	public void commit() {
 		computeRates(); // This way rates are updated only at each step of the
-						// simulation, not at each step of the aco algorithm
+		// simulation, not at each step of the aco algorithm
 		previousColorMAX = colorMAX;
 	}
 
@@ -443,42 +444,42 @@ public class AntMissionNode extends AntNode {
 
 		pie.detach();
 		pie.clearAttributes();
-		OnlineACOScheduler.getSpriteManager().removeSprite(pie.getId());
+		OnlineACOScheduler.getInstance().getSpriteManager().removeSprite(pie.getId());
 
-		if (travelTimeFromDepot != null) {
-			travelTimeFromDepot.destroy();
-			travelTimeFromDepot = null;
-		}
-		if (travelTimeToDepot != null) {
-			travelTimeToDepot.destroy();
-			travelTimeToDepot = null;
-		}
+//		if (travelTimeFromDepot != null) {
+//			travelTimeFromDepot.destroy();
+//			travelTimeFromDepot = null;
+//		}
+//		if (travelTimeToDepot != null) {
+//			travelTimeToDepot.destroy();
+//			travelTimeToDepot = null;
+//		}
+//
+//		pie = null;
 
-		pie = null;
-
-		matchingHills.clear();
-		matchingHills = null;
-
-		previousColorMAX = null;
-		colorMAX = null;
-
-		colorIndex.clear();
-		colorIndex = null;
-
-		pheromone.clear();
-		pheromone = null;
-
-		pheromoneToSpread.clear();
-		pheromoneToSpread = null;
-
-		population.clear();
-		population = null;
+//		matchingHills.clear();
+//		matchingHills = null;
+//
+//		previousColorMAX = null;
+//		colorMAX = null;
+//
+//		colorIndex.clear();
+//		colorIndex = null;
+//
+//		pheromone.clear();
+//		pheromone = null;
+//
+//		pheromoneToSpread.clear();
+//		pheromoneToSpread = null;
+//
+//		population.clear();
+//		population = null;
 
 		super.destroy();
 	}
 
 	public void evaporate() {
-		ACOParameters parameters = OnlineACOScheduler.getGlobalParameters();
+		ACOParameters parameters = OnlineACOScheduler.getInstance().getGlobalParameters();
 		double lambda = parameters.getLambda();
 		double rho = parameters.getPersistence();
 		for (String colony : pheromone.keySet()) {
@@ -490,7 +491,7 @@ public class AntMissionNode extends AntNode {
 
 	public int getAntCount() {
 		int sum = 0;
-		for (HashMap<String, Ant> h : population.values())
+		for (SortedMap<String, Ant> h : population.values())
 			sum += h.size();
 		return sum;
 	}
@@ -635,9 +636,14 @@ public class AntMissionNode extends AntNode {
 	public void removeAnt(Ant a) {
 		if (population != null) {
 			String color = a.getHill().getID();
-			HashMap<String, Ant> map = population.get(color);
-			map.remove(a.getID());
-			population.put(color, map);
+			if(color != null){
+				if(population.containsKey(color)){
+					SortedMap<String, Ant> map = population.get(color);
+					if(map.containsKey(a.getID()))
+						map.remove(a.getID());
+					population.put(color, map);
+				}
+			}
 		}
 	}
 

@@ -183,66 +183,6 @@ public abstract class TextDisplay implements RecordableObject{
 		log.info(s + "\n");
 	}
 
-	/*
-	 * public void setRemoteDisplay(String uri) { //do it itself !
-	 * 
-	 * }
-	 * 
-	 * public void addMission(Mission m) { //Do nothing! }
-	 * 
-	 * public void setVehicleToMission(String missionId, String vehicleId) {
-	 * //Do nothing! }
-	 * 
-	 * public void missionVehicleWaitTimeChanged(String missionId, Time t) {
-	 * //Do nothing }
-	 * 
-	 * public void missionStateChanged(String missionId, String newState) { //Do
-	 * nothing! }
-	 * 
-	 * public void addReservation(Reservation r) { //Do nothing! }
-	 * 
-	 * public void removeReservation(Reservation r, Time unreservationTime) {
-	 * //Do nothing! }
-	 * 
-	 * public void addSlots(List<Slot> l) { //Do nothing! }
-	 * 
-	 * public void slotContentChanged(Slot s) { //Do nothing! }
-	 * 
-	 * 
-	 * public void setMissionToVehicle(String vehicleID, String missionID) {
-	 * //Do nothing! }
-	 * 
-	 * 
-	 * public void setVehicleLoad(String vehicleID, String contID) { //Do
-	 * nothing! }
-	 * 
-	 * 
-	 * public void addStraddleCarrier(StraddleCarrier sc) { //Do nothing!
-	 * }
-	 * 
-	 * public void addContainer(Container c) { // TODO Auto-generated method
-	 * stub
-	 * 
-	 * }
-	 * 
-	 * public void containerLocationChanged(String containerID,
-	 * ContainerLocation cl) {
-	 * 
-	 * }
-	 * 
-	 * public void removeContainer(String containerID) {
-	 * 
-	 * }
-	 * 
-	 * 
-	 * public void missionChanged(Load l) {
-	 * 
-	 * }
-	 */
-	public void destroy() {
-		id = null;
-	}
-
 	@Override
 	public TextDisplay getTextDisplay() {
 		return this;

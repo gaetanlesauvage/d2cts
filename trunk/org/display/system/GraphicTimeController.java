@@ -46,6 +46,7 @@ import org.display.GraphicDisplay;
 import org.system.Terminal;
 import org.time.Time;
 import org.time.TimeController;
+import org.time.TimeScheduler;
 
 public class GraphicTimeController extends TimeController implements Runnable {
 
@@ -216,11 +217,11 @@ public class GraphicTimeController extends TimeController implements Runnable {
 				jcbSynchronized = new JCheckBox("Synchro");
 				jcbSynchronized.setFont(GraphicDisplay.font);
 				jcbSynchronized.setSelected(false);
-				SCHEDULER.setSynchronized(jcbSynchronized.isSelected());
+				TimeScheduler.getInstance().setSynchronized(jcbSynchronized.isSelected());
 				jcbSynchronized.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						SCHEDULER.setSynchronized(jcbSynchronized.isSelected());
+						TimeScheduler.getInstance().setSynchronized(jcbSynchronized.isSelected());
 					}
 				});
 				downPanel.add(jcbSynchronized);

@@ -1,6 +1,7 @@
 package org.scheduling.offlineACO;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.scheduling.MissionScheduler;
 import org.scheduling.ScheduleEdge;
@@ -12,15 +13,14 @@ public class OfflineEdge extends ScheduleEdge {
 	public static double overallPh = 0.0;
 
 	// Pheromone of each vehicle
-	private HashMap<String, Double> pheromone;
+	private Map<String, Double> pheromone;
 
 	public OfflineEdge(ScheduleTask<OfflineEdge> origin,
 			ScheduleTask<OfflineEdge> destination) {
 		super(origin, destination);
 		this.pheromone = new HashMap<String, Double>();
 		for (ScheduleResource hill : ScheduleResource.getScheduleResources()) {
-			pheromone.put(hill.getID(), OfflineACOScheduler
-					.getGlobalParameters().getLambda());
+			pheromone.put(hill.getID(), OfflineACOScheduler.getInstance().getGlobalParameters().getLambda());
 		}
 		// System.out.println("TSP:> EDGE CREATED : origin: "+origin.getID()+" destination: "+destination.getID());
 	}
@@ -28,7 +28,7 @@ public class OfflineEdge extends ScheduleEdge {
 	@Override
 	public void addCost(StraddleCarrier rsc) {
 		super.addCost(rsc);
-		pheromone.put(rsc.getId(), OfflineACOScheduler.getGlobalParameters()
+		pheromone.put(rsc.getId(), OfflineACOScheduler.getInstance().getGlobalParameters()
 				.getLambda());
 
 	}
@@ -79,8 +79,7 @@ public class OfflineEdge extends ScheduleEdge {
 	}
 
 	public void evaporate() {
-		OfflineSchedulerParameters params = OfflineACOScheduler
-				.getGlobalParameters();
+		OfflineSchedulerParameters params = OfflineACOScheduler.getInstance().getGlobalParameters();
 		if (MissionScheduler.DEBUG)
 			System.err.println("Evaporation on " + getID() + " : \n\tBefore = "
 					+ getPHString());
@@ -103,8 +102,6 @@ public class OfflineEdge extends ScheduleEdge {
 
 	public void destroy() {
 		overallPh = 0.0;
-		pheromone.clear();
-		pheromone = null;
 		super.destroy();
 	}
 }

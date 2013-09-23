@@ -66,7 +66,9 @@ public class DbMgr {
 			duration = System.currentTimeMillis()-duration;
 			logger.info("Commit done in "+duration+" ms");
 			this.connection.close();
+			this.connection = null;
 		}
+		instance = null;
 		logger.info("Database connection closed.");
 		
 	}

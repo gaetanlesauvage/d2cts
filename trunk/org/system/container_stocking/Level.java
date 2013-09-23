@@ -19,7 +19,6 @@
  */
 package org.system.container_stocking;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +33,8 @@ import org.positioning.Coordinates;
 
 
 
-public class Level implements Serializable {
-	class CollisionData implements Serializable {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 8311108170976672157L;
-
+public class Level {
+	class CollisionData {
 		double fromRate, toRate;
 		int align;
 
@@ -59,12 +53,7 @@ public class Level implements Serializable {
 		}
 	}
 
-	class ContainerAddingHelper implements Serializable{
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 5218187074819590266L;
+	class ContainerAddingHelper {
 		CollisionData data;
 		int addingIndex;
 		Container container;
@@ -93,17 +82,13 @@ public class Level implements Serializable {
 			return data;
 		}
 	}
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7131631163181117625L;
+	
 	private double teu, maxTEU;
 	private Slot slot;
 	private double z;
 	private int levelIndex;
 
 	private List<Container> content;
-
 	private List<CollisionData> occupiedRates;
 	
 	public Level (Slot slot, double maxTEU, double z, int level){
@@ -112,17 +97,13 @@ public class Level implements Serializable {
 		this.slot = slot;
 		this.z = z;
 		this.levelIndex = level;
-		//content = Collections.synchronizedList(new ArrayList<Container>((int)maxTEU));
 		content = new ArrayList<Container>(2);
-		
-		//occupiedRates = Collections.synchronizedList(new ArrayList<CollisionData>((int)maxTEU));
 		occupiedRates = new ArrayList<CollisionData>(2);
 		
 		//System.out.println("---------------> New Level : "+levelIndex+" in thread : "+Thread.currentThread().getId());
 	}
 
 	public void addContainer(ContainerAddingHelper helper) {
-		
 		content.add(helper.getAddingIndex(), helper.getContainer());
 		this.occupiedRates.add(helper.getAddingIndex(),helper.getData());
 		helper.getContainer().setLevel(levelIndex);
@@ -397,16 +378,4 @@ public class Level implements Serializable {
 		}
 		return sb.toString();
 	}
-
-	public void destroy() {
-		for(Container c : content) c.destroy();
-		content.clear();
-		content=null;
-		for(CollisionData cd : occupiedRates) cd.destroy();
-		occupiedRates.clear();
-		occupiedRates=null;
-		slot.destroy();
-		slot=null;
-	}
-
 }

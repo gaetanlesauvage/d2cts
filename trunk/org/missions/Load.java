@@ -385,9 +385,6 @@ public class Load implements Comparable<Load> {
 			rd.missionVehicleWaitTimeChanged(m.getId(), waitTime);
 	}
 
-	public static void destroy() {
-
-	}
 
 	public void reschedule() {
 		this.straddleID = null;

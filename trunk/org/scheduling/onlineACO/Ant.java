@@ -23,12 +23,15 @@ package org.scheduling.onlineACO;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.scheduling.GlobalScore;
 import org.scheduling.LocalScore;
 import org.scheduling.MissionScheduler;
 import org.scheduling.aco.graph.AntEdge;
 import org.scheduling.aco.graph.AntMissionNode;
 import org.scheduling.aco.graph.AntNode;
+import org.system.Terminal;
+import org.time.TimeScheduler;
 
 
 /**
@@ -41,7 +44,10 @@ public class Ant {
 	/**
 	 * Counter
 	 */
-	private static int count;
+	//private static int count;
+	
+	public static int idCounter;
+	
 	/**
 	 * Colony of the ant
 	 */
@@ -67,6 +73,7 @@ public class Ant {
 
 
 	private LocalScore currentScore;
+	private static final Logger randomLog = Logger.getLogger("randomLogger");
 
 	/**
 	 * Constructor
@@ -75,10 +82,10 @@ public class Ant {
 	public Ant(AntHill hill){
 		this.hill = hill;
 		path = new ArrayList<AntMissionNode>();
-		ID = "Ant["+(++count)+"]";
+		ID = "Ant["+(++idCounter)+"]";
 		colonyID = hill.getID();
 		currentScore = new LocalScore(hill.getLocalScore());
-		location = OnlineACOScheduler.getDepotNode();
+		location = OnlineACOScheduler.getInstance().getDepotNode();
 	}
 
 	/**
@@ -113,7 +120,7 @@ public class Ant {
 		path.clear();
 		if(location != null && location instanceof AntMissionNode) ((AntMissionNode)location).removeAnt(this);
 
-		location = OnlineACOScheduler.getDepotNode();
+		location = OnlineACOScheduler.getInstance().getDepotNode();
 		currentScore = new LocalScore(hill.getLocalScore());
 	}
 
@@ -140,7 +147,7 @@ public class Ant {
 			//avoid div by zero
 			if(weight == 0) weight = MissionScheduler.CLOSE_TO_ZERO;
 
-			double q = OnlineACOScheduler.getGlobalParameters().getLambda()/weight;
+			double q = OnlineACOScheduler.getInstance().getGlobalParameters().getLambda()/weight;
 
 			loc.spreadInstantPheromone(colonyID, q);
 			//System.err.println(getID()+"@"+hill.getID()+" SPREAD : "+q+" on "+location.getID());
@@ -157,7 +164,7 @@ public class Ant {
 		global.addScore(currentScore);
 		double score = global.getScore();
 		if(score == 0.0) score = MissionScheduler.CLOSE_TO_ZERO;
-		double q = OnlineACOScheduler.getGlobalParameters().getLambda()/score;
+		double q = OnlineACOScheduler.getInstance().getGlobalParameters().getLambda()/score;
 
 		for(int i=0; i<path.size(); i++){
 			AntMissionNode current = path.get(i);
@@ -176,7 +183,7 @@ public class Ant {
 		int outSize = destinations.size(); 
 		if( outSize == 0) return null;
 
-		ACOParameters parameters = OnlineACOScheduler.getGlobalParameters();
+		ACOParameters parameters = OnlineACOScheduler.getInstance().getGlobalParameters();
 
 		//Choose next location
 		ArrayList<DestinationChooserHelper> choices = new ArrayList<Ant.DestinationChooserHelper>(outSize);
@@ -223,7 +230,8 @@ public class Ant {
 					dch.setProba(overall);
 				}
 
-				double dChoice = OnlineACOScheduler.RANDOM.nextDouble();
+				double dChoice = Terminal.getInstance().getRandom().nextDouble();
+				randomLog.debug(TimeScheduler.getInstance().getTime().toStep()+";"+ID+";"+dChoice);
 //				lastChoice+=" > "+dChoice;
 
 				for(DestinationChooserHelper dch : choices){
@@ -252,7 +260,7 @@ public class Ant {
 			}
 		}
 		if(endReached){
-			move(OnlineACOScheduler.getEndNode());
+			move(OnlineACOScheduler.getInstance().getEndNode());
 			spreadPheromoneOnWholePath();
 		}
 //		lastChoice+=" => NA\n";
@@ -296,15 +304,27 @@ public class Ant {
 	 * Destructor
 	 */
 	public void destroy(){
-		if(location != null && location instanceof AntMissionNode) ((AntMissionNode)location).removeAnt(this);
+		if(location != null && location instanceof AntMissionNode){
+			AntMissionNode amn = ((AntMissionNode)location);
+			if(amn == null)
+				System.err.println("Aie");
+			
+			amn.removeAnt(this);
+		}
 
 		hill = null;
 		path = null;
 		location = null;
 		ID = null;
 
-		count--;
+		//count--;
 
+		
+	}
+	
+	public static void resetAll(){
+		idCounter = 0;
+		//count = 0;
 	}
 
 //	@Override

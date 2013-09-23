@@ -255,8 +255,8 @@ public class Bay extends Road {
 		return laneGroup;
 	}
 
-	public void destroy() {
-		in = null;
-		out = null;
-	}
+//	public void destroy() {
+//		in = null;
+//		out = null;
+//	}
 }

@@ -9,9 +9,11 @@ import org.missions.Workload;
 import org.routing.path.Path;
 import org.scheduling.MissionScheduler;
 import org.scheduling.display.JMissionScheduler;
+import org.system.Terminal;
 import org.system.container_stocking.Bay;
 import org.system.container_stocking.ContainerLocation;
 import org.time.Time;
+import org.time.TimeScheduler;
 import org.time.event.AffectMission;
 import org.util.Location;
 import org.vehicles.StraddleCarrier;
@@ -26,6 +28,10 @@ public class GreedyMissionScheduler extends MissionScheduler {
 			init();
 	}
 
+	public static void closeInstance(){
+		//Nothing to do
+	}
+	
 	@Override
 	public void apply() {
 		step++;
@@ -55,14 +61,14 @@ public class GreedyMissionScheduler extends MissionScheduler {
 
 	protected void init() {
 		init = true;
-		sstep = rts.getStep() + 1;
+		sstep = TimeScheduler.getInstance().getStep() + 1;
 		step = 0;
-		for (String s : rt.getMissionsName()) {
-			Mission m = rt.getMission(s);
+		for (String s : Terminal.getInstance().getMissionsName()) {
+			Mission m = Terminal.getInstance().getMission(s);
 			addMission(new Time(step), m);
 		}
-		for (String s : rt.getStraddleCarriersName()) {
-			StraddleCarrier rsc = rt.getStraddleCarrier(s);
+		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
+			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
 			addResource(new Time(step), rsc);
 
 		}
@@ -103,7 +109,7 @@ public class GreedyMissionScheduler extends MissionScheduler {
 		while (pool.size() > missionsToSkip) {
 			// Mission to schedule
 			Mission m = pool.get(i);
-			if (rt.getContainer(m.getContainerId()) != null) {
+			if (Terminal.getInstance().getContainer(m.getContainerId()) != null) {
 				pool.remove(i);
 				// Find best vehicle
 				StraddleCarrier vBest = null;
@@ -134,11 +140,11 @@ public class GreedyMissionScheduler extends MissionScheduler {
 				}
 
 				vBest.getWorkload().insertAtRightPlace(m);
-				AffectMission am = new AffectMission(rts.getTime(), m.getId(),
+				AffectMission am = new AffectMission(TimeScheduler.getInstance().getTime(), m.getId(),
 						vBest.getId());
 				am.writeEventInDb();
 
-				rt.getTextDisplay().setVehicleToMission(m.getId(),
+				Terminal.getInstance().getTextDisplay().setVehicleToMission(m.getId(),
 						vBest.getId());
 			} else {
 				missionsToSkip++;
@@ -148,7 +154,7 @@ public class GreedyMissionScheduler extends MissionScheduler {
 		}
 		long tEnd = System.nanoTime();
 		computeTime += tEnd - tNow;
-		rt.flushAllocations();
+		Terminal.getInstance().flushAllocations();
 
 	}
 
@@ -166,7 +172,7 @@ public class GreedyMissionScheduler extends MissionScheduler {
 			}
 		}
 		if (terminated)
-			rts.computeEndTime();
+			TimeScheduler.getInstance().computeEndTime();
 
 		super.incrementNumberOfCompletedMissions(resourceID);
 	}
@@ -176,11 +182,11 @@ public class GreedyMissionScheduler extends MissionScheduler {
 		ScheduleScore score = new ScheduleScore();
 
 		Location origin = v.getSlot().getLocation();
-		Time tOrigin = rts.getTime();
+		Time tOrigin = TimeScheduler.getInstance().getTime();
 		if (v.getCurrentLoad() != null) {
 			ContainerLocation cl = v.getCurrentLoad().getMission()
 					.getDestination();
-			origin = new Location(rt.getRoad(cl.getLaneId()),
+			origin = new Location(Terminal.getInstance().getRoad(cl.getLaneId()),
 					cl.getCoordinates(), true);
 			tOrigin = v.getCurrentLoad().getMission().getDeliveryTimeWindow()
 					.getMax();
@@ -191,7 +197,7 @@ public class GreedyMissionScheduler extends MissionScheduler {
 			if (l.getState() == MissionState.STATE_TODO) {
 				ContainerLocation cl = l.getMission().getContainer()
 						.getContainerLocation();
-				Bay lane = rt.getBay(cl.getLaneId());
+				Bay lane = Terminal.getInstance().getBay(cl.getLaneId());
 				Location pickup = new Location(lane, cl.getCoordinates(), true);
 				Path p = v.getRouting()
 						.getShortestPath(origin, pickup, tOrigin);
@@ -213,7 +219,7 @@ public class GreedyMissionScheduler extends MissionScheduler {
 
 				// -> Delivery
 				cl = l.getMission().getDestination();
-				lane = rt.getBay(cl.getLaneId());
+				lane = Terminal.getInstance().getBay(cl.getLaneId());
 				Location delivery = new Location(lane, cl.getCoordinates(),
 						true);
 				p = v.getRouting().getShortestPath(pickup, delivery, tOrigin);

@@ -29,7 +29,6 @@ import org.routing.path.RoutingPath;
 import org.system.Reservation;
 import org.system.Road;
 import org.system.RoadPoint;
-import org.system.Terminal;
 import org.time.Time;
 import org.time.TimeScheduler;
 import org.util.Location;
@@ -77,6 +76,7 @@ public abstract class RRoutingAlgorithm implements Routing {
 		double bRate = Location.getAccuratePourcent(b.getLocation(),
 				vehicleLocation.getRoad());
 		double vRate = vehicleLocation.getPourcent();
+		//Le chariot cavalier doit aller dans le sens de la route
 		if (bRate > vRate || vRate == 1.0) {
 			if (vRate == 1.0 && vehicleLocation.getRoad().isDirected())
 				result = Double.POSITIVE_INFINITY;
@@ -90,8 +90,9 @@ public abstract class RRoutingAlgorithm implements Routing {
 			if (!vehicleLocation.getDirection())
 				result += vehicle.getModel().getSpeedCharacteristics()
 						.getTurnBackTime();
-		} else {
-			if (vehicleLocation.getRoad().isDirected())
+			
+		} else {//Le chariot doit aller dans le sens inverse de la route
+			if (vehicleLocation.getRoad().isDirected()) //Or la route est à sens unique...
 				result = Double.POSITIVE_INFINITY;
 			else {
 				double distance = vehicleLocation.getLength(vehicleLocation
@@ -442,13 +443,4 @@ public abstract class RRoutingAlgorithm implements Routing {
 			String neighborNodeId, Time arrivalTime, int priority);
 
 	public abstract List<String> getNodesIds();
-
-	@Override
-	public void destroy() {
-		out = null;
-		straddleCarrierId = null;
-		rmiBindingName = null;
-		vehicle = null;
-	}
-
 }

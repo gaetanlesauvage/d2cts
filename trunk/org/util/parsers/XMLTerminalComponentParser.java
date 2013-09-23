@@ -517,7 +517,7 @@ public class XMLTerminalComponentParser implements ContentHandler {
 		else
 			throw new NotInPaveException();
 
-		String in = atts.getValue("in");
+		/*String in = atts.getValue("in");
 
 		StringTokenizer st = new StringTokenizer(in, ",");
 		double inX = Double.parseDouble(st.nextToken());
@@ -527,7 +527,7 @@ public class XMLTerminalComponentParser implements ContentHandler {
 		st = new StringTokenizer(out, ",");
 		double outX = Double.parseDouble(st.nextToken());
 		double outY = Double.parseDouble(st.nextToken());
-
+		 */
 		Terminal terminal = getRemoteTerminal();
 		BayCrossroad cOrigin = (BayCrossroad) terminal.getCrossroad(cOriginId);
 		BayCrossroad cDestination = (BayCrossroad) terminal
@@ -595,7 +595,7 @@ public class XMLTerminalComponentParser implements ContentHandler {
 		BayCrossroad cDestination = (BayCrossroad) terminal
 				.getCrossroad(cDestinationId);
 
-		String in = atts.getValue("in");
+		/*String in = atts.getValue("in");
 
 		StringTokenizer st = new StringTokenizer(in, ",");
 		double inX = Double.parseDouble(st.nextToken());
@@ -605,6 +605,7 @@ public class XMLTerminalComponentParser implements ContentHandler {
 		st = new StringTokenizer(out, ",");
 		double outX = Double.parseDouble(st.nextToken());
 		double outY = Double.parseDouble(st.nextToken());
+		*/
 		if (atts.getIndex("laneGroup") >= 0) {
 			/*lane = new Bay(id, cOrigin, cDestination, directed, pave,
 					new Coordinates(inX, inY), new Coordinates(outX, outY),

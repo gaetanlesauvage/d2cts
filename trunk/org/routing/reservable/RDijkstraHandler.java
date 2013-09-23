@@ -92,7 +92,7 @@ public class RDijkstraHandler extends RRoutingAlgorithm {
 	private void init() {
 		if (distances == null) {
 			logger.info("Initializing RDijkstra for "+vehicle.getId());
-			System.out.println("Initializing RDijkstra...");
+			//System.out.println("Initializing RDijkstra...");
 			long t1 = System.currentTimeMillis();
 
 			Collection<RoadPoint> list = Terminal.getInstance().getNodes().values();
@@ -124,6 +124,9 @@ public class RDijkstraHandler extends RRoutingAlgorithm {
 		// t);
 		Road r = distances.get(from).get(to).getRoad();
 		double duration = d / s;
+		if(Double.isNaN(duration)||Double.isInfinite(duration)){
+			System.err.println("Duration is Nan or +Inf!");
+		}
 		double w = 0;
 		w = r.getWaitingCost(vehicle, arrivalTimeOnFrom, duration, priority);
 		return duration + w;
@@ -153,14 +156,5 @@ public class RDijkstraHandler extends RRoutingAlgorithm {
 		// if(w>0)
 		// System.out.println("W = "+w+" for going on "+from+" -> "+to+" at "+arrivalTime+" with priority "+priority+" !!!!!!!!!!!!");
 		return w;
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-		distances = null;
-		straddleCarrierId = null;
-		vehicle = null;
-		logger.info("RDijkstra destroyed !");
 	}
 }

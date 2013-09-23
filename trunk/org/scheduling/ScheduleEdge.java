@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.exceptions.EmptyResourcesException;
 import org.routing.path.Path;
 import org.scheduling.aco.graph.AntNode;
-import org.scheduling.offlineACO.OfflineACOScheduler;
 import org.scheduling.onlineACO.OnlineACOScheduler;
 import org.time.Time;
 import org.vehicles.StraddleCarrier;
@@ -80,7 +79,7 @@ public class ScheduleEdge {
 	}
 
 	public void addCost(StraddleCarrier rsc) {
-			if(origin == MissionScheduler.getInstance().SOURCE_NODE || destination == MissionScheduler.getInstance().SOURCE_NODE || destination == OnlineACOScheduler.getDepotNode()){
+			if(origin == MissionScheduler.getInstance().SOURCE_NODE || destination == MissionScheduler.getInstance().SOURCE_NODE || destination == OnlineACOScheduler.getInstance().getDepotNode()){
 				double d = getCost(rsc);
 				if(d>maxCost) {
 					//System.err.println(getID()+" => d="+d+" > "+maxCost);
@@ -100,7 +99,6 @@ public class ScheduleEdge {
 		
 	}
 	
-	//TODO test OfflineACOScheduler.getInstance()
 	protected double getCost(StraddleCarrier rsc){
 		double cost = 0;
 		try {
@@ -110,7 +108,7 @@ public class ScheduleEdge {
 					return Double.POSITIVE_INFINITY;
 				}
 			}
-			Path p = OfflineACOScheduler.getInstance().getTravelPath(origin.getMission(), destination.getMission(), rsc);
+			Path p = MissionScheduler.getInstance().getTravelPath(origin.getMission(), destination.getMission(), rsc);
 			Time t = new Time(p.getCost());
 			cost = t.getInSec();
 			if(distance==Double.POSITIVE_INFINITY) distance = p.getCostInMeters();

@@ -31,6 +31,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -127,10 +128,18 @@ public class JTerminal implements RecordableObject {
 		if (instance == null) {
 			instance = new JTerminal();
 			instance.init(rmiBindingName,false);
-//			Terminal.getInstance().setTextDisplay(//TODO);
+			//			Terminal.getInstance().setTextDisplay(//TODO);
 		}
 		return instance;
 	}
+
+	public static void closeInstance() {
+		if(instance != null){
+			instance.destroy();
+			instance = null;
+		}
+	}
+
 	private JTerminal(){
 
 	}
@@ -292,9 +301,9 @@ public class JTerminal implements RecordableObject {
 												if (e.isAltDown()) {
 													// Show in JTable
 													GraphicDisplayPanel.getInstance()
-														.showVehicle(jl
-																.getSelectedValue()
-																.getText());
+													.showVehicle(jl
+															.getSelectedValue()
+															.getText());
 												}
 											} else if (type.equals("container")) {
 												vehicleSelected("");
@@ -305,9 +314,9 @@ public class JTerminal implements RecordableObject {
 												if (e.isAltDown()) {
 													// Show in JTable
 													GraphicDisplayPanel.getInstance()
-														.showContainer(jl
-																.getSelectedValue()
-																.getText());
+													.showContainer(jl
+															.getSelectedValue()
+															.getText());
 												}
 											} else if (type.equals("slot")) {
 												vehicleSelected("");
@@ -318,9 +327,9 @@ public class JTerminal implements RecordableObject {
 												if (e.isAltDown()) {
 													// Show in JTable
 													GraphicDisplayPanel.getInstance()
-														.showSlot(jl
-																.getSelectedValue()
-																.getText());
+													.showSlot(jl
+															.getSelectedValue()
+															.getText());
 												}
 											}
 											closePopupMenu();
@@ -645,7 +654,7 @@ public class JTerminal implements RecordableObject {
 
 	public void addLane(Bay l) {
 		addRoad(l);
-		List<Slot> slotsList = Terminal.getInstance().getSlots(l.getId());
+		Collection<Slot> slotsList = Terminal.getInstance().getSlots(l.getId());
 		if(slotsList!=null){
 			for (Slot slot : slotsList) {
 
@@ -1091,49 +1100,50 @@ public class JTerminal implements RecordableObject {
 	}
 
 	public synchronized void destroy() {
-		List<String> ids = new ArrayList<String>(spriteManager.getSpriteCount());
-		for (Sprite s : spriteManager.sprites())
-			ids.add(s.getId());
-		for (String sId : ids)
-			spriteManager.removeSprite(sId);
-		ids = new ArrayList<String>(graph.getEdgeCount());
-		for (Edge e : graph.getEdgeSet()) {
-			ids.add(e.getId());
-		}
-		for (String id : ids)
-			graph.removeEdge(id);
-		ids = new ArrayList<String>(graph.getNodeCount());
-		for (Node n : graph.getNodeSet()) {
-			ids.add(n.getId());
-		}
-		for (String id : ids)
-			graph.removeNode(id);
+//		List<String> ids = new ArrayList<String>(spriteManager.getSpriteCount());
+//		for (Sprite s : spriteManager.sprites())
+//			ids.add(s.getId());
+//		for (String sId : ids)
+//			spriteManager.removeSprite(sId);
+//		ids = new ArrayList<String>(graph.getEdgeCount());
+//		for (Edge e : graph.getEdgeSet()) {
+//			ids.add(e.getId());
+//		}
+//		for (String id : ids)
+//			graph.removeEdge(id);
+//		ids = new ArrayList<String>(graph.getNodeCount());
+//		for (Node n : graph.getNodeSet()) {
+//			ids.add(n.getId());
+//		}
+//		for (String id : ids)
+//			graph.removeNode(id);
 
-		containers.clear();
-		sc.destroy();
-		slots.clear();
-		ss.destroy();
-		straddleCarriers.clear();
-		sv.destroy();
+//		containers.clear();
+		
+//		sc.destroy();
+//		slots.clear();
+//		ss.destroy();
+//		straddleCarriers.clear();
+//		sv.destroy();
 
-		View maVue = viewer.getView("view_" + id);
-		for (MouseListener ml : maVue.getMouseListeners()) {
-			maVue.removeMouseListener(ml);
-		}
-		for (MouseMotionListener mml : maVue.getMouseMotionListeners()) {
-			maVue.removeMouseMotionListener(mml);
-		}
-		for (MouseWheelListener mwl : maVue.getMouseWheelListeners()) {
-			maVue.removeMouseWheelListener(mwl);
-		}
-
-		viewer.removeView("view_" + id);
+//		View maVue = viewer.getView("view_" + id);
+//		for (MouseListener ml : maVue.getMouseListeners()) {
+//			maVue.removeMouseListener(ml);
+//		}
+//		for (MouseMotionListener mml : maVue.getMouseMotionListeners()) {
+//			maVue.removeMouseMotionListener(mml);
+//		}
+//		for (MouseWheelListener mwl : maVue.getMouseWheelListeners()) {
+//			maVue.removeMouseWheelListener(mwl);
+//		}
+//
+//		viewer.removeView("view_" + id);
 
 		if (this.jframe != null) {
 			jframe.setVisible(false);
 			jframe.dispose();
 		}
-		id = null;
+//		id = null;
 		// System.gc();
 	}
 

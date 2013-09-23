@@ -28,5 +28,5 @@ public interface RecordableObject extends Remote{
 	public String getId() ;
 	public TextDisplay getTextDisplay() ;
 	public void setTextDisplay(TextDisplay display) ;
-	public void destroy() ;
+	//public void destroy() ;
 }

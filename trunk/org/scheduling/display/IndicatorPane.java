@@ -326,23 +326,4 @@ public class IndicatorPane extends JPanel {
 		return sb.toString();
 
 	}
-
-	public void destroy(){
-		datas.clear();
-		overallModel = null;
-		overallTable = null;
-		straddleCarrierModel = null;
-		straddleCarriersTable = null;
-		completedMissions.clear();
-		completedMissions = null;
-		overspentTimes.clear();
-		overspentTimes = null;
-		waitTimes.clear();
-		waitTimes = null;
-		distances.clear();
-		distances = null;
-
-		overall = null;
-		datas = null;
-	}
 }

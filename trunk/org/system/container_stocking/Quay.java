@@ -1,10 +1,6 @@
 package org.system.container_stocking;
 
 public class Quay extends Block {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8130131495461937526L;
 	private SeaOrientation seaOrientation;
 	private String borderID;
 	

@@ -11,24 +11,22 @@ import org.apache.log4j.Logger;
 import org.com.DbMgr;
 import org.com.model.SchedulingAlgorithmBean;
 
-public class SchedulingAlgorithmDAO implements
-		D2ctsDao<SchedulingAlgorithmBean> {
-	private static final Logger log = Logger
-			.getLogger(SchedulingAlgorithmDAO.class);
+public class SchedulingAlgorithmDAO implements D2ctsDao<SchedulingAlgorithmBean> {
+	private static final Logger log = Logger.getLogger(SchedulingAlgorithmDAO.class);
 
 	private static SchedulingAlgorithmDAO instance;
 
 	private static final String LOAD_QUERY = "SELECT ID, NAME, CLASS FROM SCHEDULING_ALGORITHM";
-	
+
 	private PreparedStatement psLoad;
 
 	private Map<Integer, SchedulingAlgorithmBean> beans;
 
 	private SchedulingAlgorithmDAO() {
-		try{
+		try {
 			load();
-		} catch (SQLException e){
-			log.fatal(e.getMessage(),e);
+		} catch (SQLException e) {
+			log.fatal(e.getMessage(), e);
 		}
 	}
 
@@ -52,14 +50,14 @@ public class SchedulingAlgorithmDAO implements
 		if (psLoad != null) {
 			psLoad.close();
 		}
+		instance = null;
 		log.info("SchedulingAlgorithmDAO closed.");
 	}
 
 	@Override
 	public void load() throws SQLException {
 		if (psLoad == null) {
-			psLoad = DbMgr.getInstance().getConnection()
-					.prepareStatement(LOAD_QUERY);
+			psLoad = DbMgr.getInstance().getConnection().prepareStatement(LOAD_QUERY);
 		}
 		beans = new HashMap<>();
 
@@ -70,7 +68,7 @@ public class SchedulingAlgorithmDAO implements
 			bean.setId(rs.getInt("ID"));
 			bean.setName(rs.getString("NAME"));
 			bean.setJavaClass(rs.getString("CLASS"));
-			
+
 			beans.put(bean.getId(), bean);
 		}
 

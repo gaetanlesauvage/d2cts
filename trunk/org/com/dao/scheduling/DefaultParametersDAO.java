@@ -93,4 +93,8 @@ public class DefaultParametersDAO implements D2ctsDao<DefaultParametersBean> {
 	public DefaultParametersBean get(String name) {
 		return beans.get(name);
 	}
+
+	public static void closeInstance() {
+		instance = null;
+	}
 }

@@ -19,19 +19,14 @@
  */
 package org.time.event;
 
-import java.io.Serializable;
-
+import org.system.Terminal;
 import org.system.container_stocking.ContainerLocation;
 import org.time.Time;
 
-public class ChangeContainerLocation extends DynamicEvent implements
-		Serializable {
+public class ChangeContainerLocation extends DynamicEvent  {
 	private String containerId;
 	private ContainerLocation cl;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8156636782298087496L;
+	
 	private static final String TYPE = "ChangeContainerLocation";
 
 	public ChangeContainerLocation(Time time, String containerId,
@@ -45,7 +40,7 @@ public class ChangeContainerLocation extends DynamicEvent implements
 
 	@Override
 	public void execute() {
-		terminal.setContainerLocation(containerId, cl);
+		Terminal.getInstance().setContainerLocation(containerId, cl);
 		writeEventInDb();
 	}
 

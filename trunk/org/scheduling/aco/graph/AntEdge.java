@@ -22,8 +22,8 @@ package org.scheduling.aco.graph;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.ui.spriteManager.Sprite;
@@ -82,12 +82,12 @@ public class AntEdge extends ScheduleEdge {
 	/**
 	 * Sprites used to display the weights along the edge
 	 */
-	private ConcurrentHashMap<String, Sprite> weightsSprites;
+	private SortedMap<String, Sprite> weightsSprites;
 
 	/**
 	 * Used for layouting the sprites of the weights
 	 */
-	private HashMap<String, Integer> indexes;
+	private SortedMap<String, Integer> indexes;
 
 	/**
 	 * Corresponding edge
@@ -104,12 +104,11 @@ public class AntEdge extends ScheduleEdge {
 		//		/*else*/ heuristic = new Fitness(this);//TimeWeightHeuristic(this);
 
 		//		this.ID = "("+from.getId()+"->"+to.getId()+")";
-		edge = OnlineACOScheduler.getGraph().addEdge(getID(), origin.getID(), destination.getID(), true);
+		edge = OnlineACOScheduler.getInstance().getGraph().addEdge(getID(), origin.getID(), destination.getID(), true);
 		edge.addAttribute("ui.style", STYLE+"");
-		int resourcesSize = OnlineACOScheduler.getInstance().getResources().size();
 		//weights = new HashMap<String, Double>(resourcesSize);
-		weightsSprites = new ConcurrentHashMap<String, Sprite>(resourcesSize);
-		indexes = new HashMap<String, Integer>(resourcesSize);
+		weightsSprites = new TreeMap<>();
+		indexes = new TreeMap<>();
 		color = DEFAULT_COLOR_STRING;
 		computeColor();
 	}
@@ -172,7 +171,7 @@ public class AntEdge extends ScheduleEdge {
 		Color color = StraddleCarrierColor.getColor(resource.getColor());
 		int size = OnlineACOScheduler.getInstance().getResources().size();
 
-		if(origin == OnlineACOScheduler.getDepotNode() || destination == OnlineACOScheduler.getEndNode()){
+		if(origin == OnlineACOScheduler.getInstance().getDepotNode() || destination == OnlineACOScheduler.getInstance().getEndNode()){
 			key = resource.getId();
 			d = getCost(resource);
 
@@ -192,7 +191,7 @@ public class AntEdge extends ScheduleEdge {
 			sprite = weightsSprites.get(key);
 		}
 		else{
-			sprite = OnlineACOScheduler.getSpriteManager().addSprite(getID()+"@"+key);
+			sprite = OnlineACOScheduler.getInstance().getSpriteManager().addSprite(getID()+"@"+key);
 			sprite.addAttribute("ui.class", "weight");
 
 			String sColor = "rgb("+color.getRed()+","+color.getGreen()+","+color.getBlue()+")";
@@ -201,7 +200,7 @@ public class AntEdge extends ScheduleEdge {
 				bColor = "rgba(25,25,25,175)";
 			}
 			String style = WEIGHT_STYLE;
-			if(!OnlineACOScheduler.displayWeights()) style = style.replaceAll("visibility-mode: normal;", "visibility-mode: hidden;");
+			if(!OnlineACOScheduler.getInstance().displayWeights()) style = style.replaceAll("visibility-mode: normal;", "visibility-mode: hidden;");
 
 			sprite.addAttribute("ui.style", style+" text-color: "+sColor+"; text-background-color: "+bColor+";");
 			sprite.attachToEdge(edge.getId());
@@ -367,7 +366,7 @@ public class AntEdge extends ScheduleEdge {
 		//		}
 
 		if(weightsSprites != null){
-			SpriteManager manager = OnlineACOScheduler.getSpriteManager();
+			SpriteManager manager = OnlineACOScheduler.getInstance().getSpriteManager();
 			for(Sprite s : weightsSprites.values()){
 				manager.removeSprite(s.getId());
 			}
@@ -376,7 +375,7 @@ public class AntEdge extends ScheduleEdge {
 		}
 
 		if(edge != null){
-			OnlineACOScheduler.getGraph().removeEdge(origin.getID(), destination.getID());
+			OnlineACOScheduler.getInstance().getGraph().removeEdge(origin.getID(), destination.getID());
 			edge = null;
 		}
 		super.destroy();

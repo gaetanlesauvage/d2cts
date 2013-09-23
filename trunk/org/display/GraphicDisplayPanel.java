@@ -50,10 +50,6 @@ import org.util.Location;
 import org.vehicles.DeliveryOrder;
 import org.vehicles.StraddleCarrier;
 
-
-
-
-
 public class GraphicDisplayPanel extends TextDisplay{
 
 	public static final int WIDTH = 896;
@@ -78,6 +74,11 @@ public class GraphicDisplayPanel extends TextDisplay{
 		return instance;
 	}
 
+	public static void closeInstance() {
+		if(instance != null){
+			instance = null;
+		}
+	}
 	private GraphicDisplayPanel ()  {
 		super();
 		
@@ -230,20 +231,7 @@ public class GraphicDisplayPanel extends TextDisplay{
 	public JPanel getPanel() {
 		return panel;
 	}
-	public void destroy() {
-		super.destroy();
-		slotsPanel = null;
-		containerPanel = null;
-		jta = null;
-		missionPanel = null;
-		panel = null;
-		
-		reservationsPanel = null;
-		straddleCarrierPane = null;
-		tabbedPane.removeAll();
-		tabbedPane = null;
-	}
-
+	
 	public void showVehicle(String id) {
 		tabbedPane.setSelectedIndex(3);
 		straddleCarrierPane.select(id);

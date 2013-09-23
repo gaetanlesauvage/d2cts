@@ -21,7 +21,9 @@ package org.time.event;
 
 import java.util.HashMap;
 
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 
 public class ShipOut extends DynamicEvent {
 	private String paveID;
@@ -57,16 +59,16 @@ public class ShipOut extends DynamicEvent {
 
 	@Override
 	public void execute() {
-		boolean b = terminal.shipOut(capacity, paveID, berthFromRate,
+		boolean b = Terminal.getInstance().shipOut(capacity, paveID, berthFromRate,
 				berthToRate, containersToLoad);
 		if (!b) {
 			if (!alreadyAdviced) {
-				System.out.println(scheduler.getTime() + ":> ship on " + paveID
+				System.out.println(TimeScheduler.getInstance().getTime() + ":> ship on " + paveID
 						+ " [" + berthFromRate + " to " + berthToRate
 						+ "] can't leave !");
 				alreadyAdviced = true;
 			}
-			scheduler.registerDynamicEvent(this);
+			TimeScheduler.getInstance().registerDynamicEvent(this);
 		} else
 			writeEventInDb();
 	}

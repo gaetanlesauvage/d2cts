@@ -60,6 +60,7 @@ public class SlotDAO implements D2ctsDao<SlotBean> {
 		if (psLoad != null) {
 			psLoad.close();
 		}
+		instances = null;
 		log.info("SlotDAO of terminal " + terminalID + " closed.");
 	}
 

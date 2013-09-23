@@ -19,6 +19,7 @@
  */
 package org.time.event;
 
+import org.system.Terminal;
 import org.time.Time;
 
 public class AffectMission extends DynamicEvent {
@@ -35,6 +36,6 @@ public class AffectMission extends DynamicEvent {
 
 	@Override
 	public void execute() {
-		terminal.incomingMission(straddleCarrierId, missionId);
+		Terminal.getInstance().incomingMission(straddleCarrierId, missionId);
 	}
 }

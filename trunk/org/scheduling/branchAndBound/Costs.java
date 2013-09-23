@@ -35,6 +35,7 @@ import org.missions.MissionPhase;
 import org.routing.path.Path;
 import org.scheduling.MissionScheduler;
 import org.scheduling.aco.graph.DepotNode;
+import org.system.Terminal;
 import org.system.container_stocking.BlockType;
 import org.time.Time;
 import org.vehicles.StraddleCarrier;
@@ -310,7 +311,7 @@ class Costs {
 					CostHelper m = new CostHelper(origin, destination);
 					if (!origin.equals(DepotNode.ID)
 							&& origin.equals(destination)) {
-						Mission mission = BranchAndBound.rt.getMission(origin);
+						Mission mission = Terminal.getInstance().getMission(origin);
 						m.setPickupOverrunPenalty(mission.getMissionKind()
 								.getOverrunPickupPenalty());
 						m.setDeliveryOverrunPenalty(mission.getMissionKind()
@@ -395,7 +396,7 @@ class Costs {
 		double d = 0;
 
 		if (phase == MissionPhase.PHASE_PICKUP) {
-			if (BranchAndBound.rt.getBlock(
+			if (Terminal.getInstance().getBlock(
 					task.getContainer().getContainerLocation().getPaveId())
 					.getType() == BlockType.ROAD) {
 				d = resource.getModel().getSpeedCharacteristics()
@@ -405,7 +406,7 @@ class Costs {
 						.getContainerHandlingTimeFromGroundMAX();
 			}
 		} else {
-			if (BranchAndBound.rt.getBlock(task.getDestination().getPaveId())
+			if (Terminal.getInstance().getBlock(task.getDestination().getPaveId())
 					.getType() == BlockType.ROAD) {
 				d = resource.getModel().getSpeedCharacteristics()
 						.getContainerHandlingTimeFromTruckMAX();

@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
@@ -38,11 +36,12 @@ import org.com.dao.ScenarioDAO;
 import org.com.dao.SimulationDAO;
 import org.com.dao.StraddleCarrierDAO;
 import org.com.dao.TerminalDAO;
+import org.com.dao.scheduling.AbstractSchedulingParameterDAO;
 import org.com.model.ScenarioBean;
 import org.com.model.SchedulingAlgorithmBean;
 import org.com.model.SimulationBean;
 import org.com.model.TerminalBean;
-import org.com.model.scheduling.SchedulingParametersBeanInterface;
+import org.com.model.scheduling.ParameterBean;
 
 public class LoadSimulationDialog extends JDialog {
 	/**
@@ -219,20 +218,28 @@ public class LoadSimulationDialog extends JDialog {
 
 				int realColumnIndex = convertColumnIndexToModel(columnIndex);
 
-				if(realColumnIndex == SCHEDULING_ALGORITHM_COLUMN_INDEX){
+				if(realColumnIndex >= 0 && realColumnIndex == SCHEDULING_ALGORITHM_COLUMN_INDEX){
 					Integer simID = Integer.parseInt(tm.getValueAt(rowIndex, SIMULATION_ID_COLUMN_INDEX)+"");
-
+					SimulationDAO instance = SimulationDAO.getInstance();
 					tip = "";
 					boolean first = true;
-					SchedulingAlgorithmBean algo = SimulationDAO.getInstance().get(simID).getSchedulingAlgorithm();
-					Map<String, SchedulingParametersBeanInterface> parameters = algo.getParameters();
+
+					SchedulingAlgorithmBean algo = instance.get(simID).getSchedulingAlgorithm();
+
+					ParameterBean[] parameters = null;
+					try {
+						parameters = AbstractSchedulingParameterDAO.getInstance(algo.getName(), simID).get();
+					} catch (SQLException e1) {
+						log.error(e1);
+					}
 					if(parameters != null){
-						for(Entry<String, SchedulingParametersBeanInterface> entry : parameters.entrySet()){
+						for(ParameterBean parameter : parameters){
 							if(first){
 								first = false;
-								tip = "Parameters: "+entry.getKey()+"="+entry.getValue().getValueAsString();
+								tip = "Parameters: "+parameter.name()+"="+parameter.getValueAsString();
+							} else {
+								tip += ", "+parameter.name()+"="+parameter.getValueAsString();
 							}
-							tip += ", "+entry.getKey()+"="+entry.getValue().getValueAsString();
 						}
 					}
 				}
@@ -275,7 +282,8 @@ public class LoadSimulationDialog extends JDialog {
 				if (jtSimulation.getSelectedRow() != -1) {
 					// Load Simu with ID =
 					scID = (Integer) jtSimulation.getValueAt(jtSimulation.getSelectedRow(), SIMULATION_ID_COLUMN_INDEX);
-					System.out.println("SIMULATION " + scID + " chosen!");
+					log.info("User action: simulation " + scID + " chosen.");
+					
 					LoadSimulationDialog.this.setVisible(false);
 					synchronized (waitThreadScID) {
 						waitThreadScID.notify();

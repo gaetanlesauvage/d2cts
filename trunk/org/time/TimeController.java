@@ -21,31 +21,28 @@ package org.time;
 
 public class TimeController {
 	public static final String rmiBindingName = "TimeController";
-	protected static TimeScheduler SCHEDULER;
-
+	
 	public TimeController() {
-		if (SCHEDULER == null)
-			SCHEDULER = TimeScheduler.getInstance();
 	}
 
 	public double getSecByStep() {
-		return SCHEDULER.getSecondsPerStep();
+		return TimeScheduler.getInstance().getSecondsPerStep();
 	}
 
 	public long getStep() {
-		return SCHEDULER.getStep();
+		return TimeScheduler.getInstance().getStep();
 	}
 
 	public Time getTime() {
-		return SCHEDULER.getTime();
+		return TimeScheduler.getInstance().getTime();
 	}
 
 	public void nextStep(boolean isSynchronized) {
-		SCHEDULER.step(isSynchronized);
+		TimeScheduler.getInstance().step(isSynchronized);
 	}
 
 	public void setSecByStep(double newStepSize) {
-		SCHEDULER.setSecondsPerStep(newStepSize);
+		TimeScheduler.getInstance().setSecondsPerStep(newStepSize);
 	}
 
 }

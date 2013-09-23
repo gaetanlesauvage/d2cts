@@ -35,8 +35,7 @@ public class OfflineEdge2 extends ScheduleEdge {
 	public double getPheromone(String hillID) {
 		if (!pheromone.containsKey(hillID)) {
 			pheromone.put(hillID, 0.0);
-			new Exception("No ph for " + hillID + " at " + getID() + "!")
-					.printStackTrace();
+			new Exception("No ph for " + hillID + " at " + getID() + "!").printStackTrace();
 		}
 		return pheromone.get(hillID);
 	}
@@ -80,17 +79,14 @@ public class OfflineEdge2 extends ScheduleEdge {
 	}
 
 	public void evaporate() {
-		OfflineSchedulerParameters params = OfflineACOScheduler2
-				.getGlobalParameters();
+		OfflineSchedulerParameters params = OfflineACOScheduler2.getInstance().getGlobalParameters();
 		if (MissionScheduler.DEBUG)
-			System.err.println("Evaporation on " + getID() + " : before="
-					+ getPHString());
+			System.err.println("Evaporation on " + getID() + " : before=" + getPHString());
 		for (String colonyID : pheromone.keySet()) {
 			double currentPH = pheromone.get(colonyID);
 			double currentExtraPH = currentPH - 1.0; // HERE REMPLACED '-
 														// lambda' by '- 1.0'
-			double nextPH = (1.0 - params.getRho()) * currentExtraPH
-					+ params.getLambda();
+			double nextPH = (1.0 - params.getRho()) * currentExtraPH + params.getLambda();
 
 			overallPh -= currentPH - nextPH;
 			pheromone.put(colonyID, nextPH);

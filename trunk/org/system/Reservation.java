@@ -19,8 +19,6 @@
  */
 package org.system;
 
-import java.io.Serializable;
-
 import org.time.Time;
 import org.time.TimeWindow;
 
@@ -147,19 +145,4 @@ public class Reservation implements Comparable<Reservation>{
 		return "Reservation of "+laneID+" for "+vehicleID+" on "+tw+" priority="+priority;
 	}
 
-	public void destroy() {
-		if(date != null){
-			date.destroy();
-			date=null;
-		}
-		
-		laneID=null;
-		
-		if(tw != null){
-			tw.destroy();
-			tw=null;
-		}
-		
-		vehicleID=null;
-	}
 }

@@ -31,23 +31,19 @@ import org.util.Location;
 import org.vehicles.StraddleCarrier;
 
 public interface GraphicTerminalListener {
-	
-	
-	public void containerAdded(Container container);
-	public void containerMoved(String containerId) throws RemoteException;
-	public void containerRemoved(String containerId);
-	public void crossroadAdded(Crossroad c);
-	public void depotAdded(Depot depot);
-	public void hideLaserHeads() throws RemoteException;
-	public void unhideLaserHeads() throws RemoteException;
-	public void laneAdded(Bay lane);
-	public void laserHeadAdded(String id) throws RemoteException;
-	//public void paveAdded(Pave pave);
-	public void roadAdded(Road road);
-	public void roadRemoved(Road road);
-	public void resetView() throws RemoteException;
-	public void straddleCarrierAdded(StraddleCarrier rsc);
-	public void straddleCarrierMoved(String scID, Location l, String style) throws RemoteException;
-	public void straddleCarrierSlotAdded(StraddleCarrierSlot slot);
-	public void destroy() throws RemoteException;
+	void containerAdded(Container container);
+	void containerMoved(String containerId) throws RemoteException;
+	void containerRemoved(String containerId);
+	void crossroadAdded(Crossroad c);
+	void depotAdded(Depot depot);
+	void hideLaserHeads() throws RemoteException;
+	void unhideLaserHeads();
+	void laneAdded(Bay lane);
+	void laserHeadAdded(String id);
+	void roadAdded(Road road);
+	void roadRemoved(Road road);
+	void resetView();
+	void straddleCarrierAdded(StraddleCarrier rsc);
+	void straddleCarrierMoved(String scID, Location l, String style);
+	void straddleCarrierSlotAdded(StraddleCarrierSlot slot);
 }

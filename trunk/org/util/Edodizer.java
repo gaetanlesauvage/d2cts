@@ -39,7 +39,6 @@ public class Edodizer {
 	public static HashMap<Mission, Time> edodize(HashMap<Mission, Time> map,
 			double dod, double edod, Random r) throws FileNotFoundException,
 			RemoteException {
-		TimeScheduler rts = TimeScheduler.getInstance();
 		int initSize = map.size();
 
 		HashMap<Mission, Time> newTimes = new HashMap<Mission, Time>();
@@ -66,9 +65,8 @@ public class Edodizer {
 			}
 			i++;
 		}
-
-		rts.destroy();
-
+		TimeScheduler.closeInstance();
+		
 		return newTimes;
 	}
 
@@ -114,8 +112,6 @@ public class Edodizer {
 
 	public static HashMap<Mission, Time> getMissionMap(String missionFileName)
 			throws SAXException, IOException {
-		TimeScheduler rts = TimeScheduler.getInstance();
-
 		XMLReader saxReader = XMLReaderFactory
 				.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
 		XMLMissionsParser parser = new XMLMissionsParser();
@@ -126,7 +122,7 @@ public class Edodizer {
 				+ missionFileName)));
 		HashMap<Mission, Time> map = parser.getMap();
 
-		rts.destroy();
+		TimeScheduler.closeInstance();
 		return map;
 
 	}

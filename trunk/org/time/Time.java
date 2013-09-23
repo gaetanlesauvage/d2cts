@@ -27,6 +27,12 @@ import java.util.StringTokenizer;
 
 public class Time implements Comparable<Time> {
 	public static final String MAXTIME = "23:59:59.9999";
+	private static final NumberFormat nf = NumberFormat.getNumberInstance(new Locale("en"));
+
+	static {
+		nf.setMaximumFractionDigits(2);
+		nf.setMinimumFractionDigits(2);
+	}
 
 	public static long timeToStep(Time time, float stepSize) {
 		long step = (long) (((time.h * 3600) + (time.m * 60) + time.s) / stepSize);
@@ -50,14 +56,14 @@ public class Time implements Comparable<Time> {
 		//Fixme add millisec support...
 
 	}
-	
+
 	public Time(double secondes){
 		h = (int) (secondes / 3600);
 		secondes = secondes % 3600;
 		m = (int) (secondes / 60);
 		s = (secondes % 60);
 	}
-	
+
 	public Time(int h, int m, double s) {
 		this.h = h;
 		this.m = m;
@@ -92,7 +98,7 @@ public class Time implements Comparable<Time> {
 	}
 
 	public Time(long step) {
-			double time_in_s = (step * TimeScheduler.getInstance().getSecondsPerStep());
+		double time_in_s = (step * TimeScheduler.getInstance().getSecondsPerStep());
 		// System.out.println(step+" to s = "+time_in_s);
 		h = (int) (time_in_s / 3600);
 		// System.out.println("to h  = "+h);
@@ -104,7 +110,7 @@ public class Time implements Comparable<Time> {
 	}
 
 	public Time(String time) {
-		
+
 		if (time.contains(":")) {
 			StringTokenizer st = new StringTokenizer(time, ":");
 			h = Integer.parseInt(st.nextToken());
@@ -207,18 +213,12 @@ public class Time implements Comparable<Time> {
 	}
 
 	public String toString() {
-
-		/*
-		 * try { if(toStep()==0) return "00:00:00.00"; } catch (RemoteException
-		 * e) { e.printStackTrace(); }
-		 */
-		NumberFormat nf = NumberFormat.getNumberInstance(new Locale("en"));
-		nf.setMaximumFractionDigits(2);
-		nf.setMinimumFractionDigits(2);
-		String ss = nf.format(s);
-		return "" + (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":"
-				+ (s < 10 ? "0" + ss : ss);
-
+		if(Double.isNaN(s)){
+			return MAXTIME;
+		} else {
+			String ss = nf.format(s);
+			return (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + ss : ss);
+		}	
 	}
 
 	public String toMString() {
@@ -231,10 +231,6 @@ public class Time implements Comparable<Time> {
 				+ (left < 10 ? "0" + left + "." + right : left + "." + right);
 		System.out.println("toMString = " + time);
 		return time;
-	}
-
-	public void destroy() {
-
 	}
 
 	public java.sql.Time getSQLTime() {

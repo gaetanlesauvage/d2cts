@@ -1,12 +1,13 @@
 package org.scheduling;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.time.Time;
 
 
 public class GlobalScore implements Comparable<GlobalScore> {
-	private HashMap<String, LocalScore> localScores;
+	private Map<String, LocalScore> localScores;
 	
 	private double distance;
 	private double distanceInSeconds;
@@ -14,7 +15,7 @@ public class GlobalScore implements Comparable<GlobalScore> {
 	private double waitTime;
 	
 	public GlobalScore (){
-		localScores = new HashMap<String, LocalScore>();
+		localScores = new HashMap<>();
 		reset();
 	}
 
@@ -94,7 +95,7 @@ public class GlobalScore implements Comparable<GlobalScore> {
 		return waitTime;
 	}
 	
-	public HashMap<String, LocalScore> getSolution(){
+	public Map<String, LocalScore> getSolution(){
 		return localScores;
 	}
 
@@ -144,15 +145,6 @@ public class GlobalScore implements Comparable<GlobalScore> {
 		return sb.toString();
 	}
 
-	public void destroy(){
-		if(localScores!=null){
-			for(LocalScore localScore : localScores.values()){
-				localScore.destroy();
-			}
-			localScores.clear();
-		}
-	}
-	
 	public int getTaskCount(){
 		int count = 0;
 		for(LocalScore l : localScores.values()){

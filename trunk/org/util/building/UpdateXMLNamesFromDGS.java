@@ -33,14 +33,15 @@ public class UpdateXMLNamesFromDGS {
 
 
 	public static void compareFiles (String dgsFile, String xmlFile){
+		Scanner scan1 = null, scan2 = null;
 		try{
 
 
 			File f1 = new File(dgsFile);
 			File f2 = new File(xmlFile);
 
-			Scanner scan1 = new Scanner(f1);
-			Scanner scan2 = new Scanner(f2);
+			scan1 = new Scanner(f1);
+			scan2 = new Scanner(f2);
 
 			HashMap<Float, ArrayList<String>> mapDGS_XCoords = new HashMap<Float, ArrayList<String>>();
 			HashMap<String , Float> mapDGS_YCoords = new HashMap<String, Float>();
@@ -148,6 +149,9 @@ public class UpdateXMLNamesFromDGS {
 			File newFileXML = new File(f2.getAbsolutePath()+"converted.xml");
 			PrintWriter pw = new PrintWriter(newFileXML);
 
+			if(scan2!=null)
+				scan2.close();
+			
 			scan2 = new Scanner(f2);
 			while(scan2.hasNextLine()){
 				String line = scan2.nextLine();
@@ -194,6 +198,10 @@ public class UpdateXMLNamesFromDGS {
 					pw.flush();
 				}
 			}
+			
+			if(scan1!=null)
+				scan1.close();
+			
 			scan1 = new Scanner(f1);
 			while(scan1.hasNextLine()){
 				String line = scan1.nextLine();
@@ -219,6 +227,11 @@ public class UpdateXMLNamesFromDGS {
 			pw.close();
 		}catch(IOException e){
 			e.printStackTrace();
+		}finally{
+			if(scan1!=null)
+				scan1.close();
+			if(scan2!=null)
+				scan2.close();
 		}
 		
 	}

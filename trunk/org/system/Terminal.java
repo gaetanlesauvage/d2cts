@@ -29,7 +29,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.display.GraphicDisplayPanel;
@@ -82,6 +83,7 @@ import org.vehicles.Ship;
 import org.vehicles.StraddleCarrier;
 import org.vehicles.Truck;
 import org.vehicles.models.StraddleCarrierModel;
+
 /**
  * Implementation of the Terminal through the RMI Interface
  * 
@@ -100,7 +102,7 @@ public class Terminal implements RecordableObject {
 
 	private static Terminal instance;
 
-		//private DatabaseManager databaseManager;
+	// private DatabaseManager databaseManager;
 
 	/**
 	 * Graphic listener used to communicate with the 2D view if any.
@@ -125,70 +127,79 @@ public class Terminal implements RecordableObject {
 	 * Reservations table of each road/lane of the terminal. Indexed by the ID
 	 * of the roads/lanes
 	 */
-	private Map<String, Reservations> reservations;
+	private SortedMap<String, Reservations> reservations;
 	/**
 	 * Depots table indexed by ID
 	 */
-	private Map<String, Depot> depots;
+	private SortedMap<String, Depot> depots;
 	/**
 	 * Straddle carriers parking slots table. This structure links a straddle
 	 * carrier ID to a parking slot
 	 */
-	private Map<String, StraddleCarrierSlot> straddleCarriersSlots;
+	private SortedMap<String, StraddleCarrierSlot> straddleCarriersSlots;
 	/**
 	 * Pave map. This map is indexed by the type of the paves. Each pave have a
 	 * type (STOCK, ROAD, TRAIN, SHIP). Each type contains a map of IDs and
 	 * instances of pave of this type.
 	 */
-	private Map<BlockType, Map<String, Block>> paves;
+	private SortedMap<BlockType, SortedMap<String, Block>> paves;
 	/**
 	 * Lanes map by ID
 	 */
-	private Map<String, Bay> bays;
+	private SortedMap<String, Bay> bays;
 	/**
 	 * Slots map by Lane ID. Stocks the slots list of each lane.
 	 */
-	private Map<String, List<Slot>> slots;
+	private SortedMap<String, List<Slot>> slots;
+
+	private SortedMap<String, Slot> slotsByIds;
+
 	/**
 	 * Straddle carriers models map by model ID
 	 */
-	private Map<String, StraddleCarrierModel> straddleCarrierModels;
+	private SortedMap<String, StraddleCarrierModel> straddleCarrierModels;
 	/**
 	 * Straddle carriers map by ID. Retrieves the RMI interface of a distributed
 	 * straddle carrier.
 	 */
-	private Map<String, StraddleCarrier> straddleCarriers;
+	private SortedMap<String, StraddleCarrier> straddleCarriers;
 	/**
 	 * Crossroads map by ID
 	 */
-	private Map<String, Crossroad> crossroads;
+	private SortedMap<String, Crossroad> crossroads;
 	/**
 	 * Road points map by ID
 	 */
-	private Map<String, RoadPoint> roadPoints;
+	private SortedMap<String, RoadPoint> roadPoints;
 	/**
 	 * Roads map by ID
 	 */
-	private Map<String, Road> roads;
+	private SortedMap<String, Road> roads;
 
 	/**
 	 * Missions map by ID
 	 */
-	private Map<String, Mission> missions;
+	private SortedMap<String, Mission> missions;
 	/**
 	 * Containers map by ID
 	 */
-	private Map<String, Container> containers;
+	private SortedMap<String, Container> containers;
 
 	private List<Ship> boats;
 	/**
 	 * Trucks by ID
 	 */
-	private Map<String, Truck> trucks;
+	private SortedMap<String, Truck> trucks;
 
-	private Map<String, String> allocations;
+	private SortedMap<String, String> allocations;
 
 	private boolean showLaserHead;
+
+	private Integer simID;
+
+	public void setSimulationID(Integer simID) {
+		this.simID = simID;
+	}
 
 	/**
 	 * Default Terminal with no remote display @ * @throws SingletonException
@@ -196,23 +207,26 @@ public class Terminal implements RecordableObject {
 	protected Terminal() {
 		log.info("Creating Terminal");
 
-		allocations = new HashMap<>();
-		reservations = new HashMap<>();
-		depots = new HashMap<>();
-		straddleCarriersSlots = new HashMap<>();
-		paves = new HashMap<>();
-		bays = new HashMap<>();
-		slots = new HashMap<>();
-		straddleCarrierModels = new HashMap<>();
-		straddleCarriers = new HashMap<>();
-		crossroads = new HashMap<>();
-		roadPoints = new HashMap<>();
-		roads = new HashMap<>();
-		missions = new HashMap<>();
-		containers = new HashMap<>();
+		allocations = new TreeMap<>();
+		reservations = new TreeMap<>();
+		depots = new TreeMap<>();
+		straddleCarriersSlots = new TreeMap<>();
+		paves = new TreeMap<>();
+		bays = new TreeMap<>();
+
+		slots = new TreeMap<>();
+		slotsByIds = new TreeMap<>();
+
+		straddleCarrierModels = new TreeMap<>();
+		straddleCarriers = new TreeMap<>();
+		crossroads = new TreeMap<>();
+		roadPoints = new TreeMap<>();
+		roads = new TreeMap<>();
+		missions = new TreeMap<>();
+		containers = new TreeMap<>();
 		boats = new ArrayList<>(6);
-		trucks = new HashMap<>();
-	
+		trucks = new TreeMap<>();
+
 	}
 
 	public GraphicTerminalListenerImpl getListener() {
@@ -225,14 +239,13 @@ public class Terminal implements RecordableObject {
 
 			if (rp == null) {
 				System.out.println("RP IS NULL !!!");
-				System.out.println("Id = " + nodeId + " connex = "
-						+ connexNodeId);
+				System.out.println("Id = " + nodeId + " connex = " + connexNodeId);
 			}
 			rp.addConnexCrossroad(connexNodeId, by);
-			log.debug("Connex crossroads : "+nodeId+" with "+connexNodeId+" by "+by);
+			log.debug("Connex crossroads : " + nodeId + " with " + connexNodeId + " by " + by);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-			log.error(e.getMessage(),e);
+			log.error(e.getMessage(), e);
 		}
 	}
 
@@ -248,27 +261,22 @@ public class Terminal implements RecordableObject {
 		}
 	}
 
-	public void addContainer(final String id, final double teu,
-			final ContainerLocation location) throws CollisionException,
-			NotEnoughSpaceException {
+	public void addContainer(final String id, final double teu, final ContainerLocation location) throws CollisionException, NotEnoughSpaceException {
 		Container c;
 		try {
 			c = new Container(id, teu);
 
-			if(location!=null){
+			if (location != null) {
 				Slot slot = getSlot(location.getSlotId());
-			
 
-				Coordinates coords = slot.stockContainer(c, location.getLevel(),
-					location.getAlign());
+				Coordinates coords = slot.stockContainer(c, location.getLevel(), location.getAlign());
 
-				// 	Modify to add Z coord !
-				Location l = new Location(slot.getLocation().getRoad(), coords,
-					slot.getLocation().getDirection());
+				// Modify to add Z coord !
+				Location l = new Location(slot.getLocation().getRoad(), coords, slot.getLocation().getDirection());
 
 				c.move(l);
 
-				// 	TO be removed ?
+				// TO be removed ?
 				c.setContainerLocation(location);
 			}
 			Terminal.this.addContainer(c);
@@ -276,14 +284,13 @@ public class Terminal implements RecordableObject {
 			if (out != null)
 				out.addContainer(c);
 
-			
-				for (Mission m : missions.values()) {
-					if (m.getContainerId().equals(id)) {
-						MissionScheduler.getInstance().updateMission(getTime(), m);
-						break;
-					}
+			for (Mission m : missions.values()) {
+				if (m.getContainerId().equals(id)) {
+					MissionScheduler.getInstance().updateMission(getTime(), m);
+					break;
 				}
-			
+			}
+
 		} catch (ContainerDimensionException e) {
 			e.printStackTrace();
 		} catch (SlotContainerIncompatibilityException e) {
@@ -298,8 +305,7 @@ public class Terminal implements RecordableObject {
 
 	}
 
-	public void addCoordsToDepot(String depot, String id,
-			Coordinates coordinates) {
+	public void addCoordsToDepot(String depot, String id, Coordinates coordinates) {
 		depots.get(depot).addCoords(id, coordinates);
 	}
 
@@ -317,10 +323,10 @@ public class Terminal implements RecordableObject {
 
 	public void addBayCrossroad(BayCrossroad crossroad) {
 		crossroads.put(crossroad.getId(), crossroad);
-		/*if (!crossroad.getMainRoad().equals("")) {
-			Road r = roads.get(crossroad.getMainRoad());
-			r.addLaneCrossroad(crossroad);
-		}*/
+		/*
+		 * if (!crossroad.getMainRoad().equals("")) { Road r =
+		 * roads.get(crossroad.getMainRoad()); r.addLaneCrossroad(crossroad); }
+		 */
 	}
 
 	public void addlaserHead(String id) {
@@ -334,34 +340,33 @@ public class Terminal implements RecordableObject {
 			out.addMission(m);
 
 		MissionScheduler.getInstance().addMission(getTime(), m);
-		
+
 		/*
 		 * else{ new
 		 * Exception("MISSION SCHEDULER DOES NOT EXIST !!!").printStackTrace();
 		 * }
 		 */
 
-		//FIXME
-		/*if (databaseManager != null && databaseManager.getServer() != null
-				&& !databaseManager.isReplay()) {
-			String time = "00:00:00";
-			if (scheduler == null)
-				scheduler = TimeScheduler.getInstance();
+		// FIXME
+		/*
+		 * if (databaseManager != null && databaseManager.getServer() != null &&
+		 * !databaseManager.isReplay()) { String time = "00:00:00"; if
+		 * (scheduler == null) scheduler = TimeScheduler.getInstance();
+		 * 
+		 * if (scheduler.getTime() != null) time =
+		 * scheduler.getTime().toString(); databaseManager.writeMission(time,
+		 * m); }
+		 */
 
-			if (scheduler.getTime() != null)
-				time = scheduler.getTime().toString();
-			databaseManager.writeMission(time, m);
-		}*/
-
-		System.out.println("NEW MISSION : " + m);
+		log.info("Incoming Mission: " + m);
 	}
 
 	public synchronized void addPave(final Block p) {
 		// System.out.println("TERMINAL : "+p);
 		if (!paves.containsKey(p.getType())) {
-			paves.put(p.getType(), new ConcurrentHashMap<String, Block>());
+			paves.put(p.getType(), new TreeMap<String, Block>());
 		}
-		Map<String, Block> tmp = paves.get(p.getType());
+		SortedMap<String, Block> tmp = paves.get(p.getType());
 		tmp.put(p.getId(), p);
 		paves.put(p.getType(), tmp);
 	}
@@ -370,14 +375,17 @@ public class Terminal implements RecordableObject {
 		roads.put(road.getId(), road);
 	}
 
-	public void addRoadPoint(final RoadPoint rp/*, String mainRoad*/) {
+	public void addRoadPoint(final RoadPoint rp/* , String mainRoad */) {
 		roadPoints.put(rp.getId(), rp);
-		//final Road r = roads.get(mainRoad);
-		//r.addRoadPoint(r.getInsertionIndexOfRoadPoint(rp), rp);
+		// final Road r = roads.get(mainRoad);
+		// r.addRoadPoint(r.getInsertionIndexOfRoadPoint(rp), rp);
 	}
 
 	public void addSlots(String lane, List<Slot> list) {
 		slots.put(lane, list);
+		for (Slot s : list) {
+			slotsByIds.put(s.getId(), s);
+		}
 		if (out != null) {
 			out.addSlots(list);
 
@@ -399,10 +407,8 @@ public class Terminal implements RecordableObject {
 		graphChangedFor(rsc);
 	}
 
-	public void addStraddleCarrierModel(
-			StraddleCarrierModel straddleCarrierModel) {
-		straddleCarrierModels.put(straddleCarrierModel.getId(),
-				straddleCarrierModel);
+	public void addStraddleCarrierModel(StraddleCarrierModel straddleCarrierModel) {
+		straddleCarrierModels.put(straddleCarrierModel.getId(), straddleCarrierModel);
 	}
 
 	public void addStraddleCarrierSlot(StraddleCarrierSlot slot) {
@@ -417,8 +423,7 @@ public class Terminal implements RecordableObject {
 
 	}
 
-	public boolean shipIn(int capacity, String paveID, double berthFromRate,
-			double berthToRate, HashMap<String, Double> containersToUnload) {
+	public boolean shipIn(int capacity, String paveID, double berthFromRate, double berthToRate, HashMap<String, Double> containersToUnload) {
 		Quay p = (Quay) paves.get(BlockType.SHIP).get(paveID);
 		for (Ship boat : boats) {
 			if (boat.getQuay().getId().equals(paveID)) {
@@ -443,8 +448,7 @@ public class Terminal implements RecordableObject {
 			}
 		}
 
-		Ship b = new Ship(capacity, p, berthFromRate, berthToRate,
-				concernedSlots, containersToUnload);
+		Ship b = new Ship(capacity, p, berthFromRate, berthToRate, concernedSlots, containersToUnload);
 		boats.add(b);
 		if (listener != null) {
 			listener.addShip(b);
@@ -460,8 +464,7 @@ public class Terminal implements RecordableObject {
 			out.containerLocationChanged(id, c.getContainerLocation());
 	}
 
-	public boolean deliverContainer(String straddleCarrier, Mission m,
-			Time handlingTime) {
+	public boolean deliverContainer(String straddleCarrier, Mission m, Time handlingTime) {
 		// final StraddleCarrier rsc;
 		// try {
 		// rsc = (StraddleCarrier)
@@ -484,12 +487,10 @@ public class Terminal implements RecordableObject {
 			Coordinates coords = slot.stockContainer(m);
 
 			Container container = containers.get(m.getContainer().getId());
-			container.move(new Location(slot.getLocation().getRoad(), coords,
-					true));
+			container.move(new Location(slot.getLocation().getRoad(), coords, true));
 
 			Time deliveryEndTime = new Time(TimeScheduler.getInstance().getTime(), handlingTime);
-			ChangeContainerLocation ccl = new ChangeContainerLocation(
-					deliveryEndTime, container.getId(), m.getDestination());
+			ChangeContainerLocation ccl = new ChangeContainerLocation(deliveryEndTime, container.getId(), m.getDestination());
 			TimeScheduler.getInstance().registerDynamicEvent(ccl);
 
 			listener.containerMoved(container.getId());
@@ -499,32 +500,26 @@ public class Terminal implements RecordableObject {
 		} catch (MissionContainerDeliveryException e) {
 			// e.printStackTrace();
 			StraddleCarrier rsc = getStraddleCarrier(straddleCarrier);
-			DeliveryOrder dOrder = rsc.getListener().cantDeliverContainer(
-					rsc.getId(), e, out);
+			DeliveryOrder dOrder = rsc.getListener().cantDeliverContainer(rsc.getId(), e, out);
 
 			if (dOrder.getNewDeliveryLocation() != null) {
 				final ContainerLocation nl = dOrder.getNewDeliveryLocation();
 				Block p = getBlock(m.getDestination().getPaveId());
 				if (p.getType() == BlockType.SHIP) {
-					TimeScheduler.getInstance().changeShipContainerOutDestination(m
-							.getContainer().getId(), dOrder
-							.getNewDeliveryLocation().getSlotId());
+					TimeScheduler.getInstance().changeShipContainerOutDestination(m.getContainer().getId(),
+							dOrder.getNewDeliveryLocation().getSlotId());
 				}
 
-				rsc.messageReceived("<modMission id='" + m.getId()
-						+ "' phase='" + MissionPhase.PHASE_DELIVERY.getCode() + "'>" + nl.toXML()
+				rsc.messageReceived("<modMission id='" + m.getId() + "' phase='" + MissionPhase.PHASE_DELIVERY.getCode() + "'>" + nl.toXML()
 						+ "</modMission>");
 			} else {
 				Location gotoLoc = dOrder.getGotoLocation();
 				if (rsc.getLocation().getDirection())
 					gotoLoc.setDirection(false);
 				Time waitTime = dOrder.getWaitingTime();
-				String msg = "<modMission id='" + m.getId() + "' phase='"
-						+ MissionPhase.PHASE_DELIVERY.getCode() + "'>" + "<goto road='"
-						+ gotoLoc.getRoad().getId() + "' rate='"
-						+ gotoLoc.getPourcent() + "' direction='"
-						+ gotoLoc.getDirection() + "'/> <wait time='"
-						+ waitTime + "'/></modMission>\n";
+				String msg = "<modMission id='" + m.getId() + "' phase='" + MissionPhase.PHASE_DELIVERY.getCode() + "'>" + "<goto road='"
+						+ gotoLoc.getRoad().getId() + "' rate='" + gotoLoc.getPourcent() + "' direction='" + gotoLoc.getDirection()
+						+ "'/> <wait time='" + waitTime + "'/></modMission>\n";
 				System.out.println("Sending Msg : " + msg);
 				rsc.messageReceived(msg);
 
@@ -539,11 +534,9 @@ public class Terminal implements RecordableObject {
 		return true;
 	}
 
-	public void modMission(String modMissionId, MissionPhase modMissionPhase,
-			ContainerLocation newDestination) {
+	public void modMission(String modMissionId, MissionPhase modMissionPhase, ContainerLocation newDestination) {
 		Mission m = missions.get(modMissionId);
-		if (m.getMissionKind() == MissionKinds.OUT
-				|| m.getMissionKind() == MissionKinds.IN_AND_OUT) {
+		if (m.getMissionKind() == MissionKinds.OUT || m.getMissionKind() == MissionKinds.IN_AND_OUT) {
 			Block pDest = getBlock(m.getDestination().getPaveId());
 			if (pDest.getType() == BlockType.ROAD) {
 				TruckMission tm = (TruckMission) m;
@@ -578,8 +571,7 @@ public class Terminal implements RecordableObject {
 	public boolean isLaneDrivable(String laneID) {
 		for (StraddleCarrier rsc : straddleCarriers.values()) {
 			Location l = rsc.getLocation();
-			if (l.getRoad().getId().equals(laneID) && l.getPourcent() > 0
-					&& l.getPourcent() < 1.0)
+			if (l.getRoad().getId().equals(laneID) && l.getPourcent() > 0 && l.getPourcent() < 1.0)
 				return false;
 		}
 		return true;
@@ -638,8 +630,7 @@ public class Terminal implements RecordableObject {
 	}
 
 	public String[] getCrossroadsNames() {
-		ArrayList<String> t = new ArrayList<String>(crossroads.size()
-				+ roadPoints.size());
+		ArrayList<String> t = new ArrayList<String>(crossroads.size() + roadPoints.size());
 
 		for (String id : crossroads.keySet()) {
 			Crossroad c = crossroads.get(id);
@@ -735,8 +726,7 @@ public class Terminal implements RecordableObject {
 	}
 
 	public HashMap<String, RoadPoint> getNodes() {
-		HashMap<String, RoadPoint> map = new HashMap<String, RoadPoint>(
-				crossroads.size() + roadPoints.size(), 1f);
+		HashMap<String, RoadPoint> map = new HashMap<String, RoadPoint>(crossroads.size() + roadPoints.size(), 1f);
 
 		for (Crossroad c : crossroads.values()) {
 			map.put(c.getId(), c);
@@ -774,8 +764,7 @@ public class Terminal implements RecordableObject {
 
 	public Random getRandom() {
 		if (random == null) {
-			Exception e = new Exception(
-					"Seed not supplied! Random generator will be created without any fixed seed.");
+			Exception e = new Exception("Seed not supplied! Random generator will be created without any fixed seed.");
 			e.printStackTrace();
 			log.warn(e.getMessage(), e);
 			random = new Random();
@@ -844,16 +833,15 @@ public class Terminal implements RecordableObject {
 	}
 
 	/**
-	 * O(n²) !!!
+	 * Used to be O(n²)...
 	 */
 	public Slot getSlot(String slotId) {
-		for (String l : slots.keySet()) {
-			for (Slot s : slots.get(l)) {
-				if (s.getId().equals(slotId))
-					return s;
-			}
-		}
-		return null;
+		return slotsByIds.get(slotId);
+
+		/*
+		 * for (String l : slots.keySet()) { for (Slot s : slots.get(l)) { if
+		 * (s.getId().equals(slotId)) return s; } } return null;
+		 */
 	}
 
 	public String[] getSlotNames(String laneId) {
@@ -880,8 +868,7 @@ public class Terminal implements RecordableObject {
 		return rsc;
 	}
 
-	public StraddleCarrierModel getStraddleCarrierModel(
-			String straddleCarrierModelId) {
+	public StraddleCarrierModel getStraddleCarrierModel(String straddleCarrierModelId) {
 		return straddleCarrierModels.get(straddleCarrierModelId);
 	}
 
@@ -912,24 +899,19 @@ public class Terminal implements RecordableObject {
 	}
 
 	// TODO TO BE MODIFIED !!
-	public void incomingMission(String straddleCarrier,
-			final Location destination) {
+	public void incomingMission(String straddleCarrier, final Location destination) {
 		final StraddleCarrier rsc = straddleCarriers.get(straddleCarrier);
-		rsc.messageReceived("<goto road=\"" + destination.getRoad().getId()
-				+ "\" rate=\"" + destination.getPourcent() + "\"/>");
+		rsc.messageReceived("<goto road=\"" + destination.getRoad().getId() + "\" rate=\"" + destination.getPourcent() + "\"/>");
 	}
 
-	public void incomingMission(final String straddleCarrier,
-			final String missionId) {
+	public void incomingMission(final String straddleCarrier, final String missionId) {
 		final StraddleCarrier rsc = straddleCarriers.get(straddleCarrier);
 		rsc.messageReceived("<domission id=\"" + missionId + "\"/>");
-		missionAffected(rsc.getWorkload().getCopyOfLoad(missionId),
-				straddleCarrier);
+		missionAffected(rsc.getWorkload().getCopyOfLoad(missionId), straddleCarrier);
 		flushAllocations();
 	}
 
-	public void straddleCarrierActivityChanged(final String missionID,
-			final String straddleCarrierID) {
+	public void straddleCarrierActivityChanged(final String missionID, final String straddleCarrierID) {
 		if (out != null) {
 			out.setMissionToVehicle(straddleCarrierID, missionID);
 		}
@@ -945,8 +927,7 @@ public class Terminal implements RecordableObject {
 
 	}
 
-	public synchronized void missionAffected(final Load load,
-			final String straddleCarrierID) {
+	public synchronized void missionAffected(final Load load, final String straddleCarrierID) {
 		if (out != null) {
 			if (straddleCarrierID.equals("NA")) {
 				for (StraddleCarrier rsc : straddleCarriers.values()) {
@@ -961,14 +942,10 @@ public class Terminal implements RecordableObject {
 				// System.out.println("MISSION "+load.getMission().getId()+" affected to "+straddleCarrierID);
 			} else {
 				if (load.getStraddleCarrierID().equals(straddleCarrierID)) {
-					allocations.put(load.getMission().getId(),
-							straddleCarrierID);
+					allocations.put(load.getMission().getId(), straddleCarrierID);
 					// System.out.println("MISSION "+load.getMission().getId()+" affected again to "+straddleCarrierID);
 				} else
-					System.err
-					.println("TRYING TO AFFECT A MISSION WHICH HAS ALREADY BEEN STARTED ! ("
-							+ load.getMission().getId()
-							+ " to "
+					System.err.println("TRYING TO AFFECT A MISSION WHICH HAS ALREADY BEEN STARTED ! (" + load.getMission().getId() + " to "
 							+ straddleCarrierID + ")");
 			}
 		}
@@ -980,8 +957,8 @@ public class Terminal implements RecordableObject {
 		}
 	}
 
-	public void missionStatusChanged(MissionPhase phase, MissionState state, final String scID,
-			final Time overspentTime, final Time waitTime, Mission mission) {
+	public void missionStatusChanged(MissionPhase phase, MissionState state, final String scID, final Time overspentTime, final Time waitTime,
+			Mission mission) {
 		if (out != null) {
 			String s = "";
 
@@ -1024,7 +1001,7 @@ public class Terminal implements RecordableObject {
 
 	public List<Slot> getExitsSlots(String id) {
 		ArrayList<Slot> exitsSlots = new ArrayList<Slot>(2);
-		List<Slot> l = getSlots(id);
+		Collection<Slot> l = getSlots(id);
 		double min = Double.POSITIVE_INFINITY;
 		double max = Double.NEGATIVE_INFINITY;
 		Slot sMin = null;
@@ -1052,8 +1029,7 @@ public class Terminal implements RecordableObject {
 	public void removeContainer(String containerId) {
 		Container c = containers.remove(containerId);
 		if (c == null)
-			System.out.println("Can't find container " + containerId
-					+ " in terminal !");
+			System.out.println("Can't find container " + containerId + " in terminal !");
 		if (out != null) {
 			Slot slot = null;
 			if (c.getContainerLocation() == null) {
@@ -1099,13 +1075,11 @@ public class Terminal implements RecordableObject {
 			out.removeContainer(containerId);
 	}
 
-	public boolean reserveRoad(String roadId, String vehicle, TimeWindow tw,
-			int priority) {
+	public boolean reserveRoad(String roadId, String vehicle, TimeWindow tw, int priority) {
 		Road road = getBay(roadId);
 		if (road != null) {
 			Reservations rs = reservations.get(roadId);
-			Reservation r = new Reservation(getTime(), vehicle, roadId, tw,
-					priority);
+			Reservation r = new Reservation(getTime(), vehicle, roadId, tw, priority);
 			if (rs == null) {
 				rs = new Reservations(road);
 			}
@@ -1138,8 +1112,8 @@ public class Terminal implements RecordableObject {
 
 	@Override
 	public void setTextDisplay(TextDisplay display) {
-		if(display instanceof GraphicDisplayPanel) 
-			this.out = (GraphicDisplayPanel)display;
+		if (display instanceof GraphicDisplayPanel)
+			this.out = (GraphicDisplayPanel) display;
 	}
 
 	public void setSeed(long newSeed) {
@@ -1149,22 +1123,17 @@ public class Terminal implements RecordableObject {
 			random.setSeed(newSeed);
 	}
 
-	public boolean shipOut(int capacity, String paveID, double berthFromRate,
-			double berthToRate, HashMap<String, Double> containersToLoad) {
+	public boolean shipOut(int capacity, String paveID, double berthFromRate, double berthToRate, HashMap<String, Double> containersToLoad) {
 		// Find the boat
 		Ship ship = null;
 		int iBoat = -1;
 		for (int i = 0; i < boats.size() && iBoat == -1; i++) {
 			Ship b = boats.get(i);
-			if (b.getCapacity() == capacity
-					&& b.getQuay().getId().equals(paveID)
-					&& b.getRateFrom() == berthFromRate
-					&& b.getRateTo() == berthToRate) {
+			if (b.getCapacity() == capacity && b.getQuay().getId().equals(paveID) && b.getRateFrom() == berthFromRate && b.getRateTo() == berthToRate) {
 				ship = b;
 				for (String contID : containersToLoad.keySet()) {
 					if (containers.get(contID) != null)
-						ship.addContainerToLoad(contID, getContainer(contID)
-								.getTEU());
+						ship.addContainerToLoad(contID, getContainer(contID).getTEU());
 				}
 				iBoat = i;
 			}
@@ -1182,9 +1151,7 @@ public class Terminal implements RecordableObject {
 				System.out.println("SHIP OUT :)");
 				return true;
 			} else {
-				System.out.println("boat.getToUnload().size()=="
-						+ ship.getToUnload().size()
-						+ "  boat.getToLoad().size()=="
+				System.out.println("boat.getToUnload().size()==" + ship.getToUnload().size() + "  boat.getToLoad().size()=="
 						+ ship.getToLoad().size());
 				for (String id : ship.getToUnload()) {
 					System.err.println("Unload " + id);
@@ -1212,33 +1179,25 @@ public class Terminal implements RecordableObject {
 		}
 	}
 
-	public void straddleCarrierMoved(String straddleCarrierId,
-			Location oldLocation, Location newLocation, double speed,
-			String cssStyle) {
+	public void straddleCarrierMoved(String straddleCarrierId, Location oldLocation, Location newLocation, double speed, String cssStyle) {
 		// update coordinates
 		listener.straddleCarrierMoved(straddleCarrierId, newLocation, cssStyle);
 		if (out != null) {
 			out.setVehicleLocation(straddleCarrierId, newLocation);
 			out.setVehicleSpeed(straddleCarrierId, "" + speed);
 		}
-		
+
 		Time t = getTime();
 		double distance = 0;
 		double travelTime = 0;
 		if (oldLocation != null) {
-			if (oldLocation.getRoad().getId()
-					.equals(newLocation.getRoad().getId())) {
-				distance = Location.getLength(oldLocation.getCoords(),
-						newLocation.getCoords());
-				travelTime = distance
-						/ straddleCarriers.get(straddleCarrierId)
-						.getCurrentSpeed();
+			if (oldLocation.getRoad().getId().equals(newLocation.getRoad().getId())) {
+				distance = Location.getLength(oldLocation.getCoords(), newLocation.getCoords());
+				travelTime = distance / straddleCarriers.get(straddleCarrierId).getCurrentSpeed();
 			} else {
 
 				try {
-					Path p = straddleCarriers.get(straddleCarrierId)
-							.getRouting()
-							.getShortestPath(oldLocation, newLocation);
+					Path p = straddleCarriers.get(straddleCarrierId).getRouting().getShortestPath(oldLocation, newLocation);
 					distance = p.getCostInMeters();
 					travelTime = p.getCost();
 					// System.err.println("P.COST="+distance+"m "+travelTime);
@@ -1247,8 +1206,7 @@ public class Terminal implements RecordableObject {
 				}
 			}
 		}
-		MissionScheduler.getInstance().updateResourceLocation(t, straddleCarrierId, distance,
-				travelTime);
+		MissionScheduler.getInstance().updateResourceLocation(t, straddleCarrierId, distance, travelTime);
 	}
 
 	public boolean unreserve(String laneID, String scID) {
@@ -1359,13 +1317,10 @@ public class Terminal implements RecordableObject {
 				boolean ok = false;
 				Bay l = (Bay) s.getLocation().getRoad();
 				while (!ok) {
-					List<Slot> laneSlots = new ArrayList<Slot>(
-							getSlots(l.getId()));
-					while (tmpLevel == -1 && tmpSlot == null
-							&& laneSlots.size() > 0) {
+					List<Slot> laneSlots = new ArrayList<Slot>(getSlots(l.getId()));
+					while (tmpLevel == -1 && tmpSlot == null && laneSlots.size() > 0) {
 
-						Slot destSlot = laneSlots.remove(random
-								.nextInt(laneSlots.size()));
+						Slot destSlot = laneSlots.remove(random.nextInt(laneSlots.size()));
 
 						if (!destSlot.getId().equals(s.getId())) {
 							int level = destSlot.getLevels().size() - 1;
@@ -1373,16 +1328,11 @@ public class Terminal implements RecordableObject {
 								level = 0;
 
 							boolean okLevel = false;
-							while (level <= destSlot.getMaxLevel()
-									&& okLevel == false) {
+							while (level <= destSlot.getMaxLevel() && okLevel == false) {
 
 								for (String contID : maxLevel.getContainersID()) {
 									Container blockingContainer = getContainer(contID);
-									if (destSlot.canAddContainer(
-											blockingContainer, level,
-											blockingContainer
-											.getContainerLocation()
-											.getAlign())) {
+									if (destSlot.canAddContainer(blockingContainer, level, blockingContainer.getContainerLocation().getAlign())) {
 										okLevel = true;
 									} else {
 										break;
@@ -1401,40 +1351,28 @@ public class Terminal implements RecordableObject {
 					}
 					if (!ok) {
 						Block p = getBlock(l.getPaveId());
-						l = p.getLanes().get(
-								random.nextInt(p.getLanes().size()));
+						l = p.getLanes().get(random.nextInt(p.getLanes().size()));
 					}
 				}
-				List<Mission> lMissions = new ArrayList<Mission>(maxLevel
-						.getContainersID().size() * 2);
+				List<Mission> lMissions = new ArrayList<Mission>(maxLevel.getContainersID().size() * 2);
 				int i = 1;
 				for (String contID : maxLevel.getContainersID()) {
 					Container blockingContainer = getContainer(contID);
-					Mission mBlock = new Mission("shift " + c.getId() + "-" + i
-							+ "/" + maxLevel.getContainersID().size(),
-							MissionKinds.STAY.getIntValue(), tw, tw, contID,
-							new ContainerLocation(contID, l.getPaveId(),
-									l.getId(), tmpSlot.getId(), tmpLevel,
-									blockingContainer.getContainerLocation()
-									.getAlign()));
+					Mission mBlock = new Mission("shift " + c.getId() + "-" + i + "/" + maxLevel.getContainersID().size(),
+							MissionKinds.STAY.getIntValue(), tw, tw, contID, new ContainerLocation(contID, l.getPaveId(), l.getId(), tmpSlot.getId(),
+									tmpLevel, blockingContainer.getContainerLocation().getAlign()));
 
 					lMissions.add(mBlock);
 					// System.out.println("Mission "+mBlock+" added. press key.");
 					// scan.next();
 					i++;
 				}
-				TimeWindow tw2 = new TimeWindow(new Time(now, new Time(2)),
-						new Time(now, new Time(2)));
+				TimeWindow tw2 = new TimeWindow(new Time(now, new Time(2)), new Time(now, new Time(2)));
 				for (String contID : maxLevel.getContainersID()) {
 					Container blockingContainer = getContainer(contID);
-					Mission mBlock = new Mission("replace " + c.getId() + "-"
-							+ i + "/" + maxLevel.getContainersID().size(),
-							MissionKinds.STAY.getIntValue(), tw2, tw2, contID,
-							new ContainerLocation(contID, l.getPaveId(),
-									l.getId(), s.getId(),
-									maxLevel.getLevelIndex() - 1,
-									blockingContainer.getContainerLocation()
-									.getAlign()));
+					Mission mBlock = new Mission("replace " + c.getId() + "-" + i + "/" + maxLevel.getContainersID().size(),
+							MissionKinds.STAY.getIntValue(), tw2, tw2, contID, new ContainerLocation(contID, l.getPaveId(), l.getId(), s.getId(),
+									maxLevel.getLevelIndex() - 1, blockingContainer.getContainerLocation().getAlign()));
 					lMissions.add(mBlock);
 					// System.out.println("Mission "+mBlock+" added. press key.");
 					// scan.next();
@@ -1452,14 +1390,9 @@ public class Terminal implements RecordableObject {
 				// shift
 				Load currentLoad = rsc.getWorkload().getCurrentLoad();
 				Mission currentMission = currentLoad.getMission();
-				TimeWindow tw3 = new TimeWindow(new Time(now, new Time(1)),
-						new Time(now, new Time(1)));
-				Mission rescheduledMission = new Mission(
-						currentMission.getId(), currentMission.getMissionKind()
-						.getIntValue(), tw3,
-						currentMission.getDeliveryTimeWindow(),
-						currentMission.getContainerId(),
-						currentMission.getDestination());
+				TimeWindow tw3 = new TimeWindow(new Time(now, new Time(1)), new Time(now, new Time(1)));
+				Mission rescheduledMission = new Mission(currentMission.getId(), currentMission.getMissionKind().getIntValue(), tw3,
+						currentMission.getDeliveryTimeWindow(), currentMission.getContainerId(), currentMission.getDestination());
 				rsc.abortCurrentLoad();
 				// currentLoad.abort();
 
@@ -1497,8 +1430,7 @@ public class Terminal implements RecordableObject {
 		}
 	}
 
-	public boolean vehicleIn(String ID, Time arrivalTime, List<String> slotIds,
-			List<Container> containers) {
+	public boolean vehicleIn(String ID, Time arrivalTime, List<String> slotIds, List<Container> containers) {
 		if (slotIds.size() == 1) {
 			Slot s = getSlot(slotIds.get(0));
 			if (getBlock(s.getPaveId()).getType() == BlockType.ROAD) {
@@ -1523,12 +1455,10 @@ public class Terminal implements RecordableObject {
 		if (containers != null && containers.size() > 0) {
 			ArrayList<Container> l = new ArrayList<Container>(containers.size());
 			for (Container c : containers) {
-				NewContainer nc = new NewContainer(getTime(), c.getId(),
-						c.getTEU(), c.getContainerLocation());
+				NewContainer nc = new NewContainer(getTime(), c.getId(), c.getTEU(), c.getContainerLocation());
 				nc.writeEventInDb();
 				try {
-					addContainer(c.getId(), c.getTEU(),
-							c.getContainerLocation());
+					addContainer(c.getId(), c.getTEU(), c.getContainerLocation());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -1548,8 +1478,7 @@ public class Terminal implements RecordableObject {
 		return true;
 	}
 
-	public boolean vehicleOut(String ID, Time departureTime,
-			List<String> slotIds, List<Container> containers) {
+	public boolean vehicleOut(String ID, Time departureTime, List<String> slotIds, List<Container> containers) {
 		if (slotIds.size() == 1) {
 			Slot s = getSlot(slotIds.get(0));
 			if (getBlock(s.getPaveId()).getType() == BlockType.ROAD) {
@@ -1564,8 +1493,7 @@ public class Terminal implements RecordableObject {
 		}
 
 		// Check if all containers are here :
-		Hashtable<String, Slot> slotMap = new Hashtable<String, Slot>(
-				slotIds.size());
+		Hashtable<String, Slot> slotMap = new Hashtable<String, Slot>(slotIds.size());
 		for (String s : slotIds) {
 			slotMap.put(s, getSlot(s));
 		}
@@ -1588,8 +1516,7 @@ public class Terminal implements RecordableObject {
 				Container c = getContainer(containers.get(i).getId());
 				if (c.getContainerLocation() == null)
 					return false;
-				else if (!slotMap.containsKey(c.getContainerLocation()
-						.getSlotId())) {
+				else if (!slotMap.containsKey(c.getContainerLocation().getSlotId())) {
 					return false;
 				}
 			}
@@ -1625,9 +1552,7 @@ public class Terminal implements RecordableObject {
 		if (r == null)
 			return true;
 		else {
-			ArrayList<String> traffic = r.getTraffic();
-			boolean empty = traffic.size() == 0;
-			return empty;
+			return r.getTraffic().size() == 0;
 		}
 	}
 
@@ -1640,68 +1565,67 @@ public class Terminal implements RecordableObject {
 		}
 	}
 
-	public void destroy() {
-		//databaseManager = null;
+//	public void destroy() {
+		// databaseManager = null;
 
-		LaserSystem.getInstance().destroy();
-			
-		if (listener != null) {
-			listener.destroy();
-			listener = null;
-		}
+//		LaserSystem.getInstance().destroy();
 
-		MissionScheduler.getInstance().destroy();
-			
-		for (StraddleCarrier rsc : straddleCarriers.values()) {
-			rsc.destroy();
-		}
-		boats.clear();
-		for (Container c : containers.values())
-			c.destroy();
+//		if (listener != null) {
+//			listener.destroy();
+//			listener = null;
+//		}
 
-		containers.clear();
-		crossroads.clear();
+//		MissionScheduler.getInstance().destroy();
 
-		for (Depot d : depots.values()) {
-			d.destroy();
-		}
-		depots.clear();
+//		for (StraddleCarrier rsc : straddleCarriers.values()) {
+//			rsc.destroy();
+//		}
+//		boats.clear();
+//		for (Container c : containers.values())
+//			c.destroy();
 
-		for (Mission m : missions.values()) {
-			m.destroy();
-		}
-		missions.clear();
-		for (Map<String, Block> p : paves.values()) {
-			for (Block p2 : p.values())
-				p2.destroy();
-		}
-		paves.clear();
+//		containers.clear();
+//		crossroads.clear();
 
-		for (Reservations r : reservations.values()) {
-			r.destroy();
-		}
-		for (Road r : roads.values()) {
-			r.destroy();
-		}
-		for (Bay l : bays.values())
-			l.destroy();
-		bays.clear();
+//		for (Depot d : depots.values()) {
+//			d.destroy();
+//		}
+//		depots.clear();
 
-		
-		MissionScheduler.getInstance().destroy();
-		
+//		for (Mission m : missions.values()) {
+//			m.destroy();
+//		}
+//		missions.clear();
+//		for (Map<String, Block> p : paves.values()) {
+//			for (Block p2 : p.values())
+//				p2.destroy();
+//		}
+//		paves.clear();
 
-		reservations.clear();
-		roadPoints.clear();
-		roads.clear();
-		slots.clear();
-		straddleCarrierModels.clear();
+//		for (Reservations r : reservations.values()) {
+//			r.destroy();
+//		}
+//		for (Road r : roads.values()) {
+//			r.destroy();
+//		}
+//		for (Bay l : bays.values())
+//			l.destroy();
+//		bays.clear();
 
-		straddleCarriersSlots.clear();
-		trucks.clear();
-		this.out = null;
-		this.random = null;
-	}
+//		MissionScheduler.getInstance().destroy();
+
+//		reservations.clear();
+//		roadPoints.clear();
+//		roads.clear();
+//		slots.clear();
+//		slotsByIds.clear();
+//		straddleCarrierModels.clear();
+//
+//		straddleCarriersSlots.clear();
+//		trucks.clear();
+//		this.out = null;
+//		this.random = null;
+//	}
 
 	public void lockView(boolean selected) {
 		listener.lockView(selected);
@@ -1717,10 +1641,8 @@ public class Terminal implements RecordableObject {
 		}
 	}
 
-	public Bay findClosestLane(Location currentLocation,
-			List<String> alreadyTried) {
-		if (currentLocation.getRoad() instanceof Bay
-				&& !alreadyTried.contains(currentLocation.getRoad())) {
+	public Bay findClosestLane(Location currentLocation, List<String> alreadyTried) {
+		if (currentLocation.getRoad() instanceof Bay && !alreadyTried.contains(currentLocation.getRoad())) {
 			return (Bay) currentLocation.getRoad();
 		} else {
 			double min = Double.POSITIVE_INFINITY;
@@ -1729,14 +1651,12 @@ public class Terminal implements RecordableObject {
 				if (!alreadyTried.contains(l.getId())) {
 					Coordinates c1 = new Location(l, 0, true).getCoords();
 					Coordinates c2 = new Location(l, 1, true).getCoords();
-					double d = Location.getLength(currentLocation.getCoords(),
-							c1);
+					double d = Location.getLength(currentLocation.getCoords(), c1);
 					if (d < min) {
 						min = d;
 						closest = l;
 					}
-					double d2 = Location.getLength(currentLocation.getCoords(),
-							c2);
+					double d2 = Location.getLength(currentLocation.getCoords(), c2);
 					if (d2 < min) {
 						min = d2;
 						closest = l;
@@ -1748,8 +1668,7 @@ public class Terminal implements RecordableObject {
 		}
 	}
 
-	public boolean shipCanLoadContainer(String destinationSlotID,
-			String containerID) {
+	public boolean shipCanLoadContainer(String destinationSlotID, String containerID) {
 		Ship ship = getShip(destinationSlotID);
 		for (String s : ship.getConcernedSlotsIDs()) {
 			Slot s2 = getSlot(s);
@@ -1770,11 +1689,8 @@ public class Terminal implements RecordableObject {
 		return null;
 	}
 
-	public void updateStraddleFailureRepairTime(String straddleCarrierID,
-			Time repairDuration) {
-		StraddleCarrierRepaired scr = new StraddleCarrierRepaired(new Time(
-				new Time(getTime().toStep() + 1), repairDuration),
-				straddleCarrierID);
+	public void updateStraddleFailureRepairTime(String straddleCarrierID, Time repairDuration) {
+		StraddleCarrierRepaired scr = new StraddleCarrierRepaired(new Time(new Time(getTime().toStep() + 1), repairDuration), straddleCarrierID);
 		TimeScheduler.getInstance().registerDynamicEvent(scr);
 	}
 
@@ -1802,8 +1718,7 @@ public class Terminal implements RecordableObject {
 		nf.setMaximumFractionDigits(2);
 		nf.setMinimumFractionDigits(2);
 		String ss = nf.format(s);
-		ss = "" + (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":"
-				+ (s < 10 ? "0" + ss : ss);
+		ss = "" + (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + ss : ss);
 		return ss;
 	}
 
@@ -1812,7 +1727,7 @@ public class Terminal implements RecordableObject {
 	}
 
 	public void putReservations(String id, Reservations rs) {
-		this.reservations.put(id, rs);		
+		this.reservations.put(id, rs);
 	}
 
 	public int getPaveCount() {
@@ -1825,6 +1740,14 @@ public class Terminal implements RecordableObject {
 
 	public Container[] getContainersArray() {
 		return containers.values().toArray(new Container[containers.size()]);
+	}
+
+	public Integer getSimulationID() {
+		return simID;
+	}
+
+	public static void closeInstance() {
+		instance = null;
 	}
 
 }

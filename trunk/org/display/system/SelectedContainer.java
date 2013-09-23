@@ -49,9 +49,5 @@ public class SelectedContainer {
 	public String getPreviousStyle(){
 		return previousStyle;
 	}
-	public void destroy(){
-		id = "";
-		containerId = "";
-		previousStyle = null;
-	}
+	
 }

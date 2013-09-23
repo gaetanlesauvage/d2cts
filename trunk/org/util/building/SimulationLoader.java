@@ -44,7 +44,9 @@ import org.com.model.scheduling.LoadBean;
 import org.com.model.scheduling.OfflineACO2ParametersBean;
 import org.com.model.scheduling.OfflineACOParametersBean;
 import org.com.model.scheduling.OnlineACOParametersBean;
+import org.com.model.scheduling.ParameterBean;
 import org.com.model.scheduling.RandomParametersBean;
+import org.com.model.scheduling.SchedulingParametersBeanInterface;
 import org.display.MainFrame;
 import org.missions.Load;
 import org.positioning.Coordinates;
@@ -88,12 +90,9 @@ public class SimulationLoader {
 
 	private static SimulationLoader instance;
 
-	private Terminal terminal;
-
 	private Map<String, List<Slot>> slots;
 
 	private SimulationLoader() {
-		terminal = Terminal.getInstance();
 		slots = new HashMap<>(1000);
 	}
 
@@ -104,147 +103,149 @@ public class SimulationLoader {
 		return instance;
 	}
 
+	public static void closeInstance(){
+		if(instance != null){
+			instance.slots.clear();
+			instance = null;
+		}
+	}
+
 	public void load(final SimulationBean simBean) {
-		Thread t = new Thread(){
-			public void run () {
-				
-				// Load Scenario
-				ScenarioBean scenarioBean = ScenarioDAO.getInstance().getScenario(
-						simBean.getContent());
-				
-				try {
-					// Load Terminal
-					TerminalBean terminalBean = TerminalDAO.getInstance().getTerminal(
-							scenarioBean.getTerminal());
+		log.info("Loading simulation " + simBean.getId()+"...");
+		// Load Scenario
+		ScenarioBean scenarioBean = ScenarioDAO.getInstance().getScenario(
+				simBean.getContent());
 
-					if(simBean.getSeed() != null)
-						terminal.setSeed(simBean.getSeed());
+		try {
+			// Load Terminal
+			TerminalBean terminalBean = TerminalDAO.getInstance().getTerminal(
+					scenarioBean.getTerminal());
 
-					// Load Terminal blocks
-					BlockDAO blockDAO = BlockDAO.getInstance(terminalBean.getId());
-					blockDAO.load();
-					// Load crossroads
-					CrossroadDAO crossroadDAO = CrossroadDAO.getInstance(terminalBean
-							.getId());
-					crossroadDAO.load();
-					// Load roads
-					RoadDAO roadDAO = RoadDAO.getInstance(terminalBean.getId());
-					roadDAO.load();
-					// Load slots
-					SlotDAO slotDAO = SlotDAO.getInstance(terminalBean.getId());
-					slotDAO.load();
+			if(simBean.getSeed() != null)
+				Terminal.getInstance().setSeed(simBean.getSeed());
 
-					LaserHeadDAO laserDAO = LaserHeadDAO.getInstance(scenarioBean
-							.getId());
-					laserDAO.load();
+			Terminal.getInstance().setSimulationID(simBean.getId());
 
-					// TODO load containers
-					ContainerDAO containerDAO = ContainerDAO.getInstance(scenarioBean
-							.getId());
-					containerDAO.load();
+			// Load Terminal blocks
+			BlockDAO blockDAO = BlockDAO.getInstance(terminalBean.getId());
+			blockDAO.load();
+			// Load crossroads
+			CrossroadDAO crossroadDAO = CrossroadDAO.getInstance(terminalBean
+					.getId());
+			crossroadDAO.load();
+			// Load roads
+			RoadDAO roadDAO = RoadDAO.getInstance(terminalBean.getId());
+			roadDAO.load();
+			// Load slots
+			SlotDAO slotDAO = SlotDAO.getInstance(terminalBean.getId());
+			slotDAO.load();
 
-					// TODO load straddle carriers
-					StraddleCarrierDAO straddleCarrierDAO = StraddleCarrierDAO
-							.getInstance(scenarioBean.getId());
-					straddleCarrierDAO.load();
+			LaserHeadDAO laserDAO = LaserHeadDAO.getInstance(scenarioBean
+					.getId());
+			laserDAO.load();
 
-					// TODO load mission scheduler
-					// TODO load events
-					EventDAO eventDAO = EventDAO.getInstance(scenarioBean.getId());
-					eventDAO.load();
+			// TODO load containers
+			ContainerDAO containerDAO = ContainerDAO.getInstance(scenarioBean
+					.getId());
+			containerDAO.load();
 
+			// TODO load straddle carriers
+			StraddleCarrierDAO straddleCarrierDAO = StraddleCarrierDAO
+					.getInstance(scenarioBean.getId());
+			straddleCarrierDAO.load();
 
-					log.info("Loading blocks...");
-					for (Iterator<BlockBean> itBlocks = blockDAO.iterator(); itBlocks
-							.hasNext();) {
-						loadBlock(itBlocks.next());
-					}
-
-					// First: create (regular) crossroads
-					log.info("Loading crossroads...");
-					for (Iterator<CrossroadBean> itCrossroads = crossroadDAO.iterator(); itCrossroads
-							.hasNext();) {
-						loadCrossroad(itCrossroads.next());
-					}
-					// Then: create bay crossroads
-					for (Iterator<CrossroadBean> itCrossroads = crossroadDAO.iterator(); itCrossroads
-							.hasNext();) {
-						loadBayCrossroad(itCrossroads.next());
-					}
-					// Next: create roads
-					log.info("Loading roads...");
-					for (Iterator<RoadBean> itRoads = roadDAO.iterator(); itRoads
-							.hasNext();) {
-						loadRoad(itRoads.next());
-					}
-					// Finally: create bays
-					for (Iterator<RoadBean> itRoads = roadDAO.iterator(); itRoads
-							.hasNext();) {
-						loadBay(itRoads.next());
-					}
-					log.info("Loading slots...");
-					for (Iterator<SlotBean> itSlots = slotDAO.iterator(); itSlots
-							.hasNext();) {
-						loadSlot(itSlots.next());
-					}
-					addSlots(); // Commit slots creation
-					log.info("Loading laser heads...");
-					for (Iterator<LaserHeadBean> itLaserHeads = laserDAO.iterator(); itLaserHeads
-							.hasNext();) {
-						loadLaserHead(itLaserHeads.next());
-					}
-
-					log.info("Loading mission scheduler...");
-					SchedulingAlgorithmBean schedulingAlgorithm = simBean.getSchedulingAlgorithm();
-					//Scheduling algorithm
-					loadSchedulingAlgorithm(schedulingAlgorithm);
-					
-					log.info("Loading straddleCarriers...");
-					for (Iterator<StraddleCarrierBean> itStraddleCarriers = straddleCarrierDAO
-							.iterator(); itStraddleCarriers.hasNext();) {
-						loadStraddleCarrier(itStraddleCarriers.next());
-					}
-
-					log.info("Loading containers...");
-					for (Iterator<ContainerBean> itContainers = containerDAO.iterator(); itContainers
-							.hasNext();) {
-						loadContainer(itContainers.next());
-					}
-
-					log.info("Loading events...");
-					for (Iterator<EventBean> itEvents = EventDAO.getInstance(simBean.getContent()).iterator(); itEvents
-							.hasNext();) {
-						loadEvent(itEvents.next());
-					}
+			// TODO load mission scheduler
+			// TODO load events
+			EventDAO eventDAO = EventDAO.getInstance(scenarioBean.getId());
+			eventDAO.load();
 
 
+			log.info("Loading blocks...");
+			for (Iterator<BlockBean> itBlocks = blockDAO.iterator(); itBlocks
+					.hasNext();) {
+				loadBlock(itBlocks.next());
+			}
 
-//					Road r = Terminal.getInstance().getRoad("c7-c12");
-//					Bay b = Terminal.getInstance().getBay("M-18/62");
-//					RoadPoint rp = r.getIntersectNode(b);
-//					try {
-//						Terminal.getInstance().getStraddleCarrier("straddle_carrier_1").getRouting().getShortestPath(new Location(b,0.5, false), new Location(r, 0.5, false), new Time("00:35:00"));
-//					} catch (NoPathFoundException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
+			// First: create (regular) crossroads
+			log.info("Loading crossroads...");
+			for (Iterator<CrossroadBean> itCrossroads = crossroadDAO.iterator(); itCrossroads
+					.hasNext();) {
+				loadCrossroad(itCrossroads.next());
+			}
+			// Then: create bay crossroads
+			for (Iterator<CrossroadBean> itCrossroads = crossroadDAO.iterator(); itCrossroads
+					.hasNext();) {
+				loadBayCrossroad(itCrossroads.next());
+			}
+			// Next: create roads
+			log.info("Loading roads...");
+			for (Iterator<RoadBean> itRoads = roadDAO.iterator(); itRoads
+					.hasNext();) {
+				loadRoad(itRoads.next());
+			}
+			// Finally: create bays
+			for (Iterator<RoadBean> itRoads = roadDAO.iterator(); itRoads
+					.hasNext();) {
+				loadBay(itRoads.next());
+			}
+			log.info("Loading slots...");
+			for (Iterator<SlotBean> itSlots = slotDAO.iterator(); itSlots
+					.hasNext();) {
+				loadSlot(itSlots.next());
+			}
+			addSlots(); // Commit slots creation
+			log.info("Loading laser heads...");
+			for (Iterator<LaserHeadBean> itLaserHeads = laserDAO.iterator(); itLaserHeads
+					.hasNext();) {
+				loadLaserHead(itLaserHeads.next());
+			}
 
+			log.info("Loading mission scheduler...");
+			SchedulingAlgorithmBean schedulingAlgorithm = simBean.getSchedulingAlgorithm();
+			//Scheduling algorithm
+			loadSchedulingAlgorithm(schedulingAlgorithm);
 
+			log.info("Loading straddleCarriers...");
+			for (Iterator<StraddleCarrierBean> itStraddleCarriers = straddleCarrierDAO
+					.iterator(); itStraddleCarriers.hasNext();) {
+				loadStraddleCarrier(itStraddleCarriers.next());
+			}
 
-					log.info("Scenario " + scenarioBean.getId() + " loaded with "
-							+ blockDAO.size() + " blocks, " + crossroadDAO.size()
-							+ " crossroads, " + roadDAO.size() + " roads.");
+			log.info("Loading containers...");
+			for (Iterator<ContainerBean> itContainers = containerDAO.iterator(); itContainers
+					.hasNext();) {
+				loadContainer(itContainers.next());
+			}
 
-					MainFrame.getInstance().setSimReady();
-				} catch (SQLException e) {
-					log.fatal(e.getMessage(), e);
-				}				
+			log.info("Loading events...");
+			for (Iterator<EventBean> itEvents = EventDAO.getInstance(simBean.getContent()).iterator(); itEvents
+					.hasNext();) {
+				loadEvent(itEvents.next());
 			}
 
 
-		};
 
-		t.start();
+			//					Road r = Terminal.getInstance().getInstance().getRoad("c7-c12");
+			//					Bay b = Terminal.getInstance().getInstance().getBay("M-18/62");
+			//					RoadPoint rp = r.getIntersectNode(b);
+			//					try {
+			//						Terminal.getInstance().getInstance().getStraddleCarrier("straddle_carrier_1").getRouting().getShortestPath(new Location(b,0.5, false), new Location(r, 0.5, false), new Time("00:35:00"));
+			//					} catch (NoPathFoundException e) {
+			//						// TODO Auto-generated catch block
+			//						e.printStackTrace();
+			//					}
+
+
+
+			log.info("Scenario " + scenarioBean.getId() + " loaded with "
+					+ blockDAO.size() + " blocks, " + crossroadDAO.size()
+					+ " crossroads, " + roadDAO.size() + " roads.");
+
+			MainFrame.getInstance().setSimReady();
+			log.info("READY.");
+		} catch (SQLException e) {
+			log.fatal(e.getMessage(), e);
+		}				
 	}
 
 
@@ -255,83 +256,85 @@ public class SimulationLoader {
 	}
 
 	private void loadSchedulingAlgorithm(SchedulingAlgorithmBean bean){
-
 		MissionScheduler.rmiBindingName = bean.getName();
+		for(Entry<String,ParameterBean> paramName : bean.getParameters().entrySet()){
+			SchedulingParametersBeanInterface parameter = null;
+			switch (bean.getName()) {
+			case OnlineACOScheduler.rmiBindingName:
+				parameter = OnlineACOParametersBean.get(paramName.getKey());
+				break;
+			case LinearMissionScheduler.rmiBindingName:
+				parameter = LinearParametersBean.get(paramName.getKey());
+				break;
+			case RandomMissionScheduler.rmiBindingName:
+				parameter = RandomParametersBean.get(paramName.getKey());
+				break;
+			case GreedyMissionScheduler.rmiBindingName:
+				parameter = GreedyParametersBean.get(paramName.getKey());
+				break;
+			case BB.rmiBindingName:
+				parameter = BBParametersBean.get(paramName.getKey());
+				break;
+			case BranchAndBound.rmiBindingName:
+				parameter = BranchAndBoundParametersBean.get(paramName.getKey());
+				break;
+			case OfflineACOScheduler.rmiBindingName:
+				parameter = OfflineACOParametersBean.get(paramName.getKey());
+				break;
+			case OfflineACOScheduler2.rmiBindingName:
+				parameter = OfflineACO2ParametersBean.get(paramName.getKey());
+				break;
+			}
+			if (parameter != null) {
+				parameter.setValue(paramName.getValue().getValueAsString());
+			}
+		}
+
+		switch (bean.getName()) {
+		case OnlineACOScheduler.rmiBindingName:
+			OnlineACOParametersBean.T.setValue(bean.getEvalParameters().T());
+			OnlineACOParametersBean.L.setValue(bean.getEvalParameters().L());
+			OnlineACOParametersBean.E.setValue(bean.getEvalParameters().E());
+			break;
+		case LinearMissionScheduler.rmiBindingName:
+			LinearParametersBean.T.setValue(bean.getEvalParameters().T());
+			LinearParametersBean.L.setValue(bean.getEvalParameters().L());
+			LinearParametersBean.E.setValue(bean.getEvalParameters().E());
+			break;
+		case RandomMissionScheduler.rmiBindingName:
+			RandomParametersBean.T.setValue(bean.getEvalParameters().T());
+			RandomParametersBean.L.setValue(bean.getEvalParameters().L());
+			RandomParametersBean.E.setValue(bean.getEvalParameters().E());
+			break;
+		case GreedyMissionScheduler.rmiBindingName:
+			GreedyParametersBean.T.setValue(bean.getEvalParameters().T());
+			GreedyParametersBean.L.setValue(bean.getEvalParameters().L());
+			GreedyParametersBean.E.setValue(bean.getEvalParameters().E());
+			break;
+		case BB.rmiBindingName:
+			BBParametersBean.T.setValue(bean.getEvalParameters().T());
+			BBParametersBean.L.setValue(bean.getEvalParameters().L());
+			BBParametersBean.E.setValue(bean.getEvalParameters().E());
+			break;
+		case BranchAndBound.rmiBindingName:
+			BranchAndBoundParametersBean.T.setValue(bean.getEvalParameters().T());
+			BranchAndBoundParametersBean.L.setValue(bean.getEvalParameters().L());
+			BranchAndBoundParametersBean.E.setValue(bean.getEvalParameters().E());
+			break;
+		case OfflineACOScheduler.rmiBindingName:
+			OfflineACOParametersBean.T.setValue(bean.getEvalParameters().T());
+			OfflineACOParametersBean.L.setValue(bean.getEvalParameters().L());
+			OfflineACOParametersBean.E.setValue(bean.getEvalParameters().E());
+			break;
+		case OfflineACOScheduler2.rmiBindingName:
+			OfflineACO2ParametersBean.T.setValue(bean.getEvalParameters().T());
+			OfflineACO2ParametersBean.L.setValue(bean.getEvalParameters().L());
+			OfflineACO2ParametersBean.E.setValue(bean.getEvalParameters().E());
+			break;
+		}
+		//		MissionScheduler.setEvalParameters(bean.getEvalParameters());
 		MissionScheduler scheduler = MissionScheduler.getInstance();
 		TimeScheduler.getInstance().recordDiscretObject(scheduler);
-		switch(bean.getName()){
-		case OnlineACOScheduler.rmiBindingName:
-			MissionScheduler.setEvalParameters(OnlineACOParametersBean.getEvalParameters());
-			break;
-		case OfflineACOScheduler.rmiBindingName:
-			MissionScheduler.setEvalParameters(OfflineACOParametersBean.getEvalParameters());
-			break;
-		case OfflineACOScheduler2.rmiBindingName:
-			MissionScheduler.setEvalParameters(OfflineACO2ParametersBean.getEvalParameters());
-			break;
-		case LinearMissionScheduler.rmiBindingName:
-			MissionScheduler.setEvalParameters(LinearParametersBean.getEvalParameters());
-			break;
-		case GreedyMissionScheduler.rmiBindingName:
-			MissionScheduler.setEvalParameters(GreedyParametersBean.getEvalParameters());
-			break;
-		case RandomMissionScheduler.rmiBindingName:
-			MissionScheduler.setEvalParameters(RandomParametersBean.getEvalParameters());
-			break;
-		case BranchAndBound.rmiBindingName:
-			MissionScheduler.setEvalParameters(BranchAndBoundParametersBean.getEvalParameters());
-			break;
-		case BB.rmiBindingName:
-			MissionScheduler.setEvalParameters(BBParametersBean.getEvalParameters());
-			break;
-		}
-		
-		/*switch (bean.getName()) {
-		case OnlineACOScheduler.rmiBindingName:
-			// Retrieve parameters
-			scheduler = OnlineACOScheduler.getInstance();
-
-			break;
-		case OfflineACOScheduler.rmiBindingName:
-			// Retrieve parameters
-			//for (OfflineACOParametersBean parameter : OfflineACOParametersBean
-			//		.values()) {
-			//	if (atts.getIndex(parameter.name()) > 0) {
-			//		String sValue = atts.getValue(parameter.name());
-			//		try {
-			//			Double dValue = Double.parseDouble(sValue);
-			//			parameter.setValue(dValue);
-			//			OfflineACOParametersDAO.getInstance(
-			//					simulationID).insert(parameter);
-			//		} catch (NumberFormatException e) {
-			//			e.printStackTrace();
-			//			log.error(e.getMessage(), e);
-			//		}
-			//	}
-			//}
-			break;
-		case OfflineACOScheduler2.rmiBindingName:
-			// Retrieve parameters
-			break;
-		case LinearMissionScheduler.rmiBindingName:
-			// Retrieve parameters
-			break;
-		case GreedyMissionScheduler.rmiBindingName:
-			// Retrieve parameters
-			break;
-		case RandomMissionScheduler.rmiBindingName:
-			// Retrieve parameters
-			break;
-		case BranchAndBound.rmiBindingName:
-			// Retrieve parameters
-			break;
-		case BB.rmiBindingName:
-			// Retrieve parameters
-			break;
-		}*/
-		if(scheduler != null){
-			//Add display... ?
-		}
 	}
 
 	private void loadStraddleCarrier(StraddleCarrierBean next) {
@@ -361,8 +364,7 @@ public class SimulationLoader {
 											modelBean.getEnterExitBayTimeMax()),
 											modelBean.getTurnBackTime());
 
-			Terminal.getInstance()
-			.addStraddleCarrierModel(straddleCarrierModel);
+			Terminal.getInstance().addStraddleCarrierModel(straddleCarrierModel);
 			log.debug("StraddleCarrierModel "+straddleCarrierModel.getId()+" added.");
 		}
 
@@ -379,7 +381,7 @@ public class SimulationLoader {
 		while(itLoads.hasNext()){
 			LoadBean loadBean = itLoads.next();
 			Load load = new Load(new TimeWindow(loadBean.getTwMin(),loadBean.getTwMax()),
-					terminal.getMission(loadBean.getMission()), 
+					Terminal.getInstance().getMission(loadBean.getMission()), 
 					loadBean.getStartableTime());
 
 			straddleCarrier.getWorkload().insert(load);
@@ -397,13 +399,13 @@ public class SimulationLoader {
 		straddleCarrier.setRoutingAlgorithm(r);	
 
 		/*try {
-			Path p = r.getShortestPath(new Location(Terminal.getInstance().getRoad("c2-c5"),0.2), new Location(Terminal.getInstance().getRoad("c59-c16"),0.5), new Time("00:00:02"));
+			Path p = r.getShortestPath(new Location(Terminal.getInstance().getInstance().getRoad("c2-c5"),0.2), new Location(Terminal.getInstance().getInstance().getRoad("c59-c16"),0.5), new Time("00:00:02"));
 			log.info(p.toString());
 		} catch (NoPathFoundException e) {
 			e.printStackTrace();
 		}
 		try {
-			Path p2 = r.getShortestPath(new Location(Terminal.getInstance().getRoad("A-2/40"),0.5), new Location(Terminal.getInstance().getRoad("A-1/40"),0.2), new Time("00:00:02"));
+			Path p2 = r.getShortestPath(new Location(Terminal.getInstance().getInstance().getRoad("A-2/40"),0.5), new Location(Terminal.getInstance().getInstance().getRoad("A-1/40"),0.2), new Time("00:00:02"));
 
 			log.info(p2.toString());
 		} catch (NoPathFoundException e) {
@@ -415,20 +417,20 @@ public class SimulationLoader {
 	private void loadContainer(ContainerBean bean) {
 		try {
 			if (bean.getVehicle() != null) {
-				StraddleCarrier s = terminal.getStraddleCarrier(bean
+				StraddleCarrier s = Terminal.getInstance().getStraddleCarrier(bean
 						.getVehicle());
 				s.setHandledContainerId(bean.getName());
-				terminal.addContainer(bean.getName(), bean.getTeu(), null);
+				Terminal.getInstance().addContainer(bean.getName(), bean.getTeu(), null);
 			} else {
-				Slot s = terminal.getSlot(bean.getSlot());
+				Slot s = Terminal.getInstance().getSlot(bean.getSlot());
 				ContainerLocation cl = new ContainerLocation(bean.getName(),
 						s.getPaveId(), s.getLocation().getRoad().getId(),
 						s.getId(), bean.getSlotLevel(), bean.getAlignment()
 						.getValue());
-				terminal.addContainer(bean.getName(), bean.getTeu(), cl);
+				Terminal.getInstance().addContainer(bean.getName(), bean.getTeu(), cl);
 			}
-			// if(terminal.listener!=null)
-			// terminal.listener.containerAdded(c);
+			// if(Terminal.getInstance().listener!=null)
+			// Terminal.getInstance().listener.containerAdded(c);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
@@ -439,19 +441,19 @@ public class SimulationLoader {
 				new Coordinates(bean.getX(), bean.getY(), bean.getZ()),
 				new Range(bean.getRx(), bean.getRy(), bean.getRz()));
 
-		// terminal.addlaserHead(bean.getName());
+		// Terminal.getInstance().addlaserHead(bean.getName());
 	}
 
 	private void loadSlot(SlotBean bean) {
-		Bay b = terminal.getBay(bean.getBay());
-		Block block = terminal.getBlock(b.getPaveId());
+		Bay b = Terminal.getInstance().getBay(bean.getBay());
+		Block block = Terminal.getInstance().getBlock(b.getPaveId());
 		BlockType type = block.getType();
 		if (type == BlockType.DEPOT) {
 			StraddleCarrierSlot s = new StraddleCarrierSlot(bean.getName(),
 					new Location(b, bean.getRate()).getCoords(),
 					(BayCrossroad) b.getOrigin(),
 					(BayCrossroad) b.getDestination(), block.getId());
-			terminal.addStraddleCarrierSlot(s);
+			Terminal.getInstance().addStraddleCarrierSlot(s);
 		} else {
 			Slot s = new Slot(bean.getName(), b,
 					new Location(b, bean.getRate()), ContainerKind.getTeu(bean
@@ -469,7 +471,7 @@ public class SimulationLoader {
 
 	private void addSlots() {
 		for (Entry<String, List<Slot>> e : slots.entrySet()) {
-			terminal.addSlots(e.getKey(), e.getValue());
+			Terminal.getInstance().addSlots(e.getKey(), e.getValue());
 		}
 	}
 
@@ -478,7 +480,7 @@ public class SimulationLoader {
 				.getCrossroadTypeID(BayCrossroad.class.getName())) {
 			BayCrossroad c = new BayCrossroad(bean.getName(), new Coordinates(
 					bean.getX(), bean.getY(), bean.getZ()), bean.getRoad());
-			terminal.addBayCrossroad(c);
+			Terminal.getInstance().addBayCrossroad(c);
 		}
 		log.debug("BayCrossroad created: " + bean.getName());
 	}
@@ -488,7 +490,7 @@ public class SimulationLoader {
 				.getCrossroadTypeID(Crossroad.class.getName())) {
 			Crossroad c = new Crossroad(bean.getName(), new Coordinates(
 					bean.getX(), bean.getY(), bean.getZ()));
-			terminal.addCrossroad(c);
+			Terminal.getInstance().addCrossroad(c);
 		}
 		log.debug("Crossroad created: " + bean.getName());
 	}
@@ -496,9 +498,9 @@ public class SimulationLoader {
 	public void loadRoad(RoadBean bean) {
 		if (bean.getType() == DbMgr.getInstance().getDatabaseIDsRetriever()
 				.getRoadTypeID(Road.class.getName())) {
-			Road r = new Road(bean.getName(), terminal.getCrossroad(bean
+			Road r = new Road(bean.getName(), Terminal.getInstance().getCrossroad(bean
 					.getOrigin()),
-					terminal.getCrossroad(bean.getDestination()),
+					Terminal.getInstance().getCrossroad(bean.getDestination()),
 					bean.isDirected());
 			Iterator<RoadPointBean> roadPointsIterator = bean
 					.roadPointsIterator();
@@ -506,12 +508,12 @@ public class SimulationLoader {
 				RoadPointBean rpBean = roadPointsIterator.next();
 				RoadPoint rp = new RoadPoint(rpBean.getName(), new Coordinates(
 						rpBean.getX(), rpBean.getY(), rpBean.getZ()));
-				terminal.addRoadPoint(rp);
+				Terminal.getInstance().addRoadPoint(rp);
 				r.addRoadPoint(rp);
 
 			}
 
-			terminal.addRoad(r);
+			Terminal.getInstance().addRoad(r);
 		}
 		log.debug("Road created: " + bean.getName());
 	}
@@ -519,29 +521,29 @@ public class SimulationLoader {
 	public void loadBay(RoadBean bean) {
 		if (bean.getType() != DbMgr.getInstance().getDatabaseIDsRetriever()
 				.getRoadTypeID(Road.class.getName())) {
-			
+
 			BayCrossroad origin = (BayCrossroad) Terminal
 					.getInstance().getCrossroad(bean.getOrigin());
-			
-			
+
+
 			BayCrossroad destination = (BayCrossroad) Terminal
 					.getInstance().getCrossroad(bean.getDestination());
-			
-			
+
+
 			Bay b = new Bay(bean.getName(), origin, destination, bean.isDirected(),
-							bean.getBlock());
-			
+					bean.getBlock());
+
 			if(origin.getMainRoad()!=null){
-				Road mrOrigin = terminal.getRoad(origin.getMainRoad());
+				Road mrOrigin = Terminal.getInstance().getRoad(origin.getMainRoad());
 				mrOrigin.addLaneCrossroad(origin);
 			}
-			
+
 			if(destination.getMainRoad()!=null){
-				Road mrDestination = terminal.getRoad(destination.getMainRoad());
+				Road mrDestination = Terminal.getInstance().getRoad(destination.getMainRoad());
 				mrDestination.addLaneCrossroad(destination);
 			}
-			
-			
+
+
 			/*if(origin.getMainRoad().equals(destination.getMainRoad())){
 				//Use closest one
 				double o = Location.getPourcent(origin.getLocation(), mrOrigin);
@@ -549,10 +551,10 @@ public class SimulationLoader {
 				if(o < d) mrOrigin.addLaneCrossroad(origin);
 				else mrDestination.addLaneCrossroad(destination); 
 			} else {
-				
+
 			}*/
-			
-			terminal.addBay(b);
+
+			Terminal.getInstance().addBay(b);
 		}
 		log.debug("Bay created: " + bean.getName());
 	}
@@ -583,11 +585,11 @@ public class SimulationLoader {
 
 		// System.out.println("Adding pave "+pave.getId()+" type "+pave.getType());
 		if (type == BlockType.DEPOT) {
-			terminal.addDepot((Depot) pave);
+			Terminal.getInstance().addDepot((Depot) pave);
 			log.debug("Depot created: " + pave.getId());
 		} else {
 			try {
-				terminal.addPave(pave);
+				Terminal.getInstance().addPave(pave);
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}

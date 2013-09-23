@@ -51,6 +51,7 @@ public class BlockTypeDAO implements D2ctsDao<BlockTypeBean>{
 		if(psLoad != null){
 			psLoad.close();
 		}
+		instance = null;
 	}
 
 	@Override

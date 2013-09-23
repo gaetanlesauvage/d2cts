@@ -64,12 +64,4 @@ public class OfflineSchedulerStats {
 		
 	}
 
-	public void destroy() {
-		for(GlobalScore score : scores){
-			score.destroy();
-		}
-		scores.clear();
-		scores = null;
-		parameters = null;
-	}
 }

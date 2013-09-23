@@ -21,6 +21,7 @@ package org.time.event;
 
 import org.missions.Mission;
 import org.missions.TruckMission;
+import org.system.Terminal;
 import org.time.Time;
 
 public class NewMission extends DynamicEvent implements Comparable<NewMission> {
@@ -40,7 +41,7 @@ public class NewMission extends DynamicEvent implements Comparable<NewMission> {
 
 	@Override
 	public void execute() {
-		terminal.addMission(m);
+		Terminal.getInstance().addMission(m);
 		writeEventInDb();
 	}
 

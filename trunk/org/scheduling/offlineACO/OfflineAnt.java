@@ -8,6 +8,7 @@ import org.scheduling.MissionScheduler;
 import org.scheduling.ScheduleEdge;
 import org.scheduling.ScheduleResource;
 import org.scheduling.ScheduleTask;
+import org.system.Terminal;
 import org.vehicles.StraddleCarrier;
 
 public class OfflineAnt extends ScheduleResource {
@@ -57,7 +58,7 @@ public class OfflineAnt extends ScheduleResource {
 			}
 		}
 
-		destination = available.get(MissionScheduler.RANDOM.nextInt(available
+		destination = available.get(Terminal.getInstance().getRandom().nextInt(available
 				.size()));
 
 		if (available.size() == 0) {
@@ -113,10 +114,8 @@ public class OfflineAnt extends ScheduleResource {
 				}
 			}
 
-			OfflineSchedulerParameters parameters = OfflineACOScheduler
-					.getGlobalParameters();
-			ArrayList<OfflineDestinationChooserHelper> choices = new ArrayList<OfflineDestinationChooserHelper>(
-					available.size());
+			OfflineSchedulerParameters parameters = OfflineACOScheduler.getInstance().getGlobalParameters();
+			ArrayList<OfflineDestinationChooserHelper> choices = new ArrayList<OfflineDestinationChooserHelper>(available.size());
 
 			double sumWeight = 0.0;
 			double sumPheromone = 0.0;
@@ -265,7 +264,7 @@ public class OfflineAnt extends ScheduleResource {
 								+ " p=" + dch.getProba());
 				}
 
-				double dChoice = OfflineACOScheduler.RANDOM.nextDouble();
+				double dChoice = Terminal.getInstance().getRandom().nextDouble();
 				if (MissionScheduler.DEBUG)
 					System.err.println("RANDOM = " + dChoice);
 				for (OfflineDestinationChooserHelper dch : choices) {
@@ -352,6 +351,7 @@ public class OfflineAnt extends ScheduleResource {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void compute() {
 		resetVisited();
 		for (ScheduleResource ant : ScheduleResource.resources) {
@@ -363,7 +363,7 @@ public class OfflineAnt extends ScheduleResource {
 			 * ----- There is a point here : may be change the way an ant is
 			 * chosen to be less impacted by the random ----
 			 */
-			OfflineAnt ant = (OfflineAnt) resources.get(MissionScheduler.RANDOM
+			OfflineAnt ant = (OfflineAnt) resources.get(Terminal.getInstance().getRandom()
 					.nextInt(resources.size()));
 			if (MissionScheduler.DEBUG)
 				System.err.println("Ant " + ant.getID() + " is chosen");
@@ -385,8 +385,7 @@ public class OfflineAnt extends ScheduleResource {
 		}
 
 		// Evaporation
-		for (ScheduleTask<OfflineEdge> n : MissionScheduler.getInstance()
-				.getTasks()) {
+		for (ScheduleTask<OfflineEdge> n : MissionScheduler.getInstance().getTasks()) {
 			List<OfflineEdge> destinations = n.getDestinations();
 			for (OfflineEdge edge : destinations) {
 				edge.evaporate();
@@ -397,7 +396,7 @@ public class OfflineAnt extends ScheduleResource {
 
 	public static void spreadPheromone() {
 		// Spread pheromone according to local score (or global one ?)
-		double lambda = OfflineACOScheduler.getGlobalParameters().getLambda();
+		double lambda = OfflineACOScheduler.getInstance().getGlobalParameters().getLambda();
 		// double F1 = TSPMissionScheduler.getGlobalParameters().getF1();
 		// double F2 = TSPMissionScheduler.getGlobalParameters().getF2();
 		double denum = globalScore.getScore(); // (globalScore.getDistanceInSeconds()*F1)+(globalScore.getOverspentTime()*F2);//+globalScore.getWaitTime()*TSPAnt.F3;

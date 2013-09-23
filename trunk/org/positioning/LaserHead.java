@@ -19,34 +19,39 @@
  */
 package org.positioning;
 
-import java.io.Serializable;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.conf.parameters.ReturnCodes;
+import org.system.Terminal;
 import org.util.Location;
 
 
-public class LaserHead implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7965234050471759790L;
-	//private RemoteLaserSystem system;
+public class LaserHead{
 	private Coordinates location;
 	private Range range;
 	private String id;
-	private HashMap<String,Location> visibles;
+	private Map<String,Location> visibles;
+	private Set<String> visiblesIds;
 	
+	@Override
+	public int hashCode(){
+		return id.hashCode();
+	}
+	@Override
+	public boolean equals(Object o){
+		return hashCode() == o.hashCode();
+	}
 	
-	public LaserHead (String id,/* RemoteLaserSystem system,*/ Coordinates location, Range range){
-		//this.system = system; 
+	public LaserHead (String id, Coordinates location, Range range){
 		this.location = location;
 		this.range = range;
 		this.id = id;
-		visibles = new HashMap<String, Location>();
+		int defaultSize = Terminal.getInstance().getStraddleCarriersCount();
+		visibles = new HashMap<String, Location>(defaultSize);
+		visiblesIds = new HashSet<>(defaultSize);
 	}
 	
 	/**
@@ -84,10 +89,12 @@ public class LaserHead implements Serializable{
 	
 	public void clearVisibles(){
 		visibles.clear();
+		visiblesIds.clear();
 	}
 	
-	public List<String> getVisibleStraddleCarriers(){
-		return new ArrayList<String>(visibles.keySet());
+	public Set<String> getVisibleStraddleCarriers(){
+		return visiblesIds;
+		//return new ArrayList<String>(visibles.keySet());
 	}
 	
 	public Location getLocation(String visibleStraddleCarrierId){
@@ -98,14 +105,6 @@ public class LaserHead implements Serializable{
 		return range;
 	}
 	
-	public void destroy(){
-		id = null;
-		location = null;
-		range = null;
-		visibles = null;
-		
-	}
-
 	public void setRangeRate(double rate) {
 		if(rate<0 || rate>1){
 			new Exception("Rate out of bound exception : "+rate).printStackTrace();

@@ -50,6 +50,7 @@ public class TerminalDAO implements D2ctsDao<TerminalBean>{
 		if(loadTerminalStatement!=null){
 			loadTerminalStatement.close();
 		}
+		instance = null;
 		log.info("TerminalDAO closed.");
 	}
 

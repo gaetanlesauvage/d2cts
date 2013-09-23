@@ -6,7 +6,9 @@ import org.missions.MissionState;
 import org.missions.Workload;
 import org.scheduling.MissionScheduler;
 import org.scheduling.display.JMissionScheduler;
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 import org.time.event.AffectMission;
 import org.vehicles.StraddleCarrier;
 
@@ -24,17 +26,21 @@ public class RandomMissionScheduler extends MissionScheduler {
 	public String getId() {
 		return RandomMissionScheduler.rmiBindingName;
 	}
+	
+	public static void closeInstance(){
+		//Nothing to do
+	}
 
 	protected void init() {
 		init = true;
 		step = 0;
-		sstep = rts.getStep() + 1;
-		for (String s : rt.getMissionsName()) {
-			Mission m = rt.getMission(s);
+		sstep = TimeScheduler.getInstance().getStep() + 1;
+		for (String s : Terminal.getInstance().getMissionsName()) {
+			Mission m = Terminal.getInstance().getMission(s);
 			addMission(new Time(step), m);
 		}
-		for (String s : rt.getStraddleCarriersName()) {
-			StraddleCarrier rsc = rt.getStraddleCarrier(s);
+		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
+			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
 			addResource(new Time(step), rsc);
 
 		}
@@ -68,22 +74,22 @@ public class RandomMissionScheduler extends MissionScheduler {
 				Mission m = pool.remove(0);
 				rsc.addMissionInWorkload(m);
 
-				AffectMission am = new AffectMission(rts.getTime(), m.getId(),
+				AffectMission am = new AffectMission(TimeScheduler.getInstance().getTime(), m.getId(),
 						rsc.getId());
 				am.writeEventInDb();
 
-				rt.getTextDisplay().setVehicleToMission(m.getId(), rsc.getId());
+				Terminal.getInstance().getTextDisplay().setVehicleToMission(m.getId(), rsc.getId());
 
 				// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
 			}
 			computeTime += System.nanoTime() - now;
-			rt.flushAllocations();
+			Terminal.getInstance().flushAllocations();
 
 		}
 	}
 
 	private StraddleCarrier pickAStraddleCarrier() {
-		StraddleCarrier rsc = resources.get(RANDOM.nextInt(resources.size()));
+		StraddleCarrier rsc = resources.get(Terminal.getInstance().getRandom().nextInt(resources.size()));
 		return rsc;
 	}
 
@@ -101,7 +107,7 @@ public class RandomMissionScheduler extends MissionScheduler {
 			}
 		}
 		if (terminated)
-			rts.computeEndTime();
+			TimeScheduler.getInstance().computeEndTime();
 
 		super.incrementNumberOfCompletedMissions(resourceID);
 	}

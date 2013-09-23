@@ -32,8 +32,7 @@ public class Mission implements Comparable<Mission> {
 	private ContainerLocation destination;
 	private String id;
 	private MissionKinds missionKind;
-	private static Terminal terminal;
-
+	
 	public Mission(String id, int missionKind, TimeWindow pickupTW,
 			TimeWindow deliveryTW, String containerId,
 			ContainerLocation missionLocation) {
@@ -43,12 +42,10 @@ public class Mission implements Comparable<Mission> {
 		this.destination = missionLocation;
 		this.missionKind = MissionKinds.getKind(missionKind);
 		this.id = id;
-		if (terminal == null)
-			terminal = Terminal.getInstance();
 	}
 
 	public Container getContainer() {
-		Container c = terminal.getContainer(containerId);
+		Container c = Terminal.getInstance().getContainer(containerId);
 		return c;
 	}
 
@@ -120,13 +117,5 @@ public class Mission implements Comparable<Mission> {
 			}
 			return cmp;
 		}
-	}
-
-	public void destroy() {
-		terminal = null;
-		deliveryTW = null;
-		destination = null;
-		missionKind = null;
-		pickupTW = null;
 	}
 }

@@ -21,9 +21,11 @@ package org.system;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.positioning.Coordinates;
 import org.positioning.LaserHead;
@@ -171,7 +173,7 @@ public class Road {
 	 */
 	public void addRoadPoint(int index, RoadPoint rp) {
 		Terminal terminal = Terminal.getInstance();
-		
+
 		if (points.size() == 0) {
 			terminal.removeConnexCrossroad(origin.getId(), destination.getId());
 			if (!directed)
@@ -854,12 +856,12 @@ public class Road {
 
 		Location current = new Location(this, 0.0, true);
 		for (LaserHead lh : LaserSystem.getInstance().getHeads()) {
-			List<String> list = lh.getVisibleStraddleCarriers();
+			Set<String> list = lh.getVisibleStraddleCarriers();
 			for (String id : list) {
 				Location l = lh.getLocation(id);
 				if (l != null
 						&& l.getRoad().getId()
-								.equals(current.getRoad().getId())
+						.equals(current.getRoad().getId())
 						&& l.getPourcent() > 0 && l.getPourcent() < 1.0) {
 					return false;
 				}
@@ -873,20 +875,20 @@ public class Road {
 	 * 
 	 * @return The list of the straddle carriers IDs driving on the road @
 	 */
-	public ArrayList<String> getTraffic() {
-		HashMap<String, String> result = new HashMap<String, String>();
+	public Set<String> getTraffic() {
+		Set<String> result = new HashSet<>();
 		Location current = new Location(this, 0.0, true);
 		for (LaserHead lh : LaserSystem.getInstance().getHeads()) {
-			List<String> list = lh.getVisibleStraddleCarriers();
+			Set<String> list = lh.getVisibleStraddleCarriers();
 			for (String id : list) {
-				if (!result.containsKey(id)) {
+				if (!result.contains(id)) {
 					Location l = lh.getLocation(id);
 
 					if (l != null
 							&& l.getRoad().getId()
-									.equals(current.getRoad().getId())
+							.equals(current.getRoad().getId())
 							&& l.getPourcent() > 0 && l.getPourcent() < 1.0) {
-						result.put(id, id);
+						result.add(id);
 					}
 				}
 			}
@@ -894,16 +896,16 @@ public class Road {
 		if (this instanceof Bay && result.size() > 1) {
 			System.err.println("More than 1 straddle carrier on lane " + id
 					+ " : ");
-			for (String s : result.values())
+			for (String s : result)
 				System.err.println("\t" + s);
 			Scanner scan = new Scanner(System.in);
 			scan.nextLine();
 			scan.close();
 		}
-		return new ArrayList<String>(result.values());
+		return result;
 	}
 
-	public void destroy() {
+//	public void destroy() {
 		// destination.destroy();
 		// dicPoints.clear();
 		// for(LaneCrossroad lc : laneCrossroads.values()) lc.destroy();
@@ -915,10 +917,10 @@ public class Road {
 		// points.clear();
 		// vectorsCoordinates.clear();
 
-		laneCrossroads = null;
-		points = null;
-		vectorsCoordinates = null;
-	}
+//		laneCrossroads = null;
+//		points = null;
+//		vectorsCoordinates = null;
+//	}
 
 	public List<BayCrossroad> getLaneCrossroads() {
 		return new ArrayList<BayCrossroad>(laneCrossroads.values());

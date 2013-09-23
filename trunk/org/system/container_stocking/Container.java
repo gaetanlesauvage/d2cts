@@ -19,21 +19,16 @@
  */
 package org.system.container_stocking;
 
-import java.io.Serializable;
-
 import javax.swing.ImageIcon;
 
 import org.exceptions.ContainerDimensionException;
 import org.system.Terminal;
 import org.util.Location;
 
-public class Container implements Serializable {
+public class Container {
 	public static final String CONTAINER_ICON_PREFIX_URL = "/etc/images/container_";
 	public static final String CONTAINER_ICON_SUFFIX_URL = ".png";
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1407690345130980541L;
+	
 	public static final int TYPE_IMPORT = 0;
 	public static final int TYPE_EXPORT = 1;
 
@@ -182,12 +177,5 @@ public class Container implements Serializable {
 			size = 45;
 		return new ImageIcon(this.getClass().getResource(
 				CONTAINER_ICON_PREFIX_URL + size + CONTAINER_ICON_SUFFIX_URL));
-	}
-
-	public void destroy() {
-		containerLocation = null;
-		location = null;
-		slot = null;
-		// handlingTime = null;
 	}
 }

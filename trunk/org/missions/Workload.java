@@ -20,10 +20,9 @@
 package org.missions;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.conf.parameters.ReturnCodes;
 import org.exceptions.MissionNotFoundException;
@@ -40,13 +39,11 @@ import org.util.Location;
 import org.vehicles.StraddleCarrier;
 
 public class Workload {
-	// TODO improve data structure ?
 	private List<Load> workload;
-	private Map<String, Load> workloadMap;
+	private SortedMap<String, Load> workloadMap;
 	private String straddleCarrierID;
 	private StraddleCarrier straddleCarrier;
-	private static Terminal terminal;
-
+	
 	public static final String NON_AFFECTED = "NA";
 
 	public Workload(StraddleCarrier straddleCarrier) {
@@ -54,10 +51,8 @@ public class Workload {
 		this.straddleCarrier = straddleCarrier;
 		straddleCarrierID = straddleCarrier.getId();
 
-		if (terminal == null)
-			terminal = Terminal.getInstance();
-		workload = Collections.synchronizedList(new ArrayList<Load>());
-		workloadMap = Collections.synchronizedMap(new HashMap<String, Load>());
+		workload = new ArrayList<>();
+		workloadMap = new TreeMap<>();
 	}
 
 	public/* synchronized */Load checkLoad(Time time) {
@@ -152,7 +147,7 @@ public class Workload {
 		Load l = new Load(tw, m, startableTime);
 		if (workload.size() == 0) {
 			if (cl != null) {
-				Slot sDest = terminal.getSlot(cl.getSlotId());
+				Slot sDest = Terminal.getInstance().getSlot(cl.getSlotId());
 				try {
 					startableTime = new Time(tw.getMin(), new Time(
 							straddleCarrier
@@ -193,7 +188,7 @@ public class Workload {
 					ContainerLocation contLoc = load.getMission()
 							.getContainer().getContainerLocation();
 					if (contLoc != null) {
-						Slot sDest = terminal.getSlot(contLoc.getSlotId());
+						Slot sDest = Terminal.getInstance().getSlot(contLoc.getSlotId());
 						try {
 							st = new Time(load.getMission()
 									.getPickupTimeWindow().getMin(), new Time(
@@ -221,7 +216,7 @@ public class Workload {
 		}
 
 		workloadMap.put(m.getId(), l);
-		terminal.missionAffected(l, straddleCarrierID);
+		Terminal.getInstance().missionAffected(l, straddleCarrierID);
 	}
 
 	public ScheduleScore getScore() {
@@ -229,11 +224,11 @@ public class Workload {
 		try {
 
 			Location origin = straddleCarrier.getSlot().getLocation();
-			Time tOrigin = terminal.getTime();
+			Time tOrigin = Terminal.getInstance().getTime();
 			if (straddleCarrier.getCurrentLoad() != null) {
 				ContainerLocation cl = straddleCarrier.getCurrentLoad()
 						.getMission().getDestination();
-				origin = new Location(terminal.getRoad(cl.getLaneId()),
+				origin = new Location(Terminal.getInstance().getRoad(cl.getLaneId()),
 						cl.getCoordinates(), true);
 				tOrigin = straddleCarrier.getCurrentLoad().getMission()
 						.getDeliveryTimeWindow().getMax();
@@ -243,7 +238,7 @@ public class Workload {
 				if (l.getState() == MissionState.STATE_TODO) {
 					ContainerLocation cl = l.getMission().getContainer()
 							.getContainerLocation();
-					Bay lane = terminal.getBay(cl.getLaneId());
+					Bay lane = Terminal.getInstance().getBay(cl.getLaneId());
 					Location pickup = new Location(lane, cl.getCoordinates(),
 							true);
 					Path p;
@@ -268,7 +263,7 @@ public class Workload {
 
 					// -> Delivery
 					cl = l.getMission().getDestination();
-					lane = terminal.getBay(cl.getLaneId());
+					lane = Terminal.getInstance().getBay(cl.getLaneId());
 					Location delivery = new Location(lane, cl.getCoordinates(),
 							true);
 					p = straddleCarrier.getRouting().getShortestPath(pickup,
@@ -320,7 +315,7 @@ public class Workload {
 		}
 		workloadMap.put(l.getMission().getId(), l);
 
-		terminal.missionAffected(l, straddleCarrierID);
+		Terminal.getInstance().missionAffected(l, straddleCarrierID);
 	}
 
 	public void insert(Mission m, Mission link) {
@@ -349,7 +344,7 @@ public class Workload {
 		ContainerLocation cl = m.getContainer().getContainerLocation();
 		Time startableTime = tw.getMin();
 		if (cl != null) {
-			Slot sDest = terminal.getSlot(cl.getSlotId());
+			Slot sDest = Terminal.getInstance().getSlot(cl.getSlotId());
 			try {
 				startableTime = new Time(tw.getMin(), new Time(straddleCarrier
 						.getRouting()
@@ -392,7 +387,7 @@ public class Workload {
 						ContainerLocation cl = next.getMission().getContainer()
 								.getContainerLocation();
 						if (cl != null) {
-							Slot sDest = terminal.getSlot(cl.getSlotId());
+							Slot sDest = Terminal.getInstance().getSlot(cl.getSlotId());
 							next.setStartableTime(new Time(next.getMission()
 									.getPickupTimeWindow().getMin(), new Time(
 											straddleCarrier
@@ -420,7 +415,7 @@ public class Workload {
 			Load l = workload.get(i);
 			if (l.getMission().getId().equals(mission)) {
 				if (l.getState() == MissionState.STATE_TODO) {
-					terminal.missionAffected(l, NON_AFFECTED);
+					Terminal.getInstance().missionAffected(l, NON_AFFECTED);
 
 					Load removed = workload.remove(i);
 					workloadMap.remove(removed.getMission().getId());
@@ -473,15 +468,7 @@ public class Workload {
 		return sb.toString();
 	}
 
-	public void destroy() {
-		straddleCarrierID = null;
-		terminal = null;
-		Load.destroy();
-		workload = null;
-		workloadMap.clear();
-		workloadMap = null;
-	}
-
+	
 	public boolean isEmpty() {
 		return workload.size() == 0;
 	}

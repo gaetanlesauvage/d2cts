@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
 import org.display.TextDisplay;
 import org.exceptions.IllegalSlotChangeException;
 import org.positioning.LaserSystem;
@@ -37,6 +38,8 @@ import org.time.event.VehicleOut;
 import org.util.RecordableObject;
 
 public class TimeScheduler implements RecordableObject {
+	private static final Logger logger = Logger.getLogger(TimeScheduler.class);
+	
 	private static TimeScheduler instance;
 
 	private List<String> discretsRemoteObjects;
@@ -48,18 +51,18 @@ public class TimeScheduler implements RecordableObject {
 	private long step;
 	private long startTime;
 	private Time t;
-	private static final double INIT_SEC_PER_STEP = 1;
 	private double secondsPerStep;
 
+	private boolean sync = false;
+	private boolean threaded = false;
+	private int normalization_time_in_ms = 0;
+	private long outOfSyncItCount = 0;
+	private long catchupTime = 0;
+	
+	private static final double INIT_SEC_PER_STEP = 1;
 	public static final String rmiBindingName = "TimeScheduler";
 
-	private static boolean sync = false;
-	private static boolean threaded = false;
-	private static int normalization_time_in_ms = 0;
-	private static long outOfSyncItCount = 0;
-
-	private long catchupTime = 0;
-	// private long overallTime = 0;
+	
 
 	private ArrayList<Thread> prioritaryThreads;
 	private ArrayList<Thread> otherThreads;
@@ -73,6 +76,14 @@ public class TimeScheduler implements RecordableObject {
 		return instance;
 	}
 
+	public static void closeInstance(){
+		if(instance != null){
+//			instance.destroy();
+			instance = null;
+		}
+		
+	}
+	
 	private String id;
 
 	private TextDisplay out;
@@ -93,13 +104,12 @@ public class TimeScheduler implements RecordableObject {
 
 		step = 0;
 		catchupTime = 0;
-		
-
+	
 		prioritaryThreads = new ArrayList<Thread>(1);
 		otherThreads = new ArrayList<Thread>(20);
 		todoLast = new ArrayList<Thread>(1);
 
-		System.out.println("Time Scheduler Created!");
+		//System.out.println("Time Scheduler Created!");
 	}
 
 	public void commitRegistration() {
@@ -186,9 +196,9 @@ public class TimeScheduler implements RecordableObject {
 			}
 		}
 		if (!okIn)
-			System.out.println("VEHICLE IN NOT FOUND !");
+			logger.error("VEHICLE IN NOT FOUND !");
 		if (!okOut)
-			System.out.println("VEHICLE OUT NOT FOUND !");
+			logger.error("VEHICLE OUT NOT FOUND !");
 	}
 
 	@Override
@@ -291,7 +301,7 @@ public class TimeScheduler implements RecordableObject {
 					double extraTime = Math.abs(gap) / 1000000.0;
 					catchupTime += Math.abs(gap);
 					outOfSyncItCount++;
-					System.out.println("OUT OF SYNC : " + extraTime + " ms ! ("
+					logger.warn("OUT OF SYNC : " + extraTime + " ms ! ("
 							+ outOfSyncItCount
 							+ " out of sync steps overall). Catchup = "
 							+ catchupTime + "ns");
@@ -323,7 +333,7 @@ public class TimeScheduler implements RecordableObject {
 	public void computeEndTime() {
 		long now = System.nanoTime();
 		long diff = now - startTime;
-		System.out.println("Simulation ran in " + diff + " ns");
+		logger.info("Simulation ran in " + diff + " ns");
 	}
 
 	private void stepSeq() {
@@ -568,49 +578,46 @@ public class TimeScheduler implements RecordableObject {
 	}
 
 	public void setThreaded(boolean threaded) {
-		TimeScheduler.threaded = threaded;
+		this.threaded = threaded;
 	}
 
-	@Override
-	public void destroy() {
-		t = null;
-		out = null;
-		id = null;
-		secondsPerStep = 0.0;
-
-		/*
-		 * if(writer!=null){ writer.flush(); writer.close(); writer = null; }
-		 */
-
-		discretObjects.clear();
-		/*
-		 * for(int i = 0; i<discretObjects.size(); i++){
-		 * discretObjects.remove(i); }
-		 */
-
-		discretsRemoteObjects.clear();
-		doneEvents.clear();
-		events.clear();
-		eventsToAdd.clear();
-
-		if (todoLast != null) {
-			todoLast.clear();
-			todoLast = null;
-		}
-		if (prioritaryThreads != null) {
-			prioritaryThreads.clear();
-			prioritaryThreads = null;
-		}
-		if (otherThreads != null) {
-			otherThreads.clear();
-			otherThreads = null;
-		}
-	}
-
-	@Override
-	public void finalize() throws Throwable {
-		System.err.println("FINALIZE RTS");
-	}
+//	public void destroy() {
+//		t = null;
+//		out = null;
+//		id = null;
+//		secondsPerStep = 0.0;
+//
+//		discretObjects.clear();
+//		
+//		discretsRemoteObjects.clear();
+//		doneEvents.clear();
+//		events.clear();
+//		eventsToAdd.clear();
+//
+//		if (todoLast != null) {
+//			todoLast.clear();
+//			todoLast = null;
+//		}
+//		if (prioritaryThreads != null) {
+//			prioritaryThreads.clear();
+//			prioritaryThreads = null;
+//		}
+//		if (otherThreads != null) {
+//			otherThreads.clear();
+//			otherThreads = null;
+//		}
+//		catchupTime = 0;
+//		discretObjects = null;
+//		discretsRemoteObjects = null;
+//		doneEvents = null;
+//		events = null;
+//		eventsToAdd = null;
+//		normalization_time_in_ms = 0;
+//		outOfSyncItCount = 0;
+//		startTime = 0;
+//		step = 0;
+//		
+//	}
 
 	public String eventsToString() {
 		StringBuilder sb = new StringBuilder();

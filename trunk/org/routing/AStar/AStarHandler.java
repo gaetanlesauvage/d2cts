@@ -117,20 +117,4 @@ public class AStarHandler extends RoutingAlgorithm {
 	public void setHeuristic(AStarHeuristic heuristic) {
 		h = heuristic;
 	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-		for (String k : computed.keySet()) {
-			for (AStar a : computed.get(k).values()) {
-				a.destroy();
-			}
-		}
-		// computed.clear();
-		computed = null;
-
-		h = null;
-		speed = null;
-		straddleCarrierId = null;
-	}
 }

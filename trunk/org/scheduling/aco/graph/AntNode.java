@@ -19,9 +19,9 @@
  */
 package org.scheduling.aco.graph;
 
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.graphstream.graph.Node;
 import org.missions.Mission;
@@ -39,15 +39,15 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 	public static final String END_NODE_ID = "SINK";
 
 	//<Origin node ID , AntEdge origin -> this >
-	public  ConcurrentHashMap<String, AntEdge> in;
+	public  SortedMap<String, AntEdge> in;
 
 	public Node node;
 
 	protected AntNode(Mission m) {
 		super(m);
-		in = new ConcurrentHashMap<String, AntEdge>();
-		node = OnlineACOScheduler.getGraph().addNode(getID());
-		if(OnlineACOScheduler.getLayout().isEnabled()) OnlineACOScheduler.getLayout().nodeAdded(this);
+		in = new TreeMap<>();
+		node = OnlineACOScheduler.getInstance().getGraph().addNode(getID());
+		if(OnlineACOScheduler.getInstance().getLayout().isEnabled()) OnlineACOScheduler.getInstance().getLayout().nodeAdded(this);
 	}
 
 
@@ -59,9 +59,9 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 		super.addDestination(edge);
 
 		if(removeEndLink){
-			AntNode end = OnlineACOScheduler.getEndNode();
-			OnlineACOScheduler.removeEdge(this,end);
-			if(OnlineACOScheduler.getLayout().isEnabled()) OnlineACOScheduler.getLayout().nodeUpdated(end);
+			AntNode end = OnlineACOScheduler.getInstance().getEndNode();
+			OnlineACOScheduler.getInstance().removeEdge(this,end);
+			if(OnlineACOScheduler.getInstance().getLayout().isEnabled()) OnlineACOScheduler.getInstance().getLayout().nodeUpdated(end);
 		}
 	}
 
@@ -74,10 +74,10 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 			in.put(edge.getNodeFrom().getID(), edge);
 
 			if(removeDepotLink){
-				AntNode depot = OnlineACOScheduler.getDepotNode();
-				OnlineACOScheduler.removeEdge(depot, this);
+				AntNode depot = OnlineACOScheduler.getInstance().getDepotNode();
+				OnlineACOScheduler.getInstance().removeEdge(depot, this);
 			}
-			if(OnlineACOScheduler.getLayout().isEnabled()) OnlineACOScheduler.getLayout().nodeUpdated(this);
+			if(OnlineACOScheduler.getInstance().getLayout().isEnabled()) OnlineACOScheduler.getInstance().getLayout().nodeUpdated(this);
 		}
 	}
 
@@ -89,7 +89,7 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 			}
 
 			if(in.size()==0&&!getID().equals(EndNode.ID)){
-				AntNode depot = OnlineACOScheduler.getDepotNode();
+				AntNode depot = OnlineACOScheduler.getInstance().getDepotNode();
 				if(!depot.outgoingEdges.containsKey(getID())) {
 					AntEdge e = new AntEdge(depot, this);
 					depot.addOutgoingEdge(e);
@@ -108,7 +108,7 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 			if(edge.getID()!=null) edge.destroy();
 
 			if(outgoingEdges.size()==0){
-				AntNode end = OnlineACOScheduler.getEndNode();
+				AntNode end = OnlineACOScheduler.getInstance().getEndNode();
 				AntEdge e = new AntEdge(this, end);
 				end.addIncomingEdge(e);
 				addOutgoingEdge(e);
@@ -126,10 +126,10 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 			for(AntEdge e1 : in.values()) {
 
 				AntNode inNode = (AntNode) e1.getNodeFrom();
-				if(inNode!=OnlineACOScheduler.getDepotNode()){
+				if(inNode!=OnlineACOScheduler.getInstance().getDepotNode()){
 					for(AntEdge e2 : outgoingEdges.values()){
 						AntNode outNode = (AntNode) e2.getNodeTo();
-						if(outNode!=OnlineACOScheduler.getEndNode()){
+						if(outNode!=OnlineACOScheduler.getInstance().getEndNode()){
 							if(inNode.outgoingEdges.containsKey(outNode.getID())) System.err.println("already a link between "+inNode.getID()+" and "+outNode.getID());
 							else {
 								AntEdge e = new AntEdge(inNode, outNode);
@@ -158,8 +158,8 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 
 
 		if(node!=null){
-			if(OnlineACOScheduler.getLayout().isEnabled()) OnlineACOScheduler.getLayout().nodeRemoved(this);
-			OnlineACOScheduler.removeNode(node.getId());
+			if(OnlineACOScheduler.getInstance().getLayout().isEnabled()) OnlineACOScheduler.getInstance().getLayout().nodeRemoved(this);
+			OnlineACOScheduler.getInstance().removeNode(node.getId());
 			node = null;
 		}
 		super.destroy();
@@ -168,7 +168,7 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 	protected AntEdge getIncomingEdgeFrom(AntNode origin){
 		return in.get(origin.getID());
 	}
-	protected HashMap<String, AntEdge> getOutgoingEdges(){
+	protected Map<String, AntEdge> getOutgoingEdges(){
 		return outgoingEdges;
 	}
 }

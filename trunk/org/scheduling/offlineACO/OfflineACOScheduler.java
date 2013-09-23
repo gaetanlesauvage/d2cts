@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.com.model.scheduling.OfflineACOParametersBean;
 import org.exceptions.EmptyResourcesException;
@@ -22,7 +23,9 @@ import org.scheduling.ScheduleEdge;
 import org.scheduling.ScheduleTask;
 import org.scheduling.display.IndicatorPane;
 import org.scheduling.display.JMissionScheduler;
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 import org.vehicles.StraddleCarrier;
 
 /**
@@ -33,15 +36,14 @@ import org.vehicles.StraddleCarrier;
  * @since 2012
  */
 public final class OfflineACOScheduler extends MissionScheduler {
-
 	// RMI
 	public static final String rmiBindingName = "OfflineACOScheduler";
 
 	// ACO TSP
-	private static OfflineSchedulerParameters globalParameters;
+	private OfflineSchedulerParameters globalParameters;
 
 	// TIME SYNCHRONIZATION
-	private static int syncSize;
+	private int syncSize;
 
 	/**
 	 * Max number of ants in a colony
@@ -50,7 +52,7 @@ public final class OfflineACOScheduler extends MissionScheduler {
 
 	// private static final HashMap<String, ScheduleTask<TSPEdge>> missions =
 	// new HashMap<String, ScheduleTask<TSPEdge>>();
-	private static final HashMap<String, OfflineAnt> hills = new HashMap<String, OfflineAnt>();
+	private Map<String, OfflineAnt> hills;
 
 	// Best score handling
 	// private TSPGlobalScore best;
@@ -68,11 +70,20 @@ public final class OfflineACOScheduler extends MissionScheduler {
 			globalParameters = OfflineACOParametersBean.getParameters();
 			evalParameters = OfflineACOParametersBean.getEvalParameters();
 			syncSize = globalParameters.getSync();
+			hills = new HashMap<String, OfflineAnt>();
 			System.out.println("TSP ACO PARAMETERS: " + globalParameters);	
 		}
 		MissionScheduler.instance = this; 
 		if(!init)
 			init();
+	}
+	
+	public static OfflineACOScheduler getInstance(){
+		return (OfflineACOScheduler)MissionScheduler.instance;
+	}
+	
+	public static void closeInstance(){
+		
 	}
 
 	/**
@@ -111,7 +122,7 @@ public final class OfflineACOScheduler extends MissionScheduler {
 				+ globalParameters);
 		computeTime = 0;
 		step = 0;
-		sstep = rts.getStep() + 1;
+		sstep = TimeScheduler.getInstance().getStep() + 1;
 
 		lock.lock();
 		graphChanged = true;
@@ -129,7 +140,7 @@ public final class OfflineACOScheduler extends MissionScheduler {
 			System.out.println("MissionGraph created !");
 
 		int current = 1;
-		List<StraddleCarrier> lResources = rt.getStraddleCarriers();
+		List<StraddleCarrier> lResources = Terminal.getInstance().getStraddleCarriers();
 		int overall = lResources.size();
 		for (StraddleCarrier rsc : lResources) {
 			System.out.println("Adding resource " + rsc.getId() + " ("
@@ -138,7 +149,7 @@ public final class OfflineACOScheduler extends MissionScheduler {
 			insertResource(rsc);
 		}
 		current = 1;
-		List<Mission> lTasks = rt.getMissions();
+		List<Mission> lTasks = Terminal.getInstance().getMissions();
 		overall = lTasks.size();
 		for (Mission m : lTasks) {
 			System.out.println("Adding task " + m.getId() + " (" + current
@@ -198,7 +209,7 @@ public final class OfflineACOScheduler extends MissionScheduler {
 		if (precomputed) {
 			// System.out.println("APPLY : ");
 			// AFFECT SOLUTION
-			HashMap<String, LocalScore> solutions = best.getSolution();
+			Map<String, LocalScore> solutions = best.getSolution();
 			for (String colonyID : solutions.keySet()) {
 				StraddleCarrier vehicle = vehicles.get(colonyID);
 
@@ -237,7 +248,7 @@ public final class OfflineACOScheduler extends MissionScheduler {
 				}
 			}
 
-			rt.flushAllocations();
+			Terminal.getInstance().flushAllocations();
 
 			lock.lock();
 			precomputed = false;
@@ -644,7 +655,7 @@ public final class OfflineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The parameters of the ACO algorithm
 	 */
-	public static OfflineSchedulerParameters getGlobalParameters() {
+	public OfflineSchedulerParameters getGlobalParameters() {
 		return globalParameters;
 	}
 
@@ -653,11 +664,11 @@ public final class OfflineACOScheduler extends MissionScheduler {
 	 * 
 	 * @param p
 	 */
-	public static void setGlobalParameters(OfflineSchedulerParameters p) {
+	public void setGlobalParameters(OfflineSchedulerParameters p) {
 		globalParameters = p;
 	}
 
-	public static int getSyncSize() {
+	public int getSyncSize() {
 		return syncSize;
 	}
 
@@ -668,7 +679,7 @@ public final class OfflineACOScheduler extends MissionScheduler {
 	 * @param newSyncSize
 	 *            New synchronization size
 	 */
-	public static void setSyncSize(final int newSyncSize) {
+	public void setSyncSize(final int newSyncSize) {
 		syncSize = newSyncSize;
 	}
 
@@ -680,11 +691,12 @@ public final class OfflineACOScheduler extends MissionScheduler {
 	public void destroy() {
 		super.destroy();
 
-		globalParameters = null;
+		//globalParameters = null;
 
 		for (OfflineAnt h : hills.values()) {
 			h.destroy();
 		}
+		
 		hills.clear();
 		for (String s : scheduleTasks.keySet()) {
 			ScheduleTask<OfflineEdge> n = (ScheduleTask<OfflineEdge>) scheduleTasks
@@ -700,11 +712,5 @@ public final class OfflineACOScheduler extends MissionScheduler {
 
 		if (SOURCE_NODE != null)
 			SOURCE_NODE.destroy();
-
-		best.destroy();
-		best = null;
-
-		stats.destroy();
-		stats = null;
-	}
+		}
 }

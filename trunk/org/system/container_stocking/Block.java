@@ -19,7 +19,6 @@
  */
 package org.system.container_stocking;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,12 +33,7 @@ import org.positioning.Coordinates;
  * @author gaetan
  *
  */
-public class Block implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2724802871503503L;
-	
+public class Block {
 	public static final int TYPE_SHIP = 0;
 	public static final int TYPE_YARD = 1;
 	public static final int TYPE_ROAD = 2;
@@ -119,24 +113,24 @@ public class Block implements Serializable{
 	public List<Bay> getLanes(){
 		return new ArrayList<Bay>(lanes.values());
 	}
-	public void destroy() {
-		if(coords!=null){
-			coords.clear();
-			coords=null;
-		}
-		if(lanes!=null){
-			lanes.clear();
-			lanes=null;
-		}
-		if(sortedCoordsName!=null){
-		sortedCoordsName.clear();
-		sortedCoordsName=null;
-		}
-		type=null;
-		if(walls!=null){
-			walls.clear();
-			walls = null;
-		}
-	}
+//	public void destroy() {
+//		if(coords!=null){
+//			coords.clear();
+//			coords=null;
+//		}
+//		if(lanes!=null){
+//			lanes.clear();
+//			lanes=null;
+//		}
+//		if(sortedCoordsName!=null){
+//		sortedCoordsName.clear();
+//		sortedCoordsName=null;
+//		}
+//		type=null;
+//		if(walls!=null){
+//			walls.clear();
+//			walls = null;
+//		}
+//	}
 
 }

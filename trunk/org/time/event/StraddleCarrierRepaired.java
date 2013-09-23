@@ -19,6 +19,7 @@
  */
 package org.time.event;
 
+import org.system.Terminal;
 import org.time.Time;
 
 public class StraddleCarrierRepaired extends DynamicEvent {
@@ -34,7 +35,7 @@ public class StraddleCarrierRepaired extends DynamicEvent {
 
 	@Override
 	public void execute() {
-		terminal.getStraddleCarrier(straddleId).repair();
+		Terminal.getInstance().getStraddleCarrier(straddleId).repair();
 		writeEventInDb();
 	}
 }

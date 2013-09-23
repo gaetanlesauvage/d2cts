@@ -1,9 +1,5 @@
 package org.com.model;
 
-import java.util.Map;
-
-import org.com.model.scheduling.LoadBean;
-import org.time.Time;
 
 public class StraddleCarrierBean {
 	private String name;
@@ -18,7 +14,7 @@ public class StraddleCarrierBean {
 	private boolean autoHandling;
 	private String routingAlgorithm;
 	private String routingHeuristic;
-	private Map<Time, LoadBean> workload;
+	//private Map<Time, LoadBean> workload;
 	
 
 	public StraddleCarrierBean() {

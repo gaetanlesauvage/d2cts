@@ -1,6 +1,8 @@
 package org.time.event;
 
+import org.system.Terminal;
 import org.time.Time;
+import org.time.TimeScheduler;
 
 
 public class LaserHeadFailure extends DynamicEvent {
@@ -18,11 +20,11 @@ public class LaserHeadFailure extends DynamicEvent {
 	}
 	@Override
 	public void execute() {
-		terminal.updateLaserHeadRange(lhID,range);
+		Terminal.getInstance().updateLaserHeadRange(lhID,range);
 		writeEventInDb();
 		if(duration!=null) {
 			LaserHeadFailure lhf = new LaserHeadFailure(new Time(super.time, duration), lhID, 1.0, null);
-			scheduler.registerDynamicEvent(lhf);
+			TimeScheduler.getInstance().registerDynamicEvent(lhf);
 		}
 	}
 

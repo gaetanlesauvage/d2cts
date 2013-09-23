@@ -29,11 +29,9 @@ import org.util.RecordableObject;
 
 public interface Routing extends RecordableObject {
 
-	public Path getShortestPath(Location from, Location to)
-			throws NoPathFoundException;
+	public Path getShortestPath(Location from, Location to) throws NoPathFoundException;
 
-	public Path getShortestPath(Location from, Location to, Time fromTime)
-			throws NoPathFoundException;
+	public Path getShortestPath(Location from, Location to, Time fromTime) throws NoPathFoundException;
 
 	public void graphHasChanged();
 
@@ -46,6 +44,4 @@ public interface Routing extends RecordableObject {
 	public void unlock();
 
 	public List<String> getConnexNodes(String node);
-
-	public void destroy();
 }

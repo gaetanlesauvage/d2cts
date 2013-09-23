@@ -50,6 +50,8 @@ public class SeaOrientationDAO implements D2ctsDao<SeaOrientationBean> {
 		if (psLoad != null) {
 			psLoad.close();
 		}
+		instance = null;
+		log.info("SeaOrientationDAO closed.");
 	}
 
 	@Override

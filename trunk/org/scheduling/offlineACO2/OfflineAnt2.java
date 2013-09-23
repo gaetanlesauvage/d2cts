@@ -9,9 +9,9 @@ import org.scheduling.LocalScore;
 import org.scheduling.MissionScheduler;
 import org.scheduling.ScheduleEdge;
 import org.scheduling.ScheduleResource;
-import org.scheduling.offlineACO.OfflineACOScheduler;
 import org.scheduling.offlineACO.OfflineDestinationChooserHelper;
 import org.scheduling.offlineACO.OfflineSchedulerParameters;
+import org.system.Terminal;
 
 public class OfflineAnt2 {
 	public static double maxPHSpread = 0;
@@ -57,13 +57,11 @@ public class OfflineAnt2 {
 		nonVisited = OfflineACOScheduler2.getNodes();
 		currentSalesman = OfflineACOScheduler2.getASalesman();
 		hasBeenVisited = new HashMap<String, Boolean>(nonVisited.size());
-		usedSalesman = new ArrayList<String>(MissionScheduler.getInstance()
-				.getResources().size());
+		usedSalesman = new ArrayList<String>(MissionScheduler.getInstance().getResources().size());
 		for (OfflineNode2 n : nonVisited) {
 			hasBeenVisited.put(n.getID(), false);
 		}
-		visitDepotAuthorizedTimes = MissionScheduler.getInstance()
-				.getResources().size() - 1;
+		visitDepotAuthorizedTimes = MissionScheduler.getInstance().getResources().size() - 1;
 	}
 
 	public String getID() {
@@ -90,8 +88,7 @@ public class OfflineAnt2 {
 		if (ls == null)
 			ls = new LocalScore(currentSalesman);
 
-		currentScore.addScore(currentSalesman.simulateVisitNode(ls,
-				(OfflineNode2) choice.getNodeTo()));
+		currentScore.addScore(currentSalesman.simulateVisitNode(ls, (OfflineNode2) choice.getNodeTo()));
 		hasBeenVisited.put(choice.getNodeTo().getID(), true);
 		for (int i = 0; i < nonVisited.size(); i++) {
 			OfflineNode2 n = nonVisited.get(i);
@@ -122,7 +119,7 @@ public class OfflineAnt2 {
 
 	public static void spreadPheromone(GlobalScore gs) {
 		// Spread pheromone according to local score (or global one ?)
-		double lambda = OfflineACOScheduler2.getGlobalParameters().getLambda();
+		double lambda = OfflineACOScheduler2.getInstance().getGlobalParameters().getLambda();
 		double denum = gs.getScore(); // Global score
 		if (denum == 0.0) {
 			denum = MissionScheduler.CLOSE_TO_ZERO;
@@ -166,14 +163,11 @@ public class OfflineAnt2 {
 		// Among possible destinations, remove already visited ones
 		List<OfflineEdge2> destinations = location.getDestinations();
 		if (MissionScheduler.DEBUG)
-			System.err.println("Ant " + ID + " at " + location.getID()
-					+ " with " + currentSalesman.getID());
-		List<OfflineEdge2> available = new ArrayList<OfflineEdge2>(
-				destinations.size());
+			System.err.println("Ant " + ID + " at " + location.getID() + " with " + currentSalesman.getID());
+		List<OfflineEdge2> available = new ArrayList<OfflineEdge2>(destinations.size());
 		for (OfflineEdge2 e : destinations) {
 			if ((e.getNodeTo() == MissionScheduler.getInstance().SOURCE_NODE && visitDepotAuthorizedTimes > 0)
-					|| ((e.getNodeTo() != MissionScheduler.getInstance().SOURCE_NODE) && !hasBeenVisited
-							.get(e.getNodeTo().getID()))) {
+					|| ((e.getNodeTo() != MissionScheduler.getInstance().SOURCE_NODE) && !hasBeenVisited.get(e.getNodeTo().getID()))) {
 				// if from depot
 				if (e.getNodeFrom() == MissionScheduler.getInstance().SOURCE_NODE) {
 					// if to depot
@@ -199,14 +193,11 @@ public class OfflineAnt2 {
 
 		if (available.size() == 0) {
 			new Exception("No available node !").printStackTrace();
-			destination = location.getEdgeTo((OfflineNode2) MissionScheduler
-					.getInstance().SOURCE_NODE);
+			destination = location.getEdgeTo((OfflineNode2) MissionScheduler.getInstance().SOURCE_NODE);
 		} else {
 			// System.err.println("ELSE");
-			OfflineSchedulerParameters parameters = OfflineACOScheduler2
-					.getGlobalParameters();
-			ArrayList<OfflineDestinationChooserHelper> choices = new ArrayList<OfflineDestinationChooserHelper>(
-					available.size());
+			OfflineSchedulerParameters parameters = OfflineACOScheduler2.getInstance().getGlobalParameters();
+			ArrayList<OfflineDestinationChooserHelper> choices = new ArrayList<OfflineDestinationChooserHelper>(available.size());
 			double handlingTime = currentSalesman.getHandlingTime();
 			double currentTime = currentSalesman.getCurrentTime();
 			boolean addSourceSourceProba = false;
@@ -238,13 +229,10 @@ public class OfflineAnt2 {
 
 					double overTimeP = 0;
 					double waitTimeP = 0;
-					double twpMin = e.getNodeTo().getMission()
-							.getPickupTimeWindow().getMin().getInSec();
-					double twpMax = e.getNodeTo().getMission()
-							.getPickupTimeWindow().getMax().getInSec();
+					double twpMin = e.getNodeTo().getMission().getPickupTimeWindow().getMin().getInSec();
+					double twpMax = e.getNodeTo().getMission().getPickupTimeWindow().getMax().getInSec();
 					double pickupLeaveTime = twpMin + handlingTime;
-					if (location != MissionScheduler.getInstance().SOURCE_NODE
-							&& pickupReachTime < twpMin) {
+					if (location != MissionScheduler.getInstance().SOURCE_NODE && pickupReachTime < twpMin) {
 						waitTimeP += twpMin - pickupReachTime;
 					}
 
@@ -254,14 +242,11 @@ public class OfflineAnt2 {
 						pickupLeaveTime = pickupReachTime + handlingTime;
 					}
 
-					double dsPD = e.getNodeTo().getCost(
-							currentSalesman.getModelID());
+					double dsPD = e.getNodeTo().getCost(currentSalesman.getModelID());
 					double deliveryReachTime = pickupLeaveTime + dsPD;
 
-					double twdMin = e.getNodeTo().getMission()
-							.getDeliveryTimeWindow().getMin().getInSec();
-					double twdMax = e.getNodeTo().getMission()
-							.getDeliveryTimeWindow().getMax().getInSec();
+					double twdMin = e.getNodeTo().getMission().getDeliveryTimeWindow().getMin().getInSec();
+					double twdMax = e.getNodeTo().getMission().getDeliveryTimeWindow().getMax().getInSec();
 					double waitTimeD = 0;
 					double overTimeD = 0;
 					if (deliveryReachTime < twdMin) {
@@ -287,12 +272,10 @@ public class OfflineAnt2 {
 				} else {
 					ds = cost;
 				}
-				double weight = ds * parameters.getF1() + over
-						* parameters.getF2() + under * parameters.getF3();
+				double weight = ds * parameters.getF1() + over * parameters.getF2() + under * parameters.getF3();
 				if (weight > 0) {
 					double ph = e.getPheromone(currentSalesman.getID());
-					double foreignPH = e.getForeignPheromone(currentSalesman
-							.getID());
+					double foreignPH = e.getForeignPheromone(currentSalesman.getID());
 					// double localProba =
 					// Math.pow(ph,parameters.getAlpha())*Math.pow(1f/weight,
 					// parameters.getBeta())*Math.pow(ph/(foreignPH+ph),parameters.getGamma());
@@ -301,8 +284,7 @@ public class OfflineAnt2 {
 					// Time(under+"s")+" over="+new Time(over+"s"));
 					// sumProba += localProba;
 
-					OfflineDestinationChooserHelper helper = new OfflineDestinationChooserHelper(
-							e, ph, weight, foreignPH);
+					OfflineDestinationChooserHelper helper = new OfflineDestinationChooserHelper(e, ph, weight, foreignPH);
 					choices.add(helper);
 					sumWeight += weight;
 					sumPheromone += ph;
@@ -324,8 +306,7 @@ public class OfflineAnt2 {
 				 */
 				double avgWeight = sumWeight / (choices.size() + 0.0);
 				double avgPheromone = sumPheromone / (choices.size() + 0.0);
-				double avgForeignPheromone = sumForeignPheromone
-						/ (choices.size() + 0.0);
+				double avgForeignPheromone = sumForeignPheromone / (choices.size() + 0.0);
 				/*
 				 * if(MissionScheduler.DEBUG) {
 				 * System.err.println("ADD SOURCE PROBA : avgW="
@@ -337,20 +318,16 @@ public class OfflineAnt2 {
 				sumForeignPheromone += avgPheromone;
 
 				OfflineEdge2 e = ((OfflineNode2) MissionScheduler.getInstance().SOURCE_NODE)
-						.getEdgeTo((OfflineNode2) MissionScheduler
-								.getInstance().SOURCE_NODE);
+						.getEdgeTo((OfflineNode2) MissionScheduler.getInstance().SOURCE_NODE);
 
-				OfflineDestinationChooserHelper helper = new OfflineDestinationChooserHelper(
-						e, avgPheromone, avgWeight, avgForeignPheromone);
+				OfflineDestinationChooserHelper helper = new OfflineDestinationChooserHelper(e, avgPheromone, avgWeight, avgForeignPheromone);
 				choices.add(helper);
 
 			}
 
 			if (choices.size() > 1) {
 				for (OfflineDestinationChooserHelper dch : choices) {
-					double probaAlpha = Math.pow(
-							1.0 + (dch.getPheromone() / sumPheromone),
-							parameters.getAlpha());
+					double probaAlpha = Math.pow(1.0 + (dch.getPheromone() / sumPheromone), parameters.getAlpha());
 					if (probaAlpha > maxAlpha)
 						maxAlpha = probaAlpha;
 					if (probaAlpha < minAlpha)
@@ -358,8 +335,7 @@ public class OfflineAnt2 {
 					sumAlpha += probaAlpha;
 					alphaTimes++;
 
-					double probaBeta = Math.pow(sumWeight / dch.getWeight(),
-							parameters.getBeta());
+					double probaBeta = Math.pow(sumWeight / dch.getWeight(), parameters.getBeta());
 
 					if (probaBeta > maxBeta)
 						maxBeta = probaBeta;
@@ -372,8 +348,7 @@ public class OfflineAnt2 {
 					// ((dch.getPheromone()/(dch.getForeignPheromone()+dch.getPheromone()))/(sumPheromone+sumForeignPheromone)),parameters.getGamma());
 					// TODO DEBUG SEES IF IT IS CORRECT THIS WAY:
 					double probaGamma = Math
-							.pow(1.0 + ((dch.getPheromone() / (dch
-									.getForeignPheromone() + dch.getPheromone())) / (sumPheromone / (sumPheromone + sumForeignPheromone))),
+							.pow(1.0 + ((dch.getPheromone() / (dch.getForeignPheromone() + dch.getPheromone())) / (sumPheromone / (sumPheromone + sumForeignPheromone))),
 									parameters.getGamma());
 					if (probaGamma > maxGamma)
 						maxGamma = probaGamma;
@@ -397,19 +372,12 @@ public class OfflineAnt2 {
 					 * probaAlpha+probaBeta+probaGamma;
 					 */
 
-					if (probaAlpha == Double.POSITIVE_INFINITY
-							|| probaBeta == Double.POSITIVE_INFINITY
-							|| probaGamma == Double.POSITIVE_INFINITY)
-						new Exception(
-								"Infinity Exception in computation of probability of "
-										+ dch.getDestination().getID())
-								.printStackTrace();
+					if (probaAlpha == Double.POSITIVE_INFINITY || probaBeta == Double.POSITIVE_INFINITY || probaGamma == Double.POSITIVE_INFINITY)
+						new Exception("Infinity Exception in computation of probability of " + dch.getDestination().getID()).printStackTrace();
 					dch.setProba(proba);
 					if (MissionScheduler.DEBUG)
-						System.err.println(dch.getDestination().getID()
-								+ " localProba=" + probaAlpha + " . "
-								+ probaBeta + " . " + probaGamma + " = "
-								+ proba);
+						System.err.println(dch.getDestination().getID() + " localProba=" + probaAlpha + " . " + probaBeta + " . " + probaGamma
+								+ " = " + proba);
 					sumProba += proba;
 				}
 				// System.err.println("2) IF");
@@ -417,8 +385,7 @@ public class OfflineAnt2 {
 				for (OfflineDestinationChooserHelper dch : choices) {
 					dch.setProba(dch.getProba() / sumProba);
 					if (MissionScheduler.DEBUG)
-						System.err.println("1) " + dch.getDestination().getID()
-								+ " p=" + dch.getProba());
+						System.err.println("1) " + dch.getDestination().getID() + " p=" + dch.getProba());
 				}
 
 				// Collections.sort(choices);
@@ -431,7 +398,7 @@ public class OfflineAnt2 {
 					// System.err.println("2) "+dch.getDestination().getID()+" p="+dch.getProba());
 				}
 
-				double dChoice = OfflineACOScheduler.RANDOM.nextDouble();
+				double dChoice = Terminal.getInstance().getRandom().nextDouble();
 				// System.err.println("RANDOM = "+dChoice);
 				for (OfflineDestinationChooserHelper dch : choices) {
 					// System.err.println(dch.getProba()+">= "+dChoice+"?");
@@ -446,16 +413,14 @@ public class OfflineAnt2 {
 					// else System.err.println("=> FALSE");
 				}
 				if (destination == null) {
-					destination = (OfflineEdge2) choices
-							.get(choices.size() - 1).getDestination();
+					destination = (OfflineEdge2) choices.get(choices.size() - 1).getDestination();
 					// System.err.println("=> "+destination.getID());
 					// new
 					// Exception("1-2) Destination = "+destination.getNodeFrom()+" -> "+destination.getNodeTo()).printStackTrace();
 				}
 			} else {
 				// System.err.println("2) ELSE");
-				destination = (OfflineEdge2) choices.get(choices.size() - 1)
-						.getDestination();
+				destination = (OfflineEdge2) choices.get(choices.size() - 1).getDestination();
 				// System.err.println("=> "+destination.getID());
 				// new
 				// Exception("2) Destination = "+destination.getNodeFrom()+" -> "+destination.getNodeTo()).printStackTrace();
@@ -467,8 +432,7 @@ public class OfflineAnt2 {
 
 		if (MissionScheduler.DEBUG) {
 
-			System.err.println("CHOICE : " + destination.getID()
-					+ "\nPRESS ENTER");
+			System.err.println("CHOICE : " + destination.getID() + "\nPRESS ENTER");
 			new java.util.Scanner(System.in).nextLine();
 		}
 
@@ -477,19 +441,16 @@ public class OfflineAnt2 {
 
 	private void gotoDepot() {
 		if (location != MissionScheduler.getInstance().SOURCE_NODE) {
-			OfflineEdge2 edge = location
-					.getEdgeTo((OfflineNode2) MissionScheduler.getInstance().SOURCE_NODE);
+			OfflineEdge2 edge = location.getEdgeTo((OfflineNode2) MissionScheduler.getInstance().SOURCE_NODE);
 			// System.err.println("GoBack Edge : "+edge.getID());
 
 			// Current Location to Pickup location of the next mission
-			LocalScore score = currentScore.getSolution().get(
-					currentSalesman.getID());
+			LocalScore score = currentScore.getSolution().get(currentSalesman.getID());
 			score.addDistance(edge.getDistance());
 			score.addTravelTime(edge.getCost(currentSalesman.getID()));
 
 			// Update Time after reaching Depot
-			currentSalesman
-					.visitNode(MissionScheduler.getInstance().SOURCE_NODE);
+			currentSalesman.visitNode(MissionScheduler.getInstance().SOURCE_NODE);
 			score.addEdge(edge, currentSalesman.getCurrentTime());
 			currentScore.addScore(score);
 		}
