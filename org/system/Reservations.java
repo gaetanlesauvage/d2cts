@@ -251,9 +251,9 @@ public class Reservations {
 					if (after.getTimeWindow().getMin().compareTo(r.getTimeWindow().getMax()) <= 0) {
 						// Pas ok
 						if (r.getPriority() > after.getPriority()) {
-							if(r.getRoadId().equals("A-29/40") && r.getStraddleCarrierId().equals("straddle_carrier_10")){
+							/*if(r.getRoadId().equals("A-29/40") && r.getStraddleCarrierId().equals("straddle_carrier_10")){
 								System.err.println("here");
-							}
+							}*/
 							System.out.println("Trying to know if we can make reservation " + r);
 							System.out.println("Must decal next reservations.");
 							System.out.println("Before decal next reservations : \n" + this);

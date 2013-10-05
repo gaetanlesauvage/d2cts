@@ -1,5 +1,6 @@
 package org.scheduling.random;
 
+import org.com.model.scheduling.RandomParametersBean;
 import org.missions.Load;
 import org.missions.Mission;
 import org.missions.MissionState;
@@ -34,6 +35,10 @@ public class RandomMissionScheduler extends MissionScheduler {
 	protected void init() {
 		init = true;
 		step = 0;
+		if(evalParameters == null){
+			evalParameters = RandomParametersBean.getEvalParameters();
+		}
+		
 		sstep = TimeScheduler.getInstance().getStep() + 1;
 		for (String s : Terminal.getInstance().getMissionsName()) {
 			Mission m = Terminal.getInstance().getMission(s);

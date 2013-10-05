@@ -1,5 +1,6 @@
 package org.util.dbLoading;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -13,7 +14,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class XMLToDataBase {
 	private static Logger logger = Logger.getLogger(XMLToDataBase.class);;
 
-	private String getFileNames(String... files) {
+	private static String getFileNames(String... files) {
 		String returnValue = "";
 		for (String s : files) {
 			returnValue += s + ", ";
@@ -23,7 +24,7 @@ public class XMLToDataBase {
 		return returnValue;
 	}
 
-	public XMLToDataBase(String... filesToParse) {
+	public static void parse(String... filesToParse) throws Exception {
 		Connection connection = null;
 		try {
 
@@ -42,14 +43,17 @@ public class XMLToDataBase {
 			// vehiclesFile);
 			XMLReader saxReader;
 
-			saxReader = XMLReaderFactory
-					.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
+			saxReader = XMLReaderFactory.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
 			saxReader.setContentHandler(parser);
 
 			for (String f : filesToParse) {
 				// Scenario
-				InputSource is = new InputSource(this.getClass()
-						.getResourceAsStream("/" + f));
+				InputSource is = null;
+				if(!f.startsWith("/"))
+					is =  new InputSource(XMLToDataBase.class.getResourceAsStream("/" + f));
+				else {
+					is =  new InputSource(new FileInputStream(f));
+				}
 				long duration = System.currentTimeMillis();
 				saxReader.parse(is);
 				duration = System.currentTimeMillis() - duration;
@@ -65,7 +69,7 @@ public class XMLToDataBase {
 				e1.printStackTrace();
 				logger.fatal(e1.getMessage(), e1);
 			}
-
+			throw e;
 		} finally {
 			try {
 				DbMgr.getInstance().commitAndClose();
@@ -78,12 +82,13 @@ public class XMLToDataBase {
 	}
 
 	public static void main(String[] args) {
-		PropertyConfigurator.configure(XMLToDataBase.class.getClassLoader()
-				.getResource(("conf/log4j.properties")));
+		PropertyConfigurator.configure(XMLToDataBase.class.getClassLoader().getResource(("conf/log4j.properties")));
 
-		String[] fileURL = { "etc/xml/terminals/tn/TN.xml",
-				"etc/xml/scenario/static-1.xml", "etc/xml/scheduling/aco.xml" };
-
-		new XMLToDataBase(fileURL);
+		String[] fileURL = { "etc/xml/terminals/tn/TN.xml", "etc/xml/scenario/static-1.xml", "etc/xml/scheduling/aco.xml" };
+		try {
+			parse(fileURL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package org.scheduling.greedy;
 
+import org.com.model.scheduling.GreedyParametersBean;
 import org.exceptions.MissionNotFoundException;
 import org.exceptions.NoPathFoundException;
 import org.missions.Load;
@@ -63,6 +64,9 @@ public class GreedyMissionScheduler extends MissionScheduler {
 		init = true;
 		sstep = TimeScheduler.getInstance().getStep() + 1;
 		step = 0;
+		if(evalParameters == null){
+			evalParameters = GreedyParametersBean.getEvalParameters();
+		}
 		for (String s : Terminal.getInstance().getMissionsName()) {
 			Mission m = Terminal.getInstance().getMission(s);
 			addMission(new Time(step), m);

@@ -11,31 +11,31 @@ public class SchedulingAlgorithmBean {
 	private String name;
 	private String _class;
 	private Map<String, ParameterBean> parameters;
-	private	MissionSchedulerEvalParameters evalParameter;
-	
+	private MissionSchedulerEvalParameters evalParameter;
+
 	public SchedulingAlgorithmBean() {
 		evalParameter = new MissionSchedulerEvalParameters(Double.NaN, Double.NaN, Double.NaN);
 	}
 
-	public void setParameters(ParameterBean[] parameters){
+	public void setParameters(ParameterBean[] parameters) {
 		this.parameters = new HashMap<>(parameters.length);
-		for(ParameterBean p : parameters){
-			if(p.name().equals("T"))
+		for (ParameterBean p : parameters) {
+			if (p.name().equals("T"))
 				evalParameter.setT(p.getValueAsDouble());
-			else if(p.name().equals("L"))
+			else if (p.name().equals("L"))
 				evalParameter.setL(p.getValueAsDouble());
-			else if(p.name().equals("E"))
+			else if (p.name().equals("E"))
 				evalParameter.setE(p.getValueAsDouble());
 			else
-				this.parameters.put(p.name(),p);
+				this.parameters.put(p.name(), p);
 		}
-		
+
 	}
-	
-	public Map<String,ParameterBean> getParameters(){
+
+	public Map<String, ParameterBean> getParameters() {
 		return this.parameters;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -67,18 +67,18 @@ public class SchedulingAlgorithmBean {
 
 	@Override
 	public boolean equals(Object o) {
-		if(o == null) return false;
+		if (o == null)
+			return false;
 		return hashCode() == o.hashCode();
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return name;
 	}
-	
-	public MissionSchedulerEvalParameters getEvalParameters(){
+
+	public MissionSchedulerEvalParameters getEvalParameters() {
 		return evalParameter;
 	}
-	
-	
+
 }

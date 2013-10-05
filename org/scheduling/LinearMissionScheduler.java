@@ -2,6 +2,7 @@ package org.scheduling;
 
 import java.util.Collections;
 
+import org.com.model.scheduling.LinearParametersBean;
 import org.display.TextDisplay;
 import org.missions.Load;
 import org.missions.Mission;
@@ -37,6 +38,9 @@ public class LinearMissionScheduler extends MissionScheduler {
 
 	protected void init() {
 		init = true;
+		if (evalParameters == null){
+			evalParameters = LinearParametersBean.getEvalParameters();
+		}
 		step = 0;
 		sstep = TimeScheduler.getInstance().getStep() + 1;
 		for (String s : Terminal.getInstance().getMissionsName()) {

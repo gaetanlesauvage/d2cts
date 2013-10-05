@@ -44,5 +44,4 @@ public class TimeController {
 	public void setSecByStep(double newStepSize) {
 		TimeScheduler.getInstance().setSecondsPerStep(newStepSize);
 	}
-
 }
