@@ -96,8 +96,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @version 1.0
  */
 public class XMLTerminalParser4DB implements ContentHandler {
-	private static final Logger log = Logger
-			.getLogger(XMLTerminalParser4DB.class);
+	private static final Logger log = Logger.getLogger(XMLTerminalParser4DB.class);
 
 	private static final String DEPOT_TYPE = "depot";
 	private Connection connection;
@@ -194,14 +193,12 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	 */
 
 	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
+	public void characters(char[] ch, int start, int length) throws SAXException {
 
 	}
 
 	@SuppressWarnings("unused")
-	private void containerLocation(Attributes atts)
-			throws NotInContainerException, SQLException {
+	private void containerLocation(Attributes atts) throws NotInContainerException, SQLException {
 		String container;
 		if (atts.getIndex("container") > 0) {
 			container = atts.getValue("container");
@@ -299,8 +296,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setString(1, id);
 		statement.setInt(2, terminalID);
-		statement.setInt(3, DbMgr.getInstance().getDatabaseIDsRetriever()
-				.getCrossroadTypeID(Crossroad.class.getName()));
+		statement.setInt(3, DbMgr.getInstance().getDatabaseIDsRetriever().getCrossroadTypeID(Crossroad.class.getName()));
 		statement.setDouble(4, x);
 		statement.setDouble(5, y);
 		statement.setDouble(6, z);
@@ -316,8 +312,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 
 	// FIXME : Use XMLTags
 	@Override
-	public void endElement(String uri, String localName, String qName)
-			throws SAXException {
+	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (localName.equals("comment"))
 			comment = false;
 		else if (comment == false) {
@@ -351,8 +346,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 					description.append(s + ",");
 				}
 				if (description.indexOf(",") >= 0)
-					description = description
-							.deleteCharAt(description.length() - 1);
+					description = description.deleteCharAt(description.length() - 1);
 				try {
 					psCurrentEvent.setString(4, description.toString());
 					executeQuery(psCurrentEvent);
@@ -415,8 +409,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		missionContainerId = atts.getValue("container");
 
 		// If MissionKinds == IN OR IN_OUT then add container into database
-		if (missionKind == MissionKinds.IN.getIntValue()
-				|| missionKind == MissionKinds.IN_AND_OUT.getIntValue()) {
+		if (missionKind == MissionKinds.IN.getIntValue() || missionKind == MissionKinds.IN_AND_OUT.getIntValue()) {
 			ContainerAttributes a = new ContainerAttributes();
 			a.set("id", missionContainerId);
 			container(a);
@@ -456,8 +449,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			ps.setString(10, current_mission_slot + "-" + current_mission_level);
 			ps.setInt(11, current_mission_alignment);
 
-			log.trace("Inserting mission " + idMission + " with type="
-					+ missionKind + " and container=" + missionContainerId);
+			log.trace("Inserting mission " + idMission + " with type=" + missionKind + " and container=" + missionContainerId);
 			executeQuery(ps);
 		} else {
 			currentEventDescription.add("id=" + idMission);
@@ -465,16 +457,14 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			currentEventDescription.add("container=" + missionContainerId);
 			if (!"".equals(current_event_newMission_truckID)) // FIXME set
 				// truckID
-				currentEventDescription.add("truckID="
-						+ current_event_newMission_truckID);
+				currentEventDescription.add("truckID=" + current_event_newMission_truckID);
 			currentEventDescription.add("twPMin=" + twPickup.getMin());
 			currentEventDescription.add("twPMax=" + twPickup.getMax());
 			currentEventDescription.add("twDMin=" + twDelivery.getMin());
 			currentEventDescription.add("twDMax=" + twDelivery.getMax());
 			currentEventDescription.add("slot=" + current_mission_slot);
 			currentEventDescription.add("level=" + current_mission_level);
-			currentEventDescription.add("alignement="
-					+ current_mission_alignment);
+			currentEventDescription.add("alignement=" + current_mission_alignment);
 		}
 		twDelivery = twPickup = null;
 		this.idMission = "";
@@ -503,8 +493,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		currentEventDescription = new ArrayList<>(10);
 		if (current_event_type.get(inEvent - 1) == null) {
 			log.error("ERROR : type value must be given in a <event> xml tag !");
-		} else if ("shipIn".equals(current_event_type.get(inEvent - 1))
-				|| "shipOut".equals(current_event_type.get(inEvent - 1))) {
+		} else if ("shipIn".equals(current_event_type.get(inEvent - 1)) || "shipOut".equals(current_event_type.get(inEvent - 1))) {
 			int capacity = Integer.parseInt(atts.getValue("capacity"));
 			String quay = atts.getValue("quay");
 			double from = Double.parseDouble(atts.getValue("from"));
@@ -513,13 +502,11 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			currentEventDescription.add("quay=" + quay);
 			currentEventDescription.add("from=" + from);
 			currentEventDescription.add("to=" + to);
-		} else if ("straddleCarrierFailure".equals(current_event_type
-				.get(inEvent - 1))) {
+		} else if ("straddleCarrierFailure".equals(current_event_type.get(inEvent - 1))) {
 			String straddleCarrierID = atts.getValue("straddleCarrierID");
 			String failureType = atts.getValue("failureType");
 			String repairDuration = atts.getValue("repairDuration");
-			currentEventDescription.add("straddleCarrierID="
-					+ straddleCarrierID);
+			currentEventDescription.add("straddleCarrierID=" + straddleCarrierID);
 			currentEventDescription.add("failureType=" + failureType);
 			currentEventDescription.add("repariDuration=" + repairDuration);
 		} else if ("straddleRepair".equals(current_event_type.get(inEvent - 1))) {
@@ -528,8 +515,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		} else if ("containerOut".equals(current_event_type.get(inEvent - 1))) {
 			String containerId = atts.getValue("containerId");
 			currentEventDescription.add("containerId=" + containerId);
-		} else if ("shipContainerOut".equals(current_event_type
-				.get(inEvent - 1))) {
+		} else if ("shipContainerOut".equals(current_event_type.get(inEvent - 1))) {
 			String containerId = atts.getValue("containerId");
 			String destSlotId = atts.getValue("slotId");
 			currentEventDescription.add("containerId=" + containerId);
@@ -539,14 +525,12 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			String straddleCarrierId = atts.getValue("straddleCarrier");
 			currentEventDescription.add("mission=" + missionId);
 			currentEventDescription.add("straddleCarrier=" + straddleCarrierId);
-		} else if ("vehicleIn".equals(current_event_type.get(inEvent - 1))
-				|| "vehicleOut".equals(current_event_type.get(inEvent - 1))) {
+		} else if ("vehicleIn".equals(current_event_type.get(inEvent - 1)) || "vehicleOut".equals(current_event_type.get(inEvent - 1))) {
 			String current_event_vehicle_ID = atts.getValue("id");
 			String lanesIds = atts.getValue("lanes");
 			currentEventDescription.add("id=" + current_event_vehicle_ID);
 			currentEventDescription.add("lanes=" + lanesIds);
-		} else if (LaserHeadFailure.getEventType().equals(
-				current_event_type.get(inEvent - 1))) {
+		} else if (LaserHeadFailure.getEventType().equals(current_event_type.get(inEvent - 1))) {
 			String lhID = atts.getValue("laserHeadID");
 			double range = Double.parseDouble(atts.getValue("range"));
 			String duration = null;
@@ -616,21 +600,18 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	 */
 
 	@Override
-	public void ignorableWhitespace(char[] ch, int start, int length)
-			throws SAXException {
+	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
 
 	}
 
 	@SuppressWarnings("unused")
 	private void include(Attributes atts) throws SAXException {
 		String file = atts.getValue("file");
-		XMLReader saxReader = XMLReaderFactory
-				.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
+		XMLReader saxReader = XMLReaderFactory.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
 		saxReader.setContentHandler(this);
 		log.info("Include file " + file);
 		try {
-			saxReader.parse(new InputSource(this.getClass()
-					.getResourceAsStream("/" + file)));
+			saxReader.parse(new InputSource(this.getClass().getResourceAsStream("/" + file)));
 		} catch (IOException e) {
 			log.error("Include error : " + file, e);
 			throw new SAXException(e);
@@ -638,8 +619,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	}
 
 	@SuppressWarnings("unused")
-	private void bay(Attributes atts) throws SQLException,
-			LaneTooSmallException, NotInPaveException {
+	private void bay(Attributes atts) throws SQLException, LaneTooSmallException, NotInPaveException {
 		if (blockName == null || "".trim().equals(blockName))
 			throw new NotInPaveException();
 
@@ -653,14 +633,12 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		int parameterIndex = 1;
 		statement.setString(parameterIndex++, id);
 		statement.setInt(parameterIndex++, terminalID);
-		statement.setInt(parameterIndex++,
-				DbMgr.getInstance().getDatabaseIDsRetriever().getRoadTypeID(Bay.class.getName()));
+		statement.setInt(parameterIndex++, DbMgr.getInstance().getDatabaseIDsRetriever().getRoadTypeID(Bay.class.getName()));
 		// test
 		statement.setString(parameterIndex++, cOriginId);
 		statement.setString(parameterIndex++, cDestinationId);
 		if (atts.getIndex("directed") >= 0) {
-			statement.setBoolean(parameterIndex++,
-					Boolean.parseBoolean(atts.getValue("directed")));
+			statement.setBoolean(parameterIndex++, Boolean.parseBoolean(atts.getValue("directed")));
 		} else {
 			statement.setBoolean(parameterIndex++, false);
 		}
@@ -677,8 +655,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		ps.setInt(2, terminalID);
 		ResultSet rs = ps.executeQuery();
 		if (rs.next()) {
-			coordOrigin = new Coordinates(rs.getDouble(1), rs.getDouble(2),
-					rs.getDouble(3));
+			coordOrigin = new Coordinates(rs.getDouble(1), rs.getDouble(2), rs.getDouble(3));
 		} else {
 			throw new SQLException("Crossroad " + cOriginId + " not found!");
 		}
@@ -686,11 +663,9 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		ps.setString(1, cDestinationId);
 		rs = ps.executeQuery();
 		if (rs.next()) {
-			coordDestination = new Coordinates(rs.getDouble(1),
-					rs.getDouble(2), rs.getDouble(3));
+			coordDestination = new Coordinates(rs.getDouble(1), rs.getDouble(2), rs.getDouble(3));
 		} else {
-			throw new SQLException("Crossroad " + cDestinationId
-					+ " not found!");
+			throw new SQLException("Crossroad " + cDestinationId + " not found!");
 		}
 		rs.close();
 		ps.close();
@@ -706,18 +681,15 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		double outY = Double.parseDouble(st.nextToken());
 
 		double bayLength = Location.getLength(coordOrigin, coordDestination);
-		double in_rate = Location.getLength(new Coordinates(inX, inY),
-				coordOrigin) / bayLength;
-		double out_rate = Location.getLength(new Coordinates(outX, outY),
-				coordOrigin) / bayLength;
+		double in_rate = Location.getLength(new Coordinates(inX, inY), coordOrigin) / bayLength;
+		double out_rate = Location.getLength(new Coordinates(outX, outY), coordOrigin) / bayLength;
 
 		// statement.setDouble(parameterIndex++, in_rate);
 		// statement.setDouble(parameterIndex++, out_rate);
 
 		String slots = atts.getValue("slots");
 		StringTokenizer stSlots = new StringTokenizer(slots, "-");
-		SlotBuilderHelper[] tSlots = new SlotBuilderHelper[stSlots
-				.countTokens()];
+		SlotBuilderHelper[] tSlots = new SlotBuilderHelper[stSlots.countTokens()];
 		int i = 0;
 		while (stSlots.hasMoreTokens()) {
 			// TODO 26/04/2013 compute slot ID ? or get it from somewhere else!
@@ -733,14 +705,11 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		String querySlotLevels = "INSERT INTO SLOT_LEVEL (NAME,TERMINAL,SLOT,LEVEL_NUMBER) VALUES (?,?,?,?)";
 
 		ps = connection.prepareStatement(querySlots);
-		PreparedStatement psSlotsLevels = connection
-				.prepareStatement(querySlotLevels);
+		PreparedStatement psSlotsLevels = connection.prepareStatement(querySlotLevels);
 
-		double innerLength = Location.getLength(new Coordinates(inX, inY),
-				new Coordinates(outX, outY));
+		double innerLength = Location.getLength(new Coordinates(inX, inY), new Coordinates(outX, outY));
 
-		Map<String, SlotsRateHelper> slotsMap = Bay.getSlotsIdsAndRates(tSlots,
-				innerLength, bayLength, id, in_rate);
+		Map<String, SlotsRateHelper> slotsMap = Bay.getSlotsIdsAndRates(tSlots, innerLength, bayLength, id, in_rate);
 
 		for (Entry<String, SlotsRateHelper> e : slotsMap.entrySet()) {
 			String slotID = e.getKey();
@@ -813,12 +782,11 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		double z = 0.0;
 
 		String query = "INSERT INTO CROSSROAD (NAME, TERMINAL, TYPE, ROAD, BLOCK, X, Y, Z) VALUES (?,?,?,?,?,?,?,?)";
-		
+
 		PreparedStatement statement = connection.prepareStatement(query);
 		statement.setString(1, id);
 		statement.setInt(2, terminalID);
-		statement.setInt(3, DbMgr.getInstance().getDatabaseIDsRetriever()
-				.getCrossroadTypeID(BayCrossroad.class.getName()));
+		statement.setInt(3, DbMgr.getInstance().getDatabaseIDsRetriever().getCrossroadTypeID(BayCrossroad.class.getName()));
 		statement.setString(4, mainRoad);
 		statement.setString(5, blockName);
 		statement.setDouble(6, x);
@@ -875,8 +843,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	}
 
 	@Override
-	public void processingInstruction(String target, String data)
-			throws SAXException {
+	public void processingInstruction(String target, String data) throws SAXException {
 
 	}
 
@@ -893,13 +860,11 @@ public class XMLTerminalParser4DB implements ContentHandler {
 
 		statement.setString(1, id);
 		statement.setInt(2, terminalID);
-		statement.setInt(3,
-				DbMgr.getInstance().getDatabaseIDsRetriever().getRoadTypeID(Road.class.getName()));
+		statement.setInt(3, DbMgr.getInstance().getDatabaseIDsRetriever().getRoadTypeID(Road.class.getName()));
 		statement.setString(4, origin);
 		statement.setString(5, destination);
 		if (atts.getIndex("directed") >= 0) {
-			statement.setBoolean(6,
-					Boolean.parseBoolean(atts.getValue("directed")));
+			statement.setBoolean(6, Boolean.parseBoolean(atts.getValue("directed")));
 		} else {
 			statement.setNull(6, Types.BOOLEAN);
 		}
@@ -913,8 +878,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	}
 
 	@SuppressWarnings("unused")
-	private List<Coordinates> roadsCoordinates(String roadName)
-			throws ElementNotFoundException, SQLException {
+	private List<Coordinates> roadsCoordinates(String roadName) throws ElementNotFoundException, SQLException {
 		String queryRoads = "SELECT origin.X as ox, origin.Y as oy, origin.Z as oz, destination.X as dx, destination.Y as dy, destination.Z as dz"
 				+ " FROM ROADS r INNER JOIN CROSSROADS origin ON r.ORIGIN = origin.NAME AND r.TERMINAL = origin.TERMINAL"
 				+ " INNER JOIN CROSSROADS destination ON r.DESTINATION = destination.NAME AND r.TERMINAL = destination.TERMINAL"
@@ -926,8 +890,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		String queryRoadPoints = "SELECT X as x, Y as y, Z as z FROM ROADPOINTS WHERE ROAD=? AND TERMINAL=? ORDER BY INDEX_IN_ROAD";
 
 		PreparedStatement statement = connection.prepareStatement(queryRoads);
-		PreparedStatement statementRoadPoints = connection
-				.prepareStatement(queryRoadPoints);
+		PreparedStatement statementRoadPoints = connection.prepareStatement(queryRoadPoints);
 		statement.setString(1, roadName);
 		statement.setString(2, terminalName);
 		statementRoadPoints.setString(1, roadName);
@@ -976,8 +939,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 				cO = new Coordinates(ox, oy, oz);
 				cD = new Coordinates(dx, dy, dz);
 			} else
-				throw new ElementNotFoundException("Road or Bay " + roadName
-						+ " not found!");
+				throw new ElementNotFoundException("Road or Bay " + roadName + " not found!");
 		}
 		points.add(cD);
 		points.add(0, cO);
@@ -996,8 +958,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	 */
 
 	@SuppressWarnings("unused")
-	private Double getRoadLength(String roadName)
-			throws ElementNotFoundException, SQLException {
+	private Double getRoadLength(String roadName) throws ElementNotFoundException, SQLException {
 		Double length = null;
 
 		String queryRoads = "SELECT origin.X as ox, origin.Y as oy, origin.Z as oz, destination.X as dx, destination.Y as dy, destination.Z as dz"
@@ -1011,8 +972,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		String queryRoadPoints = "SELECT X as x, Y as y, Z as z FROM ROADPOINTS WHERE ROAD=? AND TERMINAL=? ORDER BY INDEX_IN_ROAD";
 
 		PreparedStatement statement = connection.prepareStatement(queryRoads);
-		PreparedStatement statementRoadPoints = connection
-				.prepareStatement(queryRoadPoints);
+		PreparedStatement statementRoadPoints = connection.prepareStatement(queryRoadPoints);
 		statement.setString(1, roadName);
 		statement.setString(2, terminalName);
 		statementRoadPoints.setString(1, roadName);
@@ -1061,21 +1021,16 @@ public class XMLTerminalParser4DB implements ContentHandler {
 				cO = new Coordinates(ox, oy, oz);
 				cD = new Coordinates(dx, dy, dz);
 			} else
-				throw new ElementNotFoundException("Road or Bay " + roadName
-						+ " not found!");
+				throw new ElementNotFoundException("Road or Bay " + roadName + " not found!");
 		}
 		Coordinates from = cO;
 		length = 0.0;
 		for (int i = 0; i < roadPoints.size(); i++) {
 			Coordinates to = roadPoints.get(i);
-			length += Math
-					.sqrt(Math.pow(to.x - from.x, 2f)
-							+ Math.pow(to.y - from.y, 2f)
-							+ Math.pow(to.z - from.z, 2f));
+			length += Math.sqrt(Math.pow(to.x - from.x, 2f) + Math.pow(to.y - from.y, 2f) + Math.pow(to.z - from.z, 2f));
 			from = to;
 		}
-		length += Math.sqrt(Math.pow(cD.x - from.x, 2f)
-				+ Math.pow(cD.y - from.y, 2f) + Math.pow(cD.z - from.z, 2f));
+		length += Math.sqrt(Math.pow(cD.x - from.x, 2f) + Math.pow(cD.y - from.y, 2f) + Math.pow(cD.z - from.z, 2f));
 		return length;
 	}
 
@@ -1143,8 +1098,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	@Override
 	// FIXME add a type field over bays to set if it is a classical one or an
 	// ExchangeBay
-	public void startElement(String uri, String localName, String qName,
-			Attributes atts) throws SAXException {
+	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		if (!this.comment) {
 			if ("comment".equals(localName)) {
 				this.comment = true;
@@ -1156,17 +1110,14 @@ public class XMLTerminalParser4DB implements ContentHandler {
 					String method = tag.getMethod();
 					if (method != null) {
 						try {
-							Method m = this.getClass().getDeclaredMethod(
-									method, Attributes.class);
+							Method m = this.getClass().getDeclaredMethod(method, Attributes.class);
 							m.setAccessible(true);
 							m.invoke(this, atts);
 
 						} catch (InvocationTargetException e) {
-							log.debug("Exception on tag " + tag.getTag() + "@"
-									+ tag.getMethod());
+							log.debug("Exception on tag " + tag.getTag() + "@" + tag.getMethod());
 							if (e.getCause() instanceof SQLException) {
-								log.error("SQLException",
-										(SQLException) (e.getCause()));
+								log.error("SQLException", (SQLException) (e.getCause()));
 							} else {
 								log.error("SAXException", e);
 								throw new SAXException(e);
@@ -1177,7 +1128,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 						}
 					}
 				} else {
-					if(!localName.equals("document"))
+					if (!localName.equals("document"))
 						log.warn("Unrecognized XML tag : " + localName + "!");
 				}
 			}
@@ -1294,8 +1245,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 
 	@SuppressWarnings("unused")
 	private void missions(Attributes atts) throws SQLException {
-		if (scenarioName == null
-				|| !atts.getValue("scenario").equals(scenarioName)) {
+		if (scenarioName == null || !atts.getValue("scenario").equals(scenarioName)) {
 			this.scenarioName = atts.getValue("scenario");
 			retrieveScenarioID();
 		}
@@ -1322,8 +1272,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	private void container(Attributes atts) throws SQLException {
 		String id = atts.getValue("id");
 		Double teu = null;
-		if (inEvent > 0
-				&& "vehicleOut".equals(current_event_type.get(inEvent - 1))) {
+		if (inEvent > 0 && "vehicleOut".equals(current_event_type.get(inEvent - 1))) {
 			currentEventDescription.add(id);
 		} else {
 			if (atts.getIndex("teu") >= 0)
@@ -1445,17 +1394,15 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		String type = atts.getValue("type");
 		switch (type) {
 		case OnlineACOScheduler.rmiBindingName:
-			
+
 			// Retrieve parameters
-			for (OnlineACOParametersBean parameter : OnlineACOParametersBean
-					.values()) {
+			for (OnlineACOParametersBean parameter : OnlineACOParametersBean.values()) {
 				if (atts.getIndex(parameter.name()) > 0) {
 					String sValue = atts.getValue(parameter.name());
 					try {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
-						OnlineACOParametersDAO.getInstance(
-								simulationID).insert(parameter.getParameter());
+						OnlineACOParametersDAO.getInstance(simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1465,15 +1412,13 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			break;
 		case OfflineACOScheduler.rmiBindingName:
 			// Retrieve parameters
-			for (OfflineACOParametersBean parameter : OfflineACOParametersBean
-					.values()) {
+			for (OfflineACOParametersBean parameter : OfflineACOParametersBean.values()) {
 				if (atts.getIndex(parameter.name()) > 0) {
 					String sValue = atts.getValue(parameter.name());
 					try {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
-						OfflineACOParametersDAO.getInstance(
-								simulationID).insert(parameter.getParameter());
+						OfflineACOParametersDAO.getInstance(simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1483,15 +1428,13 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			break;
 		case OfflineACOScheduler2.rmiBindingName:
 			// Retrieve parameters
-			for (OfflineACO2ParametersBean parameter : OfflineACO2ParametersBean
-					.values()) {
+			for (OfflineACO2ParametersBean parameter : OfflineACO2ParametersBean.values()) {
 				if (atts.getIndex(parameter.name()) > 0) {
 					String sValue = atts.getValue(parameter.name());
 					try {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
-						OfflineACO2ParametersDAO.getInstance(
-								simulationID).insert(parameter.getParameter());
+						OfflineACO2ParametersDAO.getInstance(simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1501,15 +1444,13 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			break;
 		case LinearMissionScheduler.rmiBindingName:
 			// Retrieve parameters
-			for (LinearParametersBean parameter : LinearParametersBean
-					.values()) {
+			for (LinearParametersBean parameter : LinearParametersBean.values()) {
 				if (atts.getIndex(parameter.name()) > 0) {
 					String sValue = atts.getValue(parameter.name());
 					try {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
-						LinearParametersDAO.getInstance(
-								simulationID).insert(parameter.getParameter());
+						LinearParametersDAO.getInstance(simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1525,8 +1466,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 					try {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
-						GreedyParametersDAO.getInstance(
-								simulationID).insert(parameter.getParameter());
+						GreedyParametersDAO.getInstance(simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1536,15 +1476,13 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			break;
 		case RandomMissionScheduler.rmiBindingName:
 			// Retrieve parameters
-			for (RandomParametersBean parameter : RandomParametersBean
-					.values()) {
+			for (RandomParametersBean parameter : RandomParametersBean.values()) {
 				if (atts.getIndex(parameter.name()) > 0) {
 					String sValue = atts.getValue(parameter.name());
 					try {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
-						RandomParametersDAO.getInstance(
-								simulationID).insert(parameter.getParameter());
+						RandomParametersDAO.getInstance(simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1554,15 +1492,13 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			break;
 		case BranchAndBound.rmiBindingName:
 			// Retrieve parameters
-			for (BranchAndBoundParametersBean parameter : BranchAndBoundParametersBean
-					.values()) {
+			for (BranchAndBoundParametersBean parameter : BranchAndBoundParametersBean.values()) {
 				if (atts.getIndex(parameter.name()) > 0) {
 					String sValue = atts.getValue(parameter.name());
 					try {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
-						BranchAndBoundParametersDAO.getInstance(
-								simulationID).insert(parameter.getParameter());
+						BranchAndBoundParametersDAO.getInstance(simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1572,15 +1508,13 @@ public class XMLTerminalParser4DB implements ContentHandler {
 			break;
 		case BB.rmiBindingName:
 			// Retrieve parameters
-			for (BBParametersBean parameter : BBParametersBean
-					.values()) {
+			for (BBParametersBean parameter : BBParametersBean.values()) {
 				if (atts.getIndex(parameter.name()) > 0) {
 					String sValue = atts.getValue(parameter.name());
 					try {
 						Double dValue = Double.parseDouble(sValue);
 						parameter.setValue(dValue);
-						BBParametersDAO.getInstance(
-								simulationID).insert(parameter.getParameter());
+						BBParametersDAO.getInstance(simulationID).insert(parameter.getParameter());
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 						log.error(e.getMessage(), e);
@@ -1591,106 +1525,87 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		}
 	}
 
-	/*@SuppressWarnings("unused")
-	private void loadScheduler(Attributes atts) throws SQLException {
-		String type = atts.getValue("type");
-		switch (type) {
-		case OnlineACOScheduler.rmiBindingName:
-			// Retrieve parameters
-			OnlineACOSchedulingParametersDAO.getInstance(simulationID).load();
-
-			OnlineACOScheduler
-					.setEvalParameters(OnlineACOSchedulingParametersBean
-							.getEvalParameters());
-			OnlineACOScheduler
-					.setGlobalParameters(OnlineACOSchedulingParametersBean
-							.getACOParameters());
-			MissionScheduler.rmiBindingName = OnlineACOScheduler.rmiBindingName;
-			break;
-		case OfflineACOScheduler.rmiBindingName:
-			// Retrieve parameters
-			OfflineACOSchedulingParametersDAO.getInstance(simulationID).load();
-			OfflineACOSchedulingParametersBeanOld offlineACOParametersBean = OfflineACOSchedulingParametersDAO
-					.getInstance(simulationID).iterator().next();
-			OfflineACOScheduler.setEvalParameters(offlineACOParametersBean
-					.getEvalParameters());
-			OfflineACOScheduler.setGlobalParameters(offlineACOParametersBean
-					.getParameters());
-			MissionScheduler.rmiBindingName = OfflineACOScheduler.rmiBindingName;
-			break;
-		case OfflineACOScheduler2.rmiBindingName:
-			// Retrieve parameters
-			OfflineACOScheduling2ParametersDAO.getInstance(simulationID).load();
-			OfflineACOScheduling2ParametersBeanOld offlineACO2ParametersBean = OfflineACOScheduling2ParametersDAO
-					.getInstance(simulationID).iterator().next();
-			OfflineACOScheduler2.setEvalParameters(offlineACO2ParametersBean
-					.getEvalParameters());
-			OfflineACOScheduler2.setGlobalParameters(offlineACO2ParametersBean
-					.getParameters());
-			MissionScheduler.rmiBindingName = OfflineACOScheduler2.rmiBindingName;
-			break;
-		case LinearMissionScheduler.rmiBindingName:
-			// Retrieve parameters
-			LinearSchedulingParametersDAO.getInstance(simulationID).load();
-			LinearSchedulingParametersBean linearParametersBean = LinearSchedulingParametersDAO
-					.getInstance(simulationID).iterator().next();
-			LinearMissionScheduler.setEvalParameters(linearParametersBean
-					.getEvalParameters());
-			MissionScheduler.rmiBindingName = LinearMissionScheduler.rmiBindingName;
-			break;
-		case GreedyMissionScheduler.rmiBindingName:
-			// Retrieve parameters
-			GreedySchedulingParametersDAO.getInstance(simulationID).load();
-			GreedySchedulingParametersBean greedyParametersBean = GreedySchedulingParametersDAO
-					.getInstance(simulationID).iterator().next();
-			GreedyMissionScheduler.setEvalParameters(greedyParametersBean
-					.getEvalParameters());
-			MissionScheduler.rmiBindingName = GreedyMissionScheduler.rmiBindingName;
-			break;
-		case RandomMissionScheduler.rmiBindingName:
-			// Retrieve parameters
-			RandomSchedulingParametersDAO.getInstance(simulationID).load();
-			RandomSchedulingParametersBean randomParametersBean = RandomSchedulingParametersDAO
-					.getInstance(simulationID).iterator().next();
-			RandomMissionScheduler.setEvalParameters(randomParametersBean
-					.getEvalParameters());
-			MissionScheduler.rmiBindingName = RandomMissionScheduler.rmiBindingName;
-			break;
-		case BranchAndBound.rmiBindingName:
-			// Retrieve parameters
-			BranchAndBoundSchedulingParametersDAO.getInstance(simulationID)
-					.load();
-			BranchAndBoundParametersBean branchAndBoundParametersBean = BranchAndBoundSchedulingParametersDAO
-					.getInstance(simulationID).iterator().next();
-			BranchAndBound.setEvalParameters(branchAndBoundParametersBean
-					.getEvalParameters());
-			BranchAndBound.distanceMatrixFile = branchAndBoundParametersBean
-					.getDistanceMatrixFile();
-			BranchAndBound.evalCosts = branchAndBoundParametersBean
-					.isComputeCosts();
-			BranchAndBound.solutionFile = branchAndBoundParametersBean
-					.getSolutionFile();
-			BranchAndBound.solutionInitFile = branchAndBoundParametersBean
-					.getSolutionInitFile();
-			BranchAndBound.timeMatrixFile = branchAndBoundParametersBean
-					.getTimeMatrixFile();
-			MissionScheduler.rmiBindingName = BranchAndBound.rmiBindingName;
-			break;
-		case BB.rmiBindingName:
-			// Retrieve parameters
-			BBSchedulingParametersDAO.getInstance(simulationID).load();
-			BBParametersBean bbParametersBean = BBSchedulingParametersDAO
-					.getInstance(simulationID).iterator().next();
-			BB.setEvalParameters(bbParametersBean.getEvalParameters());
-			BB.solutionFile = bbParametersBean.getSolutionFile();
-			BB.solutionInitFile = bbParametersBean.getSolutionInitFile();
-			MissionScheduler.rmiBindingName = BB.rmiBindingName;
-			break;
-		}
-
-		// Build MissionScheduler
-		MissionScheduler.getInstance();
-	}*/
+	/*
+	 * @SuppressWarnings("unused") private void loadScheduler(Attributes atts)
+	 * throws SQLException { String type = atts.getValue("type"); switch (type)
+	 * { case OnlineACOScheduler.rmiBindingName: // Retrieve parameters
+	 * OnlineACOSchedulingParametersDAO.getInstance(simulationID).load();
+	 * 
+	 * OnlineACOScheduler .setEvalParameters(OnlineACOSchedulingParametersBean
+	 * .getEvalParameters()); OnlineACOScheduler
+	 * .setGlobalParameters(OnlineACOSchedulingParametersBean
+	 * .getACOParameters()); MissionScheduler.rmiBindingName =
+	 * OnlineACOScheduler.rmiBindingName; break; case
+	 * OfflineACOScheduler.rmiBindingName: // Retrieve parameters
+	 * OfflineACOSchedulingParametersDAO.getInstance(simulationID).load();
+	 * OfflineACOSchedulingParametersBeanOld offlineACOParametersBean =
+	 * OfflineACOSchedulingParametersDAO
+	 * .getInstance(simulationID).iterator().next();
+	 * OfflineACOScheduler.setEvalParameters(offlineACOParametersBean
+	 * .getEvalParameters());
+	 * OfflineACOScheduler.setGlobalParameters(offlineACOParametersBean
+	 * .getParameters()); MissionScheduler.rmiBindingName =
+	 * OfflineACOScheduler.rmiBindingName; break; case
+	 * OfflineACOScheduler2.rmiBindingName: // Retrieve parameters
+	 * OfflineACOScheduling2ParametersDAO.getInstance(simulationID).load();
+	 * OfflineACOScheduling2ParametersBeanOld offlineACO2ParametersBean =
+	 * OfflineACOScheduling2ParametersDAO
+	 * .getInstance(simulationID).iterator().next();
+	 * OfflineACOScheduler2.setEvalParameters(offlineACO2ParametersBean
+	 * .getEvalParameters());
+	 * OfflineACOScheduler2.setGlobalParameters(offlineACO2ParametersBean
+	 * .getParameters()); MissionScheduler.rmiBindingName =
+	 * OfflineACOScheduler2.rmiBindingName; break; case
+	 * LinearMissionScheduler.rmiBindingName: // Retrieve parameters
+	 * LinearSchedulingParametersDAO.getInstance(simulationID).load();
+	 * LinearSchedulingParametersBean linearParametersBean =
+	 * LinearSchedulingParametersDAO
+	 * .getInstance(simulationID).iterator().next();
+	 * LinearMissionScheduler.setEvalParameters(linearParametersBean
+	 * .getEvalParameters()); MissionScheduler.rmiBindingName =
+	 * LinearMissionScheduler.rmiBindingName; break; case
+	 * GreedyMissionScheduler.rmiBindingName: // Retrieve parameters
+	 * GreedySchedulingParametersDAO.getInstance(simulationID).load();
+	 * GreedySchedulingParametersBean greedyParametersBean =
+	 * GreedySchedulingParametersDAO
+	 * .getInstance(simulationID).iterator().next();
+	 * GreedyMissionScheduler.setEvalParameters(greedyParametersBean
+	 * .getEvalParameters()); MissionScheduler.rmiBindingName =
+	 * GreedyMissionScheduler.rmiBindingName; break; case
+	 * RandomMissionScheduler.rmiBindingName: // Retrieve parameters
+	 * RandomSchedulingParametersDAO.getInstance(simulationID).load();
+	 * RandomSchedulingParametersBean randomParametersBean =
+	 * RandomSchedulingParametersDAO
+	 * .getInstance(simulationID).iterator().next();
+	 * RandomMissionScheduler.setEvalParameters(randomParametersBean
+	 * .getEvalParameters()); MissionScheduler.rmiBindingName =
+	 * RandomMissionScheduler.rmiBindingName; break; case
+	 * BranchAndBound.rmiBindingName: // Retrieve parameters
+	 * BranchAndBoundSchedulingParametersDAO.getInstance(simulationID) .load();
+	 * BranchAndBoundParametersBean branchAndBoundParametersBean =
+	 * BranchAndBoundSchedulingParametersDAO
+	 * .getInstance(simulationID).iterator().next();
+	 * BranchAndBound.setEvalParameters(branchAndBoundParametersBean
+	 * .getEvalParameters()); BranchAndBound.distanceMatrixFile =
+	 * branchAndBoundParametersBean .getDistanceMatrixFile();
+	 * BranchAndBound.evalCosts = branchAndBoundParametersBean
+	 * .isComputeCosts(); BranchAndBound.solutionFile =
+	 * branchAndBoundParametersBean .getSolutionFile();
+	 * BranchAndBound.solutionInitFile = branchAndBoundParametersBean
+	 * .getSolutionInitFile(); BranchAndBound.timeMatrixFile =
+	 * branchAndBoundParametersBean .getTimeMatrixFile();
+	 * MissionScheduler.rmiBindingName = BranchAndBound.rmiBindingName; break;
+	 * case BB.rmiBindingName: // Retrieve parameters
+	 * BBSchedulingParametersDAO.getInstance(simulationID).load();
+	 * BBParametersBean bbParametersBean = BBSchedulingParametersDAO
+	 * .getInstance(simulationID).iterator().next();
+	 * BB.setEvalParameters(bbParametersBean.getEvalParameters());
+	 * BB.solutionFile = bbParametersBean.getSolutionFile(); BB.solutionInitFile
+	 * = bbParametersBean.getSolutionInitFile(); MissionScheduler.rmiBindingName
+	 * = BB.rmiBindingName; break; }
+	 * 
+	 * // Build MissionScheduler MissionScheduler.getInstance(); }
+	 */
 
 	private void retrieveScenarioID() throws SQLException {
 		String query = "SELECT ID FROM SCENARIO WHERE NAME = ?";
@@ -1709,8 +1624,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	}
 
 	@Override
-	public void startPrefixMapping(String prefix, String uri)
-			throws SAXException {
+	public void startPrefixMapping(String prefix, String uri) throws SAXException {
 
 	}
 
@@ -1727,8 +1641,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 
 		if (type.equals(BlockType.SHIP.toString())) {
 			String seaOrientation = atts.getValue("seaOrientation");
-			Integer seaOrientationID = DbMgr.getInstance().getDatabaseIDsRetriever()
-					.getSeaOrientation(seaOrientation);
+			Integer seaOrientationID = DbMgr.getInstance().getDatabaseIDsRetriever().getSeaOrientation(seaOrientation);
 
 			String borderRoad = atts.getValue("borderRoadID");
 			query = "INSERT INTO BLOCK (NAME,TERMINAL,TYPE,SEA_ORIENTATION,BORDER_ROAD) VALUES (?,?,?,?,?)";
@@ -1791,8 +1704,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 				}
 				boolean direction = true;
 				if (atts.getIndex("direction") >= 0) {
-					direction = Boolean
-							.parseBoolean(atts.getValue("direction"));
+					direction = Boolean.parseBoolean(atts.getValue("direction"));
 				}
 				ps.setString(6, location);
 				ps.setDouble(7, pct);
@@ -1822,30 +1734,22 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		Double length = Double.parseDouble(atts.getValue("length"));
 		Double innerWidth = Double.parseDouble(atts.getValue("innerWidth"));
 		Double innerLength = Double.parseDouble(atts.getValue("innerLength"));
-		Double backOverLength = Double.parseDouble(atts
-				.getValue("backOverLength"));
-		Double frontOverLength = Double.parseDouble(atts
-				.getValue("frontOverLength"));
+		Double backOverLength = Double.parseDouble(atts.getValue("backOverLength"));
+		Double frontOverLength = Double.parseDouble(atts.getValue("frontOverLength"));
 		Double cabWidth = Double.parseDouble(atts.getValue("cabWidth"));
 		String compatibility = atts.getValue("compatibility");
 		Double emptySpeed = Double.parseDouble(atts.getValue("emptySpeed"));
 		Double loadedSpeed = Double.parseDouble(atts.getValue("loadedSpeed"));
 		Double baySpeed = Double.parseDouble(atts.getValue("baySpeed"));
 
-		Double containerHandlingFromTruck_MIN = Double.parseDouble(atts
-				.getValue("containerHandlingFromTruck_MIN"));
-		Double containerHandlingFromTruck_MAX = Double.parseDouble(atts
-				.getValue("containerHandlingFromTruck_MAX"));
+		Double containerHandlingFromTruck_MIN = Double.parseDouble(atts.getValue("containerHandlingFromTruck_MIN"));
+		Double containerHandlingFromTruck_MAX = Double.parseDouble(atts.getValue("containerHandlingFromTruck_MAX"));
 
-		Double containerHandlingFromGround_MIN = Double.parseDouble(atts
-				.getValue("containerHandlingFromGround_MIN"));
-		Double containerHandlingFromGround_MAX = Double.parseDouble(atts
-				.getValue("containerHandlingFromGround_MAX"));
+		Double containerHandlingFromGround_MIN = Double.parseDouble(atts.getValue("containerHandlingFromGround_MIN"));
+		Double containerHandlingFromGround_MAX = Double.parseDouble(atts.getValue("containerHandlingFromGround_MAX"));
 
-		Double enterExitBayTime_MIN = Double.parseDouble(atts
-				.getValue("enterExitBayTime_MIN"));
-		Double enterExitBayTime_MAX = Double.parseDouble(atts
-				.getValue("enterExitBayTime_MAX"));
+		Double enterExitBayTime_MIN = Double.parseDouble(atts.getValue("enterExitBayTime_MIN"));
+		Double enterExitBayTime_MAX = Double.parseDouble(atts.getValue("enterExitBayTime_MAX"));
 
 		Double turnBackTime = Double.parseDouble(atts.getValue("turnBackTime"));
 
@@ -1890,8 +1794,7 @@ public class XMLTerminalParser4DB implements ContentHandler {
 	}
 
 	@SuppressWarnings("unused")
-	private void straddleCarrierSlot(Attributes atts) throws SQLException,
-			NotInDepotException {
+	private void straddleCarrierSlot(Attributes atts) throws SQLException, NotInDepotException {
 		// SC slot = lane + 1 slot
 
 		String id = atts.getValue("id");
@@ -1918,8 +1821,8 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		PreparedStatement ps = connection.prepareStatement(query);
 		ps.setString(1, id);
 		ps.setInt(2, terminalID);
-		ps.setInt(3, DbMgr.getInstance().getDatabaseIDsRetriever().getRoadTypeID(StraddleCarrierSlot.class
-				.getName())); // TODO test
+		ps.setInt(3, DbMgr.getInstance().getDatabaseIDsRetriever().getRoadTypeID(StraddleCarrierSlot.class.getName())); // TODO
+																														// test
 		ps.setString(4, cOriginId);
 		ps.setString(5, cDestinationId);
 		ps.setBoolean(6, false);

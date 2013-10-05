@@ -57,7 +57,7 @@ public class Toolbar extends JToolBar {
 	private JCheckBox sync;
 	private JSpinner normalized;
 	private SpinnerNumberModel normalizedModel;
-	private JCheckBox threaded;
+	// private JCheckBox threaded;
 	private JCheckBox viewLocked;
 
 	private JButton resetView;
@@ -101,24 +101,21 @@ public class Toolbar extends JToolBar {
 		playPause = new JButton();
 		playPause.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 		playPause.setFont(GraphicDisplay.font);
-		playPause.setIcon(new ImageIcon(this.getClass().getResource(
-				TOOLBAR_PLAY_ICON_URL), "play"));
+		playPause.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_PLAY_ICON_URL), "play"));
 		playPause.setMinimumSize(new Dimension(60, h));
 		playPause.setMaximumSize(new Dimension(150, h));
 
 		nextStep = new JButton();
 		nextStep.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 		nextStep.setFont(GraphicDisplay.font);
-		nextStep.setIcon(new ImageIcon(this.getClass().getResource(
-				TOOLBAR_NEXTSTEP_ICON_URL), "step"));
+		nextStep.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_NEXTSTEP_ICON_URL), "step"));
 		nextStep.setMinimumSize(new Dimension(60, h));
 		nextStep.setMaximumSize(new Dimension(150, h));
 
 		stop = new JButton();
 		stop.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 		stop.setFont(GraphicDisplay.font);
-		stop.setIcon(new ImageIcon(this.getClass().getResource(
-				TOOLBAR_STOP_ICON_URL), "stop"));
+		stop.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_STOP_ICON_URL), "stop"));
 		stop.setMinimumSize(new Dimension(60, h));
 		stop.setMaximumSize(new Dimension(150, h));
 
@@ -133,16 +130,17 @@ public class Toolbar extends JToolBar {
 			}
 		});
 
-		threaded = new JCheckBox("threaded");
-		threaded.setFont(GraphicDisplay.font);
-		threaded.setSelected(false);
-		threaded.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				TimeScheduler.getInstance().setThreaded(threaded.isSelected());
-				Toolbar.this.mainFrame.setFocusOnJTerminal();
-			}
-		});
+		//controller = ToolbarController.getInstance(this);
+
+		/*
+		 * threaded = new JCheckBox("threaded");
+		 * threaded.setFont(GraphicDisplay.font); threaded.setSelected(false);
+		 * threaded.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent arg0) {
+		 * TimeScheduler.getInstance().setThreaded(threaded.isSelected());
+		 * Toolbar.this.mainFrame.setFocusOnJTerminal(); } });
+		 */
 
 		normalizedModel = new SpinnerNumberModel(0, 0, 1000, 1);
 		normalized = new JSpinner(normalizedModel);
@@ -276,10 +274,10 @@ public class Toolbar extends JToolBar {
 		this.add(new JLabel("    "));
 		// this.addSeparator(separatorDimension);
 
-		p = buildPanel(100, "Optimization");
-		p.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		p.add(threaded);
-		this.add(p);
+		// p = buildPanel(100, "Optimization");
+		// p.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		// p.add(threaded);
+		// this.add(p);
 
 		playPause.setEnabled(false);
 		nextStep.setEnabled(false);
@@ -290,7 +288,7 @@ public class Toolbar extends JToolBar {
 		sync.setEnabled(false);
 		normalized.setEnabled(false);
 		jlNormalizedMs.setEnabled(false);
-		threaded.setEnabled(false);
+		// threaded.setEnabled(false);
 		viewLocked.setEnabled(false);
 		resetView.setEnabled(false);
 		resetTime.setEnabled(false);
@@ -381,8 +379,7 @@ public class Toolbar extends JToolBar {
 			setStepLabel(0);
 			setTimeLabel(new Time(0));
 			firstPlay = true;
-			playPause.setIcon(new ImageIcon(this.getClass().getResource(
-					TOOLBAR_PLAY_ICON_URL), "play"));
+			playPause.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_PLAY_ICON_URL), "play"));
 			playPause.setEnabled(false);
 			nextStep.setEnabled(false);
 			stop.setEnabled(false);
@@ -391,7 +388,7 @@ public class Toolbar extends JToolBar {
 
 			lh.setSelected(false);
 			sync.setSelected(false);
-			threaded.setSelected(false);
+			// threaded.setSelected(false);
 
 			try {
 				normalizedModel.setValue(0);
@@ -403,7 +400,7 @@ public class Toolbar extends JToolBar {
 
 			lh.setEnabled(false);
 			sync.setEnabled(false);
-			threaded.setEnabled(false);
+			// threaded.setEnabled(false);
 			normalized.setEnabled(false);
 			jlNormalizedMs.setEnabled(false);
 			viewLocked.setEnabled(false);
@@ -414,8 +411,8 @@ public class Toolbar extends JToolBar {
 		}
 	}
 
-	/* SHOULD NOT BE CALLED FROM EDT !!! */
-	private synchronized void nextStep() {
+	/* MUST BE CALLED FROM EDT !!! */
+	private void nextStep() {
 		// UPDATE COMPONENTS
 		// long startTime = System.currentTimeMillis();
 		boolean disabled = false;
@@ -450,17 +447,14 @@ public class Toolbar extends JToolBar {
 	public void playPause() {
 		if (playPause.isEnabled()) {
 			if (paused) {
-				playPause.setIcon(new ImageIcon(this.getClass().getResource(
-						TOOLBAR_PAUSE_ICON_URL), "pause"));
+				playPause.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_PAUSE_ICON_URL), "pause"));
 				nextStep.setEnabled(false);
 				paused = false;
 				if (firstPlay) {
-					Toolbar.this.mainFrame.getStepSizeMenuItem().setEnabled(
-							false);
+					Toolbar.this.mainFrame.getStepSizeMenuItem().setEnabled(false);
 
-					normalizedModel = new SpinnerNumberModel(normalizedModel
-							.getNumber().intValue(), 0, TimeScheduler
-							.getInstance().getSecondsPerStep() * 1000, 1);
+					normalizedModel = new SpinnerNumberModel(normalizedModel.getNumber().intValue(), 0, TimeScheduler.getInstance()
+							.getSecondsPerStep() * 1000, 1);
 					normalized.setModel(normalizedModel);
 
 					firstPlay = false;
@@ -485,8 +479,7 @@ public class Toolbar extends JToolBar {
 				mainWorker.execute();
 
 			} else {
-				playPause.setIcon(new ImageIcon(this.getClass().getResource(
-						TOOLBAR_PLAY_ICON_URL), "play"));
+				playPause.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_PLAY_ICON_URL), "play"));
 				nextStep.setEnabled(true);
 				paused = true;
 
@@ -521,9 +514,9 @@ public class Toolbar extends JToolBar {
 		return normalizedModel.getNumber().intValue();
 	}
 
-	public boolean isThreadedSelected() {
-		return threaded.isSelected();
-	}
+	/*
+	 * public boolean isThreadedSelected() { return threaded.isSelected(); }
+	 */
 
 	public void activate() {
 		playPause.setEnabled(true);
@@ -533,11 +526,52 @@ public class Toolbar extends JToolBar {
 		step.setEnabled(true);
 		lh.setEnabled(true);
 		sync.setEnabled(true);
-		threaded.setEnabled(true);
+		// threaded.setEnabled(true);
 		normalized.setEnabled(true);
 		jlNormalizedMs.setEnabled(true);
 		viewLocked.setEnabled(true);
 		resetView.setEnabled(true);
 		resetTime.setEnabled(true);
+	}
+
+	public void showLaserHead(final boolean on) {
+		Thread t = new Thread() {
+			public void run() {
+				Terminal.getInstance().showLaserHeads(on);
+			}
+		};
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.start();
+	}
+
+	public void setNormalizationTime(final int normaTime) {
+		Thread t = new Thread() {
+			public void run() {
+				TimeScheduler.getInstance().setNormalizationTime(normaTime);
+			}
+		};
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.start();
+	}
+
+	Runnable updateRunnable = new Runnable() {
+		public void run() {
+			Toolbar.this.step.setText(stepValue + "");
+			time.setText(timeValue.getHours() + "h" + timeValue.getMinutes() + "m" + timeValue.getSeconds() + "s");
+
+			//				update(controller.getStep(),controller.getTime());
+			if (!nextStep.isEnabled()) {
+				nextStep.setEnabled(true);
+				playPause.setEnabled(true);
+				mainFrame.setFocusOnJTerminal();
+			}
+		}
+	};
+
+	public void stepDone() {
+		if (!nextStep.isEnabled()) {
+			nextStep.setEnabled(true);
+			playPause.setEnabled(true);
+		}		
 	}
 }

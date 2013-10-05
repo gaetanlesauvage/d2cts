@@ -256,7 +256,9 @@ public class NewSimulationDialog extends JDialog {
 							break;
 						}
 						if (parameter != null) {
-							Object o = jtParameters.getValueAt(0, jtParameters.getColumnModel().getColumn(i).getModelIndex());
+							Object o = jtParameters.getValueAt(0, i);
+							
+							System.err.println(parameter+" = "+o.toString());
 							if (o != null) {
 								parameter.setValue(o);
 							} else {
