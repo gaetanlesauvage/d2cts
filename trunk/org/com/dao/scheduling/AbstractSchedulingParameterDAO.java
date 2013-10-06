@@ -95,7 +95,7 @@ public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler>
 			psInsertParametersValues = DbMgr.getInstance().getConnection()
 					.prepareStatement(SAVE_PARAMETERS_VALUES_QUERY, Statement.RETURN_GENERATED_KEYS);
 		}
-
+		
 		param.setSQLID(insert(param.name(), param.getValueAsString()));
 		return 1;
 	}
@@ -159,12 +159,10 @@ public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler>
 				}
 				if (sID == 0) {
 					psInsertSimulationParametersValues.setInt(2, p.getSQLID());
-					psInsertSimulationParametersValues.addBatch();
+					psInsertSimulationParametersValues.executeUpdate();
 				}
 
 			}
-			psInsertSimulationParametersValues.executeBatch();
-			
 			return true;
 		}
 		return false;
@@ -193,12 +191,10 @@ public abstract class AbstractSchedulingParameterDAO<E extends MissionScheduler>
 				}
 				if (sID == 0) {
 					psInsertSimulationParametersValues.setInt(2, p.getSQLID());
-					psInsertSimulationParametersValues.addBatch();
+					psInsertSimulationParametersValues.executeUpdate();
 				}
 
 			}
-			
-			psInsertSimulationParametersValues.executeBatch();
 			
 			return true;
 		}

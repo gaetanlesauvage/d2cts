@@ -151,6 +151,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		}
 
 		log.info("ACO PARAMETERS: " + globalParameters);
+		log.info("EVAL PARAMETERS: "+ evalParameters);
 
 		lastLocations = new HashMap<>();
 		currentMissions = new HashMap<>();

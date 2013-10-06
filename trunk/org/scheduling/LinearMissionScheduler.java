@@ -25,6 +25,7 @@ public class LinearMissionScheduler extends MissionScheduler {
 		MissionScheduler.instance = this;
 		if(!init)
 			init();
+		log.info("EVAL PARAMETERS: "+ evalParameters);
 	}
 
 	public static void closeInstance(){
