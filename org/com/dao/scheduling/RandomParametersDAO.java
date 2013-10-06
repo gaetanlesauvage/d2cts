@@ -63,7 +63,6 @@ public class RandomParametersDAO extends AbstractSchedulingParameterDAO<RandomMi
 		if (rs != null) {
 			rs.close();
 		}
-		System.err.println("Random loaded!!!");
 		loaded = true;
 	}
 

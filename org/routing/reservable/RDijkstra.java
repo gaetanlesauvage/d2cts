@@ -86,9 +86,7 @@ public class RDijkstra {
 							neighboorNode.setCostInMeters(runningNode
 									.getCostInMeters() + neighboorCostInM);
 
-							if(runningNode.getArrivalTime() == null){
-								System.err.println("Aoutch!");
-							}
+							
 							neighboorNode.setArrivalTime(new Time(runningNode.getArrivalTime(), new Time(neighboorCost)));
 							// neighboorNode.setArrivalTime(new
 							// Time(runningNode.getArrivalTime(), new
@@ -150,9 +148,6 @@ public class RDijkstra {
 		RDijkstraNode origin = nodes.get(this.origin);
 		origin.setCost(0.0);
 		origin.setWaitingTime(0.0);
-		if(startTime == null){
-			System.err.println("Aoutch!");
-		}
 		origin.setArrivalTime(startTime);
 	}
 

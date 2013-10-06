@@ -78,7 +78,7 @@ public class SchedulingAlgorithmBean {
 	}
 
 	public MissionSchedulerEvalParameters getEvalParameters() {
-		return evalParameter;
+		return new MissionSchedulerEvalParameters(evalParameter);
 	}
 
 }

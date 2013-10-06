@@ -18,6 +18,10 @@ public class MissionSchedulerEvalParameters {
 		this.earlinessCoeff = earlinessCoeff;
 	}
 	
+	public MissionSchedulerEvalParameters(MissionSchedulerEvalParameters evalParameter) {
+		this(evalParameter.getTravelTimeCoeff(), evalParameter.getLatenessCoeff(), evalParameter.getEarlinessCoeff());
+	}
+
 	public double getTravelTimeCoeff(){
 		return travelTimeCoeff;
 	}

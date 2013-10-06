@@ -36,18 +36,21 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 	private PreparedStatement insertStatement;
 	private PreparedStatement lastInsertedBeanStatement;
 
+
 	public static final SimulationDAO getInstance() {
 		if (instance == null) {
-			instance = new SimulationDAO();
+			instance = new SimulationDAO(false);
 		}
 		return instance;
 	}
 
-	private SimulationDAO() {
-		try {
-			load();
-		} catch (SQLException e) {
-			log.fatal(e.getMessage(), e);
+	private SimulationDAO(boolean dontLoad) {
+		if(!dontLoad ){
+			try {
+				load();
+			} catch (SQLException e) {
+				log.fatal(e.getMessage(), e);
+			}
 		}
 	}
 
@@ -204,5 +207,12 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 	@Override
 	public int size() {
 		return beans.size();
+	}
+
+	public static SimulationDAO getInstance(boolean b) {
+		if (instance == null) {
+			instance = new SimulationDAO(b);
+		}
+		return instance;
 	}
 }

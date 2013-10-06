@@ -20,7 +20,7 @@ public class SimulationBuilder {
 
 	public void build() {
 		try {
-			SimulationDAO.getInstance().insert(simulation);
+			SimulationDAO.getInstance(true).insert(simulation);
 			simulation = SimulationDAO.getInstance().getLastInsertedBean();
 			logger.info("Simulation created: " + simulation);
 		} catch (SQLException e) {
