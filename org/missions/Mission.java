@@ -97,6 +97,14 @@ public class Mission implements Comparable<Mission> {
 		pickupTW = p;
 	}
 
+	public int hashCode(){
+		return id.hashCode();
+	}
+	
+	public boolean equals(Object o){
+		return o.hashCode() == hashCode();
+	}
+	
 	@Override
 	public int compareTo(Mission m) {
 		if (m.getId().equals(id))

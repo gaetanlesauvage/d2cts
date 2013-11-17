@@ -34,6 +34,8 @@ public class Toolbar extends JToolBar {
 	public static final String TOOLBAR_STOP_ICON_URL = "/etc/images/stop.png";
 	public static final String TOOLBAR_PAUSE_ICON_URL = "/etc/images/pause.png";
 
+//	private ScheduledExecutorService newScheduledThreadPool;
+
 	/**
 	 * 
 	 */
@@ -70,7 +72,7 @@ public class Toolbar extends JToolBar {
 
 	private TimeController controller;
 	private MainFrame mainFrame;
-	
+
 
 	private volatile long stepValue;
 	private Time timeValue;
@@ -79,7 +81,9 @@ public class Toolbar extends JToolBar {
 		super();
 
 		Thread.currentThread().setName("D2ctsGuiThread");
-		
+
+		//newScheduledThreadPool = Executors.newScheduledThreadPool(1);
+
 		paused = firstPlay = true;
 
 		this.mainFrame = mainFrame;
@@ -149,7 +153,7 @@ public class Toolbar extends JToolBar {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				int value = normalizedModel.getNumber().intValue();
-				
+
 				TimeScheduler.getInstance().setNormalizationTime(value);
 				Toolbar.this.mainFrame.setFocusOnJTerminal();
 			}
@@ -303,7 +307,16 @@ public class Toolbar extends JToolBar {
 		stop.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				stop();
+				new Thread(){
+					public void run(){
+						try {
+							Toolbar.this.stop().join();
+						} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}.start();
+				
 			}
 		});
 
@@ -313,22 +326,49 @@ public class Toolbar extends JToolBar {
 			public void actionPerformed(ActionEvent e) {
 				// Runnable SwingWorker<Void, Void> worker = null;
 
-				if (firstPlay) {
+				/*if (firstPlay) {
 					new Thread("firstThread") {
 						public void run() {
 							makeFirstStep();
 						}
 					}.start();
-				} else {
-					new Thread("stepThread") {
+				} else {*/
+//				Thread t = new Thread(new NextStepThread());
+//				t.start();
+//				try {
+//					t.join();
+//				} catch (InterruptedException e1) {
+//					e1.printStackTrace();
+//				}
+				//newScheduledThreadPool.execute(new NextStepThread());
+				/*	new Thread("stepThread") {
 						public void run() {
 							nextStep();
 						}
 					}.start();
-				}
+				}*/
+				// TODO PUT IN ANOTHER THREAD ?
+				SwingWorker<Void, Void> mainWorker = new SwingWorker<Void, Void>() {
+					@Override
+					protected Void doInBackground() throws Exception {
+						//Thread.currentThread().setName("StepWorker");
+						nextStep();
+						return null;
+					}
+				};
 
+				mainWorker.execute();
+				while(!mainWorker.isDone()){
+					Thread.yield();
+				}
 			}
 		});
+	}
+
+	class NextStepThread implements Runnable{
+		public void run(){
+			nextStep();
+		}
 	}
 
 	private JPanel buildPanel(int width, String borderTitle) {
@@ -350,65 +390,84 @@ public class Toolbar extends JToolBar {
 		controller = tc;
 	}
 
-	public void makeFirstStep() {
+	/*public void makeFirstStep() {
 		if (firstPlay) {
 			firstPlay = false;
 			stop.setEnabled(true);
-			Toolbar.this.mainFrame.enableStopMenuItem();
+//			Toolbar.this.mainFrame.enableStopMenuItem();
 			nextStep();
 		} else
 			new Exception("This is not the first step !!!").printStackTrace();
-	}
+	}*/
 
 	public void makeStep() {
-		new Thread("makeStepThread") {
+
+		/*new Thread("makeStepThread") {
 			public void run() {
 				if (nextStep.isEnabled()) {
 					nextStep();
 				}
 			}
-		}.start();
+		}.start();*/
+		if(nextStep.isEnabled()){
+			//newScheduledThreadPool.execute(new NextStepThread());
+			Thread t = new Thread(new NextStepThread());
+			t.start();
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			//			Future<?> f =  newScheduledThreadPool.submit(new nextStepThread());
+			//			while(!f.isDone()){
+			//				System.err.println("waiting for...");
+			//				Thread.yield();
+			//			}
+		}
 	}
 
-	public void stop() {
-		if (stop.isEnabled()) {
-			paused = true;
+	public void reset(){
+		setStepLabel(0);
+		setTimeLabel(new Time(0));
+	}
 
-			Toolbar.this.mainFrame.getStepSizeMenuItem().setEnabled(true);
-			Toolbar.this.mainFrame.removeSplitPaneContent();
-			setStepLabel(0);
-			setTimeLabel(new Time(0));
-			firstPlay = true;
-			playPause.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_PLAY_ICON_URL), "play"));
-			playPause.setEnabled(false);
-			nextStep.setEnabled(false);
-			stop.setEnabled(false);
-			time.setEnabled(false);
-			step.setEnabled(false);
+	public Thread stop() {
+		//		if (stop.isEnabled()) {
+		paused = true;
 
-			lh.setSelected(false);
-			sync.setSelected(false);
-			// threaded.setSelected(false);
+		//			Toolbar.this.mainFrame.getStepSizeMenuItem().setEnabled(true);
+		//			Toolbar.this.mainFrame.removeSplitPaneContent();
+		reset();
+		firstPlay = true;
+		playPause.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_PLAY_ICON_URL), "play"));
+					playPause.setEnabled(false);
+					nextStep.setEnabled(false);
+					stop.setEnabled(false);
+					time.setEnabled(false);
+					step.setEnabled(false);
+					lh.setSelected(false);
+					sync.setSelected(false);
+		// threaded.setSelected(false);
 
-			try {
-				normalizedModel.setValue(0);
-			} catch (ClassCastException e) {
-				normalizedModel.setValue(0.0);
-			}
-
-			viewLocked.setSelected(false);
-
-			lh.setEnabled(false);
-			sync.setEnabled(false);
-			// threaded.setEnabled(false);
-			normalized.setEnabled(false);
-			jlNormalizedMs.setEnabled(false);
-			viewLocked.setEnabled(false);
-			resetView.setEnabled(false);
-			resetTime.setEnabled(false);
-
-			Toolbar.this.mainFrame.closeSimulation();
+		try {
+			normalizedModel.setValue(0);
+		} catch (ClassCastException e) {
+			normalizedModel.setValue(0.0);
 		}
+
+		//			viewLocked.setSelected(false);
+
+		//			lh.setEnabled(false);
+		//			sync.setEnabled(false);
+		// threaded.setEnabled(false);
+		//			normalized.setEnabled(false);
+		//			jlNormalizedMs.setEnabled(false);
+		//			viewLocked.setEnabled(false);
+		//			resetView.setEnabled(false);
+		//			resetTime.setEnabled(false);
+
+		return Toolbar.this.mainFrame.closeSimulation();
+		//		}
 	}
 
 	/* MUST BE CALLED FROM EDT !!! */
@@ -459,7 +518,7 @@ public class Toolbar extends JToolBar {
 
 					firstPlay = false;
 					stop.setEnabled(true);
-					mainFrame.enableStopMenuItem();
+					//					mainFrame.enableStopMenuItem();
 					mainFrame.setFocusOnJTerminal();
 				}
 
@@ -470,14 +529,22 @@ public class Toolbar extends JToolBar {
 					protected Void doInBackground() throws Exception {
 						Thread.currentThread().setName("PlayWorker");
 						while (!paused) {
-							nextStep();
+							Thread t = new Thread(){
+								public void run(){
+									nextStep();
+								}
+							};
+							t.start();
+							t.join();
 						}
 						return null;
 					}
 				};
-				
-				mainWorker.execute();
 
+				mainWorker.execute();
+//				while(!mainWorker.isDone()){
+//					Thread.yield();
+//				}
 			} else {
 				playPause.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_PLAY_ICON_URL), "play"));
 				nextStep.setEnabled(true);
@@ -521,7 +588,7 @@ public class Toolbar extends JToolBar {
 	public void activate() {
 		playPause.setEnabled(true);
 		nextStep.setEnabled(true);
-		stop.setEnabled(false);
+		stop.setEnabled(true);
 		time.setEnabled(true);
 		step.setEnabled(true);
 		lh.setEnabled(true);
@@ -534,24 +601,36 @@ public class Toolbar extends JToolBar {
 		resetTime.setEnabled(true);
 	}
 
+	class ShowLaserHeadThread implements Runnable {
+		private boolean state;
+		public ShowLaserHeadThread (boolean state){
+			this.state = state;
+		}
+		public void run(){
+			Terminal.getInstance().showLaserHeads(state);
+		}
+	}
+
 	public void showLaserHead(final boolean on) {
-		Thread t = new Thread() {
-			public void run() {
-				Terminal.getInstance().showLaserHeads(on);
-			}
-		};
+		//newScheduledThreadPool.execute(new ShowLaserHeadThread(on));
+		Thread t = new Thread(new ShowLaserHeadThread(on));
 		t.setPriority(Thread.MIN_PRIORITY);
 		t.start();
 	}
 
+	class SetNormalizationTimeThread implements Runnable {
+		private int normaTime;
+		public SetNormalizationTimeThread (int normaTime){
+			this.normaTime = normaTime;
+		}
+		public void run(){
+			TimeScheduler.getInstance().setNormalizationTime(normaTime);
+		}
+	}
+
 	public void setNormalizationTime(final int normaTime) {
-		Thread t = new Thread() {
-			public void run() {
-				TimeScheduler.getInstance().setNormalizationTime(normaTime);
-			}
-		};
-		t.setPriority(Thread.MIN_PRIORITY);
-		t.start();
+		//newScheduledThreadPool.execute(new SetNormalizationTimeThread(normaTime));
+		new Thread(new SetNormalizationTimeThread(normaTime)).start();
 	}
 
 	Runnable updateRunnable = new Runnable() {

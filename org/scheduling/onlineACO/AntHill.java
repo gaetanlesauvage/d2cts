@@ -292,7 +292,7 @@ public class AntHill extends ScheduleResource {
 		for(AntEdge e : source.getDestinations()){
 			AntNode destination = (AntNode) e.getNodeTo();
 
-			if(destination != OnlineACOScheduler.getInstance().getEndNode()){
+			if(destination != OnlineACOScheduler.getEndNode()){
 				AntMissionNode target = (AntMissionNode)destination;
 				if(target.getColor().equals(ID)){
 					ArrayList<AntNode> l = new ArrayList<AntNode>(path.getPath().size()+1);
@@ -300,7 +300,7 @@ public class AntHill extends ScheduleResource {
 					l.add(destination);
 
 					double eCost = 0.0;
-					if(source == OnlineACOScheduler.getInstance().getDepotNode()) eCost = e.getCost(ID);
+					if(source == OnlineACOScheduler.getDepotNode()) eCost = e.getCost(ID);
 					else eCost = e.getCost(modelID);
 
 					BestPath b = getBestPath(new BestPath(path.getScoreInPH()+target.getPheromone(ID), path.getScoreInWeight()+eCost, l), criteria);
@@ -370,7 +370,7 @@ public class AntHill extends ScheduleResource {
 	public void updateBestPath() {
 
 		ArrayList<AntNode> l = new ArrayList<AntNode>();
-		l.add(OnlineACOScheduler.getInstance().getDepotNode());
+		l.add(OnlineACOScheduler.getDepotNode());
 		BestPath bW = getBestPath(new BestPath(0,0,l), PHEROMONE_CRITERIA);
 		//System.err.println(ID+"'s BEST PATH : "+bW);
 		if(bW.size()==1) {
@@ -411,12 +411,12 @@ public class AntHill extends ScheduleResource {
 			edge = previousTask.getEdgeTo((ScheduleTask<ScheduleEdge>) task);
 		}
 		else{
-			edge = OnlineACOScheduler.getInstance().getDepotNode().getEdgeTo((ScheduleTask<AntEdge>) task);
+			edge = OnlineACOScheduler.getDepotNode().getEdgeTo((ScheduleTask<AntEdge>) task);
 		}
 
 		if(edge==null){
-			AntNode origin = OnlineACOScheduler.getInstance().getDepotNode();
-			if(!previousTask.getID().equals(MissionScheduler.getInstance().SOURCE_NODE.getID()))
+			AntNode origin = OnlineACOScheduler.getDepotNode();
+			if(!previousTask.getID().equals(MissionScheduler.SOURCE_NODE.getID()))
 				origin = OnlineACOScheduler.getInstance().getNode(previousTask.getID());
 			edge = new AntEdge(origin, (AntNode)task);
 			for(StraddleCarrier rsc : MissionScheduler.getInstance().getResources()){
@@ -431,7 +431,7 @@ public class AntHill extends ScheduleResource {
 		//Current Location to Pickup location of the next mission
 		score.addDistance(edge.getDistance());
 		double cost = 0.0;
-		if(edge.getNodeFrom()==MissionScheduler.getInstance().SOURCE_NODE) cost = edge.getCost(getID());
+		if(edge.getNodeFrom()==MissionScheduler.SOURCE_NODE) cost = edge.getCost(getID());
 		else cost = edge.getCost(getModelID());
 		score.addTravelTime(cost);
 		
@@ -444,7 +444,7 @@ public class AntHill extends ScheduleResource {
 		double tP = currentTime + cost;// + colony.getHandlingTime().getInSec();
 		double tLeaveP = 0;
 		if(tP < m.getPickupTimeWindow().getMin().getInSec()){
-			if(previousTask != MissionScheduler.getInstance().SOURCE_NODE) score.addEarliness(m.getPickupTimeWindow().getMin().getInSec() - tP);
+			if(previousTask != MissionScheduler.SOURCE_NODE) score.addEarliness(m.getPickupTimeWindow().getMin().getInSec() - tP);
 			tP = m.getPickupTimeWindow().getMin().getInSec();
 		}
 		tLeaveP = tP + handlingTime;
@@ -490,7 +490,7 @@ public class AntHill extends ScheduleResource {
 			edge = previousTask.getEdgeTo((ScheduleTask<AntEdge>) task);
 		}
 		else{
-			edge = OnlineACOScheduler.getInstance().getDepotNode().getEdgeTo((ScheduleTask<AntEdge>) task);
+			edge = OnlineACOScheduler.getDepotNode().getEdgeTo((ScheduleTask<AntEdge>) task);
 		}
 		
 		if(edge==null || edge.getID()==null) new Exception("Edge is null").printStackTrace();
@@ -513,7 +513,7 @@ public class AntHill extends ScheduleResource {
 		
 		score.addDistance(edge.getDistance());
 		double cost = 0.0;
-		if(edge.getNodeFrom()==MissionScheduler.getInstance().SOURCE_NODE) cost = edge.getCost(getID());
+		if(edge.getNodeFrom()==MissionScheduler.SOURCE_NODE) cost = edge.getCost(getID());
 		else cost = edge.getCost(getModelID());
 		score.addTravelTime(cost);
 		
@@ -530,7 +530,7 @@ public class AntHill extends ScheduleResource {
 		
 		double tLeaveP = 0;
 		if(tP < m.getPickupTimeWindow().getMin().getInSec()){
-			if(previousTask != MissionScheduler.getInstance().SOURCE_NODE) score.addEarliness(m.getPickupTimeWindow().getMin().getInSec() - tP);
+			if(previousTask != MissionScheduler.SOURCE_NODE) score.addEarliness(m.getPickupTimeWindow().getMin().getInSec() - tP);
 			tP = m.getPickupTimeWindow().getMin().getInSec();
 		}
 		tLeaveP = tP + handlingTime;

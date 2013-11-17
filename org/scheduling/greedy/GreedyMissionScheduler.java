@@ -1,5 +1,7 @@
 package org.scheduling.greedy;
 
+import java.util.Iterator;
+
 import org.com.model.scheduling.GreedyParametersBean;
 import org.exceptions.MissionNotFoundException;
 import org.exceptions.NoPathFoundException;
@@ -21,7 +23,9 @@ import org.vehicles.StraddleCarrier;
 
 public class GreedyMissionScheduler extends MissionScheduler {
 	public static final String rmiBindingName = "GreedyMissionScheduler";
-
+	
+	private boolean recompute = true;
+	
 	public GreedyMissionScheduler() {
 		super();
 		MissionScheduler.instance = this;
@@ -47,12 +51,13 @@ public class GreedyMissionScheduler extends MissionScheduler {
 			graphChanged = false;
 			graphChangedByUpdate = 0;
 			lock.unlock();
+			
+			
 		}
-
-		if (resources.size() > 0 && pool.size() > 0) {
+		
+		if (recompute && resources.size() > 0 && pool.size() > 0) {
 			compute();
 		}
-
 	}
 
 	@Override
@@ -81,40 +86,63 @@ public class GreedyMissionScheduler extends MissionScheduler {
 		for (StraddleCarrier rsc : resources) {
 			jms.addResource(rsc);
 		}
+		recompute = true;
 	}
+
+//	@Override
+//	public void addMission(Time t, Mission m) {
+//		/*int policy = 0; // 0 = sorted list according to TW_P
+//		// Sorted mission list
+//		if (policy == 0) {
+//			long twP_min = m.getPickupTimeWindow().getMin().toStep();
+//			int index = 0;
+//			for (int i = 0; i < pool.size(); i++) {
+//				index = i;
+//				Mission mTmp = pool.get(i);
+//				if (twP_min < mTmp.getPickupTimeWindow().getMin().toStep()) {
+//					break;
+//				}
+//			}
+//			pool.add(index, m);
+//		} else {
+//			pool.add(m);
+//		}*/
+//		//SortedSet :)
+//		pool.add(m);
+//	}
 
 	@Override
 	public void addMission(Time t, Mission m) {
-		int policy = 0; // 0 = sorted list according to TW_P
-		// Sorted mission list
-		if (policy == 0) {
-			long twP_min = m.getPickupTimeWindow().getMin().toStep();
-			int index = 0;
-			for (int i = 0; i < pool.size(); i++) {
-				index = i;
-				Mission mTmp = pool.get(i);
-				if (twP_min < mTmp.getPickupTimeWindow().getMin().toStep()) {
-					break;
-				}
-			}
-			pool.add(index, m);
-		} else {
-			pool.add(m);
-		}
+		recompute = true;
+		super.addMission(t, m);
 	}
 
 	@Override
+	public void addResource(Time t, StraddleCarrier rsc) {
+		recompute = true;
+		super.addResource(t, rsc);
+	}
+	
+	private void razWorkloads(){
+		for(StraddleCarrier s : resources){
+			s.clearWorkload();
+		}
+	}
+	
+	@Override
 	public void compute() {
 		long tNow = System.nanoTime();
-
-		int missionsToSkip = 0;
-		int i = 0;
-
-		while (pool.size() > missionsToSkip) {
+		razWorkloads();
+		//int missionsToSkip = 0;
+		//int i = 0;
+		//int doneCount = 0;
+		Iterator<Mission> itMissions = pool.iterator();
+		while(itMissions.hasNext()){
+		//while (doneCount + missionsToSkip <= pool.size()) {
 			// Mission to schedule
-			Mission m = pool.get(i);
+			Mission m = itMissions.next();
 			if (Terminal.getInstance().getContainer(m.getContainerId()) != null) {
-				pool.remove(i);
+				//pool.remove(i);
 				// Find best vehicle
 				StraddleCarrier vBest = null;
 				ScheduleScore sBest = new ScheduleScore();
@@ -150,16 +178,17 @@ public class GreedyMissionScheduler extends MissionScheduler {
 
 				Terminal.getInstance().getTextDisplay().setVehicleToMission(m.getId(),
 						vBest.getId());
-			} else {
+			} /*else {
 				missionsToSkip++;
 				i++;
-			}
+			}*/
 			// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
 		}
+		recompute = false;
 		long tEnd = System.nanoTime();
 		computeTime += tEnd - tNow;
 		Terminal.getInstance().flushAllocations();
-
+		
 	}
 
 	@Override

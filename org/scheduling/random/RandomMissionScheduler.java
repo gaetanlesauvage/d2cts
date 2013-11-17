@@ -1,5 +1,7 @@
 package org.scheduling.random;
 
+import java.util.Iterator;
+
 import org.com.model.scheduling.RandomParametersBean;
 import org.missions.Load;
 import org.missions.Mission;
@@ -15,6 +17,7 @@ import org.vehicles.StraddleCarrier;
 
 public class RandomMissionScheduler extends MissionScheduler {
 	public static final String rmiBindingName = "RandomMissionScheduler";
+	private boolean recompute = true;
 
 	public RandomMissionScheduler() {
 		super();
@@ -27,7 +30,7 @@ public class RandomMissionScheduler extends MissionScheduler {
 	public String getId() {
 		return RandomMissionScheduler.rmiBindingName;
 	}
-	
+
 	public static void closeInstance(){
 		//Nothing to do
 	}
@@ -38,7 +41,7 @@ public class RandomMissionScheduler extends MissionScheduler {
 		if(evalParameters == null){
 			evalParameters = RandomParametersBean.getEvalParameters();
 		}
-		
+
 		sstep = TimeScheduler.getInstance().getStep() + 1;
 		for (String s : Terminal.getInstance().getMissionsName()) {
 			Mission m = Terminal.getInstance().getMission(s);
@@ -54,6 +57,7 @@ public class RandomMissionScheduler extends MissionScheduler {
 		for (StraddleCarrier rsc : resources) {
 			jms.addResource(rsc);
 		}
+		recompute = true;
 	}
 
 	@Override
@@ -65,32 +69,50 @@ public class RandomMissionScheduler extends MissionScheduler {
 			graphChangedByUpdate = 0;
 			lock.unlock();
 		}
-		if (pool.size() > 0) {
+		if (recompute && resources.size() > 0 && pool.size() > 0) {
 			compute();
 		}
 	}
 
+	private void razWorkloads(){
+		for(StraddleCarrier s : resources){
+			s.clearWorkload();
+		}
+	}
+	@Override
+	public void addMission(Time t, Mission m) {
+		recompute = true;
+		super.addMission(t, m);
+	}
+
+	@Override
+	public void addResource(Time t, StraddleCarrier rsc) {
+		recompute = true;
+		super.addResource(t, rsc);
+	}
+	
 	@Override
 	public void compute() {
 		long now = System.nanoTime();
-		if (resources.size() > 0) {
-			while (pool.size() > 0) {
-				StraddleCarrier rsc = pickAStraddleCarrier();
-				Mission m = pool.remove(0);
-				rsc.addMissionInWorkload(m);
+		razWorkloads();
+		
+		Iterator<Mission> itMissions = pool.iterator();
+		while (itMissions.hasNext()) {
+			StraddleCarrier rsc = pickAStraddleCarrier();
+			Mission m = itMissions.next();
+			rsc.addMissionInWorkload(m);
 
-				AffectMission am = new AffectMission(TimeScheduler.getInstance().getTime(), m.getId(),
-						rsc.getId());
-				am.writeEventInDb();
+			AffectMission am = new AffectMission(TimeScheduler.getInstance().getTime(), m.getId(),
+					rsc.getId());
+			am.writeEventInDb();
 
-				Terminal.getInstance().getTextDisplay().setVehicleToMission(m.getId(), rsc.getId());
+			Terminal.getInstance().getTextDisplay().setVehicleToMission(m.getId(), rsc.getId());
 
-				// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
-			}
-			computeTime += System.nanoTime() - now;
-			Terminal.getInstance().flushAllocations();
-
+			// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
 		}
+		computeTime += System.nanoTime() - now;
+		Terminal.getInstance().flushAllocations();
+		recompute = false;
 	}
 
 	private StraddleCarrier pickAStraddleCarrier() {

@@ -93,6 +93,25 @@ public class OfflineSchedulerParameters {
 	
 	@Override
 	public String toString(){
-		return "Q="+lambda+" ALPHA: "+alpha+" BETA: "+beta+" GAMMA: "+gamma+" PERSISTENCE: "+rho+" F1="+F1+" F2="+F2+" F3="+F3; 
+		StringBuilder sb = new StringBuilder();
+		sb.append("LAMBDA=");
+		sb.append(lambda);
+		sb.append(" ALPHA: ");
+		sb.append(alpha);
+		sb.append(" BETA: ");
+		sb.append(beta);
+		sb.append(" GAMMA: ");
+		sb.append(gamma);
+		sb.append(" RHO: ");
+		sb.append(rho);
+		sb.append(" F1=");
+		sb.append(F1);
+		sb.append(" F2=");
+		sb.append(F2);
+		sb.append(" F3=");
+		sb.append(F3);
+		sb.append(" Sync=");
+		sb.append(sync);
+		return sb.toString(); 
 	}
 }

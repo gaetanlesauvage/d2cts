@@ -1,6 +1,7 @@
 package org.scheduling.offlineACO2;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.scheduling.MissionScheduler;
 import org.scheduling.ScheduleEdge;
@@ -12,12 +13,12 @@ public class OfflineEdge2 extends ScheduleEdge {
 	public static double overallPh = 0.0;
 
 	// Pheromone of each vehicle
-	private HashMap<String, Double> pheromone;
+	private Map<String, Double> pheromone;
 
 	public OfflineEdge2(OfflineNode2 origin, OfflineNode2 destination) {
 		super(origin, destination);
 		this.pheromone = new HashMap<String, Double>();
-		for (ScheduleResource hill : ScheduleResource.getScheduleResources()) {
+		for (ScheduleResource hill : MissionScheduler.getInstance().getScheduleResources()) {
 			// pheromone.put(hill.getID(),
 			// OfflineACOScheduler2.getGlobalParameters().getLambda());
 			pheromone.put(hill.getID(), 1.0);

@@ -1,11 +1,9 @@
 package org.display;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.util.dbLoading.XMLToDataBase;
@@ -26,17 +24,17 @@ public class ImportXMLGUI extends Thread {
 		File[] xmlFiles = fc.getSelectedFiles();
 		String stringFilesOverall = "";
 		if(xmlFiles != null && xmlFiles.length > 0){
-			try {
+			/*try {
 				SwingUtilities.invokeAndWait(new Runnable(){
-					public void run(){
+					public void run(){*/
 						MainFrame.getInstance().setWaitMode(true);
-					}
+					/*}
 				});
 			} catch (InvocationTargetException e1) {
 				e1.printStackTrace();
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
-			}
+			}*/
 			
 			String[] xmlPathes = new String[xmlFiles.length];
 			String stringFiles = "";
@@ -53,17 +51,17 @@ public class ImportXMLGUI extends Thread {
 				JOptionPane.showMessageDialog(MainFrame.getInstance().getFrame(), "Error while importing files"+stringFiles+". See log file!", "Import XML", JOptionPane.ERROR_MESSAGE);
 			}
 			
-			try {
+			/*try {
 				SwingUtilities.invokeAndWait(new Runnable(){
-					public void run(){
+					public void run(){*/
 						MainFrame.getInstance().setWaitMode(false);
-					}
+					/*}
 				});
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 	}
 }

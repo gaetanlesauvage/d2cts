@@ -229,15 +229,15 @@ public class AntMissionNode extends AntNode {
 		}
 
 		if (in.size() == 0) {
-			AntEdge source = new AntEdge(OnlineACOScheduler.getInstance().getDepotNode(),
+			AntEdge source = new AntEdge(OnlineACOScheduler.getDepotNode(),
 					this);
 			this.addIncomingEdge(source);
-			OnlineACOScheduler.getInstance().getDepotNode().addOutgoingEdge(source);
+			OnlineACOScheduler.getDepotNode().addOutgoingEdge(source);
 		}
 		if (out.size() == 0) {
-			AntEdge sink = new AntEdge(this, OnlineACOScheduler.getInstance().getEndNode());
+			AntEdge sink = new AntEdge(this, OnlineACOScheduler.getEndNode());
 			this.addOutgoingEdge(sink);
-			OnlineACOScheduler.getInstance().getEndNode().addIncomingEdge(sink);
+			OnlineACOScheduler.getEndNode().addIncomingEdge(sink);
 		}
 
 		// MUST CALL CLEAN AFTER ADDING ALL NODES OF THE CURRENT STEP

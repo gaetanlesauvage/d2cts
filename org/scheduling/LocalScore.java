@@ -25,7 +25,7 @@ public class LocalScore {
 		this.resource = resource;
 		this.path = path;
 		this.pathNode = new ArrayList<ScheduleTask<? extends ScheduleEdge>>(path.size()+1);
-		this.pathNode.add(MissionScheduler.getInstance().SOURCE_NODE);
+		this.pathNode.add(MissionScheduler.SOURCE_NODE);
 		for(ScheduleEdge e : path){
 			this.pathNode.add(e.getNodeTo());
 		}

@@ -30,9 +30,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -98,8 +100,8 @@ public final class OnlineACOScheduler extends MissionScheduler {
 
 	// Mission Graph
 	private Graph graph;
-	private DepotNode depot;
-	private EndNode end;
+	private static DepotNode depot;
+	private static EndNode end;
 
 	// Mission Graph GUI
 	private SpriteManager spriteManager;
@@ -164,7 +166,8 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	}
 
 	public static void closeInstance() {
-		// Nothing to do
+		depot = null;
+		end = null;
 	}
 
 	/**
@@ -172,7 +175,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The start node of the graph.
 	 */
-	public DepotNode getDepotNode() {
+	public static DepotNode getDepotNode() {
 		return depot;
 	}
 
@@ -181,7 +184,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * 
 	 * @return The end node of the graph.
 	 */
-	public EndNode getEndNode() {
+	public static EndNode getEndNode() {
 		return end;
 	}
 
@@ -470,7 +473,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 
 			// GraphChanged may have been set to false in processEvents() sub
 			// methods
-			if (graphChanged || graphChangedByUpdate > 0) {
+			if (!pool.isEmpty() && !resources.isEmpty() && (graphChanged || graphChangedByUpdate > 0)) {
 				lock.lock();
 				precomputed = true;
 				lock.unlock();
@@ -554,19 +557,17 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 * Execute 1 step of the ACO algorithm
 	 */
 	private void execute() {
-		if (missionsNodes.size() > 0) {
-			for (int i = 0; i < nbAntMax; i++) {
-				for (AntHill hill : hillsNodes.values()) {
-					Ant a = hill.getAnt(i);
-					// if(a!=null) {
-					a.compute();
-					// }
+		for (int i = 0; i < nbAntMax; i++) {
+			for (AntHill hill : hillsNodes.values()) {
+				Ant a = hill.getAnt(i);
+				// if(a!=null) {
+				a.compute();
+				// }
 
-				}
 			}
-			for (AntMissionNode n : missionsNodes.values()) {
-				n.compute();
-			}
+		}
+		for (AntMissionNode n : missionsNodes.values()) {
+			n.compute();
 		}
 		step++;
 	}
@@ -753,40 +754,45 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 */
 	@Override
 	protected boolean removeMission(Mission m) {
-		for (int i = 0; i < pool.size(); i++) {
-			if (m.getId().equals(pool.get(i).getId())) {
-				pool.remove(i);
-				AntMissionNode n = missionsNodes.remove(m.getId());
-				AntHill h = null;
-				if (globalParameters.getLAMBDA() > 0) {
-					h = hillsNodes.get(n.getColor());
-					if (h != null) {
-						StraddleCarrier resource = h.getStraddleCarrier();
+		if(pool.remove(m)){
+			AntMissionNode n = missionsNodes.remove(m.getId());
+			AntHill h = null;
+			if (globalParameters.getLAMBDA() > 0) {
+				h = hillsNodes.get(n.getColor());
+				if (h != null) {
+					StraddleCarrier resource = h.getStraddleCarrier();
 
-						if (resource.getCurrentLoad() != null && resource.getCurrentLoad().getMission().getId().equals(m.getId())) {
-							System.err.println("REMOVING " + m.getId() + " MARK BEST PATH WITH COLOR " + h.getID());
-							h.markBestPath();
-						} else if (resource.getCurrentLoad() == null) {
-							System.err.println(resource.getId() + " is IDLE at " + m.getId() + " removal!");
-						}
+					if (resource.getCurrentLoad() != null && resource.getCurrentLoad().getMission().getId().equals(m.getId())) {
+						System.err.println("REMOVING " + m.getId() + " MARK BEST PATH WITH COLOR " + h.getID());
+						h.markBestPath();
+					} else if (resource.getCurrentLoad() == null) {
+						System.err.println(resource.getId() + " is IDLE at " + m.getId() + " removal!");
 					}
 				}
-
-				n.delete();
-				toDestroy.add(n);
-
-				// PUT ANTS BACK IN DEPOT ++> for debug
-				// resetAnts();
-
-				if (pool.size() == 0) {
-					Sprite lastSprite = spriteManager.addSprite("lastSprite");
-					lastSprite.addAttribute("ui.style", "visibility-mode: hidden;");
-				}
-
-				return true;
 			}
+
+			n.delete();
+			toDestroy.add(n);
+
+			// PUT ANTS BACK IN DEPOT ++> for debug
+			// resetAnts();
+
+			if (pool.isEmpty()) {
+				Sprite lastSprite = spriteManager.addSprite("lastSprite");
+				lastSprite.addAttribute("ui.style", "visibility-mode: hidden;");
+			}
+
+			return true;
+		} else {
+			return false;
 		}
-		return false;
+		//		for (int i = 0; i < pool.size(); i++) {
+		//			if (m.getId().equals(pool.get(i).getId())) {
+		//				pool.remove(i);
+		//			
+		//			}
+		//		}
+		//		return false;
 	}
 
 	/**
@@ -815,11 +821,11 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		lock.unlock();
 
 		// REMOVE MISSION FROM SCHEDULER
-		List<MissionStartedHelper> toStartList = null;
+		Set<MissionStartedHelper> toStartList = null;
 		if (missionsToStart.containsKey(t))
 			toStartList = missionsToStart.get(t);
 		else
-			toStartList = Collections.synchronizedList(new ArrayList<MissionStartedHelper>());
+			toStartList = Collections.synchronizedSet(new HashSet<MissionStartedHelper>());
 
 		toStartList.add(new MissionStartedHelper(m, resourceID));
 		missionsToStart.put(t, toStartList);
@@ -1146,65 +1152,65 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		// jsSyncSize = null;
 
 		//for (ActionListener listener : jcbDisplayWeights.getActionListeners())
-//			jcbDisplayWeights.removeActionListener(listener);
-//		jcbDisplayWeights = null;
+		//			jcbDisplayWeights.removeActionListener(listener);
+		//		jcbDisplayWeights = null;
 
-		
-//		for (AntMissionNode n : missionsNodes.values()) {
-//			n.destroy();
-//		}
-//		missionsNodes.clear();
-//		for (AntMissionNode n : toDestroy) {
-//			n.destroy();
-//		}
-		
-//		for (AntHill ah : hillsNodes.values()) {
-//			ah.destroy();
-//		}
-//		hillsNodes.clear();
 
-//		toDestroy.clear();
-//		toDestroy = null;
+		//		for (AntMissionNode n : missionsNodes.values()) {
+		//			n.destroy();
+		//		}
+		//		missionsNodes.clear();
+		//		for (AntMissionNode n : toDestroy) {
+		//			n.destroy();
+		//		}
 
-//		depot.destroy();
-//		end.destroy();
+		//		for (AntHill ah : hillsNodes.values()) {
+		//			ah.destroy();
+		//		}
+		//		hillsNodes.clear();
 
-//		Iterator<? extends Sprite> sprites = spriteManager.spriteIterator();
-//		List<String> toRemove = new ArrayList<String>(spriteManager.getSpriteCount());
-//		while (sprites.hasNext()) {
-//			toRemove.add(sprites.next().getId());
-//		}
-//		for (String sID : toRemove) {
-//			spriteManager.removeSprite(sID);
-//		}
+		//		toDestroy.clear();
+		//		toDestroy = null;
 
-//		globalParameters = null;
+		//		depot.destroy();
+		//		end.destroy();
+
+		//		Iterator<? extends Sprite> sprites = spriteManager.spriteIterator();
+		//		List<String> toRemove = new ArrayList<String>(spriteManager.getSpriteCount());
+		//		while (sprites.hasNext()) {
+		//			toRemove.add(sprites.next().getId());
+		//		}
+		//		for (String sID : toRemove) {
+		//			spriteManager.removeSprite(sID);
+		//		}
+
+		//		globalParameters = null;
 
 		// algoThread = null;
-//		graph = null;
+		//		graph = null;
 
-//		lastLocations.clear();
-//		lastLocations = null;
-//		layout = null;
+		//		lastLocations.clear();
+		//		lastLocations = null;
+		//		layout = null;
 
 		progressBarFrame.dispose();
-//		jpb = null;
+		//		jpb = null;
 
-//		progressBarFrame = null;
+		//		progressBarFrame = null;
 
-//		selectedNode = null;
-//		spriteManager = null;
+		//		selectedNode = null;
+		//		spriteManager = null;
 
-//		for (MouseMotionListener mml : view.getMouseMotionListeners())
-//			view.removeMouseMotionListener(mml);
-//		for (MouseListener ml : view.getMouseListeners())
-//			view.removeMouseListener(ml);
-//		view = null;
-//		viewer = null;
-//		renderer = null;
+		//		for (MouseMotionListener mml : view.getMouseMotionListeners())
+		//			view.removeMouseMotionListener(mml);
+		//		for (MouseListener ml : view.getMouseListeners())
+		//			view.removeMouseListener(ml);
+		//		view = null;
+		//		viewer = null;
+		//		renderer = null;
 
-//		depot = null;
-//		end = null;
+		//		depot = null;
+		//		end = null;
 	}
 
 	/* ========================== OTHERS ========================== */
@@ -1263,7 +1269,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 			}
 			// else System.out.println(" => 2");
 		}
-		Node end = g.addNode(this.end.getID());
+		Node end = g.addNode(OnlineACOScheduler.end.getID());
 		end.addAttribute("weight", 0);
 
 		for (Node n : g.getNodeSet()) {
@@ -1301,7 +1307,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	private AntEdge getAntEdge(String origin, String destination) {
 		AntNode nFrom = getNode(origin);
 		AntNode to = getNode(destination);
-		if (origin.equals(this.end.getID()))
+		if (origin.equals(end.getID()))
 			return null;
 		else
 			return nFrom.getEdgeTo(to);

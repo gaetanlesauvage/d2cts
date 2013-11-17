@@ -43,7 +43,7 @@ public class Workload {
 	private SortedMap<String, Load> workloadMap;
 	private String straddleCarrierID;
 	private StraddleCarrier straddleCarrier;
-	
+
 	public static final String NON_AFFECTED = "NA";
 
 	public Workload(StraddleCarrier straddleCarrier) {
@@ -156,7 +156,7 @@ public class Workload {
 									straddleCarrier.getSlot()
 									.getLocation(),
 									sDest.getLocation()).getCost()
-									), false);
+							), false);
 				} catch (NoPathFoundException e) {
 					e.printStackTrace();
 				}
@@ -199,7 +199,7 @@ public class Workload {
 													.getLocation(),
 													sDest.getLocation())
 													.getCost()
-													), false);
+											), false);
 						} catch (NoPathFoundException e) {
 							e.printStackTrace();
 						}
@@ -351,7 +351,7 @@ public class Workload {
 						.getShortestPath(
 								straddleCarrier.getSlot().getLocation(),
 								sDest.getLocation()).getCost()
-								), false);
+						), false);
 			} catch (NoPathFoundException e) {
 				e.printStackTrace();
 			}
@@ -397,7 +397,7 @@ public class Workload {
 													.getLocation(),
 													sDest.getLocation())
 													.getCost()
-													), false));
+											), false));
 						} else
 							next.setStartableTime(next.getMission()
 									.getPickupTimeWindow().getMin());
@@ -468,8 +468,22 @@ public class Workload {
 		return sb.toString();
 	}
 
-	
+
 	public boolean isEmpty() {
 		return workload.size() == 0;
+	}
+
+	public void removeUnstartedMissions() {
+		List<String> mList = new ArrayList<>(workload.size());
+		for(Load l : workload)
+			if(l.getState() == MissionState.STATE_TODO)
+				mList.add(l.getMission().getId());
+		for(String mID : mList){
+			try {
+				remove(mID);
+			} catch (MissionNotFoundException e) {
+				//Mission already removed by chained process.
+			}
+		}
 	}
 }

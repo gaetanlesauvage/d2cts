@@ -1,6 +1,6 @@
 package org.scheduling;
 
-import java.util.Collections;
+import java.util.Iterator;
 
 import org.com.model.scheduling.LinearParametersBean;
 import org.display.TextDisplay;
@@ -18,6 +18,7 @@ import org.vehicles.StraddleCarrier;
 public class LinearMissionScheduler extends MissionScheduler {
 	public static final String rmiBindingName = "LinearMissionScheduler";
 
+	private boolean recompute = true;
 	private int index = 0;
 
 	public LinearMissionScheduler() {
@@ -31,6 +32,28 @@ public class LinearMissionScheduler extends MissionScheduler {
 	public static void closeInstance(){
 		//Nothing to do
 	}
+	
+	@Override
+	public void addMission(Time t, Mission m) {
+		recompute = true;
+		super.addMission(t, m);
+	}
+
+	@Override
+	public void addResource(Time t, StraddleCarrier rsc) {
+		recompute = true;
+		super.addResource(t, rsc);
+	}
+	
+	/*@Override
+	public boolean removeMission(Time t, Mission m) {
+		return super.removeMission(t, m);
+	}
+	
+	@Override
+	public boolean removeResource(Time t, StraddleCarrier rsc) {
+		return super.removeResource(t, rsc);
+	}*/
 	
 	@Override
 	public String getId() {
@@ -62,13 +85,15 @@ public class LinearMissionScheduler extends MissionScheduler {
 		for (StraddleCarrier rsc : resources) {
 			jms.addResource(rsc);
 		}
-		Collections.sort(pool);
+		recompute = true;
+		//Collections.sort(pool);
 	}
 
 	@Override
 	public void apply() {
 		step++;
 		sstep++;
+		Terminal.getInstance().flushAllocations();
 	}
 
 	@Override
@@ -80,37 +105,43 @@ public class LinearMissionScheduler extends MissionScheduler {
 			graphChangedByUpdate = 0;
 			lock.unlock();
 		}
-		if (pool.size() > 0) {
+		if (recompute && resources.size() > 0 && pool.size() > 0) {
 			compute();
 		}
 	}
 
+	private void razWorkloads(){
+		for(StraddleCarrier s : resources){
+			s.clearWorkload();
+		}
+	}
 	@Override
 	public void compute() {
 		long tNow = System.nanoTime();
 		// System.out.println("COMPUTE : "+resources.size()+" ; "+pool.size());
-		if (resources.size() > 0) {
-			while (pool.size() > 0) {
-				StraddleCarrier rsc = pickAStraddleCarrier();
-
-				if (rsc.isAvailable()) {
-					Mission m = pool.remove(0);
-					rsc.addMissionInWorkload(m);
-
-					AffectMission am = new AffectMission(TimeScheduler.getInstance().getTime(),
-							m.getId(), rsc.getId());
-					am.writeEventInDb();
-					TextDisplay rtOut = Terminal.getInstance().getTextDisplay();
-					if (rtOut != null) {
-						rtOut.setVehicleToMission(m.getId(), rsc.getId());
-					}
+		razWorkloads();
+		
+		Iterator<Mission> itMissions = pool.iterator();
+		while (itMissions.hasNext()) {
+			StraddleCarrier rsc = pickAStraddleCarrier();
+			
+			if (rsc.isAvailable()) {
+				Mission m = itMissions.next();
+				rsc.addMissionInWorkload(m);
+				AffectMission am = new AffectMission(TimeScheduler.getInstance().getTime(),
+						m.getId(), rsc.getId());
+				am.writeEventInDb();
+				TextDisplay rtOut = Terminal.getInstance().getTextDisplay();
+				if (rtOut != null) {
+					rtOut.setVehicleToMission(m.getId(), rsc.getId());
 				}
-
-				// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
 			}
-			computeTime = System.nanoTime() - tNow;
-			Terminal.getInstance().flushAllocations();
+
+			// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
 		}
+		computeTime = System.nanoTime() - tNow;
+		Terminal.getInstance().flushAllocations();
+		recompute = false;
 	}
 
 	private StraddleCarrier pickAStraddleCarrier() {

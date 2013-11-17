@@ -237,6 +237,8 @@ public class Time implements Comparable<Time> {
 		//FIXME
 		Calendar c = Calendar.getInstance();
 		c.set(0, Calendar.JANUARY, 1, h, m, (int)s);
+		
+		//c.setTimeInMillis(c.getTimeInMillis());
 		//return new java.sql.Time((int) ((getInSec()) * 1000));
 		return new java.sql.Time(c.getTimeInMillis());
 	}

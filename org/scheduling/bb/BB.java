@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -43,6 +44,8 @@ public class BB extends MissionScheduler {
 	private long evalNodes = 0;
 	private int foundTimes = 0;
 
+	private boolean recompute = true;
+	
 	public BB() {
 		super();
 		MissionScheduler.instance = this;
@@ -84,6 +87,33 @@ public class BB extends MissionScheduler {
 			current++;
 			insertMission(m);
 		}
+		recompute = true;
+	}
+
+	@Override
+	public void addMission(Time t, Mission m) {
+		super.addMission(t, m);
+		recompute = true;
+	}
+
+	@Override
+	public boolean removeMission(Time t, Mission m) {
+		recompute = true;
+		return super.removeMission(t, m);
+	}
+	
+	@Override
+	public void addResource(Time t, StraddleCarrier rsc) {
+		super.addResource(t, rsc);
+		recompute = true;
+	}
+	
+	
+
+	@Override
+	public boolean removeResource(Time t, StraddleCarrier rsc) {
+		recompute = true;
+		return super.removeResource(t, rsc); 
 	}
 
 	@Override
@@ -119,7 +149,7 @@ public class BB extends MissionScheduler {
 		//
 		// //System.out.println("G1 : "+global1+"\nG1 S:"+global1.getSolutionString());
 		// System.exit(0);
-		if (pool.size() > 0) {
+		if (recompute && !resources.isEmpty() && !pool.isEmpty()) {
 			precomputed = true;
 			// COMPUTE ALGORITHM
 			compute();
@@ -193,9 +223,10 @@ public class BB extends MissionScheduler {
 			 * +sr.getID()+" @ "+sr.getCurrentTime()); }
 			 */
 
-			int missionAffected = 0;
+			//int missionAffected = 0;
 			best = new GlobalScore();
-			while (missionAffected < pool.size()) {
+			Iterator<Mission> itMissions = pool.iterator();
+			while (itMissions.hasNext()) {
 				StraddleCarrier rsc = pickAStraddleCarrier();
 				if (rsc.isAvailable()) {
 					ScheduleResource sr = scheduleResources.get(rsc.getId());
@@ -204,11 +235,11 @@ public class BB extends MissionScheduler {
 						ls = best.getSolution().get(sr.getID());
 					else
 						ls = new LocalScore(sr);
-					Mission m = pool.get(missionAffected);
+					Mission m = itMissions.next();
 					ls = sr.simulateVisitNode(ls, scheduleTasks.get(m.getId()));
 					best.addScore(ls);
 					// scheduleResources.get(rsc.getId()).visitNode(scheduleTasks.get(m.getId()));
-					missionAffected++;
+					//missionAffected++;
 				}
 
 			}
@@ -264,6 +295,7 @@ public class BB extends MissionScheduler {
 			System.out.println("BEST SOLUTION FOUND : (" + bound + " | "
 					+ best.toString());
 		}
+		recompute = false;
 	}
 
 	private List<GlobalScore> getChildren(GlobalScore current) {
@@ -329,7 +361,7 @@ public class BB extends MissionScheduler {
 								.get(resourceID);
 						LocalScore ls = child.getSolution().get(resourceID);
 						ls = resource.simulateVisitNode(ls,
-								MissionScheduler.getInstance().SOURCE_NODE);
+								MissionScheduler.SOURCE_NODE);
 						child.addScore(ls);
 					}
 					if (child.getScore() < bound) {
@@ -393,7 +425,7 @@ public class BB extends MissionScheduler {
 
 		Scanner scan = new Scanner(f);
 		// RESET VEHICLES
-		ScheduleResource.resetVisited();
+		resetVisited();
 		for (ScheduleResource sr : scheduleResources.values()) {
 			sr.reset();
 		}
@@ -418,7 +450,7 @@ public class BB extends MissionScheduler {
 			ScheduleResource resource = scheduleResources.get(resourceID);
 			LocalScore ls = global.getSolution().get(resourceID);
 			ls = resource.simulateVisitNode(ls,
-					MissionScheduler.getInstance().SOURCE_NODE);
+					MissionScheduler.SOURCE_NODE);
 			global.addScore(ls);
 		}
 

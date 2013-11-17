@@ -1556,15 +1556,7 @@ public class Terminal implements RecordableObject {
 		}
 	}
 
-	public void finalize() throws Throwable {
-		System.err.println("FINALIZING TERMINAL");
-		try {
-			super.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 //	public void destroy() {
 		// databaseManager = null;
 

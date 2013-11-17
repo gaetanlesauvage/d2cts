@@ -22,7 +22,8 @@ package org.display.panes;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -52,19 +53,22 @@ public class MissionPane extends JPanel implements ListSelectionListener,
 	private static final long serialVersionUID = 6267113200371375454L;
 	private JTable table;
 	private ThreadSafeTableModel dm;
-	private Hashtable<String, String[]> datas;
-	private Hashtable<String, Integer> indexes;
+	private Map<String, String[]> datas;
+	private Map<String, Integer> indexes;
 	private String lastSelectedRowMissionID = "";
 	private Lock lock;
 
 	public MissionPane() {
 		super(new BorderLayout());
-		dm = new ThreadSafeTableModel(MissionColumns.values());
-
-		datas = new Hashtable<String, String[]>();
+		lock = new ReentrantLock();
+		MissionColumns[] values = MissionColumns.values();
+		dm = new ThreadSafeTableModel(values);
+		
+		datas = new HashMap<>();
+		
 		table = new JTable(dm);
-
-		indexes = new Hashtable<String, Integer>();
+		
+		indexes = new HashMap<String, Integer>();
 		table.setFont(GraphicDisplay.font);
 
 		table.getTableHeader().setFont(GraphicDisplay.fontBold);
@@ -85,9 +89,16 @@ public class MissionPane extends JPanel implements ListSelectionListener,
 		table.setRowSorter(sorter);
 
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		
+		while(table.getColumnCount() != MissionColumns.values().length){
+			System.err.println("MissionPane Waiting ...");
+			dm = new ThreadSafeTableModel(MissionColumns.values());
+			table.setModel(dm);
+			Thread.yield();
+		}
+		System.err.println("Size ok.");
 		for (MissionColumns mc : MissionColumns.values()) {
-			table.getColumnModel().getColumn(mc.getIndex())
-					.setMinWidth(mc.getWidth());
+			table.getColumnModel().getColumn(mc.getIndex()).setMinWidth(mc.getWidth());
 		}
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -100,7 +111,7 @@ public class MissionPane extends JPanel implements ListSelectionListener,
 
 		table.setFillsViewportHeight(true);
 
-		lock = new ReentrantLock();
+
 	}
 
 	public void addMission(Mission m) {

@@ -121,9 +121,9 @@ public class ScheduleTask<E extends ScheduleEdge> {
 		if (outgoingEdges != null) {
 			if (outgoingEdges.size() > 0) {
 
-				if (this == MissionScheduler.getInstance().SOURCE_NODE
-						|| this == OnlineACOScheduler.getInstance().getDepotNode()
-						|| this == OnlineACOScheduler.getInstance().getEndNode()) {
+				if (this == MissionScheduler.SOURCE_NODE
+						|| this == OnlineACOScheduler.getDepotNode()
+						|| this == OnlineACOScheduler.getEndNode()) {
 					for (ScheduleEdge e : outgoingEdges.values()) {
 						e.destroy();
 					}
@@ -140,5 +140,11 @@ public class ScheduleTask<E extends ScheduleEdge> {
 			outgoingEdges = null;
 		}
 		m = null;
+		distance = null;
+	}
+	
+	@Override
+	public String toString() {
+		return m.getId();
 	}
 }

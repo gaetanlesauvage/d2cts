@@ -1,30 +1,30 @@
 package org.scheduling;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.missions.Mission;
-import org.scheduling.onlineACO.OnlineACOScheduler;
 import org.time.Time;
 import org.vehicles.StraddleCarrier;
 import org.vehicles.models.SpeedCharacteristics;
 
 public class ScheduleResource {
-
-	protected static final Map<String, Boolean> visited = new HashMap<String, Boolean>();
+	protected static final Lock lock = new ReentrantLock();
 	
+	protected Set<String> visited;
 	protected static volatile int nonvisited = 0;
 
-	protected static final List<ScheduleResource> resources = new ArrayList<ScheduleResource>();
-	protected static GlobalScore globalScore = new GlobalScore();
-
+	//
+	
 	protected String ID;
 	protected String modelID;
 	protected double handlingTime;
 	protected double currentTime;
 	protected StraddleCarrier vehicle;
+	
+	protected MissionScheduler missionScheduler;
 
 	protected LocalScore score;
 
@@ -42,15 +42,21 @@ public class ScheduleResource {
 		this.currentTime = MissionScheduler.getInstance().getTimeFor(ID);
 		score = new LocalScore(this);
 
-		resources.add(this);
+		missionScheduler = MissionScheduler.getInstance();
+		//resources.add(this);
 	}
 
 	@SuppressWarnings("unchecked")
 	public void visitNode(ScheduleTask<? extends ScheduleEdge> task) {
 		// System.err.println("VISIT NODE "+task.getID()+" BY "+getID());
-		visited.put(task.getID(), true);
+		missionScheduler.visited.add(task.getID());
 		// System.err.println("1");
-		nonvisited--;
+		
+		synchronized (this){
+			lock.lock();
+			nonvisited--;
+			lock.unlock();
+		}
 		// System.err.println("2");
 		// List<ScheduleEdge> path = score.getPath();
 		List<ScheduleTask<? extends ScheduleEdge>> nodePath = score
@@ -90,7 +96,7 @@ public class ScheduleResource {
 		// Current Location to Pickup location of the next mission
 		score.addDistance(edge.getDistance());
 		double cost = 0.0;
-		if (edge.getNodeFrom() == MissionScheduler.getInstance().SOURCE_NODE)
+		if (edge.getNodeFrom() == MissionScheduler.SOURCE_NODE)
 			cost = edge.getCost(getID());
 		else
 			cost = edge.getCost(getModelID());
@@ -105,7 +111,7 @@ public class ScheduleResource {
 		double tP = currentTime + cost;// + colony.getHandlingTime().getInSec();
 		double tLeaveP = 0;
 		if (tP < m.getPickupTimeWindow().getMin().getInSec()) {
-			if (previousTask != MissionScheduler.getInstance().SOURCE_NODE)
+			if (previousTask != MissionScheduler.SOURCE_NODE)
 				score.addEarliness(m.getPickupTimeWindow().getMin().getInSec()
 						- tP);
 			tP = m.getPickupTimeWindow().getMin().getInSec();
@@ -136,7 +142,7 @@ public class ScheduleResource {
 		currentTime = tLeaveD;
 		// System.err.println("5");
 
-		if(task.getID().equals(OnlineACOScheduler.getInstance().SOURCE_NODE.getID())){
+		if(task.getID().equals(MissionScheduler.SOURCE_NODE.getID())){
 			System.err.println("Wath out!!!");
 		}
 		score.addEdge(edge, currentTime);
@@ -190,7 +196,7 @@ public class ScheduleResource {
 
 		score.addDistance(edge.getDistance());
 		double cost = 0.0;
-		if (edge.getNodeFrom() == MissionScheduler.getInstance().SOURCE_NODE)
+		if (edge.getNodeFrom() == MissionScheduler.SOURCE_NODE)
 			cost = edge.getCost(getID());
 		else
 			cost = edge.getCost(getModelID());
@@ -210,7 +216,7 @@ public class ScheduleResource {
 
 		double tLeaveP = 0;
 		if (tP < m.getPickupTimeWindow().getMin().getInSec()) {
-			if (previousTask != MissionScheduler.getInstance().SOURCE_NODE)
+			if (previousTask != MissionScheduler.SOURCE_NODE)
 				score.addEarliness(m.getPickupTimeWindow().getMin().getInSec()
 						- tP);
 			tP = m.getPickupTimeWindow().getMin().getInSec();
@@ -259,16 +265,9 @@ public class ScheduleResource {
 		score = new LocalScore(this);
 	}
 
-	public static void resetVisited() {
-		for (String taskID : MissionScheduler.getInstance().getNodesID()) {
-			visited.put(taskID, false);
-		}
-		nonvisited = visited.size();
-	}
-
-	public static boolean hasBeenVisited(String taskID) {
-		return visited.get(taskID);
-	}
+//	public static boolean hasBeenVisited(String taskID) {
+//		return visited.get(taskID);
+//	}
 
 	public String getModelID() {
 		return modelID;
@@ -278,13 +277,11 @@ public class ScheduleResource {
 		return ID;
 	}
 
-	public static List<ScheduleResource> getScheduleResources() {
-		return new ArrayList<ScheduleResource>(resources);
-	}
+	
 
-	public static GlobalScore getScore() {
+	/*public static GlobalScore getScore() {
 		return globalScore;
-	}
+	}*/
 
 	public void addEarliness(double earlinessToAdd) {
 		score.addEarliness(earlinessToAdd);
@@ -302,22 +299,22 @@ public class ScheduleResource {
 		score.addTravelTime(travelTimeToAdd);
 	}
 
-	public void destroy() {
-		if (globalScore != null) {
-			globalScore = null;
-		}
-
-		resources.clear();
-
-		if (visited.size() > 0) {
-			visited.clear();
-		}
+	public void destroy(){
+		//Nothing to do in super implementation.
 	}
+		/*if (globalScore != null) {
+			globalScore = null;
+		}*/
+
+		/*resources.clear();*/
+
+//		visited.clear();
+//	}
 
 	protected ScheduleTask<? extends ScheduleEdge> getLocation() {
 		List<ScheduleEdge> path = score.getPath();
 		if (path.size() == 0)
-			return MissionScheduler.getInstance().SOURCE_NODE;
+			return MissionScheduler.SOURCE_NODE;
 		else
 			return path.get(path.size() - 1).getNodeTo();
 	}

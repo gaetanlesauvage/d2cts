@@ -89,13 +89,15 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 		beans = new ArrayList<>();
 
 		ResultSet rs = loadStatement.executeQuery();
-		SchedulingAlgorithmDAO saDAO = SchedulingAlgorithmDAO.getInstance();
+		
 		while (rs.next()) {
+			
 			SimulationBean bean = new SimulationBean();
 			bean.setId(rs.getInt("ID"));
 			bean.setDate_rec(new Date(rs.getTimestamp("DATE_REC").getTime()));
 			bean.setContent(rs.getInt("CONTENT"));
 
+			SchedulingAlgorithmDAO saDAO = SchedulingAlgorithmDAO.getInstance(bean.getId());
 			SchedulingAlgorithmBean algo = saDAO.get(rs.getInt("SCHEDULING_ALGORITHM"));
 			AbstractSchedulingParameterDAO<?> parametersDAO = AbstractSchedulingParameterDAO.getInstance(algo.getName(), bean.getId());
 
@@ -134,7 +136,7 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 			lastInsertedBeanStatement = c.prepareStatement(LAST_INSERTED_BEAN_QUERY);
 		}
 
-		SchedulingAlgorithmDAO saDAO = SchedulingAlgorithmDAO.getInstance();
+		
 
 		ResultSet rs = lastInsertedBeanStatement.executeQuery();
 		if (rs.next()) {
@@ -142,6 +144,7 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 			b.setId(rs.getInt("ID"));
 			b.setDate_rec(rs.getTimestamp("DATE_REC"));
 			b.setContent(rs.getInt("CONTENT"));
+			SchedulingAlgorithmDAO saDAO = SchedulingAlgorithmDAO.getInstance(b.getId());
 			SchedulingAlgorithmBean algo = saDAO.get(rs.getInt("SCHEDULING_ALGORITHM"));
 
 			AbstractSchedulingParameterDAO<?> parametersDAO = AbstractSchedulingParameterDAO.getInstance(algo.getName(), b.getId());

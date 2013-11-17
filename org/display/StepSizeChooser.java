@@ -20,11 +20,11 @@ public class StepSizeChooser {
 	public StepSizeChooser(MainFrame mainFrame) {
 		final JDialog jd = new JDialog(mainFrame.getFrame());
 
-		JLabel jl = new JLabel("Seconds per step : ");
+		JLabel jl = new JLabel("Seconds per step: ");
 		jl.setFont(GraphicDisplay.font);
 		final TimeScheduler ts = TimeScheduler.getInstance();
 		final JSpinner jsSecByStep = new JSpinner(new SpinnerNumberModel(
-				ts.getSecondsPerStep(), 0.01, 10, 0.01));
+				ts.getSecondsPerStep(), 1, 10, 1));
 		jsSecByStep.setFont(GraphicDisplay.font);
 		jd.add(jl, BorderLayout.CENTER);
 		jd.add(jsSecByStep, BorderLayout.EAST);
@@ -33,9 +33,9 @@ public class StepSizeChooser {
 		jbOk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
 				ts.setSecondsPerStep(((Double) jsSecByStep.getValue())
 						.floatValue());
+				
 				jd.dispose();
 			}
 		});
@@ -50,7 +50,7 @@ public class StepSizeChooser {
 		pSouth.add(jbCancel);
 		pSouth.add(jbOk);
 		jd.add(pSouth, BorderLayout.SOUTH);
-		jd.setSize(200, 80);
+		jd.setSize(150, 80);
 		JFrame parent = mainFrame.getFrame();
 		jd.setLocation(
 				parent.getLocation().x

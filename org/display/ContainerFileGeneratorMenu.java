@@ -47,7 +47,7 @@ public class ContainerFileGeneratorMenu {
 				jd.setFont(GraphicDisplay.font);
 				jd.getRootPane().setFont(GraphicDisplay.font);
 
-				mainFrame.setEnableMenus(false);
+//				mainFrame.setEnableMenus(false);
 
 				//DEPLOYMENT FILE
 				jlFile = new JLabel("Deployment file : ");
@@ -170,7 +170,7 @@ public class ContainerFileGeneratorMenu {
 
 						jd.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 						mainFrame.getFrame().setEnabled(true);
-						mainFrame.setEnableMenus(true);
+//						mainFrame.setEnableMenus(true);
 						jd.setEnabled(true);
 						setEnableEverything(true);
 						jd.setVisible(false);
@@ -187,7 +187,7 @@ public class ContainerFileGeneratorMenu {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						jd.setVisible(false);
-						mainFrame.setEnableMenus(true);
+//						mainFrame.setEnableMenus(true);
 						jd.dispose();
 					}
 				});
@@ -262,7 +262,7 @@ public class ContainerFileGeneratorMenu {
 
 					@Override
 					public void windowClosing(WindowEvent e) {
-						mainFrame.setEnableMenus(true);
+//						mainFrame.setEnableMenus(true);
 						jd.dispose();
 					}
 

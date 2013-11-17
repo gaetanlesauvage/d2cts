@@ -110,5 +110,5 @@ public enum OfflineACOParametersBean implements SchedulingParametersBeanInterfac
 		p.setValue(value);
 		p.setSQLID(getSQLID());
 		return p;
-	}
+	}	
 }

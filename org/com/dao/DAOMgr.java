@@ -19,15 +19,6 @@ public class DAOMgr {
 	private static final Logger log = Logger.getLogger(DAOMgr.class);
 	
 	public static void closeAllDAO() throws SQLException{
-		//TODO change with getLastLoadedSimulationID();
-		//SimulationBean lastSim = SimulationDAO.getInstance().getLastInsertedBean();
-		//Integer simulationID = null;
-		//Integer scenarioID = null;
-		//if(lastSim != null){
-		//	simulationID = lastSim.getId();
-		//	//scenarioID = lastSim.getContent();
-		//}
-		
 		SimulationDAO.getInstance().close();
 		ScenarioDAO.getInstance().close();
 		TerminalDAO.getInstance().close();
@@ -83,8 +74,9 @@ public class DAOMgr {
 		for(Iterator<StraddleCarrierDAO> it = StraddleCarrierDAO.getInstances(); it.hasNext(); ){
 			it.next().close();
 		}
-		
-		SchedulingAlgorithmDAO.getInstance().close();
+		for(Iterator<SchedulingAlgorithmDAO> it = SchedulingAlgorithmDAO.getInstances(); it.hasNext(); ){
+			it.next().close();
+		}
 		DefaultParametersDAO.getInstance().close();
 		
 		for(Iterator<MissionLoadDAO> it = MissionLoadDAO.getInstances(); it.hasNext(); ){
