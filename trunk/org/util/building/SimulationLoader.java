@@ -333,8 +333,8 @@ public class SimulationLoader {
 			break;
 		}
 		//		MissionScheduler.setEvalParameters(bean.getEvalParameters());
-		MissionScheduler scheduler = MissionScheduler.getInstance();
-		TimeScheduler.getInstance().recordDiscretObject(scheduler);
+		/*MissionScheduler scheduler = */MissionScheduler.getInstance();
+		//TimeScheduler.getInstance().recordDiscretObject(scheduler);
 	}
 
 	private void loadStraddleCarrier(StraddleCarrierBean next) {

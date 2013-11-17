@@ -110,7 +110,7 @@ public class NewSimulationDialog extends JDialog {
 
 	public void build() {
 		final ScenarioDAO s = ScenarioDAO.getInstance();
-		final SchedulingAlgorithmDAO a = SchedulingAlgorithmDAO.getInstance();
+		final SchedulingAlgorithmDAO a = SchedulingAlgorithmDAO.getInstance(null);
 
 		String[] columnsName = new String[s.getColumnsName().length + 1];
 		int i = 0;

@@ -23,8 +23,9 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.swing.JLabel;
@@ -52,7 +53,7 @@ public class SlotPane extends JPanel implements ListSelectionListener,
 	 */
 	private static final long serialVersionUID = 6267113200371375454L;
 
-	private Hashtable<String, Object[]> datas;
+	private Map<String, Object[]> datas;
 	public static final int TABLEWIDTH = 596;
 
 	private JTable table;
@@ -66,7 +67,7 @@ public class SlotPane extends JPanel implements ListSelectionListener,
 		super(new BorderLayout(50, 0));
 		dm = new ThreadSafeTableModel(SlotColumns.values());
 
-		datas = new Hashtable<String, Object[]>();
+		datas = new HashMap<String, Object[]>();
 		table = new JTable(dm);
 		table.setFont(GraphicDisplay.font);
 		table.getTableHeader().setFont(GraphicDisplay.fontBold);
@@ -85,12 +86,17 @@ public class SlotPane extends JPanel implements ListSelectionListener,
 
 		sorter.setSortsOnUpdates(true);
 		table.setRowSorter(sorter);
-
+		
+		while(table.getColumnCount() != SlotColumns.values().length){
+			System.err.println("Waiting ...");
+			Thread.yield();
+		}
+		System.err.println("Size ok.");
+		
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		for (SlotColumns sc : SlotColumns.values()) {
 			// table.getColumnModel().getColumn(sc.getIndex()).setMaxWidth(sc.getWidth());
-			table.getColumnModel().getColumn(sc.getIndex())
-					.setMinWidth(sc.getWidth());
+			table.getColumnModel().getColumn(sc.getIndex()).setMinWidth(sc.getWidth());
 		}
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

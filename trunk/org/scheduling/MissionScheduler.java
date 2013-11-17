@@ -1,14 +1,16 @@
 package org.scheduling;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -39,11 +41,11 @@ import org.vehicles.StraddleCarrier;
 
 public abstract class MissionScheduler implements DiscretObject {
 	public static final Logger log = Logger.getLogger(MissionScheduler.class);
-	
+
 	/**
 	 * Tasks
 	 */
-	protected List<Mission> pool;
+	protected TreeSet<Mission> pool;
 
 	/**
 	 * Resources
@@ -55,8 +57,8 @@ public abstract class MissionScheduler implements DiscretObject {
 	public static final double CLOSE_TO_ZERO = 0.0001;
 
 	// DEBUG
-	protected static PrintWriter debug;
-	protected static PrintWriter traceScores;
+	// protected static PrintWriter debug;
+	// protected static PrintWriter traceScores;
 
 	// RMI
 	public static String rmiBindingName = "MissionScheduler";
@@ -77,26 +79,37 @@ public abstract class MissionScheduler implements DiscretObject {
 	 */
 	protected static long sstep;
 
-		// TASKS BUFFERS
-	protected SortedMap<Time, List<Mission>> missionsToUpdate = new TreeMap<>();
-	protected SortedMap<Time, List<Mission>> missionsToAdd = new TreeMap<>();
-	protected SortedMap<Time, List<Mission>> missionsToRemove = new TreeMap<>();
-	protected SortedMap<Time, List<MissionStartedHelper>> missionsToStart = Collections
-			.synchronizedSortedMap(new TreeMap<Time, List<MissionStartedHelper>>());
+	// TASKS BUFFERS
+	protected SortedMap<Time, List<Mission>> missionsToUpdate;// = new
+																// TreeMap<>();
+	protected SortedMap<Time, List<Mission>> missionsToAdd;// = new TreeMap<>();
+	protected SortedMap<Time, List<Mission>> missionsToRemove;// = new
+																// TreeMap<>();
+	protected SortedMap<Time, Set<MissionStartedHelper>> missionsToStart;// =
+																			// new
+																			// TreeMap<Time,
+																			// List<MissionStartedHelper>>();
 
 	// RESOURCES BUFFERS
-	protected SortedMap<Time, Map<String, UpdateInfo>> resourceToUpdate = new TreeMap<>();
-	protected SortedMap<Time, List<StraddleCarrier>> resourceToAdd = new TreeMap<>();
-	protected SortedMap<Time, List<String>> resourceToRemove = new TreeMap<>();
+	protected SortedMap<Time, Map<String, UpdateInfo>> resourceToUpdate;// = new
+																		// TreeMap<>();
+	protected SortedMap<Time, List<StraddleCarrier>> resourceToAdd;// = new
+																	// TreeMap<>();
+	protected SortedMap<Time, List<String>> resourceToRemove;// = new
+																// TreeMap<>();
 
 	// RESOURCES
-	protected Map<String, List<String>> resourceModels = new HashMap<>();
+	protected Map<String, List<String>> resourceModels;// = new HashMap<>();
 	protected Map<String, StraddleCarrier> vehicles;
 
 	// TASKS
-	protected Map<String, ScheduleTask<? extends ScheduleEdge>> scheduleTasks = new HashMap<>();
+	protected Map<String, ScheduleTask<? extends ScheduleEdge>> scheduleTasks;// =
+																				// new
+																				// HashMap<>();
 	// RESOURCES
 	protected Map<String, ScheduleResource> scheduleResources = new HashMap<>();
+
+	protected GlobalScore currentScore;
 
 	protected Lock lock;
 	protected boolean precomputed;
@@ -108,10 +121,12 @@ public abstract class MissionScheduler implements DiscretObject {
 
 	protected MissionSchedulerEvalParameters evalParameters;
 	protected GlobalScore best;
+	protected Set<String> visited;
 
-	public ScheduleTask<? extends ScheduleEdge> SOURCE_NODE;
+	public static ScheduleTask<? extends ScheduleEdge> SOURCE_NODE;
 
 	protected static boolean init = false;
+
 	// private GlobalSolution currentSolution;
 
 	/* ======================== SINGLETON HANDLER ======================== */
@@ -143,8 +158,7 @@ public abstract class MissionScheduler implements DiscretObject {
 				instance = new OfflineACOScheduler2();
 				break;
 			default:
-				Exception e = new Exception(
-						"WRONG MISSION SCHEDULER SPECIFIED !");
+				Exception e = new Exception("WRONG MISSION SCHEDULER SPECIFIED !");
 				log.fatal(e.getMessage(), e);
 				break;
 			}
@@ -153,7 +167,7 @@ public abstract class MissionScheduler implements DiscretObject {
 	}
 
 	public static void closeInstance() {
-		if(instance != null){
+		if (instance != null) {
 			switch (rmiBindingName) {
 			case LinearMissionScheduler.rmiBindingName:
 				LinearMissionScheduler.closeInstance();
@@ -162,7 +176,8 @@ public abstract class MissionScheduler implements DiscretObject {
 				RandomMissionScheduler.closeInstance();
 				break;
 			case GreedyMissionScheduler.rmiBindingName:
-				GreedyMissionScheduler.closeInstance();;
+				GreedyMissionScheduler.closeInstance();
+				;
 				break;
 			case BranchAndBound.rmiBindingName:
 				BranchAndBound.closeInstance();
@@ -180,8 +195,7 @@ public abstract class MissionScheduler implements DiscretObject {
 				OfflineACOScheduler2.closeInstance();
 				break;
 			default:
-				Exception e = new Exception(
-						"WRONG MISSION SCHEDULER SPECIFIED !");
+				Exception e = new Exception("WRONG MISSION SCHEDULER SPECIFIED !");
 				log.fatal(e.getMessage(), e);
 				break;
 			}
@@ -189,7 +203,7 @@ public abstract class MissionScheduler implements DiscretObject {
 			instance = null;
 			init = false;
 		}
-		
+
 	}
 
 	/* ======================== CONSTRUCTORS ======================== */
@@ -197,7 +211,7 @@ public abstract class MissionScheduler implements DiscretObject {
 	 * Constructor
 	 */
 	protected MissionScheduler() {
-		this.pool = new ArrayList<>();
+		this.pool = new TreeSet<>();
 		this.resources = new ArrayList<>();
 		this.vehicles = new HashMap<>();
 
@@ -207,8 +221,7 @@ public abstract class MissionScheduler implements DiscretObject {
 		missionsToUpdate = new TreeMap<>();
 		missionsToAdd = new TreeMap<>();
 		missionsToRemove = new TreeMap<>();
-		missionsToStart = Collections
-				.synchronizedSortedMap(new TreeMap<Time, List<MissionStartedHelper>>());
+		missionsToStart = new TreeMap<>();
 
 		// RESOURCES BUFFERS
 		resourceToUpdate = new TreeMap<>();
@@ -224,7 +237,18 @@ public abstract class MissionScheduler implements DiscretObject {
 		// RESOURCES
 		scheduleResources = new HashMap<>();
 
-		TimeScheduler.getInstance().recordDiscretObject(this);
+		currentScore = new GlobalScore();
+		visited = new HashSet<String>();
+
+		TimeScheduler.getInstance().recordMissionsScheduler(this);
+	}
+
+	public void resetVisited() {
+		visited.clear();
+	}
+
+	public boolean hasBeenVisited(String taskID) {
+		return visited.contains(taskID);
 	}
 
 	/**
@@ -242,8 +266,7 @@ public abstract class MissionScheduler implements DiscretObject {
 	 * @return The time needed to go from the origin node to the destination
 	 *         node for the given vehicle @ * @throws EmptyResourcesException
 	 */
-	public Path getTravelPath(Mission from, Mission to, StraddleCarrier rsc)
-			throws EmptyResourcesException {
+	public Path getTravelPath(Mission from, Mission to, StraddleCarrier rsc) throws EmptyResourcesException {
 		if (resources.size() == 0)
 			throw new EmptyResourcesException();
 
@@ -257,8 +280,7 @@ public abstract class MissionScheduler implements DiscretObject {
 			fromLocation = slotFrom.getLocation();
 		} else {
 			if (rsc.getCurrentLoad() != null) {
-				ContainerLocation cl = rsc.getCurrentLoad().getMission()
-						.getDestination();
+				ContainerLocation cl = rsc.getCurrentLoad().getMission().getDestination();
 				Slot slotFrom = Terminal.getInstance().getSlot(cl.getSlotId());
 				fromLocation = slotFrom.getLocation();
 			} else {
@@ -278,10 +300,10 @@ public abstract class MissionScheduler implements DiscretObject {
 		}
 
 		try {
-			shortestPath = rsc.getRouting().getShortestPath(fromLocation,toLocation);
+			shortestPath = rsc.getRouting().getShortestPath(fromLocation, toLocation);
 		} catch (NoPathFoundException e) {
 			e.printStackTrace();
-			log.error(e.getMessage(),e);
+			log.error(e.getMessage(), e);
 		}
 
 		return shortestPath;
@@ -332,12 +354,12 @@ public abstract class MissionScheduler implements DiscretObject {
 	 */
 	private void flushMissions() {
 		// TO START
-		List<Time> start = new ArrayList<>(missionsToStart.keySet());
+		Set<Time> start = new HashSet<>(missionsToStart.keySet());
 		for (Time t : start) {
 			if (t.toStep() <= sstep) {
-				List<MissionStartedHelper> toStart = missionsToStart.remove(t);
+				Set<MissionStartedHelper> toStart = missionsToStart.remove(t);
 				for (MissionStartedHelper m : toStart) {
-					log.trace("Removing started mission " + m.m.getId());
+					log.info("Removing started mission " + m.m.getId());
 					missionStarted(m.m, m.resourceID);
 
 				}
@@ -475,8 +497,7 @@ public abstract class MissionScheduler implements DiscretObject {
 		List<String> lModel = null;
 		if (computeCosts) {
 			lModel = new ArrayList<String>();
-			for (ScheduleTask<? extends ScheduleEdge> n : scheduleTasks
-					.values()) {
+			for (ScheduleTask<? extends ScheduleEdge> n : scheduleTasks.values()) {
 				n.addCostFor(rsc);
 			}
 		} else {
@@ -485,8 +506,7 @@ public abstract class MissionScheduler implements DiscretObject {
 
 		lModel.add(rscID);
 		resourceModels.put(modelID, lModel);
-		System.out.println("MS:> Resource " + rscID + " (" + modelID
-				+ ") added");
+		System.out.println("MS:> Resource " + rscID + " (" + modelID + ") added");
 	}
 
 	/**
@@ -501,10 +521,8 @@ public abstract class MissionScheduler implements DiscretObject {
 			if (resources.get(i).getId().equals(resourceID)) {
 				resources.remove(i);
 				String modelID = vehicles.get(resourceID).getModel().getId();
-				List<String> vehiclesOfSameModel = resourceModels
-						.remove(modelID);
-				List<String> newList = new ArrayList<String>(
-						vehiclesOfSameModel);
+				List<String> vehiclesOfSameModel = resourceModels.remove(modelID);
+				List<String> newList = new ArrayList<String>(vehiclesOfSameModel);
 				for (String vID : resourceModels.get(modelID)) {
 					if (!vID.equals(resourceID)) {
 						newList.add(vID);
@@ -547,14 +565,12 @@ public abstract class MissionScheduler implements DiscretObject {
 	 * @param distance
 	 *            Distance made since the last update
 	 */
-	protected void updateResourceLocation(String resourceID,
-			UpdateInfo updateInfo) {
+	protected void updateResourceLocation(String resourceID, UpdateInfo updateInfo) {
 		// System.err.println("URL : "+resourceID+" "+updateInfo.distance+" "+updateInfo.travelTime);
 		// new Exception("UPDATE RESOURCE LOCATION AND DISTANCE");
 		IndicatorPane ip = jms.getIndicatorPane();
 		if (ip != null) {
-			ip.addDistance(resourceID, updateInfo.distance,
-					updateInfo.travelTime);
+			ip.addDistance(resourceID, updateInfo.distance, updateInfo.travelTime);
 
 		}
 
@@ -573,8 +589,7 @@ public abstract class MissionScheduler implements DiscretObject {
 		ScheduleTask<ScheduleEdge> n = new ScheduleTask<ScheduleEdge>(m);
 		for (String modelID : resourceModels.keySet()) {
 			try {
-				Path p = getTravelPath(m, m,
-						vehicles.get(resourceModels.get(modelID).get(0)));
+				Path p = getTravelPath(m, m, vehicles.get(resourceModels.get(modelID).get(0)));
 				n.addMissionCostFor(modelID, p.getCost());
 				n.setDistance(p.getCostInMeters());
 			} catch (EmptyResourcesException e) {
@@ -584,8 +599,7 @@ public abstract class MissionScheduler implements DiscretObject {
 
 		for (Mission m2 : pool) {
 			if (!m2.getId().equals(m.getId())) {
-				ScheduleTask<ScheduleEdge> n2 = (ScheduleTask<ScheduleEdge>) scheduleTasks
-						.get(m2.getId());
+				ScheduleTask<ScheduleEdge> n2 = (ScheduleTask<ScheduleEdge>) scheduleTasks.get(m2.getId());
 				ScheduleEdge e = new ScheduleEdge(n, n2);
 				ScheduleEdge e2 = new ScheduleEdge(n2, n);
 
@@ -598,15 +612,12 @@ public abstract class MissionScheduler implements DiscretObject {
 			}
 		}
 
-		ScheduleEdge e3 = new ScheduleEdge(
-				MissionScheduler.getInstance().SOURCE_NODE, n);
-		ScheduleEdge e4 = new ScheduleEdge(n,
-				MissionScheduler.getInstance().SOURCE_NODE);
+		ScheduleEdge e3 = new ScheduleEdge(MissionScheduler.SOURCE_NODE, n);
+		ScheduleEdge e4 = new ScheduleEdge(n, MissionScheduler.SOURCE_NODE);
 
 		for (String vehicleID : vehicles.keySet()) {
 			e3.addCost(vehicles.get(vehicleID));
-			((ScheduleTask<ScheduleEdge>) MissionScheduler.getInstance().SOURCE_NODE)
-			.addDestination(e3);
+			((ScheduleTask<ScheduleEdge>) MissionScheduler.SOURCE_NODE).addDestination(e3);
 			e4.addCost(vehicles.get(vehicleID));
 			n.addDestination(e4);
 		}
@@ -623,28 +634,7 @@ public abstract class MissionScheduler implements DiscretObject {
 	 * @return
 	 */
 	protected boolean removeMission(Mission m) {
-		for (int i = 0; i < pool.size(); i++) {
-			if (m.getId().equals(pool.get(i).getId())) {
-				pool.remove(i);
-
-				// Remove the mission from the workloads //TODO
-
-				// Remove the node and concerned edges
-				// TSPNode n = missions.remove(m.getId());
-
-				// DEPOT -> n
-				// TSPNode.SOURCE_NODE.removeEdgeTo(n);
-				// n.removeEdgeTo(TSPNode.SOURCE_NODE);
-				// n -> n2 && n2 -> n
-				// for(TSPNode n2 : missions.values()){
-				// n2.removeEdgeTo(n);
-				// n.removeEdgeTo(n2);
-				// }
-				// n.destroy();
-				return true;
-			}
-		}
-		return false;
+		return pool.remove(m);
 	}
 
 	/**
@@ -656,8 +646,7 @@ public abstract class MissionScheduler implements DiscretObject {
 	protected void updateMission(Mission m) {
 		// TODO
 		// WHAT TO DO IN THIS CASE ?
-		// new
-		// Exception("TSP:> WARNING : UPDATE MISSION CALLED !").printStackTrace();
+		new Exception("MissionScheduler:> WARNING : UPDATE MISSION CALLED !").printStackTrace();
 	}
 
 	protected class MissionStartedHelper {
@@ -668,6 +657,20 @@ public abstract class MissionScheduler implements DiscretObject {
 			this.m = m;
 			this.resourceID = resourceID;
 		}
+
+		@Override
+		public int hashCode() {
+			return m.getId().hashCode();
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			return o.hashCode() == hashCode();
+		}
+
+		public String toString() {
+			return m.getId() + "@" + resourceID;
+		}
 	}
 
 	/*
@@ -676,17 +679,16 @@ public abstract class MissionScheduler implements DiscretObject {
 	 */
 	public void missionStarted(Time t, Mission m, String resourceID) {
 		// DO NOT RECOMPUTE SOLUTION WHEN THE CURRENT ONE IS GOING ON
-		// lock.lock();
-		// graphChanged = true;
-		// lock.unlock();
+		 //lock.lock();
+		 //graphChanged = true;
+		 //lock.unlock();
 
 		// REMOVE MISSION FROM SCHEDULER
-		List<MissionStartedHelper> toStartList = null;
+		Set<MissionStartedHelper> toStartList = null;
 		if (missionsToStart.containsKey(t))
 			toStartList = missionsToStart.get(t);
 		else
-			toStartList = Collections
-			.synchronizedList(new ArrayList<MissionStartedHelper>());
+			toStartList = Collections.synchronizedSet(new HashSet<MissionStartedHelper>());
 
 		toStartList.add(new MissionStartedHelper(m, resourceID));
 		missionsToStart.put(t, toStartList);
@@ -713,8 +715,7 @@ public abstract class MissionScheduler implements DiscretObject {
 		if (missionsToRemove.containsKey(t))
 			toRemoveList = missionsToRemove.get(t);
 		else
-			toRemoveList = Collections
-			.synchronizedList(new ArrayList<Mission>());
+			toRemoveList = Collections.synchronizedList(new ArrayList<Mission>());
 
 		int i = 0;
 		for (Mission m2 : toRemoveList) {
@@ -742,8 +743,7 @@ public abstract class MissionScheduler implements DiscretObject {
 		if (missionsToUpdate.containsKey(t))
 			toUpdateList = missionsToUpdate.get(t);
 		else
-			toUpdateList = Collections
-			.synchronizedList(new ArrayList<Mission>());
+			toUpdateList = Collections.synchronizedList(new ArrayList<Mission>());
 
 		int i = 0;
 		for (Mission m2 : toUpdateList) {
@@ -760,7 +760,7 @@ public abstract class MissionScheduler implements DiscretObject {
 
 	public void addMission(Time t, Mission m) {
 		lock.lock();
-		System.err.println("ADD MISSION " + m.getId());
+		// System.err.println("ADD MISSION " + m.getId());
 		graphChanged = true;
 		lock.unlock();
 
@@ -795,16 +795,16 @@ public abstract class MissionScheduler implements DiscretObject {
 		else
 			toAddList = new ArrayList<>();
 
-			int i = 0;
-			for (StraddleCarrier rsc2 : toAddList) {
-				int comp = rsc2.getId().compareTo(rsc.getId());
-				if (comp >= 0)
-					break;
-				else
-					i++;
-			}
-			toAddList.add(i, rsc);
-			resourceToAdd.put(t, toAddList);
+		int i = 0;
+		for (StraddleCarrier rsc2 : toAddList) {
+			int comp = rsc2.getId().compareTo(rsc.getId());
+			if (comp >= 0)
+				break;
+			else
+				i++;
+		}
+		toAddList.add(i, rsc);
+		resourceToAdd.put(t, toAddList);
 	}
 
 	public boolean removeResource(Time t, StraddleCarrier rsc) {
@@ -819,22 +819,21 @@ public abstract class MissionScheduler implements DiscretObject {
 		else
 			toRemoveList = new ArrayList<>();
 
-			int i = 0;
-			for (String rsc2 : toRemoveList) {
-				int comp = rsc2.compareTo(rsc.getId());
-				if (comp >= 0)
-					break;
-				else
-					i++;
-			}
-			toRemoveList.add(i, rsc.getId());
-			resourceToRemove.put(t, toRemoveList);
+		int i = 0;
+		for (String rsc2 : toRemoveList) {
+			int comp = rsc2.compareTo(rsc.getId());
+			if (comp >= 0)
+				break;
+			else
+				i++;
+		}
+		toRemoveList.add(i, rsc.getId());
+		resourceToRemove.put(t, toRemoveList);
 
-			return resources.contains(rsc);
+		return resources.contains(rsc);
 	}
 
-	public void updateResourceLocation(Time t, String straddleID,
-			double distance, double travelTime) {
+	public void updateResourceLocation(Time t, String straddleID, double distance, double travelTime) {
 		// System.err.println("URL : "+straddleID+" "+distance+" "+travelTime);
 		lock.lock();
 		// System.err.println("UPDATE RESOURCE LOCATION");
@@ -847,8 +846,8 @@ public abstract class MissionScheduler implements DiscretObject {
 		else
 			toUpdateMap = new HashMap<>();
 
-			toUpdateMap.put(straddleID, new UpdateInfo(distance, travelTime));
-			resourceToUpdate.put(t, toUpdateMap);
+		toUpdateMap.put(straddleID, new UpdateInfo(distance, travelTime));
+		resourceToUpdate.put(t, toUpdateMap);
 	}
 
 	/* ========================== GETTERS AND SETTERS ========================== */
@@ -919,33 +918,50 @@ public abstract class MissionScheduler implements DiscretObject {
 	 * Destruct the object
 	 */
 	public void destroy() {
-		if(jms != null){
+		if (jms != null) {
 			jms.destroy();
 		}
-		
-		//pool.clear();
-		//resources.clear();
 
-//		out = null;
+		if (lock != null) {
+			// TODO DEBUG ILLEGAL MONITOR
+			try {
+				lock.unlock();
 
-//		missionsToAdd.clear();
-//		missionsToRemove.clear();
-//		missionsToUpdate.clear();
-//		missionsToStart.clear();
+			} catch (IllegalMonitorStateException e) {
+				// Nothing to do.
+				System.err.println("FIXME : IllegalMonitorStateException on MissionScheduler lock");
+			} finally {
+				lock = null;
+			}
 
-//		jms = null;
-//		SOURCE_NODE = null;
+		}
+		// pool.clear();
+		// resources.clear();
 
-//		resourceToAdd.clear();
-//		resourceToRemove.clear();
-//		resourceToUpdate.clear();
-//		vehicles.clear();
-//		resourceModels.clear();
+		// out = null;
 
-//		scheduleResources.clear();
-//		scheduleTasks.clear();
+		// missionsToAdd.clear();
+		// missionsToRemove.clear();
+		// missionsToUpdate.clear();
+		// missionsToStart.clear();
 
-//		lock = null;
+		// jms = null;
+		// SOURCE_NODE = null;
+
+		// resourceToAdd.clear();
+		// resourceToRemove.clear();
+		// resourceToUpdate.clear();
+		// vehicles.clear();
+		// resourceModels.clear();
+
+		// scheduleResources.clear();
+		// scheduleTasks.clear();
+
+		// lock = null;
+
+		currentScore = null;
+		best = null;
+		visited = null;
 	}
 
 	public double getTimeFor(String id) {
@@ -953,8 +969,7 @@ public abstract class MissionScheduler implements DiscretObject {
 		if (rsc.getCurrentLoad() == null)
 			return TimeScheduler.getInstance().getTime().getInSec();
 		else
-			return rsc.getCurrentLoad().getMission().getDeliveryTimeWindow()
-					.getMax().getInSec();
+			return rsc.getCurrentLoad().getMission().getDeliveryTimeWindow().getMax().getInSec();
 	}
 
 	public Collection<String> getNodesID() {
@@ -963,25 +978,25 @@ public abstract class MissionScheduler implements DiscretObject {
 
 	@SuppressWarnings("rawtypes")
 	public Collection<ScheduleTask> getTasks() {
+		//List<ScheduleTask> l = new ArrayList<>(scheduleTasks.size());
+//		for(Mission m : pool){
+//			if(scheduleTasks.containsKey(m.getId()))
+//				l.add(scheduleTasks.get(m.getId()));
+//		}
+//		return l;
 		return new ArrayList<ScheduleTask>(scheduleTasks.values());
 	}
 
 	// TODO TEST FOR THE l.remove(obj)
-	public List<ScheduleTask<? extends ScheduleEdge>> getUnallocatedTasks(
-			GlobalScore solution) {
+	public List<ScheduleTask<? extends ScheduleEdge>> getUnallocatedTasks(GlobalScore solution) {
 		// System.err.println("GET UNALLOCATED : "+solution+" && "+solution.getSolutionString());
 
-		ArrayList<ScheduleTask<? extends ScheduleEdge>> l = new ArrayList<ScheduleTask<? extends ScheduleEdge>>(
-				scheduleTasks.size());
-		HashMap<String, String> allocated = new HashMap<String, String>(
-				scheduleTasks.size());
+		ArrayList<ScheduleTask<? extends ScheduleEdge>> l = new ArrayList<ScheduleTask<? extends ScheduleEdge>>(scheduleTasks.size());
+		HashMap<String, String> allocated = new HashMap<String, String>(scheduleTasks.size());
 
 		for (LocalScore local : solution.getSolution().values()) {
 			for (ScheduleEdge e : local.getPath()) {
-				if (!e.getNodeTo()
-						.getID()
-						.equals(MissionScheduler.getInstance().SOURCE_NODE
-								.getID())) {
+				if (!e.getNodeTo().getID().equals(MissionScheduler.SOURCE_NODE.getID())) {
 					allocated.put(e.getNodeTo().getID(), "");
 				}
 			}
@@ -1000,15 +1015,19 @@ public abstract class MissionScheduler implements DiscretObject {
 		return resourceModels.size();
 	}
 
-	public Collection<ScheduleResource> getScheduleResources() {
-		return scheduleResources.values();
+	public List<ScheduleResource> getScheduleResources() {
+		return new ArrayList<ScheduleResource>(scheduleResources.values());
+	}
+
+	public GlobalScore getCurrentGlobalScore() {
+		return currentScore;
 	}
 
 	public int getPoolSize() {
 		return this.pool.size();
 	}
 
-	public final Collection<Mission>  getPool() {
+	public final Collection<Mission> getPool() {
 		return pool;
 	}
 }

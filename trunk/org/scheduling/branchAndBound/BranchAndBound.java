@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -107,15 +108,17 @@ public class BranchAndBound extends MissionScheduler {
 	 */
 	private Map<String, HashMap<String, Time>> missionsStartTime;
 
+	private boolean recompute = true;
+	
 	@Override
 	public String getId() {
 		return BranchAndBound.rmiBindingName;
 	}
 
 	public static void closeInstance(){
-	
+
 	}
-	
+
 	// CONSTRUCTORS
 	/**
 	 * Default constructor
@@ -222,6 +225,7 @@ public class BranchAndBound extends MissionScheduler {
 		}
 
 		Solution.setBranchAndBound(this);
+		recompute = true;
 	}
 
 	@Override
@@ -240,7 +244,7 @@ public class BranchAndBound extends MissionScheduler {
 			lock.unlock();
 		}
 
-		if (pool.size() > 0) {
+		if (recompute && !resources.isEmpty() && !pool.isEmpty()) {
 			// COMPUTE ALGORITHM
 			compute();
 		}
@@ -258,18 +262,22 @@ public class BranchAndBound extends MissionScheduler {
 			}
 			missionsStartTime.put(m.getId(), start);
 		}
+		recompute = true;
 	}
 
 	@Override
 	public boolean removeMission(Time t, Mission m) {
-		for (int i = 0; i < pool.size(); i++) {
+
+		missionsStartTime.remove(m.getId());
+		return removeMission(m);
+		/*for (int i = 0; i < pool.size(); i++) {
 			if (m.getId().equals(pool.get(i).getId())) {
 				pool.remove(i);
 				missionsStartTime.remove(m.getId());
 				return true;
 			}
 		}
-		return false;
+		return false;*/
 	}
 
 	@Override
@@ -283,6 +291,7 @@ public class BranchAndBound extends MissionScheduler {
 				start.put(rscID, computeMissionStartTime(m, rscID));
 			}
 		}
+		recompute = true;
 	}
 
 	@Override
@@ -320,17 +329,18 @@ public class BranchAndBound extends MissionScheduler {
 		if (BranchAndBoundParametersBean.SOLUTION_INIT_FILE.getValueAsString().equals("")) {
 			// Compute max bound
 			HashMap<String, List<String>> boundSolution = new HashMap<String, List<String>>();
-			int missionAffected = 0;
-			while (missionAffected < pool.size()) {
+			//int missionAffected = 0;
+			Iterator<Mission> itMissions = pool.iterator();
+			while (itMissions.hasNext()) {
 				StraddleCarrier rsc = pickAStraddleCarrier();
 				if (rsc.isAvailable()) {
-					Mission m = pool.get(missionAffected);
+					Mission m = itMissions.next();
 					List<String> l = boundSolution.get(rsc.getId());
 					if (l == null)
 						l = new ArrayList<String>();
 					l.add(m.getId());
 					boundSolution.put(rsc.getId(), l);
-					missionAffected++;
+					//	missionAffected++;
 				}
 			}
 			// Eval bound
@@ -413,6 +423,7 @@ public class BranchAndBound extends MissionScheduler {
 				}
 			}
 		}
+		recompute = false;
 		Terminal.getInstance().flushAllocations();
 	}
 
@@ -424,11 +435,18 @@ public class BranchAndBound extends MissionScheduler {
 	 * @return The removed mission
 	 */
 	private Mission removeMission(String mID) {
-		for (int i = 0; i < pool.size(); i++) {
+		Mission m = Terminal.getInstance().getMission(mID);
+		if( pool.remove(m)){ 
+			return m;
+		}
+		else{
+			return null;
+		}
+		/*for (int i = 0; i < pool.size(); i++) {
 			if (pool.get(i).getId().equals(mID))
 				return pool.remove(i);
 		}
-		return null;
+		return null;*/
 	}
 
 	/**

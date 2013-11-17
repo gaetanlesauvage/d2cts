@@ -146,7 +146,7 @@ public class StoredSimulationChooser {
 			public void actionPerformed(ActionEvent e) {
 				jd.setVisible(false);
 				jd.dispose();
-				mainFrame.enableMenus();
+//				mainFrame.enableMenus();
 			}
 		});
 		

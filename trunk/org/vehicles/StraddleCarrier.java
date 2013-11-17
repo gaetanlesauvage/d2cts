@@ -343,7 +343,9 @@ public class StraddleCarrier implements DiscretObject {
 				if (!b) {
 					System.out.println(roadStartTime + "> CAN'T RESERVE PATH : \n" + newPath);
 					new Exception().printStackTrace();
-
+					//Try to recompute
+					newPath = rr.getShortestPath(currentLocation, currentDestination, TimeScheduler.getInstance().getTime());
+					newPath.reserve();
 				} else {
 					currentPath = newPath;
 					roadStartTime = TimeScheduler.getInstance().getTime();
@@ -1782,5 +1784,9 @@ public class StraddleCarrier implements DiscretObject {
 		// FIXME
 		// if (b == false && databaseManager == null)
 		// throw new DatabaseNotConfiguredException();
+	}
+
+	public void clearWorkload() {
+		getWorkload().removeUnstartedMissions();
 	}
 }

@@ -59,7 +59,7 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 		super.addDestination(edge);
 
 		if(removeEndLink){
-			AntNode end = OnlineACOScheduler.getInstance().getEndNode();
+			AntNode end = OnlineACOScheduler.getEndNode();
 			OnlineACOScheduler.getInstance().removeEdge(this,end);
 			if(OnlineACOScheduler.getInstance().getLayout().isEnabled()) OnlineACOScheduler.getInstance().getLayout().nodeUpdated(end);
 		}
@@ -74,7 +74,7 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 			in.put(edge.getNodeFrom().getID(), edge);
 
 			if(removeDepotLink){
-				AntNode depot = OnlineACOScheduler.getInstance().getDepotNode();
+				AntNode depot = OnlineACOScheduler.getDepotNode();
 				OnlineACOScheduler.getInstance().removeEdge(depot, this);
 			}
 			if(OnlineACOScheduler.getInstance().getLayout().isEnabled()) OnlineACOScheduler.getInstance().getLayout().nodeUpdated(this);
@@ -89,7 +89,7 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 			}
 
 			if(in.size()==0&&!getID().equals(EndNode.ID)){
-				AntNode depot = OnlineACOScheduler.getInstance().getDepotNode();
+				AntNode depot = OnlineACOScheduler.getDepotNode();
 				if(!depot.outgoingEdges.containsKey(getID())) {
 					AntEdge e = new AntEdge(depot, this);
 					depot.addOutgoingEdge(e);
@@ -108,7 +108,7 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 			if(edge.getID()!=null) edge.destroy();
 
 			if(outgoingEdges.size()==0){
-				AntNode end = OnlineACOScheduler.getInstance().getEndNode();
+				AntNode end = OnlineACOScheduler.getEndNode();
 				AntEdge e = new AntEdge(this, end);
 				end.addIncomingEdge(e);
 				addOutgoingEdge(e);
@@ -126,10 +126,10 @@ public abstract class AntNode extends ScheduleTask<AntEdge>{
 			for(AntEdge e1 : in.values()) {
 
 				AntNode inNode = (AntNode) e1.getNodeFrom();
-				if(inNode!=OnlineACOScheduler.getInstance().getDepotNode()){
+				if(inNode!=OnlineACOScheduler.getDepotNode()){
 					for(AntEdge e2 : outgoingEdges.values()){
 						AntNode outNode = (AntNode) e2.getNodeTo();
-						if(outNode!=OnlineACOScheduler.getInstance().getEndNode()){
+						if(outNode!=OnlineACOScheduler.getEndNode()){
 							if(inNode.outgoingEdges.containsKey(outNode.getID())) System.err.println("already a link between "+inNode.getID()+" and "+outNode.getID());
 							else {
 								AntEdge e = new AntEdge(inNode, outNode);

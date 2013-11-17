@@ -24,21 +24,24 @@ public class ThreadSafeTableModel extends AbstractTableModel implements Runnable
 		AtomicBoolean dispatching;
 
 		public ThreadSafeTableModel() {
+			lock = new ReentrantReadWriteLock();
+			lock.writeLock().lock();
 			events = new ConcurrentLinkedQueue<TableModelEvent>();
 			colNames = Collections.synchronizedList(new ArrayList<Object>());
-			lock = new ReentrantReadWriteLock();
 			dim = new AtomicIntegerArray(new int[] { 0, 0 });
 			dispatching = new AtomicBoolean(false);
 			data = new Object[0][0];
+			lock.writeLock().unlock();
 		}
 		
 		public ThreadSafeTableModel(Object[] colNames){
 			this();
+			lock.writeLock().lock();
+			dim.set(0, colNames.length);
 			for(Object o : colNames){
 				this.colNames.add(o);
-				
 			}
-			dim.set(0, colNames.length);
+			lock.writeLock().unlock();
 			fireTableStructureChanged();
 		}
 		
@@ -97,10 +100,12 @@ public class ThreadSafeTableModel extends AbstractTableModel implements Runnable
 		}
 		
 		public void addRow(Object[] values){
+			lock.writeLock().lock();
 			int rowCount = dim.get(1);
 			for(int i=0; i<values.length; i++){
 				setValueAt(values[i], rowCount, i);
 			}
+			lock.writeLock().unlock();
 		}
 		
 		@Override
@@ -148,7 +153,6 @@ public class ThreadSafeTableModel extends AbstractTableModel implements Runnable
 				super.fireTableChanged(e);
 			else {
 				events.add(e);
-
 				if (dispatching.compareAndSet(false, true))
 					SwingUtilities.invokeLater(this);
 			}

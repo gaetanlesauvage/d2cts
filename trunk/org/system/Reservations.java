@@ -201,7 +201,7 @@ public class Reservations {
 		ArrayList<Reservation> toUnreserve = new ArrayList<Reservation>(10);
 		Time tMin = r.getTimeWindow().getMin();
 		Time tPrev = table.lowerKey(tMin);
-
+		
 		// if (another reservation starts at the same time) => cannot make
 		// reservation
 		if (tPrev != null) {
@@ -213,7 +213,7 @@ public class Reservations {
 			} else if (previous.getTimeWindow().getMax().compareTo(r.getTimeWindow().getMin()) >= 0) {
 				// Pas ok
 				if (r.getPriority() > previous.getPriority()) {
-					if(r.getRoadId().equals("A-29/40") && r.getStraddleCarrierId().equals("straddle_carrier_10")){
+					if(r.getRoadId().equals("H-9/35") && r.getStraddleCarrierId().equals("straddle_carrier_6")){
 						System.err.println("here");
 					}
 					System.out.println("Trying to know if we can make reservation " + r);

@@ -7,7 +7,7 @@ import org.com.model.scheduling.ParameterBean;
 import org.scheduling.MissionSchedulerEvalParameters;
 
 public class SchedulingAlgorithmBean {
-	private Integer id;
+	private Integer schedulingID;
 	private String name;
 	private String _class;
 	private Map<String, ParameterBean> parameters;
@@ -29,7 +29,6 @@ public class SchedulingAlgorithmBean {
 			else
 				this.parameters.put(p.name(), p);
 		}
-
 	}
 
 	public Map<String, ParameterBean> getParameters() {
@@ -45,11 +44,11 @@ public class SchedulingAlgorithmBean {
 	}
 
 	public Integer getId() {
-		return id;
+		return schedulingID;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.schedulingID = id;
 	}
 
 	public String getJavaClass() {

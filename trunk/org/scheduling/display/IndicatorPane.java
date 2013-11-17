@@ -44,7 +44,7 @@ public class IndicatorPane extends JPanel {
 	private ConcurrentHashMap<String, Time> waitTimes;
 	private ConcurrentHashMap<String, Integer> completedMissions;
 	private ConcurrentHashMap<String, Double> fitnessScores;
-	
+
 	private int overrunTW;
 
 	private ConcurrentHashMap<String, JLabel[]> datas;
@@ -97,7 +97,7 @@ public class IndicatorPane extends JPanel {
 		waitTimes = new ConcurrentHashMap<String, Time>();
 		completedMissions = new ConcurrentHashMap<String, Integer>();
 		fitnessScores = new ConcurrentHashMap<String, Double>();
-		
+
 		overrunTW = 0;
 		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(straddleCarriersTable.getModel());
 		sorter.setComparator(1, new Comparator<JLabel>() {
@@ -141,26 +141,26 @@ public class IndicatorPane extends JPanel {
 	}
 
 	public void addResource(StraddleCarrier rsc) {
-			String rscID = rsc.getId();
-			TableCellWithIcon jlID = new TableCellWithIcon(rsc.getId(),rsc.getIcon());
-			distances.put(rscID, new UpdateInfo(0, 0));
-			Time t = new Time(0);
+		String rscID = rsc.getId();
+		TableCellWithIcon jlID = new TableCellWithIcon(rsc.getId(),rsc.getIcon());
+		distances.put(rscID, new UpdateInfo(0, 0));
+		Time t = new Time(0);
 
-			overspentTimes.put(rscID, t);
-			waitTimes.put(rscID, t);
-			completedMissions.put(rscID,0);
-			fitnessScores.put(rscID, 0.0);
-			
-			JLabel jlDistance = new JLabel("0");
-			JLabel jlOverspentTime = new JLabel(t.toString());
-			JLabel jlMissionsDone = new JLabel("0");
-			JLabel jlOverrun = new JLabel("0");
-			JLabel jlWaitTime = new JLabel(t.toString());
-			JLabel jlScore = new JLabel("0");
-			JLabel[] row = {jlID, jlDistance, jlOverspentTime, jlOverrun, jlMissionsDone, jlWaitTime, jlScore};
-			for(int i=0; i<row.length; i++) row[i].setFont(GraphicDisplay.font);
-			straddleCarrierModel.addRow(row);
-			datas.put(rsc.getId(), row);
+		overspentTimes.put(rscID, t);
+		waitTimes.put(rscID, t);
+		completedMissions.put(rscID,0);
+		fitnessScores.put(rscID, 0.0);
+
+		JLabel jlDistance = new JLabel("0");
+		JLabel jlOverspentTime = new JLabel(t.toString());
+		JLabel jlMissionsDone = new JLabel("0");
+		JLabel jlOverrun = new JLabel("0");
+		JLabel jlWaitTime = new JLabel(t.toString());
+		JLabel jlScore = new JLabel("0");
+		JLabel[] row = {jlID, jlDistance, jlOverspentTime, jlOverrun, jlMissionsDone, jlWaitTime, jlScore};
+		for(int i=0; i<row.length; i++) row[i].setFont(GraphicDisplay.font);
+		straddleCarrierModel.addRow(row);
+		datas.put(rsc.getId(), row);
 	}
 
 	private int getIndex(String resourceID){
@@ -180,7 +180,7 @@ public class IndicatorPane extends JPanel {
 		Time timeOverall = new Time(0);
 		Time waitTimeOverall = new Time(0);
 		double scoreOverall = 0.0;
-		
+
 		int missionsCount = 0;
 		for(UpdateInfo ui : distances.values()){
 			distanceOverall+=ui.distance;
@@ -197,7 +197,7 @@ public class IndicatorPane extends JPanel {
 		for(double score : fitnessScores.values()){
 			scoreOverall += score;
 		}
-		
+
 		overall[IndicatorPaneOverallColumns.DISTANCE.getIndex()].setText(df.format(distanceOverall));
 		overall[IndicatorPaneOverallColumns.OVERSPENT_TIME.getIndex()].setText(timeOverall.toString());
 		overall[IndicatorPaneOverallColumns.TW_OVERRUN.getIndex()].setText(overrunTW+"");
@@ -212,32 +212,34 @@ public class IndicatorPane extends JPanel {
 	}
 
 	public void addDistance(final String resourceID, double distance, double travelTime) {
-//		System.err.println("ADD DISTANCE "+resourceID+" "+distance+" "+new Time(travelTime+"s"));
+		//		System.err.println("ADD DISTANCE "+resourceID+" "+distance+" "+new Time(travelTime+"s"));
 		UpdateInfo oldInfo = distances.get(resourceID);
-		Double oldDistance = oldInfo.distance;
-		Double oldTravelTime = oldInfo.travelTime;
-		
-		Double newDistance = new Double(distance+oldDistance);
-		Double newTravelTime = new Double(travelTime+oldTravelTime); 
-		distances.put(resourceID, new UpdateInfo(newDistance, newTravelTime));
+		if(oldInfo != null){
+			Double oldDistance = oldInfo.distance;
+			Double oldTravelTime = oldInfo.travelTime;
 
-		double oldScore = fitnessScores.get(resourceID);
-		oldScore += travelTime*MissionScheduler.getEvalParameters().getTravelTimeCoeff();
-		fitnessScores.put(resourceID, oldScore);
-		
-		JLabel[] jls = datas.get(resourceID);
-		JLabel jl = jls[IndicatorPaneColumns.DISTANCE.getIndex()];
-		JLabel jlScore = jls[IndicatorPaneColumns.SCORE.getIndex()];
-		jl.setText(df.format(distances.get(resourceID).distance));
-		jlScore.setText(df.format(fitnessScores.get(resourceID)));
-		jls[IndicatorPaneColumns.DISTANCE.getIndex()] = jl;
-		jls[IndicatorPaneColumns.SCORE.getIndex()] = jlScore;
-		straddleCarrierModel.setValueAt(jl, getIndex(resourceID), IndicatorPaneColumns.DISTANCE.getIndex());
-		straddleCarrierModel.setValueAt(jlScore, getIndex(resourceID), IndicatorPaneColumns.SCORE.getIndex());
+			Double newDistance = new Double(distance+oldDistance);
+			Double newTravelTime = new Double(travelTime+oldTravelTime); 
+			distances.put(resourceID, new UpdateInfo(newDistance, newTravelTime));
 
-		computeOverall();
+			double oldScore = fitnessScores.get(resourceID);
+			oldScore += travelTime*MissionScheduler.getEvalParameters().getTravelTimeCoeff();
+			fitnessScores.put(resourceID, oldScore);
+
+			JLabel[] jls = datas.get(resourceID);
+			JLabel jl = jls[IndicatorPaneColumns.DISTANCE.getIndex()];
+			JLabel jlScore = jls[IndicatorPaneColumns.SCORE.getIndex()];
+			jl.setText(df.format(distances.get(resourceID).distance));
+			jlScore.setText(df.format(fitnessScores.get(resourceID)));
+			jls[IndicatorPaneColumns.DISTANCE.getIndex()] = jl;
+			jls[IndicatorPaneColumns.SCORE.getIndex()] = jlScore;
+			straddleCarrierModel.setValueAt(jl, getIndex(resourceID), IndicatorPaneColumns.DISTANCE.getIndex());
+			straddleCarrierModel.setValueAt(jlScore, getIndex(resourceID), IndicatorPaneColumns.SCORE.getIndex());
+
+			computeOverall();
+		}
 	}
-	
+
 	public void incNbOfCompletedMissions(final String resourceID){
 		lock.lock();
 		int old = completedMissions.get(resourceID);
@@ -262,28 +264,28 @@ public class IndicatorPane extends JPanel {
 			Time oldTime = overspentTimes.get(resourceID);
 			Time newTime = new Time(oldTime,overspentTime);
 			overspentTimes.put(resourceID, newTime);
-			
+
 			double oldScore = fitnessScores.get(resourceID);
 			oldScore += overspentTime.getInSec()*MissionScheduler.getEvalParameters().getLatenessCoeff();
 			fitnessScores.put(resourceID, oldScore);
-			
+
 			JLabel[] jls = datas.get(resourceID);
-			
+
 			JLabel jl = jls[IndicatorPaneColumns.OVERSPENT_TIME.getIndex()];
 			jl.setText(overspentTimes.get(resourceID).toString());
 			jls[IndicatorPaneColumns.OVERSPENT_TIME.getIndex()] = jl;
 			JLabel jlOverrun = jls[IndicatorPaneColumns.TW_OVERRUN.getIndex()];
 			jlOverrun.setText(""+(Integer.parseInt(jlOverrun.getText())+1));
 			jls[IndicatorPaneColumns.TW_OVERRUN.getIndex()] = jlOverrun;
-			
+
 			JLabel jlScore = jls[IndicatorPaneColumns.SCORE.getIndex()];
 			jlScore.setText(df.format(fitnessScores.get(resourceID)));
 			jls[IndicatorPaneColumns.SCORE.getIndex()] = jlScore;
-			
+
 			straddleCarrierModel.setValueAt(jl, getIndex(resourceID), IndicatorPaneColumns.OVERSPENT_TIME.getIndex());
 			straddleCarrierModel.setValueAt(jlOverrun, getIndex(resourceID), IndicatorPaneColumns.TW_OVERRUN.getIndex());
 			straddleCarrierModel.setValueAt(jlScore, getIndex(resourceID), IndicatorPaneColumns.SCORE.getIndex());
-			
+
 			computeOverall();
 		}
 	}
@@ -298,17 +300,17 @@ public class IndicatorPane extends JPanel {
 			JLabel jl = jls[IndicatorPaneColumns.WAIT_TIME.getIndex()];
 			jl.setText(waitTimes.get(resourceID).toString());
 			jls[IndicatorPaneColumns.WAIT_TIME.getIndex()] = jl;
-			
+
 			double oldScore = fitnessScores.get(resourceID);
 			oldScore += waitTime.getInSec()*MissionScheduler.getEvalParameters().getEarlinessCoeff();
 			fitnessScores.put(resourceID, oldScore);
 			JLabel jlScore = jls[IndicatorPaneColumns.SCORE.getIndex()];
 			jlScore.setText(df.format(fitnessScores.get(resourceID)));
 			jls[IndicatorPaneColumns.SCORE.getIndex()] = jlScore;
-			
+
 			straddleCarrierModel.setValueAt(jl, getIndex(resourceID), IndicatorPaneColumns.WAIT_TIME.getIndex());
 			straddleCarrierModel.setValueAt(jlScore, getIndex(resourceID), IndicatorPaneColumns.SCORE.getIndex());
-			
+
 			computeOverall();
 		}
 	}

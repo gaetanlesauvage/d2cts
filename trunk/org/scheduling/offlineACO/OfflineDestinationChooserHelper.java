@@ -20,7 +20,9 @@
 
 package org.scheduling.offlineACO;
 
+import org.scheduling.MissionScheduler;
 import org.scheduling.ScheduleEdge;
+import org.scheduling.offlineACO2.OfflineACOScheduler2;
 
 /**
  * Helper to be able to sort and compute probabilities easyly
@@ -68,7 +70,14 @@ public class OfflineDestinationChooserHelper implements Comparable<OfflineDestin
 		this.weight = weight;
 		this.foreignPheromone = foreignPheromone;
 		
-		if(parameters == null) parameters = OfflineACOScheduler.getInstance().getGlobalParameters();
+		if(parameters == null) {
+			if(MissionScheduler.getInstance() instanceof OfflineACOScheduler){
+				parameters = OfflineACOScheduler.getInstance().getGlobalParameters();
+			} else {
+				parameters = OfflineACOScheduler2.getInstance().getGlobalParameters();
+			}
+			 
+		}
 	}
 
 	/**

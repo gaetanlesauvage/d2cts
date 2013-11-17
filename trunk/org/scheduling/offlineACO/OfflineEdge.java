@@ -19,7 +19,7 @@ public class OfflineEdge extends ScheduleEdge {
 			ScheduleTask<OfflineEdge> destination) {
 		super(origin, destination);
 		this.pheromone = new HashMap<String, Double>();
-		for (ScheduleResource hill : ScheduleResource.getScheduleResources()) {
+		for (ScheduleResource hill : MissionScheduler.getInstance().getScheduleResources()) {
 			pheromone.put(hill.getID(), OfflineACOScheduler.getInstance().getGlobalParameters().getLambda());
 		}
 		// System.out.println("TSP:> EDGE CREATED : origin: "+origin.getID()+" destination: "+destination.getID());

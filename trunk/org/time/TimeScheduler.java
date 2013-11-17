@@ -36,14 +36,18 @@ import org.time.event.ShipContainerOut;
 import org.time.event.VehicleIn;
 import org.time.event.VehicleOut;
 import org.util.RecordableObject;
+import org.vehicles.StraddleCarrier;
 
 public class TimeScheduler implements RecordableObject {
 	private static final Logger logger = Logger.getLogger(TimeScheduler.class);
-	
+
 	private static TimeScheduler instance;
 
 	private List<String> discretsRemoteObjects;
 	private List<DiscretObject> discretObjects;
+	
+	private DiscretObject missionScheduler;
+	
 	private TreeMap<Time, List<DynamicEvent>> events;
 	private List<DynamicEvent> eventsToAdd;
 	private TreeMap<Time, List<DynamicEvent>> doneEvents;
@@ -58,11 +62,11 @@ public class TimeScheduler implements RecordableObject {
 	private int normalization_time_in_ms = 0;
 	private long outOfSyncItCount = 0;
 	private long catchupTime = 0;
-	
+
 	private static final double INIT_SEC_PER_STEP = 1;
 	public static final String rmiBindingName = "TimeScheduler";
 
-	
+
 
 	private ArrayList<Thread> prioritaryThreads;
 	private ArrayList<Thread> otherThreads;
@@ -78,12 +82,12 @@ public class TimeScheduler implements RecordableObject {
 
 	public static void closeInstance(){
 		if(instance != null){
-//			instance.destroy();
+			//			instance.destroy();
 			instance = null;
 		}
-		
+
 	}
-	
+
 	private String id;
 
 	private TextDisplay out;
@@ -104,7 +108,7 @@ public class TimeScheduler implements RecordableObject {
 
 		step = 0;
 		catchupTime = 0;
-	
+
 		prioritaryThreads = new ArrayList<Thread>(1);
 		otherThreads = new ArrayList<Thread>(20);
 		todoLast = new ArrayList<Thread>(1);
@@ -222,9 +226,18 @@ public class TimeScheduler implements RecordableObject {
 	public Time getTime() {
 		return t;
 	}
-
+	
+	public void recordMissionsScheduler (DiscretObject d){
+		missionScheduler = d;
+	}
+	
 	public void recordDiscretObject(DiscretObject d) {
-		discretObjects.add(d);
+		if(d instanceof StraddleCarrier){
+			discretObjects.add(0, d);
+		}
+		else {
+			discretObjects.add(d);
+		}
 	}
 
 	public void recordDiscretObject(String discretObjectName) {
@@ -249,6 +262,7 @@ public class TimeScheduler implements RecordableObject {
 	}
 
 	public void setSecondsPerStep(double newStepSize) {
+		logger.info("Step size = "+newStepSize);
 		this.secondsPerStep = newStepSize;
 	}
 
@@ -391,7 +405,9 @@ public class TimeScheduler implements RecordableObject {
 			// if(dynEvents!=null && dynEvents.size()>0) writer.append("\n");
 		}
 
-		// PRECOMPUTE
+		
+		
+		// PRECOMPUTE SC AND LS
 		// writer.append("PRECOMPUTE : ");
 		for (final DiscretObject d : discretObjects) {
 			d.precompute();
@@ -400,7 +416,7 @@ public class TimeScheduler implements RecordableObject {
 		}
 		// writer.append("\n");
 
-		// APPLY
+		// APPLY SC AND LS
 		// writer.append("APPLY : ");
 		for (final DiscretObject d : discretObjects) {
 			d.apply();
@@ -410,6 +426,11 @@ public class TimeScheduler implements RecordableObject {
 		// writer.append("\n");
 
 		// writer.flush();
+		
+		//PRECOMPUTE AND APPLY MISSION SCHEDULER !
+				missionScheduler.precompute();
+				
+				missionScheduler.apply();
 	}
 
 	private void stepThread() {
@@ -581,43 +602,43 @@ public class TimeScheduler implements RecordableObject {
 		this.threaded = threaded;
 	}
 
-//	public void destroy() {
-//		t = null;
-//		out = null;
-//		id = null;
-//		secondsPerStep = 0.0;
-//
-//		discretObjects.clear();
-//		
-//		discretsRemoteObjects.clear();
-//		doneEvents.clear();
-//		events.clear();
-//		eventsToAdd.clear();
-//
-//		if (todoLast != null) {
-//			todoLast.clear();
-//			todoLast = null;
-//		}
-//		if (prioritaryThreads != null) {
-//			prioritaryThreads.clear();
-//			prioritaryThreads = null;
-//		}
-//		if (otherThreads != null) {
-//			otherThreads.clear();
-//			otherThreads = null;
-//		}
-//		catchupTime = 0;
-//		discretObjects = null;
-//		discretsRemoteObjects = null;
-//		doneEvents = null;
-//		events = null;
-//		eventsToAdd = null;
-//		normalization_time_in_ms = 0;
-//		outOfSyncItCount = 0;
-//		startTime = 0;
-//		step = 0;
-//		
-//	}
+	//	public void destroy() {
+	//		t = null;
+	//		out = null;
+	//		id = null;
+	//		secondsPerStep = 0.0;
+	//
+	//		discretObjects.clear();
+	//		
+	//		discretsRemoteObjects.clear();
+	//		doneEvents.clear();
+	//		events.clear();
+	//		eventsToAdd.clear();
+	//
+	//		if (todoLast != null) {
+	//			todoLast.clear();
+	//			todoLast = null;
+	//		}
+	//		if (prioritaryThreads != null) {
+	//			prioritaryThreads.clear();
+	//			prioritaryThreads = null;
+	//		}
+	//		if (otherThreads != null) {
+	//			otherThreads.clear();
+	//			otherThreads = null;
+	//		}
+	//		catchupTime = 0;
+	//		discretObjects = null;
+	//		discretsRemoteObjects = null;
+	//		doneEvents = null;
+	//		events = null;
+	//		eventsToAdd = null;
+	//		normalization_time_in_ms = 0;
+	//		outOfSyncItCount = 0;
+	//		startTime = 0;
+	//		step = 0;
+	//		
+	//	}
 
 	public String eventsToString() {
 		StringBuilder sb = new StringBuilder();

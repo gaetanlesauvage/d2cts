@@ -218,7 +218,7 @@ public class LoadSimulationDialog extends JDialog {
 
 				int realColumnIndex = convertColumnIndexToModel(columnIndex);
 
-				if(realColumnIndex >= 0 && realColumnIndex == SCHEDULING_ALGORITHM_COLUMN_INDEX){
+				if(realColumnIndex >= 0 && realColumnIndex == SCHEDULING_ALGORITHM_COLUMN_INDEX && rowIndex >=0){
 					Integer simID = Integer.parseInt(tm.getValueAt(rowIndex, SIMULATION_ID_COLUMN_INDEX)+"");
 					SimulationDAO instance = SimulationDAO.getInstance();
 					tip = "";

@@ -1,6 +1,7 @@
 package org.scheduling;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.exceptions.EmptyResourcesException;
 import org.routing.path.Path;
@@ -25,7 +26,7 @@ public class ScheduleEdge {
 	/**
 	 * Travel times for going from origin node to destination according to the model of the vehicle
 	 */
-	protected HashMap<String, Double> cost;
+	protected Map<String, Double> cost;
 	
 	protected double maxCost;
 	/**
@@ -79,7 +80,7 @@ public class ScheduleEdge {
 	}
 
 	public void addCost(StraddleCarrier rsc) {
-			if(origin == MissionScheduler.getInstance().SOURCE_NODE || destination == MissionScheduler.getInstance().SOURCE_NODE || destination == OnlineACOScheduler.getInstance().getDepotNode()){
+			if(origin == MissionScheduler.SOURCE_NODE || destination == MissionScheduler.SOURCE_NODE || destination == OnlineACOScheduler.getDepotNode()){
 				double d = getCost(rsc);
 				if(d>maxCost) {
 					//System.err.println(getID()+" => d="+d+" > "+maxCost);
@@ -126,6 +127,11 @@ public class ScheduleEdge {
 	public String getID(){
 		if(origin == null || destination == null) return null;
 		else return origin.getID()+"->"+destination.getID();
+	}
+	
+	@Override
+	public String toString(){
+		return getID();
 	}
 	
 	public void destroy() {

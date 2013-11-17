@@ -171,7 +171,7 @@ public class AntEdge extends ScheduleEdge {
 		Color color = StraddleCarrierColor.getColor(resource.getColor());
 		int size = OnlineACOScheduler.getInstance().getResources().size();
 
-		if(origin == OnlineACOScheduler.getInstance().getDepotNode() || destination == OnlineACOScheduler.getInstance().getEndNode()){
+		if(origin == OnlineACOScheduler.getDepotNode() || destination == OnlineACOScheduler.getEndNode()){
 			key = resource.getId();
 			d = getCost(resource);
 

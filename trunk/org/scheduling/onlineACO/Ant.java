@@ -85,7 +85,7 @@ public class Ant {
 		ID = "Ant["+(++idCounter)+"]";
 		colonyID = hill.getID();
 		currentScore = new LocalScore(hill.getLocalScore());
-		location = OnlineACOScheduler.getInstance().getDepotNode();
+		location = OnlineACOScheduler.getDepotNode();
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class Ant {
 		path.clear();
 		if(location != null && location instanceof AntMissionNode) ((AntMissionNode)location).removeAnt(this);
 
-		location = OnlineACOScheduler.getInstance().getDepotNode();
+		location = OnlineACOScheduler.getDepotNode();
 		currentScore = new LocalScore(hill.getLocalScore());
 	}
 
@@ -260,7 +260,7 @@ public class Ant {
 			}
 		}
 		if(endReached){
-			move(OnlineACOScheduler.getInstance().getEndNode());
+			move(OnlineACOScheduler.getEndNode());
 			spreadPheromoneOnWholePath();
 		}
 //		lastChoice+=" => NA\n";

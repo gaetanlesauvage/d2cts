@@ -14,15 +14,17 @@ import org.com.model.SchedulingAlgorithmBean;
 public class SchedulingAlgorithmDAO implements D2ctsDao<SchedulingAlgorithmBean> {
 	private static final Logger log = Logger.getLogger(SchedulingAlgorithmDAO.class);
 
-	private static SchedulingAlgorithmDAO instance;
+	private static Map<Integer, SchedulingAlgorithmDAO> instances;
 
-	private static final String LOAD_QUERY = "SELECT ID, NAME, CLASS FROM SCHEDULING_ALGORITHM";
+	private static final String LOAD_QUERY = "SELECT sa.ID, sa.NAME, sa.CLASS FROM SCHEDULING_ALGORITHM sa INNER JOIN SIMULATION s ON sa.ID = s.SCHEDULING_ALGORITHM AND s.ID = ?";
+	private static final String LOAD_QUERY_ALL = "SELECT sa.ID, sa.NAME, sa.CLASS FROM SCHEDULING_ALGORITHM sa";
 
 	private PreparedStatement psLoad;
-
+	private Integer simID;
 	private Map<Integer, SchedulingAlgorithmBean> beans;
 
-	private SchedulingAlgorithmDAO() {
+	private SchedulingAlgorithmDAO(Integer simID) {
+		this.simID = simID;
 		try {
 			load();
 		} catch (SQLException e) {
@@ -30,14 +32,24 @@ public class SchedulingAlgorithmDAO implements D2ctsDao<SchedulingAlgorithmBean>
 		}
 	}
 
-	public static SchedulingAlgorithmDAO getInstance() {
-		if (instance == null) {
-			instance = new SchedulingAlgorithmDAO();
-
+	public static SchedulingAlgorithmDAO getInstance(Integer simID) {
+		if (instances == null) {
+			instances = new HashMap<>();
 		}
-		return instance;
+		if(!instances.containsKey(simID)){
+			instances.put(simID, new SchedulingAlgorithmDAO(simID));
+		}
+		
+		return instances.get(simID);
 	}
 
+	public static Iterator<SchedulingAlgorithmDAO> getInstances(){
+		if(instances == null){
+			instances = new HashMap<>();
+		}
+		return instances.values().iterator();
+	}
+	
 	@Override
 	public Iterator<SchedulingAlgorithmBean> iterator() {
 		if (beans == null)
@@ -50,17 +62,24 @@ public class SchedulingAlgorithmDAO implements D2ctsDao<SchedulingAlgorithmBean>
 		if (psLoad != null) {
 			psLoad.close();
 		}
-		instance = null;
-		log.info("SchedulingAlgorithmDAO closed.");
+		//instances.remove(simID);
+		instances = null;
+		log.info("SchedulingAlgorithmDAO of sim "+simID+" closed.");
 	}
 
 	@Override
 	public void load() throws SQLException {
 		if (psLoad == null) {
-			psLoad = DbMgr.getInstance().getConnection().prepareStatement(LOAD_QUERY);
+			if(simID == null){
+				psLoad = DbMgr.getInstance().getConnection().prepareStatement(LOAD_QUERY_ALL);
+			} else {
+				psLoad = DbMgr.getInstance().getConnection().prepareStatement(LOAD_QUERY);
+				psLoad.setInt(1, simID);
+			}
+			
 		}
 		beans = new HashMap<>();
-
+		
 		ResultSet rs = psLoad.executeQuery();
 		while (rs.next()) {
 			SchedulingAlgorithmBean bean = new SchedulingAlgorithmBean();
