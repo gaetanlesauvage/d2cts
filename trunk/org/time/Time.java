@@ -242,4 +242,13 @@ public class Time implements Comparable<Time> {
 		//return new java.sql.Time((int) ((getInSec()) * 1000));
 		return new java.sql.Time(c.getTimeInMillis());
 	}
+
+	public String shortString() {
+		if(Double.isNaN(s)){
+			return MAXTIME;
+		} else {
+			String ss = ""+(int)s;
+			return (h == 0 ?  "" : h+":") + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0"+ss : ss);
+		}
+	}
 }

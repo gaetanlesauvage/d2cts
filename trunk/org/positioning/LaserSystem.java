@@ -95,7 +95,7 @@ public class LaserSystem implements DiscretObject {
 		if (out != null)
 			out.println("New Laser Head Created on " + lh.getLocation());
 		else
-			System.out.println("New Laser Head Created on " + lh.getLocation());
+			log.trace("New Laser Head Created on " + lh.getLocation());
 	}
 
 	// TODO improve the search of vehicle on the same road ?
@@ -217,7 +217,7 @@ public class LaserSystem implements DiscretObject {
 	}
 
 	@Override
-	public void apply() {
+	public boolean apply() {
 		for (LaserHead lh : heads.values()) {
 			lh.clearVisibles();
 		}
@@ -240,6 +240,7 @@ public class LaserSystem implements DiscretObject {
 				lh.detectStraddleCarrier(rsc.getId(), l);
 			}
 		}
+		return NOTHING_CHANGED;
 	}
 
 	private void saveLocation(Location l, Coordinates c, String rscId) {

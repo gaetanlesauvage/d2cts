@@ -1,19 +1,25 @@
 package org.scheduling;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JFrame;
+import javax.swing.JTree;
+
 import org.time.Time;
+import org.time.TimeScheduler;
 
 
 public class GlobalScore implements Comparable<GlobalScore> {
 	private Map<String, LocalScore> localScores;
-	
+
 	private double distance;
 	private double distanceInSeconds;
 	private double overspentTime;
 	private double waitTime;
-	
+
 	public GlobalScore (){
 		localScores = new HashMap<>();
 		reset();
@@ -25,7 +31,7 @@ public class GlobalScore implements Comparable<GlobalScore> {
 		distanceInSeconds = toCopy.distanceInSeconds;
 		overspentTime = toCopy.overspentTime;
 		waitTime = toCopy.waitTime;
-		
+
 		for(String k : toCopy.localScores.keySet()){
 			localScores.put(k, new LocalScore(toCopy.localScores.get(k)));
 		}
@@ -39,22 +45,22 @@ public class GlobalScore implements Comparable<GlobalScore> {
 		distanceInSeconds = 0;
 		overspentTime = 0;
 		waitTime = 0;
-		
+
 	}
 
 	public void addScore(LocalScore localScore){
 		boolean b = false;
-//		if(localScores.containsKey(localScore.getResource().getID())){
-//			b = true;
-//			new Exception("LOCAL SCORE ALREADY PRESENT !").printStackTrace();
-//			System.out.println("BEFORE : "+this+"\n=> "+this.getSolutionString());
-//			LocalScore oldLocal = localScores.remove(localScore.getResource().getID());
-//			distance -= oldLocal.getDistance();
-//			distanceInSeconds -= oldLocal.getTravelTime();
-//			overspentTime -= oldLocal.getLateness();
-//			waitTime -= oldLocal.getEarliness();
-//			
-//		}
+		//		if(localScores.containsKey(localScore.getResource().getID())){
+		//			b = true;
+		//			new Exception("LOCAL SCORE ALREADY PRESENT !").printStackTrace();
+		//			System.out.println("BEFORE : "+this+"\n=> "+this.getSolutionString());
+		//			LocalScore oldLocal = localScores.remove(localScore.getResource().getID());
+		//			distance -= oldLocal.getDistance();
+		//			distanceInSeconds -= oldLocal.getTravelTime();
+		//			overspentTime -= oldLocal.getLateness();
+		//			waitTime -= oldLocal.getEarliness();
+		//			
+		//		}
 		localScores.put(localScore.getResource().getID(), localScore);
 		distance = 0;
 		distanceInSeconds = 0;
@@ -66,20 +72,20 @@ public class GlobalScore implements Comparable<GlobalScore> {
 			overspentTime += ls.getLateness();
 			waitTime += ls.getEarliness();
 		}
-		
+
 		/*distance += localScore.getDistance();
 		distanceInSeconds += localScore.getTravelTime();
 		overspentTime += localScore.getLateness();
 		waitTime += localScore.getEarliness();
-		*/
+		 */
 		if(b) {
-			System.out.println("AFTER : "+this+"\n=> "+this.getSolutionString());
+			System.out.println("AFTER : "+this+"\n=> "+this.getSolutionString()+"\n");
 			new java.util.Scanner(System.in).nextLine();
 		}
 	}
 
 	public double getDistance(){
-		
+
 		return distance;
 	}
 
@@ -94,7 +100,7 @@ public class GlobalScore implements Comparable<GlobalScore> {
 	public double getWaitTime(){
 		return waitTime;
 	}
-	
+
 	public Map<String, LocalScore> getSolution(){
 		return localScores;
 	}
@@ -105,7 +111,7 @@ public class GlobalScore implements Comparable<GlobalScore> {
 	}
 
 	public String toString(){
-		
+
 		StringBuilder sb = new StringBuilder();
 		double score = getScore();
 		sb.append("d="+distance+"m\tt(d)="+new Time(distanceInSeconds)+"\toverTime="+new Time(overspentTime)+"\twaitTime="+new Time(waitTime)+"\tscore="+score+" ("+new Time(score)+") :\n");
@@ -139,8 +145,14 @@ public class GlobalScore implements Comparable<GlobalScore> {
 
 	public String getSolutionString() {
 		StringBuilder sb = new StringBuilder();
+		boolean first = true;
 		for(String hill : localScores.keySet()){
-			sb.append(hill+" : "+localScores.get(hill).getPathString()+"\n");
+			if(first){
+				first = false;
+			} else {
+				sb.append("\n");
+			}
+			sb.append(hill+" : "+localScores.get(hill).getPathString());
 		}
 		return sb.toString();
 	}
@@ -151,5 +163,17 @@ public class GlobalScore implements Comparable<GlobalScore> {
 			count += l.getTaskCount();
 		}
 		return count;
+	}
+
+	public JTree getGUISolution () {
+		JTree t = new JTree(localScores.values().toArray(new LocalScore[localScores.size()]));
+		return t;
+	}
+	
+	public void displayScore () {
+		JFrame jf = new JFrame("GS at "+TimeScheduler.getInstance().getTime());
+		jf.add(getGUISolution(),BorderLayout.CENTER);
+		jf.setSize(new Dimension(400, 400));
+		jf.setVisible(true);
 	}
 }

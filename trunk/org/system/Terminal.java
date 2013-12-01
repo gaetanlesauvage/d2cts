@@ -242,7 +242,7 @@ public class Terminal implements RecordableObject {
 				System.out.println("Id = " + nodeId + " connex = " + connexNodeId);
 			}
 			rp.addConnexCrossroad(connexNodeId, by);
-			log.debug("Connex crossroads : " + nodeId + " with " + connexNodeId + " by " + by);
+			log.trace("Connex crossroads : " + nodeId + " with " + connexNodeId + " by " + by);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			log.error(e.getMessage(), e);

@@ -21,7 +21,10 @@ package org.time;
 
 
 public interface DiscretObject{
-	public void apply();
-	public String getId();
-	public void precompute();
+	static final boolean SOMETHING_CHANGED = true;
+	static final boolean NOTHING_CHANGED = false;
+	
+	boolean apply();
+	String getId();
+	void precompute();
 }

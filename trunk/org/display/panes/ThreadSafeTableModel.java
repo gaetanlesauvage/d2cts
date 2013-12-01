@@ -25,23 +25,23 @@ public class ThreadSafeTableModel extends AbstractTableModel implements Runnable
 
 		public ThreadSafeTableModel() {
 			lock = new ReentrantReadWriteLock();
-			lock.writeLock().lock();
+			//lock.writeLock().lock();
 			events = new ConcurrentLinkedQueue<TableModelEvent>();
 			colNames = Collections.synchronizedList(new ArrayList<Object>());
 			dim = new AtomicIntegerArray(new int[] { 0, 0 });
 			dispatching = new AtomicBoolean(false);
 			data = new Object[0][0];
-			lock.writeLock().unlock();
+			//lock.writeLock().unlock();
 		}
 		
 		public ThreadSafeTableModel(Object[] colNames){
 			this();
-			lock.writeLock().lock();
+			//lock.writeLock().lock();
 			dim.set(0, colNames.length);
 			for(Object o : colNames){
 				this.colNames.add(o);
 			}
-			lock.writeLock().unlock();
+			//lock.writeLock().unlock();
 			fireTableStructureChanged();
 		}
 		

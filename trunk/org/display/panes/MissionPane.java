@@ -45,7 +45,7 @@ import org.missions.Workload;
 import org.system.Terminal;
 
 public class MissionPane extends JPanel implements ListSelectionListener,
-		MouseListener {
+MouseListener {
 
 	/**
 	 * 
@@ -62,41 +62,43 @@ public class MissionPane extends JPanel implements ListSelectionListener,
 		super(new BorderLayout());
 		lock = new ReentrantLock();
 		MissionColumns[] values = MissionColumns.values();
-		dm = new ThreadSafeTableModel(values);
-		
-		datas = new HashMap<>();
-		
-		table = new JTable(dm);
-		
-		indexes = new HashMap<String, Integer>();
-		table.setFont(GraphicDisplay.font);
 
-		table.getTableHeader().setFont(GraphicDisplay.fontBold);
+		boolean ok = false;
 
-		TableRowSorter<ThreadSafeTableModel> sorter = new TableRowSorter<ThreadSafeTableModel>(
-				dm);
-		MissionCellRenderer renderer = new MissionCellRenderer();
-		renderer.setHorizontalAlignment(JLabel.CENTER);
-		renderer.setFont(GraphicDisplay.font);
-		try {
-			table.setDefaultRenderer(Class.forName("java.lang.Object"),
-					renderer);
-		} catch (ClassNotFoundException ex) {
-			System.exit(ReturnCodes.EXIT_ON_UNKNOWN_ERROR.getCode());
+		while(!ok){
+			dm = new ThreadSafeTableModel(values);
+
+			datas = new HashMap<>();
+
+			table = new JTable(dm);
+
+			indexes = new HashMap<String, Integer>();
+			table.setFont(GraphicDisplay.font);
+
+			table.getTableHeader().setFont(GraphicDisplay.fontBold);
+
+			TableRowSorter<ThreadSafeTableModel> sorter = new TableRowSorter<ThreadSafeTableModel>(
+					dm);
+			MissionCellRenderer renderer = new MissionCellRenderer();
+			renderer.setHorizontalAlignment(JLabel.CENTER);
+			renderer.setFont(GraphicDisplay.font);
+			try {
+				table.setDefaultRenderer(Class.forName("java.lang.Object"),
+						renderer);
+			} catch (ClassNotFoundException ex) {
+				System.exit(ReturnCodes.EXIT_ON_UNKNOWN_ERROR.getCode());
+			}
+
+			sorter.setSortsOnUpdates(true);
+			table.setRowSorter(sorter);
+
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+
+			if(table.getColumnCount() == MissionColumns.values().length){
+				ok = true;
+			}
 		}
 
-		sorter.setSortsOnUpdates(true);
-		table.setRowSorter(sorter);
-
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		
-		while(table.getColumnCount() != MissionColumns.values().length){
-			System.err.println("MissionPane Waiting ...");
-			dm = new ThreadSafeTableModel(MissionColumns.values());
-			table.setModel(dm);
-			Thread.yield();
-		}
-		System.err.println("Size ok.");
 		for (MissionColumns mc : MissionColumns.values()) {
 			table.getColumnModel().getColumn(mc.getIndex()).setMinWidth(mc.getWidth());
 		}
@@ -120,7 +122,7 @@ public class MissionPane extends JPanel implements ListSelectionListener,
 				m.getPickupTimeWindow().toString(),
 				m.getDestination().getSlotId(),
 				m.getDeliveryTimeWindow().toString(), Workload.NON_AFFECTED,
-				"Waiting"/* , new Time(0)+"" */};
+		"Waiting"/* , new Time(0)+"" */};
 		dm.addRow(row);
 		datas.put(m.getId(), row);
 		indexes.put(m.getId(), dm.getRowCount() - 1);
@@ -237,7 +239,7 @@ public class MissionPane extends JPanel implements ListSelectionListener,
 		case STATE_CURRENT:
 			s = l.getPhase().getLabel();
 			break;
-		
+
 		case STATE_TODO:
 			s = "Waiting";
 			break;
@@ -245,7 +247,7 @@ public class MissionPane extends JPanel implements ListSelectionListener,
 			s = "Achieved";
 			break;
 		}
-		
+
 		return s;
 	}
 

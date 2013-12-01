@@ -65,33 +65,35 @@ public class SlotPane extends JPanel implements ListSelectionListener,
 
 	public SlotPane() {
 		super(new BorderLayout(50, 0));
-		dm = new ThreadSafeTableModel(SlotColumns.values());
-
-		datas = new HashMap<String, Object[]>();
-		table = new JTable(dm);
-		table.setFont(GraphicDisplay.font);
-		table.getTableHeader().setFont(GraphicDisplay.fontBold);
 		final MouseListener ml = this;
 
-		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);
-		TableCellRendererCentered alignCenter = new TableCellRendererCentered();
-
-		alignCenter.setFont(GraphicDisplay.font);
-		try {
-			table.setDefaultRenderer(Class.forName("java.lang.Object"),
-					alignCenter);
-		} catch (ClassNotFoundException ex) {
-			System.exit(ReturnCodes.EXIT_ON_UNKNOWN_ERROR.getCode());
-		}
-
-		sorter.setSortsOnUpdates(true);
-		table.setRowSorter(sorter);
 		
-		while(table.getColumnCount() != SlotColumns.values().length){
-			System.err.println("Waiting ...");
-			Thread.yield();
+		boolean ok = false;
+
+		while(!ok){
+			dm = new ThreadSafeTableModel(SlotColumns.values());
+
+			datas = new HashMap<String, Object[]>();
+			table = new JTable(dm);
+			table.setFont(GraphicDisplay.font);
+			table.getTableHeader().setFont(GraphicDisplay.fontBold);
+			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm);
+			TableCellRendererCentered alignCenter = new TableCellRendererCentered();
+
+			alignCenter.setFont(GraphicDisplay.font);
+			try {
+				table.setDefaultRenderer(Class.forName("java.lang.Object"),
+						alignCenter);
+			} catch (ClassNotFoundException ex) {
+				System.exit(ReturnCodes.EXIT_ON_UNKNOWN_ERROR.getCode());
+			}
+
+			sorter.setSortsOnUpdates(true);
+			table.setRowSorter(sorter);
+			if(table.getColumnCount() == SlotColumns.values().length){
+				ok = true;
+			}
 		}
-		System.err.println("Size ok.");
 		
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		for (SlotColumns sc : SlotColumns.values()) {

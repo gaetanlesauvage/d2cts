@@ -229,9 +229,15 @@ public class BranchAndBound extends MissionScheduler {
 	}
 
 	@Override
-	public void apply() {
+	public boolean apply() {
+		boolean returnCode = NOTHING_CHANGED;
 		step++;
 		sstep++;
+		if(precomputed){
+			precomputed = false;
+			returnCode = SOMETHING_CHANGED;
+		}
+		return returnCode;
 	}
 
 	@Override
@@ -324,6 +330,7 @@ public class BranchAndBound extends MissionScheduler {
 
 	@Override
 	public void compute() {
+		precomputed = true;
 		System.out.println("COMPUTE : " + resources.size() + " ; "
 				+ pool.size());
 		if (BranchAndBoundParametersBean.SOLUTION_INIT_FILE.getValueAsString().equals("")) {

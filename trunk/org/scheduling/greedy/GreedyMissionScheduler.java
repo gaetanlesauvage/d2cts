@@ -38,9 +38,15 @@ public class GreedyMissionScheduler extends MissionScheduler {
 	}
 	
 	@Override
-	public void apply() {
+	public boolean apply() {
+		boolean returnCode = NOTHING_CHANGED;
 		step++;
 		sstep++;
+		if(precomputed){
+			precomputed = false;
+			returnCode = SOMETHING_CHANGED;
+		}
+		return returnCode;
 	}
 
 	@Override
@@ -131,6 +137,7 @@ public class GreedyMissionScheduler extends MissionScheduler {
 	
 	@Override
 	public void compute() {
+		precomputed = true;
 		long tNow = System.nanoTime();
 		razWorkloads();
 		//int missionsToSkip = 0;

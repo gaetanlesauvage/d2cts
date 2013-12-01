@@ -106,7 +106,7 @@ public class RDijkstraHandler extends RRoutingAlgorithm {
 					Road r = Terminal.getInstance().getRoadBetween(rp.getId(), s);
 					double distance = r.getExactLengthBetween(rp.getId(), s);
 					d.put(s, new RDijkstraHelper(r, distance));
-					logger.debug(rp.getId()+"->"+s+" = "+distance);
+//					logger.debug(rp.getId()+"->"+s+" = "+distance);
 				}
 				distances.put(rp.getId(), d);
 			}

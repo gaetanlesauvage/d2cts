@@ -67,7 +67,7 @@ public abstract class MissionScheduler implements DiscretObject {
 
 	protected JMissionScheduler jms;
 
-	public static final boolean DEBUG = false;
+	public static boolean DEBUG = false;
 
 	/**
 	 * Current step of the algorithm
@@ -332,7 +332,7 @@ public abstract class MissionScheduler implements DiscretObject {
 	/**
 	 * Apply is called by the TimeScheduler at each step of the simulation after calling precompute() method of each DiscretObject of the scheduler. 
 	 */
-	public abstract void apply();
+	public abstract boolean apply();
 
 	/*
 	 * ============================== CONTINOUS PART OF THE SCHEDULER
@@ -923,16 +923,16 @@ public abstract class MissionScheduler implements DiscretObject {
 		}
 
 		if (lock != null) {
-			// TODO DEBUG ILLEGAL MONITOR
+			/*// TODO DEBUG ILLEGAL MONITOR
 			try {
 				lock.unlock();
 
 			} catch (IllegalMonitorStateException e) {
 				// Nothing to do.
 				System.err.println("FIXME : IllegalMonitorStateException on MissionScheduler lock");
-			} finally {
+			} finally {*/
 				lock = null;
-			}
+			//}
 
 		}
 		// pool.clear();

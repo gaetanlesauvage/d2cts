@@ -1,6 +1,8 @@
 package org.scheduling.offlineACO2;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +10,6 @@ import java.util.Set;
 
 import org.com.model.scheduling.OfflineACO2ParametersBean;
 import org.exceptions.EmptyResourcesException;
-import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.DefaultGraph;
 import org.missions.Mission;
@@ -135,12 +136,12 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 			List<? extends ScheduleEdge> dests = MissionScheduler.SOURCE_NODE.getDestinations();
 			for (ScheduleEdge e : dests) {
 				graph.addEdge(e.getID(), e.getNodeFrom().getID(), e.getNodeTo().getID(), true);
-				System.out.println("Edge : " + e.getID() + " added");
+				log.debug("Edge : " + e.getID() + " added");
 			}
 
 			for (@SuppressWarnings("rawtypes")
 			ScheduleTask t : scheduleTasks.values()) {
-				System.out.println("t=" + t.getID());
+				log.debug("t=" + t.getID());
 				// if(t == MissionScheduler.SOURCE_NODE)
 				// System.err.println("DEPOT NODE ALREADY IN SCHEDULE TASKS");
 				@SuppressWarnings("unchecked")
@@ -148,8 +149,8 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 				for (OfflineEdge2 e : destinations) {
 
 					ScheduleTask<? extends ScheduleEdge> t2 = e.getNodeTo();
-					System.out.println("\te=" + e.getID() + " t2=" + t2.getID());
-					Edge de = graph.addEdge(e.getID(), t.getID(), t2.getID(), true);
+					log.debug("\te=" + e.getID() + " t2=" + t2.getID());
+					/*Edge de = */graph.addEdge(e.getID(), t.getID(), t2.getID(), true);
 					// de.addAttribute("ui.label", e.get)
 				}
 			}
@@ -163,32 +164,23 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 	 */
 	private void checkAnts(){
 		int fitSize = Math.min(scheduleResources.size() * scheduleTasks.size(), MAX_ANTS);
-		if (ants == null || ants.size() != fitSize) {
-			if(ants != null){
-				/*for(OfflineAnt2 a : ants){
-					a.reset();
-				}*/
-				ants.clear();
-			}
+		if (ants == null) {
 			ants = new ArrayList<OfflineAnt2>(fitSize);
+		}
+		if(ants.size() < fitSize) {
 			// ADD ANTS
-			for (int i = 0; i < fitSize; i++) {
+			for (int i = ants.size(); i < fitSize; i++) {
 				OfflineAnt2 a = new OfflineAnt2();
 				ants.add(a);
 				log.info("ANT " + a.getID() + " ADDED");
+			}			
+		} else if(ants.size() > fitSize){
+			int dif = ants.size() - fitSize;
+			for (int i = 0; i < dif; i++) {
+				OfflineAnt2 a = ants.remove(Terminal.getInstance().getRandom().nextInt(ants.size()));
+				log.info("ANT " + a.getID() + " REMOVED");
 			}
 		}
-		//	} else {
-		//				if (ants.size() > fitSize) {
-		//					int dif = ants.size() - fitSize;
-		//					for (int i = 0; i < dif; i++) {
-		//						OfflineAnt2 a = ants.remove(Terminal.getInstance().getRandom().nextInt(ants.size()));
-		//						log.info("ANT " + a.getID() + " REMOVED");
-		//					}
-		//				}
-		//}
-
-		//}
 	}
 
 	//	@Override
@@ -247,15 +239,17 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 	}
 
 	@Override
-	public void apply() {
+	public boolean apply() {
+		boolean returnCode = NOTHING_CHANGED;
 		if (precomputed) {
+			returnCode = SOMETHING_CHANGED;
 			long before = System.nanoTime();
 			// AFFECT SOLUTION
-			 //algo : supprimer toutes les missions non commencées des plans de charge
-			 for(StraddleCarrier sc : resources){
-				 sc.clearWorkload();
-			 }
-			 
+			//algo : supprimer toutes les missions non commencées des plans de charge
+			for(StraddleCarrier sc : resources){
+				sc.clearWorkload();
+			}
+
 			Map<String, LocalScore> solutions = best.getSolution();
 			for (String colonyID : solutions.keySet()) {
 				StraddleCarrier vehicle = vehicles.get(colonyID);
@@ -283,13 +277,14 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 			long after = System.nanoTime();
 			computeTime += (after - before);
 
-			log.info("AVG Scores : distance= " + stats.getAVG_Distance() + " overspent_time= " + new Time(stats.getAVG_OverspentTime())
+			log.trace("AVG Scores : distance= " + stats.getAVG_Distance() + " overspent_time= " + new Time(stats.getAVG_OverspentTime())
 			+ " score= " + stats.getAVG_Score());
-			log.info("SOLUTION : \n" + best.getSolutionString());
+			log.trace("SOLUTION : \n" + best.getSolutionString());
 			stats.exportGNUPlot("/home/gaetan/TSPStats.dat");
 			log.info("CPT TIME = " + new Time(getComputingTime()));
 		}
 		sstep++;
+		return returnCode;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -343,43 +338,49 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 		parameters.setLambda(maxEta);
 	}
 
+	public void tmp (int step) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(TimeScheduler.getInstance().getTime().shortString()+"> "+step+" > pheromones :\n");
+		for(OfflineEdge2 e : getEdges()){
+			sb.append(e.getID()+" : "+e.getPHString()+"\n");
+		}
+		log.info(sb.toString());
+	}
+	
 	@Override
 	public void compute() {
 		stats = new OfflineSchedulerStats(getGlobalParameters());
 		OfflineAnt2.resetAll();
 		best = null;
-		//OfflineAnt2.antCounter = ants.size();
-		//for(OfflineAnt2 ant : ants){
-		//	ant.reset();
-		//}
+
 		if (jms == null) {
 			execute();
 		} else {
 			initSolution();
-			
 			// TODO assert syncSize > 0
 			for (int i = 0; i < syncSize; i++) {
+				/*if(i == 0 || i == syncSize -1){
+					MissionScheduler.DEBUG = true;
+				} else{
+					MissionScheduler.DEBUG = false;
+				}*/
+					
 				execute();
+				/*if(MissionScheduler.DEBUG) {
+					tmp(i);
+				}*/
 			}
 
-			double avgPH = OfflineAnt2.sumPH / (OfflineAnt2.phTimes + 0.0);
-			double avgAlpha = OfflineAnt2.sumAlpha / (OfflineAnt2.alphaTimes + 0.0);
-			double avgBeta = OfflineAnt2.sumBeta / (OfflineAnt2.betaTimes + 0.0);
-			double avgGamma = OfflineAnt2.sumGamma / (OfflineAnt2.gammaTimes + 0.0);
+			
+//			double avgPH = OfflineAnt2.sumPH / (OfflineAnt2.phTimes + 0.0);
+//			double avgAlpha = OfflineAnt2.sumAlpha / (OfflineAnt2.alphaTimes + 0.0);
+//			double avgBeta = OfflineAnt2.sumBeta / (OfflineAnt2.betaTimes + 0.0);
+//			double avgGamma = OfflineAnt2.sumGamma / (OfflineAnt2.gammaTimes + 0.0);
 
-			log.info("PH SPREAD :\t" + OfflineAnt2.minPHSpread + "\t|\t" + OfflineAnt2.maxPHSpread + "\t|\t" + avgPH);
-			log.info("ALPHA :\t" + OfflineAnt2.minAlpha + "\t|\t" + OfflineAnt2.maxAlpha + "\t|\t" + avgAlpha);
-			log.info("BETA :\t" + OfflineAnt2.minBeta + "\t|\t" + OfflineAnt2.maxBeta + "\t|\t" + avgBeta);
-			log.info("GAMMA :\t" + OfflineAnt2.minGamma + "\t|\t" + OfflineAnt2.maxGamma + "\t|\t" + avgGamma);
-
-			// if (debug != null) {
-			// debug.flush();
-			// debug.close();
-			// }
-			// if (traceScores != null) {
-			// traceScores.flush();
-			// traceScores.close();
-			// }
+//			log.trace("PH SPREAD :\t" + OfflineAnt2.minPHSpread + "\t|\t" + OfflineAnt2.maxPHSpread + "\t|\t" + avgPH);
+//			log.trace("ALPHA :\t" + OfflineAnt2.minAlpha + "\t|\t" + OfflineAnt2.maxAlpha + "\t|\t" + avgAlpha);
+//			log.trace("BETA :\t" + OfflineAnt2.minBeta + "\t|\t" + OfflineAnt2.maxBeta + "\t|\t" + avgBeta);
+//			log.trace("GAMMA :\t" + OfflineAnt2.minGamma + "\t|\t" + OfflineAnt2.maxGamma + "\t|\t" + avgGamma);
 		}
 	}
 
@@ -390,68 +391,52 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 		long before = System.nanoTime();
 
 		if (MissionScheduler.DEBUG){
-			System.err.println("TSP:> Step " + step);
-			
+			log.debug("MTSP:> Step " + step);
 		}
-		
 		currentBest = null;
 
-		OfflineAnt2 currentBestAnt = null;
-		
+		//Used in elitist policy
+		//OfflineAnt2 currentBestAnt = null;
+
 		for (OfflineAnt2 ant : ants) {
 			ant.reset();
 			ant.compute();
 			if (currentBest == null || currentBest.getScore() > ant.getGlobalScore().getScore()) {
 				currentBest = ant.getGlobalScore();
-				currentBestAnt = ant;
+				//Used in elitist policy
+				//currentBestAnt = ant;
 			}
 		}
 
-		// TODO
-		// TEST ELITIST POLICY -> Only the best ant spreads pheromone
-		// SUPER ELITIST POLICY -> Only new global best ant spreads pheromone
+		// TODO pheromone spreading policies
 
-		// for(OfflineAnt2 ant : ants){
-		// ant.spreadPheromone();
-		// }
-		if (currentBestAnt != null){
-			currentBestAnt.spreadPheromone();
+		//STANDARD POLICY : each ant spreads pheromone on their path (best ones will be more reinforced than the others).
+		for(OfflineAnt2 ant : ants){
+			ant.spreadPheromone();
 		}
+		// ELITIST POLICY -> Only new global best ant spreads pheromone
+		//if (currentBestAnt != null){
+		//	currentBestAnt.spreadPheromone();
+		//}
+
 
 		if (currentBest != null) {
 			stats.addScore(new GlobalScore(currentBest));
-			// traceScores.append(step + "\t" + currentBest.getScore() + "\n");
-			// traceScores.flush();
-
 			if (best == null) {
 				best = new GlobalScore(currentBest);
 				// currentBestAnt.spreadPheromone();
-
-				log.info("OfflineACO2:> [" + step + "/" + parameters.getSync() + "] NEW RECORD " + best);
-				// debug.append(step + "\t" + best.getScore() + "\n");
-				// debug.flush();
-
-				// System.out.println("LOCAL AVG Scores : distance= "+statsLocal.getAVG_Distance()+" overspent_time= "+new
-				// Time(statsLocal.getAVG_OverspentTime()+"s")+" score= "+statsLocal.getAVG_Score());
+				log.trace("OfflineACO2:> [" + step + "/" + parameters.getSync() + "] NEW RECORD " + best);
 			} else {
 				if (best.compareTo(currentBest) > 0) {
 					best = new GlobalScore(currentBest);
-
 					// currentBestAnt.spreadPheromone();
-
-					log.info("OfflineACO2:> [" + step + "/" + parameters.getSync() + "] NEW RECORD " + best);
-					// debug.append(step + "\t" + best.getScore() + "\n");
-					// debug.flush();
-					// System.out.println("LOCAL AVG Scores : distance= "+statsLocal.getAVG_Distance()+" overspent_time= "+new
-					// Time(statsLocal.getAVG_OverspentTime()+"s")+" score= "+statsLocal.getAVG_Score());
-
+					log.trace("OfflineACO2:> [" + step + "/" + parameters.getSync() + "] NEW RECORD " + best);
 				}
 			}
 		}
 		evaporation();
 		step++;
-		long after = System.nanoTime();
-		computeTime += (after - before);
+		computeTime += (System.nanoTime() - before);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -499,12 +484,9 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 				n.removeEdgeTo(n3);
 			}
 			n.destroy();
-
-			/*for(OfflineAnt2 ant : ants){
-				ant.reset();
-			}*/
 		} else {
-			System.err.println("Mission not removed exception!");
+			Exception e = new Exception("Mission not removed exception!");
+			log.error(e.getMessage(), e);
 		}
 		return found;
 	}
@@ -519,7 +501,8 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 	protected void updateMission(Mission m) {
 		// TODO
 		// WHAT TO DO IN THIS CASE ?
-		new Exception("MTSP:> WARNING : UPDATE MISSION CALLED !").printStackTrace();
+		Exception e = new Exception("MTSP:> WARNING : UPDATE MISSION CALLED !");
+		log.error(e.getMessage(), e);
 	}
 
 	/**
@@ -635,6 +618,20 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 		return l;
 	}
 
+	public static Collection<OfflineEdge2> getEdges() {
+		Set<OfflineEdge2> set = new HashSet<>();
+		for(ScheduleEdge e : MissionScheduler.SOURCE_NODE.getDestinations()){
+			set.add((OfflineEdge2)e);
+		}
+		
+		for(OfflineNode2 n : getNodes()){
+			for(OfflineEdge2 e : n.getDestinations()){
+				set.add(e);
+			}
+		}
+		return set;
+	}
+	
 	public static ScheduleResource getASalesman() {
 		//List<ScheduleResource> scheduleResources2 = MissionScheduler.getInstance().getScheduleResources();
 		//return scheduleResources2.get(Terminal.getInstance().getRandom().nextInt(scheduleResources2.size()));
@@ -642,7 +639,9 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 	}
 
 	public static ScheduleResource getASalesman(Set<String> alreadyUsed) {
-		Iterator<ScheduleResource> it = MissionScheduler.getInstance().getScheduleResources().iterator();
+		List<ScheduleResource> scheduleResources2 = MissionScheduler.getInstance().getScheduleResources();
+		//Collections.shuffle(scheduleResources2,Terminal.getInstance().getRandom());
+		Iterator<ScheduleResource> it = scheduleResources2.iterator();
 		while (it.hasNext()) {
 			ScheduleResource res = it.next();
 			if (!alreadyUsed.contains(res.getID()))
