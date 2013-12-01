@@ -45,9 +45,9 @@ public class TimeScheduler implements RecordableObject {
 
 	private List<String> discretsRemoteObjects;
 	private List<DiscretObject> discretObjects;
-	
+
 	private DiscretObject missionScheduler;
-	
+
 	private TreeMap<Time, List<DynamicEvent>> events;
 	private List<DynamicEvent> eventsToAdd;
 	private TreeMap<Time, List<DynamicEvent>> doneEvents;
@@ -88,9 +88,15 @@ public class TimeScheduler implements RecordableObject {
 
 	}
 
+	public boolean hasMoreEvents (){
+		return !events.isEmpty();
+	}
+
 	private String id;
 
 	private TextDisplay out;
+
+	private boolean somethingChanged;
 
 	private TimeScheduler(double secondsPerSep) {
 		this(secondsPerSep, "Scheduler");
@@ -226,11 +232,11 @@ public class TimeScheduler implements RecordableObject {
 	public Time getTime() {
 		return t;
 	}
-	
+
 	public void recordMissionsScheduler (DiscretObject d){
 		missionScheduler = d;
 	}
-	
+
 	public void recordDiscretObject(DiscretObject d) {
 		if(d instanceof StraddleCarrier){
 			discretObjects.add(0, d);
@@ -342,12 +348,17 @@ public class TimeScheduler implements RecordableObject {
 				}
 			}
 		}
+		if(!somethingChanged && !hasMoreEvents()){
+			System.err.println("End of simulation at t="+step);
+		}
 	}
+
 
 	public void computeEndTime() {
 		long now = System.nanoTime();
 		long diff = now - startTime;
-		logger.info("Simulation ran in " + diff + " ns");
+		logger.info(getTime()+":> Simulation ran in " + diff + " ns");
+		
 	}
 
 	private void stepSeq() {
@@ -405,8 +416,8 @@ public class TimeScheduler implements RecordableObject {
 			// if(dynEvents!=null && dynEvents.size()>0) writer.append("\n");
 		}
 
-		
-		
+
+
 		// PRECOMPUTE SC AND LS
 		// writer.append("PRECOMPUTE : ");
 		for (final DiscretObject d : discretObjects) {
@@ -418,19 +429,30 @@ public class TimeScheduler implements RecordableObject {
 
 		// APPLY SC AND LS
 		// writer.append("APPLY : ");
+		somethingChanged = false;
 		for (final DiscretObject d : discretObjects) {
-			d.apply();
+			boolean localEnd = d.apply();
+			if(!somethingChanged && localEnd == DiscretObject.SOMETHING_CHANGED){
+				somethingChanged = true;
+			}
 			// writer.append(d.getId()+" ");
 			Thread.yield();
 		}
 		// writer.append("\n");
 
 		// writer.flush();
-		
+
 		//PRECOMPUTE AND APPLY MISSION SCHEDULER !
-				missionScheduler.precompute();
-				
-				missionScheduler.apply();
+		missionScheduler.precompute();
+
+		boolean localEnd = missionScheduler.apply();
+		if(!somethingChanged && localEnd == DiscretObject.SOMETHING_CHANGED)
+			somethingChanged = true;
+
+		if(!somethingChanged && !hasMoreEvents()){
+			System.err.println("End of sim ?");
+			
+		}
 	}
 
 	private void stepThread() {

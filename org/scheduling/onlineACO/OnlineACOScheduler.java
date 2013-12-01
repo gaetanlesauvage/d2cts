@@ -494,9 +494,10 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	/**
 	 * Apply is called by the TimeScheduler at each step of the simulation after calling precompute() method of each DiscretObject of the scheduler. 
 	 */
-	public void apply() {
+	public boolean apply() {
+		boolean returnCode = NOTHING_CHANGED;
 		if (precomputed) {
-
+			returnCode = SOMETHING_CHANGED;
 			long before = System.nanoTime();
 
 			for (AntMissionNode missionNode : missionsNodes.values()) {
@@ -517,6 +518,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 			computeTime += (after - before);
 		}
 		sstep++;
+		return returnCode;
 	}
 
 	/*

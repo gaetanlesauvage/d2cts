@@ -275,7 +275,8 @@ public class StraddleCarrier implements DiscretObject {
 
 	}
 
-	public void apply() {
+	public boolean apply() {
+		boolean returnCode = NOTHING_CHANGED;
 		if (!autoHandling) {
 			if (futureLocation.getPourcent() != currentLocation.getPourcent()
 					|| !futureLocation.getRoad().getId().equals(currentLocation.getRoad().getId()) || handledContainerChanged) {
@@ -284,7 +285,13 @@ public class StraddleCarrier implements DiscretObject {
 					handledContainerChanged = false;
 			}
 		}
+		if(currentLoad != null || !workload.isEmpty() || !goToList.isEmpty()){
+			returnCode = SOMETHING_CHANGED;
+		} //else {
+//			System.err.println("nothing changed for "+getId()+" at "+TimeScheduler.getInstance().getTime());
+//		}
 		currentLocation = futureLocation;
+		return returnCode;
 	}
 
 	// FIXME

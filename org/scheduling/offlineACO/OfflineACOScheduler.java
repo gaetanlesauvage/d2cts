@@ -7,10 +7,7 @@ import java.util.Map;
 
 import org.com.model.scheduling.OfflineACOParametersBean;
 import org.exceptions.EmptyResourcesException;
-import org.exceptions.MissionNotFoundException;
-import org.missions.Load;
 import org.missions.Mission;
-import org.missions.MissionState;
 import org.routing.path.Path;
 import org.scheduling.GlobalScore;
 import org.scheduling.LocalScore;
@@ -20,6 +17,7 @@ import org.scheduling.ScheduleTask;
 import org.scheduling.display.IndicatorPane;
 import org.scheduling.display.JMissionScheduler;
 import org.system.Terminal;
+import org.time.DiscretObject;
 import org.time.Time;
 import org.time.TimeScheduler;
 import org.vehicles.StraddleCarrier;
@@ -180,29 +178,39 @@ public final class OfflineACOScheduler extends MissionScheduler {
 	/**
 	 * Apply is called by the TimeScheduler at each step of the simulation after calling precompute() method of each DiscretObject of the scheduler. 
 	 */
-	public void apply() {
+	public boolean apply() {
+		boolean returnCode =  DiscretObject.NOTHING_CHANGED;
 		if (precomputed) {
 			// System.out.println("APPLY : ");
+			
+			//Reset workloads
+			 for(StraddleCarrier sc : resources){
+				 sc.clearWorkload();
+			 }
+			
 			// AFFECT SOLUTION
 			Map<String, LocalScore> solutions = best.getSolution();
-			for (String colonyID : solutions.keySet()) {
-				StraddleCarrier vehicle = vehicles.get(colonyID);
-
-				// TO REMOVE
-				List<String> toRemove = new ArrayList<String>();
-				for (Load l : vehicle.getWorkload().getLoads()) {
-					if (l.getState() == MissionState.STATE_TODO) {
-						toRemove.add(l.getMission().getId());
-					}
-				}
-				for (String mID : toRemove) {
-					try {
-						vehicle.removeMissionInWorkload(mID);
-					} catch (MissionNotFoundException e1) {
-						// ALREADY REMOVED
-					}
-				}
-			}
+//			for (String colonyID : solutions.keySet()) {
+//				StraddleCarrier vehicle = vehicles.get(colonyID);
+//
+//				// TO REMOVE
+//				List<String> toRemove = new ArrayList<String>();
+//				for (Load l : vehicle.getWorkload().getLoads()) {
+//					if (l.getState() == MissionState.STATE_TODO) {
+//						toRemove.add(l.getMission().getId());
+//					}
+//				}
+//				for (String mID : toRemove) {
+//					try {
+//						vehicle.removeMissionInWorkload(mID);
+//					} catch (MissionNotFoundException e1) {
+//						// ALREADY REMOVED
+//					}
+//				}
+//			}
+			
+			
+			
 			for (String colonyID : solutions.keySet()) {
 				StraddleCarrier vehicle = vehicles.get(colonyID);
 				LocalScore score = solutions.get(colonyID);
@@ -232,8 +240,12 @@ public final class OfflineACOScheduler extends MissionScheduler {
 			log.info("SOLUTION : \n" + best.getSolutionString());
 			// stats.exportGNUPlot("/home/gaetan/TSPStats.dat");
 			log.info("CPT TIME = " + new Time(getComputingTime()));
+			returnCode = DiscretObject.SOMETHING_CHANGED;
+		} else {
+			returnCode = DiscretObject.NOTHING_CHANGED;
 		}
 		sstep++;
+		return returnCode;
 	}
 
 	/*
@@ -258,8 +270,9 @@ public final class OfflineACOScheduler extends MissionScheduler {
 			log.info("M2Plan = " + missionsToPlan + " steps = " + (syncSize * missionsToPlan));
 			for (int i = 0; i < syncSize * missionsToPlan; i++) {
 				execute();
-				if ((i - 1) % 100 == 0)
+				if (MissionScheduler.DEBUG && ((i - 1) % 100 == 0)){
 					log.info("Step " + (i - 1));
+				}
 			}
 			log.info("Computation done.");
 		}

@@ -470,7 +470,12 @@ public class Workload {
 
 
 	public boolean isEmpty() {
-		return workload.size() == 0;
+		for(Load l : workload){
+			if(l.getState()!=MissionState.STATE_ACHIEVED){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void removeUnstartedMissions() {

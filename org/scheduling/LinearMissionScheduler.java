@@ -10,6 +10,7 @@ import org.missions.MissionState;
 import org.missions.Workload;
 import org.scheduling.display.JMissionScheduler;
 import org.system.Terminal;
+import org.time.DiscretObject;
 import org.time.Time;
 import org.time.TimeScheduler;
 import org.time.event.AffectMission;
@@ -90,10 +91,16 @@ public class LinearMissionScheduler extends MissionScheduler {
 	}
 
 	@Override
-	public void apply() {
+	public boolean apply() {
+		boolean returnCode =  DiscretObject.NOTHING_CHANGED;
 		step++;
 		sstep++;
-		Terminal.getInstance().flushAllocations();
+		if(precomputed){
+			precomputed = false;
+			Terminal.getInstance().flushAllocations();
+			returnCode = DiscretObject.SOMETHING_CHANGED;
+		}
+		return returnCode;
 	}
 
 	@Override
@@ -117,6 +124,7 @@ public class LinearMissionScheduler extends MissionScheduler {
 	}
 	@Override
 	public void compute() {
+		precomputed = true;
 		long tNow = System.nanoTime();
 		// System.out.println("COMPUTE : "+resources.size()+" ; "+pool.size());
 		razWorkloads();

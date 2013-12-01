@@ -39,7 +39,23 @@ import org.system.RoadPoint;
  * @since 2009
  *
  */
-public class Location {
+public class Location implements Comparable<Location> {
+	
+	@Override
+	public int compareTo(Location l){
+		return equals(l) ? 0 : 1; 
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Location){
+			Location l = (Location)o;
+			//return l.coords.equals(coords);
+			return l.getRoad().getId().equals(getRoad().getId()) && l.getPourcent() == getPourcent();
+		}
+		return false;
+	}
+	
 	/**
 	 * Gives the rate of a location on a given road taking into account the non-linearity of this road
 	 * @param c The location

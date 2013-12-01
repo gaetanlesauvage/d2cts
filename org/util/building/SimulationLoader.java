@@ -365,7 +365,7 @@ public class SimulationLoader {
 											modelBean.getTurnBackTime());
 
 			Terminal.getInstance().addStraddleCarrierModel(straddleCarrierModel);
-			log.debug("StraddleCarrierModel "+straddleCarrierModel.getId()+" added.");
+			log.trace("StraddleCarrierModel "+straddleCarrierModel.getId()+" added.");
 		}
 
 		StraddleCarrier straddleCarrier = new StraddleCarrier(next.getName(),
@@ -411,7 +411,7 @@ public class SimulationLoader {
 		} catch (NoPathFoundException e) {
 			e.printStackTrace();
 		}*/
-		log.debug("StraddleCarrier "+straddleCarrier.getId()+" added.");
+		log.trace("StraddleCarrier "+straddleCarrier.getId()+" added.");
 	}
 
 	private void loadContainer(ContainerBean bean) {
@@ -482,7 +482,7 @@ public class SimulationLoader {
 					bean.getX(), bean.getY(), bean.getZ()), bean.getRoad());
 			Terminal.getInstance().addBayCrossroad(c);
 		}
-		log.debug("BayCrossroad created: " + bean.getName());
+		log.trace("BayCrossroad created: " + bean.getName());
 	}
 
 	public void loadCrossroad(CrossroadBean bean) {
@@ -492,7 +492,7 @@ public class SimulationLoader {
 					bean.getX(), bean.getY(), bean.getZ()));
 			Terminal.getInstance().addCrossroad(c);
 		}
-		log.debug("Crossroad created: " + bean.getName());
+		log.trace("Crossroad created: " + bean.getName());
 	}
 
 	public void loadRoad(RoadBean bean) {
@@ -515,7 +515,7 @@ public class SimulationLoader {
 
 			Terminal.getInstance().addRoad(r);
 		}
-		log.debug("Road created: " + bean.getName());
+		log.trace("Road created: " + bean.getName());
 	}
 
 	public void loadBay(RoadBean bean) {
@@ -556,7 +556,7 @@ public class SimulationLoader {
 
 			Terminal.getInstance().addBay(b);
 		}
-		log.debug("Bay created: " + bean.getName());
+		log.trace("Bay created: " + bean.getName());
 	}
 
 	public void loadBlock(BlockBean bean) {
@@ -586,14 +586,14 @@ public class SimulationLoader {
 		// System.out.println("Adding pave "+pave.getId()+" type "+pave.getType());
 		if (type == BlockType.DEPOT) {
 			Terminal.getInstance().addDepot((Depot) pave);
-			log.debug("Depot created: " + pave.getId());
+			log.trace("Depot created: " + pave.getId());
 		} else {
 			try {
 				Terminal.getInstance().addPave(pave);
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}
-			log.debug("Block created: " + pave.getId());
+			log.trace("Block created: " + pave.getId());
 		}
 	}
 

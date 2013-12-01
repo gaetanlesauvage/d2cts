@@ -24,6 +24,7 @@ import org.scheduling.ScheduleResource;
 import org.scheduling.ScheduleTask;
 import org.scheduling.display.JMissionScheduler;
 import org.system.Terminal;
+import org.time.DiscretObject;
 import org.time.Time;
 import org.time.TimeScheduler;
 import org.vehicles.StraddleCarrier;
@@ -157,7 +158,8 @@ public class BB extends MissionScheduler {
 	}
 
 	@Override
-	public void apply() {
+	public boolean apply() {
+		boolean returnCode = DiscretObject.NOTHING_CHANGED;
 		if (precomputed) {
 			pool.clear();
 
@@ -203,8 +205,11 @@ public class BB extends MissionScheduler {
 
 			precomputed = false;
 			step++;
+			returnCode = DiscretObject.SOMETHING_CHANGED;
 		}
+		
 		sstep++;
+		return returnCode;
 	}
 
 	@Override

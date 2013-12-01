@@ -351,12 +351,11 @@ public class Toolbar extends JToolBar {
 				SwingWorker<Void, Void> mainWorker = new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() throws Exception {
-						//Thread.currentThread().setName("StepWorker");
+						Thread.currentThread().setName("StepWorker");
 						nextStep();
 						return null;
 					}
 				};
-
 				mainWorker.execute();
 				while(!mainWorker.isDone()){
 					Thread.yield();

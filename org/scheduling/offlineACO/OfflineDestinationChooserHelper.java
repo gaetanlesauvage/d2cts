@@ -20,6 +20,7 @@
 
 package org.scheduling.offlineACO;
 
+import org.apache.log4j.Logger;
 import org.scheduling.MissionScheduler;
 import org.scheduling.ScheduleEdge;
 import org.scheduling.offlineACO2.OfflineACOScheduler2;
@@ -30,7 +31,7 @@ import org.scheduling.offlineACO2.OfflineACOScheduler2;
  * @since 2012
  */
 public class OfflineDestinationChooserHelper implements Comparable<OfflineDestinationChooserHelper>{
-	
+	public static final Logger log = Logger.getLogger(OfflineDestinationChooserHelper.class);
 	public static OfflineSchedulerParameters parameters;
 	
 	/**
@@ -121,7 +122,7 @@ public class OfflineDestinationChooserHelper implements Comparable<OfflineDestin
 	 * Comparator
 	 */
 	public int compareTo(OfflineDestinationChooserHelper d){
-		if(proba < 0) System.err.println("Proba should not be negative");
+		if(proba < 0) log.error("Proba should not be negative");
 		if(proba < d.proba) return -1;
 		else if(proba == d.proba) return 0;
 		else return 1;

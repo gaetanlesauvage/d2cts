@@ -38,6 +38,16 @@ public class Coordinates implements Comparable<Coordinates> {
 		if(c.x == x && c.y == y && c.z == z) return 0;
 		else return 1;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Coordinates){
+			return compareTo((Coordinates)o) == 0;
+		} else {
+			return false;
+		}
+	}
+	
 	public String toString(){
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("(");

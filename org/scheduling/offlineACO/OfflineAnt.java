@@ -9,7 +9,6 @@ import org.scheduling.MissionScheduler;
 import org.scheduling.ScheduleEdge;
 import org.scheduling.ScheduleResource;
 import org.scheduling.ScheduleTask;
-import org.scheduling.offlineACO2.OfflineACOScheduler2;
 import org.system.Terminal;
 import org.vehicles.StraddleCarrier;
 
@@ -369,10 +368,11 @@ public class OfflineAnt extends ScheduleResource {
 		double lambda = 0.0;
 		if(ms instanceof OfflineACOScheduler){
 			lambda = OfflineACOScheduler.getInstance().getGlobalParameters().getLambda();
-		} else if(ms instanceof OfflineACOScheduler2){
+		} /*else if(ms instanceof OfflineACOScheduler2){
 			lambda = OfflineACOScheduler2.getInstance().getGlobalParameters().getLambda();
-		} else {
-			new Exception("Beware !");
+		} */else {
+			Exception e = new Exception("Beware !");
+			log.error(e.getMessage(),e);
 		}
 		// double F1 = TSPMissionScheduler.getGlobalParameters().getF1();
 		// double F2 = TSPMissionScheduler.getGlobalParameters().getF2();

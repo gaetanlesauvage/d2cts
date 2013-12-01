@@ -24,6 +24,7 @@ import java.util.Hashtable;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
 import org.conf.parameters.ReturnCodes;
 import org.time.Time;
 import org.time.TimeWindow;
@@ -35,6 +36,7 @@ import org.time.TimeWindow;
  * @since 2009
  */
 public class Reservations {
+	public static final Logger log = Logger.getLogger(Reservations.class);
 	/**
 	 * Reservation map sorted according to the beginning of the reservations'
 	 * time windows
@@ -201,7 +203,7 @@ public class Reservations {
 		ArrayList<Reservation> toUnreserve = new ArrayList<Reservation>(10);
 		Time tMin = r.getTimeWindow().getMin();
 		Time tPrev = table.lowerKey(tMin);
-		
+
 		// if (another reservation starts at the same time) => cannot make
 		// reservation
 		if (tPrev != null) {
@@ -213,10 +215,8 @@ public class Reservations {
 			} else if (previous.getTimeWindow().getMax().compareTo(r.getTimeWindow().getMin()) >= 0) {
 				// Pas ok
 				if (r.getPriority() > previous.getPriority()) {
-					if(r.getRoadId().equals("H-9/35") && r.getStraddleCarrierId().equals("straddle_carrier_6")){
-						System.err.println("here");
-					}
-					System.out.println("Trying to know if we can make reservation " + r);
+					// System.out.println("Trying to know if we can make reservation "
+					// + r);
 					// System.out.println("Must decal previous reservations. : TODO !");
 					bringForwardPutBackAndAdd(r);
 					return true;
@@ -228,11 +228,9 @@ public class Reservations {
 		if (r2 != null) {
 			if (!r2.getStraddleCarrierId().equals(r.getStraddleCarrierId())) {
 				if (r.getPriority() > r2.getPriority()) {
-					if(r.getRoadId().equals("A-29/40") && r.getStraddleCarrierId().equals("straddle_carrier_10")){
-						System.err.println("here");
-					}
-					System.out.println("Trying to know if we can make reservation " + r);
-					System.out.println("Must decal current and next reservations.");
+					// System.out.println("Trying to know if we can make reservation "
+					// + r);
+					// System.out.println("Must decal current and next reservations.");
 					bringForwardPutBackAndAdd(r);
 					return true;
 				} else
@@ -251,14 +249,14 @@ public class Reservations {
 					if (after.getTimeWindow().getMin().compareTo(r.getTimeWindow().getMax()) <= 0) {
 						// Pas ok
 						if (r.getPriority() > after.getPriority()) {
-							/*if(r.getRoadId().equals("A-29/40") && r.getStraddleCarrierId().equals("straddle_carrier_10")){
-								System.err.println("here");
-							}*/
-							System.out.println("Trying to know if we can make reservation " + r);
-							System.out.println("Must decal next reservations.");
-							System.out.println("Before decal next reservations : \n" + this);
+							// System.out.println("Trying to know if we can make reservation "
+							// + r);
+							// System.out.println("Must decal next reservations.");
+							// System.out.println("Before decal next reservations : \n"
+							// + this);
 							bringForwardPutBackAndAdd(r);
-							System.out.println("After decal next reservations : \n" + this);
+							// System.out.println("After decal next reservations : \n"
+							// + this);
 							return true;
 						} else
 							return false;
@@ -268,7 +266,7 @@ public class Reservations {
 				}
 			} catch (NullPointerException e) {
 				e.printStackTrace();
-				System.out.println("After = " + after + " R = " + r);
+				log.error("After = " + after + " R = " + r);
 				System.exit(ReturnCodes.EXIT_RESERVATION_ERROR.getCode());
 			}
 		}
@@ -276,15 +274,6 @@ public class Reservations {
 		for (Reservation rTmp : toUnreserve) {
 			Terminal.getInstance().unreserve(rTmp);
 		}
-
-		/*
-		 * ArrayList<Time> lTime = index.get(r.getStraddleCarrierId()); if(lTime
-		 * !=null){ for(int i=0 ; i<lTime.size(); i++){ Time t = lTime.get(i);
-		 * Reservation rTmp = table.get(t);
-		 * if(rTmp.getTimeWindow().getMax().getInSec() >=
-		 * r.getTimeWindow().getMin().getInSec()){ //Reservation has to be
-		 * deleted Terminal.getInstance().unreserve(rTmp); } } }
-		 */
 
 		return true;
 	}
@@ -331,42 +320,14 @@ public class Reservations {
 		return new ArrayList<Reservation>(table.values());
 	}
 
-	/**
-	 * Test if the road is open for the given straddle carrier from a given time
-	 * 
-	 * @param vehicleId
-	 *            Straddle carrier's ID
-	 * @param timeFrom
-	 *            Time since when the test should look for the state of the road
-	 * @return <b>true</b> if the road will be open for the given vehicle at the
-	 *         given time, <b>false</b> otherwise
-	 */
-	// public boolean isOpenFor (String vehicleId, Time timeFrom) {
-	// Reservation rPrev = null;
-	// Time tPrev = table.lowerKey(timeFrom);
-	// if(table.containsKey(timeFrom)) tPrev = timeFrom;
-	// if(tPrev == null) {
-	// return false;
-	// }
-	// rPrev = table.get(tPrev);
-	// if(rPrev.getStraddleCarrierId().equals(vehicleId) &&
-	// rPrev.getTimeWindow().getMax().compareTo(timeFrom)>=0) return true;
-	// return false;
-	// }
-
 	public Reservation removeReservation(Reservation r) {
 		Reservation r2 = table.remove(r.getTimeWindow().getMin());
 		if (r2 == null) {
-			System.out.println("No reservation has been found on " + this.road.getId() + " for " + r.getStraddleCarrierId() + " starting at "
+			log.warn("No reservation has been found on " + this.road.getId() + " for " + r.getStraddleCarrierId() + " starting at "
 					+ r.getTimeWindow().getMin());
-			new Exception().printStackTrace();
+			log.error(new Exception());
 			return r2;
 		}
-		/*
-		 * else{
-		 * System.err.println("RESERVATION (2) : "+r.getRoadId()+" "+r.getTimeWindow
-		 * ()+" removed"); System.out.println(this); }
-		 */
 
 		endTimeTable.remove(r.getTimeWindow().getMax());
 		ArrayList<Time> l = index.get(r.getStraddleCarrierId());
@@ -401,10 +362,6 @@ public class Reservations {
 			new Exception().printStackTrace();
 			return false;
 		}
-		// else{
-		// System.err.println("RESERVATION (2) : "+r.getRoadId()+" "+r.getTimeWindow()+" removed");
-		// System.out.println(this);
-		// }
 
 		endTimeTable.remove(r.getTimeWindow().getMax());
 		ArrayList<Time> l = index.get(straddleCarrierID);
@@ -434,14 +391,6 @@ public class Reservations {
 
 		Reservation r = table.remove(t);
 		if (r != null) {
-			/*
-			 * try {
-			 * System.err.println("RESERVATION : "+r.getRoadId()+" "+r.getTimeWindow
-			 * ()+" removed at "+Time.getTimeScheduler().getTime()); } catch
-			 * (RemoteException e) { e.printStackTrace(); }
-			 */
-			// System.out.println(this);
-
 			endTimeTable.remove(r.getTimeWindow().getMax());
 			ArrayList<Time> l = index.get(r.getStraddleCarrierId());
 			if (l != null) {
@@ -480,16 +429,6 @@ public class Reservations {
 			}
 		}
 		return null;
-
-		/*
-		 * Entry<Time, Reservation> e = table.lowerEntry(t); while(e!=null &&
-		 * !e.getValue().getStraddleCarrierId().equals(straddleID)){ e =
-		 * table.lowerEntry(e.getKey()); }
-		 * 
-		 * if(e == null) return null; else { Reservation r = e.getValue();
-		 * if(r.getStraddleCarrierId().equals(straddleID)) return r; else return
-		 * null; }
-		 */
 	}
 
 	public Reservation getNextReservation(Time time, String straddleID) {
@@ -510,21 +449,4 @@ public class Reservations {
 		}
 	}
 
-//	public void destroy() {
-		/*
-		 * for(Reservation r : table.values()){ r.destroy(); } for(Reservation r
-		 * : endTimeTable.values()){ r.destroy(); } table.clear();
-		 */
-//		table = null;
-		// endTimeTable.clear();
-//		endTimeTable = null;
-
-//		road = null;
-		/*
-		 * for(ArrayList<Time> l : index.values()){ for(Time t : l) t.destroy();
-		 * }
-		 */
-		// index.clear();
-//		index = null;
-//	}
 }

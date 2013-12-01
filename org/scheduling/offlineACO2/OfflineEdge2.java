@@ -3,13 +3,17 @@ package org.scheduling.offlineACO2;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.scheduling.MissionScheduler;
 import org.scheduling.ScheduleEdge;
 import org.scheduling.ScheduleResource;
 import org.scheduling.offlineACO.OfflineSchedulerParameters;
+import org.time.Time;
+import org.time.TimeScheduler;
 import org.vehicles.StraddleCarrier;
 
 public class OfflineEdge2 extends ScheduleEdge {
+	public static final Logger log = Logger.getLogger(OfflineEdge2.class);
 	public static double overallPh = 0.0;
 
 	// Pheromone of each vehicle
@@ -36,7 +40,8 @@ public class OfflineEdge2 extends ScheduleEdge {
 	public double getPheromone(String hillID) {
 		if (!pheromone.containsKey(hillID)) {
 			pheromone.put(hillID, 0.0);
-			new Exception("No ph for " + hillID + " at " + getID() + "!").printStackTrace();
+			Exception e = new Exception("No ph for " + hillID + " at " + getID() + "!");
+			log.error(e.getMessage(),e);
 		}
 		return pheromone.get(hillID);
 	}
@@ -59,14 +64,20 @@ public class OfflineEdge2 extends ScheduleEdge {
 	}
 
 	public void addPheromone(String colony, double quantity) {
+		Time currentTime = TimeScheduler.getInstance().getTime();
+
 		// if(MissionScheduler.DEBUG)
 		// System.err.println("BEFORE "+getID()+" ("+getPHString()+")");
-		double previousQuantity = 0;
+		double previousQuantity = 1.0;
 		if (pheromone.containsKey(colony)) {
 			previousQuantity = pheromone.get(colony);
 		}
 		pheromone.put(colony, previousQuantity + quantity);
 		overallPh += quantity;
+
+		if(MissionScheduler.DEBUG){
+			log.debug(getID()+" addPheromone@"+currentTime+" quantity="+quantity+" for "+colony+" (overallPH="+overallPh+")");
+		}
 		// if(MissionScheduler.DEBUG)
 		// System.err.println("AFTER "+colony+" spread "+quantity+"ph on "+getID()+" ("+getPHString()+")");
 	}
@@ -81,19 +92,24 @@ public class OfflineEdge2 extends ScheduleEdge {
 
 	public void evaporate() {
 		OfflineSchedulerParameters params = OfflineACOScheduler2.getInstance().getGlobalParameters();
-		if (MissionScheduler.DEBUG)
-			System.err.println("Evaporation on " + getID() + " : before=" + getPHString());
+		//if (MissionScheduler.DEBUG)
+		//	MissionScheduler.log.debug("Evaporation on " + getID() + " : before=" + getPHString());
 		for (String colonyID : pheromone.keySet()) {
 			double currentPH = pheromone.get(colonyID);
-			double currentExtraPH = currentPH - 1.0; // HERE REMPLACED '-
-														// lambda' by '- 1.0'
-			double nextPH = (1.0 - params.getRho()) * currentExtraPH + params.getLambda();
+			//			double currentExtraPH = currentPH - 1.0; // HERE REMPLACED '-
+			// lambda' by '- 1.0'
+			double currentExtraPH = currentPH -1.0; //Remplace la ligne précédente : TODO tester
+			double nextPH = (params.getRho()) * currentExtraPH + 1.0;
 
 			overallPh -= currentPH - nextPH;
 			pheromone.put(colonyID, nextPH);
+			if(MissionScheduler.DEBUG) {
+				Time currentTime = TimeScheduler.getInstance().getTime();
+				log.debug(getID()+" evaporate@"+currentTime+" for "+colonyID+" currentPH="+currentPH+" currentExtaPH="+currentExtraPH+" nextPH="+nextPH+" overallPH="+overallPh);
+			}
 		}
-		if (MissionScheduler.DEBUG)
-			System.err.println("After=" + getPHString());
+		//if (MissionScheduler.DEBUG)
+		//	MissionScheduler.log.debug("After=" + getPHString());
 	}
 
 	public void destroy() {

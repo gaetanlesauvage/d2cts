@@ -75,7 +75,7 @@ public class ScheduleTask<E extends ScheduleEdge> {
 	public List<E> getDestinations() {
 		return new ArrayList<E>(outgoingEdges.values());
 	}
-
+	
 	public E getEdgeTo(ScheduleTask<E> n) {
 		// System.err.println("5-2");
 		String ID = n.getID();
