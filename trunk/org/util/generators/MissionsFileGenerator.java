@@ -24,14 +24,13 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -43,6 +42,12 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
+import org.com.dao.EventDAO;
+import org.com.dao.StraddleCarrierDAO;
+import org.com.dao.TerminalDAO;
+import org.com.model.EventBean;
+import org.com.model.ScenarioBean;
+import org.com.model.StraddleCarrierBean;
 import org.conf.parameters.ReturnCodes;
 import org.display.GraphicDisplay;
 import org.display.MainFrame;
@@ -63,54 +68,68 @@ import org.system.container_stocking.ContainerLocation;
 import org.system.container_stocking.Level;
 import org.system.container_stocking.Slot;
 import org.time.Time;
-import org.time.TimeScheduler;
 import org.time.TimeWindow;
+import org.time.event.EventType;
 import org.util.ContainerBICGenerator;
 import org.util.Location;
+import org.util.building.SimulationLoader;
 import org.util.generators.parsers.ShipGenerationData;
 import org.util.generators.parsers.StockGenerationData;
 import org.util.generators.parsers.TrainGenerationData;
 import org.util.generators.parsers.TrucksGenerationData;
-import org.util.generators.parsers.XMLMissionGeneratorParser;
-import org.util.parsers.XMLTerminalComponentParser;
 import org.vehicles.StraddleCarrier;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 public class MissionsFileGenerator {
-	private static final Logger log = Logger
-			.getLogger(MissionsFileGenerator.class);
+	private static final Logger log = Logger.getLogger(MissionsFileGenerator.class);
 
-	private static PrintWriter pw;
-	private XMLReader saxReader;
+	// private static PrintWriter pw;
+	// private XMLReader saxReader;
 
 	public static final int WAITING_SLEEP_TIME = 20;
-	private static StraddleCarrier rsc;
+
+	// private static StraddleCarrier rsc;
+
 	private ContainerBICGenerator bicGenerator;
 	private Random r;
+
 	private Map<String, SlotReservations> slotReservations;
 	private Map<String, List<ShipQuayReservation>> quaysReservations;
 	private Map<String, String> containersOUT;
+
 	private Time handlingTimeFromTruck;
 	private Time handlingTimeFromGround;
-	private long seed = -1;
+
+	// private long seed = -1;
+
 	private static int trainsCount = 1;
 
 	private JProgressBar progress;
 	private JDialog frame;
 	private JFrame parentFrame;
 
-	private static final String[] loadingSteps = { "parsing terminal",
-			"initializing slots reservations", "initialazing BIC generator",
-			"generating train missions", "generating trucks missions",
-			"generating ships missions", "generating stock missions",
-			"closing simulation" };
+	private ScenarioBean scenario;
+	private StraddleCarrier vehicle;
 
-	public MissionsFileGenerator(final String localHostName,
-			final String configFile, final MainFrame parent)
-			throws SAXException, IOException, NoPathFoundException,
-			ContainerDimensionException, EmptyLevelException {
+	private long seed;
+	private Collection<TrainGenerationData> trainsData;
+	private Collection<TrucksGenerationData> trucksData;
+	private Collection<ShipGenerationData> shipsData;
+	private Collection<StockGenerationData> stocksData;
+	private int straddleCarriersCount;
+
+	private static final String[] loadingSteps = { "parsing terminal", "initializing slots reservations", "initialazing BIC generator",
+		"generating train missions", "generating trucks missions", "generating ships missions", "generating stock missions", "closing simulation" };
+
+	public MissionsFileGenerator(ScenarioBean scenario, long seed, Collection<TrainGenerationData> trainsData, Collection<TrucksGenerationData> trucksData,
+			Collection<ShipGenerationData> shipsData, Collection<StockGenerationData> stocksData, int straddleCarriersCount, MainFrame parent) throws NoPathFoundException, ContainerDimensionException,
+			EmptyLevelException {
+		this.scenario = scenario;
+		this.seed = seed;
+		this.trainsData = trainsData;
+		this.trucksData = trucksData;
+		this.shipsData = shipsData;
+		this.stocksData = stocksData;
+		this.straddleCarriersCount = straddleCarriersCount;
 
 		if (parent != null) {
 			frame = new JDialog(parent.getFrame(), "Computing...", true);
@@ -126,13 +145,8 @@ public class MissionsFileGenerator {
 			frame.setSize(new Dimension(300, 70));
 
 			parentFrame = parent.getFrame();
-			frame.setLocation(
-					parentFrame.getLocation().x
-							+ (parentFrame.getSize().width / 2 - frame
-									.getSize().width / 2),
-					parentFrame.getLocation().y
-							+ (parentFrame.getSize().height / 2 - frame
-									.getSize().height / 2));
+			frame.setLocation(parentFrame.getLocation().x + (parentFrame.getSize().width / 2 - frame.getSize().width / 2),
+					parentFrame.getLocation().y + (parentFrame.getSize().height / 2 - frame.getSize().height / 2));
 
 			frame.setAlwaysOnTop(true);
 
@@ -145,24 +159,19 @@ public class MissionsFileGenerator {
 					new Thread() {
 						public void run() {
 							try {
-								try {
-									execute(localHostName, configFile);
-								} catch (NoPathFoundException e) {
-									e.printStackTrace();
-									log.error(e.getMessage(), e);
-								} catch (ContainerDimensionException e) {
-									e.printStackTrace();
-									log.error(e.getMessage(), e);
-								} catch (EmptyLevelException e) {
-									e.printStackTrace();
-									log.error(e.getMessage(), e);
-								}
-							} catch (SAXException ex) {
-								ex.printStackTrace();
-								log.error(ex.getMessage(), ex);
-							} catch (IOException ex) {
-								ex.printStackTrace();
-								log.error(ex.getMessage(), ex);
+								execute();
+							} catch (NoPathFoundException e) {
+								e.printStackTrace();
+								log.error(e.getMessage(), e);
+							} catch (ContainerDimensionException e) {
+								e.printStackTrace();
+								log.error(e.getMessage(), e);
+							} catch (EmptyLevelException e) {
+								e.printStackTrace();
+								log.error(e.getMessage(), e);
+							} catch (SQLException e) {
+								e.printStackTrace();
+								log.error(e.getMessage(), e);
 							}
 						}
 					}.start();
@@ -170,52 +179,32 @@ public class MissionsFileGenerator {
 				}
 			});
 			frame.setVisible(true);
-		} else
-			execute(localHostName, configFile);
-	}
-
-	private void execute(final String localHostName, final String configFile)
-			throws SAXException, IOException, NoPathFoundException,
-			ContainerDimensionException, EmptyLevelException {
-		pw = new PrintWriter(new File("reservations.dat"));
-		// First Step : parse the generator configuration
-		XMLReader saxNetworkConfigReader = XMLReaderFactory
-				.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
-
-		XMLMissionGeneratorParser parser = new XMLMissionGeneratorParser();
-		saxNetworkConfigReader.setContentHandler(parser);
-		saxNetworkConfigReader.parse(configFile);
-
-		// Second Step : parse terminal configuration
-		String terminalFile = parser.getTerminalFile();
-		String vehiclesFile = parser.getVehiclesFile();
-		String containersFile = parser.getContainersFile();
-		if (seed == -1)
-			seed = parser.getSeed();
-		// Third Step : Create Terminal
-		parseNetworkConfiguration(terminalFile, vehiclesFile, containersFile);
-		if (progress != null) {
+		} else{
 			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						progress.setValue(progress.getValue() + 1);
-						progress.setString(loadingSteps[1]);
-					}
-				});
-			} catch (InvocationTargetException e) {
+				execute();
+			} catch (SQLException e) {
 				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
 			}
 		}
+	}
+
+	private void execute() throws NoPathFoundException,
+	ContainerDimensionException, EmptyLevelException, SQLException {
+		// Load scenario
+		SimulationLoader.getInstance().loadTerminal(TerminalDAO.getInstance().getTerminal(scenario.getTerminal()));
+		incrementProgressBar();
+		// Add vehicles
+		StraddleCarrierDAO straddleCarrierDAO = StraddleCarrierDAO.getInstance(scenario.getId());
+		StraddleCarrierDAO.getInstance(scenario.getId()).add(straddleCarriersCount);
+		for (Iterator<StraddleCarrierBean> itStraddleCarriers = straddleCarrierDAO.iterator(); itStraddleCarriers.hasNext();) {
+			SimulationLoader.getInstance().loadStraddleCarrier(itStraddleCarriers.next());
+		}
+		incrementProgressBar();
+
+		// pw = new PrintWriter(new File("reservations.dat"));
 
 		// Forth Step : data initialization
-
-		Map<BlockType, List<String>> sortedContainersMap = new HashMap<>(
-				BlockType.values().length);
+		Map<BlockType, List<String>> sortedContainersMap = new HashMap<>(BlockType.values().length);
 		for (String s : Terminal.getInstance().getContainerNames()) {
 			Container c = Terminal.getInstance().getContainer(s);
 
@@ -231,207 +220,78 @@ public class MissionsFileGenerator {
 			list.add(c.getId());
 			sortedContainersMap.put(pt, list);
 		}
-		System.out.print("Initialization ... ");
-		if (parser.getSeed() != null)
-			r = new Random(parser.getSeed());
-		else {
-			new Exception(
-					"Seed not supply ! Random will be created without any fixed seed.")
-					.printStackTrace();
-			r = new Random();
-		}
+
+		r = new Random(seed);
 
 		initializeSlotReservations();
 
-		if (progress != null) {
-			Runnable rr = new Runnable() {
-				public void run() {
-					progress.setValue(progress.getValue() + 1);
-					progress.setString(loadingSteps[2]);
-				}
-			};
-			try {
-				SwingUtilities.invokeAndWait(rr);
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-
-		}
+		incrementProgressBar();
 
 		quaysReservations = new HashMap<>();
 		containersOUT = new HashMap<String, String>();
 		initializeBICGenerator();
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						progress.setValue(progress.getValue() + 1);
-						progress.setString(loadingSteps[3]);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
 
-			}
-		}
-		rsc = Terminal
-				.getInstance()
-				.getStraddleCarriers()
-				.get(r.nextInt(Terminal.getInstance()
-						.getStraddleCarriersCount()));
-		// rsc = Terminal.getInstance().getStraddleCarriers().get(0);
-		if (rsc.getModel() == null) {
-			System.err.println("Model is null !");
-			System.exit(ReturnCodes.EXIT_ON_NULL_MODEL_ERROR.getCode());
-		} else if (rsc.getModel().getSpeedCharacteristics() == null) {
-			System.err.println("Model.speedCharacteristics is null !");
-			System.exit(ReturnCodes.EXIT_ON_NULL_SPEED_CHARACTERITICS.getCode());
-		}
-		handlingTimeFromGround = new Time(rsc.getModel()
-				.getSpeedCharacteristics()
-				.getContainerHandlingTimeFromGroundMAX());
-		handlingTimeFromTruck = new Time(rsc.getModel()
-				.getSpeedCharacteristics()
-				.getContainerHandlingTimeFromTruckMAX());
-		System.out.println("done.");
+		incrementProgressBar();
+
+		vehicle = getAStraddleCarrier();
+
+		log.info("Done.");
+
+		handlingTimeFromGround = new Time(vehicle.getModel().getSpeedCharacteristics().getContainerHandlingTimeFromGroundMAX());
+		handlingTimeFromTruck = new Time(vehicle.getModel().getSpeedCharacteristics().getContainerHandlingTimeFromTruckMAX());
 
 		// Fifth Step : TRAINS
 		int i = 1;
-		System.out.println("Generating Train Missions ... ");
-		for (TrainGenerationData trainData : parser.getTrainsData()) {
+
+		log.info("Generating Train Missions ... ");
+		for (TrainGenerationData trainData : trainsData) {
 			Time maxTimeInTime = new Time(trainData.getMaxTime());
 			Time minTimeInTime = new Time(trainData.getMinTime());
 
-			generateTrainMissions(trainData.getFile(), sortedContainersMap,
-					minTimeInTime, maxTimeInTime, trainData.getMarginRate(),
-					trainData.getFullRate(), trainData.getAfterUnload(),
-					trainData.getAfterReload(), "train" + i);
+			generateTrainMissions(sortedContainersMap, minTimeInTime, maxTimeInTime, trainData.getMarginRate(),
+					trainData.getFullRate(), trainData.getAfterUnload(), trainData.getAfterReload(), "train" + i);
 			i++;
 		}
-		System.out.println("Generating Train Missions DONE !");
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						progress.setValue(progress.getValue() + 1);
-						progress.setString(loadingSteps[4]);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-		}
+		log.info("Generating Train Missions DONE !");
+		incrementProgressBar();
+
 		// Sixth Step : TRUCKS
-		System.out.println("Generating Truck Missions ... ");
-		for (TrucksGenerationData truckData : parser.getTrucksData()) {
+		log.info("Generating Truck Missions ... ");
+		for (TrucksGenerationData truckData : trucksData) {
 			Time minTimeInTime = new Time(truckData.getMinTime());
 			Time maxTimeInTime = new Time(truckData.getMaxTime());
-			Time avgTruckTimeBeforeLeavingInTime = new Time(
-					truckData.getAvgTruckTimeBeforeLeaving());
-			generateTrucksMissions(truckData.getOutputFile(),
-					truckData.getNb(), truckData.getRateComeEmpty(),
-					truckData.getRateLeaveEmpty(), sortedContainersMap,
-					minTimeInTime, maxTimeInTime,
-					avgTruckTimeBeforeLeavingInTime, truckData.getGroupID());
+			Time avgTruckTimeBeforeLeavingInTime = new Time(truckData.getAvgTruckTimeBeforeLeaving());
+			generateTrucksMissions(truckData.getNb(), truckData.getRateComeEmpty(), truckData.getRateLeaveEmpty(),
+					sortedContainersMap, minTimeInTime, maxTimeInTime, avgTruckTimeBeforeLeavingInTime, truckData.getGroupID());
 		}
-		System.out.println("Generating Truck Missions DONE !");
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						progress.setValue(progress.getValue() + 1);
-						progress.setString(loadingSteps[5]);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-		}
+		log.info("Generating Truck Missions DONE !");
+
+		incrementProgressBar();
 
 		// Seventh Step : SHIPS
-		System.out.println("Generating Ship Missions ... ");
-		for (ShipGenerationData shipData : parser.getShipsData()) {
+		log.info("Generating Ship Missions ... ");
+		for (ShipGenerationData shipData : shipsData) {
 			Time maxArrivalTime = new Time(shipData.getMaxArrivalTime());
 			Time maxDepartureTime = new Time(shipData.getMaxDepartureTime());
-			Time minimalBerthTimeLength = new Time(
-					shipData.getMinBerthTimeLength());
-			Time timePerContainerOperation = new Time(
-					shipData.getTimePerContainerOperation());
+			Time minimalBerthTimeLength = new Time(shipData.getMinBerthTimeLength());
+			Time timePerContainerOperation = new Time(shipData.getTimePerContainerOperation());
 
-			generateShipsMissions(shipData.getOutputFile(),
-					shipData.getMinTeuCapacity(), shipData.getMaxTeuCapacity(),
-					shipData.getFullRate(), shipData.getTwentyFeetRate(),
-					shipData.getFortyFeetRate(), shipData.getCapacityFactor(),
-					maxArrivalTime, minimalBerthTimeLength, maxDepartureTime,
-					timePerContainerOperation, shipData.getAfterUnload(),
-					shipData.getAfterReload(), shipData.getMarginRate());
+			generateShipsMissions(shipData.getMinTeuCapacity(), shipData.getMaxTeuCapacity(), shipData.getFullRate(),
+					shipData.getTwentyFeetRate(), shipData.getFortyFeetRate(), shipData.getCapacityFactor(), maxArrivalTime, minimalBerthTimeLength,
+					maxDepartureTime, timePerContainerOperation, shipData.getAfterUnload(), shipData.getAfterReload(), shipData.getMarginRate());
 		}
-		System.out.println("Generating Ship Missions DONE !");
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						progress.setValue(progress.getValue() + 1);
-						progress.setString(loadingSteps[6]);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-		}
+		log.info("Generating Ship Missions DONE !");
+		incrementProgressBar();
 
 		// Eighth Step : STOCK
-		System.out.println("Generating Stock Missions ... ");
-		for (StockGenerationData stockData : parser.getStockData()) {
-			generateStocksMissions(stockData.getOutputFile(),
-					stockData.getNb(), new Time(stockData.getMinTime()),
-					new Time(stockData.getMaxTime()),
-					new Time(stockData.getMarginTime()),
-					stockData.getGroupID(), sortedContainersMap);
+		log.info("Generating Stock Missions ... ");
+		for (StockGenerationData stockData : stocksData) {
+			generateStocksMissions(stockData.getNb(), new Time(stockData.getMinTime()), new Time(stockData.getMaxTime()),
+					new Time(stockData.getMarginTime()), stockData.getGroupID(), sortedContainersMap);
 		}
-		System.out.println("Generating Stock Missions DONE !");
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						progress.setValue(progress.getValue() + 1);
-						progress.setString(loadingSteps[7]);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-		}
-		pw.close();
+		log.info("Generating Stock Missions DONE !");
+
+		incrementProgressBar();
 
 		if (parentFrame != null) {
 			destroy();
@@ -444,8 +304,7 @@ public class MissionsFileGenerator {
 				SwingUtilities.invokeAndWait(new Runnable() {
 					@Override
 					public void run() {
-						frame.setCursor(Cursor
-								.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+						frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 						frame.setVisible(false);
 						frame.dispose();
 					}
@@ -460,26 +319,23 @@ public class MissionsFileGenerator {
 		}
 	}
 
-	public MissionsFileGenerator(final String localHostName,
-			final String configFile, final long seed) throws SAXException,
-			IOException, NoPathFoundException, ContainerDimensionException,
-			EmptyLevelException {
-		this.seed = seed;
-		execute(localHostName, configFile);
-	}
+	/*
+	 * public MissionsFileGenerator(final String localHostName, final String
+	 * configFile, final long seed) throws SAXException, IOException,
+	 * NoPathFoundException, ContainerDimensionException, EmptyLevelException {
+	 * this.seed = seed; execute(localHostName, configFile); }
+	 */
 
-	public MissionsFileGenerator(final String localHostName,
-			final String configFile) throws SAXException, IOException,
-			NoPathFoundException, ContainerDimensionException,
-			EmptyLevelException {
-		execute(localHostName, configFile);
-	}
+	/*
+	 * public MissionsFileGenerator(final String localHostName, final String
+	 * configFile) throws SAXException, IOException, NoPathFoundException,
+	 * ContainerDimensionException, EmptyLevelException { execute(localHostName,
+	 * configFile); }
+	 */
+
+
 
 	public void destroyUnthreaded() {
-		long t1 = System.currentTimeMillis();
-		MissionsFileGenerator.rsc = null;
-		MissionsFileGenerator.pw = null;
-		saxReader = null;
 		bicGenerator = null;
 		containersOUT = null;
 		handlingTimeFromGround = null;
@@ -487,18 +343,11 @@ public class MissionsFileGenerator {
 		quaysReservations = null;
 		r = null;
 		slotReservations = null;
-
-		long t2 = System.currentTimeMillis();
-		System.out.println("Simulation closed in " + (t2 - t1) + "ms");
 	}
 
 	public void destroy() {
 		new Thread() {
 			public void run() {
-				long t1 = System.currentTimeMillis();
-				MissionsFileGenerator.rsc = null;
-				MissionsFileGenerator.pw = null;
-				saxReader = null;
 				bicGenerator = null;
 				containersOUT = null;
 				handlingTimeFromGround = null;
@@ -506,18 +355,13 @@ public class MissionsFileGenerator {
 				quaysReservations = null;
 				r = null;
 				slotReservations = null;
-
-				long t2 = System.currentTimeMillis();
-				System.out.println("Simulation closed in " + (t2 - t1) + "ms");
-
 			}
 		}.start();
 
 	}
 
 	private void initializeBICGenerator() {
-		bicGenerator = new ContainerBICGenerator(0, Terminal.getInstance()
-				.getContainerNames());
+		bicGenerator = new ContainerBICGenerator(0, Terminal.getInstance().getContainerNames());
 	}
 
 	private void initializeSlotReservations() {
@@ -531,13 +375,9 @@ public class MissionsFileGenerator {
 				slotReservations.put(s.getId(), srs);
 				for (Level l : s.getLevels()) {
 					for (String contID : l.getContainersID()) {
-						Container container = Terminal.getInstance()
-								.getContainer(contID);
-						SlotReservation sr = new SlotReservation(Terminal
-								.getInstance().getContainer(contID), s,
-								new TimeWindow(new Time(0), new Time(
-										Time.MAXTIME)), container
-										.getContainerLocation().getAlign(), l);
+						Container container = Terminal.getInstance().getContainer(contID);
+						SlotReservation sr = new SlotReservation(Terminal.getInstance().getContainer(contID), s, new TimeWindow(new Time(0),
+								new Time(Time.MAXTIME)), container.getContainerLocation().getAlign(), l);
 						addReservation(sr);
 						// srs.addReservation(sr);
 					}
@@ -548,192 +388,112 @@ public class MissionsFileGenerator {
 		// Add reservations for the destination slots of the missions
 		for (Mission m : Terminal.getInstance().getMissions()) {
 			Container c = m.getContainer();
-			Slot origin = Terminal.getInstance().getSlot(
-					c.getContainerLocation().getSlotId());
+			Slot origin = Terminal.getInstance().getSlot(c.getContainerLocation().getSlotId());
 			// TODO check if we can take the avg between TW.min and TW.max...
-			updateReservationMaxTime(c, origin, m.getPickupTimeWindow()
-					.getMax());
+			updateReservationMaxTime(c, origin, m.getPickupTimeWindow().getMax());
 
-			Slot destination = Terminal.getInstance().getSlot(
-					m.getDestination().getSlotId());
+			Slot destination = Terminal.getInstance().getSlot(m.getDestination().getSlotId());
 			// SlotReservations destinationsResas =
 			// slotReservations.get(destination.getId());
 			SlotReservation destResa = new SlotReservation(c, destination,
-					new TimeWindow(m.getDeliveryTimeWindow().getMin(),
-							new Time(Time.MAXTIME)), m.getDestination()
-							.getAlign(), destination.getLevel(m
+					new TimeWindow(m.getDeliveryTimeWindow().getMin(), new Time(Time.MAXTIME)), m.getDestination().getAlign(), destination.getLevel(m
 							.getDestination().getLevel()));
 
 			addReservation(destResa);
 		}
 	}
 
-	private void generateStocksMissions(String xmlFile, final int nb,
-			Time minTime, Time maxTime, Time marginTime, String groupID,
+	private StraddleCarrier getAStraddleCarrier() {
+		return Terminal.getInstance().getStraddleCarriers().get(r.nextInt(Terminal.getInstance().getStraddleCarriersCount()));
+	}
+
+	private void generateStocksMissions(final int nb, Time minTime, Time maxTime, Time marginTime, String groupID,
 			Map<BlockType, List<String>> sortedContainersMap) {
-		StringBuilder sb = new StringBuilder();
+		List<String> possibleContIDs = new ArrayList<>(Terminal.getInstance().getContainerNames());
+		List<Block> stockPaves = new ArrayList<>(Terminal.getInstance().getPaves(BlockType.YARD).values());
 
-		ArrayList<String> possibleContIDs = new ArrayList<String>(Terminal
-				.getInstance().getContainerNames());
-		ArrayList<Block> stockPaves = new ArrayList<Block>(Terminal
-				.getInstance().getPaves(BlockType.YARD).values());
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-
-					@Override
-					public void run() {
-						progress.setMaximum(progress.getMaximum() + nb);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-		}
+		incrementProgressBar();
 		int i = 0;
 		while (i < nb) {
-			String contID = possibleContIDs.remove(r.nextInt(possibleContIDs
-					.size()));
+			String contID = possibleContIDs.remove(r.nextInt(possibleContIDs.size()));
 			if (!containersOUT.containsKey(contID)) {
-				Container container = Terminal.getInstance().getContainer(
-						contID);
-				Slot originSlot = Terminal.getInstance().getSlot(
-						container.getContainerLocation().getSlotId());
+				Container container = Terminal.getInstance().getContainer(contID);
+				Slot originSlot = Terminal.getInstance().getSlot(container.getContainerLocation().getSlotId());
 				try {
-					if (Terminal.getInstance().getBlock(originSlot.getPaveId())
-							.getType() == BlockType.YARD) {
-						Time P_min = new Time(minTime, new Time(
-								r.nextInt((int) (maxTime.toStep() - minTime
-										.toStep()))));
+					if (Terminal.getInstance().getBlock(originSlot.getPaveId()).getType() == BlockType.YARD) {
+						Time P_min = new Time(minTime, new Time(r.nextInt((int) (maxTime.toStep() - minTime.toStep()))));
 						Path pDepotToPickUp;
 
-						pDepotToPickUp = rsc.getRouting().getShortestPath(
-								new Location(rsc.getSlot(), rsc.getSlot()
-										.getCenterLocation(), false),
-								originSlot.getLocation());
+						pDepotToPickUp = vehicle.getRouting().getShortestPath(
+								new Location(vehicle.getSlot(), vehicle.getSlot().getCenterLocation(), false), originSlot.getLocation());
 						Time travelTime = new Time(pDepotToPickUp.getCost());
 
-						travelTime = new Time(travelTime, new Time(
-								(long) (r.nextDouble() * marginTime.toStep())));
-						Time P_max = new Time(
-								P_min,
-								new Time(
-										travelTime,
-										rsc.getMaxContainerHandlingTime((Bay) originSlot
-												.getLocation().getRoad())/*
-																		 * container
-																		 * .
-																		 * getHandlingTime
-																		 * ())
-																		 */));
+						travelTime = new Time(travelTime, new Time((long) (r.nextDouble() * marginTime.toStep())));
+						Time P_max = new Time(P_min, new Time(travelTime, vehicle.getMaxContainerHandlingTime((Bay) originSlot.getLocation()
+								.getRoad())));
 
 						// Check if container will be on its slot at the pickup
 						// time
-						SlotReservations originReservations = slotReservations
-								.get(originSlot.getId());
+						SlotReservations originReservations = slotReservations.get(originSlot.getId());
 						if (originReservations == null)
-							originReservations = new SlotReservations(
-									originSlot);
-						boolean free = originReservations.isContainerFreeAt(
-								container, new TimeWindow(P_min, P_max));
+							originReservations = new SlotReservations(originSlot);
+						boolean free = originReservations.isContainerFreeAt(container, new TimeWindow(P_min, P_max));
 
 						if (free) {
-							Block pDestination = stockPaves.get(r
-									.nextInt(stockPaves.size()));
-							Bay lDestination = pDestination.getLanes().get(
-									r.nextInt(pDestination.getLanes().size()));
-							Slot destinationSlot = Terminal
-									.getInstance()
-									.getSlots(lDestination.getId())
-									.get(r.nextInt(Terminal.getInstance()
-											.getSlots(lDestination.getId())
-											.size()));
+							Block pDestination = stockPaves.get(r.nextInt(stockPaves.size()));
+							Bay lDestination = pDestination.getLanes().get(r.nextInt(pDestination.getLanes().size()));
+							Slot destinationSlot = Terminal.getInstance().getSlots(lDestination.getId())
+									.get(r.nextInt(Terminal.getInstance().getSlots(lDestination.getId()).size()));
 
 							// Compute Delivery TW
-							Path pPickUpToDepot = rsc.getRouting()
-									.getShortestPath(originSlot.getLocation(),
-											destinationSlot.getLocation());
+							Path pPickUpToDepot = vehicle.getRouting().getShortestPath(originSlot.getLocation(), destinationSlot.getLocation());
 							travelTime = new Time(pPickUpToDepot.getCost());
-							travelTime = new Time(travelTime, new Time(
-									(long) (r.nextDouble() * marginTime
-											.toStep())));
-							Time handlingTime = rsc
-									.getMaxContainerHandlingTime(lDestination);
-							Time D_min = new Time(P_min, new Time(travelTime,
-									handlingTime));
-							Time D_max = new Time(P_max, new Time(travelTime,
-									handlingTime));
+							travelTime = new Time(travelTime, new Time((long) (r.nextDouble() * marginTime.toStep())));
+							Time handlingTime = vehicle.getMaxContainerHandlingTime(lDestination);
+							Time D_min = new Time(P_min, new Time(travelTime, handlingTime));
+							Time D_max = new Time(P_max, new Time(travelTime, handlingTime));
 
-							SlotReservations reservations = slotReservations
-									.get(destinationSlot.getId());
+							SlotReservations reservations = slotReservations.get(destinationSlot.getId());
 							if (reservations == null) {
-								reservations = new SlotReservations(
-										destinationSlot);
+								reservations = new SlotReservations(destinationSlot);
 							}
-							SlotReservation reservation = reservations
-									.giveFreeReservation(container,
-											new TimeWindow(D_min, new Time(
-													Time.MAXTIME)));
+							SlotReservation reservation = reservations.giveFreeReservation(container, new TimeWindow(D_min, new Time(Time.MAXTIME)));
 							if (reservation != null) {
 								// Mission ok !
 								addReservation(reservation);
-								updateReservationMaxTime(container, originSlot,
-										P_max);
+								updateReservationMaxTime(container, originSlot, P_max);
 
-								Time knownTime = new Time(minTime, new Time(
-										(r.nextInt((int) (Math.max(
-												1,
-												P_min.toStep()
-														- minTime.toStep()))))));
-								sb.append("<event time='" + knownTime
-										+ "' type='newMission'>\n");
+								Time knownTime = new Time(minTime, new Time((r.nextInt((int) (Math.max(1, P_min.toStep() - minTime.toStep()))))));
 
-								sb.append("\t<mission id='stockMission_"
-										+ groupID + "[" + (i++)
-										+ "]' container='" + contID
-										+ "' kind='"
-										+ MissionKinds.STAY.getIntValue()
-										+ "'>\n");
-								sb.append("\t\t<timewindow start='" + P_min
-										+ "' end='" + P_max + "'/>\n");
-								sb.append("\t\t<timewindow start='" + D_min
-										+ "' end='" + D_max + "'/>\n");
-								sb.append("\t\t"
-										+ reservation.getContainerLocation()
-												.toXML() + "\n");
-								sb.append("\t</mission>\n");
+								StringBuilder description = new StringBuilder();
 
-								sb.append("</event>\n");
-								incrementProgressBar();
+								description.append("<mission id='stockMission_" + groupID + "[" + (i++) + "]' container='" + contID + "' kind='"
+										+ MissionKinds.STAY.getIntValue() + "'>\n");
+								description.append("\t<timewindow start='" + P_min + "' end='" + P_max + "'/>\n");
+								description.append("\t<timewindow start='" + D_min + "' end='" + D_max + "'/>\n");
+								description.append("\t" + reservation.getContainerLocation().toXML() + "\n");
+								description.append("</mission>\n");
 
+								EventBean mission = new EventBean();
+								mission.setTime(knownTime);
+								mission.setType(EventType.NewMission);
+								mission.setDescription(description.toString());
+
+								try {
+									EventDAO.getInstance(scenario.getId()).insert(mission);
+									incrementProgressBar();
+								} catch (SQLException e) {
+									log.error(e.getMessage(), e);
+								}
 							}
 						}
 					}
 				} catch (NoPathFoundException e) {
-					// e.printStackTrace();
-					System.out.println("Warning : " + e.getMessage());
-					log.error(e.getMessage(), e);
+					log.warn(e.getMessage(), e);
 				}
 			}
 		}
-		System.out.println(nb + " Stock Missions Generated !");
-		File stockFile = new File(xmlFile);
-		try {
-			stockFile.createNewFile();
-			PrintWriter pw = new PrintWriter(stockFile);
-			pw.append("<document>\n");
-			pw.append(sb.toString());
-			pw.append("</document>\n");
-			pw.flush();
-			pw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			log.error(e.getMessage(), e);
-		}
+		log.info(nb + " Stock Missions Generated !");
 	}
 
 	/**
@@ -750,26 +510,19 @@ public class MissionsFileGenerator {
 	 * @throws FileNotFoundException
 	 * @throws NoPathFoundException
 	 * @throws ContainerDimensionException
+	 * @throws SQLException
 	 */
-	private void generateShipsMissions(String xmlFile, int capaciteMin,
-			int capaciteMax, double taux_remplissage, double rep20Pieds,
-			double rep40Pieds, double capacityFactor, Time maxArrivalTime,
-			Time minimalBerthTimeLength, Time maxDepartureTime,
-			Time timePerContainerOperation,
-			double taux_remplissage_apres_dechargement,
-			double taux_remplissage_apres_chargement, double marginRate)
-			throws FileNotFoundException, ContainerDimensionException {
+	private void generateShipsMissions(int capaciteMin, int capaciteMax, double taux_remplissage, double rep20Pieds,
+			double rep40Pieds, double capacityFactor, Time maxArrivalTime, Time minimalBerthTimeLength, Time maxDepartureTime,
+			Time timePerContainerOperation, double taux_remplissage_apres_dechargement, double taux_remplissage_apres_chargement, double marginRate)
+					throws ContainerDimensionException, SQLException {
 		if (maxDepartureTime.toStep() <= maxArrivalTime.toStep()) {
-			System.out
-					.println("Departure time must be greater than the arrival time. Verify your parameters!");
+			log.warn("Departure time must be greater than the arrival time. Check your parameters!");
 		}
-		if ((maxDepartureTime.toStep() - minimalBerthTimeLength.toStep()) < maxArrivalTime
-				.toStep()) {
-			System.out
-					.println("Not enough time for unloading and loading the ship. Verify your parameters!");
+		if ((maxDepartureTime.toStep() - minimalBerthTimeLength.toStep()) < maxArrivalTime.toStep()) {
+			log.warn("Not enough time for unloading and loading the ship. Check your parameters!");
 		}
 
-		StringBuffer sb = new StringBuffer();
 		// HYPOTHESIS:
 		// -> There is no ship on berths from 0:0:0s to the end of simulation!
 		// -> There is no containers on quays from 0:0:0s to the end of
@@ -785,35 +538,34 @@ public class MissionsFileGenerator {
 		// -> Dates
 		int capacity = capaciteMin + r.nextInt((capaciteMax + 1) - capaciteMin);
 
-		System.out.println("capaciteMin = " + capaciteMin);
-		System.out.println("capaciteMax = " + capaciteMax);
-		System.out.println("capacite = " + capacity);
+		log.info("capaciteMin = " + capaciteMin);
+		log.info("capaciteMax = " + capaciteMax);
+		log.info("capacite = " + capacity);
 
 		int currentLoad = (int) (taux_remplissage * capacity);
-		System.out.println("CurrentLoad = " + currentLoad);
+		log.info("CurrentLoad = " + currentLoad);
 
 		int nb20Pieds = (int) (rep20Pieds * currentLoad);
-		System.out.println("nb20Pieds = " + nb20Pieds);
+		log.info("nb20Pieds = " + nb20Pieds);
 
 		int nb40Pieds = ((int) (rep40Pieds * currentLoad) / 2);
-		System.out.println("nb40Pieds = " + nb40Pieds);
+		log.info("nb40Pieds = " + nb40Pieds);
 
 		int nb45Pieds = (int) (((1.0 - (rep20Pieds + rep40Pieds)) * currentLoad) / 2.25);
-		System.out.println("nb45Pieds = " + nb45Pieds);
+		log.info("nb45Pieds = " + nb45Pieds);
 
 		int nbContainers = nb20Pieds + nb40Pieds + nb45Pieds;
-		System.out.println("nbContainers = " + nbContainers);
+		log.info("nbContainers = " + nbContainers);
 
 		double shipLength = capacity / capacityFactor;
-		System.out.println("ShipLength = " + shipLength);
+		log.info("ShipLength = " + shipLength);
 
 		bicGenerator.generateMore(nbContainers);
 		// ContainerBICGenerator bicGenerator = new
 		// ContainerBICGenerator(nbContainers, rt.getContainerNames());
 
-		ArrayList<String> quayPave = new ArrayList<String>();
-		List<String> quayIDs = new ArrayList<String>(Terminal.getInstance()
-				.getPaves(BlockType.SHIP).keySet());
+		List<String> quayPave = new ArrayList<>();
+		List<String> quayIDs = new ArrayList<>(Terminal.getInstance().getPaves(BlockType.SHIP).keySet());
 		for (String quayID : quayIDs) {
 			quayPave.add(quayID);
 		}
@@ -823,11 +575,8 @@ public class MissionsFileGenerator {
 		Block p = Terminal.getInstance().getPaves(BlockType.SHIP).get(quayID);
 		// Time
 		Time arrivalTime = new Time(r.nextInt((int) maxArrivalTime.toStep()));
-		Time departureTime = new Time(arrivalTime, new Time(
-				minimalBerthTimeLength.toStep()
-						+ r.nextInt((int) (maxDepartureTime.toStep()
-								- arrivalTime.toStep() - minimalBerthTimeLength
-								.toStep()))));
+		Time departureTime = new Time(arrivalTime, new Time(minimalBerthTimeLength.toStep()
+				+ r.nextInt((int) (maxDepartureTime.toStep() - arrivalTime.toStep() - minimalBerthTimeLength.toStep()))));
 		TimeWindow tw = new TimeWindow(arrivalTime, departureTime);
 
 		double berthFrom = 0.0;
@@ -848,10 +597,8 @@ public class MissionsFileGenerator {
 				quayID = newQuayID;
 				p = Terminal.getInstance().getPaves(BlockType.SHIP).get(quayID);
 			} else {
-				ShipQuayReservation reservation = new ShipQuayReservation(
-						quayID, tw, berthFrom, berthTo);
-				List<ShipQuayReservation> reservations = quaysReservations
-						.get(quayID);
+				ShipQuayReservation reservation = new ShipQuayReservation(quayID, tw, berthFrom, berthTo);
+				List<ShipQuayReservation> reservations = quaysReservations.get(quayID);
 				if (reservations == null)
 					reservations = new ArrayList<ShipQuayReservation>();
 				for (ShipQuayReservation sqr : reservations) {
@@ -868,16 +615,12 @@ public class MissionsFileGenerator {
 			}
 		}
 
-		/**
-		 * WRITING THE OPENING TAG
-		 * 
-		 * <event time='00:03:00.00' type='shipIn' capacity='1000' quay='Asie'
-		 * from='0.0' to='0.33'>
-		 * 
-		 */
-		sb.append("<event time='" + arrivalTime + "' type='shipIn' capacity='"
-				+ capacity + "' quay='" + quayID + "' from='" + berthFrom
-				+ "' to='" + berthTo + "'>\n");
+		EventBean event = new EventBean();
+		event.setTime(arrivalTime);
+		event.setType(EventType.ShipIn);
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("capacity='" + capacity + "' quay='" + quayID + "' from='" + berthFrom + "' to='" + berthTo + "'>\n");
 
 		// Slots by lane ID between berthFrom and berthTo
 		Map<String, List<Slot>> slots = new HashMap<>();
@@ -907,26 +650,17 @@ public class MissionsFileGenerator {
 		}
 		// If we count one container per slot at a time :
 		int maxTeuToHandle = ((nSlots20 + nSlots40 + nSlots45) / 2)
-				* (int) (new Time(departureTime, arrivalTime, false).toStep() / timePerContainerOperation
-						.toStep());
-		System.out.println("MAXTEU to handle = " + maxTeuToHandle);
-		System.out.println("A = "
-				+ new Time(departureTime, arrivalTime, false).toStep());
-		System.out.println("B = " + timePerContainerOperation.toStep());
-		System.out
-				.println("A/B = "
-						+ (new Time(departureTime, arrivalTime, false).toStep() / timePerContainerOperation
-								.toStep()));
-		System.out.println("C = " + ((nSlots20 + nSlots40 + nSlots45) / 2));
+				* (int) (new Time(departureTime, arrivalTime, false).toStep() / timePerContainerOperation.toStep());
+		log.info("MAXTEU to handle = " + maxTeuToHandle);
+		log.info("A = " + new Time(departureTime, arrivalTime, false).toStep());
+		log.info("B = " + timePerContainerOperation.toStep());
+		log.info("A/B = " + (new Time(departureTime, arrivalTime, false).toStep() / timePerContainerOperation.toStep()));
+		log.info("C = " + ((nSlots20 + nSlots40 + nSlots45) / 2));
 
-		System.out
-				.println("D = "
-						+ (int) (capacity * (taux_remplissage - taux_remplissage_apres_dechargement)));
+		log.info("D = " + (int) (capacity * (taux_remplissage - taux_remplissage_apres_dechargement)));
 
-		final int teuToUnload = Math
-				.min((int) (capacity * (taux_remplissage - taux_remplissage_apres_dechargement)),
-						maxTeuToHandle);
-		System.out.println("TEU to unload = " + teuToUnload);
+		final int teuToUnload = Math.min((int) (capacity * (taux_remplissage - taux_remplissage_apres_dechargement)), maxTeuToHandle);
+		log.info("TEU to unload = " + teuToUnload);
 
 		// Unloading containers
 		int nb20FeetAfterUnload = nb20Pieds;
@@ -944,8 +678,7 @@ public class MissionsFileGenerator {
 		final TreeMap<Time, ArrayList<SlotReservation>> slotsContainerreservations = new TreeMap<>();
 
 		while (teuUnloaded < teuToUnload) {
-			int i = r.nextInt(nb20FeetAfterUnload + nb40FeetAfterUnload
-					+ nb45FeetAfterUnload);
+			int i = r.nextInt(nb20FeetAfterUnload + nb40FeetAfterUnload + nb45FeetAfterUnload);
 			double teu = ContainerKind.getTeu(Container.TYPE_45_Feet);
 
 			if (i < nb20FeetAfterUnload) {
@@ -956,17 +689,13 @@ public class MissionsFileGenerator {
 			}
 
 			// Find a free slot at a given time
-			Time containerUnloadTime = new Time(arrivalTime, new Time(
-					r.nextInt((int) (departureTime.toStep() - arrivalTime
-							.toStep()))));
+			Time containerUnloadTime = new Time(arrivalTime, new Time(r.nextInt((int) (departureTime.toStep() - arrivalTime.toStep()))));
 
 			Slot s = availableSlots.get(r.nextInt(availableSlots.size()));
 			if (s.getTEU() >= teu) {
 				// Is the slot s available at containerUnloadTime and for
 				// timePerContainerOperation period ?
-				TimeWindow unloadTW = new TimeWindow(
-						containerUnloadTime,
-						new Time(containerUnloadTime, timePerContainerOperation));
+				TimeWindow unloadTW = new TimeWindow(containerUnloadTime, new Time(containerUnloadTime, timePerContainerOperation));
 
 				// TreeMap<Time, TimeWindow> tm =
 				// slotReservations.get(s.getId());
@@ -985,8 +714,7 @@ public class MissionsFileGenerator {
 
 					if (teu == ContainerKind.getTeu(Container.TYPE_20_Feet))
 						nb20FeetAfterUnload--;
-					else if (teu == ContainerKind
-							.getTeu(Container.TYPE_40_Feet))
+					else if (teu == ContainerKind.getTeu(Container.TYPE_40_Feet))
 						nb40FeetAfterUnload--;
 					else
 						nb45FeetAfterUnload--;
@@ -997,10 +725,8 @@ public class MissionsFileGenerator {
 					// unloadTW, ContainerAlignment.center.getValue(),
 					// s.getLevel(0));
 					ArrayList<SlotReservation> slotResa;
-					if (slotsContainerreservations.containsKey(unloadTW
-							.getMin())) {
-						slotResa = slotsContainerreservations.get(unloadTW
-								.getMin());
+					if (slotsContainerreservations.containsKey(unloadTW.getMin())) {
+						slotResa = slotsContainerreservations.get(unloadTW.getMin());
 					} else
 						slotResa = new ArrayList<SlotReservation>();
 					slotResa.add(sr);
@@ -1014,13 +740,10 @@ public class MissionsFileGenerator {
 					 * pave='Asie' lane='Asie-1/3' slot='Asie-1/3-0' level='0'
 					 * align='center'/> </shipContainerIn>
 					 */
-					sb.append("\t<shipContainerIn time='" + unloadTW.getMin()
-							+ "' id='" + contID + "' teu='" + teu + "'>\n");
-					sb.append("\t\t<containerLocation container='" + contID
-							+ "' pave='" + quayID + "' lane='"
-							+ s.getLocation().getRoad().getId() + "' slot='"
-							+ s.getId() + "' level='0' align='center'/>\n");
-					sb.append("\t</shipContainerIn>\n");
+					sb.append("<shipContainerIn time='" + unloadTW.getMin() + "' id='" + contID + "' teu='" + teu + "'>\n");
+					sb.append("\t<containerLocation container='" + contID + "' pave='" + quayID + "' lane='" + s.getLocation().getRoad().getId()
+							+ "' slot='" + s.getId() + "' level='0' align='center'/>\n");
+					sb.append("</shipContainerIn>\n");
 
 					/*
 					 * incrementProgressBar(); if(teu > 1.0)
@@ -1034,52 +757,30 @@ public class MissionsFileGenerator {
 			// else choose another teu, time, slot...
 		}
 
-		/**
-		 * WRITING THE ENDING TAG
-		 * 
-		 * "</event>"
-		 */
-		sb.append("</event>\n");
+		event.setDescription(sb.toString());
+
+		EventDAO.getInstance(scenario.getId()).insert(event);
 
 		// STOCK SLOTS FOR DELIVERY
-		Map<String, Block> stockPaves = Terminal.getInstance().getPaves(
-				BlockType.YARD);
+		Map<String, Block> stockPaves = Terminal.getInstance().getPaves(BlockType.YARD);
 		List<Slot> stockSlots = new ArrayList<Slot>();
 		List<String> stockLanes = new ArrayList<String>();
 		for (Block stockPave : stockPaves.values()) {
 			for (Bay l : stockPave.getLanes()) {
 				stockLanes.add(l.getId());
-				for (String slotID : Terminal.getInstance().getSlotNames(
-						l.getId())) {
+				for (String slotID : Terminal.getInstance().getSlotNames(l.getId())) {
 					stockSlots.add(Terminal.getInstance().getSlot(slotID));
 				}
 			}
 		}
 
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						progress.setMaximum(progress.getMaximum()
-								+ slotsContainerreservations.size());
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-		}
+		incrementProgressBar();
+
 		// 2nde étape : générer les missions de déchargement
 		while (slotsContainerreservations.size() > 0) {
-			System.out.println("Unload Missions to compute : "
-					+ slotsContainerreservations.size());
+			log.info("Unload Missions to compute : " + slotsContainerreservations.size());
 
-			ArrayList<SlotReservation> l = slotsContainerreservations
-					.pollFirstEntry().getValue();
+			List<SlotReservation> l = slotsContainerreservations.pollFirstEntry().getValue();
 			for (SlotReservation scsr : l) {
 				Container container = scsr.getContainer();
 
@@ -1087,11 +788,9 @@ public class MissionsFileGenerator {
 				TimeWindow twP = scsr.getTW();
 
 				// Gives an accurate TWP_Max
-				ArrayList<SlotReservation> nextResa = slotReservations.get(
-						slotOrigin.getId()).getHigherValue(twP.getMin());
+				List<SlotReservation> nextResa = slotReservations.get(slotOrigin.getId()).getHigherValue(twP.getMin());
 				if (nextResa.size() > 0) {
-					twP = new TimeWindow(twP.getMin(), nextResa.get(0).getTW()
-							.getMin());
+					twP = new TimeWindow(twP.getMin(), nextResa.get(0).getTW().getMin());
 				}
 
 				ok = false;
@@ -1099,52 +798,34 @@ public class MissionsFileGenerator {
 				SlotReservation res = null;
 				while (!ok) {
 					// Find a delivery slot
-					String laneID = stockLanes
-							.get(r.nextInt(stockLanes.size()));
+					String laneID = stockLanes.get(r.nextInt(stockLanes.size()));
 					Slot s = Terminal.getInstance().getSlot(
-							Terminal.getInstance().getSlotNames(laneID)[r
-									.nextInt(Terminal.getInstance()
-											.getSlotNames(laneID).length)]);
+							Terminal.getInstance().getSlotNames(laneID)[r.nextInt(Terminal.getInstance().getSlotNames(laneID).length)]);
 
 					if (s.getTEU() >= container.getTEU()) {
 						try {
-							Path pPickUpToDelivery = rsc.getRouting()
-									.getShortestPath(slotOrigin.getLocation(),
-											s.getLocation());
+							Path pPickUpToDelivery = vehicle.getRouting().getShortestPath(slotOrigin.getLocation(), s.getLocation());
 
 							Time startTime = twP.getMin();
-							Time TWD_Min = new Time(startTime, new Time(
-									pPickUpToDelivery.getCost()));
-							Time TWD_Max = new Time(twP.getMax(), new Time(
-									pPickUpToDelivery.getCost()));
+							Time TWD_Min = new Time(startTime, new Time(pPickUpToDelivery.getCost()));
+							Time TWD_Max = new Time(twP.getMax(), new Time(pPickUpToDelivery.getCost()));
 
-							SlotReservations slotReservation = slotReservations
-									.get(s.getId());
+							SlotReservations slotReservation = slotReservations.get(s.getId());
 							if (slotReservation == null) {
 								slotReservation = new SlotReservations(s);
 							}
 
-							res = slotReservation
-									.giveFreeReservation(container,
-											new TimeWindow(TWD_Min, TWD_Max));
+							res = slotReservation.giveFreeReservation(container, new TimeWindow(TWD_Min, TWD_Max));
 							if (res == null) {
 								ok = false;
 							} else {
 								ok = true;
 								Slot slotDestination = res.getSlot();
-								destination = new ContainerLocation(res
-										.getContainer().getId(),
-										slotDestination.getPaveId(),
-										slotDestination.getLocation().getRoad()
-												.getId(),
-										slotDestination.getId(), res.getLevel()
-												.getLevelIndex(),
-										res.getAlignment());
-								SlotReservations reservations = slotReservations
-										.get(slotDestination.getId());
+								destination = new ContainerLocation(res.getContainer().getId(), slotDestination.getPaveId(), slotDestination
+										.getLocation().getRoad().getId(), slotDestination.getId(), res.getLevel().getLevelIndex(), res.getAlignment());
+								SlotReservations reservations = slotReservations.get(slotDestination.getId());
 								if (reservations == null)
-									reservations = new SlotReservations(
-											slotDestination);
+									reservations = new SlotReservations(slotDestination);
 								addReservation(res);
 							}
 						} catch (NoPathFoundException e) {
@@ -1152,73 +833,57 @@ public class MissionsFileGenerator {
 						}
 					}
 				}
+				EventBean mission = new EventBean();
+				mission.setTime(arrivalTime);
+				mission.setType(EventType.NewMission);
+				sb = new StringBuilder();
 				// Générer la mission
 				// slotOrigin -> slotDestination
-				sb.append("<event time='" + arrivalTime
-						+ "' type='newMission'>\n");
-				sb.append("\t<mission id='unloadShip" + quayID + "["
-						+ berthFrom + "-" + berthTo + "]With"
-						+ container.getId() + "' container='"
-						+ container.getId() + "' kind='"
-						+ MissionKinds.IN.getIntValue() + "'>\n");
-				sb.append("\t\t<timewindow start='" + twP.getMin() + "' end='"
-						+ twP.getMax() + "'/>\n");
-				sb.append("\t\t<timewindow start='" + res.getTW().getMin()
-						+ "' end='" + res.getTW().getMax() + "'/>\n");
-				sb.append("\t\t<containerLocation pave='"
-						+ destination.getPaveId()
-						+ "' lane='"
-						+ destination.getLaneId()
-						+ "' slot='"
-						+ destination.getSlotId()
-						+ "' level='"
-						+ destination.getLevel()
-						+ "' align='"
-						+ ContainerAlignment.getStringValue(destination
-								.getAlign()) + "'/>\n");
-				sb.append("\t</mission>\n");
-				sb.append("</event>\n");
+				sb.append("<mission id='unloadShip" + quayID + "[" + berthFrom + "-" + berthTo + "]With" + container.getId() + "' container='"
+						+ container.getId() + "' kind='" + MissionKinds.IN.getIntValue() + "'>\n");
+				sb.append("\t<timewindow start='" + twP.getMin() + "' end='" + twP.getMax() + "'/>\n");
+				sb.append("\t<timewindow start='" + res.getTW().getMin() + "' end='" + res.getTW().getMax() + "'/>\n");
+				sb.append("\t<containerLocation pave='" + destination.getPaveId() + "' lane='" + destination.getLaneId() + "' slot='"
+						+ destination.getSlotId() + "' level='" + destination.getLevel() + "' align='"
+						+ ContainerAlignment.getStringValue(destination.getAlign()) + "'/>\n");
+				sb.append("</mission>\n");
+
+				mission.setDescription(sb.toString());
+				EventDAO.getInstance(scenario.getId()).insert(mission);
+
 				incrementProgressBar();
 			}
 		}
 
 		// 3e étape : générer les missions de chargement
-		final int teuToLoad = Math
-				.min((int) (capacity * (taux_remplissage_apres_chargement - taux_remplissage_apres_dechargement)),
-						maxTeuToHandle);
-		System.out.println("TEU to load = " + teuToLoad);
+		final int teuToLoad = Math.min((int) (capacity * (taux_remplissage_apres_chargement - taux_remplissage_apres_dechargement)), maxTeuToHandle);
+		log.info("TEU to load = " + teuToLoad);
 		currentLoad = currentLoad - teuToUnload;
-		System.out.println("Current Load = " + currentLoad);
+		log.info("Current Load = " + currentLoad);
 		// double teuToReload = teuToLoad-currentLoad; // ?
 
 		// Loading containers
 		double teuReloaded = 0;
 
 		// List of possible containers available from a given time
-		HashMap<String, Time> possibleContainers = new HashMap<String, Time>();
-		ArrayList<Container> loadedContainers = new ArrayList<Container>();
+		Map<String, Time> possibleContainers = new HashMap<>();
+		List<Container> loadedContainers = new ArrayList<>();
 
-		// HashMap<String,Slot> stockSlots = new HashMap<String, Slot>();
-
-		HashMap<String, Mission> missionSortedByContID = new HashMap<String, Mission>();
+		Map<String, Mission> missionSortedByContID = new HashMap<>();
 		for (Mission m : Terminal.getInstance().getMissions()) {
 			missionSortedByContID.put(m.getContainerId(), m);
 		}
 
 		for (Container c : Terminal.getInstance().getContainersArray()) {
-			Block pave = Terminal.getInstance().getBlock(
-					c.getContainerLocation().getPaveId());
+			Block pave = Terminal.getInstance().getBlock(c.getContainerLocation().getPaveId());
 			if (pave.getType() == BlockType.YARD) {
 
 				if (missionSortedByContID.containsKey(c.getId())) {
 					Mission m = missionSortedByContID.get(c.getId());
-					if (m.getMissionKind().getIntValue() != MissionKinds.OUT
-							.getIntValue()
-							&& m.getMissionKind().getIntValue() != MissionKinds.IN_AND_OUT
-									.getIntValue()) {
-						possibleContainers.put(c.getId(), m
-								.getDeliveryTimeWindow().getMax());
-						System.out.println("c.getID = " + c.getId());
+					if (m.getMissionKind().getIntValue() != MissionKinds.OUT.getIntValue()
+							&& m.getMissionKind().getIntValue() != MissionKinds.IN_AND_OUT.getIntValue()) {
+						possibleContainers.put(c.getId(), m.getDeliveryTimeWindow().getMax());
+						log.info("c.getID = " + c.getId());
 					}
 				} else {
 					possibleContainers.put(c.getId(), arrivalTime);
@@ -1226,56 +891,33 @@ public class MissionsFileGenerator {
 			}
 		}
 
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
+		incrementProgressBar();
 
-					@Override
-					public void run() {
-						progress.setMaximum(progress.getMaximum() + teuToLoad);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-		}
 		while (teuReloaded < teuToLoad) {
 			// Pick a container in the stock
 			// we should verify that the chosen container is not concerned by
 			// another mission...
-			String contID = new ArrayList<String>(possibleContainers.keySet())
-					.get(r.nextInt(possibleContainers.size()));
+			String contID = new ArrayList<String>(possibleContainers.keySet()).get(r.nextInt(possibleContainers.size()));
 			if (!containersOUT.containsKey(contID)) {
 				Time availableTime = possibleContainers.get(contID);
 
 				// TODO check if this container is not present at this time in
 				// the terminal ! (if(container==null) container =
 				// containerReservation.get(contID)...
-				Container container = Terminal.getInstance().getContainer(
-						contID);
+				Container container = Terminal.getInstance().getContainer(contID);
 				// TODO Idem ^
-				Slot sPickup = Terminal.getInstance().getSlot(
-						container.getContainerLocation().getSlotId());
+				Slot sPickup = Terminal.getInstance().getSlot(container.getContainerLocation().getSlotId());
 
 				double teu = container.getTEU();
 
 				// Compute TW belongs to [availableTime,departureTime-moveTime]
-				Slot sDest = availableSlots
-						.get(r.nextInt(availableSlots.size()));
+				Slot sDest = availableSlots.get(r.nextInt(availableSlots.size()));
 
 				// Delivery time window : [belongs to [arrivalTime ,
 				// departureTime - e] , belongs to [twd_min , departureTime -
 				// e]]
-				Time TWD_min = new Time(arrivalTime, new Time(
-						r.nextInt((int) (departureTime.toStep() - arrivalTime
-								.toStep()))));
-				Time TWD_max = new Time(TWD_min, new Time(
-						r.nextInt((int) (departureTime.toStep() - TWD_min
-								.toStep()))));
+				Time TWD_min = new Time(arrivalTime, new Time(r.nextInt((int) (departureTime.toStep() - arrivalTime.toStep()))));
+				Time TWD_max = new Time(TWD_min, new Time(r.nextInt((int) (departureTime.toStep() - TWD_min.toStep()))));
 				TimeWindow twD = new TimeWindow(TWD_min, TWD_max);
 
 				if (sDest.getTEU() >= teu) {
@@ -1285,8 +927,7 @@ public class MissionsFileGenerator {
 					// TWP_min = Max ( arrival time , [TWD_min-travelTime -
 					// (r.nextDouble()*margin) , TWD_min-traveltime];
 					try {
-						Path rp = rsc.getRouting().getShortestPath(
-								sPickup.getLocation(), sDest.getLocation());
+						Path rp = vehicle.getRouting().getShortestPath(sPickup.getLocation(), sDest.getLocation());
 
 						Time travelTime = new Time(rp.getCost());
 						// t1 = TWD_min - travelTime
@@ -1297,10 +938,8 @@ public class MissionsFileGenerator {
 						// t3 = t1 - t2
 						Time t3 = new Time(t1, t2, false);
 						// T4 belongs to [t3,t1];
-						Time t4 = new Time(t3, new Time(r.nextDouble()
-								* (new Time(t1, t3, false).toStep())));
-						Time TWP_min = new Time(Math.max(
-								availableTime.toStep(), t4.toStep()));
+						Time t4 = new Time(t3, new Time(r.nextDouble() * (new Time(t1, t3, false).toStep())));
+						Time TWP_min = new Time(Math.max(availableTime.toStep(), t4.toStep()));
 
 						// TWP_max belongs to [TWP_min,TWD_min-travelTime]
 						// => TWP_max belongs to [TWP_min,t1]
@@ -1310,71 +949,53 @@ public class MissionsFileGenerator {
 
 						TimeWindow twP = new TimeWindow(TWP_min, TWP_max);
 
-						SlotReservations srsP = slotReservations.get(sPickup
-								.getId());
-						if (srsP == null)
-							System.out.println("SRS is null ! c.id = "
-									+ container.getId() + " | "
-									+ sPickup.getId() + " "
-									+ container.getContainerLocation());
+						SlotReservations srsP = slotReservations.get(sPickup.getId());
+						if (srsP == null) {
+							log.info("SRS is null ! c.id = " + container.getId() + " | " + sPickup.getId() + " " + container.getContainerLocation());
+						}
 
-						boolean containerReachable = slotReservations.get(
-								sPickup.getId()).isContainerFreeAt(container,
-								twP);
+						boolean containerReachable = slotReservations.get(sPickup.getId()).isContainerFreeAt(container, twP);
 						if (containerReachable) {
 							// Choose a free destination slot in the quay called
 							// quayID and between berthFrom and berthTo
 							// available between TWD_min and TWD_max
-							SlotReservation srD = slotReservations.get(
-									sDest.getId()).giveFreeReservation(
-									container, twD);
+							SlotReservation srD = slotReservations.get(sDest.getId()).giveFreeReservation(container, twD);
 							if (srD != null) {
 								// Make the reservations
 								// -> Free Pickup slot location from twP_max
-								updateReservationMaxTime(container, sPickup,
-										TWP_max);
+								updateReservationMaxTime(container, sPickup, TWP_max);
 
 								// -> Reserve sDest slot at TWD
 								addReservation(srD);
 								loadedContainers.add(container);
-								containersOUT.put(container.getId(),
-										container.getId());
+								containersOUT.put(container.getId(), container.getId());
+
 								// Write the mission
-								sb.append("<event time='" + arrivalTime
-										+ "' type='newMission'>\n");
-								sb.append("\t<mission id='loadShip" + quayID
-										+ "[" + berthFrom + "-" + berthTo
-										+ "]With" + contID + "' container='"
-										+ container.getId() + "' kind='"
-										+ MissionKinds.IN.getIntValue()
-										+ "'>\n");
-								sb.append("\t\t<timewindow start='"
-										+ twP.getMin() + "' end='"
-										+ twP.getMax() + "'/>\n");
-								sb.append("\t\t<timewindow start='"
-										+ twD.getMin() + "' end='"
-										+ twD.getMax() + "'/>\n");
-								sb.append("\t\t<containerLocation pave='"
-										+ sDest.getPaveId()
-										+ "' lane='"
-										+ srD.getSlot().getLocation().getRoad()
-												.getId()
-										+ "' slot='"
-										+ sDest.getId()
-										+ "' level='"
-										+ srD.getLevel().getLevelIndex()
-										+ "' align='"
-										+ ContainerAlignment.getStringValue(srD
-												.getAlignment()) + "'/>\n");
+								sb = new StringBuilder();
+								sb.append("\t<mission id='loadShip" + quayID + "[" + berthFrom + "-" + berthTo + "]With" + contID + "' container='"
+										+ container.getId() + "' kind='" + MissionKinds.IN.getIntValue() + "'>\n");
+								sb.append("\t\t<timewindow start='" + twP.getMin() + "' end='" + twP.getMax() + "'/>\n");
+								sb.append("\t\t<timewindow start='" + twD.getMin() + "' end='" + twD.getMax() + "'/>\n");
+								sb.append("\t\t<containerLocation pave='" + sDest.getPaveId() + "' lane='"
+										+ srD.getSlot().getLocation().getRoad().getId() + "' slot='" + sDest.getId() + "' level='"
+										+ srD.getLevel().getLevelIndex() + "' align='" + ContainerAlignment.getStringValue(srD.getAlignment())
+										+ "'/>\n");
 								sb.append("\t</mission>\n");
-								sb.append("</event>\n");
+								EventBean mission = new EventBean();
+								mission.setTime(arrivalTime);
+								mission.setType(EventType.NewMission);
+								mission.setDescription(sb.toString());
+								EventDAO.getInstance(scenario.getId()).insert(mission);
 
 								// Write the container out event
-								sb.append("<event time='"
-										+ twD.getMax()
-										+ "' type='shipContainerOut' containerId='"
-										+ container.getId() + "' slotId='"
-										+ sDest.getId() + "'/>\n");
+								sb = new StringBuilder();
+								EventBean containerOut = new EventBean();
+								containerOut.setTime(twD.getMax());
+								containerOut.setType(EventType.ContainerOut);
+
+								sb.append("type='shipContainerOut' containerId='" + container.getId() + "' slotId='" + sDest.getId() + "'/>\n");
+								containerOut.setDescription(sb.toString());
+								EventDAO.getInstance(scenario.getId()).insert(containerOut);
 
 								incrementProgressBar();
 								if (teu > 1)
@@ -1392,62 +1013,26 @@ public class MissionsFileGenerator {
 
 		}
 
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						progress.setMaximum(progress.getValue());
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-		}
+		incrementProgressBar();
+
 		// 4e étape : générer le départ
-
-		sb.append("<event time='" + departureTime
-				+ "' type='shipOut' capacity='" + capacity + "' quay='"
-				+ quayID + "' from='" + berthFrom + "' to='" + berthTo + "'>\n");
+		EventBean shipOut = new EventBean();
+		shipOut.setTime(arrivalTime);
+		shipOut.setType(EventType.ShipOut);
+		sb = new StringBuilder();
+		sb.append("capacity='" + capacity + "' quay='" + quayID + "' from='" + berthFrom + "' to='" + berthTo + "'>\n");
 		for (Container cont : loadedContainers) {
-			sb.append("\t<container id='" + cont.getId() + "' teu='"
-					+ cont.getTEU() + "'/>\n");
+			sb.append("\t<container id='" + cont.getId() + "' teu='" + cont.getTEU() + "'/>\n");
 		}
-		sb.append("</event>\n");
-
-		// WRITE ALL IN THE XML FILE
-
-		// copy all previous line of the file
-		File tmpFile = new File("tmpMissions.xml");
-		File missFile = new File(xmlFile);
-
-		try {
-			PrintWriter pw = new PrintWriter(tmpFile);
-			pw.append("<document>\n");
-			pw.append(sb.toString());
-			pw.append("</document>");
-			pw.close();
-			tmpFile.renameTo(missFile);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			log.error(e.getMessage(), e);
-		}
+		shipOut.setDescription(sb.toString());
+		EventDAO.getInstance(scenario.getId()).insert(shipOut);
 	}
 
-	private void generateTrucksMissions(String missionFile,
-			final int nbTruckMissions, double rateComeEmpty,
-			double rateLeaveEmpty,
-			Map<BlockType, List<String>> containersByPaveType, Time minTime,
-			Time maxTime, Time unloadingTime, String groupID)
-			throws ContainerDimensionException, IllegalArgumentException,
-			NoPathFoundException {
+	private void generateTrucksMissions(final int nbTruckMissions, double rateComeEmpty, double rateLeaveEmpty,
+			Map<BlockType, List<String>> containersByPaveType, Time minTime, Time maxTime, Time unloadingTime, String groupID)
+					throws ContainerDimensionException, NoPathFoundException, SQLException {
 		if (rateComeEmpty + rateLeaveEmpty > 1.0) {
-			throw new IllegalArgumentException(
-					"RateComeEmpty + RateLeaveEmpty should be equal or less than 1.0 !!!");
+			throw new IllegalArgumentException("RateComeEmpty + RateLeaveEmpty should be equal or less than 1.0 !!!");
 		}
 
 		// Buffer for writing into containersFile.xml
@@ -1460,15 +1045,13 @@ public class MissionsFileGenerator {
 		long fromTimeInLong = minTime.toStep();
 		long toTimeInLong = maxTime.toStep();
 
-		Hashtable<String, ArrayList<String>> slotsMapByLane = new Hashtable<String, ArrayList<String>>();
-		ArrayList<String> roadLanes = new ArrayList<String>();
-		Map<String, Block> pavesRoad = Terminal.getInstance().getPaves(
-				BlockType.ROAD);
+		Map<String, List<String>> slotsMapByLane = new HashMap<>();
+		List<String> roadLanes = new ArrayList<String>();
+		Map<String, Block> pavesRoad = Terminal.getInstance().getPaves(BlockType.ROAD);
 		for (Block p : pavesRoad.values()) {
 			for (Bay l : p.getLanes()) {
 				roadLanes.add(l.getId());
-				ArrayList<String> lSlots = new ArrayList<String>(Terminal
-						.getInstance().getSlotNames(l.getId()).length);
+				ArrayList<String> lSlots = new ArrayList<String>(Terminal.getInstance().getSlotNames(l.getId()).length);
 				for (String s : Terminal.getInstance().getSlotNames(l.getId())) {
 					lSlots.add(s);
 				}
@@ -1476,13 +1059,12 @@ public class MissionsFileGenerator {
 			}
 		}
 
-		ArrayList<String> stockLanes = new ArrayList<String>();
+		List<String> stockLanes = new ArrayList<>();
 
 		for (Block p : Terminal.getInstance().getPaves(BlockType.YARD).values()) {
 			for (Bay l : p.getLanes()) {
 				stockLanes.add(l.getId());
-				ArrayList<String> lSlots = new ArrayList<String>(Terminal
-						.getInstance().getSlotNames(l.getId()).length);
+				ArrayList<String> lSlots = new ArrayList<String>(Terminal.getInstance().getSlotNames(l.getId()).length);
 				for (String s : Terminal.getInstance().getSlotNames(l.getId())) {
 					lSlots.add(s);
 				}
@@ -1493,44 +1075,25 @@ public class MissionsFileGenerator {
 		// ContainerBICGenerator bicGenerator = new
 		// ContainerBICGenerator(nbTruckMissions, rt.getContainerNames());
 		bicGenerator.generateMore(nbTruckMissions);
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
 
-					@Override
-					public void run() {
-						progress.setMaximum(progress.getMaximum()
-								+ nbTruckMissions);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		incrementProgressBar();
+
 		int trucksCount = 1;
 
 		// GENERATE INCOMING MISSIONS : Truck comes full and leaves empty
-		System.out.println("Comes full leaves empty : "
-				+ (nbTruckMissions * rateLeaveEmpty) + " missions to create !");
+		log.info("Comes full leaves empty : " + (nbTruckMissions * rateLeaveEmpty) + " missions to create !");
 		for (int i = 0; i < nbTruckMissions * rateLeaveEmpty; i++) {
 			// CREATE A TRUCK
 			// String truckId = "truck_"+i;
-			Time arrivalTime = new Time(fromTimeInLong
-					+ r.nextInt((int) (toTimeInLong - fromTimeInLong)));
+			Time arrivalTime = new Time(fromTimeInLong + r.nextInt((int) (toTimeInLong - fromTimeInLong)));
 
-			double teu = ContainerKind.getTeu(r.nextInt(ContainerKind
-					.getNbOfTypes()));
+			double teu = ContainerKind.getTeu(r.nextInt(ContainerKind.getNbOfTypes()));
 
-			Container container = new Container(bicGenerator.giveMeBic()
-					.toString(), teu);
+			Container container = new Container(bicGenerator.giveMeBic().toString(), teu);
 
 			// int absVal =
 			// Math.abs((int)(unloadingTime.toStep()-container.getHandlingTime().toStep()));
-			int absVal = Math
-					.abs((int) (unloadingTime.toStep() - handlingTimeFromTruck
-							.toStep()));
+			int absVal = Math.abs((int) (unloadingTime.toStep() - handlingTimeFromTruck.toStep()));
 
 			Time t2 = null;
 			if (absVal > 0)
@@ -1540,42 +1103,37 @@ public class MissionsFileGenerator {
 
 			// Time departureTime = new Time(arrivalTime, new
 			// Time(container.getHandlingTime(), t2));
-			Time departureTime = new Time(arrivalTime, new Time(
-					handlingTimeFromTruck, t2));
+			Time departureTime = new Time(arrivalTime, new Time(handlingTimeFromTruck, t2));
 
 			// Find a location for the truck
 			SlotReservation arrivalReservation = null;
 			while (arrivalReservation == null) {
 				String laneID = roadLanes.get(r.nextInt(roadLanes.size()));
 				List<String> slots = slotsMapByLane.get(laneID);
-				Slot slot = Terminal.getInstance().getSlot(
-						slots.get(r.nextInt(slots.size())));
+				Slot slot = Terminal.getInstance().getSlot(slots.get(r.nextInt(slots.size())));
 
-				SlotReservations reservations = slotReservations.get(slot
-						.getId());
+				SlotReservations reservations = slotReservations.get(slot.getId());
 				if (reservations == null)
 					reservations = new SlotReservations(slot);
 
 				TimeWindow tw = new TimeWindow(arrivalTime, departureTime);
-				arrivalReservation = reservations.giveFreeReservation(
-						container, tw);
+				arrivalReservation = reservations.giveFreeReservation(container, tw);
 			}
 			// Reserve the location
 			addReservation(arrivalReservation);
 
-			sb.append("<event time='"
-					+ arrivalTime
-					+ "' type='vehicleIn' id='truck_"
-					+ groupID
-					+ "["
-					+ trucksCount
-					+ "]' lanes='"
-					+ arrivalReservation.getSlot().getLocation().getRoad()
-							.getId() + "'>\n");
-			sb.append("\t<container id='" + container.getId() + "' teu='"
-					+ container.getTEU() + "'>\n");
+			EventBean arrival = new EventBean();
+			arrival.setTime(arrivalTime);
+			arrival.setType(EventType.VehicleIn);
+
+			sb = new StringBuilder();
+			sb.append("id='truck_" + groupID + "[" + trucksCount + "]' lanes='" + arrivalReservation.getSlot().getLocation().getRoad().getId()
+					+ "'>\n");
+			sb.append("\t<container id='" + container.getId() + "' teu='" + container.getTEU() + "'>\n");
 			ContainerLocation cl = arrivalReservation.getContainerLocation();
-			sb.append("\t\t" + cl.toXML() + "\n\t</container>\n</event>\n");
+			sb.append("\t\t" + cl.toXML() + "\n\t</container>\n");
+			arrival.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(arrival);
 
 			// Create the stocking mision (from truck to stock)
 			SlotReservation deliveryReservation = null;
@@ -1587,12 +1145,10 @@ public class MissionsFileGenerator {
 				if (deliverySlot.getTEU() >= container.getTEU()) {
 					// Compute Pickup and Delivery TimeWindows
 					TWP = arrivalReservation.getTW();
-					Path pPickUpToDelivery = rsc.getRouting().getShortestPath(
-							arrivalReservation.getSlot().getLocation(),
+					Path pPickUpToDelivery = vehicle.getRouting().getShortestPath(arrivalReservation.getSlot().getLocation(),
 							deliverySlot.getLocation());
 					Time startTime = TWP.getMax();
-					Time TWD_Min = new Time(startTime, new Time(
-							pPickUpToDelivery.getCost()));
+					Time TWD_Min = new Time(startTime, new Time(pPickUpToDelivery.getCost()));
 					// Time TWD_Max = new Time(TWD_Min,
 					// container.getHandlingTime());
 					Time TWD_Max = new Time(TWD_Min, handlingTimeFromGround);
@@ -1605,19 +1161,13 @@ public class MissionsFileGenerator {
 					// TWD = [ TWP_max + move(pickup, delivery) - epsilon ,
 					// TWD_min + container.handlingTime+epsilon ] (epsilon
 					// belong to [ 0 .. marginTime [)
-					SlotReservations deliveryReservations = slotReservations
-							.get(deliverySlot.getId());
+					SlotReservations deliveryReservations = slotReservations.get(deliverySlot.getId());
 					if (deliveryReservations == null)
-						deliveryReservations = new SlotReservations(
-								deliverySlot);
-					TimeWindow tw = new TimeWindow(TWD.getMin(), new Time(
-							Time.MAXTIME));
-					deliveryReservation = deliveryReservations
-							.giveFreeReservation(container, tw);
+						deliveryReservations = new SlotReservations(deliverySlot);
+					TimeWindow tw = new TimeWindow(TWD.getMin(), new Time(Time.MAXTIME));
+					deliveryReservation = deliveryReservations.giveFreeReservation(container, tw);
 					if (deliveryReservation == null) {
-						System.out.println("Can't get a reservation for "
-								+ container.getId() + " at " + tw + " on "
-								+ deliverySlot.getId() + ". Retrying...");
+						log.info("Can't get a reservation for " + container.getId() + " at " + tw + " on " + deliverySlot.getId() + ". Retrying...");
 					}
 				}
 
@@ -1629,45 +1179,41 @@ public class MissionsFileGenerator {
 			String mId = "unload_truck_" + groupID + "[" + trucksCount + "]";
 
 			// TODO Change the known time distribution
-			Time missionKnownTime = new Time(minTime, new Time(
-					r.nextInt((int) (arrivalTime.toStep() - minTime.toStep()))));
+			Time missionKnownTime = new Time(minTime, new Time(r.nextInt((int) (arrivalTime.toStep() - minTime.toStep()))));
 
-			sb.append("<event time='" + missionKnownTime
-					+ "' type='newMission'>\n");
-			sb.append("\t<mission id='" + mId + "' truck='truck_" + groupID
-					+ "[" + trucksCount + "]' container='" + container.getId()
-					+ "' kind='" + MissionKinds.IN.getIntValue() + "'>\n");
-			sb.append("\t\t" + TWP.toXML() + "\n\t\t" + TWD.toXML() + "\n");
-			sb.append("\t\t"
-					+ deliveryReservation.getContainerLocation().toXML()
-					+ "\n\t</mission>\n");
-			sb.append("</event>\n");
+			EventBean mission = new EventBean();
+			mission.setTime(missionKnownTime);
+			mission.setType(EventType.NewMission);
+			sb = new StringBuilder();
+			sb.append("<mission id='" + mId + "' truck='truck_" + groupID + "[" + trucksCount + "]' container='" + container.getId() + "' kind='"
+					+ MissionKinds.IN.getIntValue() + "'>\n");
+			sb.append("\t" + TWP.toXML() + "\n\t\t" + TWD.toXML() + "\n");
+			sb.append("\t" + deliveryReservation.getContainerLocation().toXML() + "\n\t</mission>\n");
+			mission.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(mission);
 
 			// Compute the truck departure time
-			sb.append("<event time='"
-					+ departureTime
-					+ "' type='vehicleOut' id='truck_"
-					+ groupID
-					+ "["
-					+ trucksCount
-					+ "]' lanes='"
-					+ arrivalReservation.getSlot().getLocation().getRoad()
-							.getId() + "'/>\n");
+			sb = new StringBuilder();
+			sb.append("id='truck_" + groupID + "[" + trucksCount + "]' lanes='" + arrivalReservation.getSlot().getLocation().getRoad().getId()
+					+ "'/>\n");
+			EventBean vehicleOut = new EventBean();
+			mission.setTime(departureTime);
+			mission.setType(EventType.VehicleOut);
+			mission.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(vehicleOut);
+
 			trucksCount++;
 
 			incrementProgressBar();
 
-			System.out
-					.println("1 Mission Truck Comes Full and Leaves Empty DONE !");
+			log.info("1 Mission Truck Comes Full and Leaves Empty DONE !");
 		}
 
 		// GENERATE OUTGOING MISSIONS : Truck comes empty and leaves full
-		System.out.println("Comes empty leaves full : "
-				+ (nbTruckMissions * rateComeEmpty) + " missions to create !");
+		log.info("Comes empty leaves full : " + (nbTruckMissions * rateComeEmpty) + " missions to create !");
 		for (int i = 0; i < nbTruckMissions * rateComeEmpty; i++) {
 			// CREATE A TRUCK
-			Time arrivalTime = new Time(fromTimeInLong
-					+ r.nextInt((int) (toTimeInLong - fromTimeInLong)));
+			Time arrivalTime = new Time(fromTimeInLong + r.nextInt((int) (toTimeInLong - fromTimeInLong)));
 
 			TimeWindow TWD = null;
 			Slot deliverySlot = null;
@@ -1680,101 +1226,65 @@ public class MissionsFileGenerator {
 			boolean ok = false;
 			while (!ok) {
 				container = Terminal.getInstance().getContainer(
-						containersByPaveType.get(BlockType.YARD).get(
-								r.nextInt(containersByPaveType.get(
-										BlockType.YARD).size())));
+						containersByPaveType.get(BlockType.YARD).get(r.nextInt(containersByPaveType.get(BlockType.YARD).size())));
 				if (!containersOUT.containsKey(container.getId())) {
 					Time t2 = new Time(0);
 					// int absVal =
 					// Math.abs((int)(unloadingTime.toStep()-container.getHandlingTime().toStep()));
-					int absVal = Math
-							.abs((int) (unloadingTime.toStep() - handlingTimeFromGround
-									.toStep()));
+					int absVal = Math.abs((int) (unloadingTime.toStep() - handlingTimeFromGround.toStep()));
 					if (absVal > 0) {
 						t2 = new Time(r.nextInt(absVal));
 					}
 					// Time departureTime = new Time(arrivalTime, new
 					// Time(container.getHandlingTime(), t2));
-					Time departureTime = new Time(arrivalTime, new Time(
-							handlingTimeFromGround, t2));
+					Time departureTime = new Time(arrivalTime, new Time(handlingTimeFromGround, t2));
 					TWD = new TimeWindow(arrivalTime, departureTime);
 
 					// Choose a slot to park the truck
 					deliverySlot = pickASlot(roadLanes, slotsMapByLane, r);
 					if (deliverySlot.getTEU() >= container.getTEU()) {
-						reservationsDelivery = slotReservations
-								.get(deliverySlot.getId());
+						reservationsDelivery = slotReservations.get(deliverySlot.getId());
 						if (reservationsDelivery == null)
-							reservationsDelivery = new SlotReservations(
-									deliverySlot);
+							reservationsDelivery = new SlotReservations(deliverySlot);
 
 						if (reservationsDelivery.isSlotEmptyAt(TWD)) {
 							// Validate the container
-							pickupSlot = Terminal.getInstance().getSlot(
-									container.getContainerLocation()
-											.getSlotId());
+							pickupSlot = Terminal.getInstance().getSlot(container.getContainerLocation().getSlotId());
 							try {
-								Path pPickUpToDelivery = rsc.getRouting()
-										.getShortestPath(
-												pickupSlot.getLocation(),
-												deliverySlot.getLocation());
-								Time TWP_Max = new Time(TWD.getMin(), new Time(
-										pPickUpToDelivery.getCost()),
-										false);
+								Path pPickUpToDelivery = vehicle.getRouting().getShortestPath(pickupSlot.getLocation(), deliverySlot.getLocation());
+								Time TWP_Max = new Time(TWD.getMin(), new Time(pPickUpToDelivery.getCost()), false);
 								// Time TWP_Min = new
 								// Time(TWP_Max,container.getHandlingTime(),false);
-								Time TWP_Min = new Time(TWP_Max,
-										handlingTimeFromGround, false);
+								Time TWP_Min = new Time(TWP_Max, handlingTimeFromGround, false);
 								// if(unloadingTime.toStep()!=container.getHandlingTime().toStep()){
-								if (unloadingTime.toStep() != handlingTimeFromGround
-										.toStep()) {
-									Time max = new Time(Math.max(
-											unloadingTime.toStep(),
-											handlingTimeFromGround.toStep()));
-									Time min = new Time(Math.min(
-											unloadingTime.toStep(),
-											handlingTimeFromGround.toStep()));
-									Time gap = new Time(r.nextInt((int) (max
-											.toStep() - min.toStep())));
-									TWP_Min = new Time(TWP_Max, new Time(min,
-											gap), false);
+								if (unloadingTime.toStep() != handlingTimeFromGround.toStep()) {
+									Time max = new Time(Math.max(unloadingTime.toStep(), handlingTimeFromGround.toStep()));
+									Time min = new Time(Math.min(unloadingTime.toStep(), handlingTimeFromGround.toStep()));
+									Time gap = new Time(r.nextInt((int) (max.toStep() - min.toStep())));
+									TWP_Min = new Time(TWP_Max, new Time(min, gap), false);
 								}
 								TWP = new TimeWindow(TWP_Min, TWP_Max);
-								if (TWP.getMin().toStep() > TWP.getMax()
-										.toStep()) {
-									System.out.println("MIN>MAX : " + TWP);
-									System.exit(ReturnCodes.EXIT_ON_TIMEWINDOW_ERROR
-											.getCode());
+								if (TWP.getMin().toStep() > TWP.getMax().toStep()) {
+									log.error("MIN>MAX : " + TWP);
+									System.exit(ReturnCodes.EXIT_ON_TIMEWINDOW_ERROR.getCode());
 								}
-								reservationsPickup = slotReservations
-										.get(pickupSlot.getId());
+								reservationsPickup = slotReservations.get(pickupSlot.getId());
 								if (reservationsPickup == null)
-									reservationsPickup = new SlotReservations(
-											pickupSlot);
-								if (reservationsPickup.isContainerFreeAt(
-										container, TWP)) {
+									reservationsPickup = new SlotReservations(pickupSlot);
+								if (reservationsPickup.isContainerFreeAt(container, TWP)) {
 									ok = true;
 								} else {
 									if (TWP.getMin().toString().contains("-")) {
-										System.out.println("HERE : "
-												+ TWP.toString()
-												+ " from time = "
-												+ TWP.getMin().getMinutes()
-												+ " "
+										log.error("HERE : " + TWP.toString() + " from time = " + TWP.getMin().getMinutes() + " "
 												+ TWP.getMin().getSeconds());
 									}
-									System.out.println("Container "
-											+ container.getId()
-											+ " is not free at " + TWP
-											+ "! Retrying... ");
+									log.info("Container " + container.getId() + " is not free at " + TWP + "! Retrying... ");
 								}
 							} catch (NoPathFoundException e) {
 								ok = false;
 							}
 						} else
-							System.out.println("Slot " + deliverySlot.getId()
-									+ " is not free at " + TWD
-									+ "! Retrying... ");
+							log.info("Slot " + deliverySlot.getId() + " is not free at " + TWD + "! Retrying... ");
 
 					}
 				}
@@ -1782,8 +1292,7 @@ public class MissionsFileGenerator {
 			containersOUT.put(container.getId(), container.getId());
 			// ------ Reservations --------
 			// | Delivery
-			SlotReservation deliveryReservation = reservationsDelivery
-					.giveFreeReservation(container, TWD);
+			SlotReservation deliveryReservation = reservationsDelivery.giveFreeReservation(container, TWD);
 			addReservation(deliveryReservation);
 			// | Pickup
 			updateReservationMaxTime(container, pickupSlot, TWP.getMax());
@@ -1791,91 +1300,75 @@ public class MissionsFileGenerator {
 
 			// ------ Writing the truck -------
 			// | Arrival
-			sb.append("<event time='"
-					+ TWD.getMin()
-					+ "' type='vehicleIn' id='truck_"
-					+ groupID
-					+ "["
-					+ trucksCount
-					+ "]' lanes='"
-					+ deliveryReservation.getSlot().getLocation().getRoad()
-							.getId() + "'/>\n");
+			EventBean arrival = new EventBean();
+			arrival.setTime(TWD.getMin());
+			arrival.setType(EventType.VehicleIn);
+			sb = new StringBuilder();
+			sb.append("id='truck_" + groupID + "[" + trucksCount + "]' lanes='" + deliveryReservation.getSlot().getLocation().getRoad().getId()
+					+ "'/>\n");
+			arrival.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(arrival);
+
 			// | Departure
-			sb.append("<event time='"
-					+ TWD.getMax()
-					+ "' type='vehicleOut' id='truck_"
-					+ groupID
-					+ "["
-					+ trucksCount
-					+ "]'  lanes='"
-					+ deliveryReservation.getSlot().getLocation().getRoad()
-							.getId() + "'>\n");
+			EventBean departure = new EventBean();
+			departure.setTime(TWD.getMax());
+			departure.setType(EventType.VehicleOut);
+			sb = new StringBuilder();
+			sb.append("id='truck_" + groupID + "[" + trucksCount + "]'  lanes='" + deliveryReservation.getSlot().getLocation().getRoad().getId()
+					+ "'>\n");
 			sb.append("\t<container id='" + container.getId() + "'/>\n");
-			sb.append("</event>\n");
+			departure.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(departure);
+
 			// ---------------------------------------------
 
 			// ------ Writing the mission --------
 			String mId = "load_truck_" + groupID + "[" + trucksCount + "]";
 			// | TODO Change the known time distribution
-			Time missionKnownTime = new Time(minTime, new Time(
-					r.nextInt((int) (arrivalTime.toStep() - minTime.toStep()))));
-			sb.append("<event time='" + missionKnownTime
-					+ "' type='newMission'>\n");
-			sb.append("\t<mission id='" + mId + "' truck='truck_" + groupID
-					+ "[" + trucksCount + "]' container='" + container.getId()
-					+ "' kind='" + MissionKinds.OUT.getIntValue() + "'>\n");
-			sb.append("\t\t" + TWP.toXML() + "\n\t\t" + TWD.toXML() + "\n");
-			sb.append("\t\t"
-					+ deliveryReservation.getContainerLocation().toXML()
-					+ "\n\t</mission>\n");
-			sb.append("</event>\n");
+			Time missionKnownTime = new Time(minTime, new Time(r.nextInt((int) (arrivalTime.toStep() - minTime.toStep()))));
+			EventBean mission = new EventBean();
+			mission.setType(EventType.NewMission);
+			mission.setTime(missionKnownTime);
+
+			sb = new StringBuilder();
+			sb.append("<mission id='" + mId + "' truck='truck_" + groupID + "[" + trucksCount + "]' container='" + container.getId() + "' kind='"
+					+ MissionKinds.OUT.getIntValue() + "'>\n");
+			sb.append("\t" + TWP.toXML() + "\n\t\t" + TWD.toXML() + "\n");
+			sb.append("\t" + deliveryReservation.getContainerLocation().toXML() + "\n</mission>\n");
+			mission.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(mission);
+
 			trucksCount++;
 			incrementProgressBar();
 			// --------------------------------------------
-			System.out
-					.println("1 Mission Truck Comes Empty and Leaves Full DONE !");
+			log.info("1 Mission Truck Comes Empty and Leaves Full DONE !");
 		}
 
 		// GENERATE OUTGOING MISSIONS : Truck comes full and leaves full
-		System.out.println("Comes full leaves full : "
-				+ ((1 - (rateComeEmpty + rateLeaveEmpty)) * nbTruckMissions)
-				+ " missions to create !");
-		for (int i = 0; i < (1 - (rateComeEmpty + rateLeaveEmpty))
-				* nbTruckMissions; i++) {
+		log.info("Comes full leaves full : " + ((1 - (rateComeEmpty + rateLeaveEmpty)) * nbTruckMissions) + " missions to create !");
+		for (int i = 0; i < (1 - (rateComeEmpty + rateLeaveEmpty)) * nbTruckMissions; i++) {
 			// CREATE A TRUCK
-			Time arrivalTime = new Time(fromTimeInLong
-					+ r.nextInt((int) (toTimeInLong - fromTimeInLong)));
+			Time arrivalTime = new Time(fromTimeInLong + r.nextInt((int) (toTimeInLong - fromTimeInLong)));
 			// CREATE A BROUGHT CONTAINER
-			double teu = ContainerKind.getTeu(r.nextInt(ContainerKind
-					.getNbOfTypes()));
-			Container containerToUnload = new Container(bicGenerator
-					.giveMeBic().toString(), teu);
+			double teu = ContainerKind.getTeu(r.nextInt(ContainerKind.getNbOfTypes()));
+			Container containerToUnload = new Container(bicGenerator.giveMeBic().toString(), teu);
 
 			// Time unloadEndTime = new Time(arrivalTime, new
 			// Time(Math.max(containerToUnload.getHandlingTime().toStep(),
 			// r.nextInt((int)unloadingTime.toStep()))));
-			Time unloadEndTime = new Time(arrivalTime, new Time(Math.max(
-					handlingTimeFromTruck.toStep(),
-					r.nextInt((int) unloadingTime.toStep()))));
-			TimeWindow unloadingTW_P = new TimeWindow(arrivalTime,
-					unloadEndTime);
+			Time unloadEndTime = new Time(arrivalTime, new Time(Math.max(handlingTimeFromTruck.toStep(), r.nextInt((int) unloadingTime.toStep()))));
+			TimeWindow unloadingTW_P = new TimeWindow(arrivalTime, unloadEndTime);
 
-			Time loadStartTime = new Time(unloadEndTime, new Time(
-					r.nextInt((int) unloadingTime.toStep())));
+			Time loadStartTime = new Time(unloadEndTime, new Time(r.nextInt((int) unloadingTime.toStep())));
 			// Time loadEndTime = new Time(loadStartTime, new
 			// Time(Math.max(containerToUnload.getHandlingTime().toStep() ,
 			// r.nextInt((int)unloadingTime.toStep()))));
-			Time loadEndTime = new Time(loadStartTime, new Time(Math.max(
-					handlingTimeFromTruck.toStep(),
-					r.nextInt((int) unloadingTime.toStep()))));
+			Time loadEndTime = new Time(loadStartTime, new Time(Math.max(handlingTimeFromTruck.toStep(), r.nextInt((int) unloadingTime.toStep()))));
 			TimeWindow loadingTW_D = new TimeWindow(loadStartTime, loadEndTime);
 
-			TimeWindow truckTW = new TimeWindow(unloadingTW_P.getMin(),
-					loadingTW_D.getMax());
-			System.out.println("truck_" + groupID + "[" + trucksCount
-					+ "] UNLOADING TW = " + unloadingTW_P);
-			System.out.println("truck_" + groupID + "[" + trucksCount
-					+ "] LOADING TW = " + loadingTW_D);
+			TimeWindow truckTW = new TimeWindow(unloadingTW_P.getMin(), loadingTW_D.getMax());
+			log.info("truck_" + groupID + "[" + trucksCount + "] UNLOADING TW = " + unloadingTW_P);
+			log.info("truck_" + groupID + "[" + trucksCount + "] LOADING TW = " + loadingTW_D);
 			boolean ok = false;
 			Container containerToReload = null;
 			SlotReservation truckReservation = null;
@@ -1889,270 +1382,190 @@ public class MissionsFileGenerator {
 
 			while (!ok) {
 				containerToReload = Terminal.getInstance().getContainer(
-						containersByPaveType.get(BlockType.YARD).get(
-								r.nextInt(containersByPaveType.get(
-										BlockType.YARD).size())));
-				if (!containersOUT.containsKey(containerToReload.getId())
-						&& !containerToReload.getId().equals(
-								containerToUnload.getId())) {
-					Slot pickupReloadSlot = Terminal.getInstance().getSlot(
-							containerToReload.getContainerLocation()
-									.getSlotId());
+						containersByPaveType.get(BlockType.YARD).get(r.nextInt(containersByPaveType.get(BlockType.YARD).size())));
+				if (!containersOUT.containsKey(containerToReload.getId()) && !containerToReload.getId().equals(containerToUnload.getId())) {
+					Slot pickupReloadSlot = Terminal.getInstance().getSlot(containerToReload.getContainerLocation().getSlotId());
 
 					// Find a slot for the truck
 					truckReservation = null;
 					while (truckReservation == null) {
-						String laneID = roadLanes.get(r.nextInt(roadLanes
-								.size()));
+						String laneID = roadLanes.get(r.nextInt(roadLanes.size()));
 						List<String> slots = slotsMapByLane.get(laneID);
-						Slot slot = Terminal.getInstance().getSlot(
-								slots.get(r.nextInt(slots.size())));
+						Slot slot = Terminal.getInstance().getSlot(slots.get(r.nextInt(slots.size())));
 						if (slot.getTEU() >= containerToUnload.getTEU()) {
-							SlotReservations reservations = slotReservations
-									.get(slot.getId());
+							SlotReservations reservations = slotReservations.get(slot.getId());
 							if (reservations == null)
 								reservations = new SlotReservations(slot);
 							if (reservations.isSlotEmptyAt(truckTW)) {
-								truckReservation = reservations
-										.giveFreeReservation(containerToUnload,
-												truckTW);
+								truckReservation = reservations.giveFreeReservation(containerToUnload, truckTW);
 							} else {
-								System.out.println("Slot " + slot.getId()
-										+ " is not free at " + truckTW
-										+ "! Retrying... ");
+								log.info("Slot " + slot.getId() + " is not free at " + truckTW + "! Retrying... ");
 							}
 						}
 					}
 
-					SlotReservations truckReservations = slotReservations
-							.get(truckReservation.getSlot().getId());
+					SlotReservations truckReservations = slotReservations.get(truckReservation.getSlot().getId());
 
 					// Path to go from the stock to the truck
-					pPickUpToDelivery = rsc.getRouting().getShortestPath(
-							pickupReloadSlot.getLocation(),
-							truckReservation.getSlot().getLocation());
+					pPickUpToDelivery = vehicle.getRouting()
+							.getShortestPath(pickupReloadSlot.getLocation(), truckReservation.getSlot().getLocation());
 
-					Time loadingTWP_max = new Time(loadingTW_D.getMin(),
-							new Time(pPickUpToDelivery.getCost()), false);
+					Time loadingTWP_max = new Time(loadingTW_D.getMin(), new Time(pPickUpToDelivery.getCost()), false);
 					// TODO check if it is realisable (it doesn't take into
 					// account the path from the depot to the location)
 					// Time loadingTWP_min = new Time(loadingTWP_max,new
 					// Time(containerToReload.getHandlingTime()));
-					Time loadingTWP_min = new Time(loadingTWP_max, new Time(
-							handlingTimeFromGround));
+					Time loadingTWP_min = new Time(loadingTWP_max, new Time(handlingTimeFromGround));
 					// if(unloadingTime.toStep()!=containerToReload.getHandlingTime().toStep()){
-					if (unloadingTime.toStep() != handlingTimeFromGround
-							.toStep()) {
+					if (unloadingTime.toStep() != handlingTimeFromGround.toStep()) {
 						// Time max = new Time(Math.max(unloadingTime.toStep(),
 						// containerToReload.getHandlingTime().toStep()));
-						Time max = new Time(Math.max(unloadingTime.toStep(),
-								handlingTimeFromGround.toStep()));
+						Time max = new Time(Math.max(unloadingTime.toStep(), handlingTimeFromGround.toStep()));
 						// Time min = new Time(Math.min(unloadingTime.toStep(),
 						// containerToReload.getHandlingTime().toStep()));
-						Time min = new Time(Math.min(unloadingTime.toStep(),
-								handlingTimeFromGround.toStep()));
+						Time min = new Time(Math.min(unloadingTime.toStep(), handlingTimeFromGround.toStep()));
 
-						Time gap = new Time(r.nextInt((int) (max.toStep() - min
-								.toStep())));
-						loadingTWP_min = new Time(loadingTWP_max, new Time(min,
-								gap), false);
+						Time gap = new Time(r.nextInt((int) (max.toStep() - min.toStep())));
+						loadingTWP_min = new Time(loadingTWP_max, new Time(min, gap), false);
 					}
 					loadingTW_P = new TimeWindow(loadingTWP_min, loadingTWP_max);
-					if (loadingTW_P.getMin().toStep() > loadingTW_P.getMax()
-							.toStep()) {
-						System.out.println("2 MIN>MAX : " + loadingTW_P);
-						System.exit(ReturnCodes.EXIT_ON_TIMEWINDOW_ERROR
-								.getCode());
+					if (loadingTW_P.getMin().toStep() > loadingTW_P.getMax().toStep()) {
+						log.fatal("2 MIN>MAX : " + loadingTW_P);
+						System.exit(ReturnCodes.EXIT_ON_TIMEWINDOW_ERROR.getCode());
 					}
-					loadingPickupReservation = slotReservations
-							.get(pickupReloadSlot.getId());
+					loadingPickupReservation = slotReservations.get(pickupReloadSlot.getId());
 					if (loadingPickupReservation == null)
-						loadingPickupReservation = new SlotReservations(
-								pickupReloadSlot);
+						loadingPickupReservation = new SlotReservations(pickupReloadSlot);
 
-					if (loadingPickupReservation.isContainerFreeAt(
-							containerToReload, loadingTW_P)) {
+					if (loadingPickupReservation.isContainerFreeAt(containerToReload, loadingTW_P)) {
 						// We can load the container to deliver
-						loadingDeliveryReservation = truckReservations
-								.giveFreeReservation(containerToReload,
-										loadingTW_D);
+						loadingDeliveryReservation = truckReservations.giveFreeReservation(containerToReload, loadingTW_D);
 						if (loadingDeliveryReservation != null) {
 							// We can deliver it
 							ok = true;
 						} else {
-							System.out
-									.println("Can't get a free reservation for "
-											+ containerToReload.getId()
-											+ " on "
-											+ pickupReloadSlot.getId()
-											+ " at "
-											+ loadingTW_D
-											+ ". Retrying...");
+							log.info("Can't get a free reservation for " + containerToReload.getId() + " on " + pickupReloadSlot.getId() + " at "
+									+ loadingTW_D + ". Retrying...");
 						}
 					} else {
-						System.out.println("Slot " + pickupReloadSlot.getId()
-								+ " is not free at " + loadingTW_D
-								+ ". Retrying...");
+						log.info("Slot " + pickupReloadSlot.getId() + " is not free at " + loadingTW_D + ". Retrying...");
 					}
 				}
 			}
-			containersOUT.put(containerToReload.getId(),
-					containerToReload.getId());
+			containersOUT.put(containerToReload.getId(), containerToReload.getId());
 			// Find a slot for the container to unload
 			while (containerToUnloadReservation == null) {
 				String laneID = stockLanes.get(r.nextInt(stockLanes.size()));
 				List<String> slots = slotsMapByLane.get(laneID);
-				Slot slot = Terminal.getInstance().getSlot(
-						slots.get(r.nextInt(slots.size())));
+				Slot slot = Terminal.getInstance().getSlot(slots.get(r.nextInt(slots.size())));
 
-				SlotReservations reservations = slotReservations.get(slot
-						.getId());
+				SlotReservations reservations = slotReservations.get(slot.getId());
 				if (reservations == null)
 					reservations = new SlotReservations(slot);
 
 				// Compute unloadingTW_D
 				// Path to go from the truck to the stock slot
-				pPickUpToDelivery = rsc.getRouting().getShortestPath(
-						truckReservation.getSlot().getLocation(),
-						slot.getLocation());
-				Time unloadingTWD_min = new Time(unloadingTW_P.getMax(),
-						new Time(pPickUpToDelivery.getCost()));
+				pPickUpToDelivery = vehicle.getRouting().getShortestPath(truckReservation.getSlot().getLocation(), slot.getLocation());
+				Time unloadingTWD_min = new Time(unloadingTW_P.getMax(), new Time(pPickUpToDelivery.getCost()));
 				// TODO check if it is clever !
 				// Time unloadingTWD_max = new Time(unloadingTWD_min,
 				// containerToUnload.getHandlingTime());
-				Time unloadingTWD_max = new Time(unloadingTWD_min,
-						handlingTimeFromGround);
+				Time unloadingTWD_max = new Time(unloadingTWD_min, handlingTimeFromGround);
 				// if(unloadingTime.toStep()!=containerToUnload.getHandlingTime().toStep()){
 				if (unloadingTime.toStep() != handlingTimeFromGround.toStep()) {
 					// unloadingTWD_max = new Time(unloadingTWD_min, new
 					// Time(containerToUnload.getHandlingTime(), new
 					// Time(r.nextInt(Math.abs((int)(unloadingTime.toStep()-containerToUnload.getHandlingTime().toStep()))))));
-					unloadingTWD_max = new Time(unloadingTWD_min, new Time(
-							handlingTimeFromGround, new Time(
-									r.nextInt(Math.abs((int) (unloadingTime
-											.toStep() - handlingTimeFromGround
-											.toStep()))))));
+					unloadingTWD_max = new Time(unloadingTWD_min, new Time(handlingTimeFromGround, new Time(r.nextInt(Math.abs((int) (unloadingTime
+							.toStep() - handlingTimeFromGround.toStep()))))));
 				}
 
-				unloadingTW_D = new TimeWindow(unloadingTWD_min,
-						unloadingTWD_max);
+				unloadingTW_D = new TimeWindow(unloadingTWD_min, unloadingTWD_max);
 
 				TimeWindow tw = new TimeWindow(unloadingTWD_min, maxTime);
-				containerToUnloadReservation = reservations
-						.giveFreeReservation(containerToUnload, tw);
+				containerToUnloadReservation = reservations.giveFreeReservation(containerToUnload, tw);
 				if (containerToUnloadReservation == null) {
-					System.out.println("Can't get a free reservation for "
-							+ containerToUnload.getId() + " on " + slot.getId()
-							+ " at " + tw + ". Retrying...");
+					log.info("Can't get a free reservation for " + containerToUnload.getId() + " on " + slot.getId() + " at " + tw + ". Retrying...");
 				}
 			}
 
 			// If ok then reserve !
 			// | Truck reservation
-			SlotReservations truckReservations = slotReservations
-					.get(truckReservation.getSlot().getId());
+			SlotReservations truckReservations = slotReservations.get(truckReservation.getSlot().getId());
 			addReservation(truckReservation);
-			updateReservationMaxTime(containerToUnload,
-					truckReservations.getSlot(), unloadingTW_P.getMax());
+			updateReservationMaxTime(containerToUnload, truckReservations.getSlot(), unloadingTW_P.getMax());
 
 			// | Unload -> Stock : stock reservation
-			SlotReservations containerToUnLoadReservations = slotReservations
-					.get(containerToUnloadReservation.getSlot().getId());
+			SlotReservations containerToUnLoadReservations = slotReservations.get(containerToUnloadReservation.getSlot().getId());
 			if (containerToUnLoadReservations == null)
-				containerToUnLoadReservations = new SlotReservations(
-						containerToUnloadReservation.getSlot());
+				containerToUnLoadReservations = new SlotReservations(containerToUnloadReservation.getSlot());
 			addReservation(containerToUnloadReservation);
 			// | Stock -> Load : load reservation
 			addReservation(loadingDeliveryReservation);
 			// | Stock -> Load : stock update max time
-			updateReservationMaxTime(containerToReload,
-					loadingPickupReservation.getSlot(), loadingTW_P.getMax());
+			updateReservationMaxTime(containerToReload, loadingPickupReservation.getSlot(), loadingTW_P.getMax());
 
 			// If ok -> Write the mission
 			// | Truck arrival
-			sb.append("<event time='"
-					+ truckReservation.getTW().getMin()
-					+ "' type='vehicleIn' id='truck_"
-					+ groupID
-					+ "["
-					+ trucksCount
-					+ "]'  lanes='"
-					+ truckReservation.getSlot().getLocation().getRoad()
-							.getId() + "'>\n");
-			sb.append("\t<container id='" + containerToUnload.getId()
-					+ "' teu='" + containerToUnload.getTEU() + "'>\n");
+			EventBean arrival = new EventBean();
+			arrival.setType(EventType.VehicleIn);
+			arrival.setTime(truckReservation.getTW().getMin());
+			sb = new StringBuilder();
+			sb.append("id='truck_" + groupID + "[" + trucksCount + "]'  lanes='" + truckReservation.getSlot().getLocation().getRoad().getId()
+					+ "'>\n");
+			sb.append("\t<container id='" + containerToUnload.getId() + "' teu='" + containerToUnload.getTEU() + "'>\n");
 			ContainerLocation cl = truckReservation.getContainerLocation();
-
 			// TODO CHANGE HERE
 			// ContainerLocation cl =
 			// containerToUnloadReservation.getContainerLocation();
 			sb.append("\t\t" + cl.toXML() + "\n\t</container>\n</event>\n");
+			arrival.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(arrival);
+
 			// | Unloading mission
 			String mId = "unload_truck_" + groupID + "[" + trucksCount + "]";
 			// TODO Change the known time distribution
-			Time missionKnownTime = new Time(minTime,
-					new Time(r.nextInt((int) (truckReservation.getTW().getMin()
-							.toStep() - minTime.toStep()))));
-			sb.append("<event time='" + missionKnownTime
-					+ "' type='newMission'>\n");
-			sb.append("\t<mission id='" + mId + "' truck='truck_" + groupID
-					+ "[" + trucksCount + "]' container='"
-					+ containerToUnload.getId() + "' kind='"
-					+ MissionKinds.IN.getIntValue() + "'>\n");
-			sb.append("\t\t" + unloadingTW_P.toXML() + "\n\t\t"
-					+ unloadingTW_D.toXML() + "\n");
-			sb.append("\t\t"
-					+ containerToUnloadReservation.getContainerLocation()
-							.toXML() + "\n\t</mission>\n");
-			sb.append("</event>\n");
+			Time missionKnownTime = new Time(minTime, new Time(r.nextInt((int) (truckReservation.getTW().getMin().toStep() - minTime.toStep()))));
+			EventBean unloadMission = new EventBean();
+			unloadMission.setType(EventType.NewMission);
+			unloadMission.setTime(missionKnownTime);
+			sb = new StringBuilder();
+			sb.append("<mission id='" + mId + "' truck='truck_" + groupID + "[" + trucksCount + "]' container='" + containerToUnload.getId()
+					+ "' kind='" + MissionKinds.IN.getIntValue() + "'>\n");
+			sb.append("\t" + unloadingTW_P.toXML() + "\n\t\t" + unloadingTW_D.toXML() + "\n");
+			sb.append("\t" + containerToUnloadReservation.getContainerLocation().toXML() + "\n</mission>\n");
+			unloadMission.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(unloadMission);
 
 			// | Loading mission
 			mId = "load_truck_" + groupID + "[" + trucksCount + "]";
-			sb.append("<event time='" + missionKnownTime
-					+ "' type='newMission'>\n");
-			sb.append("\t<mission id='" + mId + "' truck='truck_" + groupID
-					+ "[" + trucksCount + "]' container='"
-					+ containerToReload.getId() + "' kind='"
-					+ MissionKinds.OUT.getIntValue() + "'>\n");
-			sb.append("\t\t" + loadingTW_P.toXML() + "\n\t\t"
-					+ loadingTW_D.toXML() + "\n");
-			sb.append("\t\t"
-					+ loadingDeliveryReservation.getContainerLocation().toXML()
-					+ "\n\t</mission>\n");
-			sb.append("</event>\n");
+			EventBean loadMission = new EventBean();
+			loadMission.setType(EventType.NewMission);
+			loadMission.setTime(missionKnownTime);
+			sb = new StringBuilder();
+			sb.append("<mission id='" + mId + "' truck='truck_" + groupID + "[" + trucksCount + "]' container='" + containerToReload.getId()
+					+ "' kind='" + MissionKinds.OUT.getIntValue() + "'>\n");
+			sb.append("\t" + loadingTW_P.toXML() + "\n\t\t" + loadingTW_D.toXML() + "\n");
+			sb.append("\t" + loadingDeliveryReservation.getContainerLocation().toXML() + "\n</mission>\n");
+			loadMission.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(loadMission);
+
 			// | Vehicle departure
-			sb.append("<event time='"
-					+ truckReservation.getTW().getMax()
-					+ "' type='vehicleOut' id='truck_"
-					+ groupID
-					+ "["
-					+ trucksCount
-					+ "]'  lanes='"
-					+ truckReservation.getSlot().getLocation().getRoad()
-							.getId() + "'>\n");
-			sb.append("\t<container id='" + containerToReload.getId()
-					+ "'/>\n</event>\n");
+			EventBean departure = new EventBean();
+			departure.setType(EventType.VehicleOut);
+			departure.setTime(truckReservation.getTW().getMax());
+			sb = new StringBuilder();
+			sb.append("id='truck_" + groupID + "[" + trucksCount + "]'  lanes='" + truckReservation.getSlot().getLocation().getRoad().getId()
+					+ "'>\n");
+			sb.append("\t<container id='" + containerToReload.getId() + "'/>\n</event>\n");
+			departure.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(departure);
 
 			trucksCount++;
 			incrementProgressBar();
-			System.out
-					.println("1 Mission Truck Comes Full and Leaves Full DONE !");
+			log.info("1 Mission Truck Comes Full and Leaves Full DONE !");
 		}
 
-		// WRITE INTO FILE
-		try {
-			File tmpFile = new File("tmpMissions.xml");
-			File missFile = new File(missionFile);
-			PrintWriter pw = new PrintWriter(tmpFile);
-			pw.append("<document>\n");
-			pw.append(sb.toString());
-			pw.append("</document>");
-			pw.close();
-			tmpFile.renameTo(missFile);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			log.error(e.getMessage(), e);
-		}
 	}
 
 	private void incrementProgressBar() {
@@ -2175,32 +1588,29 @@ public class MissionsFileGenerator {
 		}
 	}
 
-	private Slot pickASlot(ArrayList<String> lanesID,
-			Hashtable<String, ArrayList<String>> slotMapByLane, Random r) {
+	private Slot pickASlot(List<String> lanesID, Map<String, List<String>> slotMapByLane, Random r) {
 		String lID = lanesID.get(r.nextInt(lanesID.size()));
-		ArrayList<String> slotList = slotMapByLane.get(lID);
+		List<String> slotList = slotMapByLane.get(lID);
 		String slotID = slotList.get(r.nextInt(slotList.size()));
 		return Terminal.getInstance().getSlot(slotID);
 	}
 
-	private void updateReservationMaxTime(Container container, Slot slot,
-			Time newMaxTime) {
+	private void updateReservationMaxTime(Container container, Slot slot, Time newMaxTime) {
 		SlotReservations srs = slotReservations.get(slot.getId());
 		srs.updateReservationMaxTime(container, newMaxTime);
 		slotReservations.put(slot.getId(), srs);
-		pw.append("Reservation updated : \n" + srs + "\n");
-		pw.flush();
+		// pw.append("Reservation updated : \n" + srs + "\n");
+		// pw.flush();
 	}
 
 	private void addReservation(SlotReservation reservation) {
-		SlotReservations reservations = slotReservations.get(reservation
-				.getSlot().getId());
+		SlotReservations reservations = slotReservations.get(reservation.getSlot().getId());
 		if (reservations == null)
 			reservations = new SlotReservations(reservation.getSlot());
 		reservations.addReservation(reservation);
 		slotReservations.put(reservation.getSlot().getId(), reservations);
-		pw.append("Reservation added : \n" + reservations + "\n");
-		pw.flush();
+		// pw.append("Reservation added : \n" + reservations + "\n");
+		// pw.flush();
 	}
 
 	/*
@@ -2234,23 +1644,19 @@ public class MissionsFileGenerator {
 	 * return res; }
 	 */
 
-	private void generateTrainMissions(String missionsFile,
-			Map<BlockType, List<String>> conteneurs, Time arrivalTime,
-			Time maxTime, double marginRate, double fullRate,
-			double fullRateAfterUnload, double fullRateAfterReload,
-			String trainId) throws NoPathFoundException,
-			ContainerDimensionException, EmptyLevelException {
+	private void generateTrainMissions(Map<BlockType, List<String>> conteneurs, Time arrivalTime, Time maxTime,
+			double marginRate, double fullRate, double fullRateAfterUnload, double fullRateAfterReload, String trainId) throws NoPathFoundException,
+			ContainerDimensionException, EmptyLevelException, SQLException {
 		// Create an incoming train
-		System.out.println("Creating TRAIN !");
-		StringBuilder sbMissions = new StringBuilder();
-		sbMissions.append("<event time='");
-		Time t = arrivalTime;
-		sbMissions.append(t.toString() + "' type='vehicleIn' id='train_"
-				+ trainsCount + "' lanes='");
+		log.info("Creating TRAIN !");
+		EventBean train = new EventBean();
+		train.setType(EventType.VehicleIn);
+		train.setTime(arrivalTime);
+		StringBuilder trainSB = new StringBuilder();
+		trainSB.append("id='train_" + trainsCount + "' lanes='");
 
 		// Get the laneGroups
-		Map<String, Block> trainPaves = Terminal.getInstance().getPaves(
-				BlockType.RAILWAY);
+		Map<String, Block> trainPaves = Terminal.getInstance().getPaves(BlockType.RAILWAY);
 		// Gives the lanes of each railways
 		Map<String, List<String>> mapGroup = new HashMap<>();
 		// Gives max number of containers which can be stock on the train
@@ -2268,20 +1674,16 @@ public class MissionsFileGenerator {
 					}
 					if (!mapGroup.get(laneGroup).contains(l.getId())) {
 						mapGroup.get(laneGroup).add(l.getId());
-						List<Slot> lSlots = Terminal.getInstance().getSlots(
-								l.getId());
+						List<Slot> lSlots = Terminal.getInstance().getSlots(l.getId());
 						for (Slot s : lSlots) {
 							int index;
-							if (s.getTEU() == ContainerKind
-									.getTeu(Container.TYPE_20_Feet))
+							if (s.getTEU() == ContainerKind.getTeu(Container.TYPE_20_Feet))
 								index = Container.TYPE_20_Feet;
-							else if (s.getTEU() == ContainerKind
-									.getTeu(Container.TYPE_40_Feet))
+							else if (s.getTEU() == ContainerKind.getTeu(Container.TYPE_40_Feet))
 								index = Container.TYPE_40_Feet;
 							else
 								index = Container.TYPE_45_Feet;
-							mapGroupSlotCount.get(laneGroup)[index] = mapGroupSlotCount
-									.get(laneGroup)[index] + 1;
+							mapGroupSlotCount.get(laneGroup)[index] = mapGroupSlotCount.get(laneGroup)[index] + 1;
 						}
 					}
 				}
@@ -2302,22 +1704,20 @@ public class MissionsFileGenerator {
 
 			if (slotReservations.get(s0.getId()) == null)
 				slotReservations.put(s0.getId(), new SlotReservations(s0));
-			if (slotReservations.get(s0.getId()).isSlotEmptyAt(
-					new TimeWindow(arrivalTime, maxTime))) {
+			if (slotReservations.get(s0.getId()).isSlotEmptyAt(new TimeWindow(arrivalTime, maxTime))) {
 				group = key;
 			}
 		}
 		List<String> lanesIds = mapGroup.get(group);
 		System.out.print("Lanes : ");
 		for (int i = 0; i < lanesIds.size(); i++) {
-			sbMissions.append(lanesIds.get(i));
+			trainSB.append(lanesIds.get(i));
 			System.out.print(lanesIds.get(i) + " ");
 			if (i < lanesIds.size() - 1)
-				sbMissions.append(",");
+				trainSB.append(",");
 			else
-				sbMissions.append("'>\n");
+				trainSB.append("'>\n");
 		}
-		System.out.println();
 
 		// Trains have only one level !
 		// 20 feets
@@ -2329,30 +1729,23 @@ public class MissionsFileGenerator {
 		// 45 feets
 		int nbContainers45 = mapGroupSlotCount.get(group)[Container.TYPE_45_Feet];
 		nbContainers45 = (int) (fullRate * nbContainers45);
-		System.out.println("Nb 45 : " + nbContainers45 + " Nb 40 : "
-				+ nbContainers40 + " Nb 20 : " + nbContainers20);
+		log.info("Nb 45 : " + nbContainers45 + " Nb 40 : " + nbContainers40 + " Nb 20 : " + nbContainers20);
 
 		// Used for knowing which containers are in the train at the end of the
 		// generation
-		Map<String, Container> containersOnTrain = new HashMap<>(nbContainers20
-				+ nbContainers40 + nbContainers45);
+		Map<String, Container> containersOnTrain = new HashMap<>(nbContainers20 + nbContainers40 + nbContainers45);
 
 		// Lists of train slots by size
-		List<Slot> slots20Feet = new ArrayList<>(
-				mapGroupSlotCount.get(group)[Container.TYPE_20_Feet]);
-		List<Slot> slots40Feet = new ArrayList<>(
-				mapGroupSlotCount.get(group)[Container.TYPE_40_Feet]);
-		List<Slot> slots45Feet = new ArrayList<>(
-				mapGroupSlotCount.get(group)[Container.TYPE_45_Feet]);
+		List<Slot> slots20Feet = new ArrayList<>(mapGroupSlotCount.get(group)[Container.TYPE_20_Feet]);
+		List<Slot> slots40Feet = new ArrayList<>(mapGroupSlotCount.get(group)[Container.TYPE_40_Feet]);
+		List<Slot> slots45Feet = new ArrayList<>(mapGroupSlotCount.get(group)[Container.TYPE_45_Feet]);
 		for (String lane : mapGroup.get(group)) {
 			for (Slot s : Terminal.getInstance().getSlots(lane)) {
 				if (s.getTEU() == ContainerKind.getTeu(Container.TYPE_20_Feet))
 					slots20Feet.add(s);
-				else if (s.getTEU() == ContainerKind
-						.getTeu(Container.TYPE_40_Feet))
+				else if (s.getTEU() == ContainerKind.getTeu(Container.TYPE_40_Feet))
 					slots40Feet.add(s);
-				else if (s.getTEU() == ContainerKind
-						.getTeu(Container.TYPE_45_Feet))
+				else if (s.getTEU() == ContainerKind.getTeu(Container.TYPE_45_Feet))
 					slots45Feet.add(s);
 			}
 		}
@@ -2361,8 +1754,7 @@ public class MissionsFileGenerator {
 		// ContainerBICGenerator bicGenerator = new
 		// ContainerBICGenerator(nbContainers45+nbContainers20+nbContainers40,
 		// rt.getContainerNames());
-		bicGenerator.generateMore(nbContainers45 + nbContainers20
-				+ nbContainers40);
+		bicGenerator.generateMore(nbContainers45 + nbContainers20 + nbContainers40);
 
 		List<Container> containers45Feet = new ArrayList<>(nbContainers45);
 		List<Container> containers40Feet = new ArrayList<>(nbContainers40);
@@ -2372,100 +1764,77 @@ public class MissionsFileGenerator {
 		Map<String, List<ContainerLocation>> containerLocationBySlot = new HashMap<>();
 
 		for (int i = 0; i < nbContainers45; i++) {
-			Container c = new Container(bicGenerator.giveMeBic().toString(),
-					ContainerKind.getTeu(Container.TYPE_45_Feet));
+			Container c = new Container(bicGenerator.giveMeBic().toString(), ContainerKind.getTeu(Container.TYPE_45_Feet));
 
 			// Choose a slot, a level, an alignment
 			boolean slotOk = false;
 			Slot slot = null;
 			while (!slotOk) {
 				slot = slots45Feet.get(r.nextInt(slots45Feet.size()));
-				if (slotReservations.get(slot.getId()).isSlotEmptyAt(
-						new TimeWindow(arrivalTime, maxTime)))
+				if (slotReservations.get(slot.getId()).isSlotEmptyAt(new TimeWindow(arrivalTime, maxTime)))
 					slotOk = true;
 			}
 
 			// Put it
 			SlotReservations reservations = slotReservations.get(slot.getId());
-			SlotReservation reservation = reservations.giveFreeReservation(c,
-					new TimeWindow(arrivalTime, maxTime));
+			SlotReservation reservation = reservations.giveFreeReservation(c, new TimeWindow(arrivalTime, maxTime));
 			addReservation(reservation);
 
 			containers45Feet.add(c);
 			containersOnTrain.put(c.getId(), c);
-			containerLocationOnTrain.put(c.getId(),
-					reservation.getContainerLocation());
+			containerLocationOnTrain.put(c.getId(), reservation.getContainerLocation());
 
-			List<ContainerLocation> l = containerLocationBySlot.get(slot
-					.getId());
+			List<ContainerLocation> l = containerLocationBySlot.get(slot.getId());
 			if (l == null)
 				l = new ArrayList<ContainerLocation>();
-			l.add(Math.min(l.size(), reservation.getContainerLocation()
-					.getLevel()), reservation.getContainerLocation());
+			l.add(Math.min(l.size(), reservation.getContainerLocation().getLevel()), reservation.getContainerLocation());
 			containerLocationBySlot.put(slot.getId(), l);
 
-			System.out.println("Container : id='" + c.getId() + "' teu='"
-					+ c.getTEU());
+			log.info("Container : id='" + c.getId() + "' teu='" + c.getTEU());
 
-			sbMissions.append("\t<container id='" + c.getId() + "' teu='"
-					+ c.getTEU() + "'>\n");
-			sbMissions.append("\t\t"
-					+ reservation.getContainerLocation().toXML()
-					+ "\n\t</container>\n");
+			trainSB.append("\t<container id='" + c.getId() + "' teu='" + c.getTEU() + "'>\n");
+			trainSB.append("\t\t" + reservation.getContainerLocation().toXML() + "\n\t</container>\n");
 		}
 
 		for (int i = 0; i < nbContainers40; i++) {
-			Container c = new Container(bicGenerator.giveMeBic().toString(),
-					ContainerKind.getTeu(Container.TYPE_40_Feet));
+			Container c = new Container(bicGenerator.giveMeBic().toString(), ContainerKind.getTeu(Container.TYPE_40_Feet));
 			// Choose a slot, a level, an alignment
 			boolean slotOk = false;
 			Slot slot = null;
 			while (!slotOk) {
 				slot = slots40Feet.get(r.nextInt(slots40Feet.size()));
-				if (slotReservations.get(slot.getId()).isSlotEmptyAt(
-						new TimeWindow(arrivalTime, maxTime)))
+				if (slotReservations.get(slot.getId()).isSlotEmptyAt(new TimeWindow(arrivalTime, maxTime)))
 					slotOk = true;
 			}
 
 			// Put it
 			SlotReservations reservations = slotReservations.get(slot.getId());
-			SlotReservation reservation = reservations.giveFreeReservation(c,
-					new TimeWindow(arrivalTime, maxTime));
+			SlotReservation reservation = reservations.giveFreeReservation(c, new TimeWindow(arrivalTime, maxTime));
 			addReservation(reservation);
 
 			containers40Feet.add(c);
 			containersOnTrain.put(c.getId(), c);
-			containerLocationOnTrain.put(c.getId(),
-					reservation.getContainerLocation());
+			containerLocationOnTrain.put(c.getId(), reservation.getContainerLocation());
 
-			List<ContainerLocation> l = containerLocationBySlot.get(slot
-					.getId());
+			List<ContainerLocation> l = containerLocationBySlot.get(slot.getId());
 			if (l == null)
 				l = new ArrayList<ContainerLocation>();
-			l.add(Math.min(l.size(), reservation.getContainerLocation()
-					.getLevel()), reservation.getContainerLocation());
+			l.add(Math.min(l.size(), reservation.getContainerLocation().getLevel()), reservation.getContainerLocation());
 			containerLocationBySlot.put(slot.getId(), l);
 
-			System.out.println("Container : id='" + c.getId() + "' teu='"
-					+ c.getTEU());
-			sbMissions.append("\t<container id='" + c.getId() + "' teu='"
-					+ c.getTEU() + "'>\n");
-			sbMissions.append("\t\t"
-					+ reservation.getContainerLocation().toXML()
-					+ "\n\t</container>\n");
+			log.info("Container : id='" + c.getId() + "' teu='" + c.getTEU());
+			trainSB.append("\t<container id='" + c.getId() + "' teu='" + c.getTEU() + "'>\n");
+			trainSB.append("\t\t" + reservation.getContainerLocation().toXML() + "\n\t</container>\n");
 		}
 
 		for (int i = 0; i < nbContainers20; i++) {
-			Container c = new Container(bicGenerator.giveMeBic().toString(),
-					ContainerKind.getTeu(Container.TYPE_20_Feet));
+			Container c = new Container(bicGenerator.giveMeBic().toString(), ContainerKind.getTeu(Container.TYPE_20_Feet));
 			// Choose a slot, a level, an alignment
 			Slot slot = null;
 			SlotReservation reservation = null;
 			while (reservation == null) {
 				slot = slots20Feet.get(r.nextInt(slots20Feet.size()));
-				reservation = slotReservations.get(slot.getId())
-						.giveFreeReservation(c,
-								new TimeWindow(arrivalTime, maxTime));
+				reservation = slotReservations.get(slot.getId()).giveFreeReservation(c, new TimeWindow(arrivalTime, maxTime));
 			}
 
 			// Put it
@@ -2473,61 +1842,48 @@ public class MissionsFileGenerator {
 
 			containersOnTrain.put(c.getId(), c);
 			containers20Feet.add(c);
-			containerLocationOnTrain.put(c.getId(),
-					reservation.getContainerLocation());
+			containerLocationOnTrain.put(c.getId(), reservation.getContainerLocation());
 
-			List<ContainerLocation> l = containerLocationBySlot.get(slot
-					.getId());
+			List<ContainerLocation> l = containerLocationBySlot.get(slot.getId());
 			if (l == null)
 				l = new ArrayList<ContainerLocation>();
-			l.add(Math.min(l.size(), reservation.getContainerLocation()
-					.getLevel()), reservation.getContainerLocation());
+			l.add(Math.min(l.size(), reservation.getContainerLocation().getLevel()), reservation.getContainerLocation());
 			containerLocationBySlot.put(slot.getId(), l);
 
-			System.out.println("Container : id='" + c.getId() + "' teu='"
-					+ c.getTEU());
-			sbMissions.append("\t<container id='" + c.getId() + "' teu='"
-					+ c.getTEU() + "'>\n");
-			sbMissions.append("\t\t"
-					+ reservation.getContainerLocation().toXML()
-					+ "\n\t</container>\n");
+			log.info("Container : id='" + c.getId() + "' teu='" + c.getTEU());
+			trainSB.append("\t<container id='" + c.getId() + "' teu='" + c.getTEU() + "'>\n");
+			trainSB.append("\t\t" + reservation.getContainerLocation().toXML() + "\n\t</container>\n");
 		}
-		sbMissions.append("</event>\n");
+		train.setDescription(trainSB.toString());
+		EventDAO.getInstance(scenario.getId()).insert(train);
 		// ---- END OF TRAIN CREATION -----
+
 		// Now we have a train with containers asking to be unloaded and loaded
 		// with other containers
 
 		// Compute unload missions
-		System.out.println("Computing unload missions !");
-		int nbUnloadMissions45Feet = Math
-				.max(0,
-						(nbContainers45 - (int) (mapGroupSlotCount.get(group)[Container.TYPE_45_Feet] * fullRateAfterUnload)));
-		int nbUnloadMissions40Feet = Math
-				.max(0,
-						(nbContainers40 - (int) (mapGroupSlotCount.get(group)[Container.TYPE_40_Feet] * fullRateAfterUnload)));
-		int nbUnloadMissions20Feet = Math
-				.max(0,
-						(nbContainers20 - (int) (mapGroupSlotCount.get(group)[Container.TYPE_20_Feet] * fullRateAfterUnload)));
-		System.out.println("Nb45Feet : " + nbUnloadMissions45Feet
-				+ " Nb40Feet : " + nbUnloadMissions40Feet + " Nb20Feet : "
-				+ nbUnloadMissions20Feet);
+		log.info("Computing unload missions !");
+		int nbUnloadMissions45Feet = Math.max(0,
+				(nbContainers45 - (int) (mapGroupSlotCount.get(group)[Container.TYPE_45_Feet] * fullRateAfterUnload)));
+		int nbUnloadMissions40Feet = Math.max(0,
+				(nbContainers40 - (int) (mapGroupSlotCount.get(group)[Container.TYPE_40_Feet] * fullRateAfterUnload)));
+		int nbUnloadMissions20Feet = Math.max(0,
+				(nbContainers20 - (int) (mapGroupSlotCount.get(group)[Container.TYPE_20_Feet] * fullRateAfterUnload)));
+		log.info("Nb45Feet : " + nbUnloadMissions45Feet + " Nb40Feet : " + nbUnloadMissions40Feet + " Nb20Feet : " + nbUnloadMissions20Feet);
 
 		// Lists of slots by size in the stocks areas
-		ArrayList<Slot> stockSlots45Feet = new ArrayList<Slot>();
-		ArrayList<Slot> stockSlots40Feet = new ArrayList<Slot>();
-		ArrayList<Slot> stockSlots20Feet = new ArrayList<Slot>();
+		List<Slot> stockSlots45Feet = new ArrayList<>();
+		List<Slot> stockSlots40Feet = new ArrayList<>();
+		List<Slot> stockSlots20Feet = new ArrayList<>();
 
 		for (Block p : Terminal.getInstance().getPaves(BlockType.YARD).values()) {
 			for (Bay l : p.getLanes()) {
 				for (Slot s : Terminal.getInstance().getSlots(l.getId())) {
-					if (s.getTEU() == ContainerKind
-							.getTeu(Container.TYPE_45_Feet))
+					if (s.getTEU() == ContainerKind.getTeu(Container.TYPE_45_Feet))
 						stockSlots45Feet.add(s);
-					else if (s.getTEU() == ContainerKind
-							.getTeu(Container.TYPE_40_Feet))
+					else if (s.getTEU() == ContainerKind.getTeu(Container.TYPE_40_Feet))
 						stockSlots40Feet.add(s);
-					else if (s.getTEU() == ContainerKind
-							.getTeu(Container.TYPE_20_Feet))
+					else if (s.getTEU() == ContainerKind.getTeu(Container.TYPE_20_Feet))
 						stockSlots20Feet.add(s);
 				}
 			}
@@ -2535,52 +1891,25 @@ public class MissionsFileGenerator {
 
 		// Usefull for computing the time windows of the reloading missions and
 		// to prevent the reloading of the train untill unloading is over
-		int nbUnloadingMissions = nbUnloadMissions20Feet
-				+ nbUnloadMissions40Feet + nbUnloadMissions45Feet;
+		int nbUnloadingMissions = nbUnloadMissions20Feet + nbUnloadMissions40Feet + nbUnloadMissions45Feet;
 
-		int nbReloadMissions45Feet = Math.max(0,
-				(int) (slots45Feet.size() * fullRateAfterReload)
-						- (nbContainers45 - nbUnloadMissions45Feet));
-		int nbReloadMissions40Feet = Math.max(0,
-				(int) (slots40Feet.size() * fullRateAfterReload)
-						- (nbContainers40 - nbUnloadMissions40Feet));
-		int nbReloadMissions20Feet = Math.max(0,
-				(int) (slots20Feet.size() * fullRateAfterReload)
-						- (nbContainers20 - nbUnloadMissions20Feet));
+		int nbReloadMissions45Feet = Math.max(0, (int) (slots45Feet.size() * fullRateAfterReload) - (nbContainers45 - nbUnloadMissions45Feet));
+		int nbReloadMissions40Feet = Math.max(0, (int) (slots40Feet.size() * fullRateAfterReload) - (nbContainers40 - nbUnloadMissions40Feet));
+		int nbReloadMissions20Feet = Math.max(0, (int) (slots20Feet.size() * fullRateAfterReload) - (nbContainers20 - nbUnloadMissions20Feet));
 
-		int nbLoadingMissions = nbReloadMissions20Feet + nbReloadMissions40Feet
-				+ nbReloadMissions45Feet;
+		int nbLoadingMissions = nbReloadMissions20Feet + nbReloadMissions40Feet + nbReloadMissions45Feet;
 
 		final int nbMissionsOverall = nbUnloadingMissions + nbLoadingMissions;
 
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
+		incrementProgressBar();
 
-					@Override
-					public void run() {
-						progress.setMaximum(progress.getMaximum()
-								+ nbMissionsOverall);
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			}
-		}
-
-		Time maxTimeForUnload = new Time(
-				arrivalTime,
-				new Time(
-						((maxTime.getInSec() - arrivalTime.getInSec()) * (nbUnloadingMissions / (nbMissionsOverall + 0.0)))));
-		System.err.println("ArrivalTime = " + arrivalTime);
-		System.err.println("MaxTime = " + maxTime);
-		System.err.println("NB_UNLOADINGS = " + nbUnloadingMissions);
-		System.err.println("NB_MISSIONS = " + nbMissionsOverall);
-		System.err.println("MaxTimeForUnload = " + maxTimeForUnload);
+		Time maxTimeForUnload = new Time(arrivalTime, new Time(
+				((maxTime.getInSec() - arrivalTime.getInSec()) * (nbUnloadingMissions / (nbMissionsOverall + 0.0)))));
+		log.info("ArrivalTime = " + arrivalTime);
+		log.info("MaxTime = " + maxTime);
+		log.info("NB_UNLOADINGS = " + nbUnloadingMissions);
+		log.info("NB_MISSIONS = " + nbMissionsOverall);
+		log.info("MaxTimeForUnload = " + maxTimeForUnload);
 		Time maxUnloadTime = new Time(0);
 
 		int nbMissionsCreated = 0;
@@ -2594,24 +1923,22 @@ public class MissionsFileGenerator {
 
 			Time fromTime = arrivalTime;
 
-			List<ContainerLocation> l = containerLocationBySlot.get(slot
-					.getId());
+			List<ContainerLocation> l = containerLocationBySlot.get(slot.getId());
 			if (l != null) {
-				for (int i = l.size() - 1; i >= 0
-						&& nbMissionsCreated < nbUnloadMissions45Feet; i--) {
+				for (int i = l.size() - 1; i >= 0 && nbMissionsCreated < nbUnloadMissions45Feet; i--) {
 					Container c = null;
 					for (int j = 0; j < containers45Feet.size() && c == null; j++) {
-						if (containers45Feet.get(j).getId()
-								.equals(l.get(i).getContainerId())) {
+						if (containers45Feet.get(j).getId().equals(l.get(i).getContainerId())) {
 							c = containers45Feet.get(j);
 						}
 					}
 
-					String mId = "unload_" + trainId + "_"
-							+ (nbMissionsCreatedOverall + 1);
-					sbMissions.append("<mission id='" + mId + "' container='"
-							+ c.getId() + "' kind='"
-							+ MissionKinds.IN.getIntValue() + "'>\n");
+					String mId = "unload_" + trainId + "_" + (nbMissionsCreatedOverall + 1);
+					EventBean mission = new EventBean();
+					mission.setType(EventType.NewMission);
+					mission.setTime(arrivalTime);
+					StringBuilder sb = new StringBuilder();
+					sb.append("id='" + mId + "' container='" + c.getId() + "' kind='" + MissionKinds.IN.getIntValue() + "'>\n");
 
 					// Choose a destination in the stock area
 					Slot sDestination = null;
@@ -2620,39 +1947,29 @@ public class MissionsFileGenerator {
 					TimeWindow twD = null;
 
 					while (destinationReservation == null) {
-						sDestination = stockSlots45Feet.get(r
-								.nextInt(stockSlots45Feet.size()));
+						sDestination = stockSlots45Feet.get(r.nextInt(stockSlots45Feet.size()));
 
-						Time duration = new Time(maxTimeForUnload, fromTime,
-								false); // Change false into true
+						Time duration = new Time(maxTimeForUnload, fromTime, false); // Change
+						// false
+						// into
+						// true
 						System.err.println("Duration = " + duration);
-						Time startTime = new Time(fromTime, new Time(
-								(r.nextDouble() * duration.getInSec())),
-								true);
+						Time startTime = new Time(fromTime, new Time((r.nextDouble() * duration.getInSec())), true);
 						System.err.println("StartTime : " + startTime);
 						// Pickup
-						Path pStartToPickUp = rsc.getRouting().getShortestPath(
-								rsc.getLocation(), slot.getLocation());
-						Time pickupEndTime = new Time(startTime, new Time(
-								pStartToPickUp.getCost()));
-						pickupEndTime = new Time(pickupEndTime,
-								handlingTimeFromTruck);
-						Time margin = new Time(
-								(marginRate * pickupEndTime.getInSec()));
+						Path pStartToPickUp = vehicle.getRouting().getShortestPath(vehicle.getLocation(), slot.getLocation());
+						Time pickupEndTime = new Time(startTime, new Time(pStartToPickUp.getCost()));
+						pickupEndTime = new Time(pickupEndTime, handlingTimeFromTruck);
+						Time margin = new Time((marginRate * pickupEndTime.getInSec()));
 						Time puMin = new Time(pickupEndTime, margin, false);
 						Time puMax = new Time(pickupEndTime, margin, true);
 						twP = new TimeWindow(puMin, puMax);
 						System.err.println("twP = " + twP);
 						// Delivery
-						Path pPickUpToDelivery = rsc.getRouting()
-								.getShortestPath(slot.getLocation(),
-										sDestination.getLocation());
-						Time deliveryEndTime = new Time(pickupEndTime,
-								new Time(pPickUpToDelivery.getCost()));
-						deliveryEndTime = new Time(deliveryEndTime,
-								handlingTimeFromGround);
-						margin = new Time(
-								(marginRate * deliveryEndTime.getInSec()));
+						Path pPickUpToDelivery = vehicle.getRouting().getShortestPath(slot.getLocation(), sDestination.getLocation());
+						Time deliveryEndTime = new Time(pickupEndTime, new Time(pPickUpToDelivery.getCost()));
+						deliveryEndTime = new Time(deliveryEndTime, handlingTimeFromGround);
+						margin = new Time((marginRate * deliveryEndTime.getInSec()));
 						Time dMin = new Time(deliveryEndTime, margin, false);
 						Time dMax = new Time(deliveryEndTime, margin, true);
 						twD = new TimeWindow(dMin, dMax);
@@ -2661,9 +1978,7 @@ public class MissionsFileGenerator {
 							maxUnloadTime = puMax;
 						startTime = pickupEndTime; // TODO useless ?!
 
-						destinationReservation = slotReservations.get(
-								sDestination.getId()).giveFreeReservation(c,
-								twD);
+						destinationReservation = slotReservations.get(sDestination.getId()).giveFreeReservation(c, twD);
 					}
 					// Reservation for the delivery
 					// SlotReservations destinationReservations =
@@ -2679,11 +1994,10 @@ public class MissionsFileGenerator {
 					fromTime = twP.getMax();
 					containersOnTrain.remove(c.getId());
 
-					sbMissions.append("\t" + twP.toXML() + "\n\t" + twD.toXML()
-							+ "\n");
-					sbMissions.append("\t"
-							+ destinationReservation.getContainerLocation()
-									.toXML() + "\n</mission>\n");
+					sb.append("\t" + twP.toXML() + "\n\t" + twD.toXML() + "\n");
+					sb.append("\t" + destinationReservation.getContainerLocation().toXML() + "\n</mission>\n");
+					mission.setDescription(sb.toString());
+					EventDAO.getInstance(scenario.getId()).insert(mission);
 
 					incrementProgressBar();
 
@@ -2693,7 +2007,7 @@ public class MissionsFileGenerator {
 
 			}
 		}
-		System.out.println("nb45Created : " + nbMissionsCreated);
+		log.info("nb45Created : " + nbMissionsCreated);
 		nbMissionsCreated = 0;
 		for (Slot slot : slots40Feet) {
 
@@ -2703,27 +2017,25 @@ public class MissionsFileGenerator {
 				break;
 			}
 
-			List<ContainerLocation> l = containerLocationBySlot.get(slot
-					.getId());
+			List<ContainerLocation> l = containerLocationBySlot.get(slot.getId());
 			if (l != null) {
-				for (int i = l.size() - 1; i >= 0
-						&& nbMissionsCreated < nbUnloadMissions40Feet; i--) {
+				for (int i = l.size() - 1; i >= 0 && nbMissionsCreated < nbUnloadMissions40Feet; i--) {
 					Container c = null;
 					for (int j = 0; j < containers40Feet.size() && c == null; j++) {
-						if (containers40Feet.get(j).getId()
-								.equals(l.get(i).getContainerId())) {
+						if (containers40Feet.get(j).getId().equals(l.get(i).getContainerId())) {
 							c = containers40Feet.get(j);
 						}
 					}
-					String mId = "unload_" + trainId + "_"
-							+ (nbMissionsCreatedOverall + 1);
+					String mId = "unload_" + trainId + "_" + (nbMissionsCreatedOverall + 1);
 					if (c == null) {
 
 						break;
 					}
-					sbMissions.append("<mission id='" + mId + "' container='"
-							+ c.getId() + "' kind='"
-							+ MissionKinds.IN.getIntValue() + "'>\n");
+					EventBean mission = new EventBean();
+					mission.setType(EventType.NewMission);
+					mission.setTime(arrivalTime);
+					StringBuilder sb = new StringBuilder();
+					sb.append("id='" + mId + "' container='" + c.getId() + "' kind='" + MissionKinds.IN.getIntValue() + "'>\n");
 
 					// Choose a destination in the stock area
 					Slot sDestination = null;
@@ -2732,38 +2044,28 @@ public class MissionsFileGenerator {
 					TimeWindow twD = null;
 					while (destinationReservation == null) {
 						// Choose a destination in the stock area
-						sDestination = stockSlots40Feet.get(r
-								.nextInt(stockSlots40Feet.size()));
-						Time duration = new Time(maxTimeForUnload, fromTime,
-								false); // Change false into true
+						sDestination = stockSlots40Feet.get(r.nextInt(stockSlots40Feet.size()));
+						Time duration = new Time(maxTimeForUnload, fromTime, false); // Change
+						// false
+						// into
+						// true
 						System.err.println("Duration = " + duration);
-						Time startTime = new Time(fromTime, new Time(
-								(r.nextDouble() * duration.getInSec())),
-								true);
+						Time startTime = new Time(fromTime, new Time((r.nextDouble() * duration.getInSec())), true);
 						System.err.println("StartTime : " + startTime);
 						// Pickup
-						Path pStartToPickUp = rsc.getRouting().getShortestPath(
-								rsc.getLocation(), slot.getLocation());
-						Time pickupEndTime = new Time(startTime, new Time(
-								pStartToPickUp.getCost()));
-						pickupEndTime = new Time(pickupEndTime,
-								handlingTimeFromTruck);
-						Time margin = new Time(
-								(marginRate * pickupEndTime.getInSec()));
+						Path pStartToPickUp = vehicle.getRouting().getShortestPath(vehicle.getLocation(), slot.getLocation());
+						Time pickupEndTime = new Time(startTime, new Time(pStartToPickUp.getCost()));
+						pickupEndTime = new Time(pickupEndTime, handlingTimeFromTruck);
+						Time margin = new Time((marginRate * pickupEndTime.getInSec()));
 						Time puMin = new Time(pickupEndTime, margin, false);
 						Time puMax = new Time(pickupEndTime, margin, true);
 						twP = new TimeWindow(puMin, puMax);
 
 						// Delivery
-						Path pPickUpToDelivery = rsc.getRouting()
-								.getShortestPath(slot.getLocation(),
-										sDestination.getLocation());
-						Time deliveryEndTime = new Time(pickupEndTime,
-								new Time(pPickUpToDelivery.getCost()));
-						deliveryEndTime = new Time(deliveryEndTime,
-								handlingTimeFromGround);
-						margin = new Time(
-								(marginRate * deliveryEndTime.getInSec()));
+						Path pPickUpToDelivery = vehicle.getRouting().getShortestPath(slot.getLocation(), sDestination.getLocation());
+						Time deliveryEndTime = new Time(pickupEndTime, new Time(pPickUpToDelivery.getCost()));
+						deliveryEndTime = new Time(deliveryEndTime, handlingTimeFromGround);
+						margin = new Time((marginRate * deliveryEndTime.getInSec()));
 						Time dMin = new Time(deliveryEndTime, margin, false);
 						Time dMax = new Time(deliveryEndTime, margin, true);
 						twD = new TimeWindow(dMin, dMax);
@@ -2772,9 +2074,7 @@ public class MissionsFileGenerator {
 							maxUnloadTime = puMax;
 						startTime = pickupEndTime;
 
-						destinationReservation = slotReservations.get(
-								sDestination.getId()).giveFreeReservation(c,
-								twD);
+						destinationReservation = slotReservations.get(sDestination.getId()).giveFreeReservation(c, twD);
 					}
 					// Reservation for the delivery
 					// SlotReservations destinationReservations =
@@ -2789,12 +2089,11 @@ public class MissionsFileGenerator {
 					// of the same slot
 					fromTime = twP.getMax();
 					containersOnTrain.remove(c.getId());
+					sb.append("\t" + twP.toXML() + "\n\t" + twD.toXML() + "\n");
+					sb.append("\t" + destinationReservation.getContainerLocation().toXML() + "\n</mission>\n");
+					mission.setDescription(sb.toString());
+					EventDAO.getInstance(scenario.getId()).insert(mission);
 
-					sbMissions.append("\t" + twP.toXML() + "\n\t" + twD.toXML()
-							+ "\n");
-					sbMissions.append("\t"
-							+ destinationReservation.getContainerLocation()
-									.toXML() + "\n</mission>\n");
 					incrementProgressBar();
 					nbMissionsCreated++;
 					nbMissionsCreatedOverall++;
@@ -2802,21 +2101,22 @@ public class MissionsFileGenerator {
 			}
 		}
 		// nbMissionsCreatedOverall+=nbMissionsCreated;
-		System.out.println("nb40Created : " + nbMissionsCreated);
+		log.info("nb40Created : " + nbMissionsCreated);
 		nbMissionsCreated = 0;
 		for (Container c : containers20Feet) {
 			Time fromTime = arrivalTime;
-			Slot slot = Terminal.getInstance().getSlot(
-					containerLocationOnTrain.get(c.getId()).getSlotId());
+			Slot slot = Terminal.getInstance().getSlot(containerLocationOnTrain.get(c.getId()).getSlotId());
 
 			if (nbMissionsCreated >= nbUnloadMissions20Feet) {
 				break;
 			}
-			String mId = "unload_" + trainId + "_"
-					+ (nbMissionsCreatedOverall + 1);
-			sbMissions.append("<mission id='" + mId + "' container='"
-					+ c.getId() + "' kind='" + MissionKinds.IN.getIntValue()
-					+ "'>\n");
+			String mId = "unload_" + trainId + "_" + (nbMissionsCreatedOverall + 1);
+			EventBean mission = new EventBean();
+			mission.setType(EventType.NewMission);
+			mission.setTime(arrivalTime);
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("id='" + mId + "' container='" + c.getId() + "' kind='" + MissionKinds.IN.getIntValue() + "'>\n");
 
 			Slot sDestination = null;
 			SlotReservation destinationReservation = null;
@@ -2824,21 +2124,17 @@ public class MissionsFileGenerator {
 			TimeWindow twD = null;
 			while (destinationReservation == null) {
 				// Choose a destination in the stock area
-				sDestination = stockSlots20Feet.get(r.nextInt(stockSlots20Feet
-						.size()));
+				sDestination = stockSlots20Feet.get(r.nextInt(stockSlots20Feet.size()));
 				Time duration = new Time(maxTimeForUnload, fromTime, false); // Change
-																				// false
-																				// into
-																				// true
+				// false
+				// into
+				// true
 				System.err.println("Duration = " + duration);
-				Time startTime = new Time(fromTime, new Time(
-						(r.nextDouble() * duration.getInSec())), true);
+				Time startTime = new Time(fromTime, new Time((r.nextDouble() * duration.getInSec())), true);
 				System.err.println("StartTime : " + startTime);
 				// Pickup
-				Path pStartToPickUp = rsc.getRouting().getShortestPath(
-						rsc.getLocation(), slot.getLocation());
-				Time pickupEndTime = new Time(startTime, new Time(
-						pStartToPickUp.getCost()));
+				Path pStartToPickUp = vehicle.getRouting().getShortestPath(vehicle.getLocation(), slot.getLocation());
+				Time pickupEndTime = new Time(startTime, new Time(pStartToPickUp.getCost()));
 				pickupEndTime = new Time(pickupEndTime, handlingTimeFromTruck);
 				Time margin = new Time((marginRate * pickupEndTime.getInSec()));
 				Time puMin = new Time(pickupEndTime, margin, false);
@@ -2846,12 +2142,9 @@ public class MissionsFileGenerator {
 				twP = new TimeWindow(puMin, puMax);
 
 				// Delivery
-				Path pPickUpToDelivery = rsc.getRouting().getShortestPath(
-						slot.getLocation(), sDestination.getLocation());
-				Time deliveryEndTime = new Time(pickupEndTime, new Time(
-						pPickUpToDelivery.getCost()));
-				deliveryEndTime = new Time(deliveryEndTime,
-						handlingTimeFromGround);
+				Path pPickUpToDelivery = vehicle.getRouting().getShortestPath(slot.getLocation(), sDestination.getLocation());
+				Time deliveryEndTime = new Time(pickupEndTime, new Time(pPickUpToDelivery.getCost()));
+				deliveryEndTime = new Time(deliveryEndTime, handlingTimeFromGround);
 				margin = new Time((marginRate * deliveryEndTime.getInSec()));
 				Time dMin = new Time(deliveryEndTime, margin, false);
 				Time dMax = new Time(deliveryEndTime, margin, true);
@@ -2861,8 +2154,7 @@ public class MissionsFileGenerator {
 					maxUnloadTime = puMax;
 				startTime = pickupEndTime;
 
-				destinationReservation = slotReservations.get(
-						sDestination.getId()).giveFreeReservation(c, twD);
+				destinationReservation = slotReservations.get(sDestination.getId()).giveFreeReservation(c, twD);
 			}
 			// Reservation for the delivery
 			// SlotReservations destinationReservations =
@@ -2878,28 +2170,24 @@ public class MissionsFileGenerator {
 			fromTime = twP.getMax();
 			containersOnTrain.remove(c.getId());
 
-			sbMissions.append("\t" + twP.toXML() + "\n\t" + twD.toXML() + "\n");
-			sbMissions.append("\t"
-					+ destinationReservation.getContainerLocation().toXML()
-					+ "\n</mission>\n");
+			sb.append("\t" + twP.toXML() + "\n\t" + twD.toXML() + "\n");
+			sb.append("\t" + destinationReservation.getContainerLocation().toXML() + "\n</mission>\n");
+			mission.setDescription(sb.toString());
+			EventDAO.getInstance(scenario.getId()).insert(mission);
+
 			incrementProgressBar();
 			nbMissionsCreated++;
 			nbMissionsCreatedOverall++;
 		}
-		System.out.println("nb20Created : " + nbMissionsCreated
-				+ " nbUnloadingMissions = " + nbMissionsCreatedOverall);
+		log.info("nb20Created : " + nbMissionsCreated + " nbUnloadingMissions = " + nbMissionsCreatedOverall);
 		// ------ END OF UNLOADING ------
 
 		// Compute load missions
-		System.out.println("Computing load missions !");
+		log.info("Computing load missions !");
 
-		ArrayList<Mission> reloadingMissions = new ArrayList<Mission>(
-				nbReloadMissions20Feet + nbReloadMissions40Feet
-						+ nbReloadMissions45Feet);
+		List<Mission> reloadingMissions = new ArrayList<>(nbReloadMissions20Feet + nbReloadMissions40Feet + nbReloadMissions45Feet);
 
-		System.out.println("Nb45Feet : " + nbReloadMissions45Feet
-				+ " Nb40Feet : " + nbReloadMissions40Feet + " Nb20Feet : "
-				+ nbReloadMissions20Feet);
+		log.info("Nb45Feet : " + nbReloadMissions45Feet + " Nb40Feet : " + nbReloadMissions40Feet + " Nb20Feet : " + nbReloadMissions20Feet);
 
 		nbMissionsCreated = 0;
 		nbMissionsCreatedOverall = 0;
@@ -2912,14 +2200,12 @@ public class MissionsFileGenerator {
 				break;
 			}
 
-			for (int i = maxLevel; i >= 0
-					&& nbMissionsCreated < nbReloadMissions45Feet; i--) {
+			for (int i = maxLevel; i >= 0 && nbMissionsCreated < nbReloadMissions45Feet; i--) {
 
 				Level l = slot.getLevels().get(i);
 				nbMissionsCreated++;
 				nbMissionsCreatedOverall++;
-				String mId = "reload_" + trainId + "_"
-						+ nbMissionsCreatedOverall;
+				String mId = "reload_" + trainId + "_" + nbMissionsCreatedOverall;
 				if (l.getTEU() == l.getMaxTeu()) {
 
 					i--;
@@ -2928,10 +2214,11 @@ public class MissionsFileGenerator {
 					}
 				}
 				Container c = l.getFirstContainer();
-
-				sbMissions.append("<mission id='" + mId + "' container='"
-						+ c.getId() + "' kind='"
-						+ MissionKinds.OUT.getIntValue() + "'>\n");
+				EventBean mission = new EventBean();
+				mission.setType(EventType.NewMission);
+				mission.setTime(arrivalTime);
+				StringBuilder sb = new StringBuilder();
+				sb.append("id='" + mId + "' container='" + c.getId() + "' kind='" + MissionKinds.OUT.getIntValue() + "'>\n");
 
 				Slot sDestination = null;
 				SlotReservation destinationReservation = null;
@@ -2939,59 +2226,49 @@ public class MissionsFileGenerator {
 				TimeWindow twD = null;
 				while (destinationReservation == null) {
 					// Choose a destination in the stock area
-					sDestination = slots45Feet
-							.get(r.nextInt(slots45Feet.size()));
+					sDestination = slots45Feet.get(r.nextInt(slots45Feet.size()));
 					// Pickup
-					Path pStartToPickUp = rsc.getRouting().getShortestPath(
-							rsc.getLocation(), c.getLocation());
+					Path pStartToPickUp = vehicle.getRouting().getShortestPath(vehicle.getLocation(), c.getLocation());
 					Time d1 = new Time(pStartToPickUp.getCost());
 					// Delivery
-					Path pPickUpToDelivery = rsc.getRouting().getShortestPath(
-							c.getLocation(), sDestination.getLocation());
+					Path pPickUpToDelivery = vehicle.getRouting().getShortestPath(c.getLocation(), sDestination.getLocation());
 					Time d2 = new Time(pPickUpToDelivery.getCost());
 
 					Time d1d2 = new Time(d1, d2);
 					d1d2 = new Time(d1d2, handlingTimeFromGround);
 					d1d2 = new Time(d1d2, handlingTimeFromTruck);
 
-					Time duration = new Time(new Time(maxTime, d1d2, false),
-							fromTime, false); // And again and again
-					Time startTime = new Time(fromTime, new Time(
-							(r.nextDouble() * duration.getInSec())));
+					Time duration = new Time(new Time(maxTime, d1d2, false), fromTime, false); // And
+					// again
+					// and
+					// again
+					Time startTime = new Time(fromTime, new Time((r.nextDouble() * duration.getInSec())));
 					Time pickupEndTime = new Time(startTime, d1);
-					pickupEndTime = new Time(pickupEndTime,
-							handlingTimeFromTruck);
+					pickupEndTime = new Time(pickupEndTime, handlingTimeFromTruck);
 					Time margin = new Time((marginRate * d1.getInSec()));
 					Time puMin = new Time(pickupEndTime, margin, false);
 					Time puMax = new Time(pickupEndTime, margin, true);
 					twP = new TimeWindow(puMin, puMax);
 
 					Time deliveryEndTime = new Time(pickupEndTime, d2);
-					deliveryEndTime = new Time(deliveryEndTime,
-							handlingTimeFromGround);
+					deliveryEndTime = new Time(deliveryEndTime, handlingTimeFromGround);
 
 					margin = new Time((marginRate * d2.getInSec()));
 					Time dMin = new Time(deliveryEndTime, margin, false);
 					Time dMax = new Time(deliveryEndTime, margin, true);
 					twD = new TimeWindow(dMin, dMax);
 					if (twD.getMax().toStep() > maxTime.toStep())
-						System.out
-								.println("MAX TIME OVERSPENT FOR TRAIN RELOADING MISSION CONCERNING "
-										+ c.getId() + " " + twD.getMax());
+						log.info("MAX TIME OVERSPENT FOR TRAIN RELOADING MISSION CONCERNING " + c.getId() + " " + twD.getMax());
 					else {
 						startTime = pickupEndTime;
-						destinationReservation = slotReservations.get(
-								sDestination.getId()).giveFreeReservation(c,
-								twD);
+						destinationReservation = slotReservations.get(sDestination.getId()).giveFreeReservation(c, twD);
 						// Prevent from time windows inversions between
 						// containers of the same slot
 						fromTime = twP.getMax();
 					}
 				}
 
-				Mission m = new Mission(mId, MissionKinds.OUT.getIntValue(),
-						twP, twD, c.getId(),
-						destinationReservation.getContainerLocation());
+				Mission m = new Mission(mId, MissionKinds.OUT.getIntValue(), twP, twD, c.getId(), destinationReservation.getContainerLocation());
 				reloadingMissions.add(m);
 
 				// Reservation for the delivery
@@ -3004,16 +2281,15 @@ public class MissionsFileGenerator {
 				// fromTime = twP.getMax();
 				containersOnTrain.put(c.getId(), c);
 				containersOUT.put(c.getId(), c.getId());
-				sbMissions.append("\t" + twP.toXML() + "\n\t" + twD.toXML()
-						+ "\n");
-				sbMissions.append("\t"
-						+ destinationReservation.getContainerLocation().toXML()
-						+ "\n</mission>\n");
+				sb.append("\t" + twP.toXML() + "\n\t" + twD.toXML() + "\n");
+				sb.append("\t" + destinationReservation.getContainerLocation().toXML() + "\n</mission>\n");
+				mission.setDescription(sb.toString());
+				EventDAO.getInstance(scenario.getId()).insert(mission);
 				incrementProgressBar();
 			}
 		}
-		System.out
-				.println(nbMissionsCreated + " missions of 45 feet created !");
+
+		log.info(nbMissionsCreated + " missions of 45 feet created !");
 		nbMissionsCreated = 0;
 		for (Slot slot : stockSlots40Feet) {
 			// First Step : find a container in the yard
@@ -3024,16 +2300,14 @@ public class MissionsFileGenerator {
 				break;
 			}
 
-			for (int i = maxLevel; i >= 0
-					&& nbMissionsCreated < nbReloadMissions40Feet; i--) {
+			for (int i = maxLevel; i >= 0 && nbMissionsCreated < nbReloadMissions40Feet; i--) {
 				Level l = slot.getLevels().get(i);
 
 				// if(l.getTEU() < l.getMaxTeu()) {
 				// If there is a container at this level
 				if (l.getTEU() > 0) {
 					Container c = l.getFirstContainer();
-					if (c.getTEU() == ContainerKind
-							.getTeu(Container.TYPE_40_Feet)) {
+					if (c.getTEU() == ContainerKind.getTeu(Container.TYPE_40_Feet)) {
 						// Next Step : find a destination slot
 						Slot sDestination = null;
 						SlotReservation destinationReservation = null;
@@ -3042,55 +2316,42 @@ public class MissionsFileGenerator {
 						while (destinationReservation == null) {
 
 							// Choose a destination in the train lanes
-							sDestination = slots40Feet.get(r
-									.nextInt(slots40Feet.size()));
+							sDestination = slots40Feet.get(r.nextInt(slots40Feet.size()));
 							// Pickup
-							Path pStartToPickUp = rsc.getRouting()
-									.getShortestPath(rsc.getLocation(),
-											c.getLocation());
+							Path pStartToPickUp = vehicle.getRouting().getShortestPath(vehicle.getLocation(), c.getLocation());
 							Time d1 = new Time(pStartToPickUp.getCost());
 							// Delivery
-							Path pPickUpToDelivery = rsc.getRouting()
-									.getShortestPath(c.getLocation(),
-											sDestination.getLocation());
+							Path pPickUpToDelivery = vehicle.getRouting().getShortestPath(c.getLocation(), sDestination.getLocation());
 							Time d2 = new Time(pPickUpToDelivery.getCost());
 
 							Time d1d2 = new Time(d1, d2);
 							d1d2 = new Time(d1d2, handlingTimeFromGround);
 							d1d2 = new Time(d1d2, handlingTimeFromTruck);
 
-							Time duration = new Time(new Time(maxTime, d1d2,
-									false), fromTime, false); // And again and
-																// again
-							Time startTime = new Time(fromTime, new Time(
-									(r.nextDouble() * duration.getInSec())));
+							Time duration = new Time(new Time(maxTime, d1d2, false), fromTime, false); // And
+							// again
+							// and
+							// again
+							Time startTime = new Time(fromTime, new Time((r.nextDouble() * duration.getInSec())));
 							Time pickupEndTime = new Time(startTime, d1);
-							pickupEndTime = new Time(pickupEndTime,
-									handlingTimeFromTruck);
+							pickupEndTime = new Time(pickupEndTime, handlingTimeFromTruck);
 							Time margin = new Time((marginRate * d1.getInSec()));
 							Time puMin = new Time(pickupEndTime, margin, false);
 							Time puMax = new Time(pickupEndTime, margin, true);
 							twP = new TimeWindow(puMin, puMax);
 
 							Time deliveryEndTime = new Time(pickupEndTime, d2);
-							deliveryEndTime = new Time(deliveryEndTime,
-									handlingTimeFromGround);
+							deliveryEndTime = new Time(deliveryEndTime, handlingTimeFromGround);
 
 							margin = new Time((marginRate * d2.getInSec()));
 							Time dMin = new Time(deliveryEndTime, margin, false);
 							Time dMax = new Time(deliveryEndTime, margin, true);
 							twD = new TimeWindow(dMin, dMax);
 							if (twD.getMax().toStep() > maxTime.toStep()) {
-								System.err
-										.println("MAX TIME OVERSPENT FOR TRAIN RELOADING MISSION CONCERNING "
-												+ c.getId()
-												+ " "
-												+ twD.getMax());
+								System.err.println("MAX TIME OVERSPENT FOR TRAIN RELOADING MISSION CONCERNING " + c.getId() + " " + twD.getMax());
 							} else {
 								startTime = pickupEndTime;
-								destinationReservation = slotReservations.get(
-										sDestination.getId())
-										.giveFreeReservation(c, twD);
+								destinationReservation = slotReservations.get(sDestination.getId()).giveFreeReservation(c, twD);
 								// Prevent from time windows inversions between
 								// containers of the same slot
 								fromTime = twP.getMax();
@@ -3099,14 +2360,13 @@ public class MissionsFileGenerator {
 						}
 						nbMissionsCreated++;
 						nbMissionsCreatedOverall++;
-						String mId = "reload_" + trainId + "_"
-								+ nbMissionsCreatedOverall;
-						sbMissions.append("<mission id='" + mId
-								+ "' container='" + c.getId() + "' kind='"
-								+ MissionKinds.OUT.getIntValue() + "'>\n");
-						Mission m = new Mission(mId,
-								MissionKinds.OUT.getIntValue(), twP, twD,
-								c.getId(),
+						String mId = "reload_" + trainId + "_" + nbMissionsCreatedOverall;
+						EventBean mission = new EventBean();
+						mission.setType(EventType.NewMission);
+						mission.setTime(arrivalTime);
+						StringBuilder sb = new StringBuilder();
+						sb.append("id='" + mId + "' container='" + c.getId() + "' kind='" + MissionKinds.OUT.getIntValue() + "'>\n");
+						Mission m = new Mission(mId, MissionKinds.OUT.getIntValue(), twP, twD, c.getId(),
 								destinationReservation.getContainerLocation());
 						reloadingMissions.add(m);
 
@@ -3120,18 +2380,16 @@ public class MissionsFileGenerator {
 						// fromTime = twP.getMax();
 						containersOnTrain.put(c.getId(), c);
 						containersOUT.put(c.getId(), c.getId());
-						sbMissions.append("\t" + twP.toXML() + "\n\t"
-								+ twD.toXML() + "\n");
-						sbMissions.append("\t"
-								+ destinationReservation.getContainerLocation()
-										.toXML() + "\n</mission>\n");
+						sb.append("\t" + twP.toXML() + "\n\t" + twD.toXML() + "\n");
+						sb.append("\t" + destinationReservation.getContainerLocation().toXML() + "\n</mission>\n");
+						mission.setDescription(sb.toString());
+						EventDAO.getInstance(scenario.getId()).insert(mission);
 						incrementProgressBar();
 					}
 				}
 			}
 		}
-		System.out
-				.println(nbMissionsCreated + " missions of 40 feet created !");
+		log.info(nbMissionsCreated + " missions of 40 feet created !");
 		nbMissionsCreated = 0;
 		Container[] tContainers = Terminal.getInstance().getContainersArray();
 		boolean noMoreSpace = false;
@@ -3141,8 +2399,7 @@ public class MissionsFileGenerator {
 			TimeWindow tw20Feet = new TimeWindow(fromTime, maxTime);
 			if (fromTime.toStep() > maxTime.toStep()) {
 				tw20Feet = new TimeWindow(fromTime, fromTime);
-				System.out.println("TW 20 FEET = [fromTime , fromTime] = ["
-						+ fromTime + " , " + fromTime + "]");
+				log.info("TW 20 FEET = [fromTime , fromTime] = [" + fromTime + " , " + fromTime + "]");
 			}
 
 			Container c = null;
@@ -3150,15 +2407,11 @@ public class MissionsFileGenerator {
 			while (c == null && tContainers.length > 0) {
 				c = tContainers[r.nextInt(tContainers.length)];
 				if (c.getDimensionType() != Container.TYPE_20_Feet
-						|| Terminal.getInstance()
-								.getBlock(c.getContainerLocation().getPaveId())
-								.getType() != BlockType.YARD)
+						|| Terminal.getInstance().getBlock(c.getContainerLocation().getPaveId()).getType() != BlockType.YARD)
 					c = null;
 				else {
-					slot = Terminal.getInstance().getSlot(
-							c.getContainerLocation().getSlotId());
-					if (!slotReservations.get(slot.getId()).isContainerFreeAt(
-							c, tw20Feet))
+					slot = Terminal.getInstance().getSlot(c.getContainerLocation().getSlotId());
+					if (!slotReservations.get(slot.getId()).isContainerFreeAt(c, tw20Feet))
 						c = null;
 				}
 			}
@@ -3166,15 +2419,12 @@ public class MissionsFileGenerator {
 			int maxLevel = slot.getLevels().size() - 1;
 
 			if (nbMissionsCreated >= nbReloadMissions20Feet) {
-				System.out.println("Break 20 !");
+				log.info("Break 20 !");
 				break;
 			}
 
-			for (int i = maxLevel; i >= 0
-					&& nbMissionsCreated < nbReloadMissions20Feet
-					&& !noMoreSpace; i--) {
-				String mId = "reload_" + trainId + "_"
-						+ (nbMissionsCreatedOverall + 1);
+			for (int i = maxLevel; i >= 0 && nbMissionsCreated < nbReloadMissions20Feet && !noMoreSpace; i--) {
+				String mId = "reload_" + trainId + "_" + (nbMissionsCreatedOverall + 1);
 				// Choose a destination in the stock area
 				Slot sDestination = null;
 				int n20Feet = 0;
@@ -3192,65 +2442,51 @@ public class MissionsFileGenerator {
 					else if (n45Feet < slots45Feet.size())
 						sDestination = slots45Feet.get(n45Feet++);
 					else {
-						System.out.println("No slot available !");
+						log.info("No slot available !");
 						noMoreSpace = true;
 						break;
 					}
 
-					if (Terminal
-							.getInstance()
-							.getBlock(
-									((Bay) sDestination.getLocation().getRoad())
-											.getPaveId()).getType() != BlockType.RAILWAY) {
-						System.out.println("Pave " + sDestination.getPaveId()
-								+ " is not a train pave !!!");
+					if (Terminal.getInstance().getBlock(((Bay) sDestination.getLocation().getRoad()).getPaveId()).getType() != BlockType.RAILWAY) {
+						log.info("Pave " + sDestination.getPaveId() + " is not a train pave !!!");
 					} else
-						System.out.println("Pave " + sDestination.getPaveId()
-								+ " is a train pave and contains lane "
-								+ sDestination.getLocation().getRoad().getId()
-								+ " for slot " + sDestination.getId());
+						log.info("Pave " + sDestination.getPaveId() + " is a train pave and contains lane "
+								+ sDestination.getLocation().getRoad().getId() + " for slot " + sDestination.getId());
 					// Pickup
-					Path pStartToPickUp = rsc.getRouting().getShortestPath(
-							rsc.getLocation(), c.getLocation());
+					Path pStartToPickUp = vehicle.getRouting().getShortestPath(vehicle.getLocation(), c.getLocation());
 					Time d1 = new Time(pStartToPickUp.getCost());
 					// Delivery
-					Path pPickUpToDelivery = rsc.getRouting().getShortestPath(
-							c.getLocation(), sDestination.getLocation());
+					Path pPickUpToDelivery = vehicle.getRouting().getShortestPath(c.getLocation(), sDestination.getLocation());
 					Time d2 = new Time(pPickUpToDelivery.getCost());
 
 					Time d1d2 = new Time(d1, d2);
 					d1d2 = new Time(d1d2, handlingTimeFromGround);
 					d1d2 = new Time(d1d2, handlingTimeFromTruck);
 
-					Time duration = new Time(new Time(maxTime, d1d2, false),
-							fromTime, false); // And again and again
-					Time startTime = new Time(fromTime, new Time(
-							(r.nextDouble() * duration.getInSec())));
+					Time duration = new Time(new Time(maxTime, d1d2, false), fromTime, false); // And
+					// again
+					// and
+					// again
+					Time startTime = new Time(fromTime, new Time((r.nextDouble() * duration.getInSec())));
 					Time pickupEndTime = new Time(startTime, d1);
-					pickupEndTime = new Time(pickupEndTime,
-							handlingTimeFromTruck);
+					pickupEndTime = new Time(pickupEndTime, handlingTimeFromTruck);
 					Time margin = new Time((marginRate * d1.getInSec()));
 					Time puMin = new Time(pickupEndTime, margin, false);
 					Time puMax = new Time(pickupEndTime, margin, true);
 					twP = new TimeWindow(puMin, puMax);
 
 					Time deliveryEndTime = new Time(pickupEndTime, d2);
-					deliveryEndTime = new Time(deliveryEndTime,
-							handlingTimeFromGround);
+					deliveryEndTime = new Time(deliveryEndTime, handlingTimeFromGround);
 
 					margin = new Time((marginRate * d2.getInSec()));
 					Time dMin = new Time(deliveryEndTime, margin, false);
 					Time dMax = new Time(deliveryEndTime, margin, true);
 					twD = new TimeWindow(dMin, dMax);
 					if (twD.getMax().toStep() > maxTime.toStep())
-						System.out
-								.println("MAX TIME OVERSPENT FOR TRAIN RELOADING MISSION CONCERNING "
-										+ c.getId() + " " + twD.getMax());
+						log.info("MAX TIME OVERSPENT FOR TRAIN RELOADING MISSION CONCERNING " + c.getId() + " " + twD.getMax());
 					else {
 						startTime = pickupEndTime;
-						destinationReservation = slotReservations.get(
-								sDestination.getId()).giveFreeReservation(c,
-								twD);
+						destinationReservation = slotReservations.get(sDestination.getId()).giveFreeReservation(c, twD);
 						// Prevent from time windows inversions between
 						// containers of the same slot
 						fromTime = twP.getMax();
@@ -3258,26 +2494,25 @@ public class MissionsFileGenerator {
 					}
 				}
 				// if(destinationReservation!=null){
-				sbMissions.append("<mission id='" + mId + "' container='"
-						+ c.getId() + "' kind='"
-						+ MissionKinds.OUT.getIntValue() + "'>\n");
+				EventBean mission = new EventBean();
+				mission.setType(EventType.NewMission);
+				mission.setTime(arrivalTime);
+				StringBuilder sb = new StringBuilder();
+				sb.append("id='" + mId + "' container='" + c.getId() + "' kind='" + MissionKinds.OUT.getIntValue() + "'>\n");
 				// Reservation for the delivery
 				addReservation(destinationReservation);
 				// Reservation update for the pickup
 				updateReservationMaxTime(c, slot, twP.getMax());
 
-				Mission m = new Mission(mId, MissionKinds.OUT.getIntValue(),
-						twP, twD, c.getId(),
-						destinationReservation.getContainerLocation());
+				Mission m = new Mission(mId, MissionKinds.OUT.getIntValue(), twP, twD, c.getId(), destinationReservation.getContainerLocation());
 				reloadingMissions.add(m);
 
 				containersOnTrain.put(c.getId(), c);
 				containersOUT.put(c.getId(), c.getId());
-				sbMissions.append("\t" + twP.toXML() + "\n\t" + twD.toXML()
-						+ "\n");
-				sbMissions.append("\t"
-						+ destinationReservation.getContainerLocation().toXML()
-						+ "\n</mission>\n");
+				sb.append("\t" + twP.toXML() + "\n\t" + twD.toXML() + "\n");
+				sb.append("\t" + destinationReservation.getContainerLocation().toXML() + "\n</mission>\n");
+				mission.setDescription(sb.toString());
+				EventDAO.getInstance(scenario.getId()).insert(mission);
 				nbMissionsCreated++;
 				nbMissionsCreatedOverall++;
 
@@ -3285,8 +2520,7 @@ public class MissionsFileGenerator {
 			}
 
 		}
-		System.out
-				.println(nbMissionsCreated + " missions of 20 feet created !");
+		log.info(nbMissionsCreated + " missions of 20 feet created !");
 		// ------ END OF RELOADING ------
 
 		/* Computing VehicleOut */
@@ -3297,174 +2531,26 @@ public class MissionsFileGenerator {
 				maxDTime = m.getDeliveryTimeWindow().getMax();
 		}
 
-		sbMissions.append("<event time='" + maxDTime
-				+ "' type='vehicleOut' id='train_" + trainsCount + "' lanes='");
+		EventBean departure = new EventBean();
+		departure.setType(EventType.VehicleOut);
+		departure.setTime(maxDTime);
+		StringBuilder sb= new StringBuilder();
+		sb.append("id='train_" + trainsCount + "' lanes='");
 		for (int i = 0; i < lanesIds.size(); i++) {
-			sbMissions.append(lanesIds.get(i));
+			sb.append(lanesIds.get(i));
 			if (i < lanesIds.size() - 1)
-				sbMissions.append(",");
+				sb.append(",");
 			else
-				sbMissions.append("'>\n");
+				sb.append("'>\n");
 		}
 		// Containers onboard before leaving :
 		for (String cID : containersOnTrain.keySet()) {
-			sbMissions.append("\t<container id='" + cID + "'/>\n");
+			sb.append("\t<container id='" + cID + "'/>\n");
 		}
-		sbMissions.append("</event>\n");
-
+		departure.setDescription(sb.toString());
+		EventDAO.getInstance(scenario.getId()).insert(departure);
 		trainsCount++;
 		// ------ END OF VEHICLE OUT ------
-
-		// WRITING XML FILES !
-		/*
-		 * File tmpFile = new File("tmpContainers.xml"); File contFile = new
-		 * File(containersFile); Scanner sc; try { sc = new Scanner(contFile);
-		 * PrintWriter pw = new PrintWriter(tmpFile); while(sc.hasNextLine()){
-		 * String nl = sc.nextLine(); if(!nl.contains("</document>")){
-		 * pw.append(nl+"\n"); } } pw.flush(); sc.close();
-		 * pw.append(sb.toString()); pw.append("</document>\n"); pw.flush();
-		 * pw.close(); tmpFile.renameTo(contFile); } catch
-		 * (FileNotFoundException e) { e.printStackTrace(); }
-		 */
-
-		File tmpFile = new File("tmpMissions.xml");
-		File missFile = new File(missionsFile);
-
-		try {
-			PrintWriter pw = new PrintWriter(tmpFile);
-			pw.append("<document>\n");
-			pw.append(sbMissions.toString());
-			pw.append("</document>\n");
-			pw.flush();
-			pw.close();
-			tmpFile.renameTo(missFile);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			log.error(e.getMessage(), e);
-		}
-	}
-
-	/*
-	 * private String generateStockMission(String mId, Random r,
-	 * HashMap<PaveType, ArrayList<String>> conteneurs, Time maxTime, double
-	 * marginRate) , NoPathFoundException{ //Type //int type =
-	 * MissionKinds.STAY; int type = MissionKinds.STAY.getIntValue();
-	 * //Container Container c =
-	 * rt.getContainer(conteneurs.get(PaveType.STOCK).get
-	 * (r.nextInt(conteneurs.get(PaveType.STOCK).size())));
-	 * 
-	 * 
-	 * //MissionLocation ArrayList<Lane> destLanes = new ArrayList<Lane>();
-	 * if(type == MissionKinds.IN.getIntValue()){ for(String pId :
-	 * Terminal.getInstance().paves.get(PaveType.STOCK).keySet()){ Pave p =
-	 * Terminal.getInstance().paves.get(PaveType.STOCK).get(pId); List<Lane>
-	 * lanes = p.getLanes(); for(Lane l : lanes) destLanes.add(l); } } else{
-	 * for(String pId :
-	 * Terminal.getInstance().paves.get(PaveType.STOCK).keySet()){ Pave p =
-	 * Terminal.getInstance().paves.get(PaveType.STOCK).get(pId); List<Lane>
-	 * lanes = p.getLanes(); for(Lane l : lanes) destLanes.add(l); } }
-	 * ContainerLocation cl = null; Slot s = null; Lane l =null;
-	 * ContainerLocation old = c.getContainerLocation(); Slot oldSlot =
-	 * rt.getSlot(old.getSlotId()); int oldLevel = old.getLevel(); int oldAlign
-	 * = old.getAlign();
-	 * 
-	 * boolean added = false; //On essaye Container c2 = null; try{ c2 =
-	 * oldSlot.pop(c.getId());
-	 * 
-	 * }catch(Exception e1){ //Can't pop the container, then try with a new one
-	 * !
-	 * System.out.println("Can't pop "+c.getId()+" c2 == null ? = "+(c2==null)+
-	 * " oldSlot.contains("+c.getId()+") ? = "+oldSlot.contains(c.getId()));
-	 * return generateBoatMission(mId, r, conteneurs, maxTime, marginRate); }
-	 * while(!added){ while(s == null){ l =
-	 * destLanes.get(r.nextInt(destLanes.size())); List<Slot> lSlots =
-	 * Terminal.getInstance().slots.get(l.getId()); s =
-	 * lSlots.get(r.nextInt(lSlots.size())); if(s.getTEU() < c.getTEU()){ s =
-	 * null; } }
-	 * 
-	 * for(int i=0 ; i<Slot.SLOT_MAX_LEVEL&&!added; i++){ for(int j=0;
-	 * j<ContainerAlignment.values().length && !added; j++){ ContainerAlignment
-	 * al = ContainerAlignment.values()[j]; if(s.canAddContainer(c, i,
-	 * al.getValue())){ added = true; cl = new ContainerLocation(c.getId(),
-	 * l.getPaveId(), l.getId(), s.getId(), i, al.getValue());
-	 * //System.out.println
-	 * ("SUCCES : "+c.getId()+" can be stocked on "+s.getId()
-	 * +" at level "+i+" align "+al.getValue());
-	 * //System.out.println("Content of "+s.getId()+" = "+s); } //else
-	 * System.out
-	 * .println("Can't add "+c.getId()+" on "+s.getId()+" level "+i+" align "
-	 * +al); } } if(!added) s = null; } //on le remets à sa place Coordinates
-	 * coords2 = null; try { coords2 = oldSlot.stockContainer(c, oldLevel,
-	 * oldAlign); } catch (Exception e) {
-	 * System.out.println("Can't repush "+c.getId
-	 * ()+" coords2 == null ? = "+(coords2==null)); e.printStackTrace(); }
-	 * //TimeWindows ! Time startTime = new
-	 * Time(r.nextDouble()*maxTime.getInSec()+"s");
-	 * 
-	 * StraddleCarrier rsc = new
-	 * ArrayList<StraddleCarrier>(Terminal.getInstance(
-	 * ).straddleCarriers.values(
-	 * )).get(r.nextInt(Terminal.getInstance().straddleCarriers.size()));
-	 * //Pickup Path pStartToPickUp =
-	 * rsc.getRouting().getShortestPath(rsc.getLocation(), c.getLocation());
-	 * Time pickupEndTime = new Time(startTime, new
-	 * Time(pStartToPickUp.getCost()+"s")); pickupEndTime = new
-	 * Time(pickupEndTime, c.getHandlingTime()); Time margin = new
-	 * Time((marginRate*pickupEndTime.getInSec())+"s"); Time puMin = new
-	 * Time(pickupEndTime , margin, false); Time puMax = new Time(pickupEndTime
-	 * , margin, true); TimeWindow twP = new TimeWindow(puMin, puMax);
-	 * 
-	 * //Delivery Path pPickUpToDelivery =
-	 * rsc.getRouting().getShortestPath(c.getLocation(), s.getLocation()); Time
-	 * deliveryEndTime = new Time(pickupEndTime, new
-	 * Time(pPickUpToDelivery.getCost()+"s")); deliveryEndTime = new
-	 * Time(deliveryEndTime, c.getHandlingTime()); margin = new
-	 * Time((marginRate*deliveryEndTime.getInSec())+"s"); Time dMin = new
-	 * Time(deliveryEndTime, margin, false); Time dMax = new
-	 * Time(deliveryEndTime, margin, true); TimeWindow twD = new
-	 * TimeWindow(dMin, dMax);
-	 * 
-	 * //Mission m = new Mission(mId, type, twP, twD, c.getId(), cl);
-	 * StringBuilder sb = new StringBuilder();
-	 * sb.append("<mission id=\""+mId+"\" container=\""
-	 * +c.getId()+"\" kind=\""+type+"\">\n");
-	 * sb.append("\t<timewindow start=\""+
-	 * twP.getMin()+"\" end=\""+twP.getMax()+"\"/>\n");
-	 * sb.append("\t<timewindow start=\""
-	 * +twD.getMin()+"\" end=\""+twD.getMax()+"\"/>\n");
-	 * sb.append("\t<containerLocation pave=\""
-	 * +cl.getPaveId()+"\" lane=\""+cl.getLaneId
-	 * ()+"\" slot=\""+cl.getSlotId()+"\" level=\""
-	 * +cl.getLevel()+"\" align=\""+ContainerAlignment
-	 * .getStringValue(cl.getAlign())+"\"/>\n"); sb.append("</mission>\n");
-	 * return sb.toString(); }
-	 */
-
-	/**
-	 * Used to run the terminal in order to create the environment of the data
-	 * generation
-	 */
-	private void parseNetworkConfiguration(String terminalFile,
-			String vehiclesFile, String containersFile) throws SAXException,
-			IOException {
-		saxReader = XMLReaderFactory
-				.createXMLReader("com.sun.org.apache.xerces.internal.parsers.SAXParser");
-		Terminal.getInstance().setSeed(seed);
-		//RandomSpeed.setRandomGenerator(Terminal.getInstance().getRandom());
-
-		TimeScheduler.getInstance().setSecondsPerStep(1.0);
-
-		long now = System.currentTimeMillis();
-		saxReader.setContentHandler(new XMLTerminalComponentParser());
-		saxReader.parse(terminalFile);
-		saxReader.parse(containersFile);
-		long andNow = System.currentTimeMillis();
-		System.out.println("Terminal built in " + (andNow - now) + "ms "
-				+ Terminal.getInstance().getContainerNames().size());
-
-		// Vehicles
-		saxReader.setContentHandler(new XMLTerminalComponentParser());
-		saxReader.parse(vehiclesFile);
 	}
 
 }

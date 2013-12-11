@@ -68,7 +68,7 @@ public class MainFrame {
 	private JMenu menuFile;
 	private JMenu menuOptions;
 	private JMenu menuControl;
-	private JMenuItem stepSize, newSimulation, load, loadLast, /*replay,*/ initialStateGenerator, missionsGenerator, lhEventsGenerator;
+	private JMenuItem stepSize, newSimulation, load, loadLast, /*replay,*/ scenarioGenerator, missionsGenerator, lhEventsGenerator;
 	private JMenuItem jmiHiddenPlayPause, jmiNextStep, jmiStop;
 	private JMenuItem jmiImportXML;
 
@@ -103,16 +103,16 @@ public class MainFrame {
 
 	private MainFrame() {
 
-		initialStateGenerator = new JMenuItem("Initial state generator");
-		initialStateGenerator.setMnemonic('s');
-		initialStateGenerator.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
-		initialStateGenerator.setFont(GraphicDisplay.font);
-		initialStateGenerator.addActionListener(new ActionListener() {
+		scenarioGenerator = new JMenuItem("Scenario generator");
+		scenarioGenerator.setMnemonic('s');
+		scenarioGenerator.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+		scenarioGenerator.setFont(GraphicDisplay.font);
+		scenarioGenerator.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new Thread() {
 					public void run() {
-						new ContainerFileGeneratorMenu(MainFrame.this);
+						new ScenarioGeneratorMenu(MainFrame.this);
 					}
 				}.start();
 			}
@@ -252,14 +252,14 @@ public class MainFrame {
 							load.setEnabled(false);
 							loadLast.setEnabled(false);
 							//						replay.setEnabled(false);
-							initialStateGenerator.setEnabled(false);
+							scenarioGenerator.setEnabled(false);
 							missionsGenerator.setEnabled(false);
 							lhEventsGenerator.setEnabled(false);
 							new MissionFileGeneratorMenu(MainFrame.this);
 							load.setEnabled(true);
 							loadLast.setEnabled(true);
 							//						replay.setEnabled(true);
-							initialStateGenerator.setEnabled(true);
+							scenarioGenerator.setEnabled(true);
 							missionsGenerator.setEnabled(true);
 							lhEventsGenerator.setEnabled(true);
 						}
@@ -275,14 +275,14 @@ public class MainFrame {
 							load.setEnabled(false);
 							loadLast.setEnabled(false);
 							//						replay.setEnabled(false);
-							initialStateGenerator.setEnabled(false);
+							scenarioGenerator.setEnabled(false);
 							missionsGenerator.setEnabled(false);
 							lhEventsGenerator.setEnabled(false);
 							new LHFileGeneratorMenu(MainFrame.this);
 							load.setEnabled(true);
 							loadLast.setEnabled(true);
 							//						replay.setEnabled(true);
-							initialStateGenerator.setEnabled(true);
+							scenarioGenerator.setEnabled(true);
 							missionsGenerator.setEnabled(true);
 							lhEventsGenerator.setEnabled(true);
 						}
@@ -346,7 +346,7 @@ public class MainFrame {
 					menuFile.addSeparator();
 					//menuFile.add(replay);
 					//menuFile.addSeparator();
-					menuFile.add(initialStateGenerator);
+					menuFile.add(scenarioGenerator);
 					menuFile.add(missionsGenerator);
 					menuFile.add(lhEventsGenerator);
 					menuFile.addSeparator();
@@ -418,7 +418,7 @@ public class MainFrame {
 			e1.printStackTrace();
 		}
 
-		stateManager = new StateMgr(stepSize, newSimulation, load, loadLast, /*replay,*/ initialStateGenerator, missionsGenerator, lhEventsGenerator,jmiHiddenPlayPause, jmiNextStep, jmiStop,jmiImportXML);
+		stateManager = new StateMgr(stepSize, newSimulation, load, loadLast, /*replay,*/ scenarioGenerator, missionsGenerator, lhEventsGenerator,jmiHiddenPlayPause, jmiNextStep, jmiStop,jmiImportXML);
 
 	}
 
@@ -571,7 +571,7 @@ public class MainFrame {
 				load.setEnabled(false);
 				loadLast.setEnabled(false);
 				//							replay.setEnabled(false);
-				initialStateGenerator.setEnabled(false);
+				scenarioGenerator.setEnabled(false);
 				missionsGenerator.setEnabled(false);
 				lhEventsGenerator.setEnabled(false);
 				stepSize.setEnabled(false);
@@ -724,7 +724,7 @@ public class MainFrame {
 				load.setEnabled(false);
 				loadLast.setEnabled(false);
 				//							replay.setEnabled(false);
-				initialStateGenerator.setEnabled(false);
+				scenarioGenerator.setEnabled(false);
 				missionsGenerator.setEnabled(false);
 				lhEventsGenerator.setEnabled(false);
 

@@ -26,7 +26,6 @@ package org.util.generators.parsers;
  */
 public class TrucksGenerationData {
 	
-	private String outputFile;
 	private int nb;
 	private double rateComeEmpty;
 	private double rateLeaveEmpty;
@@ -35,8 +34,7 @@ public class TrucksGenerationData {
 	private String maxTime;
 	private String groupID;
 	
-	public TrucksGenerationData (String outputFile, int nb, double rateComeEmpty, double rateLeaveEmpty, String avgTruckTimeBeforeLeaving, String minTime, String maxTime, String groupID){
-		this.outputFile = outputFile;
+	public TrucksGenerationData (int nb, double rateComeEmpty, double rateLeaveEmpty, String avgTruckTimeBeforeLeaving, String minTime, String maxTime, String groupID){
 		this.nb = nb;
 		this.rateComeEmpty = rateComeEmpty;
 		this.rateLeaveEmpty = rateLeaveEmpty;
@@ -48,10 +46,6 @@ public class TrucksGenerationData {
 
 	public String getGroupID() {
 		return groupID;
-	}
-
-	public String getOutputFile() {
-		return outputFile;
 	}
 
 	public int getNb() {

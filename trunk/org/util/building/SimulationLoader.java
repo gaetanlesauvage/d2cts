@@ -110,6 +110,63 @@ public class SimulationLoader {
 		}
 	}
 
+	public void loadTerminal (final TerminalBean terminalBean){
+		try{
+			// Load Terminal blocks
+			BlockDAO blockDAO = BlockDAO.getInstance(terminalBean.getId());
+			blockDAO.load();
+			// Load crossroads
+			CrossroadDAO crossroadDAO = CrossroadDAO.getInstance(terminalBean
+					.getId());
+			crossroadDAO.load();
+			// Load roads
+			RoadDAO roadDAO = RoadDAO.getInstance(terminalBean.getId());
+			roadDAO.load();
+			// Load slots
+			SlotDAO slotDAO = SlotDAO.getInstance(terminalBean.getId());
+			slotDAO.load();
+			
+			log.info("Loading blocks...");
+			for (Iterator<BlockBean> itBlocks = blockDAO.iterator(); itBlocks
+					.hasNext();) {
+				loadBlock(itBlocks.next());
+			}
+
+			// First: create (regular) crossroads
+			log.info("Loading crossroads...");
+			for (Iterator<CrossroadBean> itCrossroads = crossroadDAO.iterator(); itCrossroads
+					.hasNext();) {
+				loadCrossroad(itCrossroads.next());
+			}
+			// Then: create bay crossroads
+			for (Iterator<CrossroadBean> itCrossroads = crossroadDAO.iterator(); itCrossroads
+					.hasNext();) {
+				loadBayCrossroad(itCrossroads.next());
+			}
+			// Next: create roads
+			log.info("Loading roads...");
+			for (Iterator<RoadBean> itRoads = roadDAO.iterator(); itRoads
+					.hasNext();) {
+				loadRoad(itRoads.next());
+			}
+			// Finally: create bays
+			for (Iterator<RoadBean> itRoads = roadDAO.iterator(); itRoads
+					.hasNext();) {
+				loadBay(itRoads.next());
+			}
+			log.info("Loading slots...");
+			for (Iterator<SlotBean> itSlots = slotDAO.iterator(); itSlots
+					.hasNext();) {
+				loadSlot(itSlots.next());
+			}
+			addSlots(); // Commit slots creation
+
+		} catch (SQLException e) {
+			log.fatal(e.getMessage(), e);
+		}
+
+	}
+
 	public void load(final SimulationBean simBean) {
 		log.info("Loading simulation " + simBean.getId()+"...");
 		// Load Scenario
@@ -139,23 +196,23 @@ public class SimulationLoader {
 			// Load slots
 			SlotDAO slotDAO = SlotDAO.getInstance(terminalBean.getId());
 			slotDAO.load();
-
+			//LaserHeads
 			LaserHeadDAO laserDAO = LaserHeadDAO.getInstance(scenarioBean
 					.getId());
 			laserDAO.load();
 
-			// TODO load containers
+			// Load containers
 			ContainerDAO containerDAO = ContainerDAO.getInstance(scenarioBean
 					.getId());
 			containerDAO.load();
 
-			// TODO load straddle carriers
+			// Load straddle carriers
 			StraddleCarrierDAO straddleCarrierDAO = StraddleCarrierDAO
 					.getInstance(scenarioBean.getId());
 			straddleCarrierDAO.load();
 
-			// TODO load mission scheduler
-			// TODO load events
+			// Load mission scheduler
+			// Load events
 			EventDAO eventDAO = EventDAO.getInstance(scenarioBean.getId());
 			eventDAO.load();
 
@@ -337,7 +394,7 @@ public class SimulationLoader {
 		//TimeScheduler.getInstance().recordDiscretObject(scheduler);
 	}
 
-	private void loadStraddleCarrier(StraddleCarrierBean next) {
+	public void loadStraddleCarrier(StraddleCarrierBean next) {
 		StraddleCarrierSlot slot = Terminal.getInstance()
 				.getStraddleCarrierSlot(next.getSlot());
 		Location l = new Location(Terminal.getInstance().getRoad(
@@ -369,8 +426,8 @@ public class SimulationLoader {
 		}
 
 		StraddleCarrier straddleCarrier = new StraddleCarrier(next.getName(),
-				slot, next.getModel().getName(), next.getColor(), l,
-				next.isAutoHandling());
+				slot, next.getModel().getName(), next.getColor(), l/*,
+				next.isAutoHandling()*/);
 
 		//Workload
 		MissionLoadDAO mld = MissionLoadDAO.getInstance(next.getName());

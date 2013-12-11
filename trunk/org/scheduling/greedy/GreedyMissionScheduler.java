@@ -200,19 +200,19 @@ public class GreedyMissionScheduler extends MissionScheduler {
 
 	@Override
 	public void incrementNumberOfCompletedMissions(String resourceID) {
-		boolean terminated = true;
-		lookup: for (StraddleCarrier rsc : resources) {
-			Workload w = rsc.getWorkload();
-			for (Load l : w.getLoads()) {
-				if (l.getState() != MissionState.STATE_ACHIEVED) {
-					terminated = false;
-					break lookup;
-				}
-
-			}
-		}
-		if (terminated)
-			TimeScheduler.getInstance().computeEndTime();
+//		boolean terminated = true;
+//		lookup: for (StraddleCarrier rsc : resources) {
+//			Workload w = rsc.getWorkload();
+//			for (Load l : w.getLoads()) {
+//				if (l.getState() != MissionState.STATE_ACHIEVED) {
+//					terminated = false;
+//					break lookup;
+//				}
+//
+//			}
+//		}
+//		if (terminated)
+//			TimeScheduler.getInstance().computeEndTime();
 
 		super.incrementNumberOfCompletedMissions(resourceID);
 	}

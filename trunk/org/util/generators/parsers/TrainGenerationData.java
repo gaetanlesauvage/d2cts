@@ -25,14 +25,10 @@ package org.util.generators.parsers;
  * @since 2011
  */
 public class TrainGenerationData {
-	private String file;
-	
-
 	private String minTime, maxTime;
 	private double fullRate, afterUnload, afterReload, marginRate;
 	
-	public TrainGenerationData (String file, String minTime, String maxTime, double fullRate, double afterUnload, double afterReload, double marginRate){
-		this.file = file;
+	public TrainGenerationData (String minTime, String maxTime, double fullRate, double afterUnload, double afterReload, double marginRate){
 		this.minTime = minTime;
 		this.maxTime = maxTime;
 		this.fullRate = fullRate;
@@ -40,10 +36,7 @@ public class TrainGenerationData {
 		this.afterReload = afterReload;
 		this.marginRate = marginRate;
 	}
-	public String getFile() {
-		return file;
-	}
-
+	
 	public String getMinTime() {
 		return minTime;
 	}

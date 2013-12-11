@@ -186,7 +186,6 @@ public class OfflineAnt2 {
 	/**
 	 * @return
 	 */
-	@SuppressWarnings("resource")
 	private OfflineEdge2 chooseDestination() {
 		// System.err.println("Choose destination for ant of "+colony.getID()+" from "+location.getID());
 		OfflineEdge2 destination = null;

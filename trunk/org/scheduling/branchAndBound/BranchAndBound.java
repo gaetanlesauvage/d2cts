@@ -33,11 +33,8 @@ import java.util.StringTokenizer;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.com.model.scheduling.BranchAndBoundParametersBean;
-import org.missions.Load;
 import org.missions.Mission;
 import org.missions.MissionPhase;
-import org.missions.MissionState;
-import org.missions.Workload;
 import org.scheduling.MissionScheduler;
 import org.scheduling.aco.graph.DepotNode;
 import org.scheduling.display.JMissionScheduler;
@@ -560,19 +557,19 @@ public class BranchAndBound extends MissionScheduler {
 
 	@Override
 	public void incrementNumberOfCompletedMissions(final String resourceID) {
-		boolean terminated = true;
-		lookup: for (StraddleCarrier rsc : resources) {
-			Workload w = rsc.getWorkload();
-			for (Load l : w.getLoads()) {
-				if (l.getState() != MissionState.STATE_ACHIEVED) {
-					terminated = false;
-					break lookup;
-				}
-
-			}
-		}
-		if (terminated)
-			TimeScheduler.getInstance().computeEndTime();
+//		boolean terminated = true;
+//		lookup: for (StraddleCarrier rsc : resources) {
+//			Workload w = rsc.getWorkload();
+//			for (Load l : w.getLoads()) {
+//				if (l.getState() != MissionState.STATE_ACHIEVED) {
+//					terminated = false;
+//					break lookup;
+//				}
+//
+//			}
+//		}
+//		if (terminated)
+//			TimeScheduler.getInstance().computeEndTime();
 
 		super.incrementNumberOfCompletedMissions(resourceID);
 	}

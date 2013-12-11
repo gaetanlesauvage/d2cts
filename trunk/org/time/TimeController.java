@@ -37,8 +37,8 @@ public class TimeController {
 		return TimeScheduler.getInstance().getTime();
 	}
 
-	public void nextStep(boolean isSynchronized) {
-		TimeScheduler.getInstance().step(isSynchronized);
+	public boolean nextStep(boolean isSynchronized) {
+		return TimeScheduler.getInstance().step(isSynchronized);
 	}
 
 	public void setSecByStep(double newStepSize) {

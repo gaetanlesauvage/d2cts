@@ -1,5 +1,6 @@
 package org.com.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -34,8 +35,8 @@ public class ScenarioBean {
 		return date_rec;
 	}
 
-	public void setDate_rec(Date date_rec) {
-		this.date_rec = date_rec;
+	public void setDate_rec(Timestamp date_rec) {
+		this.date_rec = new Date(date_rec.getTime());
 	}
 
 	public String getFile() {

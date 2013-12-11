@@ -1,5 +1,6 @@
 package org.com.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.com.DbMgr;
 import org.com.model.ContainerBean;
+import org.com.model.ContainerType;
 import org.system.container_stocking.ContainerAlignment;
 
 public class ContainerDAO implements D2ctsDao<ContainerBean> {
@@ -28,8 +30,15 @@ public class ContainerDAO implements D2ctsDao<ContainerBean> {
 			+ "LEFT JOIN SLOT_LEVEL sl ON cil.SLOT_LEVEL = sl.NAME AND sl.TERMINAL = scenario.TERMINAL "
 			+ "LEFT JOIN ALIGNMENT a ON cil.SLOT_ALIGNMENT = a.ID "
 			+ "WHERE c.SCENARIO = ? ORDER BY sl.LEVEL_NUMBER";
+	
+	private static final String INSERT_CONTAINER_QUERY = "INSERT INTO CONTAINER(NAME, TYPE, SCENARIO) VALUES (?, ?, ?)";
+	private static final String INSERT_CONTAINERS_INIT_LOCATION_QUERY = "INSERT INTO CONTAINERS_INIT_LOCATION ("
+			+ "CONTAINER_NAME, SCENARIO, SLOT_LEVEL, SLOT_ALIGNMENT, VEHICLE) VALUES (?, ?, ?, ?, ?)";
+	
 
 	private PreparedStatement psLoad;
+	private PreparedStatement psInsertContainer;
+	private PreparedStatement psInsertContainersInitLocation;
 
 	private List<ContainerBean> beans;
 	private Integer scenarioID;
@@ -71,6 +80,12 @@ public class ContainerDAO implements D2ctsDao<ContainerBean> {
 		if (psLoad != null) {
 			psLoad.close();
 		}
+		if(psInsertContainer != null){
+			psInsertContainer.close();
+		}
+		if(psInsertContainersInitLocation != null){
+			psInsertContainersInitLocation.close();
+		}
 		instances = null;
 		log.info("ContainerDAO of terminal " + scenarioID + " closed.");
 	}
@@ -91,7 +106,7 @@ public class ContainerDAO implements D2ctsDao<ContainerBean> {
 			ContainerBean bean = new ContainerBean();
 			bean.setName(rs.getString("NAME"));
 			bean.setScenario(rs.getInt("SCENARIO"));
-			bean.setType(rs.getInt("TYPE"));
+			bean.setType(ContainerType.get(rs.getInt("TYPE")));
 			bean.setTeu(rs.getDouble("TEU"));
 
 			bean.setSlot(rs.getString("SLOT"));
@@ -109,8 +124,24 @@ public class ContainerDAO implements D2ctsDao<ContainerBean> {
 
 	@Override
 	public int insert(ContainerBean bean) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		if (psInsertContainer == null) {
+			Connection c = DbMgr.getInstance().getConnection();
+			psInsertContainer = c.prepareStatement(INSERT_CONTAINER_QUERY);
+			psInsertContainersInitLocation = c.prepareStatement(INSERT_CONTAINERS_INIT_LOCATION_QUERY);
+		}
+
+		psInsertContainer.setString(1, bean.getName());
+		psInsertContainer.setInt(2, bean.getType().getID());
+		psInsertContainer.setInt(3, bean.getScenario());
+		int res = psInsertContainer.executeUpdate();
+
+		psInsertContainersInitLocation.setString(1,bean.getName());
+		psInsertContainersInitLocation.setInt(2, bean.getScenario());
+		psInsertContainersInitLocation.setString(3, bean.getSlot()+"-"+bean.getSlotLevel());
+		psInsertContainersInitLocation.setInt(4, bean.getAlignment().getValue());
+		psInsertContainersInitLocation.setString(5, bean.getVehicle());
+		res += psInsertContainersInitLocation.executeUpdate();
+		return res;
 	}
 
 	@Override

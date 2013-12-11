@@ -896,12 +896,12 @@ public class XMLTerminalComponentParser implements ContentHandler {
 		String color = atts.getValue("color");
 		// System.out.println("color = "+color);
 		String id = atts.getValue("id");
-		boolean autoHandling = false;
-		if (atts.getIndex("handling") >= 0) {
-			String s = atts.getValue("handling");
-			if (s.equals("man"))
-				autoHandling = false;
-		}
+		//boolean autoHandling = false;
+//		if (atts.getIndex("handling") >= 0) {
+//			String s = atts.getValue("handling");
+//			if (s.equals("man"))
+//				autoHandling = false;
+//		}
 		if (atts.getIndex("locationRoad") >= 0) {
 			String location = atts.getValue("locationRoad");
 			double pct = 0.0;
@@ -916,11 +916,11 @@ public class XMLTerminalComponentParser implements ContentHandler {
 			Location l = new Location(r, pct, direction);
 			currentStraddleCarrier = new StraddleCarrier(id, Terminal
 					.getInstance().getStraddleCarrierSlot(slot), type, color,
-					l, autoHandling);
+					l/*, autoHandling*/);
 		} else
 			currentStraddleCarrier = new StraddleCarrier(id,
-					terminal.getStraddleCarrierSlot(slot), type, color,
-					autoHandling);
+					terminal.getStraddleCarrierSlot(slot), type, color/*,
+					autoHandling*/);
 	}
 
 	private void straddleCarrierModel(Attributes atts) {

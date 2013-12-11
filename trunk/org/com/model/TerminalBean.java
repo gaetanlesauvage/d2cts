@@ -63,4 +63,9 @@ public class TerminalBean {
 		return hashCode() == o.hashCode(); 
 	}
 	
+	@Override
+	public String toString(){
+		 return name+" - "+label+" - "+file+" - "+date_rec;
+	}
+	
 }
