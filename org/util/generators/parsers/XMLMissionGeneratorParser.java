@@ -139,18 +139,16 @@ public class XMLMissionGeneratorParser implements  ContentHandler{
 				containersFile = atts.getValue("file");
 			}
 			else if(localName.equals("train")){
-				String outputFile = atts.getValue("outputFile");
 				double fullRate = Double.parseDouble(atts.getValue("fullRate"));
 				double afterUnload = Double.parseDouble(atts.getValue("afterUnload"));
 				double afterReload = Double.parseDouble(atts.getValue("afterReload"));
 				String minTime = atts.getValue("minTime");
 				String maxTime = atts.getValue("maxTime");
 				double marginRate = Double.parseDouble(atts.getValue("marginRate"));
-				TrainGenerationData td = new TrainGenerationData(outputFile, minTime, maxTime, fullRate, afterUnload, afterReload, marginRate);
+				TrainGenerationData td = new TrainGenerationData(minTime, maxTime, fullRate, afterUnload, afterReload, marginRate);
 				trainsData.add(td);
 			}
 			else if(localName.equals("trucks")){
-				String outputFile = atts.getValue("outputFile");
 				int nb = Integer.parseInt(atts.getValue("nb"));
 				double rateComeEmpty = Double.parseDouble(atts.getValue("rateComeEmpty"));
 				double rateLeaveEmpty = Double.parseDouble(atts.getValue("rateLeaveEmpty"));
@@ -161,11 +159,10 @@ public class XMLMissionGeneratorParser implements  ContentHandler{
 				String groupID = "";
 				if(atts.getIndex("groupID")>0) atts.getValue("groupID");
 				
-				TrucksGenerationData td = new TrucksGenerationData(outputFile, nb, rateComeEmpty, rateLeaveEmpty, avgTruckTimeBeforeLeaving, minTime, maxTime, groupID);
+				TrucksGenerationData td = new TrucksGenerationData(nb, rateComeEmpty, rateLeaveEmpty, avgTruckTimeBeforeLeaving, minTime, maxTime, groupID);
 				trucksData.add(td);
 			}
 			else if(localName.equals("ship")){
-				String outputFile = atts.getValue("outputFile");
 				int minTeuCapacity = Integer.parseInt(atts.getValue("minTEUCapacity"));
 				int maxTeuCapacity = Integer.parseInt(atts.getValue("maxTEUCapacity"));
 				
@@ -181,11 +178,10 @@ public class XMLMissionGeneratorParser implements  ContentHandler{
 				String minBerthTimeLength = atts.getValue("minBerthTimeLength");
 				String maxDepartureTime = atts.getValue("maxDepartureTime");
 				String timePerContainerOperation = atts.getValue("timePerContainerOperation");
-				ShipGenerationData sd = new ShipGenerationData(outputFile, maxArrivalTime, minBerthTimeLength, maxDepartureTime, timePerContainerOperation, minTeuCapacity, maxTeuCapacity, capacityFactor, fullRate, twentyFeetRate, fortyFeetRate, afterUnload, afterReload, marginRate);
+				ShipGenerationData sd = new ShipGenerationData(maxArrivalTime, minBerthTimeLength, maxDepartureTime, timePerContainerOperation, minTeuCapacity, maxTeuCapacity, capacityFactor, fullRate, twentyFeetRate, fortyFeetRate, afterUnload, afterReload, marginRate);
 				shipsData.add(sd);
 			}
 			else if(localName.equals("stocks")){
-				String outputFile = atts.getValue("outputFile");
 				int nb = Integer.parseInt(atts.getValue("nb"));
 				String minTime = atts.getValue("minTime");
 				String maxTime = atts.getValue("maxTime");
@@ -193,7 +189,7 @@ public class XMLMissionGeneratorParser implements  ContentHandler{
 				String marginTime = atts.getValue("marginTime");
 				String groupID = "";
 				if(atts.getIndex("groupID")>0) groupID = atts.getValue("groupID");
-				StockGenerationData sd = new StockGenerationData(outputFile, nb, minTime, maxTime, marginTime, groupID);
+				StockGenerationData sd = new StockGenerationData(nb, minTime, maxTime, marginTime, groupID);
 				
 				stockData.add(sd);
 			}

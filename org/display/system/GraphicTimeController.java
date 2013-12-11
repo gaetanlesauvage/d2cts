@@ -247,7 +247,7 @@ public class GraphicTimeController extends TimeController implements Runnable {
 		return initDate;
 	}
 
-	public void nextStep() {
+	public boolean nextStep() {
 		// final TimeController SUPER = super.getInstance();
 		// UPDATE COMPONENTS
 		long startTime = System.currentTimeMillis();
@@ -258,7 +258,7 @@ public class GraphicTimeController extends TimeController implements Runnable {
 			jbPlayPause.setEnabled(false);
 			disabled = true;
 		}
-		super.nextStep(!disabled);
+		boolean keepGoing = super.nextStep(!disabled);
 
 		updateStepLabel();
 		updateTimeLabel();
@@ -274,6 +274,7 @@ public class GraphicTimeController extends TimeController implements Runnable {
 		sumOfTime += gap;
 		nbIts++;
 
+		return keepGoing;
 	}
 
 	public void run() {

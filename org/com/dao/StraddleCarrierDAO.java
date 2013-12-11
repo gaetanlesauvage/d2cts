@@ -3,6 +3,7 @@ package org.com.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -12,6 +13,21 @@ import org.com.DbMgr;
 import org.com.model.StraddleCarrierBean;
 
 public class StraddleCarrierDAO implements D2ctsDao<StraddleCarrierBean>{
+	private static final String[] SQL_INSERT_WHERE_CLAUSES = {
+			"VALUES ('straddle_carrier_1',	?, 'standard', 'red',	'Central_1',	'Central_1',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_10',	?, 'standard', 'LightSeaGreen',	'Central_15',	'Central_15',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_2',	?, 'standard', 'blue',	'Central_2',	'Central_2',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_3',	?, 'standard', 'green',	'Central_3',	'Central_3',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_4',	?, 'standard', 'yellow',	'Central_4',	'Central_4',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_5',	?, 'standard', 'sienna',	'Central_5',	'Central_5',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_6',	?, 'standard', 'orange',	'Central_11',	'Central_11',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_7',	?, 'standard', 'magenta',	'Central_12',	'Central_1'2,	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_8',	?, 'standard', 'olive',	'Central_13',	'Central_13',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_9',	?, 'standard', 'DarkOrchid',	'Central_14',	'Central_14',	0.5,	'false',	0,	'false',	'RDijkstra',	null)"
+	};
+	
+	private static final String SQL_INSERT_QUERY = "INSERT INTO STRADDLECARRIER (NAME, SCENARIO, MODEL, COLOR, SLOT, ORIGIN_ROAD, ORIGIN_RATE, ORIGIN_DIRECTION, ORIGIN_AVAILABILITY, AUTOHANDLING, ROUTING_ALGORITHM, ROUTING_HEURISTIC";
+	
 	private static final Logger log = Logger.getLogger(StraddleCarrierDAO.class);
 	
 	private static Map<Integer, StraddleCarrierDAO> instances;
@@ -116,5 +132,27 @@ public class StraddleCarrierDAO implements D2ctsDao<StraddleCarrierBean>{
 	@Override
 	public int size(){
 		return beans == null ? -1 : beans.size(); 
+	}
+
+	/**
+	 * Add a given number of straddle carriers into the scenario bean.
+	 * @param straddleCarriersCount
+	 */
+	public void add(Integer straddleCarriersCount) throws SQLException {
+		int added = 0;
+		Statement statement = DbMgr.getInstance().getConnection().createStatement();
+		for(int i=0; i<straddleCarriersCount; i++){
+			String where = SQL_INSERT_WHERE_CLAUSES[i];
+			String sql = SQL_INSERT_QUERY+where;
+			sql = sql.replaceFirst("?", scenarioID.toString());
+			added += statement.executeUpdate(sql);
+		}
+		if(added != straddleCarriersCount){
+			log.error("Error while adding straddle carriers!");
+			DbMgr.getInstance().getConnection().rollback();
+		} else {
+			load();
+			DbMgr.getInstance().getConnection().commit();
+		}
 	}
 }

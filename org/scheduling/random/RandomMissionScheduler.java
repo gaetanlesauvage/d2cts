@@ -3,10 +3,7 @@ package org.scheduling.random;
 import java.util.Iterator;
 
 import org.com.model.scheduling.RandomParametersBean;
-import org.missions.Load;
 import org.missions.Mission;
-import org.missions.MissionState;
-import org.missions.Workload;
 import org.scheduling.MissionScheduler;
 import org.scheduling.display.JMissionScheduler;
 import org.system.Terminal;
@@ -123,19 +120,19 @@ public class RandomMissionScheduler extends MissionScheduler {
 
 	@Override
 	public void incrementNumberOfCompletedMissions(final String resourceID) {
-		boolean terminated = true;
-		lookup: for (StraddleCarrier rsc : resources) {
-			Workload w = rsc.getWorkload();
-			for (Load l : w.getLoads()) {
-				if (l.getState() != MissionState.STATE_ACHIEVED) {
-					terminated = false;
-					break lookup;
-				}
-
-			}
-		}
-		if (terminated)
-			TimeScheduler.getInstance().computeEndTime();
+//		boolean terminated = true;
+//		lookup: for (StraddleCarrier rsc : resources) {
+//			Workload w = rsc.getWorkload();
+//			for (Load l : w.getLoads()) {
+//				if (l.getState() != MissionState.STATE_ACHIEVED) {
+//					terminated = false;
+//					break lookup;
+//				}
+//
+//			}
+//		}
+//		if (terminated)
+//			TimeScheduler.getInstance().computeEndTime();
 
 		super.incrementNumberOfCompletedMissions(resourceID);
 	}

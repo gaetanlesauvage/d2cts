@@ -29,12 +29,10 @@ public class StockGenerationData {
 	private String minTime;
 	private String maxTime;
 	private String marginTime;
-	private String outputFile;
 	private String groupID;
 	private int nb;
 	
-	public StockGenerationData(String outputFile, int nb, String minTime, String maxTime, String marginTime, String groupID){
-		this.outputFile = outputFile;
+	public StockGenerationData(int nb, String minTime, String maxTime, String marginTime, String groupID){
 		this.nb = nb;
 		this.minTime = minTime;
 		this.maxTime = maxTime;
@@ -58,10 +56,6 @@ public class StockGenerationData {
 		return nb;
 	}
 	
-	public String getOutputFile() {
-		return outputFile;
-	}
-
 	public String getGroupID() {
 		return groupID;
 	}

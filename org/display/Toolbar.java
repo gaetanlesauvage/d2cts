@@ -480,7 +480,7 @@ public class Toolbar extends JToolBar {
 			disabled = true;
 		}
 		final boolean fdisabled = disabled;
-		controller.nextStep(!fdisabled);
+		boolean keepGoing = controller.nextStep(!fdisabled);
 
 		stepValue = controller.getStep();
 		timeValue = controller.getTime();
@@ -494,6 +494,11 @@ public class Toolbar extends JToolBar {
 			mainFrame.setFocusOnJTerminal();
 		}
 
+		if(!keepGoing){
+			playPause.setIcon(new ImageIcon(this.getClass().getResource(TOOLBAR_PLAY_ICON_URL), "play"));
+			nextStep.setEnabled(true);
+			paused = true;
+		}
 		// Stats
 		// long endTime = System.currentTimeMillis();
 		// long gap = endTime - startTime;

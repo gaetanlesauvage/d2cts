@@ -4,7 +4,7 @@ import org.system.container_stocking.ContainerAlignment;
 
 public class ContainerBean {
 	private String name;
-	private Integer type;
+	private ContainerType type;
 	private Integer scenario;
 	private Double teu;
 	private String slot;
@@ -32,11 +32,11 @@ public class ContainerBean {
 		this.scenario = scenario;
 	}
 
-	public Integer getType() {
+	public ContainerType getType() {
 		return type;
 	}
 
-	public void setType(Integer type) {
+	public void setType(ContainerType type) {
 		this.type = type;
 	}
 

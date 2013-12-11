@@ -25,7 +25,6 @@ package org.util.generators.parsers;
  * @since 2011
  */
 public class ShipGenerationData {
-	private String outputFile;
 	private String maxArrivalTime;
 	private String minBerthTimeLength;
 	private String maxDepartureTime;
@@ -42,9 +41,8 @@ public class ShipGenerationData {
 	private double afterReload;
 	private double marginRate;
 	
-	public ShipGenerationData(String outputFile, String maxArrivalTime, String minBerthTimeLength, String maxDepartureTime, String timePerContainerOperation, int minTeuCapacity, int maxTeuCapacity, int capacityFactor,
+	public ShipGenerationData(String maxArrivalTime, String minBerthTimeLength, String maxDepartureTime, String timePerContainerOperation, int minTeuCapacity, int maxTeuCapacity, int capacityFactor,
 			double fullRate, double twentyFeetRate, double fortyFeetRate, double afterUnload, double afterReload, double marginRate){
-		this.outputFile = outputFile;
 		this.maxArrivalTime = maxArrivalTime;
 		this.minBerthTimeLength = minBerthTimeLength;
 		this.maxDepartureTime = maxDepartureTime;
@@ -58,10 +56,6 @@ public class ShipGenerationData {
 		this.afterUnload = afterUnload;
 		this.afterReload = afterReload;
 		this.marginRate = marginRate;
-	}
-
-	public String getOutputFile() {
-		return outputFile;
 	}
 
 	public String getMaxArrivalTime() {
