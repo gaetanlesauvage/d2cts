@@ -5,16 +5,24 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import org.com.DbMgr;
+import org.com.dao.EventDAO;
+import org.com.model.EventBean;
+import org.com.model.ScenarioBean;
 import org.conf.parameters.ReturnCodes;
 import org.missions.Mission;
 import org.time.Time;
 import org.time.TimeScheduler;
+import org.time.event.DynamicEvent;
+import org.time.event.EventType;
 import org.time.event.NewMission;
 import org.util.parsers.XMLMissionsParser;
 import org.xml.sax.InputSource;
@@ -23,6 +31,38 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 public class Edodizer {
+	
+	public static void edodize(ScenarioBean scenario, double dod, double edod, Random r) throws SQLException{
+		List<EventBean> init = new ArrayList<>();
+		EventDAO dao = EventDAO.getInstance(scenario.getId());
+		for(Iterator<EventBean> beanIt = dao.iterator(); beanIt.hasNext(); ) {
+			EventBean bean = beanIt.next();
+			if(bean.getType() == EventType.NewMission){
+				init.add(bean);
+			}
+		}
+		Collections.sort(init);
+		int initSize = init.size();
+		int i = 0;
+		while (init.size() > 0) {
+			// Pick a mission
+			EventBean bean = init.remove(r.nextInt(init.size()));
+			NewMission missionEvent = (NewMission)DynamicEvent.create(bean);
+			if (i < (1 - dod) * initSize) {
+				bean.setTime(new Time(0));
+			} else {
+				Time oT = missionEvent.getMission().getPickupTimeWindow().getMin();
+				double oldInSec = oT.getInSec();
+				double newInSec = oldInSec * edod;
+				Time nt = new Time(newInSec);
+				bean.setTime(nt);
+			}
+			dao.update(bean);
+			i++;
+		}
+		DbMgr.getInstance().getConnection().commit();
+	}
+	
 	/**
 	 * Set the event dates associated to the missions in the given xml file
 	 * according to the defined DOD and EDOD
@@ -36,6 +76,7 @@ public class Edodizer {
 	 * @throws FileNotFoundException
 	 *             @
 	 */
+	@Deprecated
 	public static HashMap<Mission, Time> edodize(HashMap<Mission, Time> map,
 			double dod, double edod, Random r) throws FileNotFoundException,
 			RemoteException {
@@ -70,6 +111,7 @@ public class Edodizer {
 		return newTimes;
 	}
 
+	@Deprecated
 	public static void write(File file, HashMap<Mission, Time> map)
 			throws FileNotFoundException {
 		ArrayList<NewMission> l = new ArrayList<NewMission>(map.size());
@@ -102,6 +144,7 @@ public class Edodizer {
 		writer.close();
 	}
 
+	@Deprecated
 	private static <T> void displayList(List<T> l) {
 		System.out.println("Liste : ");
 		for (int i = 0; i < l.size(); i++) {
@@ -110,6 +153,7 @@ public class Edodizer {
 		System.out.println("---");
 	}
 
+	@Deprecated
 	public static HashMap<Mission, Time> getMissionMap(String missionFileName)
 			throws SAXException, IOException {
 		XMLReader saxReader = XMLReaderFactory

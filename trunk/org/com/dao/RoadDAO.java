@@ -20,7 +20,7 @@ public class RoadDAO implements D2ctsDao<RoadBean>{
 	private Map<String, RoadBean> beans;
 	private Integer terminalID;
 	
-	private static final String LOAD_QUERY = "SELECT NAME, TERMINAL, TYPE, ORIGIN, DESTINATION, DIRECTED, BLOCK FROM ROAD WHERE TERMINAL = ?";
+	private static final String LOAD_QUERY = "SELECT NAME, TERMINAL, TYPE, ORIGIN, DESTINATION, DIRECTED, BLOCK, BAY_GROUP FROM ROAD WHERE TERMINAL = ?";
 	private static final String ROAD_POINTS_QUERY = "SELECT NAME, TERMINAL, ROAD, INDEX_IN_ROAD, X, Y, Z FROM ROADPOINTS WHERE TERMINAL = ? AND ROAD = ?";
 	
 	private PreparedStatement psLoad;
@@ -90,7 +90,7 @@ public class RoadDAO implements D2ctsDao<RoadBean>{
 			bean.setDestination(rs.getString("DESTINATION"));
 			bean.setDirected(rs.getBoolean("DIRECTED"));
 			bean.setBlock(rs.getString("BLOCK"));
-			
+			bean.setGroup(rs.getString("BAY_GROUP"));
 			psLoadRoadPoints.setInt(1, terminalID);
 			psLoadRoadPoints.setString(2, bean.getName());
 			ResultSet rsRoadPoints = psLoadRoadPoints.executeQuery();

@@ -86,10 +86,10 @@ class Solution implements Comparable<Solution> {
 	 * Overall overspent time from the root node to the current solution node
 	 */
 	Time overspentTime;
-	long overspentTimeStep = -1;
+	double overspentTimeStep = 0;
 	Time endTime;
 
-	long overrunPenalties;
+	double overrunPenalties;
 
 	// GO BACK TO DEPOT
 	/**
@@ -194,8 +194,8 @@ class Solution implements Comparable<Solution> {
 							resource, MissionPhase.PHASE_DELIVERY));
 		}
 		// OverspentTime for TW_P
-		long realPickupEndStep = endTime.toStep();
-		long twpMaxStep = m.getPickupTimeWindow().getMax().toStep();
+		double realPickupEndStep = endTime.getInSec();
+		double twpMaxStep = m.getPickupTimeWindow().getMax().getInSec();
 		if (realPickupEndStep > twpMaxStep) {
 			overspentTime = new Time(overspentTime, new Time(realPickupEndStep
 					- twpMaxStep));
@@ -217,8 +217,8 @@ class Solution implements Comparable<Solution> {
 		}
 
 		// OverspentTime for TW_D
-		long realDeliveryEndStep = endTime.toStep();
-		long twdMaxStep = m.getDeliveryTimeWindow().getMax().toStep();
+		double realDeliveryEndStep = endTime.getInSec();
+		double twdMaxStep = m.getDeliveryTimeWindow().getMax().getInSec();
 		if (realDeliveryEndStep > twdMaxStep) {
 			overspentTime = new Time(overspentTime, new Time(
 					realDeliveryEndStep - twdMaxStep));
@@ -267,7 +267,7 @@ class Solution implements Comparable<Solution> {
 		// timeBeforeStart + execTime)
 		execTime = new Time(endTime, tBS, false);
 
-		overspentTimeStep = this.overspentTime.toStep();
+		overspentTimeStep = this.overspentTime.getInSec();
 	}
 
 	/**
@@ -349,7 +349,7 @@ class Solution implements Comparable<Solution> {
 	 * @return
 	 */
 	public int compareTo(Solution s) {
-		int diff = (int) (overspentTimeStep - s.overspentTimeStep);
+		double diff = overspentTimeStep - s.overspentTimeStep;
 		if (diff == 0) {
 			if (distance > s.distance)
 				return 1;

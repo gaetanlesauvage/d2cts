@@ -27,4 +27,7 @@ public interface DiscretObject{
 	boolean apply();
 	String getId();
 	void precompute();
+	int hashCode();
+	boolean equals(Object o);
+	Integer getDiscretPriority();
 }

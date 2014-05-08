@@ -19,7 +19,8 @@
  */
 package org.time.event;
 
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.system.Terminal;
 import org.time.Time;
@@ -33,10 +34,10 @@ public class ShipIn extends DynamicEvent {
 	private double berthToRate;
 	private int capacity;
 
-	private HashMap<String, Double> containersToUnload;
+	private Set<String> containersToUnload;
 
 	public ShipIn(Time time, int capacity, String paveID, double berthFromRate,
-			double berthToRate, HashMap<String, Double> containersToUnload) {
+			double berthToRate, Set<String> containersToUnload) {
 		super(time, TYPE, "<event time='" + time + "' type='" + TYPE
 				+ "' capacity='" + capacity + "' quay='" + paveID + "' from='"
 				+ berthFromRate + "' to='" + berthToRate + "'/>");
@@ -57,11 +58,11 @@ public class ShipIn extends DynamicEvent {
 		this.paveID = paveID;
 		this.berthFromRate = berthFromRate;
 		this.berthToRate = berthToRate;
-		this.containersToUnload = new HashMap<String, Double>();
+		this.containersToUnload = new HashSet<>();
 	}
 
-	public void addContainerToUnload(String containerID, double teu) {
-		containersToUnload.put(containerID, teu);
+	public void addContainerToUnload(String containerID) {
+		containersToUnload.add(containerID);
 	}
 
 	public String toString() {

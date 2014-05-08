@@ -626,8 +626,8 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		String id = atts.getValue("id");
 		String cOriginId = atts.getValue("origin");
 		String cDestinationId = atts.getValue("destination");
-
-		String query = "INSERT INTO ROAD (NAME,TERMINAL,TYPE,ORIGIN,DESTINATION,DIRECTED,BLOCK) VALUES (?,?,?,?,?,?,?)";
+		String bayGroup = atts.getValue("bayGroup");
+		String query = "INSERT INTO ROAD (NAME,TERMINAL,TYPE,ORIGIN,DESTINATION,DIRECTED,BLOCK,BAY_GROUP) VALUES (?,?,?,?,?,?,?,?)";
 		PreparedStatement statement = connection.prepareStatement(query);
 
 		int parameterIndex = 1;
@@ -642,7 +642,12 @@ public class XMLTerminalParser4DB implements ContentHandler {
 		} else {
 			statement.setBoolean(parameterIndex++, false);
 		}
-		statement.setString(parameterIndex, blockName);
+		statement.setString(parameterIndex++, blockName);
+		if(bayGroup == null){
+			statement.setNull(parameterIndex, Types.VARCHAR);
+		} else {
+			statement.setString(parameterIndex, bayGroup);
+		}
 		executeQuery(statement);
 
 		// Recuperer les coordonnees des entrees sorties de bay pour calculer la

@@ -92,7 +92,7 @@ public enum BranchAndBoundParametersBean implements SchedulingParametersBeanInte
 
 	public static BranchAndBoundParametersBean get(String name) {
 		for (BranchAndBoundParametersBean param : BranchAndBoundParametersBean.values()) {
-			if (param.name.equalsIgnoreCase(name))
+			if (param.name().equals(name) || param.name.equalsIgnoreCase(name))
 				return param;
 		}
 		return null;
@@ -130,5 +130,9 @@ public enum BranchAndBoundParametersBean implements SchedulingParametersBeanInte
 		p.setValue(value);
 		p.setSQLID(getSQLID());
 		return p;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 }

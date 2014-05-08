@@ -29,7 +29,9 @@ public class JMissionScheduler implements Runnable{
 	private IndicatorPane indicatorPane;
 
 	public JMissionScheduler(){
-		if(SwingUtilities.isEventDispatchThread()) this.run();
+		if(SwingUtilities.isEventDispatchThread()) {
+			this.run();
+		}
 		else{
 			try {
 				SwingUtilities.invokeAndWait(this);
@@ -79,7 +81,6 @@ public class JMissionScheduler implements Runnable{
 	public void addResource(StraddleCarrier resource){
 		indicatorPane.addResource(resource);
 	}
-
 
 	public void destroy(){
 		frame.setVisible(false);
@@ -136,5 +137,13 @@ public class JMissionScheduler implements Runnable{
 			frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 		SwingUtilities.updateComponentTreeUI(frame);
+	}
+
+	public void setVisible(boolean b) {
+		frame.setVisible(b);
+	}
+
+	public boolean containsResource(StraddleCarrier rsc) {
+		return getIndicatorPane().contains(rsc);
 	}
 }

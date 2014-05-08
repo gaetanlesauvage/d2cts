@@ -18,6 +18,7 @@ public class GlobalScore implements Comparable<GlobalScore> {
 	private double distance;
 	private double distanceInSeconds;
 	private double overspentTime;
+	private int overspentTW;
 	private double waitTime;
 
 	public GlobalScore (){
@@ -31,7 +32,8 @@ public class GlobalScore implements Comparable<GlobalScore> {
 		distanceInSeconds = toCopy.distanceInSeconds;
 		overspentTime = toCopy.overspentTime;
 		waitTime = toCopy.waitTime;
-
+		overspentTW = toCopy.overspentTW;
+		
 		for(String k : toCopy.localScores.keySet()){
 			localScores.put(k, new LocalScore(toCopy.localScores.get(k)));
 		}
@@ -66,11 +68,13 @@ public class GlobalScore implements Comparable<GlobalScore> {
 		distanceInSeconds = 0;
 		overspentTime = 0;
 		waitTime = 0;
+		overspentTW = 0;
 		for(LocalScore ls : localScores.values()){
 			distance += ls.getDistance();
 			distanceInSeconds += ls.getTravelTime();
 			overspentTime += ls.getLateness();
 			waitTime += ls.getEarliness();
+			overspentTW += ls.getOverspentTW();
 		}
 
 		/*distance += localScore.getDistance();
@@ -110,6 +114,10 @@ public class GlobalScore implements Comparable<GlobalScore> {
 		return distanceInSeconds*evalParams.getTravelTimeCoeff()+overspentTime*evalParams.getLatenessCoeff()+waitTime*evalParams.getEarlinessCoeff();
 	}
 
+	public int getOverspentTW() {
+		return overspentTW;
+	}
+	
 	public String toString(){
 
 		StringBuilder sb = new StringBuilder();

@@ -298,4 +298,19 @@ public class LaserSystem implements DiscretObject {
 	public Collection<LaserHead> getHeads() {
 		return heads.values();
 	}
+	
+	@Override
+	public Integer getDiscretPriority () {
+		return 1; //After straddlecarriers but before the other threads.
+	}
+	
+	@Override
+	public int hashCode(){
+		return getId().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		return o.hashCode() == hashCode();
+	}
 }

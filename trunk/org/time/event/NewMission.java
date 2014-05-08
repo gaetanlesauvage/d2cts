@@ -69,4 +69,8 @@ public class NewMission extends DynamicEvent implements Comparable<NewMission> {
 			return i;
 		}
 	}
+	
+	public Mission getMission() {
+		return m;
+	}
 }

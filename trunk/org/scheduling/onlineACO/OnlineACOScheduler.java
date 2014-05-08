@@ -413,11 +413,11 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		for (StraddleCarrier rsc : resources) {
 			jms.addResource(rsc);
 		}
-		if (out != null) {
-			out.println("MissionGraph created !");
-
-		} else
-			System.out.println("MissionGraph created !");
+//		if (out != null) {
+//			out.println("MissionGraph created !");
+//
+//		} else
+//			System.out.println("MissionGraph created !");
 
 		int current = 1;
 		List<StraddleCarrier> lResources = Terminal.getInstance().getStraddleCarriers();
@@ -655,55 +655,57 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	protected void updateResourceLocation(String resourceID, UpdateInfo updateInfo) {
 		super.updateResourceLocation(resourceID, updateInfo);
 		AntHill n = hillsNodes.get(resourceID);
-		StraddleCarrier rsc = n.getStraddleCarrier();
-		Location newLocation = rsc.getLocation();
-		if (missionsNodes.size() > 0) {
+		if(n != null){
+			StraddleCarrier rsc = n.getStraddleCarrier();
+			Location newLocation = rsc.getLocation();
+			if (missionsNodes.size() > 0) {
 
-			Load load = rsc.getCurrentLoad();
-			if (load == null) {
-				// UPDATE WEIGHT IF CHANGED OF ROAD
-				if (!lastLocations.get(resourceID).getRoad().getId().equals(newLocation.getRoad().getId())) {
-					// System.out.println("Update weights 1");
-					for (AntMissionNode matchingMission : n.getMissions()) {
-						if (matchingMission != null && matchingMission.in != null) {
-							for (AntEdge e : matchingMission.in.values())
-								e.addCost(n.getStraddleCarrier());
-						}
-					}
-				} else {
-					lock.lock();
-					graphChangedByUpdate--;
-					lock.unlock();
-				}
-			} else {
-				String m = "";
-				if (currentMissions.containsKey(resourceID))
-					m = currentMissions.get(resourceID);
-				if (!load.getMission().getId().equals(m)) {
-					// System.out.println("Update weights 2");
-					currentMissions.put(resourceID, load.getMission().getId());
-					// UPDATE WEIGHTS
-					for (AntMissionNode matchingMission : n.getMissions()) {
-						if (matchingMission != null && matchingMission.in != null) {
-							for (AntEdge e : matchingMission.in.values()) {
-								e.addCost(rsc);
+				Load load = rsc.getCurrentLoad();
+				if (load == null) {
+					// UPDATE WEIGHT IF CHANGED OF ROAD
+					if (!lastLocations.get(resourceID).getRoad().getId().equals(newLocation.getRoad().getId())) {
+						// System.out.println("Update weights 1");
+						for (AntMissionNode matchingMission : n.getMissions()) {
+							if (matchingMission != null && matchingMission.in != null) {
+								for (AntEdge e : matchingMission.in.values())
+									e.addCost(n.getStraddleCarrier());
 							}
 						}
+					} else {
+						lock.lock();
+						graphChangedByUpdate--;
+						lock.unlock();
 					}
 				} else {
-					lock.lock();
-					graphChangedByUpdate--;
-					lock.unlock();
+					String m = "";
+					if (currentMissions.containsKey(resourceID))
+						m = currentMissions.get(resourceID);
+					if (!load.getMission().getId().equals(m)) {
+						// System.out.println("Update weights 2");
+						currentMissions.put(resourceID, load.getMission().getId());
+						// UPDATE WEIGHTS
+						for (AntMissionNode matchingMission : n.getMissions()) {
+							if (matchingMission != null && matchingMission.in != null) {
+								for (AntEdge e : matchingMission.in.values()) {
+									e.addCost(rsc);
+								}
+							}
+						}
+					} else {
+						lock.lock();
+						graphChangedByUpdate--;
+						lock.unlock();
+					}
+
 				}
-
+			} else {
+				lock.lock();
+				graphChangedByUpdate--;
+				lock.unlock();
 			}
-		} else {
-			lock.lock();
-			graphChangedByUpdate--;
-			lock.unlock();
-		}
-		lastLocations.put(resourceID, newLocation);
 
+			lastLocations.put(resourceID, newLocation);
+		}
 	}
 
 	/**
@@ -757,7 +759,7 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	@Override
 	protected boolean removeMission(Mission m) {
 		if(pool.remove(m)){
-			AntMissionNode n = missionsNodes.remove(m.getId());
+			AntMissionNode n = missionsNodes.remove(m.getId().replace('.', ','));
 			AntHill h = null;
 			if (globalParameters.getLAMBDA() > 0) {
 				h = hillsNodes.get(n.getColor());
@@ -804,12 +806,14 @@ public final class OnlineACOScheduler extends MissionScheduler {
 	 *            Mission to update
 	 */
 	protected void updateMission(Mission m) {
-		AntMissionNode amn = missionsNodes.get(m.getId());
-		HashMap<String, Double> ph = amn.getPheromone();
-		removeMission(m);
-		insertMission(m);
-		amn = missionsNodes.get(m.getId());
-		amn.setPheromone(ph);
+		AntMissionNode amn = missionsNodes.get(m.getId().replace('.', ','));
+		if(amn != null){
+			HashMap<String, Double> ph = amn.getPheromone();
+			removeMission(m);
+			insertMission(m);
+			amn = missionsNodes.get(m.getId());
+			amn.setPheromone(ph);
+		}
 	}
 
 	/*
@@ -838,14 +842,16 @@ public final class OnlineACOScheduler extends MissionScheduler {
 		// new
 		// Exception("MISSION STARTED : "+m.getId()+" BY "+resourceID).printStackTrace();
 		AntHill hill = hillsNodes.get(resourceID);
-		AntMissionNode n = missionsNodes.get(m.getId());
-		hill.getStraddleCarrier().addMissionInWorkload(m);
-		// System.err.println("MISSION ADD IN WL : "+m.getId()+" BY "+resourceID);
-		hill.visitNode(n);
-		// System.err.println("NODE VISITED : "+n.getID()+" BY "+resourceID);
-		// new java.util.Scanner(System.in).nextLine();
+		AntMissionNode n = missionsNodes.get(m.getId().replace('.', ','));
+		if(n != null){
+			hill.getStraddleCarrier().addMissionInWorkload(m);
+			// System.err.println("MISSION ADD IN WL : "+m.getId()+" BY "+resourceID);
+			hill.visitNode(n);
+			// System.err.println("NODE VISITED : "+n.getID()+" BY "+resourceID);
+			// new java.util.Scanner(System.in).nextLine();
 
-		removeMission(m);
+			removeMission(m);
+		}
 		// System.err.println("MISSION REMOVED : "+m.getId()+" BY "+resourceID);
 	}
 

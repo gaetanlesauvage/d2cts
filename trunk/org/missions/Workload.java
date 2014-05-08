@@ -55,42 +55,40 @@ public class Workload {
 		workloadMap = new TreeMap<>();
 	}
 
-	public/* synchronized */Load checkLoad(Time time) {
+	public Load checkLoad(Time time) {
 		for (int i = 0; i < workload.size(); i++) {
 			Load l = workload.get(i);
 			if (l.getState() == MissionState.STATE_TODO) {
 				if (l.getStartTime().compareTo(time) <= 0) {
 					if (!l.isLinked()) {
 						return l;
-					} else if (l.getLinkedLoad().getState() == MissionState.STATE_ACHIEVED)
+					} else if (l.getPrethreadCondition().canStart()){
 						return l;
-					else
+					} else{
 						return null;
-				} else
+					}
+				} else{
 					return null;
+				}
 			}
 
 		}
 		return null;
 	}
 
-	public/* synchronized */void endMission(String id) {
-		int iFound = -1;
-		for (int i = 0; i < workload.size() && iFound < 0; i++) {
+	public boolean endMission(String id) {
+		for (int i = 0; i < workload.size(); i++) {
 			Load l = workload.get(i);
 			if (l.getMission().getId().equals(id)) {
 				l.done();
-				iFound = i;
+				return true;
 			}
 
 		}
-		/*
-		 * workload.remove(iFound);
-		 * System.out.println("Mission found at "+iFound);
-		 */
+		return false;
 	}
 
-	public/* synchronized */Load getCurrentLoad() {
+	public Load getCurrentLoad() {
 		for (Load l : workload) {
 			if (l.getState() == MissionState.STATE_CURRENT)
 				return l;
@@ -142,38 +140,33 @@ public class Workload {
 		// Insert at last position
 		TimeWindow tw = new TimeWindow(m.getPickupTimeWindow().getMin(), m
 				.getDeliveryTimeWindow().getMax());
-		ContainerLocation cl = m.getContainer().getContainerLocation();
+		//ContainerLocation cl = m.getContainer().getContainerLocation();
 		Time startableTime = tw.getMin();
 		Load l = new Load(tw, m, startableTime);
 		if (workload.size() == 0) {
-			if (cl != null) {
+			/*if (cl != null) {
 				Slot sDest = Terminal.getInstance().getSlot(cl.getSlotId());
 				try {
-					startableTime = new Time(tw.getMin(), new Time(
-							straddleCarrier
-							.getRouting()
-							.getShortestPath(
-									straddleCarrier.getSlot()
-									.getLocation(),
-									sDest.getLocation()).getCost()
-							), false);
+					startableTime = new Time(tw.getMin(), new Time(straddleCarrier.getRouting().getShortestPath(straddleCarrier.getSlot().getLocation(),sDest.getLocation()).getCost()), false);
 				} catch (NoPathFoundException e) {
 					e.printStackTrace();
 				}
 			}
-			l = new Load(tw, m, startableTime);
+			l.setStartableTime(startableTime);*/
 			workload.add(l);
 		} else {
-			best.distance = Double.POSITIVE_INFINITY;
-			best.tardiness = new Time(Time.MAXTIME);
+			best = null;
 			int index = workload.size();
 			int bestIndex = index;
 			while (index >= 0) {
 				workload.add(index, l);
 				ScheduleScore score = getScore();
-				if (best.compareTo(score) > 0) {
+				if (best == null || score.compareTo(best) > 0) {
 					best = score;
+					display("[score at "+index+" : "+best.toString()+" new best!");
 					bestIndex = index;
+				} else {
+					display("[score at "+index+" : "+score.toString());
 				}
 				workload.remove(index);
 				index--;
@@ -190,16 +183,12 @@ public class Workload {
 					if (contLoc != null) {
 						Slot sDest = Terminal.getInstance().getSlot(contLoc.getSlotId());
 						try {
-							st = new Time(load.getMission()
-									.getPickupTimeWindow().getMin(), new Time(
-											straddleCarrier
-											.getRouting()
-											.getShortestPath(
-													straddleCarrier
-													.getLocation(),
-													sDest.getLocation())
-													.getCost()
-											), false);
+							st = new Time(load.getMission().getPickupTimeWindow().getMin(),
+									new Time(straddleCarrier.getRouting().getShortestPath(
+											straddleCarrier.getLocation(),
+											sDest.getLocation())
+											.getCost()),
+											false);
 						} catch (NoPathFoundException e) {
 							e.printStackTrace();
 						}
@@ -219,11 +208,16 @@ public class Workload {
 		Terminal.getInstance().missionAffected(l, straddleCarrierID);
 	}
 
+	private void display(String txt){
+		//System.err.println(txt);
+	}
+	
 	public ScheduleScore getScore() {
+		display("---- debut ----");
 		ScheduleScore score = new ScheduleScore();
 		try {
 
-			Location origin = straddleCarrier.getSlot().getLocation();
+			Location origin = straddleCarrier.getLocation();
 			Time tOrigin = Terminal.getInstance().getTime();
 			if (straddleCarrier.getCurrentLoad() != null) {
 				ContainerLocation cl = straddleCarrier.getCurrentLoad()
@@ -233,9 +227,23 @@ public class Workload {
 				tOrigin = straddleCarrier.getCurrentLoad().getMission()
 						.getDeliveryTimeWindow().getMax();
 			}
-
+			display("-- origin : "+origin);
+			display("-- tOrigin : "+tOrigin);
+			int i = 0;
 			for (Load l : workload) {
 				if (l.getState() == MissionState.STATE_TODO) {
+					i++;
+					Time startableTime = l.getStartTime();
+					display("-- startableTime : "+startableTime);
+					if(startableTime != null){
+						tOrigin = Time.max(tOrigin, startableTime);
+					} else {
+						tOrigin = Time.max(tOrigin, l.getMission().getPickupTimeWindow().getMin());
+					}
+					
+					display("-- tOrigin : "+tOrigin);
+					
+					display("-- score["+i+"] = "+l.getMission().getId()+" "+startableTime+" "+tOrigin+" "+origin.toString()+" => "+score.toString());
 					ContainerLocation cl = l.getMission().getContainer()
 							.getContainerLocation();
 					Bay lane = Terminal.getInstance().getBay(cl.getLaneId());
@@ -246,20 +254,27 @@ public class Workload {
 							pickup, tOrigin);
 
 					Time t = new Time(p.getCost());
-					score.distance += p.getCostInMeters();
+					score.setDistance(score.getDistance() + p.getCostInMeters(), score.getDistanceInSec()+p.getCost());
 					Time pickupTime = new Time(tOrigin, t);
-					pickupTime = new Time(pickupTime,
-							straddleCarrier.getMaxContainerHandlingTime(lane));
-					long lateness = pickupTime.toStep()
-							- l.getMission().getPickupTimeWindow().getMax()
-							.toStep();
+					
+					Time hTime = straddleCarrier.getMaxContainerHandlingTime(lane);
+					pickupTime.add(hTime);
+					display("--- P at "+pickupTime+" ("+ l.getMission().getPickupTimeWindow().getMin()+") handlingT : "+hTime);
+					
+					Time lateness = new Time(pickupTime, l.getMission().getPickupTimeWindow().getMax(), false);
 					// Pickup tardiness
-					Time localTardiness = new Time(Math.max(0, lateness));
-					score.tardiness = new Time(score.tardiness, localTardiness);
-
-					tOrigin = new Time(Math.max(l.getMission()
-							.getPickupTimeWindow().getMax().toStep(),
-							pickupTime.toStep()));
+					Time localTardiness = Time.max(Time.MIN_TIME, lateness);
+					
+					
+					score.getTardiness().add(localTardiness);
+					display("-- Pickup tardiness : "+localTardiness+" ("+score.getTardiness()+")");
+					//Pickup earliness
+					Time earliness = new Time(l.getMission().getPickupTimeWindow().getMin(), pickupTime, false);
+					Time localEarliness = Time.max(Time.MIN_TIME, earliness);
+					score.getEarliness().add(localEarliness);
+					display("-- Pickup earliness : "+localEarliness+" ("+score.getEarliness()+")");
+										
+					tOrigin = new Time(pickupTime, localEarliness);
 
 					// -> Delivery
 					cl = l.getMission().getDestination();
@@ -269,21 +284,27 @@ public class Workload {
 					p = straddleCarrier.getRouting().getShortestPath(pickup,
 							delivery, tOrigin);
 					t = new Time(p.getCost());
-					score.distance += p.getCostInMeters();
+					score.setDistance(score.getDistance() + p.getCostInMeters(), score.getDistanceInSec() + p.getCost());
 					Time deliveryTime = new Time(tOrigin, t);
-					deliveryTime = new Time(deliveryTime,
-							straddleCarrier.getMaxContainerHandlingTime(lane));
-					lateness = deliveryTime.toStep()
-							- l.getMission().getDeliveryTimeWindow().getMax()
-							.toStep();
+					hTime = straddleCarrier.getMaxContainerHandlingTime(lane);
+					display("--- D at "+deliveryTime+" ("+ l.getMission().getDeliveryTimeWindow().getMin()+") handlingT : "+hTime);
+					
+					lateness = new Time(deliveryTime, l.getMission().getDeliveryTimeWindow().getMax(), false);
+					localTardiness = Time.max(Time.MIN_TIME, lateness);
+					
 					// Delivery tardiness
-					score.tardiness = new Time(score.tardiness, new Time(
-							Math.max(0, lateness)));
+					score.getTardiness().add(localTardiness);
+					display("-- Delivery tardiness : "+localTardiness+" ("+score.getTardiness()+")");
+					//Delivery earliness
+					earliness = new Time(l.getMission().getDeliveryTimeWindow().getMin(), deliveryTime, false);
+					localEarliness = Time.max(Time.MIN_TIME, earliness);
+					score.getEarliness().add(localEarliness);
+					display("-- Delivery earliness :"+localEarliness+" ("+score.getEarliness()+")");
 
+					deliveryTime.add(hTime);
+					
 					// Next load
-					tOrigin = new Time(Math.max(l.getMission()
-							.getDeliveryTimeWindow().getMax().toStep(),
-							deliveryTime.toStep()));
+					tOrigin = new Time(deliveryTime, localEarliness);
 					origin = delivery;
 				}
 			}
@@ -291,7 +312,7 @@ public class Workload {
 			// Delivery->Depot
 			Path p = straddleCarrier.getRouting().getShortestPath(origin,
 					straddleCarrier.getSlot().getLocation(), tOrigin);
-			score.distance += p.getCostInMeters();
+			score.setDistance(score.getDistance() + p.getCostInMeters(), score.getDistanceInSec() + p.getCost());
 		} catch (NoPathFoundException e) {
 			e.printStackTrace();
 		}
@@ -301,7 +322,7 @@ public class Workload {
 	public void insert(Load l) {
 		boolean added = false;
 		if (l.isLinked())
-			insertAfter(l, l.getLinkedLoad());
+			insertAfter(l, l.getPrethreadCondition().getConditionLoad());
 		else {
 			for (int i = 0; i < workload.size() && !added; i++) {
 				Load load = workload.get(i);
@@ -341,9 +362,9 @@ public class Workload {
 
 		TimeWindow tw = new TimeWindow(m.getPickupTimeWindow().getMin(), m
 				.getDeliveryTimeWindow().getMax());
-		ContainerLocation cl = m.getContainer().getContainerLocation();
+		//ContainerLocation cl = m.getContainer().getContainerLocation();
 		Time startableTime = tw.getMin();
-		if (cl != null) {
+		/*if (cl != null) {
 			Slot sDest = Terminal.getInstance().getSlot(cl.getSlotId());
 			try {
 				startableTime = new Time(tw.getMin(), new Time(straddleCarrier
@@ -355,13 +376,13 @@ public class Workload {
 			} catch (NoPathFoundException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 
 		Load l = new Load(tw, m, startableTime);
 		insert(l);
 	}
 
-	public/* synchronized */void removeMission(String mission)
+	public void removeMission(String mission)
 			throws MissionNotFoundException, NoPathFoundException {
 		int index = -1;
 		for (int i = 0; i < workload.size() && index < 0; i++) {
@@ -375,13 +396,13 @@ public class Workload {
 			throw new MissionNotFoundException(mission);
 		else {
 			Load l = workload.get(index);
-			Load link = l.getLinkedLoad();
+			Condition condition = l.getPrethreadCondition();
 			if (index < workload.size() - 1) {
 				Load next = workload.get(index + 1);
-				if (next.getLinkedLoad() == l) {
-					next.setLinkedLoad(link);
-					if (link != null) {
-						next.setStartableTime(new Time(link.getMission()
+				if (next.getPrethreadCondition() != null && next.getPrethreadCondition().getConditionLoad() == l) {
+					next.setLinkedLoad(condition == null ? null : condition.getConditionLoad());
+					if (condition != null) {
+						next.setStartableTime(new Time(condition.getConditionMission()
 								.getDeliveryTimeWindow().getMin()));
 					} else {
 						ContainerLocation cl = next.getMission().getContainer()
@@ -420,19 +441,19 @@ public class Workload {
 					Load removed = workload.remove(i);
 					workloadMap.remove(removed.getMission().getId());
 					// System.err.println("REMOVING "+mission+" of "+straddleCarrierID+"'s WORKLOAD : done.");
-					if (removed.getLinkedLoad() != null)
-						return remove(removed.getLinkedLoad().getMission()
+					if (removed.getPrethreadCondition() != null)
+						return remove(removed.getPrethreadCondition().getConditionMission()
 								.getId());
 					else
 						return removed;
 				} else {
 					Load toRemove = workload.get(i);
 					// System.err.println("REMOVING "+mission+" of "+straddleCarrierID+"'s WORKLOAD : not done.");
-					if (toRemove.getLinkedLoad() != null)
-						return remove(toRemove.getLinkedLoad().getMission()
+					if (toRemove.getPrethreadCondition() != null)
+						return remove(toRemove.getPrethreadCondition().getConditionMission()
 								.getId());
 					else
-						return toRemove;
+						return workload.remove(i);
 				}
 
 			}

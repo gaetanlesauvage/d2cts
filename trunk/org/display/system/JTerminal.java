@@ -32,13 +32,12 @@ import java.awt.event.MouseWheelListener;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -620,11 +619,11 @@ public class JTerminal implements RecordableObject {
 
 	public void addDepot(Depot d) {
 
-		ConcurrentHashMap<String, Coordinates> coords = d.getCoordinates();
-		ConcurrentHashMap<String, String> walls = d.getWalls();
+		Map<String, Coordinates> coords = d.getCoordinates();
+		Map<String, String> walls = d.getWalls();
 
-		for (Enumeration<String> keys = coords.keys(); keys.hasMoreElements();) {
-			String id = keys.nextElement();
+		for (Iterator<String> keys = coords.keySet().iterator(); keys.hasNext();) {
+			String id = keys.next();
 			Node n = graph.addNode(id);
 			Coordinates c = coords.get(id);
 			n.addAttribute("x", c.x);
@@ -632,16 +631,15 @@ public class JTerminal implements RecordableObject {
 			n.addAttribute("z", c.z);
 			n.addAttribute("ui.class", "depotPoint");
 		}
-		for (Enumeration<String> keys = walls.keys(); keys.hasMoreElements();) {
-			String from = keys.nextElement();
+		for (Iterator<String> keys = walls.keySet().iterator(); keys.hasNext();) {
+			String from = keys.next();
 			String to = walls.get(from);
 			Edge e = graph.addEdge(from + "-" + to, from, to);
 			e.addAttribute("ui.class", "depotWall");
 		}
 		if(d.getStraddleCarrierSlots()!=null){
-			for (Enumeration<StraddleCarrierSlot> slots = d
-					.getStraddleCarrierSlots().elements(); slots.hasMoreElements();) {
-				StraddleCarrierSlot slot = slots.nextElement();
+			for (Iterator<StraddleCarrierSlot> slots = d.getStraddleCarrierSlots().values().iterator(); slots.hasNext();) {
+				StraddleCarrierSlot slot = slots.next();
 				addStraddleCarrierSlot(slot);
 			}
 		}
@@ -688,12 +686,11 @@ public class JTerminal implements RecordableObject {
 	}
 
 	public void addPave(Block p) {
-		ConcurrentHashMap<String, Coordinates> coords = p.getCoordinates();
-		ConcurrentHashMap<String, String> walls = p.getWalls();
+		Map<String, Coordinates> coords = p.getCoordinates();
+		Map<String, String> walls = p.getWalls();
 		if (coords != null) {
-			for (Enumeration<String> keys = coords.keys(); keys
-					.hasMoreElements();) {
-				String id = keys.nextElement();
+			for (Iterator<String> keys = coords.keySet().iterator(); keys.hasNext();) {
+				String id = keys.next();
 				Node n = graph.addNode(id);
 				Coordinates c = coords.get(id);
 				n.addAttribute("x", c.x);
@@ -702,9 +699,8 @@ public class JTerminal implements RecordableObject {
 				n.addAttribute("ui.class", "pavePoint");
 			}
 			if (walls != null) {
-				for (Enumeration<String> keys = walls.keys(); keys
-						.hasMoreElements();) {
-					String from = keys.nextElement();
+				for (Iterator<String> keys = walls.keySet().iterator(); keys.hasNext();) {
+					String from = keys.next();
 					String to = walls.get(from);
 					Edge e = graph.addEdge(from + "-" + to, from, to);
 
@@ -734,7 +730,7 @@ public class JTerminal implements RecordableObject {
 
 		String orientation = "projection";
 		String style = "shape: box; fill-mode: image-scaled; fill-image: url('"
-				+ Terminal.IMAGE_FOLDER.substring(1)
+				+ Terminal.IMAGE_FOLDER/*.substring(1)*/
 				+ "containerVessel2.png'); sprite-orientation: " + orientation
 				+ "; size: " + width + "gu, " + length + "gu; z-index: 100;";
 		Sprite s = spriteManager.addSprite(b.getID().replaceAll("\\W", "_"));
@@ -976,7 +972,7 @@ public class JTerminal implements RecordableObject {
 			String styleSelected = "shape: box; sprite-orientation: "
 					+ orientation
 					+ "; fill-mode: image-scaled; fill-image: url('"
-					+ Terminal.IMAGE_FOLDER.substring(1)
+					+ Terminal.IMAGE_FOLDER/*.substring(1)*/
 					+ "purple_square.png'); size: " + 25 + "gu, " + 25
 					+ "gu; z-index: 100;";
 			nSC.addAttribute("ui.style", styleSelected);
@@ -1004,7 +1000,7 @@ public class JTerminal implements RecordableObject {
 			Sprite spVehicle = straddleCarriers.get(vehicleId);
 			Sprite nSV = spriteManager.addSprite(vehicleId + "Selected");
 			String style = "shape: box; fill-mode: image-scaled; fill-image: url('"
-					+ Terminal.IMAGE_FOLDER.substring(1)
+					+ Terminal.IMAGE_FOLDER/*.substring(1)*/
 					+ "down_arrow_cropped.png'); size: "
 					+ 25
 					+ "gu, "
@@ -1068,7 +1064,7 @@ public class JTerminal implements RecordableObject {
 			String styleSelected = "shape: box; sprite-orientation: "
 					+ orientation
 					+ "; fill-mode: image-scaled; fill-image: url('"
-					+ Terminal.IMAGE_FOLDER.substring(1)
+					+ Terminal.IMAGE_FOLDER/*.substring(1)*/
 					+ "orange_corned_square.png'); size: " + 25 + "gu, " + 25
 					+ "gu; z-index: 101;";
 			nSS.addAttribute("ui.style", styleSelected);

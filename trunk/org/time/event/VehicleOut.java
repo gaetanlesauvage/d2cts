@@ -23,13 +23,13 @@ import java.util.List;
 
 import org.exceptions.IllegalSlotChangeException;
 import org.system.Terminal;
-import org.system.container_stocking.Container;
 import org.time.Time;
 import org.time.TimeScheduler;
 
 public class VehicleOut extends DynamicEvent {
+	
 	private List<String> slotIds;
-	private List<Container> containers;
+	private List<String> containers;
 	private boolean alreadyAdviced = false;
 	public static final String TYPE = "vehicleOut";
 	private String ID;
@@ -44,7 +44,7 @@ public class VehicleOut extends DynamicEvent {
 	 *            List of the containers brought by the vehicle
 	 */
 	public VehicleOut(Time time, String truckID, List<String> lanes,
-			List<String> slotIds, List<Container> containers) {
+			List<String> slotIds, List<String> containers) {
 		super(time, TYPE);
 		this.ID = truckID;
 		String laneIds = "";
@@ -100,12 +100,12 @@ public class VehicleOut extends DynamicEvent {
 
 			super.time = new Time(TimeScheduler.getInstance().getTime(), new Time(1));
 			if (!alreadyAdviced) {
-				System.out.println(time + " : " + cannotReachSlotMsg());
+				log.warn(time + " : " + cannotReachSlotMsg());
 				alreadyAdviced = true;
 			}
 			TimeScheduler.getInstance().registerDynamicEvent(this);
 		} else {
-			System.out.println("Vehicle OUT : " + ID);
+			log.info(TimeScheduler.getInstance().getTime() + " - Vehicle OUT : " + ID + " from "+slotIds.get(0)+" with "+containers.get(0));
 			writeEventInDb();
 		}
 	}

@@ -13,24 +13,26 @@ import org.com.model.LaserHeadBean;
 
 public class LaserHeadDAO implements D2ctsDao<LaserHeadBean>{
 	private static final Logger log = Logger.getLogger(LaserHeadDAO.class);
-	
+
 	private static Map<Integer, LaserHeadDAO> instances;
-	
+
 	private static final String LOAD_QUERY = "SELECT NAME, SCENARIO, X, Y, Z, RX, RY, RZ FROM LASERHEAD WHERE SCENARIO = ?";
-	
+	private static final String INSERT_QUERY = "INSERT INTO LASERHEAD (NAME, SCENARIO, X, Y, Z, RX, RY, RZ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
 	private PreparedStatement psLoad;
-	
+	private PreparedStatement psInsert;
+
 	private Map<String, LaserHeadBean> beans;
 	private Integer scenarioID;
-	
+
 	private LaserHeadDAO(Integer scenarioID){
 		this.scenarioID = scenarioID;
 	}
-	
+
 	public static LaserHeadDAO getInstance(Integer scenarioID){
 		if(instances == null){
 			instances = new HashMap<>();
-			
+
 		}
 		if(instances.containsKey(scenarioID)) return instances.get(scenarioID);
 		else {
@@ -46,7 +48,7 @@ public class LaserHeadDAO implements D2ctsDao<LaserHeadBean>{
 		}
 		return instances.values().iterator();
 	}
-	
+
 	@Override
 	public Iterator<LaserHeadBean> iterator() {
 		if(beans == null) beans = new HashMap<>();
@@ -58,6 +60,9 @@ public class LaserHeadDAO implements D2ctsDao<LaserHeadBean>{
 		if(psLoad != null){
 			psLoad.close();
 		}
+		if(psInsert != null){
+			psInsert.close();
+		}
 		instances = null;
 		log.info("LaserHeadDAO of terminal "+scenarioID+" closed.");
 	}
@@ -68,7 +73,7 @@ public class LaserHeadDAO implements D2ctsDao<LaserHeadBean>{
 			psLoad = DbMgr.getInstance().getConnection().prepareStatement(LOAD_QUERY);
 		}
 		beans = new HashMap<>();
-		
+
 		psLoad.setInt(1, scenarioID);
 		ResultSet rs = psLoad.executeQuery();
 		while(rs.next()){
@@ -83,7 +88,7 @@ public class LaserHeadDAO implements D2ctsDao<LaserHeadBean>{
 			bean.setRz(rs.getDouble("RZ"));
 			beans.put(bean.getName(), bean);
 		}
-		
+
 		if(rs!=null){
 			rs.close();
 		}
@@ -91,15 +96,26 @@ public class LaserHeadDAO implements D2ctsDao<LaserHeadBean>{
 
 	@Override
 	public int insert(LaserHeadBean bean) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		if(psInsert == null){
+			psInsert = DbMgr.getInstance().getConnection().prepareStatement(INSERT_QUERY);
+		}
+		psInsert.setString(1, bean.getName());
+		psInsert.setInt(2, bean.getScenario());
+		psInsert.setDouble(3, bean.getX());
+		psInsert.setDouble(4, bean.getY());
+		psInsert.setDouble(5, bean.getZ());
+		psInsert.setDouble(6, bean.getRx());
+		psInsert.setDouble(7, bean.getRy());
+		psInsert.setDouble(8, bean.getRz());
+
+		return psInsert.executeUpdate();
 	}
 
 	@Override
 	public String getLoadQuery() {
 		return LOAD_QUERY;
 	}
-	
+
 	@Override
 	public int size(){
 		return beans.size();

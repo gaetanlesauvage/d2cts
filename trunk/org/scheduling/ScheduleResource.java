@@ -289,6 +289,8 @@ public class ScheduleResource {
 
 	public void addLateness(double latenessToAdd) {
 		score.addLateness(latenessToAdd);
+		if(latenessToAdd>0)
+			addOverspentTW(1);
 	}
 
 	public void addDistance(double distanceToAdd) {
@@ -299,6 +301,10 @@ public class ScheduleResource {
 		score.addTravelTime(travelTimeToAdd);
 	}
 
+	private void addOverspentTW(int overspentTW){
+		score.addOverspentTW(overspentTW);
+	}
+	
 	public void destroy(){
 		//Nothing to do in super implementation.
 	}

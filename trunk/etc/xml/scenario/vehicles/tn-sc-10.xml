@@ -30,7 +30,7 @@
 				- RDijkstra
 				- Dijkstra
 				- AStar
-		</comment>
+		
 				
 		<straddleCarrier id="straddle_carrier_1" type="standard" slot="Central_1" color="red" host="localhost" locationRoad="Central_1" locationPourcent="0.5" direction="false">
 			<routing type="RDijkstra" host="localhost"/>
@@ -71,6 +71,6 @@
 		<straddleCarrier id="straddle_carrier_10" type="standard" slot="Central_15" color="LightSeaGreen" host="localhost" locationRoad="Central_15" locationPourcent="0.5" direction="false">
 			<routing type="RDijkstra" host="localhost"/>
 		</straddleCarrier>
-
+</comment>
 	</vehicles>
 </document>

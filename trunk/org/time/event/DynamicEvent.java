@@ -19,19 +19,26 @@
  */
 package org.time.event;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
 import org.com.model.EventBean;
+import org.exceptions.ContainerDimensionException;
 import org.missions.Mission;
+import org.missions.TruckMission;
 import org.system.Terminal;
+import org.system.container_stocking.Container;
 import org.system.container_stocking.ContainerLocation;
 import org.system.container_stocking.Slot;
 import org.time.Time;
 import org.time.TimeWindow;
 
 public abstract class DynamicEvent {
+	protected static final Logger log = Logger.getLogger(DynamicEvent.class);
 	protected Time time;
 	protected String value;
 	protected String type;
@@ -73,8 +80,23 @@ public abstract class DynamicEvent {
 		Time t = bean.getTime();
 		Map<String,String> properties = EventDescriptionParser.getInstance().parse(bean.getDescription());
 
+		List<String> slots = null;
+		List<String> lanes = null;
+		String lanesProperty = null;
+		StringTokenizer lanesTokenizer = null;
+		String containersProperty = null;
+		StringTokenizer containersTokenizer = null;
+
 		switch(bean.getType()){
 		case ShipIn:
+			event = new ShipIn(t, Integer.parseInt(properties.get("capacity")), properties.get("quay"), 
+					Double.parseDouble(properties.get("from")), Double.parseDouble(properties.get("to")));
+			String containersOnBoard = properties.get("containers").substring(1);
+			containersOnBoard = containersOnBoard.substring(0, containersOnBoard.indexOf('}'));
+			StringTokenizer st = new StringTokenizer(containersOnBoard, ";");
+			while(st.hasMoreTokens()){
+				((ShipIn)event).addContainerToUnload(st.nextToken());
+			}
 			//Capacity
 			//Quay
 			//From
@@ -82,6 +104,14 @@ public abstract class DynamicEvent {
 			//event = new ShipIn(...);
 			break;
 		case ShipOut:
+			event = new ShipOut(t, Integer.parseInt(properties.get("capacity")), properties.get("quay"), 
+					Double.parseDouble(properties.get("from")), Double.parseDouble(properties.get("to")));
+			String containersToLoad = properties.get("containers").substring(1);
+			containersToLoad = containersToLoad.substring(0, containersToLoad.indexOf('}'));
+			StringTokenizer stShipOut = new StringTokenizer(containersToLoad, ";");
+			while(stShipOut.hasMoreTokens()){
+				((ShipOut)event).addContainerToLoad(stShipOut.nextToken());
+			}
 			break;
 		case StraddleCarrierFailure:
 			break;
@@ -90,17 +120,82 @@ public abstract class DynamicEvent {
 		case ContainerOut:
 			break;
 		case ShipContainerOut:
+			event = new ShipContainerOut(t, properties.get("containerId"), properties.get("slotId"));
 			break;
 		case AffectMission:
 			break;
 		case VehicleIn:
+			lanes = new ArrayList<>();
+			slots = new ArrayList<>();
+			lanesProperty =  properties.get("lanes");
+			lanesTokenizer = new StringTokenizer(lanesProperty.substring(1, lanesProperty.length()-1),":");
+			while(lanesTokenizer.hasMoreTokens()){
+				lanes.add(lanesTokenizer.nextToken());	
+			}
+
+			for(String lane : lanes){
+				String[] slotID = Terminal.getInstance().getSlotNames(lane);
+				for(String slot : slotID){
+					slots.add(slot);
+				}
+			}
+			List<Container> containers = new ArrayList<>();
+			containersProperty = properties.get("containers");
+			if(containersProperty!=null){
+				containersTokenizer = new StringTokenizer(containersProperty.substring(1, containersProperty.length()-1),"|");
+				while(containersTokenizer.hasMoreTokens()){
+					String containerDescription = containersTokenizer.nextToken();
+					Map<String, String> descriptionParsed = EventDescriptionParser.getInstance().parse(containerDescription,";",":");
+					Container c;
+					try {
+						c = new Container(descriptionParsed.get("id"), Double.parseDouble(descriptionParsed.get("teu")));
+
+						String slotID = descriptionParsed.get("slot");
+						Slot slot = Terminal.getInstance().getSlot(slotID);
+						int level = Integer.parseInt(descriptionParsed.get("level"));
+
+						int alignment = Integer.parseInt(descriptionParsed.get("alignement"));
+						ContainerLocation cl = new ContainerLocation(c.getId(), slot.getPaveId(), slot.getLocation().getRoad().getId(), slotID, level, alignment);
+						c.setContainerLocation(cl);
+						containers.add(c);
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					} catch (ContainerDimensionException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			event = new  VehicleIn(t, properties.get("id"), lanes, slots, containers);
 			break;
 		case VehicleOut:
+			lanes = new ArrayList<>();
+			slots = new ArrayList<>();
+			lanesProperty = properties.get("lanes");
+			lanesTokenizer = new StringTokenizer(lanesProperty.substring(1, lanesProperty.length()-1),":");
+			while(lanesTokenizer.hasMoreTokens()){
+				lanes.add(lanesTokenizer.nextToken());	
+			}
+
+			for(String lane : lanes){
+				String[] slotID = Terminal.getInstance().getSlotNames(lane);
+				for(String slot : slotID){
+					slots.add(slot);
+				}
+			}
+			List<String> containersIds = new ArrayList<>();
+			containersProperty = properties.get("containers");
+			if(containersProperty != null){
+				containersTokenizer = new StringTokenizer(containersProperty.substring(1, containersProperty.length()-1),";");
+				while(containersTokenizer.hasMoreTokens()){
+					containersIds.add(containersTokenizer.nextToken());
+				}
+			}
+			event = new  VehicleOut(t, properties.get("id"), lanes, slots, containersIds);
 			break;
 		case LaserHeadFailure:
 			break;
 		case NewMission:
-			if(properties.get("truckID").equals("null")){
+			if(properties.get("truck")==null || properties.get("truck").equals("null")){
 				Slot slot = Terminal.getInstance().getSlot(properties.get("slot"));
 				ContainerLocation missionLocation = new ContainerLocation(
 						properties.get("container"),
@@ -119,7 +214,23 @@ public abstract class DynamicEvent {
 						missionLocation);
 				event = new NewMission(t, m);
 			} else {
-				//FIXME handle truck vehicle case...
+				Slot slot = Terminal.getInstance().getSlot(properties.get("slot"));
+				ContainerLocation missionLocation = new ContainerLocation(
+						properties.get("container"),
+						slot.getPaveId(),
+						slot.getLocation().getRoad().getId(),
+						slot.getId(),
+						Integer.parseInt(properties.get("level")),
+						Integer.parseInt(properties.get("alignement")));
+
+				Mission m = new TruckMission(
+						properties.get("id"), properties.get("truck"),
+						Integer.parseInt(properties.get("kind")),
+						new TimeWindow(new Time(properties.get("twPMin")), new Time(properties.get("twPMax"))),
+						new TimeWindow(new Time(properties.get("twDMin")), new Time(properties.get("twDMax"))),
+						properties.get("container"),
+						missionLocation);
+				event = new NewMission(t, m);
 			}
 			break;
 		case ChangeContainerLocation:
@@ -127,6 +238,20 @@ public abstract class DynamicEvent {
 		case NewContainer:
 			break;
 		case NewShipContainer:
+			Slot slot = Terminal.getInstance().getSlot(properties.get("slot"));
+			ContainerLocation missionLocation = new ContainerLocation(
+					properties.get("id"),
+					slot.getPaveId(),
+					slot.getLocation().getRoad().getId(),
+					slot.getId(),
+					Integer.parseInt(properties.get("level")),
+					Integer.parseInt(properties.get("alignement")));
+
+			event = new NewShipContainer(t, properties.get("id"), 
+					Double.parseDouble(properties.get("teu")), 
+					missionLocation, properties.get("quay"),
+					Double.parseDouble(properties.get("from")),
+					Double.parseDouble(properties.get("to")));
 			break;
 		}
 		/*if (current_event_type.get(inEvent - 1) == null) {
@@ -206,7 +331,7 @@ public abstract class DynamicEvent {
 					current_event_time.get(inEvent - 1), lhID, range, duration);
 			scheduler.registerDynamicEvent(lhf);
 		}
-		*/
+		 */
 		return event;
 	}
 
@@ -218,11 +343,15 @@ public abstract class DynamicEvent {
 		}
 
 		public Map<String,String> parse(String description){
+			return parse(description,",","=");
+		}
+
+		public Map<String,String> parse(String description, String delimiter1, String delimiter2){
 			Map<String, String> properties = new HashMap<>();
 
-			StringTokenizer tokenizer = new StringTokenizer(description,",");
+			StringTokenizer tokenizer = new StringTokenizer(description,delimiter1);
 			while (tokenizer.hasMoreTokens()){
-				StringTokenizer propertiesTokenizer = new StringTokenizer(tokenizer.nextToken(), "=");
+				StringTokenizer propertiesTokenizer = new StringTokenizer(tokenizer.nextToken(), delimiter2);
 				String property = propertiesTokenizer.nextToken();
 				String value = propertiesTokenizer.nextToken();
 				properties.put(property, value);

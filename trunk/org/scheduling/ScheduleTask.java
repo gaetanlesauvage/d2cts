@@ -48,7 +48,7 @@ public class ScheduleTask<E extends ScheduleEdge> {
 
 	public String getID() {
 		if (m != null) {
-			return m.getId();
+			return m.getId().replace('.', ',');
 		} else
 			return SOURCE_ID;
 	}

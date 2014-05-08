@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.com.DbMgr;
+import org.com.model.LaserHeadBean;
 import org.com.model.ScenarioBean;
 
 public class ScenarioDAO implements D2ctsDao<ScenarioBean>{
@@ -19,13 +20,17 @@ public class ScenarioDAO implements D2ctsDao<ScenarioBean>{
 
 	private static final String LOAD_QUERY = "SELECT ID, NAME, DATE_REC, TERMINAL, FILE FROM SCENARIO";
 	private static final String INSERT_SCENARIO_QUERY = "INSERT INTO SCENARIO (NAME, DATE_REC, TERMINAL, FILE) VALUES (?, ?, ?, ?)";
+	private static final String DELETE_QUERY = "DELETE FROM SCENARIO WHERE ID = ?";
+	
+	
 	private static ScenarioDAO instance;
 
 	Map<Integer, ScenarioBean> beans;
 
 	PreparedStatement scenariosStatement;
 	PreparedStatement insertStatement;
-
+	PreparedStatement deleteStatement;
+	
 	public static final ScenarioDAO getInstance(){
 		if(instance == null){
 			instance = new ScenarioDAO();
@@ -49,6 +54,9 @@ public class ScenarioDAO implements D2ctsDao<ScenarioBean>{
 		}
 		if(insertStatement != null){
 			insertStatement.close();
+		}
+		if(deleteStatement != null){
+			deleteStatement.close();
 		}
 		instance = null;
 		log.info("ScenarioDAO closed.");
@@ -120,10 +128,30 @@ public class ScenarioDAO implements D2ctsDao<ScenarioBean>{
 		//Add new bean into collection.
 		beans.put(bean.getId(), bean);
 		
+		//Insert new LaserHeads for this brand new scenario
+		insertDefaultLH(bean);
+		
 		return res;
 	}
 
+	private void insertDefaultLH (ScenarioBean bean) throws SQLException {
+		for(LaserHeadBean lh : LaserHeadBean.getDefaultHeads()){
+			lh.setScenario(bean.getId());
+			LaserHeadDAO.getInstance(bean.getId()).insert(lh);
+			DbMgr.getInstance().getConnection().commit();
+		}
+	}
+	
 	public ScenarioBean getScenario(Integer id) {
 		return beans.get(id);
+	}
+
+	public int delete(ScenarioBean scenario) throws SQLException{
+		if(deleteStatement == null){
+			deleteStatement = DbMgr.getInstance().getConnection().prepareStatement(DELETE_QUERY);
+		}
+		deleteStatement.setInt(1, scenario.getId());
+		int result = deleteStatement.executeUpdate();
+		return result;
 	}
 }

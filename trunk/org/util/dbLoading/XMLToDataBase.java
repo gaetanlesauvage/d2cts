@@ -84,7 +84,8 @@ public class XMLToDataBase {
 	public static void main(String[] args) {
 		PropertyConfigurator.configure(XMLToDataBase.class.getClassLoader().getResource(("conf/log4j.properties")));
 
-		String[] fileURL = { "etc/xml/terminals/tn/TN.xml", "etc/xml/scenario/static-1.xml", "etc/xml/scheduling/aco.xml" };
+		//String[] fileURL = { /*"etc/xml/terminals/tn/TN.terminal",*/ "etc/xml/scenario/vehicles/tn-sc-10.xml"/*, "etc/xml/scheduling/aco.xml" */};
+		String[] fileURL = { "etc/xml/scenario/lasersystems/tn-large-range.xml"};
 		try {
 			parse(fileURL);
 		} catch (Exception e) {

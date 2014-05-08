@@ -3,7 +3,7 @@ package org.com.model;
 import org.time.Time;
 import org.time.event.EventType;
 
-public class EventBean {
+public class EventBean implements Comparable<EventBean>{
 	private Integer id;
 	private EventType type;
 	private Time time;
@@ -12,6 +12,16 @@ public class EventBean {
 	public EventBean() {
 
 	}
+
+	/**
+	 * Copy
+	 */
+	public EventBean(EventBean event) {
+		this.type = event.getType();
+		this.time = new Time(event.time);
+		this.description = new String(event.getDescription());
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -43,5 +53,8 @@ public class EventBean {
 		this.description = description;
 	}
 
-	
+	@Override
+	public int compareTo (EventBean bean){
+		return time.compareTo(bean.getTime());
+	}
 }

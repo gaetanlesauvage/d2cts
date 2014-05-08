@@ -19,22 +19,28 @@
  */
 
 package org.util.generators.parsers;
+
+import java.util.Date;
+
 /**
  * Parameters value for generating new trucks and their associated missions
+ * 
  * @author Ga&euml;tan Lesauvage
  * @since 2011
  */
-public class TrucksGenerationData {
-	
+public class TruckGenerationData extends GenerationData {
+
 	private int nb;
 	private double rateComeEmpty;
 	private double rateLeaveEmpty;
-	private String avgTruckTimeBeforeLeaving;
-	private String minTime;
-	private String maxTime;
+	private Date avgTruckTimeBeforeLeaving;
+	private Date minTime;
+	private Date maxTime;
 	private String groupID;
-	
-	public TrucksGenerationData (int nb, double rateComeEmpty, double rateLeaveEmpty, String avgTruckTimeBeforeLeaving, String minTime, String maxTime, String groupID){
+
+	public TruckGenerationData(int nb, double rateComeEmpty, double rateLeaveEmpty, Date avgTruckTimeBeforeLeaving, Date minTime, Date maxTime,
+			String groupID) {
+		super(groupID);
 		this.nb = nb;
 		this.rateComeEmpty = rateComeEmpty;
 		this.rateLeaveEmpty = rateLeaveEmpty;
@@ -42,10 +48,6 @@ public class TrucksGenerationData {
 		this.minTime = minTime;
 		this.maxTime = maxTime;
 		this.groupID = groupID;
-	}
-
-	public String getGroupID() {
-		return groupID;
 	}
 
 	public int getNb() {
@@ -60,16 +62,43 @@ public class TrucksGenerationData {
 		return rateLeaveEmpty;
 	}
 
-	public String getAvgTruckTimeBeforeLeaving() {
+	public Date getAvgTruckTimeBeforeLeaving() {
 		return avgTruckTimeBeforeLeaving;
 	}
 
-	public String getMinTime() {
+	public Date getMinTime() {
 		return minTime;
 	}
 
-	public String getMaxTime() {
+	public Date getMaxTime() {
 		return maxTime;
 	}
+
+	public void setCount(int intValue) {
+		this.nb = intValue;
+	}
+
+	public void setMinTime(Date date) {
+		this.minTime = date;
+	}
+
+	public void setMaxTime(Date date) {
+		this.maxTime = date;
+	}
+
+	public void setAvgTimeBeforeLeaving(Date date) {
+		this.avgTruckTimeBeforeLeaving = date;
+	}
+
+	public void setRateComeEmpty(Double d) {
+		this.rateComeEmpty = d;
+	}
+
+	public void setRateLeaveEmpty(Double d) {
+		this.rateLeaveEmpty = d;
+	}
 	
+	public String getGroupID() {
+		return this.groupID;
+	}
 }

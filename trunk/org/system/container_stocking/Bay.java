@@ -59,6 +59,7 @@ public class Bay extends Road {
 		this.out = cDestination;
 		this.wayIn = cOrigin.getMainRoad();
 		this.wayOut = cOrigin.getMainRoad();
+		Terminal.getInstance().getBlock(pave).addLane(this);
 	}
 
 	public static Map<String, SlotsRateHelper> getSlotsIdsAndRates(

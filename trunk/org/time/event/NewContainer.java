@@ -63,5 +63,9 @@ public class NewContainer extends DynamicEvent {
 	public static String getNewContainerType() {
 		return TYPE;
 	}
+	
+	public ContainerLocation getLocation() {
+		return location;
+	}
 
 }

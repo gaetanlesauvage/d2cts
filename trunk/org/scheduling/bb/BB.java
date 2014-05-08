@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.com.model.scheduling.BBParametersBean;
+import org.com.model.scheduling.ParameterBean;
 import org.exceptions.MissionNotFoundException;
 import org.missions.Load;
 import org.missions.Mission;
@@ -46,14 +48,14 @@ public class BB extends MissionScheduler {
 	private int foundTimes = 0;
 
 	private boolean recompute = true;
-	
+
 	public BB() {
 		super();
 		MissionScheduler.instance = this;
 		if(!init)
-			init();
+			jms = new JMissionScheduler();
 	}
-	
+
 	public static void closeInstance(){
 		//Nothing to do
 	}
@@ -61,35 +63,46 @@ public class BB extends MissionScheduler {
 	@Override
 	protected void init() {
 		init = true;
+		lock = new ReentrantLock();
+		if(evalParameters == null){
+			evalParameters = BBParametersBean.getEvalParameters();
+		}
 		step = TimeScheduler.getInstance().getStep() + 1;
 		sstep = step;
-		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
-			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
-			addResource(new Time(step), rsc);
-		}
-		for (String s : Terminal.getInstance().getMissionsName()) {
-			Mission m = Terminal.getInstance().getMission(s);
-			addMission(new Time(step), m);
-		}
+		//		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
+		//			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
+		//			addResource(new Time(step), rsc);
+		//		}
+		//		for (String s : Terminal.getInstance().getMissionsName()) {
+		//			Mission m = Terminal.getInstance().getMission(s);
+		//			addMission(new Time(step), m);
+		//		}
 
-		jms = new JMissionScheduler();
+		//		jms = new JMissionScheduler();
 		int current = 1;
 		for (StraddleCarrier rsc : resources) {
-			jms.addResource(rsc);
-			System.out.println("Adding resource " + rsc.getId() + " ("
-					+ current + "/" + resources.size() + ")");
+			if(!jms.containsResource(rsc)){
+				jms.addResource(rsc);
+				System.out.println("Adding resource " + rsc.getId() + " ("
+						+ current + "/" + resources.size() + ")");
+			}
 			current++;
-			insertResource(rsc);
 		}
-		current = 1;
-		for (Mission m : pool) {
-			System.out.println("Adding task " + m.getId() + " (" + current
-					+ "/" + pool.size() + ")");
-			current++;
-			insertMission(m);
-		}
+		//		current = 1;
+		//		for (Mission m : pool) {
+		//			System.out.println("Adding task " + m.getId() + " (" + current
+		//					+ "/" + pool.size() + ")");
+		//			current++;
+		//			insertMission(m);
+		//		}
+
+		jms.getIndicatorPane().updateUI();
+		jms.getJTabbedPane().updateUI();
+
 		recompute = true;
 	}
+	
+	
 
 	@Override
 	public void addMission(Time t, Mission m) {
@@ -102,14 +115,14 @@ public class BB extends MissionScheduler {
 		recompute = true;
 		return super.removeMission(t, m);
 	}
-	
+
 	@Override
 	public void addResource(Time t, StraddleCarrier rsc) {
 		super.addResource(t, rsc);
 		recompute = true;
 	}
-	
-	
+
+
 
 	@Override
 	public boolean removeResource(Time t, StraddleCarrier rsc) {
@@ -119,6 +132,9 @@ public class BB extends MissionScheduler {
 
 	@Override
 	public void precompute() {
+		if(!init)
+			init();
+		
 		if (graphChanged || graphChangedByUpdate > 0) {
 			processEvents();
 			lock.lock();
@@ -207,16 +223,21 @@ public class BB extends MissionScheduler {
 			step++;
 			returnCode = DiscretObject.SOMETHING_CHANGED;
 		}
-		
+
 		sstep++;
 		return returnCode;
 	}
 
 	@Override
 	public void compute() {
+		System.out.println("BBParameters : ");
+		for(ParameterBean b : BBParametersBean.getAll()){
+			System.out.println(b.toString());
+		}
+		
 		System.out.println("COMPUTE : " + resources.size() + " ; "
 				+ pool.size());
-		if (BBParametersBean.SOLUTION_FILE.getValueAsString().equals("")) {
+		if (BBParametersBean.SOLUTION_INIT_FILE.getValueAsString().equals("")) {
 			// Compute max bound
 			// HashMap<String, List<String>> boundSolution = new HashMap<String,
 			// List<String>>();

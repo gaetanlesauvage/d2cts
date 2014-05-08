@@ -19,13 +19,21 @@
  */
 package org.time;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
+import org.com.dao.scheduling.ResultsDAO;
+import org.com.model.scheduling.ResultsBean;
 import org.display.TextDisplay;
 import org.exceptions.IllegalSlotChangeException;
+import org.scheduling.MissionScheduler;
+import org.system.Terminal;
 import org.system.container_stocking.ContainerLocation;
 import org.time.event.ContainerOut;
 import org.time.event.DynamicEvent;
@@ -34,15 +42,16 @@ import org.time.event.ShipContainerOut;
 import org.time.event.VehicleIn;
 import org.time.event.VehicleOut;
 import org.util.RecordableObject;
-import org.vehicles.StraddleCarrier;
+import org.vehicles.Truck;
 
 public class TimeScheduler implements RecordableObject {
 	private static final Logger logger = Logger.getLogger(TimeScheduler.class);
 
 	private static TimeScheduler instance;
 
-	private List<String> discretsRemoteObjects;
-	private List<DiscretObject> discretObjects;
+	//private List<String> discretsRemoteObjects;
+
+	private SortedMap<Integer, List<DiscretObject>> discretObjects;
 
 	private DiscretObject missionScheduler;
 
@@ -52,6 +61,8 @@ public class TimeScheduler implements RecordableObject {
 
 	private long step;
 	private long startTime;
+	private long cpteTime = 0;
+	
 	private Time t;
 	private double secondsPerStep;
 
@@ -66,9 +77,9 @@ public class TimeScheduler implements RecordableObject {
 
 
 
-//	private ArrayList<Thread> prioritaryThreads;
-//	private ArrayList<Thread> otherThreads;
-//	private ArrayList<Thread> todoLast;
+	//	private ArrayList<Thread> prioritaryThreads;
+	//	private ArrayList<Thread> otherThreads;
+	//	private ArrayList<Thread> todoLast;
 
 	public static TimeScheduler getInstance() {
 		if (instance == null) {
@@ -103,8 +114,8 @@ public class TimeScheduler implements RecordableObject {
 		this.id = id;
 		this.secondsPerStep = secondsPerSep;
 
-		discretsRemoteObjects = new ArrayList<String>();
-		discretObjects = new ArrayList<DiscretObject>();
+		//discretsRemoteObjects = new ArrayList<String>();
+		discretObjects = new TreeMap<Integer, List<DiscretObject>>();
 		events = new TreeMap<Time, List<DynamicEvent>>();
 		eventsToAdd = new ArrayList<DynamicEvent>();
 		doneEvents = new TreeMap<Time, List<DynamicEvent>>();
@@ -112,9 +123,9 @@ public class TimeScheduler implements RecordableObject {
 		step = 0;
 		catchupTime = 0;
 
-//		prioritaryThreads = new ArrayList<Thread>(1);
-//		otherThreads = new ArrayList<Thread>(20);
-//		todoLast = new ArrayList<Thread>(1);
+		//		prioritaryThreads = new ArrayList<Thread>(1);
+		//		otherThreads = new ArrayList<Thread>(20);
+		//		todoLast = new ArrayList<Thread>(1);
 
 		//System.out.println("Time Scheduler Created!");
 	}
@@ -235,17 +246,15 @@ public class TimeScheduler implements RecordableObject {
 	}
 
 	public void recordDiscretObject(DiscretObject d) {
-		if(d instanceof StraddleCarrier){
-			discretObjects.add(0, d);
+		if(!discretObjects.containsKey(d.getDiscretPriority())){
+			discretObjects.put(d.getDiscretPriority(), new ArrayList<DiscretObject>());
 		}
-		else {
-			discretObjects.add(d);
-		}
+		discretObjects.get(d.getDiscretPriority()).add(d);
 	}
 
-	public void recordDiscretObject(String discretObjectName) {
+	/*public void recordDiscretObject(String discretObjectName) {
 		discretsRemoteObjects.add(discretObjectName);
-	}
+	}*/
 
 	public void registerDynamicEvent(DynamicEvent e) {
 		if (e.getTime().toStep() == step) {
@@ -277,9 +286,9 @@ public class TimeScheduler implements RecordableObject {
 
 		long tBefore = System.nanoTime();
 
-//		if (threaded)
-//			stepThread();
-//		else
+		//		if (threaded)
+		//			stepThread();
+		//		else
 		boolean keepGoing = stepSeq();
 		/*
 		 * //Wait for the display try { SwingUtilities.invokeAndWait(new
@@ -347,17 +356,32 @@ public class TimeScheduler implements RecordableObject {
 		}
 		if(!keepGoing){
 			computeEndTime();
+			//Store results
+			ResultsBean results = MissionScheduler.getInstance().getIndicatorPane().getResults();
+			results.setSimulation(Terminal.getInstance().getSimulationID());
+			Time t = getCptTime();
+			System.err.println("CPT TIME = "+t);
+			results.setOverallTime(t.getInSec());
+			
+			try {
+				ResultsDAO.getInstance().insert(results);
+			} catch (SQLException e) {
+				logger.error(e);
+			}
 		}
+		cpteTime += (System.nanoTime() - tBefore);
 		return keepGoing;
 	}
 
-
+	private Time getCptTime(){
+		return new Time(cpteTime / 1000000000d);
+	}
+	
 	private void computeEndTime() {
 		long now = System.nanoTime();
 		long diff = now - startTime;
 		Time simTime = new Time(diff/1000000000d);
 		logger.info(getTime()+":> Simulation ran in "+simTime);
-		
 	}
 
 	private boolean stepSeq() {
@@ -407,6 +431,7 @@ public class TimeScheduler implements RecordableObject {
 			for (DynamicEvent d : dynEvents) {
 				d.execute();
 				Thread.yield();
+				
 				// writer.append(d.getType()+" ");
 				// if(!(d instanceof ChangeContainerLocation))
 				// System.out.println("Event detected : "+step+" "+t);
@@ -419,24 +444,30 @@ public class TimeScheduler implements RecordableObject {
 
 		// PRECOMPUTE SC AND LS
 		// writer.append("PRECOMPUTE : ");
-		for (final DiscretObject d : discretObjects) {
-			d.precompute();
-			// writer.append(d.getId()+" ");
-			Thread.yield();
+		for(Entry<Integer, List<DiscretObject>> entry : discretObjects.entrySet()){
+			for(Iterator<DiscretObject> it = entry.getValue().iterator(); it.hasNext();) {
+				it.next().precompute();
+				// writer.append(d.getId()+" ");
+				Thread.yield();
+			}
 		}
+
 		// writer.append("\n");
 
 		// APPLY SC AND LS
 		// writer.append("APPLY : ");
 		somethingChanged = false;
-		for (final DiscretObject d : discretObjects) {
-			boolean localEnd = d.apply();
-			if(!somethingChanged && localEnd == DiscretObject.SOMETHING_CHANGED){
-				somethingChanged = true;
+		for(Entry<Integer, List<DiscretObject>> entry : discretObjects.entrySet()){
+			for(Iterator<DiscretObject> it = entry.getValue().iterator(); it.hasNext();) {
+				boolean localEnd = it.next().apply();
+				if(!somethingChanged && localEnd == DiscretObject.SOMETHING_CHANGED){
+					somethingChanged = true;
+				}
+				// writer.append(d.getId()+" ");
+				Thread.yield();
 			}
-			// writer.append(d.getId()+" ");
-			Thread.yield();
 		}
+
 		// writer.append("\n");
 
 		// writer.flush();
@@ -455,160 +486,160 @@ public class TimeScheduler implements RecordableObject {
 		}
 	}
 
-//	private boolean stepThread() {
-//		// System.out.println(this.step+"> THREADED");
-//		// VALIDATE REGISTRATION OF EVENTS !
-//
-//		if (eventsToAdd.size() > 0)
-//			commitRegistration();
-//
-//		// STEP EVOLUTION
-//		step++;
-//		// TIME EVOLUTION
-//		t = new Time(step);
-//		/*
-//		 * double sec = step*secondsPerStep; int nh =(int) (sec / 3600) ; sec =
-//		 * sec % 3600; int nm = (int)(sec /60); sec = sec %60; t.setTime(nh, nm,
-//		 * sec);
-//		 */
-//		// EVENTS :
-//		Time lower = events.lowerKey(t);
-//		while (lower != null) {
-//			List<DynamicEvent> dynEvents = events.get(lower);
-//			if (dynEvents != null) {
-//				for (DynamicEvent d : dynEvents) {
-//					d.execute();
-//					Thread.yield();
-//					// if(!(d instanceof ChangeContainerLocation))
-//					// System.out.println("Event detected : "+step+" "+t);
-//				}
-//				doneEvents.put(lower, events.remove(lower));
-//			}
-//			lower = events.lowerKey(lower);
-//		}
-//		List<DynamicEvent> dynEvents = events.get(t);
-//		if (dynEvents != null) {
-//			for (DynamicEvent d : dynEvents) {
-//				d.execute();
-//				Thread.yield();
-//				System.out.println("Event detected : " + step + " " + t);
-//			}
-//			doneEvents.put(t, events.remove(t));
-//		}
-//
-//		// CLEAR LIST OF THREADS
-//		prioritaryThreads.clear();
-//		otherThreads.clear();
-//		todoLast.clear();
-//
-//		// PRECOMPUTE
-//		for (final DiscretObject d : discretObjects) {
-//			Thread t = new Thread("Thread_" + d.getId()) {
-//				public void run() {
-//					d.precompute();
-//					Thread.yield();
-//				}
-//			};
-//			if (d.getId().contains(LaserSystem.rmiBindingName)) {
-//				prioritaryThreads.add(t);
-//			} else {
-//				if (d.getId().contains(MissionScheduler.rmiBindingName)) {
-//					todoLast.add(t);
-//				} else
-//					otherThreads.add(t);
-//			}
-//		}
-//
-//		for (Thread t : prioritaryThreads) {
-//			t.start();
-//		}
-//		for (Thread t : prioritaryThreads) {
-//			try {
-//				t.join();
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
-//		for (Thread t : otherThreads) {
-//			t.start();
-//		}
-//		for (Thread t : otherThreads) {
-//			try {
-//				t.join();
-//
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
-//		for (Thread t : todoLast) {
-//			t.start();
-//		}
-//		for (Thread t : todoLast) {
-//			try {
-//				t.join();
-//
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
-//		prioritaryThreads.clear();
-//		otherThreads.clear();
-//		todoLast.clear();
-//
-//		// APPLY
-//		for (final DiscretObject d : discretObjects) {
-//			Thread t = new Thread() {
-//				public void run() {
-//					d.apply();
-//				}
-//			};
-//			if (d.getId().contains(LaserSystem.rmiBindingName)) {
-//				prioritaryThreads.add(t);
-//			} else {
-//				if (d.getId().contains(MissionScheduler.rmiBindingName)) {
-//					todoLast.add(t);
-//				} else
-//					otherThreads.add(t);
-//			}
-//		}
-//
-//		for (Thread t : prioritaryThreads) {
-//			t.start();
-//		}
-//		for (Thread t : prioritaryThreads) {
-//			try {
-//				t.join();
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
-//		for (Thread t : otherThreads) {
-//			t.start();
-//		}
-//		for (Thread t : otherThreads) {
-//			try {
-//				t.join();
-//
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		for (Thread t : todoLast) {
-//			t.start();
-//		}
-//		for (Thread t : todoLast) {
-//			try {
-//				t.join();
-//
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	//	private boolean stepThread() {
+	//		// System.out.println(this.step+"> THREADED");
+	//		// VALIDATE REGISTRATION OF EVENTS !
+	//
+	//		if (eventsToAdd.size() > 0)
+	//			commitRegistration();
+	//
+	//		// STEP EVOLUTION
+	//		step++;
+	//		// TIME EVOLUTION
+	//		t = new Time(step);
+	//		/*
+	//		 * double sec = step*secondsPerStep; int nh =(int) (sec / 3600) ; sec =
+	//		 * sec % 3600; int nm = (int)(sec /60); sec = sec %60; t.setTime(nh, nm,
+	//		 * sec);
+	//		 */
+	//		// EVENTS :
+	//		Time lower = events.lowerKey(t);
+	//		while (lower != null) {
+	//			List<DynamicEvent> dynEvents = events.get(lower);
+	//			if (dynEvents != null) {
+	//				for (DynamicEvent d : dynEvents) {
+	//					d.execute();
+	//					Thread.yield();
+	//					// if(!(d instanceof ChangeContainerLocation))
+	//					// System.out.println("Event detected : "+step+" "+t);
+	//				}
+	//				doneEvents.put(lower, events.remove(lower));
+	//			}
+	//			lower = events.lowerKey(lower);
+	//		}
+	//		List<DynamicEvent> dynEvents = events.get(t);
+	//		if (dynEvents != null) {
+	//			for (DynamicEvent d : dynEvents) {
+	//				d.execute();
+	//				Thread.yield();
+	//				System.out.println("Event detected : " + step + " " + t);
+	//			}
+	//			doneEvents.put(t, events.remove(t));
+	//		}
+	//
+	//		// CLEAR LIST OF THREADS
+	//		prioritaryThreads.clear();
+	//		otherThreads.clear();
+	//		todoLast.clear();
+	//
+	//		// PRECOMPUTE
+	//		for (final DiscretObject d : discretObjects) {
+	//			Thread t = new Thread("Thread_" + d.getId()) {
+	//				public void run() {
+	//					d.precompute();
+	//					Thread.yield();
+	//				}
+	//			};
+	//			if (d.getId().contains(LaserSystem.rmiBindingName)) {
+	//				prioritaryThreads.add(t);
+	//			} else {
+	//				if (d.getId().contains(MissionScheduler.rmiBindingName)) {
+	//					todoLast.add(t);
+	//				} else
+	//					otherThreads.add(t);
+	//			}
+	//		}
+	//
+	//		for (Thread t : prioritaryThreads) {
+	//			t.start();
+	//		}
+	//		for (Thread t : prioritaryThreads) {
+	//			try {
+	//				t.join();
+	//			} catch (InterruptedException e) {
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//
+	//		for (Thread t : otherThreads) {
+	//			t.start();
+	//		}
+	//		for (Thread t : otherThreads) {
+	//			try {
+	//				t.join();
+	//
+	//			} catch (InterruptedException e) {
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//
+	//		for (Thread t : todoLast) {
+	//			t.start();
+	//		}
+	//		for (Thread t : todoLast) {
+	//			try {
+	//				t.join();
+	//
+	//			} catch (InterruptedException e) {
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//
+	//		prioritaryThreads.clear();
+	//		otherThreads.clear();
+	//		todoLast.clear();
+	//
+	//		// APPLY
+	//		for (final DiscretObject d : discretObjects) {
+	//			Thread t = new Thread() {
+	//				public void run() {
+	//					d.apply();
+	//				}
+	//			};
+	//			if (d.getId().contains(LaserSystem.rmiBindingName)) {
+	//				prioritaryThreads.add(t);
+	//			} else {
+	//				if (d.getId().contains(MissionScheduler.rmiBindingName)) {
+	//					todoLast.add(t);
+	//				} else
+	//					otherThreads.add(t);
+	//			}
+	//		}
+	//
+	//		for (Thread t : prioritaryThreads) {
+	//			t.start();
+	//		}
+	//		for (Thread t : prioritaryThreads) {
+	//			try {
+	//				t.join();
+	//			} catch (InterruptedException e) {
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//
+	//		for (Thread t : otherThreads) {
+	//			t.start();
+	//		}
+	//		for (Thread t : otherThreads) {
+	//			try {
+	//				t.join();
+	//
+	//			} catch (InterruptedException e) {
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//		for (Thread t : todoLast) {
+	//			t.start();
+	//		}
+	//		for (Thread t : todoLast) {
+	//			try {
+	//				t.join();
+	//
+	//			} catch (InterruptedException e) {
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//	}
 
 	public static final double getInitSecByStep() {
 		return INIT_SEC_PER_STEP;
@@ -620,9 +651,9 @@ public class TimeScheduler implements RecordableObject {
 			catchupTime = 0;
 	}
 
-//	public void setThreaded(boolean threaded) {
-//		this.threaded = threaded;
-//	}
+	//	public void setThreaded(boolean threaded) {
+	//		this.threaded = threaded;
+	//	}
 
 	//	public void destroy() {
 	//		t = null;
@@ -698,6 +729,20 @@ public class TimeScheduler implements RecordableObject {
 	public void setNormalizationTime(int ms) {
 		normalization_time_in_ms = ms;
 	}
+	/*public Slot getIncomingTruckLocation(Truck truck){
+		
+		for (Time t : events.keySet()) {
+			for (DynamicEvent d : events.get(t)) {
+				if (d.getType().equals(NewContainer.getNewContainerType())) {
+					NewContainer nc = (NewContainer) d;
+					if (truck.nc.getContainerID().equals(containerId)) {
+						return Terminal.getInstance().getSlot(nc.getLocation().getSlotId());
+					}
+				}
+			}
+		}
+		return null;
+	}*/
 
 	public double getIncomingContainerTeu(String containerId) {
 		for (Time t : events.keySet()) {
@@ -736,5 +781,19 @@ public class TimeScheduler implements RecordableObject {
 
 		}
 		return -1;
+	}
+
+	public Truck getIncomingTruck(String id) {
+		for (Time t : events.keySet()) {
+			for (DynamicEvent d : events.get(t)) {
+				if (d.getType().equals(VehicleIn.TYPE)) {
+					VehicleIn v = (VehicleIn)d;
+					if (id.equals(v.getVehicleID())) {
+						return new Truck(v.getVehicleID(),v.getTime(),v.getSlots().get(0));
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

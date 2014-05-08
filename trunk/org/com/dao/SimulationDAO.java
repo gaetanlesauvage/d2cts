@@ -9,8 +9,10 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.com.DbMgr;
@@ -62,6 +64,21 @@ public class SimulationDAO implements D2ctsDao<SimulationBean> {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Retrieve every simulation using the given scenario.
+	 * @param scenarioID
+	 * @return
+	 */
+	public Set<SimulationBean> getSimulationsOfScenario(Integer scenarioID){
+		Set<SimulationBean> set = new HashSet<>();
+		for(SimulationBean bean : beans){
+			if(bean.getContent() == scenarioID){
+				set.add(bean);
+			}
+		}
+		return set;
 	}
 
 	@Override

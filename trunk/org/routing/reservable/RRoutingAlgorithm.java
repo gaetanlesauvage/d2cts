@@ -47,7 +47,7 @@ public abstract class RRoutingAlgorithm implements Routing {
 
 	protected RRoutingAlgorithm(StraddleCarrier rsc, String rmiBindingName) {
 		this.rmiBindingName = rmiBindingName;
-		this.straddleCarrierId = rsc.getId();
+		this.straddleCarrierId = rsc != null ? rsc.getId() : "";
 
 		vehicle = rsc;
 	}
@@ -231,24 +231,16 @@ public abstract class RRoutingAlgorithm implements Routing {
 						// Demi tour
 						directTime += speed.getTurnBackTime();
 					}
-					double duration = (a.getLength(Math.abs(a.getPourcent()
-							- b.getPourcent())) / vehicle.getSpeed(a.getRoad(),
-							startTime));
-					directTime += duration
-							+ a.getRoad().getWaitingCost(vehicle, startTime,
-									duration, Reservation.PRIORITY_GO_OUT);
+					double duration = (a.getLength(Math.abs(a.getPourcent() - b.getPourcent())) / vehicle.getSpeed(a.getRoad(),	startTime));
+					directTime += duration + a.getRoad().getWaitingCost(vehicle, startTime, duration, Reservation.PRIORITY_GO_OUT);
 				} else {
 					if (a.getPourcent() < b.getPourcent()) {
 						// Demi tour
 						directTime += speed.getTurnBackTime();
 					}
 					// Pas demi tour
-					double duration = (a.getLength(Math.abs(a.getPourcent()
-							- b.getPourcent())) / vehicle.getSpeed(a.getRoad(),
-							startTime));
-					directTime += duration
-							+ a.getRoad().getWaitingCost(vehicle, startTime,
-									duration, Reservation.PRIORITY_GO_OUT);
+					double duration = (a.getLength(Math.abs(a.getPourcent() - b.getPourcent())) / vehicle.getSpeed(a.getRoad(),	startTime));
+					directTime += duration + a.getRoad().getWaitingCost(vehicle, startTime,	duration, Reservation.PRIORITY_GO_OUT);
 				}
 			}
 		}
