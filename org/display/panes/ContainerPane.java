@@ -57,13 +57,20 @@ public class ContainerPane extends JPanel implements ListSelectionListener, Mous
 	private Hashtable<String, String[]> datas;
 	private Hashtable<String, Integer> indexes;
 	private String lastSelectedRowContainerID = "";
-	
+
 	public ContainerPane(){
 		super(new BorderLayout());
-		dm = new ThreadSafeTableModel(ContainersColumns.values());
+		boolean ok = false;
 
-		datas = new Hashtable<String, String[]>();
-		table = new JTable(dm);
+		while(!ok){
+			dm = new ThreadSafeTableModel(ContainersColumns.values());
+
+			datas = new Hashtable<String, String[]>();
+			table = new JTable(dm);
+			if(table.getColumnCount() == ContainersColumns.values().length){
+				ok = true;
+			}
+		}
 		indexes = new Hashtable<String, Integer>();
 		table.setFont(GraphicDisplay.font);
 		table.getTableHeader().setFont(GraphicDisplay.fontBold);

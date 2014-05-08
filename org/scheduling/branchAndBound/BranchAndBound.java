@@ -83,11 +83,11 @@ public class BranchAndBound extends MissionScheduler {
 	 */
 	// private long overspentMaxTime;
 	/**
-	 * Min bound in overspent time steps (best score)
+	 * Min bound in overspent time in sec (best score)
 	 */
-	private long overspentMinTime;
+	private double overspentMinTime;
 
-	private long overrunMinPenalty;
+	private double overrunMinPenalty;
 	/**
 	 * Best solution
 	 */
@@ -106,7 +106,7 @@ public class BranchAndBound extends MissionScheduler {
 	private Map<String, HashMap<String, Time>> missionsStartTime;
 
 	private boolean recompute = true;
-	
+
 	@Override
 	public String getId() {
 		return BranchAndBound.rmiBindingName;
@@ -124,8 +124,15 @@ public class BranchAndBound extends MissionScheduler {
 	public BranchAndBound() {
 		super();
 		MissionScheduler.instance = this;
+		BranchAndBoundParametersBean computeCosts = BranchAndBoundParametersBean.get(BranchAndBoundParametersBean.COMPUTE_COST.getName());
+		if(computeCosts.getValueAsInteger() == 1){
+			this.evalCosts = true;
+		} else {
+			this.evalCosts = false;
+		}
 		if(!init)
-			init();
+			jms = new JMissionScheduler();
+
 	}
 
 	private Solution readSolution(String filename) throws FileNotFoundException {
@@ -172,24 +179,33 @@ public class BranchAndBound extends MissionScheduler {
 	 */
 	@Override
 	protected void init() {
+		init = true;
 		lock = new ReentrantLock();
+		if(evalParameters == null){
+			evalParameters = BranchAndBoundParametersBean.getEvalParameters();
+		}
 		missionsStartTime = new HashMap<String, HashMap<String, Time>>();
 
-		step = TimeScheduler.getInstance().getStep() + 1;
-		sstep = step;
-		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
+		step = 0;
+		sstep = TimeScheduler.getInstance().getStep() + 1;
+		//Time t = new Time(sstep);
+		/*for (String s : Terminal.getInstance().getStraddleCarriersName()) {
 			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
-			addResource(new Time(step), rsc);
+			addResource(t, rsc);
 		}
 		for (String s : Terminal.getInstance().getMissionsName()) {
 			Mission m = Terminal.getInstance().getMission(s);
-			addMission(new Time(step), m);
-		}
-
-		jms = new JMissionScheduler();
+			addMission(t, m);
+		}*/
+		
+		
 		for (StraddleCarrier rsc : resources) {
-			jms.addResource(rsc);
+			if(!jms.containsResource(rsc)){
+				jms.addResource(rsc);
+			}
 		}
+		jms.getIndicatorPane().updateUI();
+		jms.getJTabbedPane().updateUI();
 
 		costs = new Costs();
 		try {
@@ -198,8 +214,13 @@ public class BranchAndBound extends MissionScheduler {
 				costs.save(BranchAndBoundParametersBean.TIME_MATRIX_FILE.getValueAsString(), 
 						BranchAndBoundParametersBean.DISTANCE_MATRIX_FILE.getValueAsString());
 			} else {
-				costs.load(BranchAndBoundParametersBean.TIME_MATRIX_FILE.getValueAsString(), 
-						BranchAndBoundParametersBean.DISTANCE_MATRIX_FILE.getValueAsString());
+				String tFile = BranchAndBoundParametersBean.TIME_MATRIX_FILE.getValueAsString();
+				if(!tFile.startsWith("/")&&!tFile.startsWith("./"))
+					tFile="bin/"+tFile;
+				String dFile = BranchAndBoundParametersBean.DISTANCE_MATRIX_FILE.getValueAsString();
+				if(!dFile.startsWith("/")&&!dFile.startsWith("./"))
+					dFile="bin/"+dFile;
+				costs.load(tFile, dFile);
 				/*
 				 * PrintWriter pw = new PrintWriter("/home/gaetan/test.dat");
 				 * pw.append(costs.toString()); pw.flush();
@@ -239,6 +260,9 @@ public class BranchAndBound extends MissionScheduler {
 
 	@Override
 	public void precompute() {
+		if(!init)
+			init();
+
 		if (graphChanged || graphChangedByUpdate > 0) {
 			processEvents();
 			lock.lock();
@@ -364,7 +388,7 @@ public class BranchAndBound extends MissionScheduler {
 			}
 		}
 		dMin = bestSolution.distance;
-		overspentMinTime = bestSolution.overspentTime.toStep();
+		overspentMinTime = bestSolution.overspentTime.getInSec();
 		overrunMinPenalty = bestSolution.overrunPenalties;
 
 		if (!BranchAndBoundParametersBean.SOLUTION_INIT_FILE.getValueAsString().equals(BranchAndBoundParametersBean.SOLUTION_FILE.getValueAsString())) {
@@ -426,6 +450,7 @@ public class BranchAndBound extends MissionScheduler {
 					rsc.addMissionsInWorkload(toAdd);
 				}
 			}
+			System.err.println(rsc.getWorkload().getScore());
 		}
 		recompute = false;
 		Terminal.getInstance().flushAllocations();
@@ -494,7 +519,7 @@ public class BranchAndBound extends MissionScheduler {
 						+ children.size());
 
 			childCount++;
-			long sop = s.overrunPenalties;
+			double sop = s.overrunPenalties;
 			if (sop <= overrunMinPenalty) {
 				// One critera then the other one...
 				if (s.isLeaf()
@@ -502,7 +527,7 @@ public class BranchAndBound extends MissionScheduler {
 					// New record
 					bestSolution = s;
 					dMin = s.distance;
-					overspentMinTime = s.overspentTime.toStep();
+					overspentMinTime = s.overspentTime.getInSec();
 					overrunMinPenalty = sop;
 
 					String sCOST = "";
@@ -557,19 +582,19 @@ public class BranchAndBound extends MissionScheduler {
 
 	@Override
 	public void incrementNumberOfCompletedMissions(final String resourceID) {
-//		boolean terminated = true;
-//		lookup: for (StraddleCarrier rsc : resources) {
-//			Workload w = rsc.getWorkload();
-//			for (Load l : w.getLoads()) {
-//				if (l.getState() != MissionState.STATE_ACHIEVED) {
-//					terminated = false;
-//					break lookup;
-//				}
-//
-//			}
-//		}
-//		if (terminated)
-//			TimeScheduler.getInstance().computeEndTime();
+		//		boolean terminated = true;
+		//		lookup: for (StraddleCarrier rsc : resources) {
+		//			Workload w = rsc.getWorkload();
+		//			for (Load l : w.getLoads()) {
+		//				if (l.getState() != MissionState.STATE_ACHIEVED) {
+		//					terminated = false;
+		//					break lookup;
+		//				}
+		//
+		//			}
+		//		}
+		//		if (terminated)
+		//			TimeScheduler.getInstance().computeEndTime();
 
 		super.incrementNumberOfCompletedMissions(resourceID);
 	}

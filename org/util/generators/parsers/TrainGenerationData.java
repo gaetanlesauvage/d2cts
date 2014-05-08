@@ -19,16 +19,20 @@
  */
 
 package org.util.generators.parsers;
+
+import java.util.Date;
+
 /**
  * Parameters value for generating a new train and its associated missions
  * @author Ga&euml;tan Lesauvage
  * @since 2011
  */
-public class TrainGenerationData {
-	private String minTime, maxTime;
+public class TrainGenerationData extends GenerationData {
+	private Date minTime, maxTime;
 	private double fullRate, afterUnload, afterReload, marginRate;
 	
-	public TrainGenerationData (String minTime, String maxTime, double fullRate, double afterUnload, double afterReload, double marginRate){
+	public TrainGenerationData (Date minTime, Date maxTime, double fullRate, double afterUnload, double afterReload, double marginRate, String groupID){
+		super(groupID);
 		this.minTime = minTime;
 		this.maxTime = maxTime;
 		this.fullRate = fullRate;
@@ -37,11 +41,11 @@ public class TrainGenerationData {
 		this.marginRate = marginRate;
 	}
 	
-	public String getMinTime() {
+	public Date getMinTime() {
 		return minTime;
 	}
 
-	public String getMaxTime() {
+	public Date getMaxTime() {
 		return maxTime;
 	}
 
@@ -51,6 +55,30 @@ public class TrainGenerationData {
 
 	public double getAfterUnload() {
 		return afterUnload;
+	}
+
+	public void setMinTime(Date minTime) {
+		this.minTime = minTime;
+	}
+
+	public void setMaxTime(Date maxTime) {
+		this.maxTime = maxTime;
+	}
+
+	public void setFullRate(double fullRate) {
+		this.fullRate = fullRate;
+	}
+
+	public void setAfterUnload(double afterUnload) {
+		this.afterUnload = afterUnload;
+	}
+
+	public void setAfterReload(double afterReload) {
+		this.afterReload = afterReload;
+	}
+
+	public void setMarginRate(double marginRate) {
+		this.marginRate = marginRate;
 	}
 
 	public double getAfterReload() {

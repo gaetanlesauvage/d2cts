@@ -80,32 +80,22 @@ public abstract class MissionScheduler implements DiscretObject {
 	protected static long sstep;
 
 	// TASKS BUFFERS
-	protected SortedMap<Time, List<Mission>> missionsToUpdate;// = new
-																// TreeMap<>();
-	protected SortedMap<Time, List<Mission>> missionsToAdd;// = new TreeMap<>();
-	protected SortedMap<Time, List<Mission>> missionsToRemove;// = new
-																// TreeMap<>();
-	protected SortedMap<Time, Set<MissionStartedHelper>> missionsToStart;// =
-																			// new
-																			// TreeMap<Time,
-																			// List<MissionStartedHelper>>();
+	protected SortedMap<Time, List<Mission>> missionsToUpdate;
+	protected SortedMap<Time, List<Mission>> missionsToAdd;
+	protected SortedMap<Time, List<Mission>> missionsToRemove;
+	protected SortedMap<Time, Set<MissionStartedHelper>> missionsToStart;
 
 	// RESOURCES BUFFERS
-	protected SortedMap<Time, Map<String, UpdateInfo>> resourceToUpdate;// = new
-																		// TreeMap<>();
-	protected SortedMap<Time, List<StraddleCarrier>> resourceToAdd;// = new
-																	// TreeMap<>();
-	protected SortedMap<Time, List<String>> resourceToRemove;// = new
-																// TreeMap<>();
+	protected SortedMap<Time, Map<String, UpdateInfo>> resourceToUpdate;
+	protected SortedMap<Time, List<StraddleCarrier>> resourceToAdd;
+	protected SortedMap<Time, List<String>> resourceToRemove;
 
 	// RESOURCES
-	protected Map<String, List<String>> resourceModels;// = new HashMap<>();
+	protected Map<String, List<String>> resourceModels;
 	protected Map<String, StraddleCarrier> vehicles;
 
 	// TASKS
-	protected Map<String, ScheduleTask<? extends ScheduleEdge>> scheduleTasks;// =
-																				// new
-																				// HashMap<>();
+	protected Map<String, ScheduleTask<? extends ScheduleEdge>> scheduleTasks;
 	// RESOURCES
 	protected Map<String, ScheduleResource> scheduleResources = new HashMap<>();
 
@@ -290,8 +280,10 @@ public abstract class MissionScheduler implements DiscretObject {
 
 		if (to != null) {
 			Container cTo = to.getContainer();
-			if (cTo == null || cTo.getLocation() == null)
-				toLocation = null;
+			if (cTo == null || cTo.getLocation() == null){
+					toLocation = null;	
+			}
+			
 			else {
 				toLocation = cTo.getLocation();
 			}
@@ -441,6 +433,7 @@ public abstract class MissionScheduler implements DiscretObject {
 					updateResourceLocation(s, toUpdate.get(s));
 				}
 			} else {
+				//resourceToUpdate.remove(t);
 				log.error("Time overspent!");
 				break;
 			}
@@ -646,7 +639,7 @@ public abstract class MissionScheduler implements DiscretObject {
 	protected void updateMission(Mission m) {
 		// TODO
 		// WHAT TO DO IN THIS CASE ?
-		new Exception("MissionScheduler:> WARNING : UPDATE MISSION CALLED !").printStackTrace();
+		new Exception("MissionScheduler:> WARNING : UPDATE MISSION CALLED ! ("+m.getId()+")").printStackTrace();
 	}
 
 	protected class MissionStartedHelper {
@@ -1029,5 +1022,20 @@ public abstract class MissionScheduler implements DiscretObject {
 
 	public final Collection<Mission> getPool() {
 		return pool;
+	}
+	
+	@Override
+	public Integer getDiscretPriority () {
+		return 2; //Scheduler should be executed after both straddlecarriers and lasersystem threads
+	}
+	
+	@Override
+	public int hashCode(){
+		return getId().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		return o.hashCode() == hashCode();
 	}
 }

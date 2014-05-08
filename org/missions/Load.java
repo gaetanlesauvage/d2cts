@@ -46,7 +46,7 @@ public class Load implements Comparable<Load> {
 	private String straddleID;
 
 	// Prevent from executing this load without doing the linked one
-	private Load linkedLoad;
+	private PrethreadCondition linkedLoad;
 	private Time startableTime;
 
 	private Time waitTimeAtEndOfPickup;
@@ -189,14 +189,14 @@ public class Load implements Comparable<Load> {
 		Time tD = new Time(deliveryReachTime, deliveryStartTime, false);
 		Time tU = new Time(endTime, unloadStartTime, false);
 		Time overall = new Time(tP, tL, tD, tU);
-		sb.append(endTime + "> Mission " + m.getId()
+		sb.append(endTime + " - Mission " + m.getId()
 				+ " ACHIEVED ! Duration : " + overall + " =\n");
 		sb.append("\tStartableTime : " + startableTime + "\tStart time: "
 				+ effectiveStartTime + "\n");
 		sb.append("\tEnd of pickup at " + loadEndTime);
 		boolean lateness = false;
 		Time latenessTime = new Time(0);
-		if (loadEndTime.toStep() > m.getPickupTimeWindow().getMax().toStep()) {
+		if (loadEndTime.getInSec() > m.getPickupTimeWindow().getMax().getInSec()) {
 			Time t = new Time(loadEndTime, m.getPickupTimeWindow().getMax(),
 					false);
 			sb.append(" lateness: " + t);
@@ -205,7 +205,7 @@ public class Load implements Comparable<Load> {
 		}
 		sb.append("\n");
 		sb.append("\tEnd of delivery at " + endTime);
-		if (endTime.toStep() > m.getDeliveryTimeWindow().getMax().toStep()) {
+		if (endTime.getInSec() > m.getDeliveryTimeWindow().getMax().getInSec()) {
 			Time t = new Time(endTime, m.getDeliveryTimeWindow().getMax(),
 					false);
 			sb.append(" lateness: " + t);
@@ -216,7 +216,7 @@ public class Load implements Comparable<Load> {
 		sb.append("\n");
 		boolean wait = false;
 		if (waitTime.toStep() > 0) {
-			sb.append("\tWait time : " + waitTime);
+			sb.append("\tWait time : " + waitTime+" ("+waitTimeAtEndOfPickup+")");
 			wait = true;
 		}
 
@@ -364,8 +364,8 @@ public class Load implements Comparable<Load> {
 		}
 		String link = "";
 		if (linkedLoad != null)
-			link = " LINKED TO: " + linkedLoad.getMission().getId();
-		return m.getId() + " " + t.getMin() + " -> " + t.getMax() + " STATUS: "
+			link = " LINKED TO: " + linkedLoad.getConditionMission();
+		return m + " [" + t.getMin() + " -> " + t.getMax() + " @ "+startableTime+"] STATUS: "
 		+ status + link;
 	}
 
@@ -402,16 +402,16 @@ public class Load implements Comparable<Load> {
 
 	// TODO use end time or reach time for computing the delay ?
 	public Time getOverspentTime() {
-		long over = 0;
+		double over = 0;
 		if (phase == MissionPhase.PHASE_LOAD) {
-			long tEffectif = loadEndTime.toStep();
-			long tTheo = m.getPickupTimeWindow().getMax().toStep();
+			double tEffectif = loadEndTime.getInSec();
+			double tTheo = m.getPickupTimeWindow().getMax().getInSec();
 			if (tEffectif > tTheo) {
 				over += tEffectif - tTheo;
 			}
 		} else if (phase == MissionPhase.PHASE_UNLOAD) {
-			long tEffectif = endTime.toStep();
-			long tTheo = m.getDeliveryTimeWindow().getMax().toStep();
+			double tEffectif = endTime.getInSec();
+			double tTheo = m.getDeliveryTimeWindow().getMax().getInSec();
 			if (tEffectif > tTheo)
 				over += tEffectif - tTheo;
 		}
@@ -437,12 +437,16 @@ public class Load implements Comparable<Load> {
 		return linkedLoad != null;
 	}
 
-	public Load getLinkedLoad() {
+	public PrethreadCondition getPrethreadCondition() {
 		return linkedLoad;
 	}
 
 	public void setLinkedLoad(Load l) {
-		this.linkedLoad = l;
+		if(l!=null){
+			this.linkedLoad = new PrethreadCondition(l);
+		} else {
+			this.linkedLoad = null;
+		}
 	}
 
 	public String getStraddleCarrierID() {

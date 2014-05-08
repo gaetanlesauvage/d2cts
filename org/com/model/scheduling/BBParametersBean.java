@@ -83,7 +83,7 @@ public enum BBParametersBean implements SchedulingParametersBeanInterface {
 
 	public static BBParametersBean get(String name) {
 		for (BBParametersBean param : BBParametersBean.values()) {
-			if (param.name.equalsIgnoreCase(name))
+			if (param.name().equals(name) || param.name.equalsIgnoreCase(name))
 				return param;
 		}
 		return null;

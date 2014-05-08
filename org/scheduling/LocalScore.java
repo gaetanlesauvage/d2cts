@@ -11,6 +11,7 @@ public class LocalScore {
 	private double distanceInSeconds;
 	private double overspentTime;
 	private double waitTime;
+	private int overspentTW;
 	
 	private ScheduleResource resource;
 	private List<ScheduleEdge> path;
@@ -18,10 +19,10 @@ public class LocalScore {
 	private List<Double> times;
 
 	public LocalScore(ScheduleResource resource){
-		this(resource, new ArrayList<ScheduleEdge>(), new ArrayList<Double>(), 0, 0, 0, 0);
+		this(resource, new ArrayList<ScheduleEdge>(), new ArrayList<Double>(), 0, 0, 0, 0, 0);
 	}
 	
-	public LocalScore(ScheduleResource resource, List<ScheduleEdge> path, List<Double> times, double distance, double distanceInSeconds, double overspentTime, double waitTime){
+	public LocalScore(ScheduleResource resource, List<ScheduleEdge> path, List<Double> times, double distance, double distanceInSeconds, double overspentTime, double waitTime, int overspentTW){
 		this.resource = resource;
 		this.path = path;
 		this.pathNode = new ArrayList<ScheduleTask<? extends ScheduleEdge>>(path.size()+1);
@@ -33,6 +34,7 @@ public class LocalScore {
 		this.distanceInSeconds = distanceInSeconds;
 		this.overspentTime = overspentTime;
 		this.waitTime = waitTime;
+		this.overspentTW = overspentTW;
 		this.times = times;
 		if(times.size()==0){
 			times.add(resource.currentTime);
@@ -54,6 +56,7 @@ public class LocalScore {
 		this.distanceInSeconds = score.distanceInSeconds;
 		this.overspentTime = score.overspentTime;
 		this.waitTime = score.waitTime;
+		this.overspentTW = score.overspentTW;
 		this.times = new ArrayList<Double>(score.getTimes().size());
 		for(Double d : score.getTimes()){
 			this.times.add(d);
@@ -90,6 +93,10 @@ public class LocalScore {
 	
 	public double getEarliness(){
 		return waitTime;
+	}
+	
+	public int getOverspentTW() {
+		return overspentTW;
 	}
 	
 	public String toString(){
@@ -143,6 +150,10 @@ public class LocalScore {
 
 	public void addNode(ScheduleTask<? extends ScheduleEdge> n){
 		pathNode.add(n);
+	}
+	
+	public void addOverspentTW(int overspentTW){
+		this.overspentTW += overspentTW;
 	}
 	
 	public void addEdge(ScheduleEdge edge, double time) {

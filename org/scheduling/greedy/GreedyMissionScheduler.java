@@ -5,38 +5,33 @@ import java.util.Iterator;
 import org.com.model.scheduling.GreedyParametersBean;
 import org.exceptions.MissionNotFoundException;
 import org.exceptions.NoPathFoundException;
-import org.missions.Load;
 import org.missions.Mission;
-import org.missions.MissionState;
-import org.missions.Workload;
-import org.routing.path.Path;
 import org.scheduling.MissionScheduler;
 import org.scheduling.display.JMissionScheduler;
 import org.system.Terminal;
-import org.system.container_stocking.Bay;
-import org.system.container_stocking.ContainerLocation;
 import org.time.Time;
 import org.time.TimeScheduler;
 import org.time.event.AffectMission;
-import org.util.Location;
 import org.vehicles.StraddleCarrier;
 
 public class GreedyMissionScheduler extends MissionScheduler {
 	public static final String rmiBindingName = "GreedyMissionScheduler";
-	
+
 	private boolean recompute = true;
-	
+
 	public GreedyMissionScheduler() {
 		super();
 		MissionScheduler.instance = this;
 		if(!init)
 			init();
+
+		log.info("EVAL PARAMETERS: "+ evalParameters);
 	}
 
 	public static void closeInstance(){
 		//Nothing to do
 	}
-	
+
 	@Override
 	public boolean apply() {
 		boolean returnCode = NOTHING_CHANGED;
@@ -57,10 +52,10 @@ public class GreedyMissionScheduler extends MissionScheduler {
 			graphChanged = false;
 			graphChangedByUpdate = 0;
 			lock.unlock();
-			
-			
+
+
 		}
-		
+
 		if (recompute && resources.size() > 0 && pool.size() > 0) {
 			compute();
 		}
@@ -74,17 +69,18 @@ public class GreedyMissionScheduler extends MissionScheduler {
 	protected void init() {
 		init = true;
 		sstep = TimeScheduler.getInstance().getStep() + 1;
+		Time t = new Time(sstep);
 		step = 0;
 		if(evalParameters == null){
 			evalParameters = GreedyParametersBean.getEvalParameters();
 		}
 		for (String s : Terminal.getInstance().getMissionsName()) {
 			Mission m = Terminal.getInstance().getMission(s);
-			addMission(new Time(step), m);
+			addMission(t, m);
 		}
 		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
 			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
-			addResource(new Time(step), rsc);
+			addResource(t, rsc);
 
 		}
 
@@ -95,27 +91,27 @@ public class GreedyMissionScheduler extends MissionScheduler {
 		recompute = true;
 	}
 
-//	@Override
-//	public void addMission(Time t, Mission m) {
-//		/*int policy = 0; // 0 = sorted list according to TW_P
-//		// Sorted mission list
-//		if (policy == 0) {
-//			long twP_min = m.getPickupTimeWindow().getMin().toStep();
-//			int index = 0;
-//			for (int i = 0; i < pool.size(); i++) {
-//				index = i;
-//				Mission mTmp = pool.get(i);
-//				if (twP_min < mTmp.getPickupTimeWindow().getMin().toStep()) {
-//					break;
-//				}
-//			}
-//			pool.add(index, m);
-//		} else {
-//			pool.add(m);
-//		}*/
-//		//SortedSet :)
-//		pool.add(m);
-//	}
+	//	@Override
+	//	public void addMission(Time t, Mission m) {
+	//		/*int policy = 0; // 0 = sorted list according to TW_P
+	//		// Sorted mission list
+	//		if (policy == 0) {
+	//			long twP_min = m.getPickupTimeWindow().getMin().toStep();
+	//			int index = 0;
+	//			for (int i = 0; i < pool.size(); i++) {
+	//				index = i;
+	//				Mission mTmp = pool.get(i);
+	//				if (twP_min < mTmp.getPickupTimeWindow().getMin().toStep()) {
+	//					break;
+	//				}
+	//			}
+	//			pool.add(index, m);
+	//		} else {
+	//			pool.add(m);
+	//		}*/
+	//		//SortedSet :)
+	//		pool.add(m);
+	//	}
 
 	@Override
 	public void addMission(Time t, Mission m) {
@@ -128,49 +124,59 @@ public class GreedyMissionScheduler extends MissionScheduler {
 		recompute = true;
 		super.addResource(t, rsc);
 	}
-	
+
 	private void razWorkloads(){
 		for(StraddleCarrier s : resources){
 			s.clearWorkload();
 		}
 	}
-	
+
 	@Override
 	public void compute() {
-		precomputed = true;
 		long tNow = System.nanoTime();
+		precomputed = true;
 		razWorkloads();
 		//int missionsToSkip = 0;
 		//int i = 0;
 		//int doneCount = 0;
 		Iterator<Mission> itMissions = pool.iterator();
 		while(itMissions.hasNext()){
-		//while (doneCount + missionsToSkip <= pool.size()) {
+
+			//while (doneCount + missionsToSkip <= pool.size()) {
 			// Mission to schedule
 			Mission m = itMissions.next();
+			System.err.println("Scheduling mission "+m.getId()+" : ");
 			if (Terminal.getInstance().getContainer(m.getContainerId()) != null) {
 				//pool.remove(i);
 				// Find best vehicle
 				StraddleCarrier vBest = null;
-				ScheduleScore sBest = new ScheduleScore();
-				sBest.tardiness = new Time(Time.MAXTIME);
-				sBest.distance = Double.POSITIVE_INFINITY;
-
+				ScheduleScore sBest = null;
 				for (StraddleCarrier v : resources) {
+					System.err.println("--------------------------------------------");
+					System.err.println("-> For vehicle "+v.getId()+" : ");
 					v.getWorkload().insertAtRightPlace(m);
 					ScheduleScore score;
 					try {
 						score = getScore(v);
-						if (score.compareTo(sBest) <= 0) {
+						System.err.println("Plan : \n\t"+v.getWorkload().toString());
+						System.err.println("Score : \n\t"+score);
+
+						if (sBest == null || score.compareTo(sBest) > 0) {
 							sBest = score;
 							vBest = v;
+							System.err.println("New best : "+sBest.getScore());
+						} else {
+							System.err.println("Not the best one !");
 						}
 					} catch (NoPathFoundException e1) {
 						e1.printStackTrace();
 					}
-
+					System.err.println("--------------------------------------------");
 					try {
 						v.getWorkload().removeMission(m.getId());
+						System.err.println("--------------------------------------------");
+						System.err.println("Plan after removing mission "+m.getId()+" : \n\t"+v.getWorkload().toString());
+						System.err.println("--------------------------------------------");
 					} catch (MissionNotFoundException e) {
 						e.printStackTrace();
 					} catch (NoPathFoundException e) {
@@ -179,47 +185,67 @@ public class GreedyMissionScheduler extends MissionScheduler {
 				}
 
 				vBest.getWorkload().insertAtRightPlace(m);
+				System.err.println("--------------------------------------------");
+				System.err.println("Plan after inserting mission "+m.getId()+" for "+vBest.getId()+" : \n\t"+vBest.getWorkload().toString());
+				System.err.println("--------------------------------------------");
 				AffectMission am = new AffectMission(TimeScheduler.getInstance().getTime(), m.getId(),
 						vBest.getId());
 				am.writeEventInDb();
 
-				Terminal.getInstance().getTextDisplay().setVehicleToMission(m.getId(),
-						vBest.getId());
-			} /*else {
+				if(Terminal.getInstance().getTextDisplay() != null){
+					Terminal.getInstance().getTextDisplay().setVehicleToMission(m.getId(),
+							vBest.getId());
+				}
+			} 
+
+			/*else {
+			System.err.println("Score : \n\t"+score);
 				missionsToSkip++;
 				i++;
 			}*/
-			// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
+			//System.err.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
+			System.err.println("===============================================================");
 		}
+
+		System.err.println("--------------------------------------------");
+		System.err.println("END : ");
+		for(StraddleCarrier s : Terminal.getInstance().getStraddleCarriers()){
+			System.err.println(s.getId() +" : \n\t"+s.getWorkload()+"\n\tScore="+s.getWorkload().getScore());
+		}
+		System.err.println("--------------------------------------------");
+
 		recompute = false;
+		Terminal.getInstance().flushAllocations();
 		long tEnd = System.nanoTime();
 		computeTime += tEnd - tNow;
-		Terminal.getInstance().flushAllocations();
-		
+
 	}
 
 	@Override
 	public void incrementNumberOfCompletedMissions(String resourceID) {
-//		boolean terminated = true;
-//		lookup: for (StraddleCarrier rsc : resources) {
-//			Workload w = rsc.getWorkload();
-//			for (Load l : w.getLoads()) {
-//				if (l.getState() != MissionState.STATE_ACHIEVED) {
-//					terminated = false;
-//					break lookup;
-//				}
-//
-//			}
-//		}
-//		if (terminated)
-//			TimeScheduler.getInstance().computeEndTime();
+		//		boolean terminated = true;
+		//		lookup: for (StraddleCarrier rsc : resources) {
+		//			Workload w = rsc.getWorkload();
+		//			for (Load l : w.getLoads()) {
+		//				if (l.getState() != MissionState.STATE_ACHIEVED) {
+		//					terminated = false;
+		//					break lookup;
+		//				}
+		//
+		//			}
+		//		}
+		//		if (terminated)
+		//			TimeScheduler.getInstance().computeEndTime();
 
 		super.incrementNumberOfCompletedMissions(resourceID);
 	}
 
 	private ScheduleScore getScore(StraddleCarrier v)
 			throws NoPathFoundException {
-		ScheduleScore score = new ScheduleScore();
+		return v.getWorkload().getScore();
+
+
+		/*ScheduleScore score = new ScheduleScore();
 
 		Location origin = v.getSlot().getLocation();
 		Time tOrigin = TimeScheduler.getInstance().getTime();
@@ -242,7 +268,7 @@ public class GreedyMissionScheduler extends MissionScheduler {
 				Path p = v.getRouting()
 						.getShortestPath(origin, pickup, tOrigin);
 				Time t = new Time(p.getCost());
-				score.distance += p.getCostInMeters();
+				score.setDistance(score.getDistance() + p.getCostInMeters(), score.getDistanceInSec() + p.getCost());
 				Time pickupTime = new Time(tOrigin, t);
 				pickupTime = new Time(pickupTime,
 						v.getMaxContainerHandlingTime(lane));
@@ -251,7 +277,7 @@ public class GreedyMissionScheduler extends MissionScheduler {
 								.toStep();
 				// Pickup tardiness
 				Time localTardiness = new Time(Math.max(0, lateness));
-				score.tardiness = new Time(score.tardiness, localTardiness);
+				score.setTardiness(new Time(score.getTardiness(), localTardiness));
 
 				tOrigin = new Time(Math.max(l.getMission()
 						.getPickupTimeWindow().getMax().toStep(),
@@ -264,7 +290,7 @@ public class GreedyMissionScheduler extends MissionScheduler {
 						true);
 				p = v.getRouting().getShortestPath(pickup, delivery, tOrigin);
 				t = new Time(p.getCost());
-				score.distance += p.getCostInMeters();
+				score.setDistance(p.getCostInMeters()+score.getDistance(), p.getCost() + score.getDistanceInSec());
 				Time deliveryTime = new Time(tOrigin, t);
 				deliveryTime = new Time(deliveryTime,
 						v.getMaxContainerHandlingTime(lane));
@@ -272,8 +298,8 @@ public class GreedyMissionScheduler extends MissionScheduler {
 						- l.getMission().getDeliveryTimeWindow().getMax()
 								.toStep();
 				// Delivery tardiness
-				score.tardiness = new Time(score.tardiness, new Time(Math.max(
-						0, lateness)));
+				score.setTardiness(new Time(score.getTardiness(), new Time(Math.max(
+						0, lateness))));
 
 				// Next load
 				tOrigin = new Time(Math.max(l.getMission()
@@ -286,9 +312,9 @@ public class GreedyMissionScheduler extends MissionScheduler {
 		// Delivery->Depot
 		Path p = v.getRouting().getShortestPath(origin,
 				v.getSlot().getLocation(), tOrigin);
-		score.distance += p.getCostInMeters();
+		score.setDistance(score.getDistance() + p.getCostInMeters(), score.getDistanceInSec() + p.getCost());
 
-		return score;
+		return score;*/
 	}
 
 }

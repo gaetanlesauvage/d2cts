@@ -2,7 +2,10 @@ package org.vehicles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.conf.parameters.ReturnCodes;
 import org.system.Terminal;
@@ -18,10 +21,10 @@ public class Ship implements Serializable {
 
 	private Quay quay;
 
-	private HashMap<String, Double> toUnload;
-	private HashMap<String, Double> toLoad;
+	private Set<String> toUnload;
+	private Set<String> toLoad;
 
-	private ArrayList<String> concernedSlotsIDs;
+	private List<String> concernedSlotsIDs;
 
 	private int capacity;
 
@@ -29,8 +32,8 @@ public class Ship implements Serializable {
 	private String ID;
 
 	public Ship(int capacity, Quay quay, double rateFrom, double rateTo,
-			ArrayList<String> concernedSlotsIDs,
-			HashMap<String, Double> toUnload) {
+			List<String> concernedSlotsIDs,
+			Set<String> toUnload) {
 		this.quay = quay;
 		this.rateFrom = rateFrom;
 		this.rateTo = rateTo;
@@ -38,19 +41,24 @@ public class Ship implements Serializable {
 
 		this.capacity = capacity;
 		currentLoadTEU = 0;
-		this.toUnload = new HashMap<String, Double>();
-		for (String s : toUnload.keySet()) {
-			double teu = toUnload.get(s);
-			if (currentLoadTEU + teu <= capacity) {
-				this.toUnload.put(s, teu);
-				currentLoadTEU += teu;
-			} else {
-				// TODO Replace by an exception
-				System.out.println("Error : ship capacity exceeded !");
-				break;
-			}
+		this.toUnload = new HashSet<>();
+		for (Iterator<String> itContainers = toUnload.iterator(); itContainers.hasNext();) {
+			String s = itContainers.next();
+//			Container c = Terminal.getInstance().getContainer(s);
+//			if(c==null){
+//				System.err.println("Container "+s+" not found!");
+//			}
+//			double teu = c.getTEU();
+//			if (currentLoadTEU + teu <= capacity) {
+				this.toUnload.add(s);
+//				currentLoadTEU += teu;
+//			} else {
+//				// TODO Replace by an exception
+//				System.out.println("Error : ship capacity exceeded !");
+//				break;
+//			}
 		}
-		this.toLoad = new HashMap<String, Double>();
+		this.toLoad = new HashSet<>();
 		this.concernedSlotsIDs = concernedSlotsIDs;
 	}
 
@@ -70,15 +78,15 @@ public class Ship implements Serializable {
 		return capacity;
 	}
 
-	public ArrayList<String> getToUnload() {
-		return new ArrayList<String>(toUnload.keySet());
+	public List<String> getToUnload() {
+		return new ArrayList<String>(toUnload);
 	}
 
-	public ArrayList<String> getToLoad() {
-		return new ArrayList<String>(toLoad.keySet());
+	public List<String> getToLoad() {
+		return new ArrayList<String>(toLoad);
 	}
 
-	public ArrayList<String> getConcernedSlotsIDs() {
+	public List<String> getConcernedSlotsIDs() {
 		return concernedSlotsIDs;
 	}
 
@@ -88,8 +96,7 @@ public class Ship implements Serializable {
 	 */
 	// TODO ADD NOT FOUND EXCEPTION !
 	public void containerUnloaded(String containerID) {
-
-		if (toUnload.containsKey(containerID)) {
+		if (toUnload.contains(containerID)) {
 			toUnload.remove(containerID);
 			System.out.println("Container " + containerID
 					+ " has been remove from toUnload list (size="
@@ -114,7 +121,7 @@ public class Ship implements Serializable {
 
 	// TODO ADD NOT FOUND EXCEPTION !
 	public void containerLoaded(String containerID) {
-		if (!toLoad.containsKey(containerID)) {
+		if (!toLoad.contains(containerID)) {
 			System.out.println("Container " + containerID
 					+ " not found in toLoad list !");
 			new Exception("Container " + containerID
@@ -129,8 +136,8 @@ public class Ship implements Serializable {
 				.println("Container " + containerID + " loaded on " + getID());
 	}
 
-	public void addContainerToLoad(String containerID, double teu) {
-		toLoad.put(containerID, teu);
+	public void addContainerToLoad(String containerID) {
+		toLoad.add(containerID);
 	}
 
 	public double getCurrentLoadTEU() {

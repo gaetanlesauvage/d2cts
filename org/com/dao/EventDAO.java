@@ -22,11 +22,13 @@ public class EventDAO implements D2ctsDao<EventBean> {
 	private static final String LOAD_QUERY = "SELECT e.ID, e.TYPE, e.T, e.DESCRIPTION " + "FROM EVENT e WHERE SCENARIO = ?";
 	private static final String LOAD_TYPES_QUERY = "SELECT NAME FROM EVENT_TYPE WHERE CLASS_NAME = ?";
 
-	private static final String INSERT_QUERY = "INSERT INTO EVENT (TYPE, SCENARIO, T, DESCRIPTION) VALUES (?, ?, ?, ?, ?)";
+	private static final String INSERT_QUERY = "INSERT INTO EVENT (TYPE, SCENARIO, T, DESCRIPTION) VALUES (?, ?, ?, ?)";
+	private static final String UPDATE_TIME_QUERY = "UPDATE EVENT SET T = ? WHERE ID = ?";
 
 	private PreparedStatement psLoad;
 	private PreparedStatement psLoadTypes;
 	private PreparedStatement psInsert;
+	private PreparedStatement psUpdate;
 
 	private Map<Integer, EventBean> beans;
 	private Integer scenarioID;
@@ -72,6 +74,9 @@ public class EventDAO implements D2ctsDao<EventBean> {
 		}
 		if (psLoadTypes != null) {
 			psLoadTypes.close();
+		}
+		if(psUpdate != null){
+			psUpdate.close();
 		}
 		instances = null;
 		log.info("EventDAO of scenario " + scenarioID + " closed.");
@@ -120,7 +125,7 @@ public class EventDAO implements D2ctsDao<EventBean> {
 			psInsert.setInt(2, scenarioID);
 			Calendar c = Calendar.getInstance();
 			c.set(Calendar.HOUR_OF_DAY, bean.getTime().getHours());
-			c.set(Calendar.MINUTE, bean.getTime().getHours());
+			c.set(Calendar.MINUTE, bean.getTime().getMinutes());
 			c.set(Calendar.SECOND, (int) bean.getTime().getSeconds());
 			c.set(Calendar.MILLISECOND, (int) ((int) bean.getTime().getSeconds() - bean.getTime().getSeconds()) * 1000);
 			psInsert.setTime(3, new java.sql.Time(c.getTimeInMillis()));
@@ -130,6 +135,9 @@ public class EventDAO implements D2ctsDao<EventBean> {
 				ResultSet genKeys = psInsert.getGeneratedKeys();
 				if(genKeys.next()){
 					bean.setId(genKeys.getInt(1));
+					if(beans == null){
+						beans = new HashMap<>();
+					}
 					beans.put(bean.getId(), bean);
 				}
 				genKeys.close();
@@ -147,5 +155,26 @@ public class EventDAO implements D2ctsDao<EventBean> {
 	@Override
 	public int size() {
 		return beans.size();
+	}
+
+	
+	/**
+	 * Used to update event time
+	 * @param bean
+	 */
+	public int update(EventBean bean) throws SQLException {
+		if (psUpdate == null) {
+			psUpdate = DbMgr.getInstance().getConnection().prepareStatement(UPDATE_TIME_QUERY);
+		}
+
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.HOUR_OF_DAY, bean.getTime().getHours());
+		c.set(Calendar.MINUTE, bean.getTime().getMinutes());
+		c.set(Calendar.SECOND, (int) bean.getTime().getSeconds());
+		c.set(Calendar.MILLISECOND, (int) ((int) bean.getTime().getSeconds() - bean.getTime().getSeconds()) * 1000);
+		psUpdate.setTime(1, new java.sql.Time(c.getTimeInMillis()));
+		psUpdate.setInt(2, bean.getId());
+
+		return psUpdate.executeUpdate();
 	}
 }

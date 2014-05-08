@@ -18,6 +18,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.com.model.scheduling.ResultsBean;
 import org.display.GraphicDisplay;
 import org.display.panes.TableCellRendererCentered;
 import org.display.panes.TableCellRendererWithIcon;
@@ -210,7 +211,39 @@ public class IndicatorPane extends JPanel {
 		overallModel.setValueAt(overall[IndicatorPaneOverallColumns.MISSIONS_DONE.getIndex()],iOverall, IndicatorPaneOverallColumns.MISSIONS_DONE.getIndex());
 		overallModel.setValueAt(overall[IndicatorPaneOverallColumns.SCORE.getIndex()], iOverall, IndicatorPaneOverallColumns.SCORE.getIndex());
 	}
+	
+	public boolean contains(StraddleCarrier s){
+		return getIndex(s.getId()) >= 0;
+	}
 
+	public ResultsBean getResults() {
+		ResultsBean r = new ResultsBean();
+		
+		
+		
+		double travelTimeOverall = 0;
+		Time timeOverall = new Time(0);
+		Time waitTimeOverall = new Time(0);
+		
+		for(UpdateInfo ui : distances.values()){
+			travelTimeOverall+=ui.travelTime;
+		}
+		for(Time t : overspentTimes.values()){
+			timeOverall = new Time(timeOverall, t);
+		}
+		for(Time t : waitTimes.values()){
+			waitTimeOverall = new Time(waitTimeOverall, t);
+		}
+		
+		r.setDistance(travelTimeOverall);
+		r.setOt(overrunTW);
+		r.setEarliness(waitTimeOverall.getInSec());
+		r.setLateness(timeOverall.getInSec());
+		r.setSchedulingTime(MissionScheduler.getInstance().getComputingTime());
+		
+		return r;
+	}
+	
 	public void addDistance(final String resourceID, double distance, double travelTime) {
 		//		System.err.println("ADD DISTANCE "+resourceID+" "+distance+" "+new Time(travelTime+"s"));
 		UpdateInfo oldInfo = distances.get(resourceID);
@@ -291,8 +324,9 @@ public class IndicatorPane extends JPanel {
 	}
 
 	public void addWaitTime(final String resourceID, Time waitTime){
-
+		
 		if(waitTime.getInSec()>0){
+			System.err.println(resourceID+" wait "+waitTime);
 			Time oldTime = waitTimes.get(resourceID);
 			Time newTime = new Time(oldTime,waitTime);
 			waitTimes.put(resourceID, newTime);

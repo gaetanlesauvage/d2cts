@@ -106,7 +106,7 @@ public class OfflineACOScheduler2 extends MissionScheduler {
 		for (StraddleCarrier rsc : resources) {
 			jms.addResource(rsc);
 		}
-		log.info("MissionGraph created !");
+		//log.info("MissionGraph created !");
 
 		int current = 1;
 		List<StraddleCarrier> lResources = Terminal.getInstance().getStraddleCarriers();

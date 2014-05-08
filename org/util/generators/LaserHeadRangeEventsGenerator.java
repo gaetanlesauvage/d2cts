@@ -47,7 +47,6 @@ import org.positioning.LaserSystem;
 import org.system.Terminal;
 import org.time.Time;
 import org.time.event.LaserHeadFailure;
-import org.util.parsers.XMLTerminalComponentParser;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;

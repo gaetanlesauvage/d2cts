@@ -145,4 +145,8 @@ public class VehicleIn extends DynamicEvent {
 	public String getVehicleID() {
 		return vehicleID;
 	}
+	
+	public List<String> getSlots(){
+		return slotIds;
+	}
 }

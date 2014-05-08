@@ -19,44 +19,58 @@
  */
 
 package org.util.generators.parsers;
+
+import java.util.Date;
+
 /**
  * Parameters value for generating new stock missions
  * @author Ga&euml;tan Lesauvage
  * @since 2011
  */
 
-public class StockGenerationData {
-	private String minTime;
-	private String maxTime;
-	private String marginTime;
-	private String groupID;
+public class StockGenerationData extends GenerationData {
+	private Date minTime;
+	private Date maxTime;
+	private Date marginTime;
 	private int nb;
 	
-	public StockGenerationData(int nb, String minTime, String maxTime, String marginTime, String groupID){
+	public StockGenerationData(int nb, Date minTime, Date maxTime, Date marginTime, String groupID){
+		super(groupID);
 		this.nb = nb;
 		this.minTime = minTime;
 		this.maxTime = maxTime;
 		this.marginTime = marginTime;
-		this.groupID = groupID;
 	}
 
-	public String getMinTime() {
+	public Date getMinTime() {
 		return minTime;
 	}
 
-	public String getMaxTime() {
+	public Date getMaxTime() {
 		return maxTime;
 	}
 
-	public String getMarginTime() {
+	public Date getMarginTime() {
 		return marginTime;
 	}
 
 	public int getNb() {
 		return nb;
 	}
+
+	public void setCount(int intValue) {
+		this.nb = intValue;
+	}
+
+	public void setMinTime(Date date) {
+		this.minTime = date;
+	}
 	
-	public String getGroupID() {
-		return groupID;
+	public void setMaxTime(Date date) {
+		this.maxTime = date;
+	}
+	
+	public void setMarginTime(Date date) {
+		this.marginTime = date;
 	}
 }

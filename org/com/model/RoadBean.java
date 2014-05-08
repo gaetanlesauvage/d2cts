@@ -13,6 +13,7 @@ public class RoadBean {
 	private boolean directed;
 	private String block;
 	private List<RoadPointBean> roadPoints;
+	private String group;
 
 	public RoadBean() {
 
@@ -94,5 +95,13 @@ public class RoadBean {
 		if (roadPoints == null)
 			roadPoints = new ArrayList<>(1);
 		return roadPoints.iterator();
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
+	
+	public String getGroup(){
+		return this.group;
 	}
 }

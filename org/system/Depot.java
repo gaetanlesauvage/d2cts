@@ -20,6 +20,7 @@
 package org.system;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.positioning.Coordinates;
@@ -88,7 +89,7 @@ public class Depot extends Block {
 	/**
 	 * Get the coordinates of the depot points
 	 */
-	public ConcurrentHashMap<String, Coordinates> getCoordinates(){
+	public Map<String, Coordinates> getCoordinates(){
 		return coords;
 	}
 	/**
@@ -168,14 +169,14 @@ public class Depot extends Block {
 	 * Get all the straddle carrier's slots within a map indexed according to the IDs of these slots
 	 * @return A map containing the IDs of the slots and the slots themselves
 	 */
-	public ConcurrentHashMap<String, StraddleCarrierSlot> getStraddleCarrierSlots() {
+	public Map<String, StraddleCarrierSlot> getStraddleCarrierSlots() {
 		return slots;
 	}
 
 	/**
 	 * Get the borders of the depot within a map indexed on the IDs of these borders
 	 */
-	public ConcurrentHashMap<String, String> getWalls(){
+	public Map<String, String> getWalls(){
 		return walls;
 	}
 //	public void destroy() {

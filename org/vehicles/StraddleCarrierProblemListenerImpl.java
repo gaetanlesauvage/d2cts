@@ -34,6 +34,8 @@ import org.system.Terminal;
 import org.system.container_stocking.Bay;
 import org.system.container_stocking.BayCrossroad;
 import org.system.container_stocking.ContainerLocation;
+import org.time.Time;
+import org.time.TimeScheduler;
 import org.util.Location;
 
 public class StraddleCarrierProblemListenerImpl implements
@@ -64,6 +66,14 @@ public class StraddleCarrierProblemListenerImpl implements
 		} else
 			System.out.println("Terminal has no RemoteDisplay :(");
 		return null;
+		
+//		return new DeliveryOrder(Time t = new Time(TimeScheduler.getInstance().getTime(),
+//				new Time(steps));
+//		return new DeliveryOrder(exception.getMission(), new Location(
+//				Terminal.getInstance()
+//						.getBay(
+//								exception.getMission().getDestination()
+//										.getLaneId()), 0), t);
 	}
 
 	public void cantDeliverContainerOnUnreachableSlot(String id,

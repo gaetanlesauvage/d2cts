@@ -40,6 +40,7 @@ import org.com.dao.SimulationDAO;
 import org.com.model.SchedulingAlgorithmBean;
 import org.com.model.SimulationBean;
 import org.conf.parameters.ReturnCodes;
+import org.display.generation.MissionFileGeneratorMenu;
 import org.display.system.JTerminal;
 import org.graphstream.ui.swingViewer.View;
 import org.positioning.LaserSystem;
@@ -119,7 +120,7 @@ public class MainFrame {
 		});
 
 		try {
-			SwingUtilities.invokeAndWait(new Runnable() {
+			Runnable r = new Runnable() {
 
 				@Override
 				public void run() {
@@ -413,7 +414,14 @@ public class MainFrame {
 					frame.setVisible(true);
 				}
 
-			});
+			};
+			if(SwingUtilities.isEventDispatchThread()){
+				Thread t = new Thread(r);
+				t.start();
+				t.join();
+			} else {
+				SwingUtilities.invokeAndWait(r);
+			}
 		} catch (InvocationTargetException | InterruptedException e1) {
 			e1.printStackTrace();
 		}

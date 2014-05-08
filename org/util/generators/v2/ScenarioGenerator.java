@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.com.DbMgr;
 import org.com.dao.ContainerDAO;
 import org.com.dao.ScenarioDAO;
+import org.com.dao.StraddleCarrierDAO;
 import org.com.model.ContainerBean;
 import org.com.model.ContainerType;
 import org.com.model.ScenarioBean;
@@ -65,7 +66,7 @@ public class ScenarioGenerator {
 
 	}
 
-	public void generate(final String scenarioName, final TerminalBean terminal, final int nb20, final int nb40, final int nb45,
+	public ScenarioBean generate(final String scenarioName, final TerminalBean terminal, final int nb20, final int nb40, final int nb45, final int straddleCarriersCount,
 			final MainFrame parent) {
 		if (parent != null) {
 			frame = new JDialog(parent.getFrame(), "Computing...", true);
@@ -95,7 +96,7 @@ public class ScenarioGenerator {
 				public void windowOpened(WindowEvent e) {
 					new Thread() {
 						public void run() {
-							execute(scenarioName, terminal, nb20, nb40, nb45);
+							execute(scenarioName, terminal, nb20, nb40, nb45, straddleCarriersCount);
 						}
 					}.start();
 
@@ -103,10 +104,12 @@ public class ScenarioGenerator {
 			});
 			frame.setVisible(true);
 		} else
-			execute(scenarioName, terminal, nb20, nb40, nb45);
+			return execute(scenarioName, terminal, nb20, nb40, nb45, straddleCarriersCount);
+		
+		return null;
 	}
 
-	private void execute(String scenarioName, TerminalBean terminal, final int nb20, final int nb40, final int nb45) {
+	private ScenarioBean execute(String scenarioName, TerminalBean terminal, final int nb20, final int nb40, final int nb45, final int straddleCarrierCount) {
 
 		// Second Step : Create Terminal
 		loadTerminal(terminal);
@@ -126,7 +129,7 @@ public class ScenarioGenerator {
 				e.printStackTrace();
 			}
 		}
-		generate(scenarioName, terminal, nb20, nb40, nb45);
+		ScenarioBean scenario = generate(scenarioName, terminal, nb20, nb40, nb45, straddleCarrierCount);
 
 		if (progress != null) {
 			try {
@@ -151,10 +154,10 @@ public class ScenarioGenerator {
 			}
 			JOptionPane.showMessageDialog(progress, "Done!");
 		}
-
+		return scenario;
 	}
 
-	public void generate(String name, TerminalBean terminalBean, int nb20, int nb40, int nb45) {
+	public ScenarioBean generate(String name, TerminalBean terminalBean, int nb20, int nb40, int nb45, int straddleCarrierCount) {
 		// Third Step create and place the new containers
 		ScenarioBean scenario = new ScenarioBean();
 
@@ -167,6 +170,7 @@ public class ScenarioGenerator {
 				log.error("Cannot insert scenario into database!");
 			}
 		} catch (SQLException e1) {
+
 			log.fatal(e1.getMessage(), e1); // In deep sheet!
 		}
 
@@ -285,8 +289,14 @@ public class ScenarioGenerator {
 			} catch (ContainerDimensionException e) {
 				e.printStackTrace();
 			}
-
+			try {
+				StraddleCarrierDAO.getInstance(scenario.getId()).add(straddleCarrierCount);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 		}
+		return scenario;
 	}
 
 	private void loadTerminal(TerminalBean terminal) {

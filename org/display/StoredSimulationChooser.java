@@ -146,7 +146,7 @@ public class StoredSimulationChooser {
 			public void actionPerformed(ActionEvent e) {
 				jd.setVisible(false);
 				jd.dispose();
-//				mainFrame.enableMenus();
+				mainFrame.setWaitMode(false);
 			}
 		});
 		
@@ -194,7 +194,7 @@ public class StoredSimulationChooser {
 		try {
 			layout = (SpringLayout)parent.getLayout();
 		} catch (ClassCastException exc) {
-			System.err.println("The first argument to makeCompactGrid must use SpringLayout.");
+			System.err.println("The first argument to makeCompactGrid must use SpringLayout and not a "+parent.getLayout().getClass().getName()+".");
 			return;
 		}
 

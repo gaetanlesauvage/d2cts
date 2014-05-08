@@ -19,16 +19,19 @@
  */
 
 package org.util.generators.parsers;
+
+import java.util.Date;
+
 /**
  * Parameters value for generating a new ship and its associated missions
  * @author Ga&euml;tan Lesauvage
  * @since 2011
  */
-public class ShipGenerationData {
-	private String maxArrivalTime;
-	private String minBerthTimeLength;
-	private String maxDepartureTime;
-	private String timePerContainerOperation;
+public class ShipGenerationData extends GenerationData {
+	private Date maxArrivalTime;
+	private Date minBerthTimeLength;
+	private Date maxDepartureTime;
+	private Date timePerContainerOperation;
 	
 	private int minTeuCapacity;
 	private int maxTeuCapacity;
@@ -41,8 +44,9 @@ public class ShipGenerationData {
 	private double afterReload;
 	private double marginRate;
 	
-	public ShipGenerationData(String maxArrivalTime, String minBerthTimeLength, String maxDepartureTime, String timePerContainerOperation, int minTeuCapacity, int maxTeuCapacity, int capacityFactor,
-			double fullRate, double twentyFeetRate, double fortyFeetRate, double afterUnload, double afterReload, double marginRate){
+	public ShipGenerationData(Date maxArrivalTime, Date minBerthTimeLength, Date maxDepartureTime, Date timePerContainerOperation, int minTeuCapacity, int maxTeuCapacity, int capacityFactor,
+			double fullRate, double twentyFeetRate, double fortyFeetRate, double afterUnload, double afterReload, double marginRate, String groupID){
+		super(groupID);
 		this.maxArrivalTime = maxArrivalTime;
 		this.minBerthTimeLength = minBerthTimeLength;
 		this.maxDepartureTime = maxDepartureTime;
@@ -58,20 +62,72 @@ public class ShipGenerationData {
 		this.marginRate = marginRate;
 	}
 
-	public String getMaxArrivalTime() {
+	public Date getMaxArrivalTime() {
 		return maxArrivalTime;
 	}
 
-	public String getMinBerthTimeLength() {
+	public Date getMinBerthTimeLength() {
 		return minBerthTimeLength;
 	}
 
-	public String getMaxDepartureTime() {
+	public Date getMaxDepartureTime() {
 		return maxDepartureTime;
 	}
 
-	public String getTimePerContainerOperation() {
+	public Date getTimePerContainerOperation() {
 		return timePerContainerOperation;
+	}
+
+	public void setMaxArrivalTime(Date maxArrivalTime) {
+		this.maxArrivalTime = maxArrivalTime;
+	}
+
+	public void setMinBerthTimeLength(Date minBerthTimeLength) {
+		this.minBerthTimeLength = minBerthTimeLength;
+	}
+
+	public void setMaxDepartureTime(Date maxDepartureTime) {
+		this.maxDepartureTime = maxDepartureTime;
+	}
+
+	public void setTimePerContainerOperation(Date timePerContainerOperation) {
+		this.timePerContainerOperation = timePerContainerOperation;
+	}
+
+	public void setMinTeuCapacity(int minTeuCapacity) {
+		this.minTeuCapacity = minTeuCapacity;
+	}
+
+	public void setMaxTeuCapacity(int maxTeuCapacity) {
+		this.maxTeuCapacity = maxTeuCapacity;
+	}
+
+	public void setCapacityFactor(int capacityFactor) {
+		this.capacityFactor = capacityFactor;
+	}
+
+	public void setFullRate(double fullRate) {
+		this.fullRate = fullRate;
+	}
+
+	public void setTwentyFeetRate(double twentyFeetRate) {
+		this.twentyFeetRate = twentyFeetRate;
+	}
+
+	public void setFortyFeetRate(double fortyFeetRate) {
+		this.fortyFeetRate = fortyFeetRate;
+	}
+
+	public void setAfterUnload(double afterUnload) {
+		this.afterUnload = afterUnload;
+	}
+
+	public void setAfterReload(double afterReload) {
+		this.afterReload = afterReload;
+	}
+
+	public void setMarginRate(double marginRate) {
+		this.marginRate = marginRate;
 	}
 
 	public int getMinTeuCapacity() {
@@ -109,4 +165,5 @@ public class ShipGenerationData {
 	public double getMarginRate(){
 		return marginRate;
 	}
+	
 }

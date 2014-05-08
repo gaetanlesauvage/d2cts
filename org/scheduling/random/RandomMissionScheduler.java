@@ -40,13 +40,14 @@ public class RandomMissionScheduler extends MissionScheduler {
 		}
 
 		sstep = TimeScheduler.getInstance().getStep() + 1;
+		Time t = new Time(sstep);
 		for (String s : Terminal.getInstance().getMissionsName()) {
 			Mission m = Terminal.getInstance().getMission(s);
-			addMission(new Time(step), m);
+			addMission(t, m);
 		}
 		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
 			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
-			addResource(new Time(step), rsc);
+			addResource(t, rsc);
 
 		}
 
@@ -104,13 +105,15 @@ public class RandomMissionScheduler extends MissionScheduler {
 					rsc.getId());
 			am.writeEventInDb();
 
-			Terminal.getInstance().getTextDisplay().setVehicleToMission(m.getId(), rsc.getId());
+			if(Terminal.getInstance().getTextDisplay() != null){
+				Terminal.getInstance().getTextDisplay().setVehicleToMission(m.getId(), rsc.getId());
+			}
 
 			// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
 		}
-		computeTime += System.nanoTime() - now;
 		Terminal.getInstance().flushAllocations();
 		recompute = false;
+		computeTime += System.nanoTime() - now;
 	}
 
 	private StraddleCarrier pickAStraddleCarrier() {

@@ -19,20 +19,28 @@
  */
 package org.missions;
 
+import java.util.List;
+import java.util.StringTokenizer;
+
+import org.exceptions.ContainerDimensionException;
 import org.system.Terminal;
 import org.system.container_stocking.Container;
+import org.system.container_stocking.ContainerAlignment;
 import org.system.container_stocking.ContainerLocation;
+import org.system.container_stocking.Slot;
+import org.time.TimeScheduler;
 import org.time.TimeWindow;
+import org.vehicles.Ship;
 
 public class Mission implements Comparable<Mission> {
 	public static final String DEPOT = "DEPOT";
 
-	private TimeWindow pickupTW, deliveryTW;
-	private String containerId;
-	private ContainerLocation destination;
-	private String id;
-	private MissionKinds missionKind;
-	
+	protected TimeWindow pickupTW, deliveryTW;
+	protected String containerId;
+	protected ContainerLocation destination;
+	protected String id;
+	protected MissionKinds missionKind;
+
 	public Mission(String id, int missionKind, TimeWindow pickupTW,
 			TimeWindow deliveryTW, String containerId,
 			ContainerLocation missionLocation) {
@@ -46,6 +54,32 @@ public class Mission implements Comparable<Mission> {
 
 	public Container getContainer() {
 		Container c = Terminal.getInstance().getContainer(containerId);
+		if(c == null){
+			if(id.startsWith("unloadShip")){
+
+				try {
+					c = new Container(containerId, TimeScheduler.getInstance().getIncomingContainerTeu(containerId));
+				} catch (ContainerDimensionException e) {
+					e.printStackTrace();
+				}
+				if(c != null){
+					//Quay
+					String quay = id.substring("unloadShip".length(),id.indexOf(']'));
+					String s = quay.substring(quay.indexOf("[")+1);
+					StringTokenizer st = new StringTokenizer(s, "-");
+					String from = st.nextToken();
+					String to = st.nextToken();
+					quay = s.substring(0, s.indexOf("["));
+					Ship sh = Terminal.getInstance().getShip(quay, Double.parseDouble(from), Double.parseDouble(to));
+					if(sh != null){
+						List<String> concernedSlotsIDs = sh.getConcernedSlotsIDs();
+						String slotID = concernedSlotsIDs.get(Terminal.getInstance().getRandom().nextInt(concernedSlotsIDs.size()));
+						Slot slot = Terminal.getInstance().getSlot(slotID);
+						c.setContainerLocation(new ContainerLocation(containerId, quay, slot.getLocation().getRoad().getId(), slot.getId(), 0, ContainerAlignment.center.getValue()));
+					}
+				}
+			}
+		}
 		return c;
 	}
 
@@ -78,7 +112,7 @@ public class Mission implements Comparable<Mission> {
 	}
 
 	public String toString() {
-		return id + " move " + containerId + " to " + destination + " ("
+		return id + " move " + containerId + " to " + destination.getSlotId() + " ("
 				+ pickupTW + " - " + deliveryTW + ")";
 	}
 
@@ -100,11 +134,11 @@ public class Mission implements Comparable<Mission> {
 	public int hashCode(){
 		return id.hashCode();
 	}
-	
+
 	public boolean equals(Object o){
 		return o.hashCode() == hashCode();
 	}
-	
+
 	@Override
 	public int compareTo(Mission m) {
 		if (m.getId().equals(id))

@@ -22,6 +22,7 @@ package org.system.container_stocking;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.positioning.Coordinates;
@@ -40,10 +41,10 @@ public class Block {
 	public static final int TYPE_RAILWAY = 3;
 	public static final int TYPE_DEPOT = 4;
 		
-	private HashMap<String, Bay> lanes;
-	protected ConcurrentHashMap<String, Coordinates> coords;
+	private Map<String, Bay> lanes;
+	protected Map<String, Coordinates> coords;
 	protected List<String> sortedCoordsName;
-	protected ConcurrentHashMap<String, String> walls;
+	protected Map<String, String> walls;
 	protected String id;
 	private BlockType type;
 	
@@ -87,7 +88,7 @@ public class Block {
 		this.walls.put(from, to);
 	}
 	
-	public ConcurrentHashMap<String, Coordinates> getCoordinates(){
+	public Map<String, Coordinates> getCoordinates(){
 		return coords;
 	}
 	
@@ -99,7 +100,7 @@ public class Block {
 		return id;
 	}
 	
-	public ConcurrentHashMap<String, String> getWalls(){
+	public Map<String, String> getWalls(){
 		return walls;
 	}
 	public BlockType getType() {

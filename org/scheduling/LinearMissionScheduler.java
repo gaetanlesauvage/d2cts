@@ -83,6 +83,9 @@ public class LinearMissionScheduler extends MissionScheduler {
 		for (StraddleCarrier rsc : resources) {
 			jms.addResource(rsc);
 		}
+		if(!Terminal.getInstance().isDisplayed()){
+			jms.setVisible(false);
+		}
 		recompute = true;
 		//Collections.sort(pool);
 	}
@@ -121,8 +124,8 @@ public class LinearMissionScheduler extends MissionScheduler {
 	}
 	@Override
 	public void compute() {
-		precomputed = true;
 		long tNow = System.nanoTime();
+		precomputed = true;
 		// System.out.println("COMPUTE : "+resources.size()+" ; "+pool.size());
 		razWorkloads();
 		
@@ -144,9 +147,16 @@ public class LinearMissionScheduler extends MissionScheduler {
 
 			// System.out.println("SCHEDULER : "+m.getId()+" affected to "+rsc.getId()+" !");
 		}
-		computeTime = System.nanoTime() - tNow;
 		Terminal.getInstance().flushAllocations();
+		
+		System.err.println("--------------------------------------------");
+		System.err.println("END : ");
+		for(StraddleCarrier s : Terminal.getInstance().getStraddleCarriers()){
+			System.err.println(s.getId() +" : \n\t"+s.getWorkload()+"\n\tScore="+s.getWorkload().getScore());
+		}
+		System.err.println("--------------------------------------------");		
 		recompute = false;
+		computeTime = System.nanoTime() - tNow;
 	}
 
 	private StraddleCarrier pickAStraddleCarrier() {

@@ -14,6 +14,7 @@ import org.com.dao.scheduling.OfflineACO2ParametersDAO;
 import org.com.dao.scheduling.OfflineACOParametersDAO;
 import org.com.dao.scheduling.OnlineACOParametersDAO;
 import org.com.dao.scheduling.RandomParametersDAO;
+import org.com.dao.scheduling.ResultsDAO;
 
 public class DAOMgr {
 	private static final Logger log = Logger.getLogger(DAOMgr.class);
@@ -22,6 +23,7 @@ public class DAOMgr {
 		SimulationDAO.getInstance().close();
 		ScenarioDAO.getInstance().close();
 		TerminalDAO.getInstance().close();
+		ResultsDAO.getInstance().close();
 		for(Iterator<BlockDAO> it = BlockDAO.getInstances(); it.hasNext(); ){
 			it.next().close();
 		}
@@ -90,7 +92,7 @@ public class DAOMgr {
 		for(Iterator<StraddleCarrierLocationDAO> it = StraddleCarrierLocationDAO.getInstances(); it.hasNext(); ){
 			it.next().close();
 		}
-		
+				
 		log.info("DAO objects closed.");
 	}
 	

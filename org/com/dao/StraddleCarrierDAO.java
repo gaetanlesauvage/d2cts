@@ -12,21 +12,23 @@ import org.apache.log4j.Logger;
 import org.com.DbMgr;
 import org.com.model.StraddleCarrierBean;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 public class StraddleCarrierDAO implements D2ctsDao<StraddleCarrierBean>{
 	private static final String[] SQL_INSERT_WHERE_CLAUSES = {
-			"VALUES ('straddle_carrier_1',	?, 'standard', 'red',	'Central_1',	'Central_1',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_10',	?, 'standard', 'LightSeaGreen',	'Central_15',	'Central_15',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_2',	?, 'standard', 'blue',	'Central_2',	'Central_2',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_3',	?, 'standard', 'green',	'Central_3',	'Central_3',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_4',	?, 'standard', 'yellow',	'Central_4',	'Central_4',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_5',	?, 'standard', 'sienna',	'Central_5',	'Central_5',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_6',	?, 'standard', 'orange',	'Central_11',	'Central_11',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_7',	?, 'standard', 'magenta',	'Central_12',	'Central_1'2,	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_8',	?, 'standard', 'olive',	'Central_13',	'Central_13',	0.5,	'false',	0,	'false',	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_9',	?, 'standard', 'DarkOrchid',	'Central_14',	'Central_14',	0.5,	'false',	0,	'false',	'RDijkstra',	null)"
+			"VALUES ('straddle_carrier_1',	?, 'standard', 'red',	'Central_1',	'Central_1',	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_10',	?, 'standard', 'LightSeaGreen',	'Central_15',	'Central_15',	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_2',	?, 'standard', 'blue',	'Central_2',	'Central_2',	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_3',	?, 'standard', 'green',	'Central_3',	'Central_3',	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_4',	?, 'standard', 'yellow',	'Central_4',	'Central_4',	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_5',	?, 'standard', 'sienna',	'Central_5',	'Central_5',	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_6',	?, 'standard', 'orange',	'Central_11',	'Central_11',	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_7',	?, 'standard', 'magenta',	'Central_12',	'Central_1'2,	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_8',	?, 'standard', 'olive',	'Central_13',	'Central_13',	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_9',	?, 'standard', 'DarkOrchid',	'Central_14',	'Central_14',	0.5,	false,	0,	false,	'RDijkstra',	null)"
 	};
 	
-	private static final String SQL_INSERT_QUERY = "INSERT INTO STRADDLECARRIER (NAME, SCENARIO, MODEL, COLOR, SLOT, ORIGIN_ROAD, ORIGIN_RATE, ORIGIN_DIRECTION, ORIGIN_AVAILABILITY, AUTOHANDLING, ROUTING_ALGORITHM, ROUTING_HEURISTIC";
+	private static final String SQL_INSERT_QUERY = "INSERT INTO STRADDLECARRIER (NAME, SCENARIO, MODEL, COLOR, SLOT, ORIGIN_ROAD, ORIGIN_RATE, ORIGIN_DIRECTION, ORIGIN_AVAILABILITY, AUTOHANDLING, ROUTING_ALGORITHM, ROUTING_HEURISTIC) ";
 	
 	private static final Logger log = Logger.getLogger(StraddleCarrierDAO.class);
 	
@@ -144,8 +146,12 @@ public class StraddleCarrierDAO implements D2ctsDao<StraddleCarrierBean>{
 		for(int i=0; i<straddleCarriersCount; i++){
 			String where = SQL_INSERT_WHERE_CLAUSES[i];
 			String sql = SQL_INSERT_QUERY+where;
-			sql = sql.replaceFirst("?", scenarioID.toString());
+			sql = sql.replaceFirst("\\?", scenarioID.toString());
+		try{
 			added += statement.executeUpdate(sql);
+		} catch (MySQLIntegrityConstraintViolationException e) {
+			added++;
+		}
 		}
 		if(added != straddleCarriersCount){
 			log.error("Error while adding straddle carriers!");

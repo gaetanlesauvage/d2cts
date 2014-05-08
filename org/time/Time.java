@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
 public class Time implements Comparable<Time> {
 	public static final String MAXTIME = "23:59:59.9999";
 	private static final NumberFormat nf = NumberFormat.getNumberInstance(new Locale("en"));
+	public static final Time MIN_TIME = new Time(0, 0, 0);
 
 	static {
 		nf.setMaximumFractionDigits(2);
@@ -38,7 +39,15 @@ public class Time implements Comparable<Time> {
 		long step = (long) (((time.h * 3600) + (time.m * 60) + time.s) / stepSize);
 		return step;
 	}
+	
+	public static Time max(Time t1, Time t2){
+		return t1.compareTo(t2) >= 0 ? t1 : t2;
+	}
 
+	public static Time min(Time t1, Time t2){
+		return t1.compareTo(t2) >= 0 ? t2 : t1;
+	}
+	
 	int h, m;
 
 	double s;
@@ -61,7 +70,7 @@ public class Time implements Comparable<Time> {
 		h = (int) (secondes / 3600);
 		secondes = secondes % 3600;
 		m = (int) (secondes / 60);
-		s = (secondes % 60);
+		s = secondes % 60;
 	}
 
 	public Time(int h, int m, double s) {
@@ -154,8 +163,9 @@ public class Time implements Comparable<Time> {
 		double time_in_s;
 		time_in_s = (toAdd == true ? timeInS + additionalTimeInS : timeInS
 				- additionalTimeInS);
-		if (time_in_s < 0.0)
-			time_in_s = 0.0;
+		
+		//if (time_in_s < 0.0)
+		//	time_in_s = 0.0;
 
 		h = (int) (time_in_s / 3600.0);
 		time_in_s = time_in_s % 3600.0;
@@ -250,5 +260,33 @@ public class Time implements Comparable<Time> {
 			String ss = ""+(int)s;
 			return (h == 0 ?  "" : h+":") + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0"+ss : ss);
 		}
+	}
+
+	public Date getDate() {
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.HOUR_OF_DAY, h);
+		c.set(Calendar.MINUTE, m);
+		c.set(Calendar.SECOND, (int)s);
+		return c.getTime();
+	}
+
+	public void add(int h, int m, int s) {
+		this.h += h;
+		this.m += m;
+		this.s += s;
+	}
+
+	public void add(int h, int m, double s) {
+		double inSec = getInSec();
+		inSec += h*3600 + m*60 + s;
+		
+		Time t = new Time(inSec);
+		this.h = t.h;
+		this.m = t.m;
+		this.s = t.s;
+	}
+	
+	public void add(Time time) {
+		add(time.h, time.m, time.s);
 	}
 }

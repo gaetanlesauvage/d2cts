@@ -62,7 +62,7 @@ public enum LinearParametersBean implements SchedulingParametersBeanInterface {
 	}
 
 	public static MissionSchedulerEvalParameters getEvalParameters() {
-		return new MissionSchedulerEvalParameters(T.value, L.value, E.value);
+		return (T.value != null && L.value != null && E.value != null) ? new MissionSchedulerEvalParameters(T.value, L.value, E.value) : null;
 	}
 
 	public static ParameterType[] types() {

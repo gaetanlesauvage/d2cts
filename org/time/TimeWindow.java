@@ -19,9 +19,11 @@
  */
 package org.time;
 
+import java.util.StringTokenizer;
 
 
-public class TimeWindow implements Comparable<TimeWindow> {
+
+public class TimeWindow implements Comparable<Object> {
 	private Time min, max;
 	
 	public TimeWindow (Time min, Time max){
@@ -94,7 +96,17 @@ public class TimeWindow implements Comparable<TimeWindow> {
 	/**
 	 * CHECK IF THIS IS THE BEST COMPARATOR EVER !
 	 */
-	public int compareTo(TimeWindow tw){
-		return getMin().compareTo(tw.getMin());
+	public int compareTo(Object tw){
+		if(tw instanceof TimeWindow){
+			return getMin().compareTo(((TimeWindow)tw).getMin());
+		} else if(tw instanceof String){
+			String twMin = ((String) tw).substring(1, ((String) tw).indexOf(" -") -1);
+			return getMin().compareTo(new Time(twMin));
+		} else {
+			System.err.println("Wrong type!");
+			return 0;
+		}
+			
+		
 	}
 }

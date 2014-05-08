@@ -19,7 +19,8 @@
  */
 package org.time.event;
 
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.system.Terminal;
 import org.time.Time;
@@ -32,7 +33,7 @@ public class ShipOut extends DynamicEvent {
 	private int capacity;
 	private boolean alreadyAdviced = false;
 
-	private HashMap<String, Double> containersToLoad;
+	private Set<String> containersToLoad;
 	private static final String TYPE = "ShipOut";
 
 	public ShipOut(Time time, int capacity, String paveID,
@@ -44,11 +45,11 @@ public class ShipOut extends DynamicEvent {
 		this.paveID = paveID;
 		this.berthFromRate = berthFromRate;
 		this.berthToRate = berthToRate;
-		this.containersToLoad = new HashMap<String, Double>();
+		this.containersToLoad = new HashSet<>();
 	}
 
-	public void addContainerToLoad(String containerID, double teu) {
-		containersToLoad.put(containerID, teu);
+	public void addContainerToLoad(String containerID) {
+		containersToLoad.add(containerID);
 	}
 
 	public String toString() {
