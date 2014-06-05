@@ -23,7 +23,7 @@ public class StraddleCarrierDAO implements D2ctsDao<StraddleCarrierBean>{
 			"VALUES ('straddle_carrier_4',	?, 'standard', 'yellow',	'Central_4',	'Central_4',	0.5,	false,	0,	false,	'RDijkstra',	null)",
 			"VALUES ('straddle_carrier_5',	?, 'standard', 'sienna',	'Central_5',	'Central_5',	0.5,	false,	0,	false,	'RDijkstra',	null)",
 			"VALUES ('straddle_carrier_6',	?, 'standard', 'orange',	'Central_11',	'Central_11',	0.5,	false,	0,	false,	'RDijkstra',	null)",
-			"VALUES ('straddle_carrier_7',	?, 'standard', 'magenta',	'Central_12',	'Central_1'2,	0.5,	false,	0,	false,	'RDijkstra',	null)",
+			"VALUES ('straddle_carrier_7',	?, 'standard', 'magenta',	'Central_12',	'Central_12',	0.5,	false,	0,	false,	'RDijkstra',	null)",
 			"VALUES ('straddle_carrier_8',	?, 'standard', 'olive',	'Central_13',	'Central_13',	0.5,	false,	0,	false,	'RDijkstra',	null)",
 			"VALUES ('straddle_carrier_9',	?, 'standard', 'DarkOrchid',	'Central_14',	'Central_14',	0.5,	false,	0,	false,	'RDijkstra',	null)"
 	};

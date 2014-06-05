@@ -98,7 +98,12 @@ public class SlotPane extends JPanel implements ListSelectionListener,
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		for (SlotColumns sc : SlotColumns.values()) {
 			// table.getColumnModel().getColumn(sc.getIndex()).setMaxWidth(sc.getWidth());
+			try{
 			table.getColumnModel().getColumn(sc.getIndex()).setMinWidth(sc.getWidth());
+			} catch(ArrayIndexOutOfBoundsException e){
+				e.printStackTrace();
+				table.getColumnModel().getColumn(sc.getIndex()).setMinWidth(sc.getWidth());
+			}
 		}
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

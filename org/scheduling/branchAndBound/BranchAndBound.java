@@ -33,8 +33,10 @@ import java.util.StringTokenizer;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.com.model.scheduling.BranchAndBoundParametersBean;
+import org.exceptions.EmptyResourcesException;
 import org.missions.Mission;
 import org.missions.MissionPhase;
+import org.routing.path.Path;
 import org.scheduling.MissionScheduler;
 import org.scheduling.aco.graph.DepotNode;
 import org.scheduling.display.JMissionScheduler;
@@ -186,18 +188,9 @@ public class BranchAndBound extends MissionScheduler {
 		}
 		missionsStartTime = new HashMap<String, HashMap<String, Time>>();
 
-		step = 0;
 		sstep = TimeScheduler.getInstance().getStep() + 1;
-		//Time t = new Time(sstep);
-		/*for (String s : Terminal.getInstance().getStraddleCarriersName()) {
-			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
-			addResource(t, rsc);
-		}
-		for (String s : Terminal.getInstance().getMissionsName()) {
-			Mission m = Terminal.getInstance().getMission(s);
-			addMission(t, m);
-		}*/
-		
+		step = 0;
+		graphChanged = true;
 		
 		for (StraddleCarrier rsc : resources) {
 			if(!jms.containsResource(rsc)){
@@ -206,7 +199,21 @@ public class BranchAndBound extends MissionScheduler {
 		}
 		jms.getIndicatorPane().updateUI();
 		jms.getJTabbedPane().updateUI();
+	}
 
+	@Override
+	public boolean apply() {
+		boolean returnCode = NOTHING_CHANGED;
+		step++;
+		sstep++;
+		if(precomputed){
+			precomputed = false;
+			returnCode = SOMETHING_CHANGED;
+		}
+		return returnCode;
+	}
+
+	private void computeCosts() {
 		costs = new Costs();
 		try {
 			if (evalCosts) {
@@ -237,32 +244,24 @@ public class BranchAndBound extends MissionScheduler {
 
 			for (StraddleCarrier rsc : resources) {
 				String rscID = rsc.getId();
-				start.put(rscID, computeMissionStartTime(m, rscID));
+				try {
+					start.put(rscID, computeMissionStartTime(m, rsc));
+				} catch (EmptyResourcesException e) {
+					e.printStackTrace();
+				}
 			}
 			missionsStartTime.put(m.getId(), start);
 		}
-
+		graphChanged = false;
 		Solution.setBranchAndBound(this);
 		recompute = true;
-	}
-
-	@Override
-	public boolean apply() {
-		boolean returnCode = NOTHING_CHANGED;
-		step++;
-		sstep++;
-		if(precomputed){
-			precomputed = false;
-			returnCode = SOMETHING_CHANGED;
-		}
-		return returnCode;
 	}
 
 	@Override
 	public void precompute() {
 		if(!init)
 			init();
-
+	
 		if (graphChanged || graphChangedByUpdate > 0) {
 			processEvents();
 			lock.lock();
@@ -273,30 +272,37 @@ public class BranchAndBound extends MissionScheduler {
 
 		if (recompute && !resources.isEmpty() && !pool.isEmpty()) {
 			// COMPUTE ALGORITHM
+			computeCosts();
 			compute();
 		}
 	}
 
 	@Override
 	public void addMission(Time t, Mission m) {
-		pool.add(m);
+		super.addMission(t, m);
 		if (costs != null) {
 			HashMap<String, Time> start = new HashMap<String, Time>();
 
 			for (StraddleCarrier rsc : resources) {
 				String rscID = rsc.getId();
-				start.put(rscID, computeMissionStartTime(m, rscID));
+				try {
+					start.put(rscID, computeMissionStartTime(m, rsc));
+				} catch (EmptyResourcesException e) {
+					e.printStackTrace();
+				}
 			}
 			missionsStartTime.put(m.getId(), start);
 		}
 		recompute = true;
+		
 	}
 
 	@Override
 	public boolean removeMission(Time t, Mission m) {
 
 		missionsStartTime.remove(m.getId());
-		return removeMission(m);
+		graphChanged = removeMission(m); 
+		return graphChanged;
 		/*for (int i = 0; i < pool.size(); i++) {
 			if (m.getId().equals(pool.get(i).getId())) {
 				pool.remove(i);
@@ -315,7 +321,11 @@ public class BranchAndBound extends MissionScheduler {
 
 			for (Mission m : pool) {
 				HashMap<String, Time> start = missionsStartTime.get(m.getId());
-				start.put(rscID, computeMissionStartTime(m, rscID));
+				try {
+					start.put(rscID, computeMissionStartTime(m, rsc));
+				} catch (EmptyResourcesException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		recompute = true;
@@ -576,11 +586,6 @@ public class BranchAndBound extends MissionScheduler {
 	}
 
 	@Override
-	public void updateMission(Time t, Mission m) {
-		// TODO
-	}
-
-	@Override
 	public void incrementNumberOfCompletedMissions(final String resourceID) {
 		//		boolean terminated = true;
 		//		lookup: for (StraddleCarrier rsc : resources) {
@@ -679,11 +684,15 @@ public class BranchAndBound extends MissionScheduler {
 		return missionsStartTime.get(task).get(resource);
 	}
 
-	private Time computeMissionStartTime(Mission m, String resourceID) {
+	
+	private Time computeMissionStartTime(Mission m, StraddleCarrier resource) throws EmptyResourcesException {
 		Time startTime = null;
 		TimeWindow tw = m.getPickupTimeWindow();
-		startTime = new Time(tw.getMin(), costs.getCosts(DepotNode.ID,
-				m.getId()).getCostInTime(resourceID), false);
+		Path p = MissionScheduler.getInstance()
+				.getTravelPath(null, m, resource);
+		Time ht = getContainerHandlingTime(m.getId(), resource.getId(), MissionPhase.PHASE_DELIVERY);
+		double pCost = p.getCost() + ht.getInSec();
+		startTime = new Time(tw.getMin(), new Time(pCost), false);
 		return startTime;
 	}
 }

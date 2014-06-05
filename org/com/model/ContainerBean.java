@@ -16,6 +16,17 @@ public class ContainerBean {
 
 	}
 
+	public ContainerBean(ContainerBean bean) {
+		this.name = bean.getName();
+		this.type = bean.getType();
+		this.scenario = bean.getScenario();
+		this.teu = bean.getTeu();
+		this.slot = bean.getSlot();
+		this.slotLevel = bean.getSlotLevel();
+		this.alignment = bean.getAlignment();
+		this.vehicle = bean.getVehicle();
+	}
+
 	public String getName() {
 		return name;
 	}

@@ -266,6 +266,7 @@ public class Terminal implements RecordableObject {
 
 			if (location != null) {
 				Slot slot = getSlot(location.getSlotId());
+				
 				Coordinates coords = slot.stockContainer(c, location.getLevel(), location.getAlign());
 
 				// Modify to add Z coord !

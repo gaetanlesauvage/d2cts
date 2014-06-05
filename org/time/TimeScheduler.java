@@ -28,10 +28,13 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
+import org.com.dao.scheduling.MissionLoadDAO;
 import org.com.dao.scheduling.ResultsDAO;
+import org.com.model.scheduling.LoadBean;
 import org.com.model.scheduling.ResultsBean;
 import org.display.TextDisplay;
 import org.exceptions.IllegalSlotChangeException;
+import org.missions.Load;
 import org.scheduling.MissionScheduler;
 import org.system.Terminal;
 import org.system.container_stocking.ContainerLocation;
@@ -42,6 +45,7 @@ import org.time.event.ShipContainerOut;
 import org.time.event.VehicleIn;
 import org.time.event.VehicleOut;
 import org.util.RecordableObject;
+import org.vehicles.StraddleCarrier;
 import org.vehicles.Truck;
 
 public class TimeScheduler implements RecordableObject {
@@ -356,6 +360,10 @@ public class TimeScheduler implements RecordableObject {
 		}
 		if(!keepGoing){
 			computeEndTime();
+			
+			//Store workloads
+			saveWorkloads();
+			
 			//Store results
 			ResultsBean results = MissionScheduler.getInstance().getIndicatorPane().getResults();
 			results.setSimulation(Terminal.getInstance().getSimulationID());
@@ -384,6 +392,26 @@ public class TimeScheduler implements RecordableObject {
 		logger.info(getTime()+":> Simulation ran in "+simTime);
 	}
 
+	private void saveWorkloads(){
+		for(StraddleCarrier s : Terminal.getInstance().getStraddleCarriers()){
+			LoadBean previous = null;
+			MissionLoadDAO dao = MissionLoadDAO.getInstance(Terminal.getInstance().getSimulationID().longValue(), s.getId());
+			int index = 0;
+			for(Load l : s.getWorkload().getLoads()){
+				LoadBean current = l.getLoadBean();
+				current.setLoadIndex(index++);
+				try {
+					dao.insert(current);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				if(l.isLinked())
+					current.setLinkedLoad(previous.getID());
+				
+				previous = current;
+			}
+		}
+	}
 	private boolean stepSeq() {
 		// writer.append(this.step+"> SEQ\n");
 		// VALIDATE REGISTRATION OF EVENTS !

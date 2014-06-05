@@ -47,10 +47,9 @@ import org.positioning.LaserSystem;
 import org.system.Terminal;
 import org.time.Time;
 import org.time.event.LaserHeadFailure;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-
+@Deprecated
 public class LaserHeadRangeEventsGenerator {
 	private XMLReader saxReader;
 
@@ -328,16 +327,17 @@ public class LaserHeadRangeEventsGenerator {
 		}
 	}
 
+	@Deprecated
 	public void runLaserSystem(String[] xmlLaserSystem) throws IOException,
 			SAXException {
-		LaserSystem.getInstance();
-		XMLTerminalComponentParser terminalParser = new XMLTerminalComponentParser();
-		saxReader.setContentHandler(terminalParser);
-		for (String s : xmlLaserSystem) {
-			System.out.println("Parsing xmlLaserSystem file " + s);
-			saxReader.parse(new InputSource(this.getClass()
-					.getResourceAsStream("/" + s)));
-		}
+//		LaserSystem.getInstance();
+//		XMLTerminalComponentParser terminalParser = new XMLTerminalComponentParser();
+//		saxReader.setContentHandler(terminalParser);
+//		for (String s : xmlLaserSystem) {
+//			System.out.println("Parsing xmlLaserSystem file " + s);
+//			saxReader.parse(new InputSource(this.getClass()
+//					.getResourceAsStream("/" + s)));
+//		}
 	}
 
 	private void updateTitle() {

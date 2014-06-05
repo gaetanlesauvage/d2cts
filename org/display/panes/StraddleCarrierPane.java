@@ -43,7 +43,7 @@ import org.util.Location;
 import org.vehicles.StraddleCarrier;
 
 public class StraddleCarrierPane extends JPanel implements
-		ListSelectionListener, MouseListener {
+ListSelectionListener, MouseListener {
 	/**
 	 * 
 	 */
@@ -58,40 +58,52 @@ public class StraddleCarrierPane extends JPanel implements
 
 	public StraddleCarrierPane() {
 		super(new BorderLayout());
-		PaneColumn[] cols = new PaneColumn[StraddleCarrierColumns.values().length
-				+ StraddleCarrierColumnsWithIcon.values().length];
-		for (StraddleCarrierColumns c : StraddleCarrierColumns.values()) {
-			cols[c.getIndex()] = c;
+		boolean ok = false;
+
+		while(!ok){
+			PaneColumn[] cols = new PaneColumn[StraddleCarrierColumns.values().length
+			                                   + StraddleCarrierColumnsWithIcon.values().length];
+			for (StraddleCarrierColumns c : StraddleCarrierColumns.values()) {
+				cols[c.getIndex()] = c;
+			}
+			for (StraddleCarrierColumnsWithIcon c : StraddleCarrierColumnsWithIcon
+					.values()) {
+				cols[c.getIndex()] = c;
+			}
+
+			dm = new ThreadSafeTableModel(cols);
+			format.setMaximumFractionDigits(2);
+
+			datas = new Hashtable<String, JLabel[]>();
+			table = new JTable(dm);
+			indexes = new Hashtable<String, Integer>();
+			table.setFont(GraphicDisplay.font);
+			table.getTableHeader().setFont(GraphicDisplay.fontBold);
+			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
+					table.getModel());
+			TableCellRenderer alignCenter = new TableCellRendererCentered();
+			TableCellRendererWithIcon idRenderer = new TableCellRendererWithIcon();
+
+			table.setDefaultRenderer(StraddleCarrierColumns.class, alignCenter);
+			table.setDefaultRenderer(StraddleCarrierColumnsWithIcon.class,
+					idRenderer);
+
+			sorter.setSortsOnUpdates(true);
+			table.setRowSorter(sorter);
+			if(table.getColumnCount() == StraddleCarrierColumns.values().length+StraddleCarrierColumnsWithIcon.values().length){
+				ok = true;
+			}
 		}
-		for (StraddleCarrierColumnsWithIcon c : StraddleCarrierColumnsWithIcon
-				.values()) {
-			cols[c.getIndex()] = c;
-		}
-
-		dm = new ThreadSafeTableModel(cols);
-		format.setMaximumFractionDigits(2);
-
-		datas = new Hashtable<String, JLabel[]>();
-		table = new JTable(dm);
-		indexes = new Hashtable<String, Integer>();
-		table.setFont(GraphicDisplay.font);
-		table.getTableHeader().setFont(GraphicDisplay.fontBold);
-		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
-				table.getModel());
-		TableCellRenderer alignCenter = new TableCellRendererCentered();
-		TableCellRendererWithIcon idRenderer = new TableCellRendererWithIcon();
-
-		table.setDefaultRenderer(StraddleCarrierColumns.class, alignCenter);
-		table.setDefaultRenderer(StraddleCarrierColumnsWithIcon.class,
-				idRenderer);
-
-		sorter.setSortsOnUpdates(true);
-		table.setRowSorter(sorter);
-
+		
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		for (StraddleCarrierColumns mc : StraddleCarrierColumns.values()) {
-			table.getColumnModel().getColumn(mc.getIndex())
-					.setMinWidth(mc.getWidth());
+			try{
+				table.getColumnModel().getColumn(mc.getIndex())
+			.setMinWidth(mc.getWidth());
+			} catch(ArrayIndexOutOfBoundsException e){
+				e.printStackTrace();
+				table.getColumnModel().getColumn(mc.getIndex()).setMinWidth(mc.getWidth());
+			}
 		}
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

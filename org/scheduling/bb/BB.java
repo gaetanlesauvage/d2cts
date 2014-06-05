@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,9 @@ import java.util.StringTokenizer;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.com.model.scheduling.BBParametersBean;
+import org.com.model.scheduling.BranchAndBoundParametersBean;
 import org.com.model.scheduling.ParameterBean;
+import org.exceptions.EmptyResourcesException;
 import org.exceptions.MissionNotFoundException;
 import org.missions.Load;
 import org.missions.Mission;
@@ -67,39 +70,17 @@ public class BB extends MissionScheduler {
 		if(evalParameters == null){
 			evalParameters = BBParametersBean.getEvalParameters();
 		}
-		step = TimeScheduler.getInstance().getStep() + 1;
-		sstep = step;
-		//		for (String s : Terminal.getInstance().getStraddleCarriersName()) {
-		//			StraddleCarrier rsc = Terminal.getInstance().getStraddleCarrier(s);
-		//			addResource(new Time(step), rsc);
-		//		}
-		//		for (String s : Terminal.getInstance().getMissionsName()) {
-		//			Mission m = Terminal.getInstance().getMission(s);
-		//			addMission(new Time(step), m);
-		//		}
+		sstep = TimeScheduler.getInstance().getStep() + 1;
+		step = 0;
+		graphChanged = true;
 
-		//		jms = new JMissionScheduler();
-		int current = 1;
 		for (StraddleCarrier rsc : resources) {
 			if(!jms.containsResource(rsc)){
 				jms.addResource(rsc);
-				System.out.println("Adding resource " + rsc.getId() + " ("
-						+ current + "/" + resources.size() + ")");
 			}
-			current++;
 		}
-		//		current = 1;
-		//		for (Mission m : pool) {
-		//			System.out.println("Adding task " + m.getId() + " (" + current
-		//					+ "/" + pool.size() + ")");
-		//			current++;
-		//			insertMission(m);
-		//		}
-
 		jms.getIndicatorPane().updateUI();
 		jms.getJTabbedPane().updateUI();
-
-		recompute = true;
 	}
 	
 	
@@ -167,7 +148,6 @@ public class BB extends MissionScheduler {
 		// //System.out.println("G1 : "+global1+"\nG1 S:"+global1.getSolutionString());
 		// System.exit(0);
 		if (recompute && !resources.isEmpty() && !pool.isEmpty()) {
-			precomputed = true;
 			// COMPUTE ALGORITHM
 			compute();
 		}
@@ -175,59 +155,67 @@ public class BB extends MissionScheduler {
 
 	@Override
 	public boolean apply() {
-		boolean returnCode = DiscretObject.NOTHING_CHANGED;
-		if (precomputed) {
-			pool.clear();
-
-			Map<String, LocalScore> solutions = best.getSolution();
-			for (String colonyID : solutions.keySet()) {
-				StraddleCarrier vehicle = vehicles.get(colonyID);
-
-				// TO REMOVE
-				List<String> toRemove = new ArrayList<String>();
-				for (Load l : vehicle.getWorkload().getLoads()) {
-					if (l.getState() == MissionState.STATE_TODO) {
-						toRemove.add(l.getMission().getId());
-					}
-				}
-				for (String mID : toRemove) {
-					try {
-						vehicle.removeMissionInWorkload(mID);
-					} catch (MissionNotFoundException e1) {
-						// ALREADY REMOVED
-					}
-				}
-			}
-			for (String colonyID : solutions.keySet()) {
-				StraddleCarrier vehicle = vehicles.get(colonyID);
-				LocalScore score = solutions.get(colonyID);
-				List<ScheduleEdge> path = score.getPath();
-				if (path.size() > 0) {
-					List<Mission> toAffect = new ArrayList<Mission>(
-							path.size() - 1);
-					for (ScheduleEdge e : path) {
-						if (e.getNodeTo() != SOURCE_NODE) {
-							ScheduleTask<? extends ScheduleEdge> missionNode = e
-									.getNodeTo();
-							toAffect.add(missionNode.getMission());
-						}
-					}
-					vehicle.addMissionsInWorkload(toAffect);
-
-				}
-			}
-
-			Terminal.getInstance().flushAllocations();
-
-			precomputed = false;
-			step++;
-			returnCode = DiscretObject.SOMETHING_CHANGED;
-		}
-
+		boolean returnCode = NOTHING_CHANGED;
+		step++;
 		sstep++;
+		if(precomputed){
+			precomputed = false;
+			returnCode = SOMETHING_CHANGED;
+		}
 		return returnCode;
+		
+//		if (precomputed) {
+//			pool.clear();
+//
+//			Map<String, LocalScore> solutions = best.getSolution();
+//			for (String colonyID : solutions.keySet()) {
+//				StraddleCarrier vehicle = vehicles.get(colonyID);
+//
+//				// TO REMOVE
+//				List<String> toRemove = new ArrayList<String>();
+//				for (Load l : vehicle.getWorkload().getLoads()) {
+//					if (l.getState() == MissionState.STATE_TODO) {
+//						toRemove.add(l.getMission().getId());
+//					}
+//				}
+//				for (String mID : toRemove) {
+//					try {
+//						vehicle.removeMissionInWorkload(mID);
+//					} catch (MissionNotFoundException e1) {
+//						// ALREADY REMOVED
+//					}
+//				}
+//			}
+//			for (String colonyID : solutions.keySet()) {
+//				StraddleCarrier vehicle = vehicles.get(colonyID);
+//				LocalScore score = solutions.get(colonyID);
+//				List<ScheduleEdge> path = score.getPath();
+//				if (path.size() > 0) {
+//					List<Mission> toAffect = new ArrayList<Mission>(
+//							path.size() - 1);
+//					for (ScheduleEdge e : path) {
+//						if (e.getNodeTo() != SOURCE_NODE) {
+//							ScheduleTask<? extends ScheduleEdge> missionNode = e
+//									.getNodeTo();
+//							toAffect.add(missionNode.getMission());
+//						}
+//					}
+//					vehicle.addMissionsInWorkload(toAffect);
+//
+//				}
+//			}
+//
+//			Terminal.getInstance().flushAllocations();
+//
+//			precomputed = false;
+//			step++;
+//			returnCode = DiscretObject.SOMETHING_CHANGED;
+//		}
+//
+//		sstep++;
+//		return returnCode;
 	}
-
+		
 	@Override
 	public void compute() {
 		System.out.println("BBParameters : ");

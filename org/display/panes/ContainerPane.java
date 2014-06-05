@@ -67,34 +67,39 @@ public class ContainerPane extends JPanel implements ListSelectionListener, Mous
 
 			datas = new Hashtable<String, String[]>();
 			table = new JTable(dm);
+			indexes = new Hashtable<String, Integer>();
+			table.setFont(GraphicDisplay.font);
+			table.getTableHeader().setFont(GraphicDisplay.fontBold);
+			
+			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+			DefaultTableCellRenderer alignCenter = new DefaultTableCellRenderer(); 
+			
+			alignCenter.setHorizontalAlignment(JLabel.CENTER); 
+			alignCenter.setFont(GraphicDisplay.font);
+			try
+			{
+				table.setDefaultRenderer( Class.forName
+						( "java.lang.Object" ), alignCenter );
+			}
+			catch( ClassNotFoundException ex )
+			{
+				System.exit( ReturnCodes.EXIT_ON_UNKNOWN_ERROR.getCode() );
+			}
+			sorter.setSortsOnUpdates(true);
+			table.setRowSorter(sorter);
 			if(table.getColumnCount() == ContainersColumns.values().length){
 				ok = true;
 			}
 		}
-		indexes = new Hashtable<String, Integer>();
-		table.setFont(GraphicDisplay.font);
-		table.getTableHeader().setFont(GraphicDisplay.fontBold);
-
-		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-		DefaultTableCellRenderer alignCenter = new DefaultTableCellRenderer(); 
-
-		alignCenter.setHorizontalAlignment(JLabel.CENTER); 
-		alignCenter.setFont(GraphicDisplay.font);
-		try
-		{
-			table.setDefaultRenderer( Class.forName
-					( "java.lang.Object" ), alignCenter );
-		}
-		catch( ClassNotFoundException ex )
-		{
-			System.exit( ReturnCodes.EXIT_ON_UNKNOWN_ERROR.getCode() );
-		}
-		sorter.setSortsOnUpdates(true);
-		table.setRowSorter(sorter);
 
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		for(ContainersColumns mc : ContainersColumns.values()){
-			table.getColumnModel().getColumn(mc.getIndex()).setMinWidth(mc.getWidth());
+			try{
+				table.getColumnModel().getColumn(mc.getIndex()).setMinWidth(mc.getWidth());
+			} catch(ArrayIndexOutOfBoundsException e){
+				e.printStackTrace();
+				table.getColumnModel().getColumn(mc.getIndex()).setMinWidth(mc.getWidth());
+			}
 		}
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

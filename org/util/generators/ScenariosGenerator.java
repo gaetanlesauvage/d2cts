@@ -3,19 +3,20 @@ package org.util.generators;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import org.com.DbMgr;
+import org.com.dao.ContainerDAO;
 import org.com.dao.EventDAO;
 import org.com.dao.ScenarioDAO;
 import org.com.dao.SchedulingAlgorithmDAO;
+import org.com.dao.StraddleCarrierDAO;
 import org.com.dao.TerminalDAO;
 import org.com.dao.scheduling.DefaultParametersDAO;
+import org.com.model.ContainerBean;
 import org.com.model.EventBean;
 import org.com.model.ScenarioBean;
 import org.com.model.SchedulingAlgorithmBean;
@@ -31,7 +32,6 @@ import org.com.model.scheduling.OnlineACOParametersBean;
 import org.com.model.scheduling.ParameterBean;
 import org.com.model.scheduling.ParameterType;
 import org.com.model.scheduling.RandomParametersBean;
-import org.com.model.scheduling.SchedulingParametersBeanInterface;
 import org.exceptions.ContainerDimensionException;
 import org.exceptions.EmptyLevelException;
 import org.exceptions.NoPathFoundException;
@@ -88,7 +88,7 @@ public class ScenariosGenerator {
 			for(int i=0; i<names.length; i++){
 				//Scenario
 				ScenarioBean scenario = ScenarioGenerator.getInstance().generate(names[i], terminal, twenty, forty, fortyFive, straddleCarriers[i], null);
-
+				
 				//Create missions of this scenario
 				new MissionsFileGenerator(scenario,seed,rail[i],road[i],sea[i],stock[i]);
 
@@ -100,6 +100,7 @@ public class ScenariosGenerator {
 						edodizedScenario.setName(scenario.getName()+"["+degrees[j].getDoD()+";"+degrees[j].getEDoD()[k]+"]");
 						edodizedScenario.setTerminal(scenario.getTerminal());
 						ScenarioDAO.getInstance().insert(edodizedScenario);
+						StraddleCarrierDAO.getInstance(edodizedScenario.getId()).add(straddleCarriers[i]);;
 
 						//Implique de copier toutes les missions du scenario père
 						Iterator<EventBean> eventsIt = EventDAO.getInstance(scenario.getId()).iterator();
@@ -107,6 +108,13 @@ public class ScenariosGenerator {
 							EventBean event = eventsIt.next();
 							EventBean copy = new EventBean(event);
 							EventDAO.getInstance(edodizedScenario.getId()).insert(copy);
+						}
+						Iterator<ContainerBean> contIt = ContainerDAO.getInstance(scenario.getId()).iterator();
+						while(contIt.hasNext()){
+							ContainerBean container = contIt.next();
+							ContainerBean copy = new ContainerBean(container);
+							copy.setScenario(edodizedScenario.getId());
+							ContainerDAO.getInstance(edodizedScenario.getId()).insert(copy);
 						}
 						//Edodize missions
 						Edodizer.edodize(edodizedScenario, degrees[j].getDoD(), degrees[j].getEDoD()[k], r);
@@ -133,6 +141,7 @@ public class ScenariosGenerator {
 		} catch (Exception e){
 			e.printStackTrace(); //Any other idea ?
 		}
+		System.exit(0);
 	}
 
 	private Map<String, ParameterBean[]> getDefaultSchedulingParameters(){
@@ -250,10 +259,18 @@ public class ScenariosGenerator {
 	}
 
 	public static void main(String [] args) throws SQLException, NoPathFoundException, ContainerDimensionException, EmptyLevelException{
-		//Doit-on gérer une matrice pour les descripteurs de mission ? [scenario][stocks missions]... ou garde t-on un vecteur ? [missions du scenario i]
+		  //Doit-on gérer une matrice pour les descripteurs de mission ? [scenario][stocks missions]... ou garde t-on un vecteur ? [missions du scenario i]
 		StockGenerationData stock1 = new StockGenerationData(3, new Time(0d).getDate(), new Time("00:30:00").getDate(), new Time("00:15:00").getDate(), "1-stock");
-		StockGenerationData stock2 = new StockGenerationData(1, new Time(0d).getDate(), new Time("00:30:00").getDate(), new Time("00:15:00").getDate(), "2-stock");
-
+//		StockGenerationData stock2 = new StockGenerationData(1, new Time(0d).getDate(), new Time("00:30:00").getDate(), new Time("00:15:00").getDate(), "2-stock");
+//		StockGenerationData stock3 = new StockGenerationData(2, new Time(0d).getDate(), new Time("00:30:00").getDate(), new Time("00:15:00").getDate(), "3-stock");
+//		StockGenerationData stock4 = new StockGenerationData(5, new Time(0d).getDate(), new Time("00:30:00").getDate(), new Time("00:15:00").getDate(), "4-stock");
+//		StockGenerationData stock5 = new StockGenerationData(10, new Time(0d).getDate(), new Time("01:00:00").getDate(), new Time("00:15:00").getDate(), "5-stock");
+//		StockGenerationData stock6 = stock5;
+//		StockGenerationData stock7 = new StockGenerationData(20, new Time(0d).getDate(), new Time("02:00:00").getDate(), new Time("00:15:00").getDate(), "7-stock");
+//		StockGenerationData stock8 = new StockGenerationData(25, new Time(0d).getDate(), new Time("02:00:00").getDate(), new Time("00:15:00").getDate(), "8-stock");
+//		StockGenerationData stock9 = new StockGenerationData(30, new Time(0d).getDate(), new Time("02:00:00").getDate(), new Time("00:15:00").getDate(), "9-stock");
+//		StockGenerationData stock10 = new StockGenerationData(35, new Time(0d).getDate(), new Time("02:00:00").getDate(), new Time("00:15:00").getDate(), "10-stock");
+		
 		Integer terminalID = 1;
 		long[] seeds = {1L};
 		int twenty = 50;
@@ -261,17 +278,19 @@ public class ScenariosGenerator {
 		int fortyFive = 0;
 		double[] edod1 = {0d};
 		double[] edod2 = {0.25d, 0.5d, 0.75d, 1d};
-		double[] edod3 = {0.25d, 0.5d, 0.75d, 1d};
+		
 		DegreeDistribution[] degrees = {
 				new DegreeDistribution(0d, edod1),
+				new DegreeDistribution(0.25d, edod2),
 				new DegreeDistribution(0.5d, edod2),
-				new DegreeDistribution(1d, edod3)
+				new DegreeDistribution(0.75d, edod2),
+				new DegreeDistribution(1d, edod2)
 		};
-		int[] straddleCarriers = {1, 3};
-		StockGenerationData[] stock = {stock1, stock2};
-		TruckGenerationData[] road = {null, null};
-		ShipGenerationData[] sea = {null, null};
-		TrainGenerationData[] rail = {null, null};
+		int[] straddleCarriers = {1/*, 2, 10, 2, 4, 5, 5, 10, 10, 10*/};
+		StockGenerationData[] stock = {stock1/*, stock2, stock3, stock4, stock5, stock6, stock7, stock8, stock9, stock10*/};
+		TruckGenerationData[] road = {null/*, null, null, null, null, null, null, null, null, null*/};
+		ShipGenerationData[] sea = {null/*, null, null, null, null, null, null, null, null, null*/};
+		TrainGenerationData[] rail = {null/*, null, null, null, null, null, null, null, null, null*/};
 		//
 		//		int[] missionCount = new int[straddleCarriers.length];
 		//		for(int i = 0; i<straddleCarriers.length; i++){
@@ -285,8 +304,18 @@ public class ScenariosGenerator {
 		//			if(i<rail.length)
 		//				missionCount[i] += rail[i].getNb();
 		//		}
-
-		String[] names = {"1) Test n1","2) Test n2"};
+		
+		String[] names = {"1) instance triviale, sans problème d'affectation"/*,
+				  "2) instance triviale, sans problème d'ordonnancement",
+				  "3) peu de missions sont à planifier alors qu'un grand nombre de ressources sont disponibles (comparable à l'optimum)",
+				  "4) instance de petite taille où une solution optimale est calculable",
+				  "5) instance moyenne du problème à petite échelle",
+				  "6) instance moyenne du problème permettant de mesurer l'impact de l'ajout d'une ressource dans le calcul des algorithmes : qualité de la solution / performance calculatoire. Les missions sont identiques à celles du scénario 5",
+				  "7) instance avec une lourde charge pour les véhicules afin de mesurer la capacité de l'algorithme à résister à des scénarios critiques",
+				  "8) instance moyenne à grande échelle",
+				  "9) seconde instance moyenne à grande échelle",
+				  "10) troisième instance moyenne à grande échelle"*/
+		  };
 		List<String> edodizedNames = new ArrayList<>();
 		for(int k=0; k<names.length; k++){
 			for(int i=0; i<degrees.length; i++){
