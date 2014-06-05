@@ -21,7 +21,6 @@ import org.com.dao.ScenarioDAO;
 import org.com.dao.SlotDAO;
 import org.com.dao.StraddleCarrierDAO;
 import org.com.dao.TerminalDAO;
-import org.com.dao.scheduling.MissionLoadDAO;
 import org.com.model.BlockBean;
 import org.com.model.ContainerBean;
 import org.com.model.CrossroadBean;
@@ -40,7 +39,6 @@ import org.com.model.scheduling.BBParametersBean;
 import org.com.model.scheduling.BranchAndBoundParametersBean;
 import org.com.model.scheduling.GreedyParametersBean;
 import org.com.model.scheduling.LinearParametersBean;
-import org.com.model.scheduling.LoadBean;
 import org.com.model.scheduling.OfflineACO2ParametersBean;
 import org.com.model.scheduling.OfflineACOParametersBean;
 import org.com.model.scheduling.OnlineACOParametersBean;
@@ -48,7 +46,6 @@ import org.com.model.scheduling.ParameterBean;
 import org.com.model.scheduling.RandomParametersBean;
 import org.com.model.scheduling.SchedulingParametersBeanInterface;
 import org.display.MainFrame;
-import org.missions.Load;
 import org.positioning.Coordinates;
 import org.positioning.LaserSystem;
 import org.positioning.Range;
@@ -78,7 +75,6 @@ import org.system.container_stocking.ContainerLocation;
 import org.system.container_stocking.Quay;
 import org.system.container_stocking.Slot;
 import org.time.TimeScheduler;
-import org.time.TimeWindow;
 import org.time.event.DynamicEvent;
 import org.util.Location;
 import org.vehicles.StraddleCarrier;
@@ -390,26 +386,26 @@ public class SimulationLoader {
 				next.isAutoHandling()*/);
 
 		//Workload
-		MissionLoadDAO mld = MissionLoadDAO.getInstance(next.getName());
-		Iterator<LoadBean> itLoads = mld.iterator();
-
-		Map<Integer, Load> loads = new HashMap<>();
-
-		while(itLoads.hasNext()){
-			LoadBean loadBean = itLoads.next();
-			Load load = new Load(new TimeWindow(loadBean.getTwMin(),loadBean.getTwMax()),
-					Terminal.getInstance().getMission(loadBean.getMission()), 
-					loadBean.getStartableTime());
-
-			straddleCarrier.getWorkload().insert(load);
-			loads.put(loadBean.getID(), load);
-		}
-
-		itLoads = mld.iterator();
-		while(itLoads.hasNext()){
-			LoadBean loadBean = itLoads.next();
-			straddleCarrier.getWorkload().getLoad(loadBean.getMission()).setLinkedLoad(loads.get(loadBean.getLinkedLoad()));
-		}
+//		MissionLoadDAO mld = MissionLoadDAO.getInstance(Terminal.getInstance().getSimulationID().longValue(), next.getName());
+//		Iterator<LoadBean> itLoads = mld.iterator();
+//
+//		Map<Long, Load> loads = new HashMap<>();
+//
+//		while(itLoads.hasNext()){
+//			LoadBean loadBean = itLoads.next();
+//			Load load = new Load(new TimeWindow(loadBean.getTwMin(),loadBean.getTwMax()),
+//					Terminal.getInstance().getMission(loadBean.getMission()), 
+//					loadBean.getStartableTime());
+//
+//			straddleCarrier.getWorkload().insert(load);
+//			loads.put(loadBean.getID(), load);
+//		}
+//
+//		itLoads = mld.iterator();
+//		while(itLoads.hasNext()){
+//			LoadBean loadBean = itLoads.next();
+//			straddleCarrier.getWorkload().getLoad(loadBean.getMission()).setLinkedLoad(loads.get(loadBean.getLinkedLoad()));
+//		}
 
 		//Routing
 		Routing r = RoutingAlgorithmType.get(next.getRoutingAlgorithm(),next.getRoutingHeuristic()).getNewRoutingAlgorithm(straddleCarrier);

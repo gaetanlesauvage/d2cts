@@ -48,7 +48,7 @@ public class Edodizer {
 			// Pick a mission
 			EventBean bean = init.remove(r.nextInt(init.size()));
 			NewMission missionEvent = (NewMission)DynamicEvent.create(bean);
-			if (i < (1 - dod) * initSize) {
+			if (i+1 < (1 - dod) * initSize) { 
 				bean.setTime(new Time(0));
 			} else {
 				Time oT = missionEvent.getMission().getPickupTimeWindow().getMin();

@@ -6,7 +6,8 @@ import org.missions.MissionPhase;
 import org.missions.MissionState;
 
 public class LoadBean {
-	private Integer ID;
+	private Long ID;
+	private Time t;
 	private Time twMin;
 	private Time twMax;
 	private String mission;
@@ -22,7 +23,7 @@ public class LoadBean {
 	private Time unloadStartTime;
 	private Time endTime;
 	private Time waitTime;
-	private Integer linkedLoad;
+	private Long linkedLoad;
 	private Integer loadIndex;
 	private String straddleCarrierName;
 	
@@ -40,11 +41,11 @@ public class LoadBean {
 		
 	}
 
-	public Integer getID() {
+	public Long getID() {
 		return ID;
 	}
 
-	public void setID(Integer iD) {
+	public void setID(Long iD) {
 		ID = iD;
 	}
 
@@ -168,11 +169,11 @@ public class LoadBean {
 		this.waitTime = waitTime;
 	}
 
-	public Integer getLinkedLoad() {
+	public Long getLinkedLoad() {
 		return linkedLoad;
 	}
 
-	public void setLinkedLoad(Integer linkedLoad) {
+	public void setLinkedLoad(Long linkedLoad) {
 		this.linkedLoad = linkedLoad;
 	}
 
@@ -182,6 +183,14 @@ public class LoadBean {
 	
 	public Integer getLoadIndex(){
 		return this.loadIndex;
+	}
+
+	public void setT(Time time) {
+		this.t = time;
+	}
+	
+	public Time getT() {
+		return this.t;
 	}
 	
 }

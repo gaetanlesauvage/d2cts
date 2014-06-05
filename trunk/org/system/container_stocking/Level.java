@@ -365,6 +365,10 @@ public class Level {
 		return l;
 	}
 	
+	public List<Container> getContainers(){
+		return content;
+	}
+	
 	public String getStringContent() {
 		StringBuilder sb = new StringBuilder();
 		if(content.size() == 0) sb.append("empty");

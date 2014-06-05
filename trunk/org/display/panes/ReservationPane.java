@@ -56,37 +56,46 @@ public class ReservationPane extends JPanel implements ListSelectionListener {
 	public ReservationPane() {
 		super(new BorderLayout());
 
-		dm = new ThreadSafeTableModel(ReservationColumns.values());
+		boolean ok = false;
 
-		datas = new Hashtable<String, String[]>();
-		table = new JTable(dm);
-		table.setFont(GraphicDisplay.font);
-		table.getTableHeader().setFont(GraphicDisplay.fontBold);
-		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				MainFrame.getInstance().setFocusOnJTerminal();
+		while(!ok){
+			dm = new ThreadSafeTableModel(ReservationColumns.values());
+
+			datas = new Hashtable<String, String[]>();
+			table = new JTable(dm);
+			table.setFont(GraphicDisplay.font);
+			table.getTableHeader().setFont(GraphicDisplay.fontBold);
+			table.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					MainFrame.getInstance().setFocusOnJTerminal();
+				}
+			});
+			// indexes = new Hashtable<String, Integer>();
+			lsl = this;
+			TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
+					table.getModel());
+			DefaultTableCellRenderer alignCenter = new DefaultTableCellRenderer();
+			alignCenter.setFont(GraphicDisplay.font);
+			try {
+				table.setDefaultRenderer(Class.forName("java.lang.Object"),
+						alignCenter);
+			} catch (ClassNotFoundException ex) {
+				System.exit(ReturnCodes.EXIT_ON_UNKNOWN_ERROR.getCode());
 			}
-		});
-		// indexes = new Hashtable<String, Integer>();
-		lsl = this;
-		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
-				table.getModel());
-		DefaultTableCellRenderer alignCenter = new DefaultTableCellRenderer();
-		alignCenter.setFont(GraphicDisplay.font);
-		try {
-			table.setDefaultRenderer(Class.forName("java.lang.Object"),
-					alignCenter);
-		} catch (ClassNotFoundException ex) {
-			System.exit(ReturnCodes.EXIT_ON_UNKNOWN_ERROR.getCode());
-		}
-		sorter.setSortsOnUpdates(true);
-		table.setRowSorter(sorter);
+			sorter.setSortsOnUpdates(true);
+			table.setRowSorter(sorter);
 
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+
+			if(table.getColumnCount() == ReservationColumns.values().length){
+				ok = true;
+			}
+		}
+
 		for (ReservationColumns mc : ReservationColumns.values()) {
 			// table.getColumnModel().getColumn(mc.getIndex()).setMaxWidth(mc.getWidth());
 			table.getColumnModel().getColumn(mc.getIndex())
-					.setMinWidth(mc.getWidth());
+			.setMinWidth(mc.getWidth());
 		}
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -119,14 +128,14 @@ public class ReservationPane extends JPanel implements ListSelectionListener {
 			if (dm.getValueAt(i, ReservationColumns.ROAD.getIndex()).equals(
 					r.getRoadId())
 					&& dm.getValueAt(i, ReservationColumns.VEHICLE.getIndex())
-							.equals(r.getStraddleCarrierId())
+					.equals(r.getStraddleCarrierId())
 					&& dm.getValueAt(i,
 							ReservationColumns.TIMEWINDOW.getIndex()).equals(
-							r.getTimeWindow() + "")
-					&& dm.getValueAt(i, ReservationColumns.PRIORITY.getIndex())
-							.equals(r.getPriority() + "")
-					&& dm.getValueAt(i, ReservationColumns.DATE.getIndex())
-							.equals(r.getDate() + "")) {
+									r.getTimeWindow() + "")
+									&& dm.getValueAt(i, ReservationColumns.PRIORITY.getIndex())
+									.equals(r.getPriority() + "")
+									&& dm.getValueAt(i, ReservationColumns.DATE.getIndex())
+									.equals(r.getDate() + "")) {
 				index = i;
 			}
 		}

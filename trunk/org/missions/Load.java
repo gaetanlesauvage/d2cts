@@ -248,9 +248,38 @@ public class Load implements Comparable<Load> {
 		log.info(sb.toString());
 	}
 
+	public LoadBean getLoadBean () {
+		LoadBean load = new LoadBean();
+		
+		load.setDeliveryReachTime(deliveryReachTime.getSQLTime());
+		load.setDeliveryStartTime(deliveryStartTime.getSQLTime());
+		load.setEffectiveStartTime(effectiveStartTime.getSQLTime());
+		load.setPickupReachTime(pickupReachTime.getSQLTime());
+		load.setEndTime(endTime.getSQLTime());
+		load.setStartableTime(startableTime.getSQLTime());
+		load.setMission(m.getId());
+		//load.setLinkedLoad(linkedLoad.getConditionLoad().getLoadBean().getID()); //FIXME
+		load.setLoadEndTime(loadEndTime.getSQLTime());
+		//load.setLoadIndex(); //FIXME
+		load.setLoadStartTime(loadStartTime.getSQLTime());
+		load.setState(state);
+		load.setPhase(phase);
+		load.setStraddleCarrierName(straddleID);
+		load.setT(TimeScheduler.getInstance().getTime().getSQLTime());
+		load.setTwMax(m.getDeliveryTimeWindow().getMax().getSQLTime());
+		load.setTwMin(m.getPickupTimeWindow().getMin().getSQLTime());
+		load.setUnloadStartTime(unloadStartTime.getSQLTime());
+		load.setWaitTime(waitTime.getSQLTime());
+		
+		return load;
+	}
+	
 	public void done() {
 		state = MissionState.STATE_ACHIEVED;
+		
 		endTime = new Time(TimeScheduler.getInstance().getTime(), new Time(1), false);
+		
+		
 		displayMission();
 		// displayForRiadh();
 

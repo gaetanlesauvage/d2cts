@@ -9,6 +9,8 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 import org.com.DbMgr;
@@ -144,6 +146,16 @@ public class ScenarioDAO implements D2ctsDao<ScenarioBean>{
 	
 	public ScenarioBean getScenario(Integer id) {
 		return beans.get(id);
+	}
+	
+	public SortedSet<ScenarioBean> getScenariosOfAKind(String name){
+		SortedSet<ScenarioBean> result = new TreeSet<>();
+		for(ScenarioBean bean : beans.values()){
+			if(bean.getName().startsWith(name)){
+				result.add(bean);
+			}
+		}
+		return result;
 	}
 
 	public int delete(ScenarioBean scenario) throws SQLException{

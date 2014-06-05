@@ -2,7 +2,7 @@ package org.com.model;
 
 import java.util.Date;
 
-public class SimulationBean {
+public class SimulationBean implements Comparable<SimulationBean> {
 	private Integer content;
 	private Date date_rec;
 	private Integer id;
@@ -72,4 +72,11 @@ public class SimulationBean {
 	public String toString() {
 		return id + " | " + date_rec + " | " + content+" | "+schedulingAlgorithm;
 	}
+	
+	@Override
+	public int compareTo(SimulationBean bean){
+		return id.compareTo(bean.getId());
+	}
 }
+
+

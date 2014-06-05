@@ -215,139 +215,145 @@ public class MissionsFileGenerator {
 	ContainerDimensionException, EmptyLevelException, SQLException {
 		MissionScheduler.rmiBindingName = LinearMissionScheduler.rmiBindingName;
 		// Load scenario
-		SimulationLoader.getInstance().loadScenario(scenario, seed, null);
-
-		for (Iterator<StraddleCarrierBean> itStraddleCarriers = StraddleCarrierDAO.getInstance(scenario.getId()).iterator(); itStraddleCarriers.hasNext();) {
-			SimulationLoader.getInstance().loadStraddleCarrier(itStraddleCarriers.next());
-		}
-		for(StraddleCarrier vehicle : Terminal.getInstance().getStraddleCarriers()){
-			vehicle.setRoutingAlgorithm(new RDijkstraHandler(vehicle));
-		}
-		for (Iterator<ContainerBean> itContainers = ContainerDAO.getInstance(scenario.getId()).iterator(); itContainers
-				.hasNext();) {
-			SimulationLoader.getInstance().loadContainer(itContainers.next());
-		}
-		incrementProgressBar();
-
-		// pw = new PrintWriter(new File("reservations.dat"));
-
-		// Forth Step : data initialization
-		Map<BlockType, List<String>> sortedContainersMap = new HashMap<>(BlockType.values().length);
-		for (String s : Terminal.getInstance().getContainerNames()) {
-			Container c = Terminal.getInstance().getContainer(s);
-
-			String paveId = c.getContainerLocation().getPaveId();
-			Block pave = Terminal.getInstance().getBlock(paveId);
-			BlockType pt = pave.getType();
-			List<String> list;
-			if (sortedContainersMap.containsKey(pt))
-				list = sortedContainersMap.get(pt);
-			else
-				list = new ArrayList<String>();
-
-			list.add(c.getId());
-			sortedContainersMap.put(pt, list);
-		}
-
-		initializeSlotReservations();
-
-		incrementProgressBar();
-
-		quaysReservations = new HashMap<>();
-		containersOUT = new HashMap<String, String>();
-		initializeBICGenerator();
-
-		incrementProgressBar();
-
-		log.info("Done.");
-
-		handlingTimeFromGround = new Time(getAStraddleCarrier().getModel().getSpeedCharacteristics().getContainerHandlingTimeFromGround());
-		handlingTimeFromTruck = new Time(getAStraddleCarrier().getModel().getSpeedCharacteristics().getContainerHandlingTimeFromTruck());
-
-		// Fifth Step : TRAINS
-		int i = 1;
-
-		log.info("Generating Train Missions ... ");
-		for (TrainGenerationData trainData : trainsData) {
-			if(trainData != null){
-				Time maxTimeInTime = new Time(trainData.getMaxTime());
-				Time minTimeInTime = new Time(trainData.getMinTime());
-
-				generateTrainMissions(sortedContainersMap, minTimeInTime, maxTimeInTime, trainData.getMarginRate(),
-						trainData.getFullRate(), trainData.getAfterUnload(), trainData.getAfterReload(), "train" + i);
-				i++;
+		try{
+			SimulationLoader.getInstance().loadScenario(scenario, seed, null);
+			if("2) Test n2".equals(scenario.getName())){
+				System.err.println("DEBUG!");
 			}
-		}
-		log.info("Generating Train Missions DONE !");
-		incrementProgressBar();
-
-		// Sixth Step : TRUCKS
-		log.info("Generating Truck Missions ... ");
-		for (TruckGenerationData truckData : trucksData) {
-			if(truckData != null){
-				Time minTimeInTime = new Time(truckData.getMinTime());
-				Time maxTimeInTime = new Time(truckData.getMaxTime());
-				Time avgTruckTimeBeforeLeavingInTime = new Time(truckData.getAvgTruckTimeBeforeLeaving());
-				generateTrucksMissions(truckData.getNb(), truckData.getRateComeEmpty(), truckData.getRateLeaveEmpty(),
-						sortedContainersMap, minTimeInTime, maxTimeInTime, avgTruckTimeBeforeLeavingInTime, truckData.getGroupID());
+			for (Iterator<StraddleCarrierBean> itStraddleCarriers = StraddleCarrierDAO.getInstance(scenario.getId()).iterator(); itStraddleCarriers.hasNext();) {
+				SimulationLoader.getInstance().loadStraddleCarrier(itStraddleCarriers.next());
 			}
-		}
-		log.info("Generating Truck Missions DONE !");
-
-		incrementProgressBar();
-
-		// Seventh Step : SHIPS
-		log.info("Generating Ship Missions ... ");
-		for (ShipGenerationData shipData : shipsData) {
-			if(shipData != null){
-				Time maxArrivalTime = new Time(shipData.getMaxArrivalTime());
-				Time maxDepartureTime = new Time(shipData.getMaxDepartureTime());
-				Time minimalBerthTimeLength = new Time(shipData.getMinBerthTimeLength());
-				Time timePerContainerOperation = new Time(shipData.getTimePerContainerOperation());
-
-				generateShipsMissions(shipData.getMinTeuCapacity(), shipData.getMaxTeuCapacity(), shipData.getFullRate(),
-						shipData.getTwentyFeetRate(), shipData.getFortyFeetRate(), shipData.getCapacityFactor(), maxArrivalTime, minimalBerthTimeLength,
-						maxDepartureTime, timePerContainerOperation, shipData.getAfterUnload(), shipData.getAfterReload(), shipData.getMarginRate());
+			for(StraddleCarrier vehicle : Terminal.getInstance().getStraddleCarriers()){
+				vehicle.setRoutingAlgorithm(new RDijkstraHandler(vehicle));
 			}
-		}
-		log.info("Generating Ship Missions DONE !");
-		incrementProgressBar();
-
-		// Eighth Step : STOCK
-		log.info("Generating Stock Missions ... ");
-		for (StockGenerationData stockData : stocksData) {
-			if(stockData != null){
-			generateStocksMissions(stockData.getNb(), new Time(stockData.getMinTime()), new Time(stockData.getMaxTime()),
-					new Time(stockData.getMarginTime()), stockData.getGroupID(), sortedContainersMap);
+			for (Iterator<ContainerBean> itContainers = ContainerDAO.getInstance(scenario.getId()).iterator(); itContainers
+					.hasNext();) {
+				SimulationLoader.getInstance().loadContainer(itContainers.next());
 			}
-		}
-		log.info("Generating Stock Missions DONE !");
+			incrementProgressBar();
 
-		incrementProgressBar();
+			// pw = new PrintWriter(new File("reservations.dat"));
 
-		if (parentFrame != null) {
-			destroy();
-		} else {
-			destroyUnthreaded();
-		}
+			// Forth Step : data initialization
+			Map<BlockType, List<String>> sortedContainersMap = new HashMap<>(BlockType.values().length);
+			for (String s : Terminal.getInstance().getContainerNames()) {
+				Container c = Terminal.getInstance().getContainer(s);
 
-		if (progress != null) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					@Override
-					public void run() {
-						frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-						frame.setVisible(false);
-						frame.dispose();
-					}
-				});
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				log.error(e.getMessage(), e);
+				String paveId = c.getContainerLocation().getPaveId();
+				Block pave = Terminal.getInstance().getBlock(paveId);
+				BlockType pt = pave.getType();
+				List<String> list;
+				if (sortedContainersMap.containsKey(pt))
+					list = sortedContainersMap.get(pt);
+				else
+					list = new ArrayList<String>();
+
+				list.add(c.getId());
+				sortedContainersMap.put(pt, list);
 			}
+
+			initializeSlotReservations();
+
+			incrementProgressBar();
+
+			quaysReservations = new HashMap<>();
+			containersOUT = new HashMap<String, String>();
+			initializeBICGenerator();
+
+			incrementProgressBar();
+
+			log.info("Done.");
+
+			handlingTimeFromGround = new Time(getAStraddleCarrier().getModel().getSpeedCharacteristics().getContainerHandlingTimeFromGround());
+			handlingTimeFromTruck = new Time(getAStraddleCarrier().getModel().getSpeedCharacteristics().getContainerHandlingTimeFromTruck());
+
+			// Fifth Step : TRAINS
+			int i = 1;
+
+			log.info("Generating Train Missions ... ");
+			for (TrainGenerationData trainData : trainsData) {
+				if(trainData != null){
+					Time maxTimeInTime = new Time(trainData.getMaxTime());
+					Time minTimeInTime = new Time(trainData.getMinTime());
+
+					generateTrainMissions(sortedContainersMap, minTimeInTime, maxTimeInTime, trainData.getMarginRate(),
+							trainData.getFullRate(), trainData.getAfterUnload(), trainData.getAfterReload(), "train" + i);
+					i++;
+				}
+			}
+			log.info("Generating Train Missions DONE !");
+			incrementProgressBar();
+
+			// Sixth Step : TRUCKS
+			log.info("Generating Truck Missions ... ");
+			for (TruckGenerationData truckData : trucksData) {
+				if(truckData != null){
+					Time minTimeInTime = new Time(truckData.getMinTime());
+					Time maxTimeInTime = new Time(truckData.getMaxTime());
+					Time avgTruckTimeBeforeLeavingInTime = new Time(truckData.getAvgTruckTimeBeforeLeaving());
+					generateTrucksMissions(truckData.getNb(), truckData.getRateComeEmpty(), truckData.getRateLeaveEmpty(),
+							sortedContainersMap, minTimeInTime, maxTimeInTime, avgTruckTimeBeforeLeavingInTime, truckData.getGroupID());
+				}
+			}
+			log.info("Generating Truck Missions DONE !");
+
+			incrementProgressBar();
+
+			// Seventh Step : SHIPS
+			log.info("Generating Ship Missions ... ");
+			for (ShipGenerationData shipData : shipsData) {
+				if(shipData != null){
+					Time maxArrivalTime = new Time(shipData.getMaxArrivalTime());
+					Time maxDepartureTime = new Time(shipData.getMaxDepartureTime());
+					Time minimalBerthTimeLength = new Time(shipData.getMinBerthTimeLength());
+					Time timePerContainerOperation = new Time(shipData.getTimePerContainerOperation());
+
+					generateShipsMissions(shipData.getMinTeuCapacity(), shipData.getMaxTeuCapacity(), shipData.getFullRate(),
+							shipData.getTwentyFeetRate(), shipData.getFortyFeetRate(), shipData.getCapacityFactor(), maxArrivalTime, minimalBerthTimeLength,
+							maxDepartureTime, timePerContainerOperation, shipData.getAfterUnload(), shipData.getAfterReload(), shipData.getMarginRate());
+				}
+			}
+			log.info("Generating Ship Missions DONE !");
+			incrementProgressBar();
+
+			// Eighth Step : STOCK
+			log.info("Generating Stock Missions ... ");
+			for (StockGenerationData stockData : stocksData) {
+				if(stockData != null){
+					generateStocksMissions(stockData.getNb(), new Time(stockData.getMinTime()), new Time(stockData.getMaxTime()),
+							new Time(stockData.getMarginTime()), stockData.getGroupID(), sortedContainersMap);
+				}
+			}
+			log.info("Generating Stock Missions DONE !");
+
+			incrementProgressBar();
+
+			if (parentFrame != null) {
+				destroy();
+			} else {
+				destroyUnthreaded();
+			}
+
+			if (progress != null) {
+				try {
+					SwingUtilities.invokeAndWait(new Runnable() {
+						@Override
+						public void run() {
+							frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+							frame.setVisible(false);
+							frame.dispose();
+						}
+					});
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+					log.error(e.getMessage(), e);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					log.error(e.getMessage(), e);
+				}
+			}
+		} finally {
+			SimulationLoader.closeInstance();
 		}
 	}
 

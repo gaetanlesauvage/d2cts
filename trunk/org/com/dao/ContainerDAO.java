@@ -45,6 +45,7 @@ public class ContainerDAO implements D2ctsDao<ContainerBean> {
 
 	private ContainerDAO(Integer scenarioID) {
 		this.scenarioID = scenarioID;
+		beans = new ArrayList<ContainerBean>();
 	}
 
 	public static ContainerDAO getInstance(Integer scenarioID) {
@@ -70,8 +71,6 @@ public class ContainerDAO implements D2ctsDao<ContainerBean> {
 
 	@Override
 	public Iterator<ContainerBean> iterator() {
-		if (beans == null)
-			beans = new ArrayList<>(1);
 		return beans.iterator();
 	}
 
@@ -135,12 +134,17 @@ public class ContainerDAO implements D2ctsDao<ContainerBean> {
 		psInsertContainer.setInt(3, bean.getScenario());
 		int res = psInsertContainer.executeUpdate();
 
+		beans.add(bean);
+		
 		psInsertContainersInitLocation.setString(1,bean.getName());
 		psInsertContainersInitLocation.setInt(2, bean.getScenario());
 		psInsertContainersInitLocation.setString(3, bean.getSlot()+"-"+bean.getSlotLevel());
 		psInsertContainersInitLocation.setInt(4, bean.getAlignment().getValue());
 		psInsertContainersInitLocation.setString(5, bean.getVehicle());
 		res += psInsertContainersInitLocation.executeUpdate();
+		if(res == 2){
+			DbMgr.getInstance().getConnection().commit();
+		}
 		return res;
 	}
 

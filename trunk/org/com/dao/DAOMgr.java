@@ -2,6 +2,7 @@ package org.com.dao;
 
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.com.dao.scheduling.BBParametersDAO;
@@ -81,8 +82,10 @@ public class DAOMgr {
 		}
 		DefaultParametersDAO.getInstance().close();
 		
-		for(Iterator<MissionLoadDAO> it = MissionLoadDAO.getInstances(); it.hasNext(); ){
-			it.next().close();
+		for(Iterator<Map<String, MissionLoadDAO>> it = MissionLoadDAO.getInstances(); it.hasNext(); ){
+			for(MissionLoadDAO m : it.next().values()){
+				m.close();
+			}
 		}
 		
 		for(Iterator<EventDAO> it = EventDAO.getInstances(); it.hasNext(); ){

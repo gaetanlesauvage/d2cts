@@ -67,14 +67,10 @@ MouseListener {
 
 		while(!ok){
 			dm = new ThreadSafeTableModel(values);
-
 			datas = new HashMap<>();
-
 			table = new JTable(dm);
-
 			indexes = new HashMap<String, Integer>();
 			table.setFont(GraphicDisplay.font);
-
 			table.getTableHeader().setFont(GraphicDisplay.fontBold);
 
 			TableRowSorter<ThreadSafeTableModel> sorter = new TableRowSorter<ThreadSafeTableModel>(
@@ -91,16 +87,18 @@ MouseListener {
 
 			sorter.setSortsOnUpdates(true);
 			table.setRowSorter(sorter);
-
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-
 			if(table.getColumnCount() == MissionColumns.values().length){
 				ok = true;
 			}
 		}
 
 		for (MissionColumns mc : MissionColumns.values()) {
-			table.getColumnModel().getColumn(mc.getIndex()).setMinWidth(mc.getWidth());
+			try{
+				table.getColumnModel().getColumn(mc.getIndex()).setMinWidth(mc.getWidth());
+			} catch (Exception e ){
+				e.printStackTrace();
+			}
 		}
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 
-public class ScenarioBean {
+public class ScenarioBean implements Comparable<ScenarioBean>{
 	private Integer id;
 	private String name;
 	private Date date_rec;
@@ -68,5 +68,10 @@ public class ScenarioBean {
 	
 	public Integer getTerminal(){
 		return terminal;
+	}
+	
+	@Override
+	public int compareTo(ScenarioBean bean){
+		return id.compareTo(bean.getId());
 	}
 }
