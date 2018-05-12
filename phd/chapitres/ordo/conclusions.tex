@@ -1,0 +1,15 @@
+%CNCL ORDO
+
+Dans ce chapitre nous avons décrit les différentes modélisations ainsi que plusieurs méthodes de résolution développées au cours de cette thèse afin de résoudre le problème d'ordonnancement et d'affectation des déplacements de conteneurs aux chariots cavaliers.
+
+Le problème correspond à un problème de tournées de véhicules et plus précisément au problème des multiples voyageurs de commerce, et peut également être modélisé sous forme de problème d'atelier. La notation de Graham (voir \ref{chap:art:sec:jssp:subsec:def:graham}, p. \pageref{chap:art:sec:jssp:subsec:def:graham}) décrivant ce problème est la suivante : ${ J|ST_{sd}, R_{sd}|\sum w_j.T_{j} , \sum distance(i)}$.
+
+Malgré la complexité du problème, une méthode de résolution exacte a été élaborée et repose sur le principe de l'évaluation séparation (\textit{Branch-and-Bound}). Cette méthode a été parallélisée et permet de résoudre de façon exacte de très petites instances du problème (3 véhicules et 10 missions).
+
+Des méthodes approchées ont été mises au point afin de résoudre des instances plus importantes du problème (20 véhicules et plus de 100 missions). Ces méthodes sont basées sur des heuristiques ou des méta-heuristiques. 
+
+Ainsi les heuristiques de répartition de charge, de l'aléatoire et des plus proches voisins ont été utilisées. Une version élaborée de la méthode des plus proches voisin a également été présentée dans ce chapitre et se montre bien plus performante que les autres heuristiques. Néanmoins, la qualité moyenne des solutions produites par ces heuristiques est très faible et le rapport vitesse de calcul / qualité est peu intéressant. 
+
+Afin de produire des solutions de qualité satisfaisante en un temps raisonnable, deux méthodes de résolutions basées sur la méta-heuristique fourmi ont été proposées. L'une est dite en-ligne (\textit{on-line}) et l'autre est dite en-ligne (\textit{on-line}). La méthode en-ligne permet de calculer une solution au temps $t$ après avoir effectuer un certain nombre d'itérations de l'algorithme. La seconde méthode permet d'obtenir une solution à chaque instant (\textit{anytime solution}) mais à l'inconvénient de potentiellement fournir des solutions partielles.\\
+
+Toutes ces méthodes ont été testées grâce à un simulateur de terminal portuaire à conteneurs développé durant cette thèse et décrit dans le chapitre suivant. Les expérimentations seront décrites et les résultats seront analysés dans le dernier chapitre de ce manuscrit.

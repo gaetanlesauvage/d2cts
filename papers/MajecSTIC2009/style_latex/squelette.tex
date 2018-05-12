@@ -1,0 +1,146 @@
+%
+% Fichier exemple pour MajecSTIC 2009
+% -----------------------------------
+% Par le comité de pilotage MajecSTIC
+% majecstic-pilotage@irisa.fr
+% 
+% Vous pouvez éditer ce fichier pour composer votre article. Respectez la 
+% langue française, pour vous aider ce document comporte des consignes 
+% typographiques ainsi que des conseils pour la composition des figures et 
+% des algorithmes.
+%
+%
+%
+%%%%%% NE PAS MODIFIER
+%
+% gillemets a la francaise
+\def\leftnote#1{\leavevmode\vadjust{\setbox1=\vtop{\hsize 20mm
+	\parindent=0pt\small\baselineskip=9pt
+	\rightskip=4mm plus 4mm#1}
+	\hbox{\kern-2cm\smash{\box1}}}}
+% encore quelques petits symboles particuliers
+	\font\myl=manfnt
+	\def\panneau{{\myl\char"7F}}
+	\def\boxone{{\myl\char"1C}}
+	\def\boxtwo{{\myl\char"1D}}
+	\def\ortf{{\myl\char"1E}}
+	\def\fleurone{{\myl\char"26}}
+	\def\fleurtwo{{\myl\char"27}}
+	\def\diams{{\myl\char"23}}
+	\def\cible{{\myl\char"24}}
+	\def\carre{{\myl\char"25}}
+	\def\fleche{{\myl\char"79}}
+	\def\panneaubis{{\myl\char"7E}}
+\def\panneauinverse{{\myl\char"00}}
+
+% Conserver ces commandes (Debut)
+\documentclass[twoside,a4paper,10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{majecstic2009,euler,palatino}
+\usepackage[french,ruled,vlined,linesnumbered]{algorithm2e}
+\dontprintsemicolon
+\Setnlskip{0.5em}
+\incmargin{1.2em}
+\usepackage{epsfig,shadow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{vmargin}
+\pagestyle{myheadings}
+\setpapersize{A4}
+% Conserver ces commandes (Fin)
+
+%===========================================================
+%                               Title
+%===========================================================
+\newcommand{\filet}{\noindent\rule[0mm]{\textwidth}{0.2mm}}
+
+\toappear{1} % Conserver cette ligne pour la version finale
+
+\begin{document}
+
+\parindent=0pt
+
+% À FAIRE modifier en ajoutant votre titre.
+% Le titre courant peut-être trop long, dans ce cas indiquez un titre 
+% plus court dans la commande shorttitle (sinon, indiquez le même)
+\title{\Large\bf Le titre de votre article}
+
+% À FAIRE modifier en ajoutant dans le premier champ vos noms et dans votre
+% titre. Attention, il faut que ca tienne sur une largeur de page, donc il 
+% peut etre necessaire de donner un titre plus court, ou de ne mettre que les
+% noms de famille des auteurs
+% Exemples:
+% \markboth{Josiane Balasko, Muriel Robin \& Yves Montand}{Nos années palace.}
+% \markboth
+% {Dupont, Dupond, Haddock, Milou, Tintin \& Tournesol}
+% {De l'exploration des profondeurs à la conquète spatiale}
+\markboth
+{NOMS}
+{TITRE}
+
+% À FAIRE Indiquez vos noms ici. Nom1, Nom2 et Nom3. Utilisez $^i$ pour 
+% l'adresse i.
+\author{Prénom Nom$^1$\thanks{Remarque éventuelle.}
+    et Prénom Nom$^2$}
+
+% À FAIRE Indiquez vos addresses ici. Attention, la première addresse commence
+% juste après le { de la commande.
+\address{1: Université de Quelque Part, Institut Machin, 30 impasse de l'anglicisme, 12345 Ville - France.\\
+2: Une autre adresse.\\ 
+~\\
+Contact: \texttt{mon.mail@universite.fr}
+}
+
+\maketitle
+
+%===========================================================         %
+%R\'esum\'e
+%===========================================================  
+
+\Resume{Votre résumé ici, 15 lignes.}
+
+\Abstract{Your abstract should be no longer than 15 lines and contain no references.}
+
+\MotsCles{un maximum de 5 mots significatifs, en français, doivent être 
+	isolés sous forme de mots-clés.}
+	% 5 mots cl\'es seulement!!!
+\Keywords{One, two, three, four, five}
+%=========================================================
+\section{Introduction}
+%=========================================================
+
+Voulez-vous \og{}\emph{vraiment}\fg{} citer~\cite{bogdanoff:these,sonia:point} ?
+
+\bibliographystyle{fplain}
+\bibliography{references}
+
+% À FAIRE: remerciements (ou supprimez les deux lignes suivantes)
+{\filet \small\\
+{\em Vous pouvez placer ici des remerciements}\\ \filet } 
+
+
+\newpage
+j
+
+\newpage
+j
+
+\newpage
+jj
+jj
+
+
+\end{document}
+% fin
+
+
+
+
+
+
+
+

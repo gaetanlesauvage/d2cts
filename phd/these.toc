@@ -1,0 +1,32 @@
+\select@language {french}
+\contentsline {chapter}{Introduction}{5}
+\contentsline {chapter}{\numberline {I}\'Etat de l'art}{7}
+\contentsline {section}{Introduction}{7}
+\contentsline {section}{\numberline {I.1}L'incertitude en optimisation}{7}
+\contentsline {subsection}{\numberline {I.1.1}D\IeC {\'e}finition}{7}
+\contentsline {section}{\numberline {I.2}Plus court chemins}{7}
+\contentsline {section}{\numberline {I.3}Probl\IeC {\`e}mes de tourn\IeC {\'e}es de v\IeC {\'e}hicules}{7}
+\contentsline {section}{\numberline {I.4}Probl\IeC {\`e}mes d'ateliers}{8}
+\contentsline {section}{Conclusions}{8}
+\contentsline {chapter}{\numberline {II}Applications aux terminaux \IeC {\`a} conteneurs}{9}
+\contentsline {section}{Introduction}{9}
+\contentsline {section}{\numberline {II.1}Structure et organisation des terminaux \IeC {\`a} conteneurs}{9}
+\contentsline {section}{\numberline {II.2}Optimisation des terminaux \IeC {\`a} conteneurs}{9}
+\contentsline {subsection}{\numberline {II.2.1}Structure du terminal}{10}
+\contentsline {subsection}{\numberline {II.2.2}Allocation des berges}{10}
+\contentsline {subsection}{\numberline {II.2.3}Positionnement des conteneurs}{10}
+\contentsline {subsection}{\numberline {II.2.4}Routage des v\IeC {\'e}hicules}{10}
+\contentsline {subsection}{\numberline {II.2.5}Ordonnancement des missions}{10}
+\contentsline {subsection}{\numberline {II.2.6}NP-completude}{10}
+\contentsline {section}{Conclusions}{10}
+\contentsline {chapter}{\numberline {III}Simulateur de terminal \IeC {\`a} conteneurs}{11}
+\contentsline {section}{Introduction}{11}
+\contentsline {section}{\numberline {III.1}Sp\IeC {\'e}cifications}{11}
+\contentsline {section}{\numberline {III.2}Architecture}{11}
+\contentsline {section}{Conclusions}{11}
+\contentsline {chapter}{\numberline {IV}Exp\IeC {\'e}rimentations et r\IeC {\'e}sultats}{13}
+\contentsline {section}{Introduction}{13}
+\contentsline {section}{\numberline {IV.1}Routage des chariots cavaliers}{13}
+\contentsline {section}{\numberline {IV.2}Ordonnancement et Affectation des missions aux chariots cavaliers}{13}
+\contentsline {section}{Conclusions}{13}
+\contentsline {chapter}{Conclusions}{15}

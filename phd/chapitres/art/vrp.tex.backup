@@ -1,0 +1,284 @@
+\label{sec:vrp}
+
+%Introduction
+
+\subsection{Definition}
+Le problème de tournées de véhicules (\textit{Vehicle Routing Problem} : VRP) est une reformulation du problème des multi-voyageurs de commerce (\textit{Multiple Traveling Salesman Problem} : M-TSP) où chaque voyageur correspond à un véhicule. Dans le cas où il n'y a qu'un seul véhicule (\textit{Single Vehicle Routing Problem}: SVRP), le problème correspond à un problème de voyageur de commerce classique (\textit{Traveling Salesman Problem} : TSP).
+L'objectif reste le même que pour le TSP : il faut, en partant du dépôt, visiter chaque client (ville), puis rentrer au dépôt, tout en minimisant la distance totale parcourue. La première formulation du problème a été introduite en 1959 par Dantzig et Ramser \cite{Dantzig1959}. Les auteurs parlent ainsi pour la première fois de problème de tournées de véhicule et de problème de la feuille de trèfle. En effet, les tournées de chaque véhicule commencent et se terminent au dépôt, formant ainsi une figure géométrique en forme de feuille de trèfle.
+On retrouve ce problème dans de nombreuses applications concrètes, nottament dans le domaine de la logistique. Ces applications diverses ont permis de favoriser le développement de la recherche sur les VRP et ont abouties à la modélisation de différentes variantes du problème.\\
+
+\subsection{Les variantes du problème}
+La spécificité du VRP vis-à-vis du problème de voyageur de commerce, réside dans la présence de contraintes supplémentaires sur les ressources (véhicules pour le VRP, voyageurs pour le M-TSP). Ainsi, il existe différentes variantes du VRP:
+\begin{list}{-}{\leftmargin=2em}
+  \item \textbf{Capacitated Vehicle Routing Problem} (CVRP): les véhicules ont une capacité maximale de chargement. Il s'agit de la version la plus classique du problème. L'exemple le plus utilisé est celui de la compagnie de fuel qui doit livrer ses clients pour qu'ils puissent alimenter leur chaudière. La compagnie dispose de $m$ véhicules pour livrer $n$ clients. Les véhicules peuvent emporter $Q$ litres de fuel et livrent $q_i$ litres au client $i$. Lorsque le camion de livraison est vide, il doit retourner au dépôt pour être rempli afin de procéder à une autre tournée. Il existe des versions du problème dans lesquelles tous les véhicules ont la même capacité. On dit que la flotte de véhicule est homogène. Dans d'autres versions la flotte est hétérogène (voir \cite{Gendreau1999}).
+  
+  \item \textbf{Distance Constrained Vehicle Routing Problem} (DCVRP): une contrainte sur la distance maximale par tournée est ajoutée. Une fois que les véhicules ont atteint cette distance, ils doivent revenir au dépôt.
+  
+  \item \textbf{Split Delivery Vehicle Routing Problem} (SDVRP): un client peut être livré par plusieurs véhicules. Ainsi, un client demandant 500 litres de fuel peut être livré par un premier camion pour une quantité de 300 litres, puis de 200 litres par un second camion.
+  
+  \item \textbf{Vehicle Routing Problem with Pickup and Delivery} (VRPPD): les tournées comportent à la fois des points de collecte et des points de livraison de marchandise. Il faut dans ce cas prendre en compte la collecte de marchandise afin d'être en mesure de livrer les clients. L'exemple le plus répandu de ce problème est celui de l'entreprise postale. Une entreprise emploie $m$ postiers qui doivent collecter le courrier dans des boîtes spéciales et livrer ensuite le courrier collecté aux usagers. Il faut donc définir les tournées de chaque postier en fonction de l'emplacement des boîtes aux lettres de la compagnie et des boîtes aux lettres des clients. Ce problème est également appelé Pickup and Delivery Problem (PDP). Il existe également une version de ce problème dans laquelle l'objet livré doit être le dernier collecté (structure Last-In First-Out) afin de modéliser les problèmes rencontrés dans le monde réel par certaines entreprises de livraison où les marchandises ne peuvent pas être déchargées 
+sans vider les marchandises plus proches de l'ouverture du camion au préalable (livraison de gros électroménager par exemple, ou de meubles, etc.). 
+  
+  
+  \item \textbf{Vehicle Routing Problem with Time Windows} (VRPTW): les clients doivent être livrés dans un intervalle de temps fixé. Si le véhicule arrive en avance, c'est-à-dire avant le début de la fenêtre de temps, il devra attendre. Les fenêtres de temps peuvent être dures (hard) ou molles (soft). Avec des fenêtres de temps dures, il est strictement interdit de dépasser l'intervalle de temps. Les fenêtres de temps font partie des contraintes du problème. Avec des fenêtres molles, il faut éviter de les dépasser. Le respect des fenêtres de temps fait partie de la fonction objectif du problème. Dans ce cas, la politique la plus courante est de pénaliser le dépassement des fenêtres de temps par un coût supplémentaire. L'ajout de contrainte temporelle peut également être rencontré dans les autres versions du problème comme le Capacitated Vehicle Routing Problem with Time Windows (CAVRP-TW) ou le Vehicle Routing Problem with Pickup and Delivery and Time Windows (VRPPD-TW).
+  
+  \item \textbf{Multiple Depot Vehicle Routing Problem} (MDVRP): dans cette version il existe plusieurs dépôts. Il est possible de rencontrer les formes du problèmes où chaque véhicule doit débuter et terminer sa tournée au même dépôt : dans ce cas il s'agit de résoudre $k$ VRP différents (où $k$ est le nombre de dépôts), ou la version du problème où un véhicule peut terminer sa tournée dans n'importe quel dépôt. Par exemple, une grande compagnie de livraison à domicile de fuel possède $k$ dépôts de carburant répartis sur un territoire. Lorsqu'un véhicule débute une tournée il part avec une certaine quantité de carburant à livrer. Une fois sa tournée terminée il se rend au dépôt le plus intéressant afin de refaire le plein de fuel et de pouvoir repartir pour une autre tournée sans avoir besoin obligatoirement de retourner au dépôt initial et donc de couvrir une distance supplémentaire.
+  
+  \item \textbf{Vehicle Routing Problem with Backhauls} (VRPB): ce problème inclus un ensemble de clients à la fois à livrer ainsi qu'à reprendre des marchandises afin de les rapporter au dépôt. Par exemple, une société de vente en ligne de produits d'électroménager livre ses clients par camions. Lorsqu'un client constate une panne sur un appareil en garantie, la compagnie doit venir à ses frais chercher le produits afin de pouvoir le réparer 
+  puis le retourner au client. La différence avec le VRPPD est la provenance des produits à livrer/collecter. Dans le VRPPD les marchandises sont livrées et collectées chez le clients. Dans le VRPD, les véhicules partent du dépôt avec la marchandise à livrer, puis visitent les clients et collectent les marchandises à ramener au dépôt. La plupart du temps, les VRPD ont comme contrainte de réaliser toutes les livraisons avant de pouvoir effectuer une collecte.
+  
+  \item \textbf{Dial A Ride Problem} (DARP): ce problème consiste à transporter des personnes à la demande. Par exemple, une compagnie de taxis collecte des demandes de transport par téléphone. Une fois les demandes connues les tournées des taxis sont calculées afin de minimiser la distance parcourue pour transporter les clients. Le \textit{Dial A Ride Problem} est un sous-problème du \textit{Pickup and Delivery Problem} avec une contrainte supplémentaire sur la durée maximale de transport pour chaque passager.
+\end{list}
+
+Les durées de manutention pour la livraison (ainsi que pour les collectes dans les versions du problème concernées) peuvent ne pas être négligeables et il est parfois indispensable de les prendre en compte dans le calcul de la solution optimale, nottament lors de l'utilisation de fenêtre de temps. Dans certains problèmes, le temps de livraison (et de collecte) est fixe, alors que dans d'autres versions la durée de manutention peut dépendre de la marchandise, du client ou de l'heure de livraison ou de collecte. Ainsi, en reprenant l'exemple de la compagnie postale, le temps de livraison du courrier est le même pour tous les clients car les boîtes aux lettres sont situées devant les habitations, dans la rue. En revanche, dans l'exemple des livreurs d'électroménager, la livraison prendra plus de temps si le clients habite au $6^{\text{ème}}$ étage dans un immeuble sans ascenseurs, que s'il habite au rez de chaussé. De même, la livraison sera plus rapide si le client a commandé un article de taille et de poids 
+permettant de le déposer dans la boîte à lettres plutôt qu'un réfrigérateur par exemple.
+
+\subsection{Problème décisionnel et formulation mathématique}
+
+Les problèmes de tournées de véhicule étant une reformulation du M-TSP, ils sont également NP-difficiles. Le problème peut-être formulé en problème décisionnel où l'on pose la question suivante : doit-on insérer le client $j$ dans la tournée du véhicule $k$ après le client $i$ ?
+
+Golden et al. (voir \cite{Golden1977}) ont proposé une formulation du problème utilisant des variables binaires à 3 indices. Ainsi, la variable $x_{ij}^k$ correspond à la réponse à la question précédente, c'est-à-dire $x_{ij}^k=1$ si le véhicule $k$ doit parcourir l'arc $(i,j)$ dans sa tournée, $x_{ij}^k=0$ sinon. Le problème décisionnel est ainsi NP-Complet.
+
+Le graphe représentant les clients est complet. Dans le problème symétrique le graphe est non orienté et est défini ainsi : $G=(V,E)$, alors que dans la version asymétrique le graphe est orienté : {$G=(V,A)$}. $V$ est l'ensemble est sommets du graphe qui correspondent aux clients à livrer ($v_1, \cdots, v_n$) et $v_0$ représente le dépôt. La pondération des arcs correspond à la distance à parcourir pour relier les deux clients connectés par l'arc. Ainsi, le coût $c_{ij}$ est la distance entre le client $i$ et le client $j$.
+
+Mathématiquement le problème s'écrit de la façon suivante : 
+\begin{equation}
+ \min \sum \limits_{i=1}^{n} \sum \limits_{j=1}^{n} \left( c_{ij} \sum \limits_{k=1}^{m} x_{ij}^k \right) 
+ \label{eq:vrp:cvrp}
+\end{equation}
+La contrainte indiquant que les clients ne doivent être livrés qu'une seule fois s'écrit selon les équations \ref{eq:vrp:contrainte1} et \ref{eq:vrp:contrainte2} : 
+\begin{equation}
+ \sum \limits_{i=1}^{n} \sum \limits_{k=1}^{m} x_{ij}^k = 1 \text{, }\forall \text{ } 1 \leq j \leq n
+ \label{eq:vrp:contrainte1}
+\end{equation}
+\begin{equation}
+ \sum \limits_{j=1}^{n} \sum \limits_{k=1}^{m} x_{ij}^k = 1 \text{, }\forall \text{ } 1 \leq i \leq n
+ \label{eq:vrp:contrainte2}
+\end{equation}
+La contrainte de continuité de la tournée indiquant qu'un véhicule livrant un client repart de son point de livraison après avoir accompli sa tâche est la suivante : 
+\begin{equation}
+ \sum \limits_{i=1}^{n} x_{ip}^k - \sum \limits_{j=1}^{n} x_{pj}^k = 0 \text{, }\forall \text{ } 1 \leq k \leq m \text{; } \forall \text{ } 1 \leq p \leq n
+ \label{eq:vrp:contrainte3}
+\end{equation}
+Les véhicules débutent et terminent leur tournée au dépôt :
+\begin{equation}
+ \sum \limits_{i=1}^{n} x_{i0}^k = 1 \text{, }\forall \text{ } 1 \leq k \leq m
+ \label{eq:vrp:contrainte4}
+\end{equation}
+\begin{equation}
+ \sum \limits_{j=1}^{n} x_{0j}^k = 1 \text{, }\forall \text{ } 1 \leq k \leq m
+ \label{eq:vrp:contrainte5}
+\end{equation}
+Les clients ne peuvent demander plus que le véhicule est capable de transporter au cours de sa tournée : 
+\begin{equation}
+ \sum \limits_{i=0}^{n} \sum \limits_{j=1, j\neq i}^{n} x_{ij}^k \cdot q_j \leq Q^k \text{, }\forall \text{ } 1 \leq k \leq m
+ \label{eq:vrp:contrainte6}
+\end{equation}
+Enfin la variable $x_{ij}^k$ est binaire : 
+\begin{equation}
+ x_{ij}^k \in \left\{0,1\right\} \text{, } \forall \text{ } 0 \leq i,j \leq n \text{, }\forall \text{ } 1 \leq k \leq m
+ \label{eq:vrp:contrainte7}
+\end{equation}
+
+
+\subsection{Fonction objectif}
+
+Concernant la fonction objectif, les plus courantes sont la minimisation de la : 
+\begin{itemize}
+ \item distance totale parcourue;
+ \item durée des tournées;
+ \item taille de la flotte de véhicules;
+ \item du coûts des tournées.
+\end{itemize}
+
+Il existe également des approches multi-objectifs (voir \cite{Talbi2001}) dans lesquelles il est possible d'utiliser une combinaison linéaire de plusieurs de ces critères afin de transformer le problème multi-objectif en problème mono-objectif, ou de chercher une ou plusieurs solutions Pareto-optimales. En effet, certains objectifs peuvent être antinomiques. La réduction de la taille de la flotte de véhicules peut pousser les véhicules restant à devoir repasser par le dépôt afin d'être en mesure de livrer une quantité suffisante de marchandise aux clients et donc vont parcourir plus de distance qu'en utilisant plus de véhicules. 
+
+\subsection{Méthodes de résolution}
+Les problèmes de tournées de véhicules ont été largement étudiés au cours des dernières décennies. Dérivé du problème de voyageur de commerce, ce problème d'optimisation combinatoire peut-être résolu par des méthodes exactes ou approchées. Toutefois, les approches exactes restent très peu applicable pour des problèmes réels à cause de l'explosion combinatoire du nombre de solutions possibles. Les approches approchées font appel à des heuristiques ou à des métaheuristiques. En pratique, seules les méthodes approchées sont utilisées en raison du temps requis pour l'obtention de résultats sur des instances réelles de taille souvent importante. Le livre de Toth et Vigo (voir \cite{Toth2001}) propose un état de l'art complet des méthodes de résolution exactes et approchées des problèmes de tournées de véhicules. Les auteurs sont des spécialistes du domaine et il n'est pas du tout question de présenter un tour d'horizon exhaustif des méthodes de résolution du VRP dans cette thèse, mais de présenter les évolutions 
+majeures dans la résolution du problème.
+
+\subsubsection{Méthodes de résolution exacte}
+
+Les méthodes exactes peuvent s'appliquer à des problèmes de taille raisonnable.
+
+La première méthode consiste à énumérer toutes les solutions possibles et à mesurer la performance de chaque solution grâce à la fonction objectif. À la fin de l'énumération, la (ou les) solution(s) optimale(s) est (sont) connu(s).
+
+Une seconde méthode repose sur le principe du Branch and Bound et permet d'obtenir une solution exacte pour des problèmes de taille raisonnable. Dans \cite{Fisher1994}, Fisher utilise, dans le cadre d'un CVRP, une recherche d'arbre couvrant comportant $K+n$ arcs où $K$ est le nombre de véhicules et $n$ le nombre de clients à visiter. Leur but est de rechercher un tel arbre ayant de plus deux arcs incident au dépôt ainsi que des contraintes supplémentaires liées à la capacité des véhicules et au principe de ne visiter chaque client qu'une et une seule fois. La résolution utilise un algorithme de type branch and bound utilisant une borne inférieure fournie par le problème dual obtenu après dualisation lagrangienne sur les contraintes. Fisher a ainsi résolu des problèmes comportant 100 clients et 10 véhicules. 
+
+Dans \cite{Laporte1985}, Laporte et al. étendent le principe développé par Dantzig et al. pour le TSP dans \cite{Dantzig1954}.  Leur algorithme de \textit{Branch-and-Cut} utilise une borne calculée grâce à une méthode de \textit{cutting planes} qui repose sur des inégalités liées aux contraintes d'élimination de sous-tours. Le \textit{Branch-and-Bound} utilisant la borne inférieure calculée précédemment permet de résoudre des instances du CVRP comportant jusqu'à 60 villes.
+De la même façon, Cornuéjuols et Hache ont étendu dans \cite{Cornuejols1993} la méthode des \textit{cutting planes} utilisée dans la résolution du problème de voyageur de commerce afin de résoudre le CVRP ainsi que le Geographical Vehicle Routing Problem (GVRP). Ce dernier problème est une relaxation du CVRP dans lequel les capacités des véhicules sont ignorées. Le GVRP est donc une autre formulation du $m-TSP$. Les auteurs ont ainsi résolu de façon exacte un problème comportant 18 clients pour 2, 3 et 4 véhicules.
+
+D'autre part, dans \cite{Bramel2001}, Bramel et Simchi-Levi utilisent une approche basée sur la couverture ensembliste (\textit{Set Covering}). Ils utilisent une relaxation lagrangienne avec une borne inférieure efficace mais qui demande néanmoins un effort intense en terme de calculs, rendant cette méthode inapplicable même pour des instances de taille raisonnable.
+
+Fukasawa et al. ont défini récemment une méthode de \textit{Branch-and-Cut-and-Price} (voir \cite{Fukasawa2006}) permettant de résoudre toutes les instances classiques de la littérature jusqu'à 135 clients.  Enfin, Baldacci et al. ont développé dans \cite{Baldacci2008b} une méthode basée sur la formulation de la couverture ensembliste permettant de fournir de meilleures bornes inférieures que la méthode de Fukasawa et al. et de façon plus rapide.
+
+Toutes ces méthodes de résolution exactes ont pour point commun d'être envisageable pour des instances de taille raisonnable. Cependant, elles ne sont que rarement utilisées dans les applications réelles du problème au profit de méthodes approchées permettant d'obtenir des solutions proches de l'optimal en un temps beaucoup plus court.
+
+\subsubsection{Méthodes de résolution approchée}
+
+L'utilisation de méthodes approchées est devenue indispensable pour résoudre des instances réelles de problèmes de tournées de véhicules. Le principe est, comme pour les problèmes de voyageurs de commerce, d'orienter la recherche dans l'espace de solutions afin de n'en parcourir qu'une infime partie et ainsi d'obtenir un résultat rapidement et de préférence de bonne qualité. Ces heuristiques sont souvent facilement adaptable aux différentes variantes du problème.
+
+Il existe deux types d'heuristiques. D'une part celle consistant à construire une solution de façon itérative en choisissant à chaque étape le client à insérer dans une route, et d'autre part celles utilisant une solution initiale de qualité médiocre en cherchant à l'améliorer au fil de l'exécution de l'algorithme.
+
+\paragraph{Heuristiques constructivistes~:}
+
+La première heuristique fut proposée par Dantzig et Ramser en 1959 (\cite{Dantzig1959}). Elle est basée sur un algorithme de programmation linéaire et permet d'obtenir une solution proche de l'optimal au CVRP. En 1964, Clarke et Wright ont amélioré l'algorithme de Dantzig et Ramser en mettant au point une heuristique gloutonne appelée \textit{Saving Algorithm} (voir \cite{Clarke1964}). Le principe est d'abord de déterminer des ``économies`` (\textit{savings}) $s_{ij}$ avec $s_{ij}=c_{i0}+c_{0j}-c_{ij} \text{ , } \forall i,j \in \{1,\cdots,n\} \text{ and } i \neq j$ correspondant au coût, en terme de distance, de la fusion de deux tournées en un point. Les fusions de tournées permettant de réaliser la plus grande économie est réalisée jusqu'à ce qu'aucune économie ne puisse être obtenue.
+
+En 1974, Gillet et Miller ont proposé l'heuristique de construction par balayage (\textit{sweep heuristic}, voir \cite{Gillett1974}). Cette heuristique consiste à regrouper les clients de façon à constituer des cercles connectés au dépôt. Dès qu'il est impossible d'ajouter un client à la tournée en respectant les contraintes du problème, un nouveau cercle est créé. Il s'agit d'une construction de type \textit{Cluster First - Route Second}, c'est-à-dire que les clients sont d'abord regroupés en fonction de leur position, puis, dans un second temps, l'ordre de passage des véhicules dans chaque groupe de clients est déterminé. Fisher et Jakumar ont utilisé ce principe dans \cite{Fisher1981}, rédigé en 1979 mais publié qu'en 1981. Ils ont résolu le VRP en déterminant les groupes de clients (\textit{clusters}) par la résolution du problème d'affectation généralisé (\textit{Generalized Assignment Problem}) connexe, puis en optimisant chaque tournée en résolvant le problème de voyageur de commerce associé.
+
+L'approche inverse consiste d'abord à construire une unique tournée regroupant tous les clients, puis à découper cette tournée en sous tournées pour chaque véhicule. On dit alors que la construction est de type \textit{Route First - Cluster Second}. Cette heuristique a été introduite par Beasley en 1983 (voir \cite{Beasley1983}). L'auteur génère plusieurs tournées géantes regroupant tous les clients, puis utilise l'algorithme de Floyd (voir \cite{Floyd1962}) afin de calculer les meilleurs sous-chemins dans chaque tour géant et ainsi de déterminer le découpage optimal en sous-tournées. Beasley souligne donc que l'utilisation de l'algorithme de Floyd a pour conséquence de borner la complexité de sa méthode au cube de la taille du problème : $O(n^3)$. Ulusoy a utilisé également une méthode \textit{Route First - Cluster Second} pour résoudre un CVRP (voir \cite{Ulusoy1985}). Son algorithme comporte 4 étapes. Tout d'abord, la résolution d'un problème de postier chinois (problème de voyageur de commerce sur les 
+arêtes du graphe au lieu des sommets) permet d'obtenir un tour géant. Ensuite, la deuxième étape consiste à diviser le tour géant en tournées de façon à respecter les contraintes de capacité des véhicules. La troisième étape consiste à résoudre un problème de plus court chemin sur un nouveau graphe résultant de la transformation du graphe précédent où les sommets du nouveau graphe sont les arêtes du tour géant, et les arêtes du nouveau graphe sont les sous-tours obtenus à l'étape précédente. Enfin la dernière phase consiste à améliorer la solution à posteriori. 
+
+%conclusion sur les heuristiques constructivistes ?
+
+\paragraph{Heuristiques d'amélioration~:}
+
+Concernant les méthodes par amélioration, les heuristiques utilisées pour le problème de voyageur de commerce se retrouvent également dans la résolution du VRP, comme par exemple $k-opt$ ($2-opt$ et $3-opt$). Ces méthodes de recherche locale permettent d'améliorer les résultats fournis par les heuristiques constructivistes comme l'algorithme glouton de Clarke et Wright, ou la méthode d'Ulusoy par exemple. Ainsi, 	dans \cite{Irnich2006}, Irnich et al. formalisent une méthode générique de recherche locale pour les problèmes de tournées de véhicules. Les résultats montrent qu'un gain important en terme de vitesse de convergence est obtenu en utilisant un voisinage de type $3-opt$.
+Ces méthodes peuvent être utilisées dans plusieurs métaheuristiques basées sur des recherches locales comme la recherche tabou par exemple.\\
+
+%Conclusion sur les heuristiques
+
+Plus de détails concernant les heuristiques appliquées aux problèmes de tournées de véhicules peuvent-être trouvés dans \cite{Bodin1983} et \cite{Laporte1992}. Plus de précision sur les méthodes de recherche locale, nottament sur les différents voisinages, sont apportés par Funke et al. dans \cite{Funke2005}. D'autre part, dans \cite{Laporte2000}, Laporte et al. dressent un tour d'horizon des heuristiques utilisées dans la résolutions des problèmes de tournées de véhicules. Ils classent les méthodes en deux catégories : les heuristiques classiques d'une part, et les heuristiques modernes d'autre part. Cependant la seconde catégorie fait état de la méthode de recherche tabou, qui appartient en réalité à la famille des métaheuristiques. En revanche, leur classification reste valable car en effet les heuristiques ont été développées bien avant les métaheuristiques. La qualité des solutions obtenues par ces dernières surpassent ainsi les résultats des heuristiques.
+
+
+\paragraph{Métaheuristiques~:}
+
+On distingue deux grandes classes de métaheuristiques pour le VRP. D'une part les méthodes de recherche de trajectoire qui consiste à partir d'une solution initiale, de plus ou moins bonne qualité, pour s'en éloigner en parcourant l'espace des solutions en suivant une trajectoire. D'autre part, les méthodes à population, consistent quant-à-elles à travailler sur un ensemble de solutions (population) et de le faire évoluer de façon itérative. L'intérêt de cette seconde classe est de distribuer l'exploration de l'espace des solutions.
+
+\subparagraph{Méthodes à trajectoires~:\\}
+
+Dans les méthodes à trajectoires, dites de recherche locale, il est question de parcourir l'espace des solutions de façon à converger vers un optimum, tout en évitant de bloquer sur une solution localement optimale. Parmi ces méthodes, on peut citer le recuit simulé (\textit{Simulated Annealing}), ou la recherche tabou (\textit{Tabu Search}).\\
+
+En 1993, dans \cite{Osman1993}, Osman a introduit une méthode de recuit simulé ainsi qu'une recherche tabou appliqués au CVRP sous contrainte de distance. Son recuit simulé construit des solutions voisines en échangeant un seul arc depuis la solution courante. Ceci permet de ne pas générer de solutions trop éloignées de la solution courante comme c'est le cas lorsqu'une solution est générée de façon aléatoire. L'autre avantage réside également dans la garantie d'une exploration complète des solutions voisines. L'algorithme de recuit simulé de Osman est donc une hybridation entre un recuit simulé classique (où les solutions sont générées de façon aléatoires) et une heuristique de recherche locale ($k-opt$).\\
+
+La méthode de recherche tabou d'Osman est basée sur celle originelle de Glover (voir \cite{Glover1989,Glover1990}). La liste tabou est modélisée par une matrice comportant $(n+1)$ lignes et $m$ colonnes (où $n$ est le nombre de clients, une ligne supplémentaire permet de représenter le passage par le dépôt (\textit{shift}), et $m$ est le nombre de véhicules disponibles).
+
+Les 2 méthodes ont été testées sur 17 instances de la littérature comportant de 29 à 199 clients et sur 9 nouveaux problèmes de taille 50, 75, et 100 clients. Les résultats montrent que bien que le recuit simulé soit efficace vis-à-vis des meilleures solutions connues aux problèmes de la littérature, la recherche tabou donne de meilleurs résultats et requiert moins de temps de calcul. En effet, la recherche tabou donne de meilleures solutions à 14 des 17 problèmes et trouve la même solution au 3 autres. Le nombre de véhicules nécessaire est également moindre dans les résultats de la recherche tabou que dans les solutions de la littérature.
+
+Parallèlement à Osman, dans \cite{Gendreau1994}, Gendreau et al. ont proposé l'algorithme \textit{TABUROUTE} basé sur une recherche tabou. La différence avec la méthode d'Osman se situe au niveau du respect des contraintes. En effet, Gendreau et al. autorisent la construction de solutions qui ne respectent pas les contraintes afin de les utiliser comme solution étape, lors de la recherche de la solution optimale. Les solutions ne respectant pas  les contraintes de capacité ou de distance sont alors pénalisées mais néanmoins autorisées. Les résultats sont comparables avec ceux d'Osman.
+
+Bien d'autres méthodes tabou ont été appliquées avec succès à différentes variantes du problème de tournées de véhicules comme celles de Cordeau et al. (voir \cite{Cordeau1997,Cordeau2001} par exemple.
+Concernant les problèmes avec collecte et livraisons (PDP et PDP-TW), on peut citer les travaux de Nanry et Barnes \cite{Nanry2000}, Caricato et al. \cite{Caricato2003}, et Codeau et Laporte \cite{Cordeau2003}.\\
+
+Récemment des méthodes à voisinage variable (\textit{Variable Neighborhood Search}) ont été introduites (voir \cite{Mladenovic1997,Hansen2010}). L'algorithme comporte deux étapes. Tout d'abord l'application d'une recherche locale permettant de trouver un optimum local. Puis, une fois qu'aucune solution voisine ne permet d'améliorer la qualité de la solution courante, une perturbation est appliquée afin de faire un saut conséquent dans l'espace des solutions. Il existe deux principales heuristiques de descente pour le \textit{VNS} : choisir la solution voisine améliorant le plus la solution courante parmi tous les voisins (\textit{Best Improvement}), ou choisir la première solution voisine améliorant la solution courante (\textit{First Improvement}).
+
+Dans \cite{Polacek2004}, Polacek et al. déclarent être les premiers à appliquer le \textit{VNS} à un VRP. Ils ont montré que l'algorithme était compétitif vis-à-vis de la recherche tabou à la fois en terme de qualité de solution et de vitesse d'exécution. Néanmoins, Bräysy a développé dans le même temps un même algorithme (voir \cite{Braysy2003}) et sera le premier publier ses résultats. En 2009, Fleszar et al. ont appliqué un \textit{VNS} à l'\textit{Open Vehicle Routing Problem} (OVRP). Dans ce problème les véhicules ne sont pas obligé de revenir au dépôt à la fin de leur tournée. L'algorithme consiste à minimiser d'abord le nombre de véhicules utilisés puis à minimiser la distance parcourue par ces véhicules (voir \cite{Fleszar2009}).
+
+Dernièrement Kytöjoki et al. ont utilisé un \textit{VNS} appliqué à des instances de grande taille comportant jusqu'à 20000 clients (voir \cite{Kytojoki2007}). Leurs résultats montrent qu'une telle méthode est applicable à des problèmes rencontrés dans le monde réel.\\
+
+%GRASP
+La méhtode Greedy Randomized Adaptive Search Procedure (GRASP) a été introduite par Feo et Resende en 1989 (voir \cite{Feo1989}). 
+Le principe est de construire une solution en utilisant à la fois une méthode gloutone et une méthode aléatoire. Ainsi, à chaque étape de la construction d'une solution, les éléments pouvant être insérés dans la solution construite sont placés dans une liste qui est triée en fonction d'une fonction objectif. Dans un second temps, l'élément inséré à la solution est tiré au sort parmi les meilleurs éléments présents dans cette liste triée. Le processus est répété jusqu'à ce qu'une solution complète soit construite.\\
+
+Dans \cite{Kontoravdis1995}, Kontoravdis et Bard ont appliqué la métaheuristique GRASP à l'\textit{Open Vehicle Routing Problem with Time-Windows} (OVRP-TW). Afin de tester leur méthode, les auteurs l'ont appliqués avec succès à différentes variantes du VRP-TW comme le \textit{Pickup and Delivery Problem with Time Windows} (PDP-TW).
+
+\subparagraph{Méthodes à population~:\\}
+
+Les métaheuristiques à population fonctionnent grâce à des mécanismes d'intelligence collective. Les principales métaheuristiques à population utilisées dans la résolution du VRP sont les algorithmes génétiques et les algorithmes fourmis.
+
+%AG
+Les premiers algorithmes génétiques développés ont cherché à résoudre les versions du problème utilisant des fenêtres de temps. La très grande majorité des algorithmes génétiques utilisés pour résoudre le VRP sont dits ''hydrides`` car ils utilisent un opérateur de mutation. C'est cet opérateur qui utilise des heuristiques de recherche locale afin d'optimiser la solution. Par exemple, l'opérateur de mutation le plus simple consiste à inverser deux gènes dans le chromosome et applique ainsi la méthode $2-opt$.
+Les premiers travaux mettant en exergue les algorithmes génétiques dans la résolution des VRP-TW datent des années 1990. En 1991, Thangiah a présenté dans sa thèse (voir \cite{Thangiah1991}) GIDEON, un algorithme génétique appliqué au VRP-TW capable de battre 41 des 56 instances classiques sur lesquelles il a été testé. En 1993, Blanton et Wainwright ont présenté dans \cite{Blanton1993} deux opérateurs de croisement adapté au problème de tournées de véhicules avec fenêtres de temps. Le premier opérateur, appelé $MX1$, consiste à parcourir les gènes des deux chromosomes parents $A$ et $B$ et de déterminer quel est le gène apparaissant en premier dans le vecteur des contraintes de précédence. Ce gène sera placé dans le chromosome fils $AB$. Dans le cas où le gène $x_i$ sélectionné soit celui de $A$ ($x_i^A$), le gène ayant la même valeur $x_j^B$ (avec $i \neq j$) est inversé dans $B$ avec $x_i^B$ afin de conserver la validité de la solution représentée. Puis le gène suivant des parents sera examiné, etc. Le 
+second opérateur, appelé $MX2$, consiste à comparer deux gènes $x_i$ et $x_j$ dans $A$ et $B$ en commençant à $i=j=1$, puis en plaçant le gène apparaissant en premier dans le vecteur de précédence dans $AB$ à l'indice $k$. Si c'est $x_i^A$ qui est sélectionné, alors le gène de B ayant la valeur de $x_i^A$ sera supprimé et $i$ et $k$ seront incrémentés pour pouvoir passer à l'indice suivant.
+En 1996, Potvin et Bengio ont présenté dans \cite{Potvin1996} l'algorithme GENEROUS (GENEneric ROUting System) qui utilise deux opérateurs de croisement afin de générer les générations d'individus. Le premier est appelé \textit{Sequence-Based Crossover} (SBX) et croisent deux parties des parents pour obtenir un nouvel individu. Une procédure de réparation est ensuite appliquée pour réparer les chromosomes ne comportant pas une et une seule fois chaque client à servir. Le second opérateur s'appelle \textit{Route-Based Crossover} (RBX) et remplace une partie des gènes d'un individu par ceux d'un autre individu pour créer un nouveau chromosome. La procédure de réparation évoquée précédemment permet de rétablir la validité d'un individu.
+En 1998, Berger et al. ont proposé dans \cite{Berger1998} un algorithme génétique hybride utilisant une méthode de recherche locale. Les performance de cet algorithme sont supérieurs aux résultats des algorithmes génétiques publiés jusqu'alors.
+En 1999, Gehring et Homberger ont proposés dans \cite{Gehring1999,Homberger1999} (puis d'autres versions en 2001 dans \cite{Gehring2001} et en 2005 \cite{Homberger2005}), un algorithme génétique à deux phases (ainsi que sa version parallèle) consistant à d'abord minimiser le nombre de véhicules utilisés puis, dans une seconde phase à minimiser la distance parcourue.
+
+En 2001, Tan et al. ont utilisé une représentation des chromosomes sous forme de chaînes de caractères (contrairement à la représentation binaire utilisée par Thangiah dans \cite{Thangiah1991}).
+En 2004, Berger et Barkaoui ont présenté dans \cite{Berger2004} un algorithme génétique pour le VRP-TW faisant évoluer deux populations distinctes : l'une cherche à minimiser la distance totale parcourue alors que la seconde essaye de minimiser le nombre de contraintes temporelles non respectées. Là aussi, les performances dépassent ou égalent les meilleurs résultats des algorithmes de la littérature. La version parallèle de l'algorithme permet un facteur de \textit{speed-up} de 5.
+En 2006, Ombuki et al. ainsi que Tan et al., ont développé respectivement dans \cite{Ombuki2006} et \cite{Tan2006}, un algorithme génétique multi-objectifs pour le VRP-TW cherchant les solutions Pareto dominantes au problème.
+\\
+
+Concernant les problèmes de tournées de véhicule sans contraintes de temps, les premiers algorithmes génétiques datent des années 1990. Dans \cite{Chu1997}, Chu et Baseley ont utilisé une représentation pour le \textit{Generalized Assignment Problem} pouvant être appliquée au VRP. Dans cette formulation, les indices des véhicules sont inscrits dans les gènes. Ainsi, un chromosome sera composé de $n$ gènes (pour $n$ clients) et chaque gène aura pour valeur un nombre compris entre $1$ et $m$. Toutefois, même si cette notation a l'avantage de résoudre le sous-problème de \textit{bin-packing}, elle ne permet pas de connaître l'ordre des visites dans la tournée de chaque véhicule.
+Malgré les travaux de Chu en 1997, les premiers résultats concernant l'application d'algorithmes génétiques au VRP sans contraintes de temps ne sont apparus qu'à partir de 2003. En effet, dans \cite{Baker2003}, Baker et Ayechew utilise la représentation de Chu pour les chromosomes et déterminent l'ordre de visite des clients en résolvant $m$ problèmes de voyageurs de commerce. Leur algorithme n'atteint pas les performance des algorithmes de recherche tabou (nottament le TABUROUTE de Gendreau et al) mais permet d'obtenir des solutions de bonne qualité en un temps raisonnable.
+Berger et Barkaoui ont présenté également dans \cite{Berger2003}, une méthode de résolution du CVRP utilisant un algorithme génétique à deux populations. Leur algorithme baptisé HGA-VRP (\textit{Hybrid Genetic Algorithm VRP}), consiste à faire migrer des individus entre les deux populations afin de diversifier la recherche de solutions. Les performances sont comparables à celles obtenues par les méthodes de recherche tabou.
+
+En 2003, Jaszkiewicz et Komineck ont utilisé dans \cite{Jaszkiewicz2003} une méthode de recherche locale génétique (\textit{Genetic Local Search}) appelée également algorithme mémétique (\textit{memetic algorithm}) qui est en fait une hybridation entre un algorithme génétique et une méthode de recherche locale. Leurs résultats montrent que leur approche hybride obtient de meilleurs résultats que les approches génétiques et la recherche locale utilisées séparément. Une approche similaire a été proposé également par Kubiak dans \cite{Kubiak2004}.
+
+En 2004, Prins a proposé dans \cite{Prins2004}, un algorithme génétique hybride pour le DVRP plus performant que les méthodes tabou sur la plupart des 14 instances données par Christofides et meilleur sur 20 instances de grande taille formulées par Golden et al. La méthode consiste à utiliser des chromosomes représentant la liste ordonnée des clients à visiter, sans délimiter les tournées, puis, dans un second temps, de découper le chromosome afin d'obtenir les tournées. Cette approche est de type \textit{route first - cluster second}.
+
+En 2006, Alba et Dorronsoro ont introduit dans \cite{Alba2006} un algorithme génétique cellulaire appelé \textit{JCell2oli} pour le CVRP. La différence avec un AG classique réside dans la notion de voisinage entre individus. Dans la plupart des AG classiques, lors de la phase de sélection, des individus sont sélectionnés parmi la population globale de façon pseudo-aléatoire puis seule une partie de cette sous-population est conservée. La population de chromosomes de l'AGc d'Alba et Dorronsoro est organisée sous forme d'un tore 2D et utilise un voisinage de Von Neumann. Ainsi lors de la phase de sélection, un individu entre en compétition avec ses 4 voisins (Nord, Est, Sud et Ouest). Cet algorithme est capable d'approcher les résultats des meilleurs méthodes de résolution du CVRP.
+
+En 2007, Mester et al. ont proposé dans \cite{Mester2007} un algorithme génétique hybride utilisant une population à un seul chromosome. La génération du chromosome de la génération suivante est assurée par la mutation du chromosome de la génération courante. L'algorithme permet d'égaler et même d'améliorer 42\% des meilleurs résultats de 199 jeux de tests de la littérature.
+Dans \cite{Mester2007b}, Mester et Bräysy ont combinés 3 différentes stratégies de sélection de clients à insérer dans une tournée. La première stratégie consiste à les insérer par proximité avec le véhicule. La seconde consiste à choisir aléatoirement $(0.2 + 0.5a)$ clients ($a$ est un nombre aléatoire uniformément distribué sur $[0..1]$) puis à prendre les autres en fonction de leur proximité. Enfin, la dernière stratégie consiste à déterminer un rayon de façon aléatoire afin de construire 2 cercles centrés sur le dépôt puis de choisir un nombre aléatoire de clients par proximité par rapport aux cercles. Une des trois stratégies est choisie à chaque itération de l'algorithme afin de faire varier l'exploration de l'espace des solutions. L'algorithme a été testé sur 76 instances de la littérature et a ainsi été capable de donner 70 des 76 meilleurs résultats.
+
+Concernant les problèmes avec collectes et livraisons, les algorithmes génétiques ont été également largement utilisés. Parmi les principaux travaux, on peut citer ceux de Pankratz (voir \cite{Pankratz2005b}) ainsi que ceux de Ganesh et Narendran (voir \cite{Ganesh2007}).\\
+
+
+%ACO
+Les premiers algorithmes fourmis dédiés aux problèmes de tournées de véhicules datent de la fin des années 1990. Dans \cite{Bullnheimer1997b,Bullnheimer1997c}, Bullnheimer et al. ont développé un algorithme fourmis basé sur le \textit{Ant System} de Dorigo (voir \cite{Dorigo1992}) pour le CVRP avec contrainte de distance. Chaque fourmis construit une tournée puis retourne au dépôt lorsque la capacité du véhicule ou la distance maximale est dépassée. Les résultats montrent que l'algorithme hybridé avec une optimisation locale de type $2-opt$ permet d'approcher les résultats obtenus par les algorithmes tabou mais toutefois sans les améliorer.
+
+En 1999, Gambardella et al. ont proposé dans \cite{Gambardella1999} l'algorithme \textit{MACS} pour le VRPTW. L'algorithme utilise deux colonies de fourmis. La première cherche à minimiser le nombre de véhicules utilisés alors que la seconde cherche à minimiser la distance totale parcourue par les véhicules.
+
+En 2000, Doerner et al. ont appliqué la métaheuristique ACO au problème avec collecte et livraison avec fenêtres de temps (PDP-TW). Ils proposent ainsi dans \cite{Doerner2000} un algorithme fourmis capable de résoudre le \textit{Pickup and Delivery Problem with Time Windows} et montrent qu'il est nécessaire d'adapter l'implémentation de l'algorithme en fonction du problème afin d'obtenir de bons résultats.
+
+Dans \cite{Doerner2001}, Doerner et al. décrivent leur méthode nommée COMPETAnts. Elle consiste à utiliser deux populations de fourmis chacune avec leur propre objectif et de pondérer la priorité d'une population vis-à-vis de l'autre en fonction des besoins du problème. Certaines fourmis appelées ''espionnes'' (\textit{spies}) utilisent la phéromone de l'autre colonie en plus de la trace de phéromone de leur propre colonie alors que les fourmis traditionnelles n'utilisent que leur propres traces de phéromone. Doerner et al. ont appliqué cet algorithme à un PDP-TW et ont montré que l'utilisation de deux colonies avec le système de communication inter-colonies par mécanismes d'espionnage permet d'obtenir de meilleurs résultats qu'avec une métaheuristique fourmis classique.
+
+Dans \cite{Reimann2004}, Reimann et al. utilisent l'heuristique de Clarke et Wright (voir \cite{Clarke1964}) afin de définir le comportement des fourmis. Une version parallèle de l'algorithme a été proposée par Doerner et al. dans \cite{Doerner2005}. Bell et McMullen ont indiqué dans \cite{Bell2004} que les algorithmes fourmis étaient capable de donner des résultats approchant les solutions optimales (à 1\% près) à des problèmes de tournées de véhicules. Ils ont également montrés que l'utilisation d'une colonie différente pour chaque véhicule utilisant sa propre phéromone permettait d'améliorer les résultats, spécialement pour les instances les plus grandes. Mazzeo et Loiseau ont proposé dans \cite{Mazzeo2004}, un algorithme fourmis pour le CVRP. Leur algorithme procède à la construction des tournées par une fourmis qui rentre au dépôt lorsque la capacité du véhicule de la tournée est atteinte. En 2006, Li et Tian ont développé dans \cite{Li2006} un algorithme fourmis similaire pour l'\textit{Open Vehicle 
+Routing Problem}.  Enfin, Chen et Ting \cite{Chen2005} ont proposé un algorithme fourmis hybridé avec une méthode de recuit simulé afin de résoudre le VRPTW. Le principe est d'applique la méthode du recuit simulé sur les solutions fournies par l'algorithme fourmis.
+En 2008, Gajpal et Abad ont appliqué dans \cite{Gajpal2008} un algorithme \textit{MACS} au VRPB. Puis, en 2009 les auteurs ont proposé un algorithme basé sur l'\textit{ACS} (voir \cite{Dorigo1997}) à un problème de tournées de véhicules avec collectes et livraisons simultanées (voir \cite{Gajpal2009}.\\
+
+%Conclusion sur les métaheuristiques
+Plus d'informations concernant les métaheuristiques appliquées aux différents problèmes de tournées de véhicules peuvent être trouvées dans l'excellente revue de littérature de Gendreau et al (voir \cite{Gendreau2008}). Plus récemment, Vidal et al. ont proposé un tour d'horizon des heuristiques (au sens large) appliquées au VRP (voir \cite{Vidal2011}).
+Les métaheuristiques ont permis récemment d'obtenir des solutions d'excellente qualité à des instances du problème de taille importante. Même si les meilleurs résultats ont été obtenus grâce à des algorithmes basés sur la méthode de recherche tabou, d'autres métaheuristiques comme les algorithmes génétiques et les colonies de fourmis artificielles fournissent des solutions intéressantes et ont l'avantage inestimable d'être adaptés à l'utilisation au sein d'un environnement dynamique.
+
+Concernant la version hétérogène du CVRP, un tour d'horizon détaillé des méthodes de résolution peut-être trouvé dans \cite{Baldacci2008} et \cite{Berbeglia2007}. 
+
+Lorsque les requêtes des clients ne sont connues qu'au cours des tournées, le problème devient dynamique.
+
+\subsection{Problème dynamique}
+Lorsque certaines informations portant sur les ordres de livraisons, ou sur les caractéristiques du problème, ne sont connues qu'une fois que les tournées des véhicules ont débuté, le problème de tournées de véhicule est dit ``dynamique'' (\textit{Dynamic Vehicle Routing Problem}: DVRP). Lorsque l'évolution du système comporte une part de prédictibilité, le problème est dit ``stochastique`` (voir \cite{Gendreau1996}) et est appelé \textit{Stochastic Vehicle Routing Problem}: SVRP, \textit{Vehicle Routing Problem with Stochastic Demands}: VRPSD ou encore \textit{Probalistic Vehicle Routing Problem}: PVRP. Dans ces problèmes il est possible de prévoir l'évolution des demandes de façon probabiliste afin d'adapter les tournées des véhicules à de probables modifications futures. Dans le PVRP les clients ont une probabilité de demander à être visité par un véhicule alors que dans le SVRP la probabilité peut porter sur la demande de visite, la quantité à livrer ainsi que les temps de parcours.
+
+Ainsi, de nombreux problèmes réels sont dynamique. En effet, les itinéraires des véhicules sont désormais calculés dynamiquement en tenant compte du trafic sur les routes par exemple. Plusieurs exemples types de VRP se révèlent dynamique dans la vie réelle. Ainsi, lorsqu'un client appelle en urgence la compagnie de fuel l'hiver, la compagnie prend en compte sa demande en optimisant les tournées courantes de ses camions de livraison afin d'essayer d'intégrer cette nouvelle demande. Dans le cas de la compagnie de taxis, un client peut appeler pour annuler son taxi à la dernière minute, alors que le taxi en question est déjà en route vers l'emplacement du client. La compagnie va alors essayer de rediriger le taxi vers une autre demande afin de minimiser le coût induit par cette annulation.
+
+Ce qui était impossible dans le passé devient réalisable grâce au développement de la technologie et nottament grâce aux téléphones portables (GPRS, 3G) et au système de positionnement par satellite (GPS). Les compagnies sont capable de rediriger leurs véhicules à n'importe quel moment. C'est grâce à ce développement technologique que le problème dynamique de tournées de véhicules est devenu au fil du temps de plus en plus présent dans la littérature scientifique.
+
+Dans \cite{Psaraftis1988}, Psaraftis identifie 12 points de différence entre le problème statique et le problème dynamique de tournées de véhicules. Il indique que dans le problème dynamique:
+\begin{enumerate}
+ \item La dimension temporelle est primordiale;
+ \item L'horizon peut être non défini;
+ \item L'information sur le futur peut-être imprécise ou inconnue;
+ \item Les événements proches de leur terme sont plus importants;
+ \item Les mécanismes de mise-à-jour de l'information sont essentiels;
+ \item Les décisions de réaffectation, ainsi que de réorganisation peuvent être nécessaires pour garantir la validité de la solution;
+ \item Des temps de calculs plus courts sont nécessaire;
+ \item La prise en compte des reports infinis est essentielle;
+ \item La fonction objectif peut être différente;
+ \item Les contraintes de temps peuvent être différentes;
+ \item Le degré de flexibilité en terme de variation de la taille de la flotte de véhicules est moindre;
+ \item La gestion des files d'attente de demandes peut devenir un facteur important.
+\end{enumerate}
+
+La dynamique pousse donc le système à devoir s'adapter suffisamment rapidement afin de limiter l'impact des perturbations. Les méthodes de résolutions doivent donc permettre d'obtenir une solution satisfaisante rapidement.
+
+\subsubsection{Méthodes de résolution du problème dynamique}
+
+Il n'est pas question ici d'appliquer des méthodes de résolution exactes, à cause du temps de calcul nécessaire pour ces méthodes. Les méthodes heuristiques permettent d'insérer les nouvelles demandes rapidement et obtiennent des résultats satisfaisant. Toutefois, les meilleurs résultats sont obtenus par des métaheuristiques permettant d'allier qualité des solutions et rapidité de calculs.
+
+Le premier algorithme exact à un problème dynamique, en l'occurence au DARP, a été proposé en 1980 par Psaraftis (voir \cite{Psaraftis1980}). Basé sur la programmation dynamique, le programme calcul un nouveau plan de charge pour les véhicules à chaque arrivée de nouvelle demande dans le système. Plus récemment, Chen et Xu ont proposés dans \cite{Chen2006} un algorithme de génération dynamique de colonnes (\textit{DYCOL : DYnamic COLumn}) appliqué au DVRP-TW. Leur méthode permet d'obtenir des solutions exactes plus rapidement qu'avec d'autres méthodes déterministes.
+
+Concernant les heuristiques, les premiers algorithmes d'insertion des nouvelles demandes dans des tournées déjà planifiées ont été développés par Wilson et al. dans les années 1970 dans le cadre du problème de transport à la demande (voir \cite{Wilson1971,Wilson1975,Wilson1977}). Dans le DARP, les horizons de calcul sont très court et la fréquence des demandes est élevée. Ce problème est donc intrinsèquement dynamique. En 1985, Psaraftis a défini l'algorithme \textit{MORSS} (MIT Ocean Routing and Scheduling System) dans \cite{Psaraftis1985} permettant de résoudre un problème dynamique de routage de cargo en situation d'urgence.
+Madsen et al. ont transformé des procédures d'insertion utilisées dans les problèmes statiques pour les utiliser dans les problèmes dynamique (voir \cite{Madsen1995}). De même, dans \cite{Swihart1999}, Swihart et Papastavrou ont testé plusieurs heuristiques classiques appliquées à un problème dynamique de collectes et livraisons (\textit{Dynamic Pickup and Delivery Problem: DPDP}). Ainsi, l'heuristique du plus proche voisin consiste dans ce cas à procéder à la collecte du client le plus proche de la position courante du véhicule. Cette méthode donne d'excellents résultats dans plusieurs cas.
+
+En 1998, Savelsbergh et Sol ont proposé dans \cite{Savelsbergh1998} une méthode de \textit{Branch-and-Price} pour résoudre un problème de tournées de véhicules appliqué à une entreprise de transport dans le Benelux.
+
+Plus récemment, les travaux de Yang et al. (voir \cite{Yang2004}) concernent des problèmes dynamiques avec collectes et livraisons. Le problème statique est d'abord résolu par un programme linéaire en nombre entier, puis les requêtes dynamiques sont insérées en fonction de politiques temps réel. 
+
+%TS
+Concernant les métaheuristiques, les premiers travaux ont été proposé par Gendreau et al. en 1999 (voir \cite{Gendreau1999}). Ils ont développé un algorithme de recherche tabou utilisant un ensemble de solutions initiales maintenu en fonction de l'évolution dynamique des requêtes. Cet ensemble a été nommé ``mémoire adaptative''. 
+
+%GA
+Plusieurs algorithmes génétiques ont été développés pour résoudre des problèmes dynamiques de tournées de véhicules, nottament celui de Benyahia et Potvin \cite{Benyahia1998} appliqué à un DPDP. Dans \cite{Jih1999}, Jih et Hsu ont développé un algorithme génétique hybride pour un PDP-TW capable de s'adapter à une version dynamique du problème. Dans \cite{Pankratz2005b}, Pankratz propose également un algorithme génétique pour résoudre les sous instances du DPDP-TW. À chaque requête, un nouveau PDP-TW est résolu en utilisant la connaissance acquise lors du calcul des solutions précédentes.
+
+%ACO
+Dans \cite{Montemanni2005}, Montemanni et al. proposent l'algorithme ACS-DVRP. La méthode est basée sur l'Ant Colony System de Dorigo et Gambardella (voir \cite{Dorigo1997}) et est appliqué à un problème dynamique de tournées de véhicules. Le principe est de découper le temps en périodes appelées quartiers (slices) comme décris dans \cite{Kilby1998} dans lesquels toute nouvelle requête est différée à la fin de la période. Cette approche permet d'éviter de recalculer une solution à chaque événement. Chaque période de temps est vu comme un problème statique et est résolu par un $ACS$ et l'information laissée par les fourmis (phéromone) permet de prendre en compte les calculs précédents lors de l'insertion des nouvelles requêtes. Leur méthode a été comparée à une méthode de type \textit{GRASP} et a montré de bons résultats. Les auteurs ont également appliqué l'algorithme à un cas concret concernant la ville de Lugano en Suisse et comportant 50 clients et 10 véhicules. Les résultats sont également commentés par 
+Rizzoli et al. dans \cite{Rizzoli2007}.\\
+
+
+La version dynamique des problèmes de tournées de véhicules constitue un pan entier du domaine de recherche avec ses propres spécificités. Ainsi, plusieurs thèses de doctorats lui sont entièrement consacrées (\cite{Larsen2000} pour le DVRP, et \cite{Mitrovic-Minic2001} pour le PDPD-TW). Des tours d'horizon récents du problème peuvent être trouvés dans \cite{Gendreau2008}, \cite{Larsen2008}, \cite{Berbeglia2010} et \cite{Pillac2011}.
+
+\subsection*{Conclusion}
+
+Le problème de tournées de véhicules est une spécialisation du problème des multiples voyageurs de commerce. Dans sa forme la plus classique il consiste à optimiser les tournées d'une flotte de véhicules de façon à servir chaque client en respectant les capacités des véhicules (ainsi que bien souvent une distance maximale par véhicule) tout en minimisant la distance totale parcourue. Certaines versions du problèmes comportent des contraintes temporelles sous forme de fenêtres de temps.
+Dans sa version dynamique, le problème devient plus difficile à résoudre à cause du besoin d'obtenir une solution rapidement. L'incertitude liée à la dynamique impose l'utilisation de métaheuristiques permettant d'utiliser les solutions calculées précédemment pour calculer des nouvelles solutions lorsqu'un événement survient. Les méthodes les plus utilisées sont la recherche tabou, les algorithmes génétiques et les algorithmes fourmis.
+

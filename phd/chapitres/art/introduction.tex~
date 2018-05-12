@@ -1,0 +1,9 @@
+Ce chapitre sert d'introduction et de contextualisation théorique de cette thèse. Il sera question de définir le cadre ainsi que les bases théoriques de l'étude. 
+
+La première section est consacrée à l'optimisation dynamique sous incertitude.
+
+La deuxième section est consacrée au problème de voyageur de commerce et à sa généralisation à $m$ voyageurs.
+
+La troisième section est dédiée aux problème de tournées de véhicules. 
+
+Enfin la dernière section établira un tour d'horizon des problèmes d'ateliers et en particulier du problème de \textit{Job-Shop}.

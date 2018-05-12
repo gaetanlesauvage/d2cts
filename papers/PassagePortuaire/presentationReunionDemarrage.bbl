@@ -1,0 +1,39 @@
+\begin{thebibliography}{1}
+
+\bibitem{lesauvageICCSA2009}
+{S}tefan {B}alev, {F}r{\'e}d{\'e}ric {G}uinand, {G}a{\"e}tan {L}esauvage, and
+  {D}. {O}livier.
+\newblock {D}ynamical {H}andling of {S}traddle {C}arriers {A}ctivities on a
+  {C}ontainer {T}erminal in {U}ncertain {E}nvironment - {A} {S}warm
+  {I}ntelligence approach -.
+\newblock In {\em {ICCSA} 2009 {T}he 3rd {I}nternational {C}onference on
+  {C}omplex {S}ystems and {A}pplications {ICCSA} 2009}, volume~2, page 290,
+  {L}e {H}avre {F}rance, 06 2009.
+\newblock 7p.
+
+\bibitem{bertelle02}
+C.~Bertelle, A.~Dutot, F.~Guinand, and D.~Olivier.
+\newblock Distribution of agent based simulation with colored ant algorihm.
+\newblock In {\em 14th European Simulation Symposium}, 2002.
+
+\bibitem{graphstream}
+Antoine Dutot, Fr\'{e}d\'{e}ric Guinand, Damien Olivier, and Yoann Pign\'{e}.
+\newblock Graphstream: A tool for bridging the gap between complex systems and
+  dynamic graphs.
+\newblock In {\em EPNACS: Emergent Properties in Natural and Artificial Complex
+  Systems}, 2007.
+
+\bibitem{lesauvageMajestic09}
+{G}a{\"e}tan {L}esauvage.
+\newblock {G}estion dynamique des activit{\'e}s des chariots cavaliers sur un
+  terminal portuaire {\`a} conteneurs en environnement incertain : approche par
+  intelligence collective.
+\newblock 8p {A}ctes en ligne de la conf{\'e}rence {M}ajec{STIC} 2009, 11 2009.
+
+\bibitem{Orda90}
+Ariel Orda and Raphael Rom.
+\newblock Shortest-path and minimum-delay algorithms in networks with
+  time-dependent edge-length.
+\newblock {\em J. ACM}, 37(3):607--625, 1990.
+
+\end{thebibliography}

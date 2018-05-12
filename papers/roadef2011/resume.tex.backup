@@ -1,0 +1,73 @@
+% Exemple d'utilisation de la classe roadef2011 pour le congrès ROADEF 2011
+\documentclass{roadef2011}
+
+\usepackage{pslatex}
+
+\begin{document}
+
+
+% Le titre du papier
+\title{Routage des chariots cavaliers sur un terminal portuaire à conteneurs}
+
+% Le titre court
+\def\shorttitle{Titre court}
+
+% Les auteurs et leur numéro d'affiliation
+\author{Gaëtan Lesauvage, Stefan Balev, Frédéric Guinand}
+
+
+% Les affiliations (par ordre croissant des numéros d'affiliation) séparées par \and
+\institute{
+LITIS, Université du Havre\\ 25 rue Ph. Lebon, BP 540\\76058 Le Havre Cedex, France \\
+\email{ gaetanlesauvage@gmail.com, \{stefan.balev,frederic.guinand\}@univ-lehavre.fr}
+}
+
+
+% Création de la page de titre
+\maketitle
+\thispagestyle{empty}
+
+% Les mots-clés
+\keywords{problème de plus court chemins, graphe dynamique, terminal à conteneurs, optimisation multi-critères}
+
+\section{Contexte}
+
+Un terminal portuaire à conteneurs est un système complexe ouvert composé de plusieurs entités en interactions. Divers engins de manutention permettent de déplacer les conteneurs au sein du terminal afin de répondre le plus efficacement possible aux demandes des navires, trains ou camions en attente de chargement ou de déchargement. La gestion d'un terminal portuaire à conteneurs\cite{Lesauvage2009} relève de plusieurs problèmes d'optimisation. Le but étant de minimiser les temps d'attente des clients tout en minimisant les coûts d'exploitation du terminal, il est nécessaire de réduire les temps de déplacement des véhicules, de soigner l'affectation des missions à ces véhicules et également de répartir efficacement les conteneurs au sein du terminal. Tous ces facteurs font varier la qualité de service offerte aux clients du terminal. 
+
+
+\section{Problèmatique}
+%Déplacements des chariots pour des missions
+Nous nous intéressons ici à l'optimisation des déplacements des véhicules et en particuliers aux chariots cavaliers. Les chariots cavaliers ont pour mission de déplacer des conteneurs à l'intérieur du terminal. Chaque mission comporte deux fenêtres de temps : l'une pour la collecte du conteneur et l'autre pour la livraison. Le non-respect de ces fenêtres de collecte et de livraison entraîne un coût supplémentaire pour le terminal. Les routes des chariots cavaliers doivent donc prendre en compte ces fenêtres de temps.
+
+%Temps d'attente
+D'autre part, les itinéraires possibles sont relativement réduits sur le terminal mais les chariots ne peuvent se croiser que sur les routes. En effet, ils enjambent les conteneurs stockés dans les travées et ne peuvent donc pas se croiser à l'intérieur de celles-ci. Ces blocages peuvent causer des retards importants pour la réalisation d'une mission. Notre but est donc de définir les itinéraires des chariots cavaliers prenant en compte les temps d'attente en entrée de travées afin de minimiser à la fois la durée totale du parcours (déplacement et blocage), le coût de déplacement (distance) et l'écart de temps entre la date d'arrivée du chariot et la fenêtre de temps.
+
+%Graphe routier
+\section{Modélisation du problème}
+Le graphe routier du terminal est donc un graphe partiellement FIFO, c'est-à-dire que les arcs modélisant les travées sont FIFO alors que les arcs modélisant les routes ne le sont pas. De plus, ce graphe est dynamique car la durée de parcours d'un arcs dépend à la fois de la distance à parcourir et du temps. En effet, la durée de parcours d'un arc dépend directement de la vitesse du chariot (chariot plein ou vide) et également du trafic sur l'arc au moment de la traversée. De cette façon, nous définissons la durée de parcours de l'arc $(i,j)$ par le véhicule $v$ au temps $t$ par cette formule : 
+	\begin{equation}
+	  duree(i, j , t, v) = (distance(i,j) / vitesse(v, i, j, t)) + attente(i,j,t)
+	\end{equation}
+
+Pour les arcs $(i,j)$ non FIFO du graphe, le temps d'attente $attente(i,j,t)$ sera toujours nul.\\
+
+%Complexité
+Dans un tel graphe, le problème du plus court chemin en temps peut être résolu en temps polynomial\cite{Orda1990}.  En revanche, le problème de plus court chemin en coût est $NP-difficile$\cite{Ahuja2003}. Le problème ici étudié est un problème de plus court chemin en coût sur un graphe FIFO. Toutefois ce problème doit être vu dans sa globalité. En effet l'optimisation globale repose sur l'ensemble des optimisations de chaque véhicule. Pour trouver la meilleur solution globale, il faut calculer toutes les permutations possibles des solutions locales. Le problème global est donc $NP-complet$. 
+
+%\subsection{État de l'art}
+
+%A rajouter dans la section algorithme : 
+%Dynamic algorithms : incremental, decremental, fully dynamic
+%Waiting models : Unrestricted waiting, Forbidden waiting, Source Waiting
+
+\section{Solutions proposées}
+
+Dans un premier temps nous appliquons l'algorithme $UW1$\cite{Orda1990} d'Orda et Rom. Celui-ci est basé sur l'algorithme de Dijkstra et permet de calculer un plus court chemin dans un problème avec temps d'attente non restreint. Nous comparons cette approche avec un routage par plus court chemin classique sans prise en compte des temps d'attente.
+
+Puis, dans un second temps, nous proposons des pistes de résolution du problème global. Pour répondre aux contraintes de l'environnement, l'algorithme proposé doit être robuste et complètement dynamique. Ainsi, nous développons des algorithmes méta-heuristiques comme les algoritmes mémétiques et les colonies de fourmis pour résoudre ce problème. Ces solutions présentent également l'avantage de fournir une solution à tout moment et donc permettent de borner le temps de calcul à une constante donnée, rendant cette solution réellement applicable sur le terminal.
+
+% La bibliographie
+\bibliographystyle{plain}
+\bibliography{biblio}
+
+\end{document}

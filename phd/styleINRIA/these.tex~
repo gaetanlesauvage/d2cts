@@ -1,0 +1,147 @@
+%****************************
+% Thèse : fichier principal
+%****************************
+
+% déclaration des packages
+
+\documentclass[12pt]{report}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[frenchb]{babel}
+\usepackage[dvips]{graphicx}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{psfrag}
+\usepackage{multirow}
+\usepackage[boxed]{algorithm}
+\usepackage{algorithmic}
+\usepackage{rotating}
+\usepackage{longtable}
+\usepackage{subfigure}
+\usepackage{color}
+
+\setcounter{tocdepth}{3}
+
+% réglage des marges
+%\setlength{\oddsidemargin}{0.46cm}
+%\setlength{\evensidemargin}{-0.46cm}
+%\setlength{\topmargin}{-0.74cm}
+
+%\setlength{\textheight}{24cm}  % Hauteur de la page
+%\setlength{\textwidth}{16cm}   % Largeur de la page
+
+%%%%%%%%%%%%%%%%%%%%%------ Nouvelle commande  -------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Lsc}{{\mathcal{L}_{sc}}}
+
+
+% début du document
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Page de titre
+\author{par \textbf{Gaëtan Lesauvage}\\
+\\\textbf{U.F.R Sciences \& Techniques}:Université du Havre\\
+\\\textbf{Laboratoire}: LITIS\\
+\\\textbf{Ecole Doctorale}: SPMII
+}
+
+\title{Optimisation Dynamique en Environnement Incertain}
+
+%\Date{1er Octobre 2012}
+
+%\President{Toto}
+
+%\Rapporteurs{Titi}
+
+%\Examinateurs{Tata}
+
+%\Invites{Tutu}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Remerciements
+
+%\begin{Remerciements}
+
+%Remerciements labo.
+
+%\pagebreak \thispagestyle{empty}
+
+%Remerciements perso.
+
+%\end{Remerciements}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Citation
+
+%\begin{Dedicace}
+%D'oh!
+%
+%H. Simpson
+%\end{Dedicace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table des matières
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\include{./chapitres/introduction}
+%
+\include{./chapitres/art}
+\include{./chapitres/simulateur}
+%\include{./chapitres/chapitre2}
+%%
+%\include{./chapitres/chapitre3}
+%%
+%\include{./chapitres/chapitre4}
+%%
+%\include{./chapitres/conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Annexes
+
+\appendix
+%\include{./chapitres/annexe1}
+
+%\include{./chapitres/annexe2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Différentes listes
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+\thispagestyle{empty} \mbox{}
+
+\listoftables \listoffigures
+
+\newpage
+\thispagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliographie
+
+\bibliographystyle{unsrt}
+
+\bibliography{bibliographie_these}
+
+\include{./chapitres/resume}
+
+\end{document}

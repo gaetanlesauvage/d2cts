@@ -1,0 +1,1528 @@
+\begin{thebibliography}{}
+
+\bibitem[Aarts et~al., 1994]{Aarts1994}
+Aarts, E. H.~L., van Laarhoven, P. J.~M., Lenstra, J.~K., and Ulder, N. L.~J.
+  (Spring 1994).
+\newblock A computational study of local search algorithms for job shop
+  scheduling.
+\newblock {\em ORSA Journal on Computing}, 6(2):118--125.
+
+\bibitem[Adams et~al., 1988]{Adams1988}
+Adams, J., Balas, E., and Zawack, D. (1988).
+\newblock The shifting bottleneck procedure for job shop scheduling.
+\newblock {\em Manage. Sci.}, 34(3):391--401.
+
+\bibitem[Ahuja et~al., 2003]{Ahuja2003}
+Ahuja, R.~K., Orlin, J.~B., Pallottino, S., and Scutellà, M.~G. (2003).
+\newblock Dynamic shortest paths minimizing travel times and costs.
+\newblock {\em NETWORKS}, 41:205.
+
+\bibitem[Akers, 1956]{Akers1956}
+Akers, S.~B. (1956).
+\newblock Letter to the editor—a graphical approach to production scheduling
+  problems.
+\newblock {\em Operations Research}, 4(2):244--245.
+
+\bibitem[Alba and Dorronsoro, 2006]{Alba2006}
+Alba, E. and Dorronsoro, B. (2006).
+\newblock Computing nine new best-so-far solutions for capacitated vrp with a
+  cellular genetic algorithm.
+\newblock {\em Inf. Process. Lett.}, 98(6):225--230.
+
+\bibitem[Allahverdi et~al., 1999]{Allahverdi1999}
+Allahverdi, A., Gupta, J.~N., and Aldowaisan, T. (1999).
+\newblock A review of scheduling research involving setup considerations.
+\newblock {\em Omega}, 27(2):219 -- 239.
+
+\bibitem[Allahverdi et~al., 2008]{Allahverdi2008}
+Allahverdi, A., Ng, C., Cheng, T., and Kovalyov, M.~Y. (2008).
+\newblock A survey of scheduling problems with setup times or costs.
+\newblock {\em European Journal of Operational Research}, 187(3):985 -- 1032.
+
+\bibitem[Almeida and Centeno, 1998]{Almeida1998}
+Almeida, M.~T. and Centeno, M. (1998).
+\newblock A composite heuristic for the single machine early/tardy job
+  scheduling problem.
+\newblock {\em Computers {\&} Operations Research}, 25(7–8):625 -- 635.
+
+\bibitem[Angéniol et~al., 1988]{Angeniol1988}
+Angéniol, B., de~La~Croix~Vaubois, G., and Texier, J.-Y.~L. (1988).
+\newblock Self-organizing feature maps and the travelling salesman problem.
+\newblock {\em Neural Networks}, 1(4):289 -- 293.
+
+\bibitem[Applegate, 2006]{Applegate2006}
+Applegate, D. (2006).
+\newblock {\em The Traveling Salesman Problem: A Computational Study}.
+\newblock Princeton Series in Applied Mathematics. Princeton University Press.
+
+\bibitem[Applegate and Cook, 1991]{Applegate1991}
+Applegate, D. and Cook, W. (Spring 1991).
+\newblock A computational study of the job-shop scheduling problem.
+\newblock {\em ORSA Journal on Computing}, 3(2):149--156.
+
+\bibitem[Aras et~al., 1999]{Aras1999}
+Aras, N., Oommen, B.~J., and Altinel, I.~K. (1999).
+\newblock The kohonen network incorporating explicit statistics and its
+  application to the travelling salesman problem.
+\newblock {\em Neural Netw.}, 12(9):1273--1284.
+
+\bibitem[Baker and Ayechew, 2003]{Baker2003}
+Baker, B.~M. and Ayechew, M. (2003).
+\newblock A genetic algorithm for the vehicle routing problem.
+\newblock {\em Computers {\&} Operations Research}, 30(5):787 -- 800.
+
+\bibitem[Baker, 1974]{Baker1974}
+Baker, K. (1974).
+\newblock {\em Introduction to sequencing and scheduling}.
+\newblock Wiley.
+
+\bibitem[Balas, 1969]{Balas1969}
+Balas, E. (November/December 1969).
+\newblock Machine sequencing via disjunctive graphs: An implicit enumeration
+  algorithm.
+\newblock {\em Operations Research}, 17(6):941--957.
+
+\bibitem[Balas et~al., 1995]{Balas1995}
+Balas, E., Lenstra, J.~K., and Vazacopoulos, A. (1995).
+\newblock The one-machine problem with delayed precedence constraints and its
+  use in job shop scheduling.
+\newblock {\em Management Science}, 41(1):94--109.
+
+\bibitem[Balas and Toth, 1985]{Balas1985}
+Balas, E. and Toth, P. (1985).
+\newblock Branch and bound methods.
+\newblock In et~al., E.~L., editor, {\em The Traveling Salesman Problem}, pages
+  361--401. John Wiley and Sons Ltd: Chichester.
+
+\bibitem[Balas and Vazacopoulos, 1998]{Balas1998}
+Balas, E. and Vazacopoulos, A. (1998).
+\newblock Guided local search with shifting bottleneck for job shop scheduling.
+\newblock {\em Manage. Sci.}, 44(2):262--275.
+
+\bibitem[Baldacci et~al., 2008a]{Baldacci2008}
+Baldacci, R., Battarra, M., and Vigo, D. (2008a).
+\newblock Routing a heterogeneous fleet of vehicles.
+\newblock In Golden, B., Raghavan, S., Wasil, E., Sharda, R., and Voß, S.,
+  editors, {\em The Vehicle Routing Problem: Latest Advances and New
+  Challenges}, volume~43 of {\em Operations Research/Computer Science
+  Interfaces Series}, pages 3--27. Springer US.
+
+\bibitem[Baldacci et~al., 2008b]{Baldacci2008b}
+Baldacci, R., Christofides, N., and Mingozzi, A. (2008b).
+\newblock An exact algorithm for the vehicle routing problem based on the set
+  partitioning formulation with additional cuts.
+\newblock {\em Mathematical Programming}, 115:351--385.
+\newblock 10.1007/s10107-007-0178-5.
+
+\bibitem[Barker and McMahon, 1985]{Barker1985}
+Barker, J.~R. and McMahon, G.~B. (1985).
+\newblock Scheduling the general job-shop.
+\newblock {\em Management Science}, 31(5):594--598.
+
+\bibitem[Barnes and Chambers, 1995]{Barnes1995}
+Barnes, J.~W. and Chambers, J.~B. (1995).
+\newblock Solving the job shop scheduling problem with tabu search.
+\newblock {\em IIE Transactions}, 27(2):257--263.
+
+\bibitem[Barricelli, 1957]{Barricelli1957}
+Barricelli, N. (1957).
+\newblock {\em Symbiogenetic Evolution Processes Realized by Artificial
+  Methods}.
+
+\bibitem[Beasley, 1983]{Beasley1983}
+Beasley, J.~E. (1983).
+\newblock Route first--cluster second methods for vehicle routing.
+\newblock {\em Omega}, 11(4):403--408.
+
+\bibitem[Beck et~al., 2003]{Beck2003}
+Beck, J.~C., Prosser, P., and Selensky, E. (2003).
+\newblock Vehicle routing and job shop scheduling: What's the difference?
+\newblock In {\em ICAPS}, pages 267--276.
+
+\bibitem[Beck et~al., 2006]{Beck2006}
+Beck, J.~C., Prosser, P., and Selensky, E. (2006).
+\newblock A case study of mutual routing-scheduling reformulation.
+\newblock {\em J. of Scheduling}, 9(5):469--491.
+
+\bibitem[Bektas, 2006]{Bektas2006}
+Bektas, T. (2006).
+\newblock {The multiple traveling salesman problem: an overview of formulations
+  and solution procedures}.
+\newblock {\em Omega}, 34(3):209--219.
+
+\bibitem[Bell and McMullen, 2004]{Bell2004}
+Bell, J.~E. and McMullen, P.~R. (2004).
+\newblock Ant colony optimization techniques for the vehicle routing problem.
+\newblock {\em Advanced Engineering Informatics}, 18(1):41 -- 48.
+
+\bibitem[Bellman, 1962]{Bellman1962}
+Bellman, R. (1962).
+\newblock Dynamic programming treatment of the travelling salesman problem.
+\newblock {\em J. ACM}, 9(1):61--63.
+
+\bibitem[Bellmore and Hong, 1974]{Bellmore1974}
+Bellmore, M. and Hong, S. (1974).
+\newblock Transformation of multisalesman problem to the standard traveling
+  salesman problem.
+\newblock {\em J. ACM}, 21(3):500--504.
+
+\bibitem[Bentley, 1990]{Bentley1990}
+Bentley, J.~L. (1990).
+\newblock Experiments on traveling salesman heuristics.
+\newblock In {\em Proceedings of the first annual ACM-SIAM symposium on
+  Discrete algorithms}, SODA '90, pages 91--99, Philadelphia, PA, USA. Society
+  for Industrial and Applied Mathematics.
+
+\bibitem[Benyahia and Potvin, 1998]{Benyahia1998}
+Benyahia, I. and Potvin, J.-Y. (1998).
+\newblock Decision support for vehicle dispatching using genetic programming.
+\newblock {\em Systems, Man and Cybernetics, Part A: Systems and Humans, IEEE
+  Transactions on}, 28(3):306 --314.
+
+\bibitem[Berbeglia et~al., 2007]{Berbeglia2007}
+Berbeglia, G., Cordeau, J.-F., Gribkovskaia, I., and Laporte, G. (2007).
+\newblock Static pickup and delivery problems: a classification scheme and
+  survey.
+\newblock {\em TOP: An Official Journal of the Spanish Society of Statistics
+  and Operations Research}, 15(1):1--31.
+
+\bibitem[Berbeglia et~al., 2010]{Berbeglia2010}
+Berbeglia, G., Cordeau, J.-F., and Laporte, G. (2010).
+\newblock Dynamic pickup and delivery problems.
+\newblock {\em European Journal of Operational Research}, 202(1):8--15.
+
+\bibitem[Berger and Barkaoui, 2003]{Berger2003}
+Berger, J. and Barkaoui, M. (2003).
+\newblock A hybrid genetic algorithm for the capacitated vehicle routing
+  problem.
+\newblock In Cantú-Paz, E., Foster, J., Deb, K., Davis, L., Roy, R.,
+  O’Reilly, U.-M., Beyer, H.-G., Standish, R., Kendall, G., Wilson, S.,
+  Harman, M., Wegener, J., Dasgupta, D., Potter, M., Schultz, A., Dowsland, K.,
+  Jonoska, N., and Miller, J., editors, {\em Genetic and Evolutionary
+  Computation — GECCO 2003}, volume 2723 of {\em Lecture Notes in Computer
+  Science}, pages 198--198. Springer Berlin / Heidelberg.
+
+\bibitem[Berger and Barkaoui, 2004]{Berger2004}
+Berger, J. and Barkaoui, M. (2004).
+\newblock A parallel hybrid genetic algorithm for the vehicle routing problem
+  with time windows.
+\newblock {\em Computers {\&} Operations Research}, 31(12):2037 -- 2053.
+
+\bibitem[Berger et~al., 1998]{Berger1998}
+Berger, J., Salois, M., and Begin, R. (1998).
+\newblock A hybrid genetic algorithm for the vehicle routing problem with time
+  windows.
+\newblock In Mercer, R. and Neufeld, E., editors, {\em Advances in Artificial
+  Intelligence}, volume 1418 of {\em Lecture Notes in Computer Science}, pages
+  114--127. Springer Berlin / Heidelberg.
+
+\bibitem[Bierwirth, 1995]{Bierwirth1995}
+Bierwirth, C. (1995).
+\newblock A generalized permutation approach to job shop scheduling with
+  genetic algorithms.
+\newblock {\em OR Spektrum}, 17:87--92.
+
+\bibitem[Blanton and Wainwright, 1993]{Blanton1993}
+Blanton, Jr., J.~L. and Wainwright, R.~L. (1993).
+\newblock Multiple vehicle routing with time and capacity constraints using
+  genetic algorithms.
+\newblock In {\em Proceedings of the 5th International Conference on Genetic
+  Algorithms}, pages 452--459, San Francisco, CA, USA. Morgan Kaufmann
+  Publishers Inc.
+
+\bibitem[Blazewicz et~al., 1996]{Blazewicz1996}
+Blazewicz, J., Domschke, W., and Pesch, E. (1996).
+\newblock The job shop scheduling problem: Conventional and new solution
+  techniques.
+\newblock {\em European Journal of Operational Research}, 93(1):1--33.
+
+\bibitem[Bodin et~al., 1983]{Bodin1983}
+Bodin, L., Golden, B., Assad, A., and Ball, M. (1983).
+\newblock Routing and scheduling of vehicles and crews - the state of the art.
+\newblock volume~10, pages 63--212. Computers and Opertions Research.
+
+\bibitem[Bramel and Simchi-Levi, 2001]{Bramel2001}
+Bramel, J. and Simchi-Levi, D. (2001).
+\newblock The vehicle routing problem.
+\newblock chapter Set-covering-based algorithms for the capacitated VRP, pages
+  85--108. Society for Industrial and Applied Mathematics, Philadelphia, PA,
+  USA.
+
+\bibitem[Br{\"a}ysy, 2003]{Braysy2003}
+Br{\"a}ysy, O. (2003).
+\newblock A reactive variable neighborhood search for the vehicle routing
+  problem with time windows.
+\newblock {\em INFORMS Journal on Computing}, 15:347--368.
+
+\bibitem[Brucker, 2007]{Brucker2007}
+Brucker, P. (2007).
+\newblock {\em {Scheduling Algorithms}}.
+\newblock Springer, 5th edition.
+
+\bibitem[Brucker and Schlie, 1990]{Brucker1990}
+Brucker, P. and Schlie, R. (1990).
+\newblock Job-shop scheduling with multi-purpose machines.
+\newblock {\em Computing}, 45:369--375.
+\newblock 10.1007/BF02238804.
+
+\bibitem[Budinich and Rosario, 1996]{Budinich1996}
+Budinich, M. and Rosario, B. (1996).
+\newblock A self-organizing neural network for the traveling salesman problem
+  that is competitive with simulated annealing.
+\newblock {\em Neural Computation}, 8:416--424.
+
+\bibitem[Bullnheimer et~al., 1997a]{Bullnheimer1997b}
+Bullnheimer, B., Hartl, R.~F., and Strauss, C. (1997a).
+\newblock Applying the ant system to the vehicle routing problem.
+
+\bibitem[Bullnheimer et~al., 1997b]{Bullnheimer1997c}
+Bullnheimer, B., Hartl, R.~F., and Strauss, C. (1997b).
+\newblock An improved ant system algorithm for the vehicle routing problem.
+\newblock {\em Annals of Operations Research}, 89:319--328.
+
+\bibitem[Bullnheimer et~al., 1997c]{Bullnheimer1997}
+Bullnheimer, B., Hartl, R.~F., and Strauß, C. (1997c).
+\newblock A new rank based version of the ant system - a computational study.
+\newblock {\em Central European Journal for Operations Research and Economics},
+  7:25--38.
+
+\bibitem[Caricato et~al., 2003]{Caricato2003}
+Caricato, P., Ghiani, G., Grieco, A., and Guerriero, E. (2003).
+\newblock Parallel tabu search for a pickup and delivery problem under track
+  contention.
+\newblock {\em Parallel Comput.}, 29(5):631--639.
+
+\bibitem[Carlier and Pinson, 1989]{Carlier1989}
+Carlier, J. and Pinson, E. (1989).
+\newblock An algorithm for solving the job-shop problem.
+\newblock {\em Manage. Sci.}, 35(2):164--176.
+
+\bibitem[Carlier and Pinson, 1990]{Carlier1990}
+Carlier, J. and Pinson, E. (1990).
+\newblock {A practical use of Jackson''s preemptive schedule for solving the
+  Job-Shop problem}.
+
+\bibitem[Carlier and Pinson, 1994]{Carlier1994}
+Carlier, J. and Pinson, E. (1994).
+\newblock Adjustment of heads and tails for the job-shop problem.
+\newblock {\em European Journal of Operational Research}, 78(2):146 -- 161.
+\newblock <ce:title>Project Management and Scheduling</ce:title>.
+
+\bibitem[Carter and Ragsdale, 2006]{Carter2006}
+Carter, A.~E. and Ragsdale, C.~T. (2006).
+\newblock A new approach to solving the multiple traveling salesperson problem
+  using genetic algorithms.
+\newblock {\em European Journal of Operational Research}, 175(1):246 -- 257.
+
+\bibitem[Chen and Xu, 2006]{Chen2006}
+Chen, Z.-L. and Xu, H. (2006).
+\newblock Dynamic column generation for dynamic vehicle routing with time
+  windows.
+\newblock {\em Transportation Science}, 40(1):74--88.
+
+\bibitem[Chia-Ho and Ching-Jung, 2005]{Chen2005}
+Chia-Ho, C. and Ching-Jung, T. (2005).
+\newblock A hybrid ant colony system for vehicle routing problem with time
+  windows.
+\newblock {\em Journal of the Eastern Asia Society for Transportation Studies},
+  6:2822--2836.
+
+\bibitem[Christofides, 1976]{Christofides1976}
+Christofides, N. (1976).
+\newblock Worst-case analysis of a new heuristic for the travelling salesman
+  problem.
+\newblock Technical Report 388, Graduate School of Industrial Administration,
+  Carnegie Mellon University.
+
+\bibitem[Christofides et~al., 1981]{Christofides1981}
+Christofides, N., Mingozzi, A., and Toth, P. (1981).
+\newblock {Exact algorithms for the vehicle routing problem, based on spanning
+  tree and shortest path relaxations}.
+\newblock {\em Mathematical Programming}, 20(1):255--282.
+
+\bibitem[Chu and Beasley, 1997]{Chu1997}
+Chu, P. and Beasley, J. (1997).
+\newblock A genetic algorithm for the generalised assignment problem.
+\newblock {\em Computers {\&} Operations Research}, 24(1):17 -- 23.
+
+\bibitem[Clarke and Wright, 1964]{Clarke1964}
+Clarke, G. and Wright, J.~W. (1964).
+\newblock Scheduling of vehicles from a central depot to a number of delivery
+  points.
+\newblock {\em Operations Research}, 12(4):pp. 568--581.
+
+\bibitem[Colorni et~al., 1994]{Colorni1994}
+Colorni, A., Dorigo, M., Maniezzo, V., and Trubian, M. (1994).
+\newblock Ant {S}ystem for job-shop scheduling.
+\newblock {\em Belgian Journal of Operations Research, Statistics and Computer
+  Science}, 34(1):39--53.
+
+\bibitem[Cordeau et~al., 1997]{Cordeau1997}
+Cordeau, J.~F., Gendreau, M., and Laporte, G. (1997).
+\newblock A tabu search heuristic for periodic and multi-depot vehicle routing
+  problems.
+\newblock {\em Networks}, 30(2):105--119.
+
+\bibitem[Cordeau and Laporte, 2001]{Cordeau2001}
+Cordeau, J.~F. and Laporte, G. (2001).
+\newblock A unified tabu search heuristic for vehicle routing problems with
+  time windows.
+
+\bibitem[Cornuejols and Harche, 1993]{Cornuejols1993}
+Cornuejols, G. and Harche, F. (1993).
+\newblock Polyhedral study of the capacitated vehicle routing problem.
+\newblock {\em Mathematical Programming}, 60:21--52.
+\newblock 10.1007/BF01580599.
+
+\bibitem[Croce et~al., 1995]{DellaCroce1995}
+Croce, F.~D., Tadei, R., and Volta, G. (1995).
+\newblock A genetic algorithm for the job shop problem.
+\newblock {\em Computers {\&} Operations Research}, 22(1):15 -- 24.
+\newblock <ce:title>Genetic Algorithms</ce:title>.
+
+\bibitem[Dantzig, 1963]{Dantzig63}
+Dantzig, G. (1963).
+\newblock {\em {Linear Programming and Extensions}}.
+\newblock {Princeton University Press}.
+
+\bibitem[Dantzig et~al., 1954]{Dantzig1954}
+Dantzig, G., Fulkerson, R., and Johnson, S. (1954).
+\newblock Solution of a large-scale traveling-salesman problem.
+\newblock {\em Operations Research}, 2:393--410.
+
+\bibitem[Dantzig and Ramser, 1959]{Dantzig1959}
+Dantzig, G.~B. and Ramser, J.~H. (1959).
+\newblock {The Truck Dispatching Problem}.
+\newblock {\em Management Science}, 6(1):80--91.
+
+\bibitem[Dauzère-Pérès and Lasserre, 1993]{Dauzere1993}
+Dauzère-Pérès, S. and Lasserre, J.-B. (1993).
+\newblock A modified shifting bottleneck procedure for job-shop scheduling.
+\newblock {\em International Journal of Production Research}, 31(4):923--932.
+
+\bibitem[Davis, 1985]{Davis1985}
+Davis, L. (1985).
+\newblock Job shop scheduling with genetic algorithms.
+\newblock In {\em Proceedings of the 1st International Conference on Genetic
+  Algorithms}, pages 136--140, Hillsdale, NJ, USA. L. Erlbaum Associates Inc.
+
+\bibitem[Dell'Amico and Trubian, 1993]{DellAmico1993}
+Dell'Amico, M. and Trubian, M. (1993).
+\newblock Applying tabu search to the job-shop scheduling problem.
+\newblock {\em Annals of Operations Research}, 41:231--252.
+\newblock 10.1007/BF02023076.
+
+\bibitem[Deneubourg et~al., 1983]{Deneubourg1983}
+Deneubourg, J., Pasteels, J., and Verhaeghe, J. (1983).
+\newblock Probabilistic behaviour in ants: A strategy of errors?
+\newblock {\em Journal of Theoretical Biology}, 105(2):259 -- 271.
+
+\bibitem[Doerner et~al., 2005]{Doerner2005}
+Doerner, K., Hartl, R., and Lucka, M. (2005).
+\newblock A parallel version of the d-ant algorithm for the vehicle routing
+  problem.
+\newblock {\em International Workshop on Parallel Numerics}, pages 20--23.
+
+\bibitem[Doerner et~al., 2000]{Doerner2000}
+Doerner, K., Hartl, R., and Reimann, M. (2000).
+\newblock Ant colony optimization applied to the pickup and delivery problem.
+\newblock {\em Management}, (April).
+
+\bibitem[Doerner et~al., 2001]{Doerner2001}
+Doerner, K., Hartl, R.~F., and Reimann, M. (2001).
+\newblock Are competants more competent for problem solving? - the case of a
+  multiple objective transportation problem.
+
+\bibitem[Dorigo, 1992]{Dorigo1992}
+Dorigo, M. (1992).
+\newblock {\em {Optimization, Learning and Natural Algorithms}}.
+\newblock PhD thesis, Politecnico di Milano, Italy.
+
+\bibitem[Dorigo and Blum, 2005]{Dorigo2005}
+Dorigo, M. and Blum, C. (2005).
+\newblock {Ant colony optimization theory: A survey}.
+\newblock {\em Theoretical Computer Science}, 344(2-3):243--278.
+
+\bibitem[Dorigo and Gambardella, 1997]{Dorigo1997}
+Dorigo, M. and Gambardella, L.~M. (1997).
+\newblock {Ant Colony System: A Cooperative Learning Approach to the Traveling
+  Salesman Problem}.
+\newblock {\em IEEE Transactions on Evolutionary Computation}, 1(1):53--66.
+
+\bibitem[Dorigo et~al., 1991]{Dorigo1991}
+Dorigo, M., Maniezzo, V., and Colorni, A. (1991).
+\newblock Positive feedback as a search strategy.
+\newblock Technical report.
+
+\bibitem[Dorndorf and Pesch, 1995]{Dorndorf1995}
+Dorndorf, U. and Pesch, E. (1995).
+\newblock Evolution based learning in a job shop scheduling environment.
+\newblock {\em Computers {\&} Operations Research}, 22(1):25 -- 40.
+\newblock <ce:title>Genetic Algorithms</ce:title>.
+
+\bibitem[Durbin et~al., 1989]{Durbin1989}
+Durbin, R., Szeliski, R., and Yuille, A. (1989).
+\newblock An analysis of the elastic net approach to the traveling salesman
+  problem.
+\newblock {\em Neural Comput.}, 1(3):348--358.
+
+\bibitem[Durbin and Willshaw, 1987]{Durbin1987}
+Durbin, R. and Willshaw, D. (1987).
+\newblock {An analogue approach to the travelling salesman problem using an
+  elastic net method}.
+\newblock {\em Nature}, 326:689--691.
+
+\bibitem[Dutot et~al., 2007]{Dutot2007}
+Dutot, A., Guinand, F., Olivier, D., and Pign{\'e}, Y. (2007).
+\newblock Graphstream: A tool for bridging the gap between complex systems and
+  dynamic graphs.
+\newblock In {\em EPNACS: Emergent Properties in Natural and Artificial Complex
+  Systems}.
+
+\bibitem[Favata and Walker, 1991]{Favala1991}
+Favata, F. and Walker, R. (1991).
+\newblock A study of the application of kohonen-type neural networks to the
+  travelling salesman problem.
+\newblock {\em Biological Cybernetics}, 64:463--468.
+\newblock 10.1007/BF00202610.
+
+\bibitem[Feo and Resende, 1989]{Feo1989}
+Feo, T.~A. and Resende, M. G.~C. (1989).
+\newblock A probabilistic heuristic for a computationally difficult set
+  covering problem.
+\newblock {\em Operations Research Letters}, 8(2):67 -- 71.
+
+\bibitem[Fisher, 1994]{Fisher1994}
+Fisher, M.~L. (July/August 1994).
+\newblock Optimal solution of vehicle routing problems using minimum k-trees.
+\newblock {\em Operations Research}, 42(4):626--642.
+
+\bibitem[Fisher and Jaikumar, 1981]{Fisher1981}
+Fisher, M.~L. and Jaikumar, R. (1981).
+\newblock A generalized assignment heuristic for vehicle routing.
+\newblock {\em Networks}, 11(2):109--124.
+
+\bibitem[Fleszar et~al., 2009]{Fleszar2009}
+Fleszar, K., Osman, I.~H., and Hindi, K.~S. (2009).
+\newblock A variable neighbourhood search algorithm for the open vehicle
+  routing problem.
+\newblock {\em European Journal of Operational Research}, 195(3):803 -- 809.
+
+\bibitem[Florian et~al., 1971]{Florian1971}
+Florian, M., Trepant, P., and McMahon, G. (1971).
+\newblock An implicit enumeration algorithm for the machine sequencing problem.
+\newblock {\em Management Science}, 17(12):B--782--B--792.
+
+\bibitem[Floyd, 1962]{Floyd1962}
+Floyd, R.~W. (1962).
+\newblock Algorithm 97: Shortest path.
+\newblock {\em Commun. ACM}, 5(6):345--.
+
+\bibitem[Fogel, 1990]{Fogel1990}
+Fogel, D.~B. (1990).
+\newblock A parallel processing approach to a multiple traveling salesman
+  problem using evolutionary programming.
+\newblock In {\em Proceedings on the Fourth Annual Parallel Processing
+  Symposium}, pages 318--326.
+
+\bibitem[França et~al., 1995]{Franca1995}
+França, P.~M., Gendreau, M., Laporte, G., and Müller, F.~M. (1995).
+\newblock The m-traveling salesman problem with minmax objective.
+\newblock {\em Transportation Science}, 29(3):267--275.
+
+\bibitem[Fraser, 1957]{Fraser1957}
+Fraser, A.~S. (1957).
+\newblock {Simulation of genetic systems by automatic digital computers. II.
+  Effects of linkage on rates of advance under selection}.
+\newblock {\em Australian Journal of Biological Science}, 10:492--499.
+
+\bibitem[French, 1982]{French1982}
+French, S. (1982).
+\newblock {\em Sequencing and scheduling: an introduction to the mathematics of
+  the job-shop}.
+\newblock Ellis Horwood series in mathematics and its applications. E. Horwood.
+
+\bibitem[Fukasawa et~al., 2006]{Fukasawa2006}
+Fukasawa, R., Longo, H., Lysgaard, J., Aragão, M. P.~d., Reis, M., Uchoa, E.,
+  and Werneck, R.~F. (2006).
+\newblock Robust branch-and-cut-and-price for the capacitated vehicle routing
+  problem.
+\newblock {\em Mathematical Programming}, 106:491--511.
+\newblock 10.1007/s10107-005-0644-x.
+
+\bibitem[Funke et~al., 2005]{Funke2005}
+Funke, B., Grünert, T., and Irnich, S. (2005).
+\newblock Local search for vehicle routing and scheduling problems: Review and
+  conceptual integration.
+\newblock {\em Journal of Heuristics}, 11:267--306.
+\newblock 10.1007/s10732-005-1997-2.
+
+\bibitem[Gajpal and Abad, 2008]{Gajpal2008}
+Gajpal, Y. and Abad, P.~L. (2008).
+\newblock Multi-ant colony system (macs) for a vehicle routing problem with
+  backhauls.
+\newblock {\em European Journal of Operational Research}, 196(1):102--117.
+
+\bibitem[Gajpal and Abad, 2009]{Gajpal2009}
+Gajpal, Y. and Abad, P.~L. (2009).
+\newblock An ant colony system (acs) for vehicle routing problem with
+  simultaneous delivery and pickup.
+\newblock {\em Computers {\&} OR}, 36(12):3215--3223.
+
+\bibitem[Gambardella et~al., 1995]{Gambardella1995}
+Gambardella, L.~M., Dorigo, M., and Bruxelles, U. L.~D. (1995).
+\newblock Ant-q: A reinforcement learning approach to the traveling salesman
+  problem.
+\newblock pages 252--260. Morgan Kaufmann.
+
+\bibitem[Gambardella et~al., 1999]{Gambardella1999}
+Gambardella, L.~M., Taillard, E., and Agazzi, G. (1999).
+\newblock Macs-vrptw: A multiple ant colony system for vehicle routing problems
+  with time windows.
+\newblock Technical report.
+
+\bibitem[Ganesh and Narendran, 2007]{Ganesh2007}
+Ganesh, K. and Narendran, T. (2007).
+\newblock Cloves: A cluster-and-search heuristic to solve the vehicle routing
+  problem with delivery and pick-up.
+\newblock {\em European Journal of Operational Research}, 178(3):699 -- 717.
+
+\bibitem[Gardner, 1970]{Conway1970}
+Gardner, M. (1970).
+\newblock {The fantastic combinations of John Conway's new solitaire game
+  ``life''}.
+\newblock {\em Scientific American}, 223:120--123.
+
+\bibitem[Gavish and Srikanth, 1986]{Gavish1986}
+Gavish, B. and Srikanth, K. (1986).
+\newblock An optimal solution method for large-scale multiple traveling
+  salesmen problems.
+\newblock {\em Oper. Res.}, 34(5):698--717.
+
+\bibitem[Gehring and Homberger, 1999]{Gehring1999}
+Gehring, H. and Homberger, J. (1999).
+\newblock A parallel hybrid evolutionary metaheuristic for the vehicle routing
+  problem with time windows.
+\newblock In {\em Proceedings of EUROGEN99--Short Course on Evolutionary
+  Algorithms in Engineering and Computer Science}, pages 57--64.
+
+\bibitem[Gehring and Homberger, 2002]{Gehring2001}
+Gehring, H. and Homberger, J. (2002).
+\newblock Parallelization of a two-phase metaheuristic for routing problems
+  with time windows.
+\newblock {\em Journal of Heuristics}, 8:251--276.
+\newblock 10.1023/A:1015053600842.
+
+\bibitem[Gendreau et~al., 1994]{Gendreau1994}
+Gendreau, M., Hertz, A., and Laporte, G. (1994).
+\newblock A tabu search heuristic for the vehicle routing problem.
+\newblock {\em Management Science}, 40(10):1276--1290.
+
+\bibitem[Gendreau et~al., 1996]{Gendreau1996}
+Gendreau, M., Laporte, G., and Seguin, R. (1996).
+\newblock Stochastic vehicle routing.
+\newblock {\em European Journal of Operational Research}, 88(1):3--12.
+
+\bibitem[Gendreau et~al., 2008]{Gendreau2008}
+Gendreau, M., Potvin, J.~Y., Br\"{a}ysy, O., Hasle, G., and L{\o}kketangen, A.
+  (2008).
+\newblock {Metaheuristics for the vehicle routing problem and its extensions: a
+  categorized bibliography}.
+\newblock In Golden, B., Raghavan, S., and Wasil, E., editors, {\em The Vehicle
+  Routing Problem - Latest Advances and New Challenges}. Springer Verlag,
+  Heidelberg.
+
+\bibitem[Gere, 1966]{Gere1966}
+Gere, W.~S. (1966).
+\newblock Heuristics in job shop scheduling.
+\newblock {\em Management Science}, 13(3):167--190.
+
+\bibitem[Geurts, 1998]{Geurts1998}
+Geurts, F. (1998).
+\newblock Ants'98 - from ant colonies to artificial ants: First international
+  workshop on ant colony optimization.
+\newblock {\em AI Commun.}, 11(3,4):241--242.
+
+\bibitem[ghazali Talbi, 2001]{Talbi2001}
+ghazali Talbi, E. (2001).
+\newblock Métaheuristiques pour l'optimisation combinatoire multi-objectif:
+  Etat de l'art.
+\newblock Technical report.
+
+\bibitem[Gillett and Miller, 1974]{Gillett1974}
+Gillett, B.~E. and Miller, L.~R. (March/April 1974).
+\newblock A heuristic algorithm for the vehicle-dispatch problem.
+\newblock {\em Operations Research}, 22(2):340--349.
+
+\bibitem[Glover, 1989]{Glover1989}
+Glover, F. (1989).
+\newblock {Tabu Search — Part I}.
+\newblock {\em ORSA Journal on Computing}, 1(3):190--206.
+
+\bibitem[Glover, 1990]{Glover1990}
+Glover, F. (1990).
+\newblock Tabu search - part ii.
+\newblock {\em INFORMS Journal on Computing}, 2(1):4--32.
+
+\bibitem[Glover and McMillan, 1986]{Glover1986}
+Glover, F. and McMillan, C. (1986).
+\newblock The general employee scheduling problem: an integration of ms and ai.
+\newblock {\em Comput. Oper. Res.}, 13(5):563--573.
+
+\bibitem[Golden et~al., 1977]{Golden1977}
+Golden, B.~L., Magnanti, T.~L., and Nguyen, H.~Q. (1977).
+\newblock Implementing vehicle routing algorithms.
+\newblock {\em Networks}, 7(2):113--148.
+
+\bibitem[Gonçalves et~al., 2005]{Goncalves2005}
+Gonçalves, J.~F., de~Magalhães~Mendes, J.~J., and Resende, M.~G. (2005).
+\newblock A hybrid genetic algorithm for the job shop scheduling problem.
+\newblock {\em European Journal of Operational Research}, 167(1):77 -- 95.
+
+\bibitem[Goss et~al., 1989]{Goss1989}
+Goss, S., Aron, S., Deneubourg, J., and Pasteels, J. (1989).
+\newblock {Self-organized shortcuts in the Argentine ant}.
+\newblock {\em Naturwissenschaften}, 76(12):579--581.
+
+\bibitem[Graham et~al., 1979]{Graham1979}
+Graham, R., Lawlerm, E., Lenstra, E., and Rinnooy (1979).
+\newblock {Optimization and approximation in determenistic sequencing and
+  scheduling: a survey}.
+\newblock {\em Annals of discrete mathematics}, 5:287--326.
+
+\bibitem[Grassé, 1959]{Grasse1959}
+Grassé, P.-P. (1959).
+\newblock La reconstruction du nid et les coordinations interindividuelles chez
+  bellicositermes natalensis et cubitermes sp. la théorie de la stigmergie:
+  essai d'interpréetation du comportement des termites constructeurs.
+\newblock {\em Insectes Sociaux}, 6.
+
+\bibitem[GuoXing, 1995]{YangGuoXing1995}
+GuoXing, Y. (1995).
+\newblock Transformation of multidepot multisalesmen problem to the standard
+  travelling salesman problem.
+\newblock {\em European Journal of Operational Research}, 81(3):557 -- 560.
+
+\bibitem[Gutjahr, 2000]{Gutjahr2000}
+Gutjahr, W.~J. (2000).
+\newblock A graph-based ant system and its convergence.
+\newblock {\em Future Generation Comp. Syst.}, 16(8):873--888.
+
+\bibitem[Hansen et~al., 2010]{Hansen2010}
+Hansen, P., Mladenović, N., Brimberg, J., and Pérez, J. A.~M. (2010).
+\newblock Variable neighborhood search.
+\newblock In Gendreau, M., Potvin, J.-Y., Hillier, F.~S., and Price, C.~C.,
+  editors, {\em Handbook of Metaheuristics}, volume 146 of {\em International
+  Series in Operations Research {\&} Management Science}, pages 61--86.
+  Springer US.
+
+\bibitem[Hefetz and Adiri, 1982]{Hefetz1982}
+Hefetz, N. and Adiri, I. (1982).
+\newblock An efficient optimal algorithm for the two-machines unit-time jobshop
+  schedule-length problem.
+\newblock {\em Mathematics of Operations Research}, (7):354--360.
+
+\bibitem[Held and Karp, 1961]{Held1961}
+Held, M. and Karp, R.~M. (1961).
+\newblock A dynamic programming approach to sequencing problems.
+\newblock In {\em Proceedings of the 1961 16th ACM national meeting}, ACM '61,
+  pages 71.201--71.204, New York, NY, USA. ACM.
+
+\bibitem[Holland, 1975]{Holland1975}
+Holland, J.~H. (1975).
+\newblock {\em Adaptation in Natural and Artificial Systems}, volume Ann Arbor.
+\newblock University of Michigan Press.
+
+\bibitem[Homberger and Gehring, 2005]{Homberger2005}
+Homberger, J. and Gehring, H. (2005).
+\newblock A two-phase hybrid metaheuristic for the vehicle routing problem with
+  time windows.
+\newblock {\em European Journal of Operational Research}, 162(1):220 -- 238.
+\newblock <ce:title>Logistics: From Theory to Application</ce:title>.
+
+\bibitem[Homberger et~al., 1999]{Homberger1999}
+Homberger, J., Gehring, H., Hagen, F., Wirtschaftsinformatik, L., D-Hagen, and
+  Deutschland, B. (1999).
+\newblock Two evolutionary metaheuristics for the vehicle routing problem with
+  time windows.
+\newblock {\em INFOR}, 37:297--318.
+
+\bibitem[Hopfield and Tank, 1985]{Hopfield1985}
+Hopfield, J. and Tank, D. (1985).
+\newblock Neural computation of decisions in optimization problems.
+\newblock {\em Biological Cybernetics}, 52:141--152.
+
+\bibitem[Hopfield, 1982]{Hopfield1982}
+Hopfield, J.~J. (1982).
+\newblock {Neural networks and physical systems with emergent collective
+  computational abilities}.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  79(8):2554--2558.
+
+\bibitem[Hsu et~al., 1991]{Hsu1991}
+Hsu, C.~Y., Tsai, M.~H., and Chen, W.~M. (1991).
+\newblock {A study of feature-mapped approach to the multiple travelling
+  salesmen problem}.
+\newblock In {\em Proc. Int. Symp. on Circuits and Systems}, volume~II, pages
+  1589--1592, Piscataway, NJ. IEEE Service Center.
+
+\bibitem[Huang and Chu, 2003]{Huang2003}
+Huang, W.-C. and Chu, C.-Y. (2003).
+\newblock Cost comparison of straddle carrier direct and relay systems in
+  container terminals.
+\newblock {\em Journal of Marine Science and Technology}, 11(4):197--204.
+
+\bibitem[Irnich et~al., 2006]{Irnich2006}
+Irnich, S., Funke, B., and Grünert, T. (2006).
+\newblock Sequential search and its application to vehicle-routing problems.
+\newblock {\em Computers {\&} Operations Research}, 33(8):2405 -- 2429.
+
+\bibitem[J et~al., 1992]{Gromicho1992}
+J, G., J, P., and I, B. (1992).
+\newblock Exact solution of multiple traveling salesman problems.
+\newblock In {\em Combinatorial optimization}, volume F82 of {\em NATO ASI
+  Series}, pages 291--292.
+
+\bibitem[J.-F. and G., 2003]{Cordeau2003}
+J.-F., C. and G., L. (2003).
+\newblock A tabu search heuristic for the static multi-vehicle dial-a-ride
+  problem.
+\newblock {\em Transportation Research Part B: Methodological}, 37(6):579--594.
+
+\bibitem[Jackson, 1956]{Jackson1956}
+Jackson, J.~R. (1956).
+\newblock An extension of johnson’s results on job-lot scheduling.
+\newblock {\em Naval Research Logistics Quarterly}, (3):201--224.
+
+\bibitem[Jain and Meeran, 1998]{Jain1998}
+Jain, A.~S. and Meeran, S. (1998).
+\newblock A state-of-the-art review of job-shop scheduling techniques.
+
+\bibitem[James, 1997]{James1997}
+James, R. (1997).
+\newblock Using tabu search to solve the common due date early/tardy machine
+  scheduling problem.
+\newblock {\em Computers {\&} Operations Research}, 24(3):199 -- 208.
+
+\bibitem[Jaszkiewicz and Kominek, 2003]{Jaszkiewicz2003}
+Jaszkiewicz, A. and Kominek, P. (2003).
+\newblock Genetic local search with distance preserving recombination operator
+  for a vehicle routing problem.
+\newblock {\em European Journal of Operational Research}, 151(2):352 -- 364.
+\newblock <ce:title>Meta-heuristics in combinatorial optimization</ce:title>.
+
+\bibitem[Jih and Yung-Jen~Hsu, 1999]{Jih1999}
+Jih, W.-R. and Yung-Jen~Hsu, J. (1999).
+\newblock Dynamic vehicle routing using hybrid genetic algorithms.
+\newblock In {\em Robotics and Automation, 1999. Proceedings. 1999 IEEE
+  International Conference on}, volume~1, pages 453 --458 vol.1.
+
+\bibitem[Johnson, 1990]{Johnson1990}
+Johnson, D.~S. (1990).
+\newblock Local optimization and the traveling salesman problem.
+\newblock In {\em Proceedings of the seventeenth international colloquium on
+  Automata, languages and programming}, pages 446--461, New York, NY, USA.
+  Springer-Verlag New York, Inc.
+
+\bibitem[Johnson and Mcgeoch, 1997]{Johnson1997}
+Johnson, D.~S. and Mcgeoch, L.~A. (1997).
+\newblock {\em {The Traveling Salesman Problem: A Case Study in Local
+  Optimization}}.
+
+\bibitem[Johnson, 1954]{Johnson1954}
+Johnson, S.~M. (1954).
+\newblock Optimal two- and three-stage production schedules with setup times
+  included.
+\newblock {\em Naval Research Logistics Quarterly}, 1(1):61--68.
+
+\bibitem[Jonker and Volgenant, 1988]{Jonker1988}
+Jonker, R. and Volgenant, T. (1988).
+\newblock An improved transformation of the symmetric multiple traveling
+  salesman problem.
+\newblock {\em Oper. Res.}, 36(1):163--167.
+
+\bibitem[Junjie and Dingwei, 2006]{Junjie2006}
+Junjie, P. and Dingwei, W. (2006).
+\newblock An ant colony optimization algorithm for multiple travelling salesman
+  problem.
+\newblock In {\em Proceedings of the First International Conference on
+  Innovative Computing, Information and Control - Volume 1}, ICICIC '06, pages
+  210--213, Washington, DC, USA. IEEE Computer Society.
+
+\bibitem[Kahng and Reda, 2004]{Kahng2004}
+Kahng, A.~B. and Reda, S. (2004).
+\newblock Match twice and stitch: a new tsp tour construction heuristic.
+\newblock {\em Operations Research Letters}, 32(6):499 -- 509.
+
+\bibitem[Kilby et~al., 1998]{Kilby1998}
+Kilby, P., Prosser, P., and Shaw, P. (1998).
+\newblock Dynamic vrps: A study of scenarios.
+\newblock Technical report.
+
+\bibitem[Kim and Park, 2004]{Kim2004}
+Kim, K.~H. and Park, Y.-M. (2004).
+\newblock A crane scheduling method for port container terminals.
+\newblock {\em European Journal of Operational Research}, 156(3):752 -- 768.
+
+\bibitem[Kir{\'a}ly and Abonyi, 2011]{Kiraly2011}
+Kir{\'a}ly, A. and Abonyi, J. (2011).
+\newblock Optimization of multiple traveling salesmen problem by a novel
+  representation based genetic algorithm.
+\newblock In {\em Intelligent Computational Optimization in Engineering}, pages
+  241--269.
+
+\bibitem[Kirkpatrick et~al., 1983]{Kirkpatrick1983}
+Kirkpatrick, S., Gelatt, C.~D., and Vecchi, M.~P. (1983).
+\newblock Optimization by simulated annealing.
+\newblock {\em Science}, 220:671--680.
+
+\bibitem[Kohonen, 1982]{Kohonen1982}
+Kohonen, T. (1982).
+\newblock Self-organized formation of topologically correct feature maps.
+\newblock {\em Biological Cybernetics}, 43:59--69.
+\newblock 10.1007/BF00337288.
+
+\bibitem[Kontoravdis and Bard, 1995]{Kontoravdis1995}
+Kontoravdis, G. and Bard, J.~F. (Winter 1995).
+\newblock A grasp for the vehicle routing problem with time windows.
+\newblock {\em ORSA Journal on Computing}, 7(1):10--23.
+
+\bibitem[Kruskal, 1956]{Kruskal1956}
+Kruskal, J.~B. (1956).
+\newblock {On the Shortest Spanning Subtree of a Graph and the Traveling
+  Salesman Problem}.
+\newblock {\em Proceedings of the American Mathematical Society}, 7(1):48--50.
+
+\bibitem[Kubiak, 2004]{Kubiak2004}
+Kubiak, M. (2004).
+\newblock Systematic construction of recombination operators for the vehicle
+  routing problem.
+\newblock {\em Foundations of Computing and Decision Sciences}, 29(3).
+
+\bibitem[Kytöjoki et~al., 2007]{Kytojoki2007}
+Kytöjoki, J., Nuortio, T., Bräysy, O., and Gendreau, M. (2007).
+\newblock An efficient variable neighborhood search heuristic for very large
+  scale vehicle routing problems.
+\newblock {\em Computers {\&} Operations Research}, 34(9):2743 -- 2757.
+
+\bibitem[Lageweg et~al., 1977]{Lageweg1977}
+Lageweg, B.~J., Lenstra, J.~K., and Rinnooy~Kan, A. H.~G. (1977).
+\newblock Job-shop scheduling by implicit enumeration.
+\newblock {\em Management Science}, 24(4):441--450.
+
+\bibitem[Laporte, 1992]{Laporte1992}
+Laporte, G. (1992).
+\newblock The vehicle routing problem: An overview of exact and approximate
+  algorithms.
+\newblock {\em European Journal of Operational Research}, 59(3):345 -- 358.
+
+\bibitem[Laporte et~al., 2000]{Laporte2000}
+Laporte, G., Gendreau, M., Potvin, J.-Y., and Semet, F. (2000).
+\newblock Classical and modern heuristics for the vehicle routing problem.
+\newblock {\em International Transactions in Operational Research},
+  7(4-5):285--300.
+
+\bibitem[Laporte and Nobert, 1980]{Laporte1980}
+Laporte, G. and Nobert, Y. (1980).
+\newblock {A Cutting Planes Algorithm for the m-Salesmen Problem}.
+\newblock {\em The Journal of the Operational Research Society},
+  31(11):1017--1023.
+
+\bibitem[Laporte et~al., 1985]{Laporte1985}
+Laporte, G., Nobert, Y., and Desrochers, M. (September/October 1985).
+\newblock Optimal routing under capacity and distance restrictions.
+\newblock {\em Operations Research}, 33(5):1050--1073.
+
+\bibitem[Laporte et~al., 1988]{Laporte1988}
+Laporte, G., Nobert, Y., and Taillefer, S. (1988).
+\newblock Solving a family of multi-depot vehicle routing and location-routing
+  problems.
+\newblock {\em Transportation Science}, 22(3):161--172.
+
+\bibitem[Larrañaga et~al., 1999]{Larranaga1999}
+Larrañaga, P., Kuijpers, C., Murga, R., Inza, I., and Dizdarevic, S. (1999).
+\newblock Genetic algorithms for the travelling salesman problem: A review of
+  representations and operators.
+\newblock {\em Artificial Intelligence Review}, 13:129--170.
+\newblock 10.1023/A:1006529012972.
+
+\bibitem[Larsen, 2000]{Larsen2000}
+Larsen, A. (2000).
+\newblock {\em The Vehicle Routing Problem}.
+\newblock PhD thesis, Department of Mathematical Modelling, Technical
+  University of Denmark.
+
+\bibitem[Larsen et~al., 2008]{Larsen2008}
+Larsen, A., Madsen, O.~B., and Solomon, M.~M. (2008).
+\newblock Recent developments in dynamic vehicle routing systems.
+\newblock In Golden, B., Raghavan, S., Wasil, E., Sharda, R., and Voß, S.,
+  editors, {\em The Vehicle Routing Problem: Latest Advances and New
+  Challenges}, volume~43 of {\em Operations Research/Computer Science
+  Interfaces Series}, pages 199--218. Springer US.
+
+\bibitem[Lenstra and Kan, 1979]{Lenstra1979}
+Lenstra, J. and Kan, A.~R. (1979).
+\newblock Computational complexity of discrete optimization problems.
+\newblock In P.L.~Hammer, E.~J. and Korte, B., editors, {\em Discrete
+  Optimization I Proceedings of the Advanced Research Institute on Discrete
+  Optimization and Systems Applications of the Systems Science Panel of NATO
+  and of the Discrete Optimization Symposium}, volume~4 of {\em Annals of
+  Discrete Mathematics}, pages 121 -- 140. Elsevier.
+
+\bibitem[Leung et~al., 2004]{Leung2004}
+Leung, K.-S., Jin, H., and Xu, Z. (2004).
+\newblock An expanding self-organizing neural network for the traveling
+  salesman problem.
+\newblock {\em Neurocomputing}, 62:267--292.
+
+\bibitem[Li and Tian, 2006]{Li2006}
+Li, X. and Tian, P. (2006).
+\newblock An ant colony system for the open vehicle routing problem.
+\newblock In Dorigo, M., Gambardella, L., Birattari, M., Martinoli, A., Poli,
+  R., and Stützle, T., editors, {\em Ant Colony Optimization and Swarm
+  Intelligence}, volume 4150 of {\em Lecture Notes in Computer Science}, pages
+  356--363. Springer Berlin / Heidelberg.
+
+\bibitem[Lin and Kernighan, 1973]{Lin1973}
+Lin, S. and Kernighan, B.~W. (1973).
+\newblock {An Effective Heuristic Algorithm for the Traveling-Salesman
+  Problem}.
+\newblock {\em Operations Research}, 21(2):498--516.
+
+\bibitem[Lin et~al., 1997]{Lin1997}
+Lin, S.-C., Goodman, E.~D., and III, W. F.~P. (1997).
+\newblock A genetic algorithm approach to dynamic job shop scheduling problem.
+\newblock In {\em ICGA}, pages 481--488.
+
+\bibitem[Little et~al., 1963]{Little1963}
+Little, J., Murty, K., Sweeney, D., and Karel, C. (1963).
+\newblock An algorithm for the travelling salesman problem.
+\newblock {\em Operations Research}, 11:972--989.
+
+\bibitem[Lund et~al., 1996]{Lund1996}
+Lund, K., Oli, and Rygaard, J.~M. (1996).
+\newblock {Vehicle Routing Problems with Varying Degrees of Dynamism}.
+
+\bibitem[M. et~al., 1999]{Gendreau1999}
+M., G., G., L., C., M., and E.D., T. (1999).
+\newblock A tabu search heuristic for the heterogeneous fleet vehicle routing
+  problem.
+\newblock {\em Computers and Operations Research}, 26(12):1153--1173.
+
+\bibitem[Madsen et~al., 1995]{Madsen1995}
+Madsen, O., Ravn, H., and Rygaard, J. (1995).
+\newblock A heuristic algorithm for a dial-a-ride problem with time windows,
+  multiple capacities, and multiple objectives.
+\newblock {\em Annals of Operations Research}, 60:193--208.
+\newblock 10.1007/BF02031946.
+
+\bibitem[Madureira et~al., 2001]{Madureira2001}
+Madureira, A., Ramos, C., and do~Carmo~Silva, S. (2001).
+\newblock A genetic approach for dynamic job-shop scheduling problems.
+
+\bibitem[Malek et~al., 1989]{Malek1989}
+Malek, M., Guruswamy, M., Pandya, M., and Owens, H. (1989).
+\newblock Serial and parallel simulated annealing and tabu search algorithms
+  for the traveling salesman problem.
+\newblock {\em Annals of Operations Research}, 21:59--84.
+\newblock 10.1007/BF02022093.
+
+\bibitem[Martin et~al., 1991]{Martin1991}
+Martin, O., Otto, S.~W., and Felten, E.~W. (1991).
+\newblock Large-step markov chains for the traveling salesman problem.
+\newblock {\em Complex Systems}, 5:299--326.
+
+\bibitem[Matsuo et~al., 1989]{Matsuo1989}
+Matsuo, H., Juck~SUH, C., and Sullivan, R.~S. (1989).
+\newblock A controlled search simulated annealing method for the single machine
+  weighted tardiness problem.
+\newblock {\em Annals of Operations Research}, 21:85--108.
+\newblock 10.1007/BF02022094.
+
+\bibitem[Mazzeo and Loiseau, 2004]{Mazzeo2004}
+Mazzeo, S. and Loiseau, I. (2004).
+\newblock An ant colony algorithm for the capacitated vehicle routing.
+\newblock {\em Electronic Notes in Discrete Mathematics}, 18(0):181 -- 186.
+\newblock <xocs:full-name>Latin-American Conference on Combinatorics, Graphs
+  and Applications</xocs:full-name>.
+
+\bibitem[McCulloch and Pitts, 1943]{McCulloch1943}
+McCulloch, W.~S. and Pitts, W. (1943).
+\newblock {A logical calculus of the ideas immanent in nervous activity}.
+\newblock {\em Bulletin of Mathematical Biology}, 5(4):115--133.
+
+\bibitem[Menger, 1928]{Menger1928}
+Menger, K. (1928).
+\newblock Ein theorem über die bogenlänge, anzeiger.
+\newblock In {\em Mathematisch-naturwissenschaftliche Klasse 65}, page
+  264–266. Akademie der Wissenschaften in Wien.
+
+\bibitem[Mester and Bräysy, 2007]{Mester2007b}
+Mester, D. and Bräysy, O. (2007).
+\newblock Active-guided evolution strategies for large-scale capacitated
+  vehicle routing problems.
+\newblock {\em Computers {\&} Operations Research}, 34(10):2964 -- 2975.
+
+\bibitem[Mester et~al., 2007]{Mester2007}
+Mester, D., Bräysy, O., and Dullaert, W. (2007).
+\newblock A multi-parametric evolution strategies algorithm for vehicle routing
+  problems.
+\newblock {\em Expert Systems with Applications}, 32(2):508 -- 517.
+
+\bibitem[Metropolis et~al., 1953]{Metropolis1953}
+Metropolis, N., Rosenbluth, A.~W., Rosenbluth, M.~N., Teller, A.~H., and
+  Teller, E. (1953).
+\newblock {Equation of State Calculations by Fast Computing Machines}.
+\newblock {\em The Journal of Chemical Physics}, 21(6):1087--1092.
+
+\bibitem[Miller et~al., 1960]{Miller1960}
+Miller, C.~E., Tucker, A.~W., and Zemlin, R.~A. (1960).
+\newblock Integer programming formulation of traveling salesman problems.
+\newblock {\em J. ACM}, 7(4):326--329.
+
+\bibitem[Minsky and Papert, 1969]{Minsky1969}
+Minsky, M. and Papert, S. (1969).
+\newblock {\em Perceptrons: An Introduction to Computational Geometry}.
+\newblock The MIT Press.
+
+\bibitem[Mitrovic-Minic, 2001]{Mitrovic-Minic2001}
+Mitrovic-Minic (2001).
+\newblock {\em The Dynamic Pickup and Delivery Problem with Time Windows}.
+\newblock PhD thesis, Simon Fraser University.
+
+\bibitem[Mitrovic-Minic and Krishnamurti, 2006]{Mitrovic-Minic2006}
+Mitrovic-Minic, S. and Krishnamurti, R. (2006).
+\newblock The multiple tsp with time windows: vehicle bounds based on
+  precedence graphs.
+\newblock {\em Operations Research Letters}, 34(1):111--120.
+
+\bibitem[Mladenović and Hansen, 1997]{Mladenovic1997}
+Mladenović, N. and Hansen, P. (1997).
+\newblock Variable neighborhood search.
+\newblock {\em Computers {\&} Operations Research}, 24(11):1097 -- 1100.
+
+\bibitem[Modares et~al., 1999]{Modares1999}
+Modares, A., Somhom, S., and Enkawa, T. (1999).
+\newblock A self-organizing neural network approach for multiple traveling
+  salesman and vehicle routing problems.
+\newblock {\em International Transactions in Operational Research},
+  6(6):591--606.
+
+\bibitem[Montemanni et~al., 2005]{Montemanni2005}
+Montemanni, R., Gambardella, L., Rizzoli, A., and Donati, A. (2005).
+\newblock Ant colony system for a dynamic vehicle routing problem.
+\newblock {\em Journal of Combinatorial Optimization}, 10:327--343.
+\newblock 10.1007/s10878-005-4922-6.
+
+\bibitem[Morton and Pentico, 1993]{Morton1993}
+Morton, T.~E. and Pentico, D.~W. (1993).
+\newblock {\em Heuristic Scheduling Systems}.
+\newblock John Wiley Interscience, New York.
+
+\bibitem[Muth and Thompson, 1963]{Muth1963}
+Muth, J. and Thompson, G. (1963).
+\newblock {\em Industrial scheduling}.
+\newblock Prentice-Hall international series in management. Prentice-Hall.
+
+\bibitem[Nakano and Yamada, 1991]{Nakano1991}
+Nakano, R. and Yamada, T. (1991).
+\newblock Conventional genetic algorithm for job shop problems.
+\newblock In {\em ICGA}, pages 474--479.
+
+\bibitem[Nanry and Barnes, 2000]{Nanry2000}
+Nanry, W.~P. and Barnes, J.~W. (2000).
+\newblock Solving the pickup and delivery problem with time windows using
+  reactive tabu search.
+\newblock {\em Transportation Research Part B: Methodological}, 34(2):107 --
+  121.
+
+\bibitem[Neumann, 1966]{Neumann1966}
+Neumann, J.~V. (1966).
+\newblock {\em Theory of Self-Reproducing Automata}.
+\newblock University of Illinois Press, Champaign, IL, USA.
+
+\bibitem[Nowicki and Smutnicki, 1996]{Nowicki1996}
+Nowicki, E. and Smutnicki, C. (1996).
+\newblock A fast taboo search algorithm for the job shop problem.
+\newblock {\em Manage. Sci.}, 42(6):797--813.
+
+\bibitem[Ombuki et~al., 2006]{Ombuki2006}
+Ombuki, B., Ross, B.~J., and Hanshar, F. (2006).
+\newblock Multi-objective genetic algorithms for vehicle routing problem with
+  time windows.
+\newblock {\em APPLIED INTELLIGENCE}, 24:2006.
+
+\bibitem[Orda and Rom, 1990]{Orda1990}
+Orda, A. and Rom, R. (1990).
+\newblock Shortest-path and minimum-delay algorithms in networks with
+  time-dependent edge-length.
+\newblock {\em J. ACM}, 37(3):607--625.
+
+\bibitem[Osman, 1993]{Osman1993}
+Osman, I.~H. (1993).
+\newblock Metastrategy simulated annealing and tabu search algorithms for the
+  vehicle routing problem.
+\newblock {\em Annals of Operations Research}, 41:421--451.
+\newblock 10.1007/BF02023004.
+
+\bibitem[Ouelhadj and Petrovic, 2009]{Ouelhadj2009}
+Ouelhadj, D. and Petrovic, S. (2009).
+\newblock {A survey of dynamic scheduling in manufacturing systems}.
+\newblock {\em J. of Scheduling}, 12(4):417--431.
+
+\bibitem[Pankratz, 2005]{Pankratz2005b}
+Pankratz, G. (2005).
+\newblock A grouping genetic algorithm for the pickup and delivery problem with
+  time windows.
+\newblock {\em OR Spectrum}, 27:21--41.
+\newblock 10.1007/s00291-004-0173-7.
+
+\bibitem[Panwalkar and Iskander, 1977]{Panwalkar1977}
+Panwalkar, S.~S. and Iskander, W. (January/February 1977).
+\newblock A survey of scheduling rules.
+\newblock {\em Operations Research}, 25(1):45--61.
+
+\bibitem[Park, 2001]{Park2001}
+Park, Y.-B. (2001).
+\newblock A hybrid genetic algorithm for the vehicle scheduling problem with
+  due times and time deadlines.
+\newblock {\em International Journal of Production Economics}, 73(2):175 --
+  188.
+
+\bibitem[Pillac et~al., 1 10]{Pillac2011}
+Pillac, V., Gendreau, M., Gu{\'e}ret, C., and Medaglia, A. (2011-10).
+\newblock {A review of dynamic vehicle routing problems}.
+\newblock Technical Report CIRRELT-2011-62.
+\newblock 29 pages, available at
+  https://www.cirrelt.ca/DocumentsTravail/CIRRELT-2011-62.pdf.
+
+\bibitem[Pinson, 1988]{Pinson1988}
+Pinson, E. (1988).
+\newblock {\em Le problme de job-shop}.
+\newblock PhD thesis.
+
+\bibitem[Polacek et~al., 2004]{Polacek2004}
+Polacek, M., Hartl, R.~F., Doerner, K., and Reimann, M. (2004).
+\newblock A variable neighborhood search for the multi depot vehicle routing
+  problem with time windows.
+\newblock {\em Journal of Heuristics}, 10:613--627.
+\newblock 10.1007/s10732-005-5432-5.
+
+\bibitem[Potvin and Bengio, 1996]{Potvin1996}
+Potvin, J.-Y. and Bengio, S. (1996).
+\newblock The vehicle routing problem with time windows part ii: Genetic
+  search.
+\newblock {\em INFORMS Journal on Computing}, 8(2):165--172.
+
+\bibitem[Powell et~al., 1995]{Powell1995}
+Powell, W.~B., Jaillet, P., and Odoni, A. (1995).
+\newblock Chapter 3 stochastic and dynamic networks and routing.
+\newblock In M.O.~Ball, T.L.~Magnanti, C.~M. and Nemhauser, G., editors, {\em
+  Network Routing}, volume~8 of {\em Handbooks in Operations Research and
+  Management Science}, pages 141 -- 295. Elsevier.
+
+\bibitem[Prim, 1957]{Prim1957}
+Prim, R.~C. (1957).
+\newblock {Shortest connection networks and some generalizations}.
+\newblock {\em Bell System Technology Journal}, 36:1389--1401.
+
+\bibitem[Prins, 2004]{Prins2004}
+Prins, C. (2004).
+\newblock A simple and effective evolutionary algorithm for the vehicle routing
+  problem.
+\newblock {\em Computers {\&} Operations Research}, 31(12):1985 -- 2002.
+
+\bibitem[Psaraftis and of~Management, 1985]{Psaraftis1985}
+Psaraftis, H. and of~Management, S.~S. (1985).
+\newblock {\em Analysis and Solution Algorithms of Sealift Routing and
+  Scheduling Problems}.
+\newblock Working paper (Sloan School of Management). Massachusetts Institute
+  of Technology, Alfred P. Sloan School of Management.
+
+\bibitem[Psaraftis, 1980]{Psaraftis1980}
+Psaraftis, H.~N. (1980).
+\newblock A dynamic programming solution to the single vehicle many-to-many
+  immediate request dial-a-ride problem.
+\newblock {\em Transportation Science}, 14(2):130--154.
+
+\bibitem[Psaraftis, 1988]{Psaraftis1988}
+Psaraftis, H.~N. (1988).
+\newblock {\em {Dynamic Vehicle Routing Problem}}, pages 223--248.
+\newblock Elsevier Science Publishers B.V.
+
+\bibitem[Psaraftis, 1995]{Psaraftis1995}
+Psaraftis, H.~N. (1995).
+\newblock Dynamic vehicle routing: Status and prospects.
+\newblock {\em Annals of Operations Research}, 61:143--164.
+\newblock 10.1007/BF02098286.
+
+\bibitem[Qi et~al., 2000]{Qi2000}
+Qi, J.~G., Burns, G.~R., and Harrison, D.~K. (2000).
+\newblock The application of parallel multipopulation genetic algorithms to
+  dynamic job-shop scheduling.
+\newblock {\em The International Journal of Advanced Manufacturing Technology},
+  16:609--615.
+\newblock 10.1007/s001700070052.
+
+\bibitem[Ramasesh, 1990]{Ramasesh1990}
+Ramasesh, R. (1990).
+\newblock Dynamic job shop scheduling: A survey of simulation research.
+\newblock {\em Omega}, 18(1):43 -- 57.
+
+\bibitem[Ray et~al., 2007]{Ray2007}
+Ray, S., Bandyopadhyay, S., and Pal, S. (2007).
+\newblock Genetic operators for combinatorial optimization in tsp and
+  microarray gene ordering.
+\newblock {\em Applied Intelligence}, 26:183--195.
+\newblock 10.1007/s10489-006-0018-y.
+
+\bibitem[Rayward-Smith, 1994]{Rayward1994}
+Rayward-Smith, V. (1994).
+\newblock A unified approach to tabu search simulated annealing and genetic
+  algorithms.
+\newblock In {\em Unicom Seminars Ltd (ed) Adaptive Computing and Information
+  Processing}, volume~I, pages 55--78, London. Unicom Seminars Ltd.
+
+\bibitem[Reimann et~al., 2004]{Reimann2004}
+Reimann, M., Doerner, K., and Hartl, R.~F. (2004).
+\newblock D-ants: Savings based ants divide and conquer the vehicle routing
+  problem.
+\newblock {\em Computers {\&} Operations Research}, 31(4):563 -- 591.
+
+\bibitem[Ritter et~al., 1992]{Ritter1992}
+Ritter, H., Martinetz, T., and Schulten, K. (1992).
+\newblock {\em Neural computation and self-organizing maps: an introduction}.
+\newblock Computation and neural systems series. Addison-Wesley.
+
+\bibitem[Rizzoli et~al., 2007]{Rizzoli2007}
+Rizzoli, A., Montemanni, R., Lucibello, E., and Gambardella, L. (2007).
+\newblock Ant colony optimization for real-world vehicle routing problems.
+\newblock {\em Swarm Intelligence}, 1:135--151.
+\newblock 10.1007/s11721-007-0005-x.
+
+\bibitem[Rosenblatt, 1958]{Rosenblatt1958}
+Rosenblatt, F. (1958).
+\newblock {The Perceptron : probabilistic model for information storage and
+  organization in the brain}.
+\newblock {\em {Psychological Review}}, 65:386--408.
+
+\bibitem[Russell, 1977]{Russel1977}
+Russell, R.~A. (1977).
+\newblock {An Effective Heuristic for the M-Tour Traveling Salesman Problem
+  with Some Side Conditions}.
+\newblock {\em Operations Research}, 25(3):517--524.
+
+\bibitem[Ryan et~al., 1998]{Ryan1998}
+Ryan, J.~L., Bailey, T.~G., Moore, J.~T., and Carlton, W.~B. (1998).
+\newblock Reactive tabu search in unmanned aerial reconnaissance simulations.
+\newblock In {\em Proceedings of the 30th conference on Winter simulation}, WSC
+  '98, pages 873--880, Los Alamitos, CA, USA. IEEE Computer Society Press.
+
+\bibitem[S~G~Ponnambalam and Girish, 2005]{Ponnambalam2005}
+S~G~Ponnambalam, N.~J. and Girish, B.~S. (2005).
+\newblock An ant colony optimization algorithm for flexible job shop scheduling
+  problem.
+
+\bibitem[Savelsbergh and Sol, 1998]{Savelsbergh1998}
+Savelsbergh, M. and Sol, M. (1998).
+\newblock {Drive: Dynamic Routing of Independent Vehicles}.
+\newblock {\em Operations Research}, 46(4):474--490.
+
+\bibitem[Schmidt, 2001]{Schmidt2001}
+Schmidt, K. (2001).
+\newblock Using tabu search to solve the job shop scheduling problem with
+  sequence dependent setup times.
+
+\bibitem[Schrijver, 2005]{Schrijver2005}
+Schrijver, A. (2005).
+\newblock On the history of combinatorial optimization (till 1960).
+\newblock In {\em in Handbooks in Operations Research and Management}.
+  Elsevier.
+
+\bibitem[Shmoys et~al., 1994]{Shmoys1994}
+Shmoys, D.~B., Stein, C., and Wein, J. (1994).
+\newblock Improved approximation algorithms for shop scheduling problems.
+\newblock {\em SIAM J. Comput.}, 23(3):617--632.
+
+\bibitem[Somhom et~al., 1999]{Somhom1999}
+Somhom, S., Modares, A., and Enkawa, T. (1999).
+\newblock Competition-based neural network for the multiple travelling salesmen
+  problem with minmax objective.
+\newblock {\em Computers \& Operations Research}, 26(4):395 -- 407.
+
+\bibitem[Song et~al., 2003]{Song2003}
+Song, C.-H., Lee, K., and Lee, W.~D. (2003).
+\newblock Extended simulated annealing for augmented tsp and multi-salesmen
+  tsp.
+\newblock In {\em Proceedings of the international joint conference on neural
+  networks}, volume~3, pages 2340--2343.
+
+\bibitem[Song and Lee, 1996]{Song1996}
+Song, J.-S. and Lee, T.-E. (1996).
+\newblock A tabu search procedure for periodic job shop scheduling.
+\newblock {\em Computers {\&} Industrial Engineering}, 30(3):433 -- 447.
+\newblock <ce:title>IE in Korea</ce:title>.
+
+\bibitem[Steenken et~al., 2004]{Steenken2004}
+Steenken, D., Voß, S., and Stahlbock, R. (2004).
+\newblock Container terminal operation and operations research - a
+  classification and literature review.
+\newblock {\em OR Spectrum}, 26:3--49.
+\newblock 10.1007/s00291-003-0157-z.
+
+\bibitem[St{\"u}tzle and Hoos, 2000]{Stutzle2000}
+St{\"u}tzle, T. and Hoos, H.~H. (2000).
+\newblock Max-min ant system.
+\newblock {\em Future Generation Comp. Syst.}, 16(8):889--914.
+
+\bibitem[Sun et~al., 1995]{Sun1995}
+Sun, D., Batta, R., and Lin, L. (1995).
+\newblock Effective job shop scheduling through active chain manipulation.
+\newblock {\em Comput. Oper. Res.}, 22(2):159--172.
+
+\bibitem[Suresh and Chaudhuri, 1993]{Suresh1993}
+Suresh, V. and Chaudhuri, D. (1993).
+\newblock Dynamic scheduling—a survey of research.
+\newblock {\em International Journal of Production Economics}, 32(1):53 -- 63.
+
+\bibitem[Swihart and Papastavrou, 1999]{Swihart1999}
+Swihart, M.~R. and Papastavrou, J.~D. (1999).
+\newblock A stochastic and dynamic model for the single-vehicle pick-up and
+  delivery problem.
+\newblock {\em European Journal of Operational Research}, 114(3):447 -- 464.
+
+\bibitem[Taillard, 1994]{Taillard1994}
+Taillard, {\'E}.~D. (1994).
+\newblock Parallel taboo search techniques for the job shop scheduling problem.
+\newblock {\em INFORMS Journal on Computing}, 6(2):108--117.
+
+\bibitem[Tan et~al., 2006]{Tan2006}
+Tan, K.~C., Chew, Y.~H., and Lee, L.~H. (2006).
+\newblock A hybrid multiobjective evolutionary algorithm for solving vehicle
+  routing problem with time windows.
+\newblock {\em Comput. Optim. Appl.}, 34(1):115--151.
+
+\bibitem[Tang et~al., 2000]{Tang2000}
+Tang, L., Liu, J., Rong, A., and Yang, Z. (2000).
+\newblock A multiple traveling salesman problem model for hot rolling
+  scheduling in shanghai baoshan iron \& steel complex.
+\newblock {\em European Journal of Operational Research}, 124(2):267 -- 282.
+
+\bibitem[Thangiah, 1991]{Thangiah1991}
+Thangiah, S.~R. (1991).
+\newblock {\em Gideon: a genetic algorithm system for vehicle routing with time
+  windows}.
+\newblock PhD thesis, Fargo, ND, USA.
+\newblock UMI Order No. GAX91-27716.
+
+\bibitem[Toth and Vigo, 2001]{Toth2001}
+Toth, P. and Vigo, D., editors (2001).
+\newblock {\em The vehicle routing problem}.
+\newblock Society for Industrial and Applied Mathematics, Philadelphia, PA,
+  USA.
+
+\bibitem[Troyon, 1988]{Troyon1988}
+Troyon, M. (1988).
+\newblock {\em Quelques heuristiques et résultats asymptotiques pour trois
+  problèmes d'optimisation combinatoire}.
+\newblock PhD thesis, Lausanne.
+
+\bibitem[Udomsakdigool and Kachitvichyanukul, 2011]{Udomsakdigool2011}
+Udomsakdigool, A. and Kachitvichyanukul, V. (2011).
+\newblock {Ant colony algorithm for multi-criteria job shop scheduling to
+  minimize makespan, mean flow time and mean tardiness}.
+\newblock {\em International Journal of Management Science and Engineering
+  Management}, 6(2):117--123.
+
+\bibitem[Ulusoy, 1985]{Ulusoy1985}
+Ulusoy, G. (1985).
+\newblock The fleet size and mix problem for capacitated arc routing.
+\newblock {\em European Journal of Operational Research}, 22(3):329--337.
+
+\bibitem[Vakhutinsky and Golden, 1994]{Vakhutinsky1994}
+Vakhutinsky, A. and Golden, B. (1994).
+\newblock Solving vehicle routing problems using elastic nets.
+\newblock In {\em Neural Networks, 1994. IEEE World Congress on Computational
+  Intelligence., 1994 IEEE International Conference on}, volume~7, pages 4535
+  --4540 vol.7.
+
+\bibitem[Vallivaara, 2008]{Vallivaara2008}
+Vallivaara, I. (2008).
+\newblock A team ant colony optimization algorithm for the multiple travelling
+  salesmen problem with minmax objective.
+\newblock In {\em Proceedings of the 27th IASTED International Conference on
+  Modelling, Identification and Control}, MIC '08, pages 387--392, Anaheim, CA,
+  USA. ACTA Press.
+
+\bibitem[Vidal et~al., 2011]{Vidal2011}
+Vidal, T., Crainic, T., M., G., and Prins, C. (2011).
+\newblock Heuristiques pour les problèmes de tournées de véhicules
+  multi-attributs.
+\newblock Technical report, CIRRELT.
+
+\bibitem[Vogel et~al., 2002]{Vogel2002}
+Vogel, A., Fischer, M., Jaehn, H., and Teich, T. (2002).
+\newblock Real-world shop floor scheduling by ant colony optimization.
+\newblock In {\em Proceedings of the Third International Workshop on Ant
+  Algorithms}, ANTS '02, pages 268--273, London, UK, UK. Springer-Verlag.
+
+\bibitem[Wacholder et~al., 1989]{Wacholder1989}
+Wacholder, E., Han, J., and Mann, R.~C. (1989).
+\newblock A neural network algorithm for the multiple traveling salesmen
+  problem.
+\newblock {\em Biological Cybernetics}, 61:11--19.
+\newblock 10.1007/BF00204755.
+
+\bibitem[Widrow, 1960]{Widrow1960}
+Widrow, B. (1960).
+\newblock {An adaptive 'Adaline' neuron using chemical 'memistors'}.
+\newblock Technical report.
+
+\bibitem[Williamson et~al., 1997]{Williamson1997}
+Williamson, D.~P., Hall, L.~A., Hoogeveen, J.~A., Hurkens, C. A.~J., Lenstra,
+  J.~K., Sevast'janov, S.~V., and Shmoys, D.~B. (March/April 1997).
+\newblock Short shop schedules.
+\newblock {\em Operations Research}, 45(2):288--294.
+
+\bibitem[Wilson et~al., 1977]{Wilson1977}
+Wilson, N., Colvin, N., of~Technology. Center~for Transportation~Studies,
+  M.~I., Administration, U. S. U. M.~T., and Authority, R. G. R.~T. (1977).
+\newblock {\em Computer control of the Rochester dial-a-ride system}.
+\newblock Massachusetts Institute of Technology, Center for Transportation
+  Studies.
+
+\bibitem[Wilson et~al., 1975]{Wilson1975}
+Wilson, N., of~Technology. Dept.~of Civil~Engineering, M.~I., and
+  Administration, U. S. U. M.~T. (1975).
+\newblock {\em Advanced Dial-a-ride Algorithms: Interim Report}.
+\newblock R75-27. The Department.
+
+\bibitem[Wilson and of~Technology. Urban Systems~Laboratory, 1971]{Wilson1971}
+Wilson, N. and of~Technology. Urban Systems~Laboratory, M.~I. (1971).
+\newblock {\em Scheduling Algorithms for a Dial-A-Ride System}.
+\newblock TR (Massachusetts Institute of Technology. Urban Systems Laboratory).
+  Massachusetts Institute of Technology, Urban Systems Laboratory.
+
+\bibitem[Xing et~al., 2010]{Xing2010}
+Xing, L.-N., Chen, Y.-W., Wang, P., Zhao, Q.-S., and Xiong, J. (2010).
+\newblock A knowledge-based ant colony optimization for flexible job shop
+  scheduling problems.
+\newblock {\em Applied Soft Computing}, 10(3):888 -- 896.
+
+\bibitem[Yang et~al., 2004]{Yang2004}
+Yang, J., Jaillet, P., and Mahmassani, H. (2004).
+\newblock Real-time multivehicle truckload pickup and delivery problems.
+\newblock {\em Transportation Science}, 38(2):135--148.
+
+\bibitem[Yoo and M{\"u}ller, 2002]{Yoo2002}
+Yoo, M.-J. and M{\"u}ller, J.-P. (2002).
+\newblock Using multi-agent system for dynamic job shop scheduling.
+\newblock In {\em ICEIS}, pages 517--525.
+
+\bibitem[Zhou et~al., 2008]{Zhou2008}
+Zhou, R., Lee, H.~P., and Nee, A. Y.~C. (2008).
+\newblock Applying ant colony optimisation (aco) algorithm to dynamic job shop
+  scheduling problems.
+\newblock {\em IJMR}, 3(3):301--320.
+
+\end{thebibliography}

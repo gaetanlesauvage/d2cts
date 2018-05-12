@@ -1,0 +1,82 @@
+\documentclass{roadef2010}
+
+%\usepackage[utf8]{inputenc}
+
+\begin{document}
+% Le titre du papier
+\title{Planification en environnement incertain : application \`a la gestion d'un terminal portuaire \`{a} conteneurs}
+% Le titre court
+\def\shorttitle{Planification avec incertitude : cas d'un terminal \`{a} conteneurs}
+% Les auteurs et leur num\'ero d'affiliation
+\author{Ga\"{e}tan Lesauvage}
+
+% Les affiliations (par ordre croissant des num\'eros d'affiliation) s\'epar\'ees par \and
+\institute{
+Universit\'{e} du Havre, LITIS EA 4108 BP 540, 76058 Le Havre, France\\
+\email{ \{gaetanlesauvage\}@gmail.com}
+}
+
+% Cr\'eation de la page de titre
+\maketitle
+\thispagestyle{empty}
+
+% Les mots-cl\'es
+\keywords{probl\`eme de tourn\'ees de v\'ehicules, environnement dynamique, terminal \`a conteneurs, optimisation multi-crit\`eres, syst\`eme complexe, intelligence collective}
+
+\section{Contexte}
+
+Un terminal portuaire \`{a} conteneurs est un syst\`{e}me complexe ouvert compos\'{e} de plusieurs entit\'{e}s en interaction. Divers engins de manutention permettent de d\'{e}placer les conteneurs au sein du terminal afin de r\'{e}pondre le plus efficacement possible aux demandes des navires, trains ou camions en attente de chargement ou de d\'{e}chargement.
+
+%Description du terminal
+%Un terminal est divis\'{e} en trois principales parties. Tout d'abord la zone des navires est la partie situ\'{e}e le long du quai. Elle est utilis\'{e}e pour charger et d\'{e}charger les navires. La seconde partie concerne les trains et les camions. Elle est situ\'{e}e \`{a} l'oppos\'{e}e de la zone des navires et sert \`{a} faire entrer ou sortir des conteneurs par voie terrestre. Enfin, la zone de stockage est une zone interm\'{e}diaire permettant de stocker temporairement les conteneurs.
+
+%L'int\'{e}r\^{e}t de l'optimisation
+%L'organisation de cette zone requiert une attention particuli\`{e}re.
+L'organisation de la zone de stockage des conteneurs du teminal requiet une attention particuli\`ere. 
+En effet, le respect des contraintes de temps de chargement des navires, des camions et des trains d\'{e}pend fortement de l'emplacement des conteneurs sur le terminal.
+Afin de pouvoir g\'{e}rer efficacement cette zone, il est n\'{e}cessaire de conna\^{i}tre l'emplacement de chaque conteneur. Les temps de recherche des conteneurs sont parfois consid\'{e}rables et entra\^{i}nent des retards importants provoquant des p\'{e}nalit\'{e}s financi\`{e}res pour les soci\'{e}t\'{e}s g\'{e}rant les terminaux.
+D'autre part, il est int\'{e}ressant de conna\^{i}tre l'emplacement des v\'{e}hicules de manutention afin d'affecter les missions aux v\'{e}hicules disponibles les plus proches.
+
+Cependant, le terminal \'{e}tant un syst\`{e}me ouvert, il est sujet \`{a} des \'{e}v\'{e}nements dynamiques qui viennent alt\'{e}rer le processus d'optimisation.
+Ces \'{e}v\'{e}nements concernent par exemple l'incertitude sur le respect des dates d'arriv\'{e}e des camions, des trains et des bateaux, la fermeture d'une route sur le terminal, ou la panne des v\'{e}hicules de manutention, etc.
+
+\section{Probl\'ematique}
+%Les probl\`{e}mes
+La gestion d'un terminal portuaire \`a conteneurs rel\`eve de plusieurs probl\`emes d'optimisation.
+Le but \'{e}tant de minimiser les temps d'attente des clients tout en minimisant les co\^{u}ts d'exploitation du terminal, un soin tout particulier est apport\'{e} \`{a} l'affectation des missions aux chariots cavaliers.
+De plus, afin de r\'{e}duire le temps d'ex\'{e}cution de ces missions, il est \'{e}galement n\'{e}cessaire de disposer les conteneurs de fa\c{c}on efficace.
+
+
+%\subsection{Le monde des blocs}
+%Le monde des blocs
+%Le monde des blocs offre une formalisation de notre probl\`{e}me. Il s'agit de d\'{e}placer des blocs empil\'{e}s sur une table.
+%Pour cela, dans la version originale du probl\`{e}me nous disposons d'un bras m\'{e}canique capable de d\'{e}placer un bloc \`{a} la fois.
+%Bien entendu, un bloc ne peut \^{e}tre d\'{e}plac\'{e} que s'il est libre, c'est-\`{a}-dire en haut d'une pile et que sa destination est \'{e}galement le sommet d'une pile.
+%L'objectif est de passer d'une configuration de blocs $i$ \`{a} une configuration $j$ en effectuant le moins de mouvements possible.
+
+%Ce mod\`{e}le de base peut bien entendu \^{e}tre complexifi\'{e}. Ainsi, il est possible de rajouter des bras articul\'{e}s, de limiter la hauteur des piles,  ou d'ins\'{e}rer de la dynamique (\'{e}boulements).
+%Il est \'{e}galement possible d'ajouter des contraintes pour l'empilement (taille des blocs comme pour la Tour de Hano\"{\i} par exemple), etc.
+
+%\subsection{Les tourn\'{e}es de v\'{e}hicules}
+Le probl\`{e}me d'affectation de missions aux v\'{e}hicules de manutention est proche des probl\`{e}mes de tourn\'{e}e de v\'{e}hicules (\textit{Vehicle Routing Problem}\cite{Larsen00}), et plus particuli\`{e}rement du probl\`eme de collecte et de livraison (\textit{Pickup and Delivery Problem}\cite{Berbeglia07}).
+Dans ce mod\`{e}le, il s'agit pour des v\'{e}hicules d'une certaine capacit\'{e}, de visiter un certain nombre de clients afin de collecter ou de livrer des marchandises.
+Chaque v\'{e}hicule doit avoir pr\'{e}c\'{e}demment collect\'{e} les biens avant de pouvoir les livrer. Dans le cas de la gestion d'un terminal, le probl\`eme est encore plus complexe. En effet, des fen\^{e}tres de temps doivent \^{e}tre respect\'{e}es (\textit{VRP with Time Windows} et \textit{PDP with Time Windows}\cite{Mitrovic01}). De cette fa\c{c}on, si les v\'{e}hicules arrivent \`{a} leur destination avant le d\'{e}but de l'intervalle de temps, ils devront attendre le client. De m\^eme, le temps d'attente des clients doit \^etre r\'eduit au maximum. D'autre part, ce probl\`{e}me devient dynamique car les clients peuvent demander des collectes ou des livraisons alors que les v\'{e}hicules ont d\'{e}j\`{a} commenc\'{e} leurs tourn\'{e}es (\textit{Dynamic VRP} et \textit{Dynamic PDP}). Il faut dans ce cas \^{e}tre en mesure de prendre en compte ces nouvelles requ\^{e}tes et de les ins\'{e}rer au mieux dans les tourn\'{e}es.
+
+\section{Solutions propos\'{e}es}
+Afin de r\'{e}pondre aux contraintes impos\'{e}es par le contexte du terminal \`{a} conteneurs, nous proposons des solutions adapt\'ees aux probl\`emes pos\'es. Les m\'ethodes classiques de r\'esolution de VRP ne sont pas adapt\'ees \`a la nature dynamique de l'environnement. En effet, une planification \'etablie peut \^etre remise en question par un \'ev\'enement impr\'evu \`a chaque instant.
+
+Nous utilisons une mod\'{e}lisation sous forme de graphe afin de transformer le probl\`{e}me en une recherche de plus court chemin.
+Cependant, ce graphe peut devenir important. Nous avons donc opt\'{e} pour une approche locale, c'est-\`{a}-dire au niveau de chaque v\'{e}hicule afin de ne pas prendre en compte l'int\'{e}gralit\'{e} de l'environnement. Ceci est d'autant plus b\'{e}n\'{e}fique que le graphe est dynamique. Il faut donc \'{e}viter de recommencer le parcours \`{a} chaque modification de la structure du graphe. Nous d\'{e}ployons ensuite sur ce graphe des algorithmes m\'{e}ta-heuristiques d'\'{e}co-r\'{e}solution fond\'{e}s sur le comportement d'insectes sociaux comme les fourmis\cite{Dorigo91} afin de faire \'{e}merger \`{a} tout moment une solution valide au probl\`{e}me.
+Pour cela nous prenons en compte des m\'{e}canismes de collaboration et de comp\'{e}tition\cite{Bertelle02} entre nos agents (ici les chariots cavaliers ou les conteneurs) qui vont ainsi \og coloniser \fg\ les missions. 
+
+Nos premiers tests consistent \`a faire varier la dynamicit\'{e} des missions du probl\`{e}me. Dans le premier test, toutes les missions sont connues \`{a} l'avance. Au contraire, dans le second test, toutes les missions sont connues au dernier moment, c'est-\`{a}-dire au commencement de leur fen\^{e}tre de temps. Enfin dans un troisi\`{e}me test, la moiti\'e des missions sont connues par avance. L'autre moiti\'{e} ne sont connues qu'au dernier moment. Les premiers r\'{e}sultats obtenus montrent que l'algoritme est capable de s'adapter aux conditions changeantes de dynamicit\'{e} et de fournir une solution r\'{e}alisable \`{a} tout moment.
+
+%  Les premiers obtenus avec cette m\'{e}thode
+% La bibliographie
+
+\bibliographystyle{plain}
+% Version "on-line" de la bibliographie, mais il est
+% \'egalement possible d'utiliser un fichier ".bib" et d'utiliser BibTeX
+\bibliography{biblioROADEF2010}
+
+\end{document}

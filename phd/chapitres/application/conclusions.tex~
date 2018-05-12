@@ -1,0 +1,7 @@
+%Conclusion sur l'application
+
+Un terminal multimodal à conteneurs est une plate-forme logistique d'échange de marchandises ouverte à la fois sur la terre et sur l'eau. Leur développement important montre l'importance des enjeux économiques de ces structures qui doivent être de plus en plus performantes en terme de rapidité de service et de coûts d'exploitation.
+L'optimisation du terminal est donc essentielle et concerne différents problèmes comme la définition de la structure du terminal, de l'allocation des berges, des portiques de quai, du positionnement des conteneurs, du routage des véhicules ainsi que de l'affectation des opérations de déplacement de conteneurs.\\
+
+
+Ce chapitre à permis de définir les tenant et les aboutissant du contexte applicatif de cette thèse et à introduit le problème d'ordonnancement et d'affectation des missions aux chariots cavaliers qui sera étudié dans le chapitre suivant.

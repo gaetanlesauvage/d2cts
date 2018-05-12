@@ -1,0 +1,394 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.3.29)  2 APR 2012 08:51
+entering extended mode
+ %&-line parsing enabled.
+**these.tex
+(./these.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, french, basque, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/report.cls
+Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texmf-texlive/tex/latex/base/size12.clo
+File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf-texlive/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/share/texmf-texlive/tex/latex/ucs/utf8x.def
+File: utf8x.def 2004/10/17 UCS: Input encoding UTF-8
+))
+(/usr/share/texmf-texlive/tex/latex/ucs/ucs.sty
+Package: ucs 2004/10/17 UCS: Unicode input support
+
+(/usr/share/texmf-texlive/tex/latex/ucs/data/uni-global.def
+File: uni-global.def 2004/10/17 UCS: Unicode global data
+)
+\uc@secondtry=\count88
+\uc@combtoks=\toks16
+\uc@combtoksb=\toks17
+\uc@temptokena=\toks18
+)
+(/usr/share/texmf-texlive/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texmf-texlive/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+(/usr/share/texmf-texlive/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/share/texmf-texlive/tex/generic/babel/frenchb.ldf
+Language: frenchb 2009/03/16 v2.3d French support from the babel system
+
+(/usr/share/texmf-texlive/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count89
+\U@D=\dimen103
+)
+Package babel Info: Making : an active character on input line 120.
+Package babel Info: Making ; an active character on input line 121.
+Package babel Info: Making ! an active character on input line 122.
+Package babel Info: Making ? an active character on input line 123.
+\FB@Mht=\dimen104
+\std@mcc=\count90
+\dec@mcc=\count91
+\parindentFFN=\dimen105
+
+*************************************
+* Local config file frenchb.cfg used
+*
+(/usr/share/texmf-texlive/tex/generic/babel/frenchb.cfg)))
+(/usr/share/texmf-texlive/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks19
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: dvips.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen106
+\Gin@req@width=\dimen107
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/epsfig.sty
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+\epsfxsize=\dimen108
+\epsfysize=\dimen109
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks20
+\ex@=\dimen110
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen111
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count92
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count93
+\leftroot@=\count94
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count95
+\DOTSCASE@=\count96
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen112
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count97
+\c@MaxMatrixCols=\count98
+\dotsspace@=\muskip10
+\c@parentequation=\count99
+\dspbrk@lvl=\count100
+\tag@help=\toks21
+\row@=\count101
+\column@=\count102
+\maxfields@=\count103
+\andhelp@=\toks22
+\eqnshift@=\dimen113
+\alignsep@=\dimen114
+\tagshift@=\dimen115
+\tagwidth@=\dimen116
+\totwidth@=\dimen117
+\lineht@=\dimen118
+\@envbody=\toks23
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks24
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2009/06/22 v3.00
+)
+(/usr/share/texmf-texlive/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip46
+\subfigcapskip=\skip47
+\subfigcaptopadj=\dimen119
+\subfigbottomskip=\skip48
+\subfigcapmargin=\dimen120
+\subfiglabelskip=\skip49
+\c@subfigure=\count104
+\c@lofdepth=\count105
+\c@subtable=\count106
+\c@lotdepth=\count107
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texmf-texlive/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip50
+\subfig@bottom=\skip51
+)
+(/usr/share/texmf-texlive/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count108
+\float@exts=\toks25
+\float@box=\box28
+\@float@everytoks=\toks26
+\@floatcapt=\box29
+)
+(/usr/share/texmf-texlive/tex/latex/psfrag/psfrag.sty
+Package: psfrag 1998/04/11 v3.04 PSfrag (MCG)
+\pfg@pcount=\count109
+\pfg@scount=\count110
+\pfg@temp=\write3
+)
+(/usr/share/texmf-texlive/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen121
+)
+(/usr/share/texmf-texlive/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks27
+\c@algorithm=\count111
+)
+(/usr/share/texmf-texlive/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+\c@ALC@unique=\count112
+\c@ALC@line=\count113
+\c@ALC@rem=\count114
+\c@ALC@depth=\count115
+\ALC@tlm=\skip52
+\algorithmicindent=\skip53
+)
+(/usr/share/texmf-texlive/tex/latex/rotating/rotating.sty
+Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
+\c@r@tfl@t=\count116
+\rotFPtop=\skip54
+\rotFPbot=\skip55
+\rot@float@box=\box30
+\rot@mess@toks=\toks28
+)
+(/usr/share/texmf-texlive/tex/latex/tools/longtable.sty
+Package: longtable 2004/02/01 v4.11 Multi-page Table package (DPC)
+\LTleft=\skip56
+\LTright=\skip57
+\LTpre=\skip58
+\LTpost=\skip59
+\LTchunksize=\count117
+\LTcapwidth=\dimen122
+\LT@head=\box31
+\LT@firsthead=\box32
+\LT@foot=\box33
+\LT@lastfoot=\box34
+\LT@cols=\count118
+\LT@rows=\count119
+\c@LT@tables=\count120
+\c@LT@chunks=\count121
+\LT@p@ftn=\toks29
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/etc/texmf/tex/latex/config/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
+\Gread@gobject=\count122
+)) (./these.aux
+(./chapitres/art.aux) (./chapitres/simulateur.aux) (./chapitres/resume.aux))
+\openout1 = `these.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+
+(/usr/share/texmf-texlive/tex/latex/ucs/ucsencs.def
+File: ucsencs.def 2003/11/29 Fixes to fontencodings LGR, T3
+)
+LaTeX Info: Redefining \degres on input line 43.
+LaTeX Info: Redefining \dots on input line 43.
+LaTeX Info: Redefining \up on input line 43.
+
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count123
+\scratchdimen=\dimen123
+\scratchbox=\box35
+\nofMPsegments=\count124
+\nofMParguments=\count125
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count126
+\MPscratchDim=\dimen124
+\MPnumerator=\count127
+\everyMPtoPDFconversion=\toks31
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 65.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 65.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+(/usr/share/texmf-texlive/tex/latex/ucs/data/uni-0.def
+File: uni-0.def 2004/10/17 UCS: Unicode data U+0000..U+00FF
+) [1
+Non-PDF special ignored!
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+(./these.toc)
+\tf@toc=\write4
+\openout4 = `these.toc'.
+
+ [1
+
+]
+\openout2 = `./chapitres/art.aux'.
+
+ (./chapitres/art.tex
+Chapitre 1.
+) [2
+
+
+]
+\openout2 = `./chapitres/simulateur.aux'.
+
+ (./chapitres/simulateur.tex
+Chapitre 2.
+) [3
+
+
+
+] [4
+
+] [5] (./these.lot)
+\tf@lot=\write5
+\openout5 = `these.lot'.
+
+ [6
+
+] (./these.lof)
+\tf@lof=\write6
+\openout6 = `these.lof'.
+
+ [7
+
+] (./these.bbl
+
+LaTeX Warning: Empty `thebibliography' environment on input line 3.
+
+) [8
+
+]
+\openout2 = `./chapitres/resume.aux'.
+
+ (./chapitres/resume.tex [9
+
+]) [10] (./these.aux (./chapitres/art.aux)
+(./chapitres/simulateur.aux) (./chapitres/resume.aux)) ) 
+Here is how much of TeX's memory you used:
+ 4247 strings out of 495028
+ 52669 string characters out of 1181229
+ 118083 words of memory out of 3000000
+ 7315 multiletter control sequences out of 15000+50000
+ 20921 words of font info for 56 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 27i,6n,25p,329b,693s stack positions out of 5000i,500n,10000p,30000000b,50000s
+ </home/gaetan/.texmf-v
+ar/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </home/gaetan/.texmf-var/fonts/p
+k/ljfour/jknappen/ec/ecrm1000.600pk> </home/gaetan/.texmf-var/fonts/pk/ljfour/j
+knappen/ec/ecbx1095.600pk> </home/gaetan/.texmf-var/fonts/pk/ljfour/jknappen/ec
+/ecrm1095.600pk> </home/gaetan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1728.
+600pk> </home/gaetan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </h
+ome/gaetan/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/gaetan
+/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2488.600pk> </home/gaetan/.texmf-va
+r/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/gaetan/.texmf-var/fonts/pk
+/ljfour/jknappen/ec/ecrm1440.600pk> </home/gaetan/.texmf-var/fonts/pk/ljfour/jk
+nappen/ec/ecrm2074.600pk>
+Output written on these.pdf (11 pages, 133678 bytes).
+PDF statistics:
+ 406 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,42 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{a4wide}
+\usepackage[dvips,pdftex]{hyperref}
+
+\usepackage{multicol}
+\makeatletter
+\newenvironment{tablehere}
+{\def\@captype{table}}
+{}
+
+\newenvironment{figurehere}
+{\def\@captype{figure}}
+{}
+\makeatother
+\date{25/02/2009}
+\begin{document}
+	\begin{titlepage}
+ 		\title{Dynamical Handling of Straddle Carriers Activities on a Container Terminal in Uncertain Environment \\ \textit{- A Swarm Intelligence approach -}}
+		
+		\author{Stefan~Balev, Fr\'{e}d\'{e}ric~Guinand, Ga\"{e}tan~Lesauvage, Damien~Olivier}
+			
+	\end{titlepage}
+	\maketitle
+	
+	\begin{abstract}
+
+	The CALAS project consists in a laser measure system allowing to localize precisely straddle carriers location in a box terminal. The information given by such a tool makes an optimization possible. In fact, a box terminal is an open system subject to dynamism, so many events can occur. They concern containers arrivals and departures. Within the terminal, straddle carriers are trucks which are able to carry one container at a time in order to move it through the terminal. We aim to optimize the straddle carriers handling to improve the terminal management. Moreover, missions come into the system in an impredictible way and straddle carriers are handled by human. They can choose to follow the schedule or not. For these reasons, the exact state of the system, i.e the exact location of boxes is unknown. The optimizing system that we try to build must be fail-safe and adaptative. So, in this context, how to devote a mission to a straddle carrier ? We propose a simulation approach using a meta-heuristic based on Ant Colony to resolve the scheduling problem.
+	\\
+	\end{abstract}
+	
+
+	
+	\begin{figure*}[h]
+	 
+	\textbf{Keywords : } swarm intelligence, colored ant colony system, dynamic graph, multiple criteria optimization
+	
+	\end{figure*}
+\end{document}

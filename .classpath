@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="org/runner/SimulationRunner.java|org/runner/TestSSH.java|org/runner/Run.java|org/runner/RunBenchmarkBB.java|org/runner/benchmark/BenchmarkRunner.java|org/runner/RunBenchmarkGreedy.java|org/runner/TestBICGenerator.java|org/runner/TestSprite.java|org/runner/benchmark/|org/util/parsers/XMLTerminalComponentParser.java" kind="src" path="trunk"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/commons-io-2.1.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/commons-logging-1.1.2.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/gs-algo-1.2-git-last.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/gs-core-1.2-git-last.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/gs-ui-1.2-git-last.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/mbox2-1.0.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/mysql-connector-java-5.1.22-bin.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/pherd-1.0.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/scala-library-2.9.0.jar"/>
+	<classpathentry kind="lib" path="trunk/conf/lib/util-1.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,56 @@
+%Introduction chapitre III : Simulation
+
+Ce chapitre présente $D^2CTS$ : un simulateur de terminal portuaire à conteneurs conçu et développé durant cette thèse. Le programme a été élaboré lors de la participation du LITIS au projet CALAS.
+
+CALAS est l'acronyme de \textit{CArrier LAser tracking System}. Le projet consiste à élaborer une technologie de localisation des engins de manutention capable de fonctionner à n'importe quel endroit du terminal. En effet, la technologie de géolocalisation actuelle utilise des satellites (GPS : \textit{Global Positioning System}%TODO CHECK
+) afin de déterminer les coordonnées d'un émetteur. Or, le signal des satellites traversant mal le métal, les véhicules qui se trouvent sous les portiques de déchargement ou dans les travées de conteneurs ne sont pas repérés.
+
+La société \textit{Laser Data Technology Terminal} (LDTT) a mis au point une technologie de géolocalisation utilisant un rayon laser et exploitant la caractéristique physique principale des chariots cavaliers : leur hauteur. En effet, les chariots cavaliers sont les engins mobiles autonomes les plus élevés du terminal. Il est donc possible de déterminer leur position grâce à un signal horizontal émis à la hauteur du sommet des chariots cavaliers afin d'être en mesure de localiser les véhicules équipés à n'importe quel endroit du terminal. Le système est composé d'un réseau d'émetteurs/récepteurs laser (\textit{InfraRed Intelligent Sensors}) IRIS répartis sur le terminal (voir figure \ref{fig:bornesLaser}). D'autres bornes IRIS sont installées sur les chariots cavaliers et permettent de réaliser une triangularisation du signal infrarouge (voir figure \ref{fig:triangularisation}).
+
+
+\begin{figure}[ht]
+\centering
+ \includegraphics[width=0.6\textwidth]{./chapitres/simulation/bornesLaser.jpg}
+  \caption{Réseau de bornes laser implantées sur le Terminal de Normandie (source : \href{http://www.ldtt-fr.com}{http://www.ldtt-fr.com})}
+  \label{fig:bornesLaser}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+ \includegraphics[width=0.6\textwidth]{./chapitres/simulation/triangularisationLaser.jpg}
+  \caption{Triangularisation du signal infrarouge entre les bornes IRIS du terminal et celle d'un chariot cavalier (source : \href{http://www.ldtt-fr.com}{http://www.ldtt-fr.com})}
+  \label{fig:triangularisation}
+\end{figure}
+
+Après plusieurs années de développement et de tests réels, cette technologie se montre performante et fiable et permet de connaître en temps réel la position des engins de manutention au sein du terminal. Cette information est la condition \textit{sine qua non} à toute recherche d'optimisation dynamique des activités des engins de manutention. Grâce à la position des véhicules il est ainsi possible d'optimiser dynamiquement le routage des chariots cavaliers et de prendre en compte les durées de parcours au sein du terminal. Ceci permet par conséquent d'optimiser l'activité des chariots cavaliers tout en contrôlant le suivi de leurs opérations. En effet, lorsqu'un conteneur est chargé ou déposé par un chariot cavalier, un signal contenant la position du véhicule est envoyé au système. Ainsi, le système connaît la position de prise du conteneur (et par conséquent le conteneur chargé) ainsi que sa position de dépose. Ces informations permettent d'éviter les pertes de conteneurs au sein du terminal.
+
+La partie LITIS du projet consistait à proposer des méthodes d'optimisation dynamique des activités des chariots cavaliers en utilisant l'information fournie par le système de géolocalisation laser. Les difficultés rencontrées quant à l'obtention d'information concernant les données du terminal nous ont poussé à développer un simulateur afin de mettre au point et de tester la performance de nos méthodes. Une grande partie du temps alloué au projet a donc été consacré à la collecte d'informations sur : 
+\begin{itemize}
+ \item Les chariots cavaliers : dimensions, vitesse, comportement
+ \item Le fonctionnement du terminal : différentes zones d'échange, zone de stockage, engins de manutention
+ \item Le réseau routier du terminal : 
+  \begin{itemize}
+   \item coordonnées des carrefours
+   \item routes
+   \item travées
+   \item coordonnées des emplacements conteneurs dans les travées
+   \item zone de dépôt des engins de manutention
+  \end{itemize}
+\end{itemize}
+
+Les coordonnées des carrefours, routes, travées et emplacements conteneurs du Terminal de Normandie ont été obtenus grâce à un plan sommaire du terminal fourni par nos partenaires du projet CALAS (voir figure \ref{fig:planTerminalSommaire}) et au site internet de cartographie \href{http://wikimapia.org}{http://wikimapia.org/#lat=49.4694697&lon=0.1676486&z=16&l=2&m=b}. Ce site permet de mesurer de façon relativement précise des distances sur des photos satellites d'une grande définition. Les coordonnées indiquées sur le plan fourni par nos partenaires est calculée suivant la projection conique conforme de Lambert (zone centre : Lambert II). Un degré de ce système correspond à 100km. Cette équivalence permet de calculer aisément les coordonnées des points manquant du plan grâce aux distances mesurées sur le site \href{http://wikimapia.org}{http://wikimapia.org/#lat=49.4694697&lon=0.1676486&z=16&l=2&m=b}.
+
+\begin{figure}[ht]
+\centering
+ \includegraphics[width=0.6\textwidth]{./chapitres/simulation/planTerminalSommaire.png}
+  \caption{Plan sommaire du Terminal de Normandie}
+  \label{fig:planTerminalSommaire}
+\end{figure}
+
+% Introduction sur la partie Simulateur de Terminal à Conteneurs : 
+% CALAS : 
+% Système de Géolocalisation LASER
+% Objectif : 
+%   -> développer un simulateur de terminal permettant de modéliser le système de localisation laser associé
+%   -> 								  le comportement des chariots cavaliers
+%   -> de proposer des solutions d'optimisation liées à la gestion du terminal

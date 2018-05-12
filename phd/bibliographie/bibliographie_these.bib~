@@ -1,0 +1,3903 @@
+@inproceedings{Lesauvage2011,
+ title = {{D$^{2}$CTS} : A Dynamic and Distributed Container Terminal Simulator},
+ author = {Lesauvage, Ga{\"e}tan and Balev, Stefan and Guinand, Fr{\'e}d{\'e}ric},
+ booktitle = {HMS 2011 : The $13^{rd}$ International Conference on Harbor, Maritime {\&} Multimodal Logistics Modelling and Simulation},
+ year = {2011},
+ month = {September}
+}
+@inproceedings{Lesauvage2009,
+    hal_id = {hal-00485630},
+    url = {http://hal.archives-ouvertes.fr/hal-00485630},
+    title = {{Dynamical Handling of Straddle Carriers Activities on a Container Terminal in Uncertain Environment - A Swarm Intelligence approach -}},
+    author = {Balev, Stefan and Guinand, Fr{\'e}d{\'e}ric and Lesauvage, Ga{\"e}tan and Olivier, D.},
+    abstract = {{The CALAS project consists in a laser measure system allowing to localize precisely straddle carriers in a container terminal. The information given by such a tool makes an optimization possible. In fact, a box terminal is an open system subject to dynamics, in which many events can occur. Among others, they concern container arrivals and departures. Within the terminal, straddle carriers are trucks which are able to carry one container at a time in order to move it through the terminal. We aim to optimize the straddle carrier handling in order to improve the terminal management. Moreover, missions come into the system in an unpredictable way and straddle carriers are handled by humans. They can choose to follow the schedule or not. For these reasons, the exact state of the system is unknown. The optimization process that we try to build must be fail-safe and adaptive. In this context, we propose an approach using a meta-heuristic based on Ant Colony to resolve the problem of assigning 
+missions to straddle carriers. We built a simulator which is able to test and to compare different scheduling policies.}},
+    keywords = {swarm intelligence;colored ant colony system;dynamic graph;multiple criteria optimization;vehicle routing problem;container terminal},
+    language = {Anglais},
+    affiliation = {Laboratoire d'Informatique, de Traitement de l'Information et des Syst{\`e}mes - LITIS},
+    booktitle = {{ICCSA 2009 The 3rd International Conference on Complex Systems and Applications}},
+    pages = {290},
+    address = {Le Havre, France},
+    volume = {2},
+    note = {7p },
+    audience = {internationale },
+    collaboration = {CALAS },
+    year = {2009},
+    month = Jun,
+    pdf = {http://hal.archives-ouvertes.fr/hal-00485630/PDF/dynamical\_handling\_of\_SC\_activities.pdf},
+}
+
+%------------------------------------------------------------------------------%
+%---------------------------          TSP           ---------------------------%
+%------------------------------------------------------------------------------%
+@article{Angeniol1988,
+title = "Self-organizing feature maps and the travelling salesman problem",
+journal = "Neural Networks",
+volume = "1",
+number = "4",
+pages = "289 - 293",
+year = "1988",
+note = "",
+issn = "0893-6080",
+doi = "10.1016/0893-6080(88)90002-0",
+url = "http://www.sciencedirect.com/science/article/pii/0893608088900020",
+author = "Bernard Angéniol and Gaël de La Croix Vaubois and Jean-Yves Le Texier"
+}
+@book{Applegate2006,
+  title={The Traveling Salesman Problem: A Computational Study},
+  author={Applegate, D.L.},
+  isbn={9780691129938},
+  lccn={2006931528},
+  series={Princeton Series in Applied Mathematics},
+  url={http://bks5.books.google.fr/books?id=nmF4rVNJMVsC},
+  year={2006},
+  publisher={Princeton University Press}
+}
+@article{Aras1999,
+ author = {Aras, N. and Oommen, B. J. and Altinel, I. K.},
+ title = {The Kohonen network incorporating explicit statistics and its application to the travelling salesman problem},
+ journal = {Neural Netw.},
+ issue_date = {Nov. 1999},
+ volume = {12},
+ number = {9},
+ month = nov,
+ year = {1999},
+ issn = {0893-6080},
+ pages = {1273--1284},
+ numpages = {12},
+ url = {http://dx.doi.org/10.1016/S0893-6080(99)00063-5},
+ doi = {10.1016/S0893-6080(99)00063-5},
+ acmid = {339766},
+ publisher = {Elsevier Science Ltd.},
+ address = {Oxford, UK, UK},
+ keywords = {neural networks, self-organizing maps, travelling salesman problem},
+} 
+
+
+@incollection{Balas1985,
+  author    = {E. Balas and P. Toth},
+  title     = {Branch and Bound Methods},
+  booktitle = {The Traveling Salesman Problem},
+  year      = {1985},
+  pages     = {361-401},
+  editor = {E.L. Lawler et al.},
+  publisher = {John Wiley and Sons Ltd: Chichester.}
+}
+
+@book{Barricelli1957,
+  title={Symbiogenetic Evolution Processes Realized by Artificial Methods},
+  author={Barricelli, N.A.},
+  url={http://books.google.fr/books?id=FVZxGwAACAAJ},
+  year={1957}
+}
+@article{Bektas2006,
+    abstract = {{The multiple traveling salesman problem (mTSP) is a generalization of the well-known traveling salesman problem (TSP), where more than one salesman is allowed to be used in the solution. Moreover, the characteristics of the mTSP seem more appropriate for real-life applications, and it is also possible to extend the problem to a wide variety of vehicle routing problems (VRPs) by incorporating some additional side constraints. Although there exists a wide body of the literature for the TSP and the VRP, the mTSP has not received the same amount of attention. The purpose of this survey is to review the problem and its practical applications, to highlight some formulations and to describe exact and heuristic solution procedures proposed for this problem.}},
+    author = {Bektas, T.},
+    citeulike-article-id = {5879639},
+    citeulike-linkout-0 = {http://dx.doi.org/10.1016/j.omega.2004.10.004},
+    doi = {10.1016/j.omega.2004.10.004},
+    issn = {03050483},
+    journal = {Omega},
+    month = {jun},
+    number = {3},
+    pages = {209--219},
+    posted-at = {2009-10-02 22:10:23},
+    priority = {2},
+    title = {{The multiple traveling salesman problem: an overview of formulations and solution procedures}},
+    url = {http://dx.doi.org/10.1016/j.omega.2004.10.004},
+    volume = {34},
+    year = {2006}
+}
+@article{Bellman1962,
+ author = {Bellman, Richard},
+ title = {Dynamic Programming Treatment of the Travelling Salesman Problem},
+ journal = {J. ACM},
+ issue_date = {Jan. 1962},
+ volume = {9},
+ number = {1},
+ month = jan,
+ year = {1962},
+ issn = {0004-5411},
+ pages = {61--63},
+ numpages = {3},
+ url = {http://doi.acm.org/10.1145/321105.321111},
+ doi = {10.1145/321105.321111},
+ acmid = {321111},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+@article{Bellmore1974,
+ author = {Bellmore, Mandell and Hong, Saman},
+ title = {Transformation of Multisalesman Problem to the Standard Traveling Salesman Problem},
+ journal = {J. ACM},
+ issue_date = {July 1974},
+ volume = {21},
+ number = {3},
+ month = jul,
+ year = {1974},
+ issn = {0004-5411},
+ pages = {500--504},
+ numpages = {5},
+ url = {http://doi.acm.org/10.1145/321832.321847},
+ doi = {10.1145/321832.321847},
+ acmid = {321847},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+@inproceedings{Bentley1990,
+ author = {Bentley, Jon Louis},
+ title = {Experiments on traveling salesman heuristics},
+ booktitle = {Proceedings of the first annual ACM-SIAM symposium on Discrete algorithms},
+ series = {SODA '90},
+ year = {1990},
+ isbn = {0-89871-251-3},
+ location = {San Francisco, California, United States},
+ pages = {91--99},
+ numpages = {9},
+ url = {http://dl.acm.org/citation.cfm?id=320176.320186},
+ acmid = {320186},
+ publisher = {Society for Industrial and Applied Mathematics},
+ address = {Philadelphia, PA, USA},
+} 
+@ARTICLE{Budinich1996,
+    author = {Marco Budinich and Barbara Rosario},
+    title = {A self-organizing neural network for the traveling salesman problem that is competitive with simulated annealing},
+    journal = {Neural Computation},
+    year = {1996},
+    volume = {8},
+    pages = {416--424}
+}
+@ARTICLE{Bullnheimer1997,
+    author = {Bernd Bullnheimer and Richard F. Hartl and Christine Strauß},
+    title = {A New Rank Based Version of the Ant System - A Computational Study},
+    journal = {Central European Journal for Operations Research and Economics},
+    year = {1997},
+    volume = {7},
+    pages = {25--38}
+}
+
+@article{Carter2006,
+title = "A new approach to solving the multiple traveling salesperson problem using genetic algorithms",
+journal = "European Journal of Operational Research",
+volume = "175",
+number = "1",
+pages = "246 - 257",
+year = "2006",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/j.ejor.2005.04.027",
+url = "http://www.sciencedirect.com/science/article/pii/S0377221705004236",
+author = "Arthur E. Carter and Cliff T. Ragsdale",
+keywords = "Genetic algorithms",
+keywords = "Scheduling",
+keywords = "Traveling salesman"
+}
+
+@techreport{Christofides1976,
+  added-at = {2008-01-10T17:04:02.000+0100},
+  author = {Christofides, Nicos},
+  biburl = {http://www.bibsonomy.org/bibtex/2107ce5afe4cdd886e5cf863b16533205/jvrb_regulski},
+  institution = {Graduate School of Industrial Administration, Carnegie Mellon University},
+  interhash = {17c4f6224da4a8ead47972fd788d7556},
+  intrahash = {107ce5afe4cdd886e5cf863b16533205},
+  keywords = {3(2006)12},
+  number = 388,
+  timestamp = {2008-01-10T17:04:02.000+0100},
+  title = {Worst-case analysis of a new heuristic for the travelling salesman problem},
+  type = {Technical Report},
+  year = 1976
+}
+
+@article{Christofides1981,
+    abstract = {{We consider the problem of routing vehicles stationed at a central facility (depot) to supply customers with known demands, in such a way as to minimize the total distance travelled. The problem is referred to as the vehicle routing problem (VRP) and is a generalization of the multiple travelling salesman problem that has many practical applications.}},
+    author = {Christofides, N. and Mingozzi, A. and Toth, P.},
+    citeulike-article-id = {1122804},
+    citeulike-linkout-0 = {http://dx.doi.org/10.1007/BF01589353},
+    citeulike-linkout-1 = {http://www.springerlink.com/content/w1wj07883k25k703},
+    day = {1},
+    doi = {10.1007/BF01589353},
+    issn = {0025-5610},
+    journal = {Mathematical Programming},
+    keywords = {vehicle-routing-problem, wl-3l-cvrp},
+    month = dec,
+    number = {1},
+    pages = {255--282},
+    posted-at = {2010-03-22 08:24:19},
+    priority = {2},
+    publisher = {Springer Berlin / Heidelberg},
+    title = {{Exact algorithms for the vehicle routing problem, based on spanning tree and shortest path relaxations}},
+    url = {http://dx.doi.org/10.1007/BF01589353},
+    volume = {20},
+    year = {1981}
+}
+
+@article{Conway1970,
+    abstract = {{This month we consider Conway's latest brainchild, a fantastic solitaire pastime he calls ``life''. Because of its analogies with the rise, fall and alternations of a society of living organisms, it belongs to a growing class of what are called ``simulation games''---games that resemble real-life processes.}},
+    author = {Gardner, M.},
+    citeulike-article-id = {1397939},
+    journal = {Scientific American},
+    month = oct,
+    pages = {120--123},
+    posted-at = {2007-07-18 09:39:39},
+    priority = {2},
+    title = {{The fantastic combinations of John Conway's new solitaire game ``life''}},
+    volume = {223},
+    year = {1970}
+}
+
+@ARTICLE{Dantzig1954,
+    author = {G Dantzig and R Fulkerson and S Johnson},
+    title = {Solution of a large-scale traveling-salesman problem},
+    journal = {Operations Research},
+    year = {1954},
+    volume = {2},
+    pages = {393--410}
+}
+@book{Dantzig63,
+    abstract = {{<p>In real-world problems related to finance, business, and management, mathematicians and economists frequently encounter optimization problems. In this classic book, George Dantzig looks at a wealth of examples and develops linear programming methods for their solutions. He begins by introducing the basic theory of linear inequalities and describes the powerful simplex method used to solve them. Treatments of the price concept, the transportation problem, and matrix methods are also given, and key mathematical concepts such as the properties of convex sets and linear vector spaces are covered. </p><p>George Dantzig is properly acclaimed as the "father of linear programming." Linear programming is a mathematical technique used to optimize a situation. It can be used to minimize traffic congestion or to maximize the scheduling of airline flights. He formulated its basic theoretical model and discovered its underlying computational algorithm, the "simplex method," in a pathbreaking memorandum 
+published by the United States Air Force in early 1948. <i>Linear Programming and Extensions</i> provides an extraordinary account of the subsequent development of his subject, including research in mathematical theory, computation, economic analysis, and applications to industrial problems.</p><p> Dantzig first achieved success as a statistics graduate student at the University of California, Berkeley. One day he arrived for a class after it had begun, and assumed the two problems on the board were assigned for homework. When he handed in the solutions, he apologized to his professor, Jerzy Neyman, for their being late but explained that he had found the problems harder than usual. About six weeks later, Neyman excitedly told Dantzig, "I've just written an introduction to one of your papers. Read it so I can send it out right away for publication." Dantzig had no idea what he was talking about. He later learned that the "homework" problems had in fact been two famous unsolved problems in statistics.</p>}},
+    author = {Dantzig, George},
+    citeulike-article-id = {1745239},
+    citeulike-linkout-0 = {http://www.amazon.ca/exec/obidos/redirect?tag=citeulike09-20\&amp;path=ASIN/0691059136},
+    citeulike-linkout-1 = {http://www.amazon.de/exec/obidos/redirect?tag=citeulike01-21\&amp;path=ASIN/0691059136},
+    citeulike-linkout-2 = {http://www.amazon.fr/exec/obidos/redirect?tag=citeulike06-21\&amp;path=ASIN/0691059136},
+    citeulike-linkout-3 = {http://www.amazon.co.uk/exec/obidos/ASIN/0691059136/citeulike00-21},
+    citeulike-linkout-4 = {http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/0691059136},
+    citeulike-linkout-5 = {http://www.worldcat.org/isbn/0691059136},
+    citeulike-linkout-6 = {http://books.google.com/books?vid=ISBN0691059136},
+    citeulike-linkout-7 = {http://www.amazon.com/gp/search?keywords=0691059136\&index=books\&linkCode=qs},
+    citeulike-linkout-8 = {http://www.librarything.com/isbn/0691059136},
+    day = {03},
+    howpublished = {Paperback},
+    isbn = {0691059136},
+    keywords = {optimization, simplex},
+    month = {aug},
+    posted-at = {2009-02-14 21:59:48},
+    priority = {2},
+    publisher = {{Princeton University Press}},
+    title = {{Linear Programming and Extensions}},
+    url = {http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/0691059136},
+    year = {1963}
+}
+@article{Deneubourg1983,
+title = "Probabilistic behaviour in ants: A strategy of errors?",
+journal = "Journal of Theoretical Biology",
+volume = "105",
+number = "2",
+pages = "259 - 271",
+year = "1983",
+note = "",
+issn = "0022-5193",
+doi = "10.1016/S0022-5193(83)80007-1",
+url = "http://www.sciencedirect.com/science/article/pii/S0022519383800071",
+author = "J.L. Deneubourg and J.M. Pasteels and J.C. Verhaeghe"
+}
+@TECHREPORT{Dorigo1991,
+    author = {Marco Dorigo and V. Maniezzo and Alberto Colorni},
+    title = {Positive Feedback as a Search Strategy},
+    institution = {},
+    year = {1991}
+}
+@phdthesis{Dorigo1992,
+    author = {Dorigo, M.},
+    citeulike-article-id = {6415913},
+    keywords = {ant, learning, swarm},
+    posted-at = {2009-12-21 09:47:17},
+    priority = {0},
+    school = {Politecnico di Milano, Italy},
+    title = {{Optimization, Learning and Natural Algorithms}},
+    year = {1992}
+}
+@article{Dorigo1997,
+    author = {Dorigo, Marco and Gambardella, Luca M.},
+    citeulike-article-id = {149346},
+    citeulike-linkout-0 = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.7734},
+    journal = {IEEE Transactions on Evolutionary Computation},
+    keywords = {ai, ants, optimization, tsp},
+    month = apr,
+    number = {1},
+    pages = {53--66},
+    posted-at = {2005-04-04 19:02:59},
+    priority = {2},
+    title = {{Ant Colony System: A Cooperative Learning Approach to the Traveling Salesman Problem}},
+    url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.7734},
+    volume = {1},
+    year = {1997}
+}
+@article{Dorigo2005,
+    abstract = {{Research on a new metaheuristic for optimization is often initially focused on proof-of-concept applications. It is only after experimental work has shown the practical interest of the method that researchers try to deepen their understanding of the method's functioning not only through more and more sophisticated experiments but also by means of an effort to build a theory. Tackling questions such as  ” how and why the method works'' is important, because finding an answer may help in improving its applicability. Ant colony optimization, which was introduced in the early 1990s as a novel technique for solving hard combinatorial optimization problems, finds itself currently at this point of its life cycle. With this article we provide a survey on theoretical results on ant colony optimization. First, we review some convergence results. Then we discuss relations between ant colony optimization algorithms and other approximate methods for optimization. Finally, we focus on some research 
+efforts directed at gaining a deeper understanding of the behavior of ant colony optimization algorithms. Throughout the paper we identify some open questions with a certain interest of being solved in the near future.}},
+    address = {Essex, UK},
+    author = {Dorigo, M. and Blum, C.},
+    citeulike-article-id = {1197747},
+    citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1125369},
+    citeulike-linkout-1 = {http://dx.doi.org/10.1016/j.tcs.2005.05.020},
+    citeulike-linkout-2 = {http://www.sciencedirect.com/science/article/B6V1G-4GSJTVN-2/2/2c61a7f14dd9850df1982ca35800c0d9},
+    day = {17},
+    doi = {10.1016/j.tcs.2005.05.020},
+    issn = {03043975},
+    journal = {Theoretical Computer Science},
+    month = nov,
+    number = {2-3},
+    pages = {243--278},
+    posted-at = {2009-02-11 13:06:04},
+    priority = {2},
+    publisher = {Elsevier Science Publishers Ltd.},
+    title = {{Ant colony optimization theory: A survey}},
+    url = {http://dx.doi.org/10.1016/j.tcs.2005.05.020},
+    volume = {344},
+    year = {2005}
+}
+
+@article{Durbin1987,
+    author = {Durbin, R. and Willshaw, D.},
+    citeulike-article-id = {793140},
+    journal = {Nature},
+    keywords = {lsb},
+    pages = {689--691},
+    posted-at = {2006-08-10 13:53:41},
+    priority = {2},
+    title = {{An analogue approach to the travelling salesman problem using an elastic net method}},
+    volume = {326},
+    year = {1987}
+}
+
+@article{Durbin1989,
+ author = {Durbin, Richard and Szeliski, Richard and Yuille, Alan},
+ title = {An analysis of the elastic net approach to the traveling salesman problem},
+ journal = {Neural Comput.},
+ issue_date = {Fall 1989},
+ volume = {1},
+ number = {3},
+ month = sep,
+ year = {1989},
+ issn = {0899-7667},
+ pages = {348--358},
+ numpages = {11},
+ url = {http://dx.doi.org/10.1162/neco.1989.1.3.348},
+ doi = {10.1162/neco.1989.1.3.348},
+ acmid = {1351117},
+ publisher = {MIT Press},
+ address = {Cambridge, MA, USA},
+}
+
+@article {Favala1991,
+   author = {Favata, F. and Walker, R.},
+   affiliation = {European Space Agency, ESTEC Space Science Department Postbus 299 2200AG Noordwijk The Netherlands Postbus 299 2200AG Noordwijk The Netherlands},
+   title = {A study of the application of Kohonen-type neural networks to the Travelling Salesman Problem},
+   journal = {Biological Cybernetics},
+   publisher = {Springer Berlin / Heidelberg},
+   issn = {0340-1200},
+   keyword = {Biomédecine et Sciences de la vie},
+   pages = {463-468},
+   volume = {64},
+   issue = {6},
+   url = {http://dx.doi.org/10.1007/BF00202610},
+   note = {10.1007/BF00202610},
+   year = {1991}
+}
+
+@article{Ferretti2006317,
+title = "Production–inventory scheduling using Ant System metaheuristic",
+journal = "International Journal of Production Economics",
+volume = "104",
+number = "2",
+pages = "317 - 326",
+year = "2006",
+note = "<ce:title>Theoretical Issues in Production Scheduling and Control &amp; Planning and Control of Supply Chains and Production</ce:title> <xocs:full-name>13th International Working Seminar on Production Economics</xocs:full-name>",
+issn = "0925-5273",
+doi = "10.1016/j.ijpe.2005.01.008",
+url = "http://www.sciencedirect.com/science/article/pii/S0925527305000460",
+author = "Ivan Ferretti and Simone Zanoni and Lucio Zavanella",
+keywords = "Ant System",
+keywords = "Metaheuristics",
+keywords = "Scheduling",
+keywords = "Continuous casting"
+}
+@INPROCEEDINGS{Fogel1990,
+    author = {D. B. Fogel},
+    title = {A Parallel Processing Approach to a Multiple Traveling Salesman Problem Using Evolutionary Programming},
+    booktitle = {Proceedings on the Fourth Annual Parallel Processing Symposium},
+    year = {1990},
+    pages = {318-326}
+}
+
+@article{Franca1995,
+author = {França, Paulo M. and Gendreau, Michel and Laporte, Gilbert and Müller, Felipe M.}, 
+title = {The m-Traveling Salesman Problem with Minmax Objective}, 
+volume = {29}, 
+number = {3}, 
+pages = {267-275}, 
+year = {1995}, 
+doi = {10.1287/trsc.29.3.267}, 
+abstract ={This article proposes algorithms for the Minmax version of the m-Traveling Salesman Problem in which the objective is to minimize the length of the longest route. A tabu search heuristic and two exact search schemes are developed. Problems involving up to 50 vertices are solved to optimality.}, 
+URL = {http://transci.journal.informs.org/content/29/3/267.abstract}, 
+eprint = {http://transci.journal.informs.org/content/29/3/267.full.pdf+html}, 
+journal = {Transportation Science} 
+}
+
+@article{Fraser1957,
+    author = {Fraser, A. S.},
+    citeulike-article-id = {3885873},
+    journal = {Australian Journal of Biological Science},
+    keywords = {file-import-09-01-14},
+    pages = {492--499},
+    posted-at = {2009-01-14 17:02:09},
+    priority = {2},
+    title = {{Simulation of genetic systems by automatic digital computers. II. Effects of linkage on rates of advance under selection}},
+    volume = {10},
+    year = {1957}
+}
+
+@INPROCEEDINGS{Gambardella1995,
+    author = {Luca M. Gambardella and Marco Dorigo and Université Libre De Bruxelles},
+    title = {Ant-Q: A Reinforcement Learning approach to the traveling salesman problem},
+    booktitle = {},
+    year = {1995},
+    pages = {252--260},
+    publisher = {Morgan Kaufmann}
+}
+@article{Gavish1986,
+ author = {Gavish, B. and Srikanth, K.},
+ title = {An optimal solution method for large-scale multiple traveling salesmen problems},
+ journal = {Oper. Res.},
+ issue_date = {Sept.-Oct. 1986},
+ volume = {34},
+ number = {5},
+ month = oct,
+ year = {1986},
+ issn = {0030-364X},
+ pages = {698--717},
+ numpages = {20},
+ url = {http://dx.doi.org/10.1287/opre.34.5.698},
+ doi = {10.1287/opre.34.5.698},
+ acmid = {40287},
+ publisher = {INFORMS},
+ address = {Institute for Operations Research and the Management Sciences (INFORMS), Linthicum, Maryland, USA},
+}
+
+@ARTICLE{Gendreau1994,
+title = {A Tabu Search Heuristic for the Vehicle Routing Problem},
+author = {Gendreau, Michel and Hertz, Alain and Laporte, Gilbert},
+year = {1994},
+journal = {Management Science},
+volume = {40},
+number = {10},
+pages = {1276-1290},
+keywords = {vehicle routing problem; tabu search; generalized insertion},
+url = {http://EconPapers.repec.org/RePEc:inm:ormnsc:v:40:y:1994:i:10:p:1276-1290}
+}
+
+@Article{Gendreau1996,
+  author={Gendreau, Michel and Laporte, Gilbert and Seguin, Rene},
+  title={Stochastic vehicle routing},
+  journal={European Journal of Operational Research},
+  year=1996,
+  volume={88},
+  number={1},
+  pages={3-12},
+  month={January},
+  keywords={},
+  abstract={No abstract is available for this item.},
+  url={http://ideas.repec.org/a/eee/ejores/v88y1996i1p3-12.html}
+}
+
+@article{Geurts1998,
+ author = {Geurts, Fr{\'e}d{\'e}ric},
+ title = "ANTS'98 - From ant colonies to artificial ants: First International Workshop on Ant Colony Optimization",
+ journal = {AI Commun.},
+ issue_date = {December 1998},
+ volume = {11},
+ number = {3,4},
+ month = dec,
+ year = {1998},
+ issn = {0921-7126},
+ pages = {241--242},
+ numpages = {2},
+ url = {http://dl.acm.org/citation.cfm?id=1216122.1216133},
+ acmid = {1216133},
+ publisher = {IOS Press},
+ address = {Amsterdam, The Netherlands, The Netherlands},
+}
+@article{Glover1986,
+ author = {Glover, Fred and McMillan, Claude},
+ title = {The general employee scheduling problem: an integration of MS and AI},
+ journal = {Comput. Oper. Res.},
+ issue_date = {May 1986},
+ volume = {13},
+ number = {5},
+ month = may,
+ year = {1986},
+ issn = {0305-0548},
+ pages = {563--573},
+ numpages = {11},
+ url = {http://dx.doi.org/10.1016/0305-0548(86)90050-X},
+ doi = {10.1016/0305-0548(86)90050-X},
+ acmid = {15313},
+ publisher = {Elsevier Science Ltd.},
+ address = {Oxford, UK, UK},
+}
+@article{Glover1989,
+    author = {Glover, F.},
+    citeulike-article-id = {1438112},
+    journal = {ORSA Journal on Computing},
+    keywords = {minimization},
+    number = {3},
+    pages = {190--206},
+    posted-at = {2007-07-05 17:43:28},
+    priority = {0},
+    title = {{Tabu Search — Part I}},
+    volume = {1},
+    year = {1989}
+}
+@article{Glover1990,
+  author    = {Fred Glover},
+  title     = {Tabu Search - Part II},
+  journal   = {INFORMS Journal on Computing},
+  volume    = {2},
+  number    = {1},
+  year      = {1990},
+  pages     = {4-32},
+  ee        = {http://dx.doi.org/10.1287/ijoc.2.1.4},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@article{Grasse1959,
+  title = {La reconstruction du nid et les coordinations interindividuelles chez bellicositermes natalensis et cubitermes sp. La théorie de la stigmergie: essai d'interpréetation du comportement des termites constructeurs},
+  author = {Pierre-Paul Grassé},
+  year = {1959},
+  researchr = {http://researchr.org/publication/Grasse1959stigmergy},
+  cites = {0},
+  citedby = {0},
+  journal = {Insectes Sociaux},
+  volume = {6},
+}
+
+@incollection{Gromicho1992,
+  author    = {Gromicho J and Pixao J and Branco I},
+  title     = {Exact solution of multiple traveling salesman problems},
+  booktitle = {Combinatorial optimization},
+  year      = {1992},
+  pages     = {291-292},
+  series = {NATO ASI Series},
+  volume = {F82}
+  publisher = {Springer},
+  editor = {Mustafa Akg\"ul et al.}
+  adress	= {Berlin},
+}
+
+@article{Gutjahr2000,
+  author    = {Walter J. Gutjahr},
+  title     = {A Graph-based Ant System and its convergence},
+  journal   = {Future Generation Comp. Syst.},
+  volume    = {16},
+  number    = {8},
+  year      = {2000},
+  pages     = {873-888},
+  ee        = {http://dx.doi.org/10.1016/S0167-739X(00)00044-3},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@article{Goss1989,
+    author = {Goss, S. and Aron, S. and Deneubourg, J. and Pasteels, J.},
+    citeulike-article-id = {1714212},
+    citeulike-linkout-0 = {http://dx.doi.org/10.1007/BF00462870},
+    day = {29},
+    doi = {10.1007/BF00462870},
+    journal = {Naturwissenschaften},
+    month = dec,
+    number = {12},
+    pages = {579--581},
+    posted-at = {2007-10-01 08:33:55},
+    priority = {3},
+    title = {{Self-organized shortcuts in the Argentine ant}},
+    url = {http://dx.doi.org/10.1007/BF00462870},
+    volume = {76},
+    year = {1989}
+}
+
+@inproceedings{Held1961,
+ author = {Held, Michael and Karp, Richard M.},
+ title = {A dynamic programming approach to sequencing problems},
+ booktitle = {Proceedings of the 1961 16th ACM national meeting},
+ series = {ACM '61},
+ year = {1961},
+ pages = {71.201--71.204},
+ numpages = {1.003},
+ url = {http://doi.acm.org/10.1145/800029.808532},
+ doi = {10.1145/800029.808532},
+ acmid = {808532},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+@book{Holland1975,
+  title={Adaptation in Natural and Artificial Systems},
+  volume={Ann Arbor},
+  url={http://www.citeulike.org/group/664/article/400721},
+  number={53},
+  journal={Ann Arbor MI University of Michigan Press},
+  publisher={University of Michigan Press},
+  author={Holland, J H},
+  editor={Holland, J HEditor},
+  year={1975},
+  pages={1--200?}
+}
+@ARTICLE{Hopfield1982,
+  author = {Hopfield, J. J.},
+  title = {{Neural networks and physical systems with emergent collective computational
+	abilities}},
+  journal = {Proceedings of the National Academy of Sciences},
+  year = {1982},
+  volume = {79},
+  pages = {2554--2558},
+  number = {8},
+  month = apr,
+  abstract = {{Computational properties of use of biological organisms or to the
+	construction of computers can emerge as collective properties of
+	systems having a large number of simple equivalent components (or
+	neurons). The physical meaning of content-addressable memory is described
+	by an appropriate phase space flow of the state of a system. A model
+	of such a system is given, based on aspects of neurobiology but readily
+	adapted to integrated circuits. The collective properties of this
+	model produce a content-addressable memory which correctly yields
+	an entire memory from any subpart of sufficient size. The algorithm
+	for the time evolution of the state of the system is based on asynchronous
+	parallel processing. Additional emergent collective properties include
+	some capacity for generalization, familiarity recognition, categorization,
+	error correction, and time sequence retention. The collective properties
+	are only weakly sensitive to details of the modeling or the failure
+	of individual devices.}},
+  citeulike-article-id = {878138},
+  citeulike-linkout-0 = {http://www.pnas.org/content/79/8/2554.abstract},
+  citeulike-linkout-1 = {http://www.pnas.org/content/79/8/2554.full.pdf},
+  citeulike-linkout-2 = {http://www.pnas.org/cgi/content/abstract/79/8/2554},
+  citeulike-linkout-3 = {http://view.ncbi.nlm.nih.gov/pubmed/6953413},
+  citeulike-linkout-4 = {http://www.hubmed.org/display.cgi?uids=6953413},
+  day = {01},
+  issn = {1091-6490},
+  keywords = {rnn},
+  pmid = {6953413},
+  posted-at = {2008-11-14 15:34:26},
+  priority = {2},
+  publisher = {National Academy of Sciences},
+  url = {http://www.pnas.org/content/79/8/2554.abstract}
+}
+
+@article{Hopfield1985,
+  added-at = {2008-09-29T18:25:59.000+0200},
+  author = {Hopfield, J.J. and Tank, D.W.},
+  biburl = {http://www.bibsonomy.org/bibtex/23e00f06589ac9c006738d9a3e2d3786d/mcdiaz},
+  interhash = {39f85d4c44d38b2f83625026f5fbacd3},
+  intrahash = {3e00f06589ac9c006738d9a3e2d3786d},
+  journal = {Biological Cybernetics},
+  keywords = {imported},
+  pages = {141--152},
+  timestamp = {2008-09-29T18:25:59.000+0200},
+  title = {Neural Computation of Decisions in Optimization Problems},
+  volume = 52,
+  year = 1985
+}
+
+@inproceedings{Hsu1991,
+    address = {Piscataway, NJ},
+    author = {Hsu, Chau Y. and Tsai, Meng H. and Chen, Wei M.},
+    booktitle = {Proc. Int. Symp. on Circuits and Systems},
+    citeulike-article-id = {793668},
+    keywords = {lsb},
+    pages = {1589--1592},
+    posted-at = {2006-08-10 13:53:49},
+    priority = {2},
+    publisher = {IEEE Service Center},
+    title = {{A study of feature-mapped approach to the multiple travelling salesmen problem}},
+    volume = {II},
+    year = {1991}
+}
+
+@inproceedings{Johnson1990,
+ author = {Johnson, David S.},
+ title = {Local optimization and the traveling salesman problem},
+ booktitle = {Proceedings of the seventeenth international colloquium on Automata, languages and programming},
+ year = {1990},
+ isbn = {0-387-52826-1},
+ location = {Warwick University, England},
+ pages = {446--461},
+ numpages = {16},
+ url = {http://dl.acm.org/citation.cfm?id=90397.92347},
+ acmid = {92347},
+ publisher = {Springer-Verlag New York, Inc.},
+ address = {New York, NY, USA},
+} 
+@inbook{Johnson1997,
+    abstract = {{This is a preliminary version of a chapter that appeared in the book Local Search in Combinatorial Optimization, E. H. L. Aarts and J. K. Lenstra (eds.), John Wiley and Sons, London, 1997, pp. 215-310. The traveling salesman problem (TSP) has been an early proving ground for many approaches to combinatorial optimization, including classical local optimization techniques as well as many of the more recent variants on local optimization, such as simulated annealing, tabu search, neural networks, and genetic algorithms. This chapter discusses how these various approaches have been adapted to the TSP and evaluates their relative success in this perhaps atypical domain from both a}},
+    author = {Johnson, David S. and Mcgeoch, Lyle A.},
+    booktitle = {Local Search in Combinatorial Optimization},
+    citeulike-article-id = {4911157},
+    citeulike-linkout-0 = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.92.1635},
+    keywords = {tsp},
+    posted-at = {2009-06-19 20:33:22},
+    priority = {2},
+    title = {{The Traveling Salesman Problem: A Case Study in Local Optimization}},
+    url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.92.1635},
+    year = {1997}
+}
+@article{Jonker1988,
+ author = {Jonker, Roy and Volgenant, Ton},
+ title = {An improved transformation of the symmetric multiple traveling salesman problem},
+ journal = {Oper. Res.},
+ issue_date = {January-February 1988},
+ volume = {36},
+ number = {1},
+ month = jan,
+ year = {1988},
+ issn = {0030-364X},
+ pages = {163--167},
+ numpages = {5},
+ url = {http://dx.doi.org/10.1287/opre.36.1.163},
+ doi = {10.1287/opre.36.1.163},
+ acmid = {50489},
+ publisher = {INFORMS},
+ address = {Institute for Operations Research and the Management Sciences (INFORMS), Linthicum, Maryland, USA},
+} 
+@inproceedings{Junjie2006,
+ author = {Junjie, Pan and Dingwei, Wang},
+ title = {An Ant Colony Optimization Algorithm for Multiple Travelling Salesman Problem},
+ booktitle = {Proceedings of the First International Conference on Innovative Computing, Information and Control - Volume 1},
+ series = {ICICIC '06},
+ year = {2006},
+ isbn = {0-7695-2616-0},
+ pages = {210--213},
+ numpages = {4},
+ url = {http://dx.doi.org/10.1109/ICICIC.2006.40},
+ doi = {10.1109/ICICIC.2006.40},
+ acmid = {1156757},
+ publisher = {IEEE Computer Society},
+ address = {Washington, DC, USA},
+} 
+@article{Kahng2004,
+title = "Match twice and stitch: a new TSP tour construction heuristic",
+journal = "Operations Research Letters",
+volume = "32",
+number = "6",
+pages = "499 - 509",
+year = "2004",
+note = "",
+issn = "0167-6377",
+doi = "10.1016/j.orl.2004.04.001",
+url = "http://www.sciencedirect.com/science/article/pii/S0167637704000471",
+author = "Andrew B Kahng and Sherief Reda",
+keywords = "Traveling salesman problem",
+keywords = "Heuristic",
+keywords = "Tour construction"
+  }
+@incollection{Kiraly2011,
+  author    = {Andr{\'a}s Kir{\'a}ly and
+               J{\'a}nos Abonyi},
+  title     = {Optimization of Multiple Traveling Salesmen Problem by a
+               Novel Representation Based Genetic Algorithm},
+  booktitle = {Intelligent Computational Optimization in Engineering},
+  year      = {2011},
+  pages     = {241-269},
+  ee        = {http://dx.doi.org/10.1007/978-3-642-21705-0_9},
+  crossref  = {DBLP:series/sci/2011-366},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@ARTICLE{Kirkpatrick1983,
+    author = {S. Kirkpatrick and C. D. Gelatt and M. P. Vecchi},
+    title = {Optimization by simulated annealing},
+    journal = {Science},
+    year = {1983},
+    volume = {220},
+    pages = {671--680}
+}
+@article{Knox1994,
+title = "Tabu search performance on the symmetric traveling salesman problem",
+journal = "Computers and Operations Research",
+volume = "21",
+number = "8",
+pages = "867 - 876",
+year = "1994",
+note = "Heuristic, Genetic and Tabu Search",
+issn = "0305-0548",
+doi = "10.1016/0305-0548(94)90016-7",
+url = "http://www.sciencedirect.com/science/article/pii/0305054894900167",
+author = "John Knox"
+}
+@ARTICLE{Kohonen1982,
+  author = {Kohonen, Teuvo},
+  title = {Self-organized formation of topologically correct feature maps},
+  journal = {Biological Cybernetics},
+  year = {1982},
+  volume = {43},
+  pages = {59-69},
+  note = {10.1007/BF00337288},
+  issn = {0340-1200},
+  issue = {1},
+  keyword = {Biomédecine et Sciences de la vie},
+  publisher = {Springer Berlin / Heidelberg},
+  url = {http://dx.doi.org/10.1007/BF00337288}
+}
+@article{Kruskal1956,
+    author = {Kruskal, Joseph B.},
+    citeulike-article-id = {4031585},
+    citeulike-linkout-0 = {http://www.jstor.org/stable/2033241},
+    journal = {Proceedings of the American Mathematical Society},
+    keywords = {efficient-algorithms},
+    month = feb,
+    number = {1},
+    pages = {48--50},
+    posted-at = {2009-02-10 18:40:13},
+    priority = {2},
+    publisher = {American Mathematical Society},
+    title = {{On the Shortest Spanning Subtree of a Graph and the Traveling Salesman Problem}},
+    url = {http://www.jstor.org/stable/2033241},
+    volume = {7},
+    year = {1956}
+}
+@article{Laporte1980,
+    abstract = {{The existence of reliable and flexible FORTRAN programs for integer linear programming has recently enabled the development of very efficient algorithms for the travelling salesman problem. The main characteristic of these algorithms is the relaxation of most of the constraints of the problem during its solution. The same approach can be used for the solution of the m-salesmen problem in which m salesmen starting from the same city must visit only once n cities at minimum cost. The number of salesmen can be fixed in advance or allowed to vary, upper and lower bounds set on the number of salesmen and even fixed costs associated with the salesmen. The results obtained so far are very encouraging. Problems of up to 100 cities have been solved optimally for the m-travelling salesmen case and other more complex problems are currently under study.}},
+    author = {Laporte, Gilbert and Nobert, Yves},
+    citeulike-article-id = {5891254},
+    citeulike-linkout-0 = {http://dx.doi.org/10.2307/2581282},
+    citeulike-linkout-1 = {http://www.jstor.org/stable/2581282},
+    doi = {10.2307/2581282},
+    issn = {01605682},
+    journal = {The Journal of the Operational Research Society},
+    number = {11},
+    pages = {1017--1023},
+    posted-at = {2009-10-05 16:29:23},
+    priority = {2},
+    publisher = {Palgrave Macmillan Journals on behalf of the Operational Research Society},
+    title = {{A Cutting Planes Algorithm for the m-Salesmen Problem}},
+    url = {http://dx.doi.org/10.2307/2581282},
+    volume = {31},
+    year = {1980}
+}
+@article {Laporte1988,
+    author       = {Laporte, Gilbert and Nobert, Yves and Taillefer, Serge},
+    title        = {Solving a family of multi-depot vehicle routing and location-routing problems.},
+    year         = {1988},
+    journal      = {Transportation Science},
+    volume       = {22},
+    number       = {3},
+    issn         = {0041-1655},
+    pages        = {161-172},
+    publisher    = {INFORMS, Hanover, MD},
+    doi          = {10.1287/trsc.22.3.161},
+    abstract     = {The authors consider three asymmetric multi-depot vehicle routing and location-routing problems, under capacity and cost constraints. They show how, after an appropriate graph transformation, these problems can be formulated in a unified way as constrained assignment problems. A solution approach based on the branch-and-bound method by {\it G. Carpaneto} and {\it P. Toth} [Manage. Sci. 26, 736-743 (1980; Zbl 0445.90089)] for the asymmetric TSP is presented. The subproblems that arise are all assignment problems and can thus be solved efficiently. The various side constraints are taken into acount in the branching process, by fixing some of the variables at zero or one, thereby preserving the assignment structure. Computational results indicate that problems of relatively large sizes can be solved to optimality.},
+    reviewer     = {M.Savelsbergh},
+    identifier   = {04083349},
+}
+@article {Larranaga1999,
+   author = {Larrañaga, P. and Kuijpers, C.M.H. and Murga, R.H. and Inza, I. and Dizdarevic, S.},
+   title = {Genetic Algorithms for the Travelling Salesman Problem: A Review of Representations and Operators},
+   journal = {Artificial Intelligence Review},
+   publisher = {Springer Netherlands},
+   issn = {0269-2821},
+   keyword = {Informatique},
+   pages = {129-170},
+   volume = {13},
+   issue = {2},
+   url = {http://dx.doi.org/10.1023/A:1006529012972},
+   note = {10.1023/A:1006529012972},
+   year = {1999}
+}
+
+@article{Leung2004,
+  author    = {Kwong-Sak Leung and
+               Huidong Jin and
+               Zongben Xu},
+  title     = {An expanding self-organizing neural network for the traveling
+               salesman problem},
+  journal   = {Neurocomputing},
+  volume    = {62},
+  year      = {2004},
+  pages     = {267-292},
+  ee        = {http://dx.doi.org/10.1016/j.neucom.2004.02.006},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{Lin1973,
+    abstract = {{This paper discusses a highly effective heuristic procedure for generating optimum and near-optimum solutions for the symmetric traveling-salesman problem. The procedure is based on a general approach to heuristics that is believed to have wide applicability in combinatorial optimization problems. The procedure produces optimum solutions for all problems tested, "classical" problems appearing in the literature, as well as randomly generated test problems, up to 110 cities. Run times grow approximately as n2; in absolute terms, a typical 100-city problem requires less than 25 seconds for one case (GE635), and about three minutes to obtain the optimum with above 95 per cent confidence. 10.1287/opre.21.2.498}},
+    author = {Lin, S. and Kernighan, B. W.},
+    citeulike-article-id = {6889334},
+    citeulike-linkout-0 = {http://dx.doi.org/10.1287/opre.21.2.498},
+    citeulike-linkout-1 = {http://or.journal.informs.org/cgi/content/abstract/21/2/498},
+    day = {1},
+    doi = {10.1287/opre.21.2.498},
+    journal = {Operations Research},
+    month = mar,
+    number = {2},
+    pages = {498--516},
+    posted-at = {2010-04-20 21:24:28},
+    priority = {0},
+    title = {{An Effective Heuristic Algorithm for the Traveling-Salesman Problem}},
+    url = {http://dx.doi.org/10.1287/opre.21.2.498},
+    volume = {21},
+    year = {1973}
+}
+@article{Little1963,
+author = {{J.D.C}. Little and {K.G}. Murty and {D.W}. Sweeney and C. Karel},
+title = {An algorithm for the travelling salesman problem},
+journal = {Operations Research},
+volume = {11},
+pages = {972--989},
+year = {1963} 
+}
+
+@misc{Lund1996,
+    author = {Lund, Karsten and Oli and Rygaard, Jens M.},
+    citeulike-article-id = {1740017},
+    keywords = {bibtex-import},
+    posted-at = {2007-10-08 09:08:06},
+    priority = {0},
+    publisher = {IMM, The Department of Mathematical Modelling, Technical University of Denmark},
+    title = {{Vehicle Routing Problems with Varying Degrees of Dynamism}},
+    type = {Technical Report},
+    year = {1996}
+}
+
+@article {Malek1989,
+   author = {Malek, Miroslaw and Guruswamy, Mohan and Pandya, Mihir and Owens, Howard},
+   affiliation = {Department of Electrical and Computer Engineering The University of Texas at Austin 78712 Austin Texas USA},
+   title = {Serial and parallel simulated annealing and tabu search algorithms for the traveling salesman problem},
+   journal = {Annals of Operations Research},
+   publisher = {Springer Netherlands},
+   issn = {0254-5330},
+   keyword = {Economie et Gestion},
+   pages = {59-84},
+   volume = {21},
+   issue = {1},
+   url = {http://dx.doi.org/10.1007/BF02022093},
+   note = {10.1007/BF02022093},
+   year = {1989}
+}
+
+@article{Malmborg1996,
+title = "A genetic algorithm for service level based vehicle scheduling",
+journal = "European Journal of Operational Research",
+volume = "93",
+number = "1",
+pages = "121 - 134",
+year = "1996",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/0377-2217(95)00185-9",
+url = "http://www.sciencedirect.com/science/article/pii/0377221795001859",
+author = "Charles J. Malmborg",
+keywords = "Vehicle scheduling",
+keywords = "Routing",
+keywords = "Traveling salesman problem",
+keywords = "Unit periods of waiting",
+keywords = "Heuristic solution procedure",
+keywords = "Genetic algorithm"
+}
+
+@ARTICLE{Martin1991,
+    author = {Olivier Martin and Steve W. Otto and Edward W. Felten},
+    title = {Large-Step Markov Chains for the Traveling Salesman Problem},
+    journal = {Complex Systems},
+    year = {1991},
+    volume = {5},
+    pages = {299--326}
+}
+@ARTICLE{McCulloch1943,
+  author = {McCulloch, Warren S. and Pitts, Walter},
+  title = {{A logical calculus of the ideas immanent in nervous activity}},
+  journal = {Bulletin of Mathematical Biology},
+  year = {1943},
+  volume = {5},
+  pages = {115--133},
+  number = {4},
+  month = dec,
+  abstract = {{Because of the ” all-or-none” character of nervous activity, neural
+	events and the relations among them can be treated by means of propositional
+	logic. It is found that the behavior of every net can be described
+	in these terms, with the addition of more complicated logical means
+	for nets containing circles; and that for any logical expression
+	satisfying certain conditions, one can find a net behaving in the
+	fashion it describes. It is shown that many particular choices among
+	possible neurophysiological assumptions are equivalent, in the sense
+	that for every net behaving under one assumption, there exists another
+	net which behaves under the other and gives the same results, although
+	perhaps not in the same time. Various applications of the calculus
+	are discussed.}},
+  citeulike-article-id = {1295398},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1007/BF02478259},
+  citeulike-linkout-1 = {http://www.springerlink.com/content/61446605110620kg},
+  day = {21},
+  doi = {10.1007/BF02478259},
+  issn = {0007-4985},
+  keywords = {coding, networks, neural, reference},
+  posted-at = {2008-06-22 17:36:21},
+  priority = {0},
+  publisher = {Springer New York},
+  url = {http://dx.doi.org/10.1007/BF02478259}
+}
+@incollection{Menger1928,
+ author = {K. Menger},
+ title = {Ein Theorem über die Bogenlänge, Anzeiger},
+ publisher = {Akademie der Wissenschaften in Wien},
+ booktitle = {Mathematisch-naturwissenschaftliche Klasse 65},
+ pages = {264–266},
+ year = {1928}
+}
+@article{Metropolis1953,
+    abstract = {{A general method, suitable for fast computing machines, for investigating such properties as equations of state for substances consisting of interacting individual molecules is described. The method consists of a modified Monte Carlo integration over configuration space. Results for the two‐dimensional rigid‐sphere system have been obtained on the Los Alamos MANIAC and are presented here. These results are compared to the free volume equation of state and to a four‐term virial coefficient expansion.}},
+    author = {Metropolis, Nicholas and Rosenbluth, Arianna W. and Rosenbluth, Marshall N. and Teller, Augusta H. and Teller, Edward},
+    citeulike-article-id = {531300},
+    citeulike-linkout-0 = {http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal\&id=JCPSA6000021000006001087000001\&idtype=cvips\&gifs=yes},
+    citeulike-linkout-1 = {http://link.aip.org/link/?JCP/21/1087},
+    citeulike-linkout-2 = {http://dx.doi.org/10.1063/1.1699114},
+    doi = {10.1063/1.1699114},
+    issn = {00219606},
+    journal = {The Journal of Chemical Physics},
+    keywords = {annealing, simulated},
+    number = {6},
+    pages = {1087--1092},
+    posted-at = {2008-03-26 21:50:35},
+    priority = {2},
+    publisher = {AIP},
+    title = {{Equation of State Calculations by Fast Computing Machines}},
+    url = {http://dx.doi.org/10.1063/1.1699114},
+    volume = {21},
+    year = {1953}
+}
+@article{Miller1960,
+ author = {Miller, C. E. and Tucker, A. W. and Zemlin, R. A.},
+ title = {Integer Programming Formulation of Traveling Salesman Problems},
+ journal = {J. ACM},
+ issue_date = {Oct. 1960},
+ volume = {7},
+ number = {4},
+ month = oct,
+ year = {1960},
+ issn = {0004-5411},
+ pages = {326--329},
+ numpages = {4},
+ url = {http://doi.acm.org/10.1145/321043.321046},
+ doi = {10.1145/321043.321046},
+ acmid = {321046},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+@book{Minsky1969,
+  title={Perceptrons: An Introduction to Computational Geometry},
+  author={Minsky, M. and Papert, S.},
+  url={http://books.google.fr/books?id=36E0QgAACAAJ},
+  year={1969},
+  publisher={The MIT Press}
+}
+
+@article{Mitrovic-Minic2006,
+  title={The multiple TSP with time windows: vehicle bounds based on precedence graphs},
+  volume={34}, url={http://linkinghub.elsevier.com/retrieve/pii/S0167637705000295},
+  number={1}, journal={Operations Research Letters},
+  author={Mitrovic-Minic, S and Krishnamurti, R},
+  year={2006},
+  pages={111--120}
+}
+
+@article {Modares1999,
+author = {Modares, A. and Somhom, S. and Enkawa, T.},
+title = {A self-organizing neural network approach for multiple traveling salesman and vehicle routing problems},
+journal = {International Transactions in Operational Research},
+volume = {6},
+number = {6},
+publisher = {Blackwell Publishing Ltd},
+issn = {1475-3995},
+url = {http://dx.doi.org/10.1111/j.1475-3995.1999.tb00175.x},
+doi = {10.1111/j.1475-3995.1999.tb00175.x},
+pages = {591--606},
+keywords = {Neural networks, Optimization, Travelling salesman problem, Routing problems},
+year = {1999},
+}
+
+@book{Neumann1966,
+ author = {Neumann, John Von},
+ editor = {Burks, Arthur W.},
+ title = {Theory of Self-Reproducing Automata},
+ year = {1966},
+ publisher = {University of Illinois Press},
+ address = {Champaign, IL, USA},
+} 
+
+@article{Park2001,
+title = "A hybrid genetic algorithm for the vehicle scheduling problem with due times and time deadlines",
+journal = "International Journal of Production Economics",
+volume = "73",
+number = "2",
+pages = "175 - 188",
+year = "2001",
+note = "",
+issn = "0925-5273",
+doi = "10.1016/S0925-5273(00)00174-2",
+url = "http://www.sciencedirect.com/science/article/pii/S0925527300001742",
+author = "Yang-Byung Park",
+keywords = "Vehicle scheduling problem",
+keywords = "Service due times",
+keywords = "Service time deadlines",
+keywords = "Hybrid genetic algorithm",
+keywords = "Sensitivity analysis"
+}
+@article{Prim1957,
+    author = {Prim, R. C.},
+    citeulike-article-id = {1698953},
+    journal = {Bell System Technology Journal},
+    pages = {1389--1401},
+    posted-at = {2008-07-25 23:02:28},
+    priority = {2},
+    title = {{Shortest connection networks and some generalizations}},
+    volume = {36},
+    year = {1957}
+}
+@article {Ray2007,
+   author = {Ray, Shubhra and Bandyopadhyay, Sanghamitra and Pal, Sankar},
+   affiliation = {Indian Statistical Institute Center for Soft Computing Research: A National Facility Kolkata 700108 India},
+   title = {Genetic operators for combinatorial optimization in TSP and microarray gene ordering},
+   journal = {Applied Intelligence},
+   publisher = {Springer Netherlands},
+   issn = {0924-669X},
+   keyword = {Informatique},
+   pages = {183-195},
+   volume = {26},
+   issue = {3},
+   url = {http://dx.doi.org/10.1007/s10489-006-0018-y},
+   note = {10.1007/s10489-006-0018-y},
+   year = {2007}
+}
+
+@book{Ritter1992,
+  title={Neural computation and self-organizing maps: an introduction},
+  author={Ritter, H. and Martinetz, T. and Schulten, K.},
+  isbn={9780201554434},
+  lccn={91030541},
+  series={Computation and neural systems series},
+  url={http://books.google.fr/books?id=a7NQAAAAMAAJ},
+  year={1992},
+  publisher={Addison-Wesley}
+}
+
+@ARTICLE{Rosenblatt1958,
+  author = {Rosenblatt, F.},
+  title = {{The Perceptron : probabilistic model for information storage and
+	organization in the brain}},
+  journal = {{Psychological Review}},
+  year = {1958},
+  volume = {65},
+  pages = {386--408},
+  citeulike-article-id = {3057009},
+  keywords = {jpg},
+  posted-at = {2008-07-29 16:14:00},
+  priority = {2}
+}
+@article{Russel1977,
+    abstract = {{This note presents a heuristic for determining very good solutions for the symmetric M-tour traveling salesman problem with some side conditions. These side conditions pertain to load, distance and time, or sequencing restrictions. The heuristic is an extension of the highly successful one of Lin and Kernighan for the single traveling salesman problem. Computational experience with widely tested vehicle dispatch problems indicates that the proposed heuristic consistently yields better solutions than existing heuristics that have appeared in the literature. Run times grow approximately as N<sup>2.3</sup>, where N is the number of cities. The heuristic is generally slower than the modified SWEEP heuristic except on problems having a large number of points per route.}},
+    author = {Russell, Robert A.},
+    citeulike-article-id = {5891285},
+    citeulike-linkout-0 = {http://dx.doi.org/10.2307/169938},
+    citeulike-linkout-1 = {http://www.jstor.org/stable/169938},
+    doi = {10.2307/169938},
+    issn = {0030364X},
+    journal = {Operations Research},
+    number = {3},
+    pages = {517--524},
+    posted-at = {2009-10-05 16:42:39},
+    priority = {2},
+    publisher = {INFORMS},
+    title = {{An Effective Heuristic for the M-Tour Traveling Salesman Problem with Some Side Conditions}},
+    url = {http://dx.doi.org/10.2307/169938},
+    volume = {25},
+    year = {1977}
+}
+@inproceedings{Ryan1998,
+ author = {Ryan, Joel L. and Bailey, T. Glenn and Moore, James T. and Carlton, William B.},
+ title = {Reactive tabu search in unmanned aerial reconnaissance simulations},
+ booktitle = {Proceedings of the 30th conference on Winter simulation},
+ series = {WSC '98},
+ year = {1998},
+ isbn = {0-7803-5134-7},
+ location = {Washington, D.C., United States},
+ pages = {873--880},
+ numpages = {8},
+ url = {http://dl.acm.org/citation.cfm?id=293172.293370},
+ acmid = {293370},
+ publisher = {IEEE Computer Society Press},
+ address = {Los Alamitos, CA, USA},
+} 
+@INPROCEEDINGS{Schrijver2005,
+    author = {Alexander Schrijver},
+    title = {On the history of combinatorial optimization (till 1960)},
+    booktitle = {in Handbooks in Operations Research and Management},
+    year = {2005},
+    publisher = {Elsevier}
+}
+@article{Somhom1999,
+title = "Competition-based neural network for the multiple travelling salesmen problem with minmax objective",
+journal = {Computers \& Operations Research},
+volume = "26",
+number = "4",
+pages = "395 - 407",
+year = "1999",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/S0305-0548(98)00069-0",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054898000690",
+author = "Samerkae Somhom and Abdolhamid Modares and Takao Enkawa",
+keywords = "Competition-based neural network",
+keywords = "Multiple travelling salesmen problem",
+keywords = "Optimization"
+}
+@INPROCEEDINGS{Song2003,
+    author = {Chi-Hwa Song and Kyunghee Lee and  Won Don Lee},
+    title = {Extended simulated annealing for augmented TSP and multi-salesmen TSP},
+    booktitle = {Proceedings of the international joint conference on neural networks},
+    year = {2003},
+    volume = {3},
+    pages = {2340-2343}
+}
+
+@article{Stutzle2000,
+  author    = {Thomas St{\"u}tzle and
+               Holger H. Hoos},
+  title     = {MAX-MIN Ant System},
+  journal   = {Future Generation Comp. Syst.},
+  volume    = {16},
+  number    = {8},
+  year      = {2000},
+  pages     = {889-914},
+  ee        = {http://dx.doi.org/10.1016/S0167-739X(00)00043-1},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@article{Tang2000,
+title = {A multiple traveling salesman problem model for hot rolling scheduling in Shanghai Baoshan Iron \& Steel Complex},
+journal = "European Journal of Operational Research",
+volume = "124",
+number = "2",
+pages = "267 - 282",
+year = "2000",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/S0377-2217(99)00380-X",
+url = "http://www.sciencedirect.com/science/article/pii/S037722179900380X",
+author = "Lixin Tang and Jiyin Liu and Aiying Rong and Zihou Yang",
+keywords = "Iron and steel industry",
+keywords = "Hot rolling production",
+keywords = "Scheduling",
+keywords = "Multiple traveling salesman problem",
+keywords = "Genetic algorithms (GAs)"
+}
+
+@PhDThesis{Troyon1988,
+   address     = {Lausanne},
+   affiliation = {EPFL},
+   author      = {Troyon, Michel},
+   details     = {http://infoscience.epfl.ch/record/31233},
+   documenturl = {http://biblion.epfl.ch/EPFL/theses/1988/intranet/EPFL_TH754.pdf},
+   doi         = {10.5075/epfl-thesis-754},
+   oai-id      = {oai:infoscience.epfl.ch:31233},
+   oai-set     = {thesis},
+   pagecount   = {124},
+   publisher   = {EPFL},
+   status      = {PUBLISHED},
+   thesis-note = {Thèse Ecole polytechnique fédérale de Lausanne EPFL, no
+                 754 (1988), Département de mathématiques, Institut de
+                 mathématiques IMA (Chaire de recherche opérationnelle SO
+                 ROSO). Dir.: Thomas M. Liebling},
+   title       = {Quelques heuristiques et résultats asymptotiques pour
+                 trois problèmes d'optimisation combinatoire},
+   unit        = {ROSO},
+   url         = {http://library.epfl.ch/theses/?nr=754},
+   year        = 1988
+}
+
+@INPROCEEDINGS{Vakhutinsky1994, 
+author={Vakhutinsky, A.I. and Golden, B.L.}, 
+booktitle={Neural Networks, 1994. IEEE World Congress on Computational Intelligence., 1994 IEEE International Conference on}, title={Solving vehicle routing problems using elastic nets}, 
+year={1994}, 
+month={jun-2 jul}, 
+volume={7}, 
+number={}, 
+pages={4535 -4540 vol.7}, 
+keywords={ approximate solution; combinatorial optimization; elastic nets; multiple traveling salesmen problem; vehicle routing problems; combinatorial mathematics; mathematics computing; neural nets; optimisation; transportation; travelling salesman problems;}, 
+doi={10.1109/ICNN.1994.375004}, 
+ISSN={},}
+
+@inproceedings{Vallivaara2008,
+ author = {Vallivaara, Ilari},
+ title = {A Team ant colony optimization algorithm for the multiple travelling salesmen problem with MinMax objective},
+ booktitle = {Proceedings of the 27th IASTED International Conference on Modelling, Identification and Control},
+ series = {MIC '08},
+ year = {2008},
+ isbn = {978-0-88986-712-3},
+ location = {Innsbruck, Austria},
+ pages = {387--392},
+ numpages = {6},
+ url = {http://dl.acm.org/citation.cfm?id=1722415.1722490},
+ acmid = {1722490},
+ publisher = {ACTA Press},
+ address = {Anaheim, CA, USA},
+}
+
+@article {Wacholder1989,
+   author = {Wacholder, E. and Han, J. and Mann, R. C.},
+   title = {A neural network algorithm for the multiple traveling salesmen problem},
+   journal = {Biological Cybernetics},
+   publisher = {Springer Berlin / Heidelberg},
+   issn = {0340-1200},
+   keyword = {Biomédecine et Sciences de la vie},
+   pages = {11-19},
+   volume = {61},
+   issue = {1},
+   url = {http://dx.doi.org/10.1007/BF00204755},
+   note = {10.1007/BF00204755},
+   year = {1989}
+}
+
+@TECHREPORT{Widrow1960,
+  author = {Widrow, B.},
+  title = {{An adaptive 'Adaline' neuron using chemical 'memistors'}},
+  year = {1960},
+  citeulike-article-id = {9413491},
+  posted-at = {2011-06-15 09:57:52},
+  priority = {2}
+}
+@article{YangGuoXing1995,
+title = "Transformation of multidepot multisalesmen problem to the standard travelling salesman problem",
+journal = "European Journal of Operational Research",
+volume = "81",
+number = "3",
+pages = "557 - 560",
+year = "1995",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/0377-2217(94)00011-Z",
+url = "http://www.sciencedirect.com/science/article/pii/037722179400011Z",
+author = "Yang GuoXing",
+keywords = "Travelling salesman",
+keywords = "Multidepot multisalesmen problem",
+keywords = "Imaginary depot"
+}
+
+%Container Terminal
+@article{Kim2004,
+title = "A crane scheduling method for port container terminals",
+journal = "European Journal of Operational Research",
+volume = "156",
+number = "3",
+pages = "752 - 768",
+year = "2004",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/S0377-2217(03)00133-4",
+url = "http://www.sciencedirect.com/science/article/pii/S0377221703001334",
+author = "Kap Hwan Kim and Young-Man Park",
+keywords = "Scheduling",
+keywords = "Branch and bound",
+keywords = "Transportation",
+keywords = "Container terminal",
+keywords = "Combinatorial optimization"
+}
+
+%------------------------------------------------------------------------------%
+%----------------------- Incertitude, Robustesse... ---------------------------%
+%------------------------------------------------------------------------------%
+@PhDThesis{Chachuat2001,
+   affiliation = {OTHER},
+   author      = {Chachuat, B.},
+   details     = {http://infoscience.epfl.ch/record/114626},
+   documenturl = {http://infoscience.epfl.ch/record/114626/files/thesis.pdf},
+   oai-id      = {oai:infoscience.epfl.ch:114626},
+   oai-set     = {fulltext-public},
+   publisher   = {Institut National Polytechnique de Lorraine (INPL)},
+   status      = {PUBLISHED},
+   title       = {Methodologie d'{O}ptimisation {D}ynamique et de
+                 {C}ommande {O}ptimale des {P}etites {S}tations
+                 d'{E}puration a {B}oues {A}ctivees},
+   unit        = {LA},
+   url         = { },
+   year        = 2001
+}
+
+%------------------------------------------------------------------------------%
+%---------------------------       Dynamique        ---------------------------%
+%------------------------------------------------------------------------------%
+@PhdThesis{Larsen2000,
+author = {A. Larsen},
+title = {The Vehicle Routing Problem},
+school = {Department of Mathematical Modelling, Technical University of Denmark},
+year = {2000}
+}
+
+@article {Madsen1995,
+   author = {Madsen, Oli and Ravn, Hans and Rygaard, Jens},
+   affiliation = {The Technical University of Denmark IMM, Institute of Mathematical Modelling Building 321 DK-2800 Lyngby Denmark Building 321 DK-2800 Lyngby Denmark},
+   title = {A heuristic algorithm for a dial-a-ride problem with time windows, multiple capacities, and multiple objectives},
+   journal = {Annals of Operations Research},
+   publisher = {Springer Netherlands},
+   issn = {0254-5330},
+   keyword = {Economie et Gestion},
+   pages = {193-208},
+   volume = {60},
+   issue = {1},
+   url = {http://dx.doi.org/10.1007/BF02031946},
+   note = {10.1007/BF02031946},
+   year = {1995}
+}
+
+@incollection{Powell1995,
+title = "Chapter 3 Stochastic and dynamic networks and routing",
+editor = "M.O. Ball, T.L. Magnanti, C.L. Monma and G.L. Nemhauser",
+booktitle = "Network Routing",
+publisher = "Elsevier",
+year = "1995",
+volume = "8",
+pages = "141 - 295",
+series = "Handbooks in Operations Research and Management Science",
+issn = "0927-0507",
+doi = "10.1016/S0927-0507(05)80107-0",
+url = "http://www.sciencedirect.com/science/article/pii/S0927050705801070",
+author = "Warren B. Powell and Patrick Jaillet and Amedeo Odoni"
+}
+
+@inbook{Psaraftis1988,
+    author = {Psaraftis, Harilaos N.},
+    citeulike-article-id = {1740022},
+    journal = {Vehicle Routing: Methods and studies},
+    keywords = {bibtex-import},
+    pages = {223--248},
+    posted-at = {2007-10-08 09:08:06},
+    priority = {0},
+    publisher = {Elsevier Science Publishers B.V},
+    title = {{Dynamic Vehicle Routing Problem}},
+    year = {1988}
+}
+
+@article {Psaraftis1995,
+   author = {Psaraftis, Harilaos N.},
+   affiliation = {National Technical University of Athens Athens Greece},
+   title = {Dynamic vehicle routing: Status and prospects},
+   journal = {Annals of Operations Research},
+   publisher = {Springer Netherlands},
+   issn = {0254-5330},
+   keyword = {Economie et Gestion},
+   pages = {143-164},
+   volume = {61},
+   issue = {1},
+   url = {http://dx.doi.org/10.1007/BF02098286},
+   note = {10.1007/BF02098286},
+   year = {1995}
+}
+
+%------------------------------------------------------------------------------%
+%---------------------------          VRP           ---------------------------%
+%------------------------------------------------------------------------------%
+@article{Alba2006,
+ author = {Alba, Enrique and Dorronsoro, Bernab{\'e}},
+ title = {Computing nine new best-so-far solutions for Capacitated VRP with a cellular Genetic Algorithm},
+ journal = {Inf. Process. Lett.},
+ issue_date = {30 June 2006},
+ volume = {98},
+ number = {6},
+ month = jun,
+ year = {2006},
+ issn = {0020-0190},
+ pages = {225--230},
+ numpages = {6},
+ url = {http://dx.doi.org/10.1016/j.ipl.2006.02.006},
+ doi = {10.1016/j.ipl.2006.02.006},
+ acmid = {1711140},
+ publisher = {Elsevier North-Holland, Inc.},
+ address = {Amsterdam, The Netherlands, The Netherlands},
+ keywords = {Algorithms, Approximation algorithms, Cellular Genetic Algorithm, Design of algorithms, Hybrid Genetic Algorithm, Vehicle Routing Problem},
+} 
+
+@article{Baker2003,
+title = "A genetic algorithm for the vehicle routing problem",
+journal = {Computers {\&} Operations Research},
+volume = "30",
+number = "5",
+pages = "787 - 800",
+year = "2003",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/S0305-0548(02)00051-5",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054802000515",
+author = "Barrie M. Baker and M.A. Ayechew",
+keywords = "Routing",
+keywords = "Heuristics",
+keywords = "Genetic algorithms"
+}
+
+@incollection {Baldacci2008,
+   author = {Baldacci, Roberto and Battarra, Maria and Vigo, Daniele},
+   affiliation = {University of Bologna DEIS via Venezia 52 47023 Cesena Italy},
+   title = {Routing a Heterogeneous Fleet of Vehicles},
+   booktitle = {The Vehicle Routing Problem: Latest Advances and New Challenges},
+   series = {Operations Research/Computer Science Interfaces Series},
+   editor = {Golden, Bruce and Raghavan, S. and Wasil, Edward and Sharda, Ramesh and Voß, Stefan},
+   publisher = {Springer US},
+   isbn = {978-0-387-77778-8},
+   keyword = {Business and Economics},
+   pages = {3-27},
+   volume = {43},
+   url = {http://dx.doi.org/10.1007/978-0-387-77778-8_1},
+   year = {2008}
+}
+
+@article {Baldacci2008b,
+   author = {Baldacci, Roberto and Christofides, Nicos and Mingozzi, Aristide},
+   affiliation = {DEIS, University of Bologna Via Venezia 52 47023 Cesena Italy},
+   title = {An exact algorithm for the vehicle routing problem based on the set partitioning formulation with additional cuts},
+   journal = {Mathematical Programming},
+   publisher = {Springer Berlin / Heidelberg},
+   issn = {0025-5610},
+   keyword = {Mathématiques et Statistique},
+   pages = {351-385},
+   volume = {115},
+   issue = {2},
+   url = {http://dx.doi.org/10.1007/s10107-007-0178-5},
+   note = {10.1007/s10107-007-0178-5},
+   year = {2008}
+}
+
+@ARTICLE{Beasley1983,
+title = {Route first--Cluster second methods for vehicle routing},
+author = {Beasley, John E},
+year = {1983},
+journal = {Omega},
+volume = {11},
+number = {4},
+pages = {403-408},
+abstract = {In this paper we consider route first--cluster second methods for the vehicle routing problem. Extensions to the basic method both to improve its effectiveness and to enable it to cope with practical constraints are described. Computational results are given for the method applied to standard vehicle routing problems drawn from the literature.},
+url = {http://EconPapers.repec.org/RePEc:eee:jomega:v:11:y:1983:i:4:p:403-408}
+}
+
+@article{Bell2004,
+title = "Ant colony optimization techniques for the vehicle routing problem",
+journal = "Advanced Engineering Informatics",
+volume = "18",
+number = "1",
+pages = "41 - 48",
+year = "2004",
+note = "",
+issn = "1474-0346",
+doi = "10.1016/j.aei.2004.07.001",
+url = "http://www.sciencedirect.com/science/article/pii/S1474034604000060",
+author = "John E. Bell and Patrick R. McMullen",
+keywords = "Ant colony optimization",
+keywords = "Vehicle routing",
+keywords = "Vehicle scheduling",
+keywords = "Combinatorial optimization",
+keywords = "Heuristics",
+keywords = "Optimization"
+}
+
+@Article{Berbeglia2007,
+Author={Gerardo Berbeglia and Jean-François Cordeau and Irina Gribkovskaia and Gilbert Laporte},
+Title={Static pickup and delivery problems: a classification scheme and survey},
+Journal={TOP: An Official Journal of the Spanish Society of Statistics and Operations Research},
+Year={2007},
+Volume={15},
+Number={1},
+Pages={1-31},
+Month={7}
+}
+
+@incollection {Berger1998,
+   author = {Berger, Jean and Salois, Martin and Begin, Regent},
+   affiliation = {Defence Research Establishment Valcartier, Decision Support Technology Section 2459 Pie-XI Blvd. North G3J 1X5 Val-Bélair PQ Canada 2459 Pie-XI Blvd. North G3J 1X5 Val-Bélair PQ Canada},
+   title = {A hybrid genetic algorithm for the vehicle routing problem with time windows},
+   booktitle = {Advances in Artificial Intelligence},
+   series = {Lecture Notes in Computer Science},
+   editor = {Mercer, Robert and Neufeld, Eric},
+   publisher = {Springer Berlin / Heidelberg},
+   isbn = {978-3-540-64575-7},
+   keyword = {Computer Science},
+   pages = {114-127},
+   volume = {1418},
+   url = {http://dx.doi.org/10.1007/3-540-64575-6_44},
+   year = {1998}
+}
+
+@incollection {Berger2003,
+   author = {Berger, Jean and Barkaoui, Mohamed},
+   affiliation = {Defence Research and Development Canada - Valcartier Decision Support Technology Section 2459 Pie-XI Blvd. North Val-Bélair PQ Canada G3J 1X5},
+   title = {A Hybrid Genetic Algorithm for the Capacitated Vehicle Routing Problem},
+   booktitle = {Genetic and Evolutionary Computation — GECCO 2003},
+   series = {Lecture Notes in Computer Science},
+   editor = {Cantú-Paz, Erick and Foster, James and Deb, Kalyanmoy and Davis, Lawrence and Roy, Rajkumar and O’Reilly, Una-May and Beyer, Hans-Georg and Standish, Russell and Kendall, Graham and Wilson, Stewart and Harman, Mark and Wegener, Joachim and Dasgupta, Dipankar and Potter, Mitch and Schultz, Alan and Dowsland, Kathryn and Jonoska, Natasha and Miller, Julian},
+   publisher = {Springer Berlin / Heidelberg},
+   isbn = {978-3-540-40602-0},
+   keyword = {Computer Science},
+   pages = {198-198},
+   volume = {2723},
+   url = {http://dx.doi.org/10.1007/3-540-45105-6_80},
+   year = {2003}
+}
+
+@article{Berger2004,
+title = "A parallel hybrid genetic algorithm for the vehicle routing problem with time windows",
+journal = {Computers {\&} Operations Research},
+volume = "31",
+number = "12",
+pages = "2037 - 2053",
+year = "2004",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/S0305-0548(03)00163-1",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054803001631",
+author = "Jean Berger and Mohamed Barkaoui",
+keywords = "Genetic algorithms",
+keywords = "Metaheuristics",
+keywords = "Vehicle routing"
+}
+
+@inproceedings{Blanton1993,
+ author = {Blanton,Jr., Joe L. and Wainwright, Roger L.},
+ title = {Multiple Vehicle Routing with Time and Capacity Constraints Using Genetic Algorithms},
+ booktitle = {Proceedings of the 5th International Conference on Genetic Algorithms},
+ year = {1993},
+ isbn = {1-55860-299-2},
+ pages = {452--459},
+ numpages = {8},
+ url = {http://dl.acm.org/citation.cfm?id=645513.657758},
+ acmid = {657758},
+ publisher = {Morgan Kaufmann Publishers Inc.},
+ address = {San Francisco, CA, USA},
+} 
+
+@inproceedings{Bodin1983,
+  added-at = {2008-06-24T16:23:11.000+0200},
+  author = {Bodin, L. and Golden, B. and Assad, A. and Ball, M.},
+  biburl = {http://www.bibsonomy.org/bibtex/21de4eef54147f7fb2d5543c2626b3af2/apo},
+  interhash = {672e7a7c0eb1667753d8d02eaf541ef1},
+  intrahash = {1de4eef54147f7fb2d5543c2626b3af2},
+  keywords = {da2 vpr},
+  month = {6},
+  number = 2,
+  pages = {63-212},
+  publisher = {Computers and Opertions Research},
+  timestamp = {2008-06-24T16:23:11.000+0200},
+  title = {Routing and Scheduling of Vehicles and Crews - The State of the Art},
+  volume = 10,
+  year = 1983
+}
+
+@incollection{Bramel2001,
+ author = {Bramel, J. and Simchi-Levi, D.},
+ chapter = {Set-covering-based algorithms for the capacitated VRP},
+ title = {The vehicle routing problem},
+ editor = {Toth, Paolo and Vigo, Daniele},
+ year = {2001},
+ isbn = {0-89871-498-2},
+ pages = {85--108},
+ numpages = {24},
+ url = {http://dl.acm.org/citation.cfm?id=505847.505851},
+ acmid = {505851},
+ publisher = {Society for Industrial and Applied Mathematics},
+ address = {Philadelphia, PA, USA},
+} 
+
+@ARTICLE{Braysy2003,
+    author = {Olli Br{\"a}ysy},
+    title = {A reactive variable neighborhood search for the vehicle routing problem with time windows},
+    journal = {INFORMS Journal on Computing},
+    year = {2003},
+    volume = {15},
+    pages = {347--368}
+}
+
+@MISC{Bullnheimer1997b,
+    author = {Bernd Bullnheimer and Richard F. Hartl and Christine Strauss},
+    title = {Applying the Ant System to the Vehicle Routing Problem},
+    year = {1997}
+}
+
+@ARTICLE{Bullnheimer1997c,
+    author = {Bernd Bullnheimer and Richard F. Hartl and Christine Strauss},
+    title = {An Improved Ant System Algorithm for the Vehicle Routing Problem},
+    journal = {Annals of Operations Research},
+    year = {1997},
+    volume = {89},
+    pages = {319--328}
+}
+
+@article{Caricato2003,
+ author = {Caricato, Pierpaolo and Ghiani, Gianpaolo and Grieco, Antonio and Guerriero, Emanuela},
+ title = {Parallel tabu search for a pickup and delivery problem under track contention},
+ journal = {Parallel Comput.},
+ issue_date = {May 2003},
+ volume = {29},
+ number = {5},
+ month = may,
+ year = {2003},
+ issn = {0167-8191},
+ pages = {631--639},
+ numpages = {9},
+ url = {http://dx.doi.org/10.1016/S0167-8191(03)00046-2},
+ doi = {10.1016/S0167-8191(03)00046-2},
+ acmid = {846116},
+ publisher = {Elsevier Science Publishers B. V.},
+ address = {Amsterdam, The Netherlands, The Netherlands},
+ keywords = {metaheuristics, parallel computing, pickup and delivery problem},
+} 
+
+@article{Chen2005,
+author="CHEN Chia-Ho and TING Ching-Jung",
+title="A HYBRID ANT COLONY SYSTEM FOR VEHICLE ROUTING PROBLEM WITH TIME WINDOWS",
+journal="Journal of the Eastern Asia Society for Transportation Studies",
+ISSN="1881-1124",
+publisher="Eastern Asia Society for Transportation Studies",
+year="2005",
+volume="6",
+number="",
+pages="2822-2836",
+URL="http://ci.nii.ac.jp/naid/130000087812/en/"
+}
+
+@article{Chu1997,
+title = "A genetic algorithm for the generalised assignment problem",
+journal = {Computers {\&} Operations Research},
+volume = "24",
+number = "1",
+pages = "17 - 23",
+year = "1997",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/S0305-0548(96)00032-9",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054896000329",
+author = "P.C. Chu and J.E. Beasley"
+}
+
+@article{Clarke1964,
+     jstor_articletype = {research-article},
+     title = {Scheduling of Vehicles from a Central Depot to a Number of Delivery Points},
+     author = {Clarke, G. and Wright, J. W.},
+     journal = {Operations Research},
+     jstor_issuetitle = {},
+     volume = {12},
+     number = {4},
+     jstor_formatteddate = {Jul. - Aug., 1964},
+     pages = {pp. 568-581},
+     url = {http://www.jstor.org/stable/167703},
+     ISSN = {0030364X},
+     abstract = {The optimum routing of a fleet of trucks of varying capacities from a central depot to a number of delivery points may require a selection from a very large number of possible routes, if the number of delivery points is also large. This paper, after considering certain theoretical aspects of the problem, develops an iterative procedure that enables the rapid selection of an optimum or near-optimum route. It has been programmed for a digital computer but is also suitable for hand computation.},
+     language = {English},
+     year = {1964},
+     publisher = {INFORMS},
+     copyright = {Copyright © 1964 INFORMS},
+}
+
+@article{Cordeau1997,
+  title={A tabu search heuristic for periodic and multi-depot vehicle routing problems},
+  volume={30}, 
+  url={http://doi.wiley.com/10.1002/%28SICI%291097-0037%28199709%2930%3A2%3C105%3A%3AAID-NET5%3E3.3.CO%3B2-N},
+  number={2},
+  journal={Networks}, 
+  publisher={Elsevier},
+  author={Cordeau, Jean Francois and Gendreau, Michel and Laporte, Gilbert},
+  year={1997},
+  pages={105--119}
+}
+
+@article{Cordeau2001,
+	location = {http://www.scientificcommons.org/42322016},
+	title = {A unified Tabu Search heuristic for vehicle routing problems with time windows},
+	author = {Jean Francois Cordeau and Gilbert Laporte},
+	year = {2001},
+	keywords = {Vehicle routing problem, tabu search, heuristics},
+	abstract = {This article reviews ten of the most important tabu search heuristics for the vehicle routing problem. Some of the main tabu search features are first described: neighborhood structures, short term memory, long term memory, intensification. The tabu search algorithms are then described, followed by computational results and the conclusion.},
+	url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.109.7933},
+	institution = {CiteSeerX - Scientific Literature Digital Library and Search Engine [http://citeseerx.ist.psu.edu/oai2] (United States)},
+}
+
+@article {Cordeau2003,
+	author = "Cordeau J.-F. and Laporte G.",
+	title = "A tabu search heuristic for the static multi-vehicle dial-a-ride problem",
+	journal = "Transportation Research Part B: Methodological",
+	volume = "37",
+	number = "6",
+	year = "2003",
+	abstract = "",
+	pages = "579-594",
+	url = "http://www.ingentaconnect.com/content/els/01912615/2003/00000037/00000006/art00045",
+	doi = "doi:10.1016/S0191-2615(02)00045-0	"
+}
+
+@article {Cornuejols1993,
+   author = {Cornuejols, Gerard and Harche, Farid},
+   affiliation = {Graduate School of Industrial Administration Carnegie Mellon University Schenley Park 15213-3890 Pittsburgh PA USA},
+   title = {Polyhedral study of the capacitated vehicle routing problem},
+   journal = {Mathematical Programming},
+   publisher = {Springer Berlin / Heidelberg},
+   issn = {0025-5610},
+   keyword = {Mathématiques et Statistique},
+   pages = {21-52},
+   volume = {60},
+   issue = {1},
+   url = {http://dx.doi.org/10.1007/BF01580599},
+   note = {10.1007/BF01580599},
+   year = {1993}
+}
+
+@article{Dantzig1959,
+    author = {Dantzig, G. B. and Ramser, J. H.},
+    citeulike-article-id = {2983415},
+    citeulike-linkout-0 = {http://dx.doi.org/10.2307/2627477},
+    citeulike-linkout-1 = {http://www.jstor.org/stable/2627477},
+    doi = {10.2307/2627477},
+    issn = {00251909},
+    journal = {Management Science},
+    keywords = {linear, programming, routing, scheduling, vehicle},
+    number = {1},
+    pages = {80--91},
+    posted-at = {2008-07-10 02:39:32},
+    priority = {2},
+    publisher = {INFORMS},
+    title = {{The Truck Dispatching Problem}},
+    url = {http://dx.doi.org/10.2307/2627477},
+    volume = {6},
+    year = {1959}
+}
+
+@article{Doerner2000,
+  title={Ant Colony Optimization applied to the Pickup and Delivery Problem},
+  url={http://epub.wu-wien.ac.at/dyn/dl/wp/epub-wu-01_e4},
+  number={April},
+  journal={Management},
+  publisher={SFB Adaptive Information Systems and Modelling in Economics and Management Science},
+  author={Doerner, Karl and Hartl, Richard and Reimann, Marc},
+  year={2000}
+}
+
+@MISC{Doerner2001,
+    author = {Karl Doerner and Richard F. Hartl and Marc Reimann},
+    title = {Are COMPETants more competent for problem solving? - the case of a multiple objective transportation problem},
+    year = {2001}
+}
+
+@article{Doerner2005,
+title={A parallel version of the d-ant algorithm for the vehicle routing problem},
+author={Doerner, K.F. and Hartl, R.F. and Lucka, M.},
+journal={International Workshop on Parallel Numerics},
+pages={20--23},
+year={2005}
+}
+
+@article{Feo1989,
+  author = {Feo, Thomas A. and Resende, Mauricio G. C.},
+  biburl = {http://www.bibsonomy.org/bibtex/20a53e3715f457fc50ea2053bdf32e18a/mboley},
+  description = {ScienceDirect - Operations Research Letters : A probabilistic heuristic for a computationally difficult set covering problem*1},
+  doi = {10.1016/0167-6377(89)90002-3},
+  interhash = {6f158484f3bfc511fe94c625e8b57367},
+  intrahash = {0a53e3715f457fc50ea2053bdf32e18a},
+  issn = {0167-6377},
+  journal = {Operations Research Letters},
+  keywords = {greedyAlgorithm optimization setCover},
+  number = 2,
+  pages = {67 - 71},
+  timestamp = {2010-08-04T18:01:38.000+0200},
+  title = {A probabilistic heuristic for a computationally difficult set covering problem},
+  url = {http://www.sciencedirect.com/science/article/B6V8M-48MPRWR-G/2/68e1718a1a87737c279bfcbfe6b15968},
+  volume = 8,
+  year = 1989
+}
+
+@article {Fisher1981,
+author = {Fisher, Marshall L. and Jaikumar, Ramchandran},
+title = {A generalized assignment heuristic for vehicle routing},
+journal = {Networks},
+volume = {11},
+number = {2},
+publisher = {Wiley Subscription Services, Inc., A Wiley Company},
+issn = {1097-0037},
+url = {http://dx.doi.org/10.1002/net.3230110205},
+doi = {10.1002/net.3230110205},
+pages = {109--124},
+year = {1981},
+}
+
+@article{Fisher1994,
+author = {Fisher, Marshall L.}, 
+title = {Optimal Solution of Vehicle Routing Problems Using Minimum K-Trees}, 
+volume = {42}, 
+number = {4}, 
+pages = {626-642}, 
+year = {July/August 1994}, 
+doi = {10.1287/opre.42.4.626}, 
+URL = {http://or.journal.informs.org/content/42/4/626.abstract}, 
+eprint = {http://or.journal.informs.org/content/42/4/626.full.pdf+html}, 
+journal = {Operations Research} 
+}
+
+@article{Fleszar2009,
+title = "A variable neighbourhood search algorithm for the open vehicle routing problem",
+journal = "European Journal of Operational Research",
+volume = "195",
+number = "3",
+pages = "803 - 809",
+year = "2009",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/j.ejor.2007.06.064",
+url = "http://www.sciencedirect.com/science/article/pii/S0377221707011046",
+author = "Krzysztof Fleszar and Ibrahim H. Osman and Khalil S. Hindi",
+keywords = "Variable neighbourhood search",
+keywords = "Vehicle routing",
+keywords = "Metaheuristics"
+}
+
+@article{Floyd1962,
+ author = {Floyd, Robert W.},
+ title = {Algorithm 97: Shortest path},
+ journal = {Commun. ACM},
+ issue_date = {June 1962},
+ volume = {5},
+ number = {6},
+ month = jun,
+ year = {1962},
+ issn = {0001-0782},
+ pages = {345--},
+ url = {http://doi.acm.org/10.1145/367766.368168},
+ doi = {10.1145/367766.368168},
+ acmid = {368168},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+
+@article {Fukasawa2006,
+   author = {Fukasawa, Ricardo and Longo, Humberto and Lysgaard, Jens and Aragão, Marcus Poggi de and Reis, Marcelo and Uchoa, Eduardo and Werneck, Renato F.},
+   affiliation = {GeorgiaTech School of Industrial and Systems Engineering USA},
+   title = {Robust Branch-and-Cut-and-Price for the Capacitated Vehicle Routing Problem},
+   journal = {Mathematical Programming},
+   publisher = {Springer Berlin / Heidelberg},
+   issn = {0025-5610},
+   keyword = {Mathématiques et Statistique},
+   pages = {491-511},
+   volume = {106},
+   issue = {3},
+   url = {http://dx.doi.org/10.1007/s10107-005-0644-x},
+   note = {10.1007/s10107-005-0644-x},
+   year = {2006}
+}
+
+@article {Funke2005,
+   author = {Funke, Birger and Grünert, Tore and Irnich, Stefan},
+   affiliation = {GTS Systems and Consulting GmbH Herzogenrath Germany},
+   title = {Local Search for Vehicle Routing and Scheduling Problems: Review and Conceptual Integration},
+   journal = {Journal of Heuristics},
+   publisher = {Springer Netherlands},
+   issn = {1381-1231},
+   keyword = {Mathématiques et Statistique},
+   pages = {267-306},
+   volume = {11},
+   issue = {4},
+   url = {http://dx.doi.org/10.1007/s10732-005-1997-2},
+   note = {10.1007/s10732-005-1997-2},
+   year = {2005}
+}
+
+@article{Gajpal2008,
+  author    = {Yuvraj Gajpal and
+               Prakash L. Abad},
+  title     = {Multi-ant colony system (MACS) for a vehicle routing problem
+               with backhauls},
+  journal   = {European Journal of Operational Research},
+  volume    = {196},
+  number    = {1},
+  year      = {2008},
+  pages     = {102-117},
+  ee        = {http://dx.doi.org/10.1016/j.ejor.2008.02.025},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+@article{Gajpal2009,
+  author    = {Yuvraj Gajpal and
+               Prakash L. Abad},
+  title     = {An ant colony system (ACS) for vehicle routing problem with
+               simultaneous delivery and pickup},
+  journal   = {Computers {\&} OR},
+  volume    = {36},
+  number    = {12},
+  year      = {2009},
+  pages     = {3215-3223},
+  ee        = {http://dx.doi.org/10.1016/j.cor.2009.02.017},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@techreport{Gambardella1999,
+ author = {Gambardella, L. M. and Taillard, E. and Agazzi, G.},
+ title = {MACS-VRPTW: A Multiple Ant Colony System for Vehicle Routing Problems with Time Windows},
+ year = {1999},
+ source = {http://www.ncstrl.org:8900/ncstrl/servlet/search?formname=detail\&id=oai%3Ancstrlh%3Aidsia_ch%3Ancstrl.idsia.ch%2F%2FIDSIA-06-99},
+ publisher = {Istituto Dalle Molle Di Studi Sull Intelligenza Artificiale},
+} 
+
+@article{Ganesh2007,
+title = "CLOVES: A cluster-and-search heuristic to solve the vehicle routing problem with delivery and pick-up",
+journal = "European Journal of Operational Research",
+volume = "178",
+number = "3",
+pages = "699 - 717",
+year = "2007",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/j.ejor.2006.01.037",
+url = "http://www.sciencedirect.com/science/article/pii/S0377221706001214",
+author = "K. Ganesh and T.T. Narendran",
+keywords = "Distribution",
+keywords = "Logistics",
+keywords = "Vehicle routing problem",
+keywords = "Clustering",
+keywords = "Genetic algorithm"
+}
+
+@article {Gendreau1999,
+	author = "Gendreau M. and Laporte G. and Musaraganyi C. and Taillard E.D.",
+	title = "A tabu search heuristic for the heterogeneous fleet vehicle routing problem",
+	journal = "Computers and Operations Research",
+	volume = "26",
+	number = "12",
+	year = "1999",
+	pages = "1153-1173",
+	url = "http://www.ingentaconnect.com/content/els/03050548/1999/00000026/00000012/art00100",
+	doi = "doi:10.1016/S0305-0548(98)00100-2"
+}
+
+@incollection{Gendreau2008,
+    author = {Gendreau, M. and Potvin, J. Y. and Br\"{a}ysy, O. and Hasle, G. and L{\o}kketangen, A.},
+    booktitle = {The Vehicle Routing Problem - Latest Advances and New Challenges},
+    citeulike-article-id = {7034645},
+    editor = {Golden, B. and Raghavan, S. and Wasil, E.},
+    posted-at = {2010-04-19 09:24:40},
+    priority = {2},
+    publisher = {Springer Verlag, Heidelberg},
+    title = {{Metaheuristics for the vehicle routing problem and its extensions: a categorized bibliography}},
+    year = {2008}
+}
+
+@inproceedings{Gehring1999,
+  added-at = {2011-09-11T17:05:13.000+0200},
+  author = { Gehring, H. and Homberger, J.},
+  biburl = {http://www.bibsonomy.org/bibtex/2df95f61deedd8b4814fb68257f59151c/fabiboy},
+  booktitle = {Proceedings of EUROGEN99--Short Course on Evolutionary Algorithms in Engineering and Computer Science},
+  groups = {public},
+  interhash = {ab28a00ab82a8f35630cb61e56337cdd},
+  intrahash = {df95f61deedd8b4814fb68257f59151c},
+  keywords = {jabref:noKeywordAssigned},
+  pages = {57--64},
+  timestamp = {2011-09-11T17:05:13.000+0200},
+  title = {A parallel hybrid evolutionary metaheuristic for the vehicle routing problem with time windows},
+  username = {fabiboy},
+  year = 1999
+}
+
+@article {Gehring2001,
+   author = {Gehring, Hermann and Homberger, Jörg},
+   title = {Parallelization of a Two-Phase Metaheuristic for Routing Problems with Time Windows},
+   journal = {Journal of Heuristics},
+   publisher = {Springer Netherlands},
+   issn = {1381-1231},
+   keyword = {Mathématiques et Statistique},
+   pages = {251-276},
+   volume = {8},
+   issue = {3},
+   url = {http://dx.doi.org/10.1023/A:1015053600842},
+   note = {10.1023/A:1015053600842},
+   year = {2002}
+}
+
+@article{Gillett1974,
+author = {Gillett, Billy E. and Miller, Leland R.}, 
+title = {A Heuristic Algorithm for the Vehicle-Dispatch Problem}, 
+volume = {22}, 
+number = {2}, 
+pages = {340-349}, 
+year = {March/April 1974}, 
+doi = {10.1287/opre.22.2.340}, 
+URL = {http://or.journal.informs.org/content/22/2/340.abstract}, 
+eprint = {http://or.journal.informs.org/content/22/2/340.full.pdf+html}, 
+journal = {Operations Research} 
+}
+
+@article {Golden1977,
+author = {Golden, B. L. and Magnanti, T. L. and Nguyen, H. Q.},
+title = {Implementing vehicle routing algorithms},
+journal = {Networks},
+volume = {7},
+number = {2},
+publisher = {Wiley Subscription Services, Inc., A Wiley Company},
+issn = {1097-0037},
+url = {http://dx.doi.org/10.1002/net.3230070203},
+doi = {10.1002/net.3230070203},
+pages = {113--148},
+year = {1977},
+}
+
+@book{Golden2008,
+      author       = "Golden, Bruce and Raghavan, S and Wasil, Edward",
+      title        = "The vehicle routing problem: latest advances and new challenges",
+      publisher    = "Springer",
+      address      = "Dordrecht",
+      series       = "Operations Research/Computer Science Interfaces",
+      year         = "2008",
+}
+
+@incollection {Hansen2010,
+   author = {Hansen, Pierre and Mladenović, Nenad and Brimberg, Jack and Pérez, José A. Moreno},
+   affiliation = {GERAD and Ecole des Hautes Etudes Commerciales, 3000 ch. de la Cote-Sainte-Catherine, Montréal, H3T 2A7 QC, Canada},
+   title = {Variable Neighborhood Search},
+   booktitle = {Handbook of Metaheuristics},
+   series = {International Series in Operations Research {\&} Management Science},
+   editor = {Gendreau, Michel and Potvin, Jean-Yves and Hillier, Frederick S. and Price, Camille C.},
+   publisher = {Springer US},
+   isbn = {978-1-4419-1665-5},
+   keyword = {Business and Economics},
+   pages = {61-86},
+   volume = {146},
+   url = {http://dx.doi.org/10.1007/978-1-4419-1665-5_3},
+   year = {2010}
+}
+
+@ARTICLE{Homberger1999,
+    author = {Jörg Homberger and Hermann Gehring and Fernuniversität Hagen and Lehrstuhl Wirtschaftsinformatik and D- Hagen and Bundesrepublik Deutschland},
+    title = {Two evolutionary metaheuristics for the vehicle routing problem with time windows},
+    journal = {INFOR},
+    year = {1999},
+    volume = {37},
+    pages = {297--318}
+}
+
+@article{Homberger2005,
+title = "A two-phase hybrid metaheuristic for the vehicle routing problem with time windows",
+journal = "European Journal of Operational Research",
+volume = "162",
+number = "1",
+pages = "220 - 238",
+year = "2005",
+note = "<ce:title>Logistics: From Theory to Application</ce:title>",
+issn = "0377-2217",
+doi = "10.1016/j.ejor.2004.01.027",
+url = "http://www.sciencedirect.com/science/article/pii/S0377221704000736",
+author = "Jörg Homberger and Hermann Gehring",
+keywords = "Metaheuristics",
+keywords = "Tabu search",
+keywords = "Evolution strategy",
+keywords = "Hybridization",
+keywords = "Vehicle routing",
+keywords = "Time windows"
+}
+
+@article{Irnich2006,
+title = "Sequential search and its application to vehicle-routing problems",
+journal = {Computers {\&} Operations Research},
+volume = "33",
+number = "8",
+pages = "2405 - 2429",
+year = "2006",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/j.cor.2005.02.020",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054805000766",
+author = "Stefan Irnich and Birger Funke and Tore Grünert",
+keywords = "Local search",
+keywords = "Vehicle-routing problem"
+}
+
+@article{Jaszkiewicz2003,
+title = "Genetic local search with distance preserving recombination operator for a vehicle routing problem",
+journal = "European Journal of Operational Research",
+volume = "151",
+number = "2",
+pages = "352 - 364",
+year = "2003",
+note = "<ce:title>Meta-heuristics in combinatorial optimization</ce:title>",
+issn = "0377-2217",
+doi = "10.1016/S0377-2217(02)00830-5",
+url = "http://www.sciencedirect.com/science/article/pii/S0377221702008305",
+author = "Andrzej Jaszkiewicz and Paweł Kominek",
+keywords = "Local search",
+keywords = "Combinatorial optimization",
+keywords = "Population-based metaheuristics",
+keywords = "Vehicle routing problem"
+}
+
+@article{Kontoravdis1995,
+author = {Kontoravdis, George and Bard, Jonathan F.}, 
+title = {A GRASP for the Vehicle Routing Problem with Time Windows}, 
+volume = {7}, 
+number = {1}, 
+pages = {10-23}, 
+year = {Winter 1995}, 
+doi = {10.1287/ijoc.7.1.10}, 
+URL = {http://joc.journal.informs.org/content/7/1/10.abstract}, 
+eprint = {http://joc.journal.informs.org/content/7/1/10.full.pdf+html}, 
+journal = {ORSA Journal on Computing} 
+}
+
+@article{Kubiak2004,
+  title = {Systematic Construction of Recombination Operators for the Vehicle Routing Problem},
+  journal = {Foundations of Computing and Decision Sciences},
+  volume = {29},
+  number = {3},
+  year = {2004},
+  author = {Marek Kubiak}
+}
+
+@article{Kytojoki2007,
+title = "An efficient variable neighborhood search heuristic for very large scale vehicle routing problems",
+journal = {Computers {\&} Operations Research},
+volume = "34",
+number = "9",
+pages = "2743 - 2757",
+year = "2007",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/j.cor.2005.10.010",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054805003394",
+author = "Jari Kytöjoki and Teemu Nuortio and Olli Bräysy and Michel Gendreau",
+keywords = "Vehicle routing",
+keywords = "Heuristics",
+keywords = "Variable neighborhood search",
+keywords = "Guided local search",
+keywords = "Large scale problems"
+}
+
+
+@article{Laporte1985,
+author = {Laporte, Gilbert and Nobert, Yves and Desrochers, Martin}, 
+title = {Optimal Routing under Capacity and Distance Restrictions}, 
+volume = {33}, 
+number = {5}, 
+pages = {1050-1073}, 
+year = {September/October 1985}, 
+doi = {10.1287/opre.33.5.1050}, 
+URL = {http://or.journal.informs.org/content/33/5/1050.abstract}, 
+eprint = {http://or.journal.informs.org/content/33/5/1050.full.pdf+html}, 
+journal = {Operations Research} 
+}
+
+@article{Laporte1992,
+title = "The vehicle routing problem: An overview of exact and approximate algorithms",
+journal = "European Journal of Operational Research",
+volume = "59",
+number = "3",
+pages = "345 - 358",
+year = "1992",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/0377-2217(92)90192-C",
+url = "http://www.sciencedirect.com/science/article/pii/037722179290192C",
+author = "Gilbert Laporte",
+keywords = "Vehicle Routing Problem",
+keywords = "survey"
+}
+
+@article {Laporte2000,
+author = {Laporte, G. and Gendreau, M. and Potvin, J-Y. and Semet, F.},
+title = {Classical and modern heuristics for the vehicle routing problem},
+journal = {International Transactions in Operational Research},
+volume = {7},
+number = {4-5},
+publisher = {Blackwell Publishing Ltd},
+issn = {1475-3995},
+url = {http://dx.doi.org/10.1111/j.1475-3995.2000.tb00200.x},
+doi = {10.1111/j.1475-3995.2000.tb00200.x},
+pages = {285--300},
+keywords = {Routing, Search algorithms},
+year = {2000},
+}
+
+@incollection {Li2006,
+   author = {Li, Xiangyong and Tian, Peng},
+   affiliation = {Antai College of Economics {\&} Management, Shanghai Jiaotong University, Shanghai, P.R. China},
+   title = {An Ant Colony System for the Open Vehicle Routing Problem},
+   booktitle = {Ant Colony Optimization and Swarm Intelligence},
+   series = {Lecture Notes in Computer Science},
+   editor = {Dorigo, Marco and Gambardella, Luca and Birattari, Mauro and Martinoli, Alcherio and Poli, Riccardo and Stützle, Thomas},
+   publisher = {Springer Berlin / Heidelberg},
+   isbn = {978-3-540-38482-3},
+   keyword = {Computer Science},
+   pages = {356-363},
+   volume = {4150},
+   url = {http://dx.doi.org/10.1007/11839088_33},
+   year = {2006}
+}
+
+@article{Mazzeo2004,
+title = "An Ant Colony Algorithm for the Capacitated Vehicle Routing",
+journal = "Electronic Notes in Discrete Mathematics",
+volume = "18",
+number = "0",
+pages = "181 - 186",
+year = "2004",
+note = "<xocs:full-name>Latin-American Conference on Combinatorics, Graphs and Applications</xocs:full-name>",
+issn = "1571-0653",
+doi = "10.1016/j.endm.2004.06.029",
+url = "http://www.sciencedirect.com/science/article/pii/S1571065304010868",
+author = "Silvia Mazzeo and Irene Loiseau",
+keywords = "Capacitated Vehicle Routing Problem",
+keywords = "Ant Colony",
+keywords = "Metaheuristics"
+}
+
+@article{Mester2007,
+title = "A multi-parametric evolution strategies algorithm for vehicle routing problems",
+journal = "Expert Systems with Applications",
+volume = "32",
+number = "2",
+pages = "508 - 517",
+year = "2007",
+note = "",
+issn = "0957-4174",
+doi = "10.1016/j.eswa.2005.12.014",
+url = "http://www.sciencedirect.com/science/article/pii/S095741740500360X",
+author = "David Mester and Olli Bräysy and Wout Dullaert",
+keywords = "Distribution management",
+keywords = "Vehicle routing problem",
+keywords = "Heuristics",
+keywords = "Evolution strategies"
+}
+
+@article{Mester2007b,
+title = "Active-guided evolution strategies for large-scale capacitated vehicle routing problems",
+journal = {Computers {\&} Operations Research},
+volume = "34",
+number = "10",
+pages = "2964 - 2975",
+year = "2007",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/j.cor.2005.11.006",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054805003552",
+author = "David Mester and Olli Bräysy",
+keywords = "Vehicle routing",
+keywords = "Heuristics",
+keywords = "Evolution strategies",
+keywords = "Guided local search"
+}
+
+@article{Mladenovic1997,
+title = "Variable neighborhood search",
+journal = {Computers {\&} Operations Research},
+volume = "24",
+number = "11",
+pages = "1097 - 1100",
+year = "1997",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/S0305-0548(97)00031-2",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054897000312",
+author = "N. Mladenović and P. Hansen"
+}
+
+@article{Nanry2000,
+title = "Solving the pickup and delivery problem with time windows using reactive tabu search",
+journal = "Transportation Research Part B: Methodological",
+volume = "34",
+number = "2",
+pages = "107 - 121",
+year = "2000",
+note = "",
+issn = "0191-2615",
+doi = "10.1016/S0191-2615(99)00016-8",
+url = "http://www.sciencedirect.com/science/article/pii/S0191261599000168",
+author = "William P Nanry and J Wesley Barnes",
+keywords = "Tabu search",
+keywords = "Coupling constraints",
+keywords = "Neighborhood selection",
+keywords = "Benchmark problems"
+}
+
+@ARTICLE{Ombuki2006,
+    author = {Beatrice Ombuki and Brian J. Ross and Franklin Hanshar},
+    title = {Multi-objective Genetic Algorithms for Vehicle Routing Problem with Time Windows},
+    journal = {APPLIED INTELLIGENCE},
+    year = {2006},
+    volume = {24},
+    pages = {2006}
+}
+
+@article {Osman1993,
+   author = {Osman, Ibrahim Hassan},
+   affiliation = {Institute of Mathematics and Statistics The University CT2 7NF Canterbury Kent UK},
+   title = {Metastrategy simulated annealing and tabu search algorithms for the vehicle routing problem},
+   journal = {Annals of Operations Research},
+   publisher = {Springer Netherlands},
+   issn = {0254-5330},
+   keyword = {Economie et Gestion},
+   pages = {421-451},
+   volume = {41},
+   issue = {4},
+   url = {http://dx.doi.org/10.1007/BF02023004},
+   note = {10.1007/BF02023004},
+   year = {1993}
+}
+
+@article {Pankratz2005b,
+   author = {Pankratz, Giselher},
+   affiliation = {Department of Business Administration and Economics FernUniversität - University of Hagen Profilstraße 8 58084 Hagen Germany},
+   title = {A Grouping Genetic Algorithm for the Pickup and Delivery Problem with Time Windows},
+   journal = {OR Spectrum},
+   publisher = {Springer Berlin / Heidelberg},
+   issn = {0171-6468},
+   keyword = {Economie et Gestion},
+   pages = {21-41},
+   volume = {27},
+   issue = {1},
+   url = {http://dx.doi.org/10.1007/s00291-004-0173-7},
+   note = {10.1007/s00291-004-0173-7},
+   year = {2005}
+}
+
+@article {Polacek2004,
+   author = {Polacek, Michael and Hartl, Richard F. and Doerner, Karl and Reimann, Marc},
+   affiliation = {Department of Production and Operations Management, Institute of Management Science University of Vienna A-1210 Vienna Austria},
+   title = {A Variable Neighborhood Search for the Multi Depot Vehicle Routing Problem with Time Windows},
+   journal = {Journal of Heuristics},
+   publisher = {Springer Netherlands},
+   issn = {1381-1231},
+   keyword = {Mathématiques et Statistique},
+   pages = {613-627},
+   volume = {10},
+   issue = {6},
+   url = {http://dx.doi.org/10.1007/s10732-005-5432-5},
+   note = {10.1007/s10732-005-5432-5},
+   year = {2004}
+}
+
+@article{Potvin1996,
+  author    = {Jean-Yves Potvin and
+               Samy Bengio},
+  title     = {The Vehicle Routing Problem with Time Windows Part II: Genetic
+               Search},
+  journal   = {INFORMS Journal on Computing},
+  volume    = {8},
+  number    = {2},
+  year      = {1996},
+  pages     = {165-172},
+  ee        = {http://dx.doi.org/10.1287/ijoc.8.2.165},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{Prins2004,
+title = "A simple and effective evolutionary algorithm for the vehicle routing problem",
+journal = {Computers {\&} Operations Research},
+volume = "31",
+number = "12",
+pages = "1985 - 2002",
+year = "2004",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/S0305-0548(03)00158-8",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054803001588",
+author = "Christian Prins",
+keywords = "Vehicle routing problem",
+keywords = "Genetic algorithm"
+}
+
+@inproceedings{Rayward1994,
+  author={Rayward-Smith, V.J.},
+  title={A Unified Approach to Tabu Search Simulated Annealing and Genetic Algorithms},
+  booktitle={Unicom Seminars Ltd (ed) Adaptive Computing and Information Processing},
+  publisher={Unicom Seminars Ltd.},
+  address = {London},
+  year={1994},
+  volume = {I},
+  pages = {55-78}
+}
+
+@article{Reimann2004,
+title = "D-Ants: Savings Based Ants divide and conquer the vehicle routing problem",
+journal = {Computers {\&} Operations Research},
+volume = "31",
+number = "4",
+pages = "563 - 591",
+year = "2004",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/S0305-0548(03)00014-5",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054803000145",
+author = "Marc Reimann and Karl Doerner and Richard F Hartl",
+keywords = "Meta-heuristics",
+keywords = "Ant System",
+keywords = "ACO",
+keywords = "Decomposition",
+keywords = "Vehicle Routing Problem"
+}
+
+@TECHREPORT{Talbi2001,
+    author = {El-ghazali Talbi},
+    title = {Métaheuristiques pour l'optimisation combinatoire multi-objectif: Etat de l'art},
+    year = {2001}
+    type = {Technical Report}
+}
+
+@article{Tan2001,
+title = "Heuristic methods for vehicle routing problem with time windows",
+journal = "Artificial Intelligence in Engineering",
+volume = "15",
+number = "3",
+pages = "281 - 295",
+year = "2001",
+note = "",
+issn = "0954-1810",
+doi = "10.1016/S0954-1810(01)00005-X",
+url = "http://www.sciencedirect.com/science/article/pii/S095418100100005X",
+author = "K.C Tan and L.H Lee and Q.L Zhu and K Ou",
+keywords = "Vehicle routing problem",
+keywords = "Time windows",
+keywords = "Combinatorial optimisation",
+keywords = "Heuristics",
+keywords = "Simulated annealing",
+keywords = "Tabu search",
+keywords = "Genetic algorithm"
+}
+
+@article{Tan2006,
+ author = {Tan, K. C. and Chew, Y. H. and Lee, L. H.},
+ title = {A Hybrid Multiobjective Evolutionary Algorithm for Solving Vehicle Routing Problem with Time Windows},
+ journal = {Comput. Optim. Appl.},
+ issue_date = {May       2006},
+ volume = {34},
+ number = {1},
+ month = may,
+ year = {2006},
+ issn = {0926-6003},
+ pages = {115--151},
+ numpages = {37},
+ url = {http://dx.doi.org/10.1007/s10589-005-3070-3},
+ doi = {10.1007/s10589-005-3070-3},
+ acmid = {1132123},
+ publisher = {Kluwer Academic Publishers},
+ address = {Norwell, MA, USA},
+ keywords = {evolutionary algorithms, multiobjective optimization, vehicle routing problems},
+} 
+
+@phdthesis{Thangiah1991,
+ author = {Thangiah, Sam Rabindranath},
+ title = {Gideon: a genetic algorithm system for vehicle routing with time windows},
+ year = {1991},
+ note = {UMI Order No. GAX91-27716},
+ publisher = {North Dakota State University},
+ address = {Fargo, ND, USA},
+} 
+
+@book{Toth2001,
+ editor = {Toth, Paolo and Vigo, Daniele},
+ title = {The vehicle routing problem},
+ year = {2001},
+ isbn = {0-89871-498-2},
+ publisher = {Society for Industrial and Applied Mathematics},
+ address = {Philadelphia, PA, USA},
+} 
+
+@Article{Ulusoy1985,
+  author={Ulusoy, Gunduz},
+  title={The fleet size and mix problem for capacitated arc routing},
+  journal={European Journal of Operational Research},
+  year=1985,
+  volume={22},
+  number={3},
+  pages={329-337},
+  month={December},
+  keywords={},
+  abstract={No abstract is available for this item.},
+  url={http://ideas.repec.org/a/eee/ejores/v22y1985i3p329-337.html}
+}
+
+@Techreport{Vidal2011,
+  author = {Vidal, T. and Crainic, T.G. and Gendreau M. and Prins, C.},
+  year = {2011},
+  title = {Heuristiques pour les problèmes de tournées de véhicules multi-attributs},
+  institution = {CIRRELT}  
+}
+
+@techreport{Christofides1976,
+  added-at = {2008-01-10T17:04:02.000+0100},
+  author = {Christofides, Nicos},
+  biburl = {http://www.bibsonomy.org/bibtex/2107ce5afe4cdd886e5cf863b16533205/jvrb_regulski},
+  institution = {Graduate School of Industrial Administration, Carnegie Mellon University},
+  interhash = {17c4f6224da4a8ead47972fd788d7556},
+  intrahash = {107ce5afe4cdd886e5cf863b16533205},
+  keywords = {3(2006)12},
+  number = 388,
+  timestamp = {2008-01-10T17:04:02.000+0100},
+  title = {Worst-case analysis of a new heuristic for the travelling salesman problem},
+  type = {Technical Report},
+  year = 1976
+}
+
+%------------------------------------------------------------------------------%
+%---------------------------          DVRP          ---------------------------%
+%------------------------------------------------------------------------------%
+@ARTICLE{Benyahia1998, 
+author={Benyahia, I. and Potvin, J.-Y.}, 
+journal={Systems, Man and Cybernetics, Part A: Systems and Humans, IEEE Transactions on}, title={Decision support for vehicle dispatching using genetic programming }, 
+year={1998}, 
+month={may}, 
+volume={28}, 
+number={3}, 
+pages={306 -314}, 
+keywords={courier service;decision support systems;fleet;genetic algorithm;genetic programming;multiattribute choice model;real-time;utility function;vehicle dispatching;decision support systems;dispatching;genetic algorithms;mathematical programming;transportation;}, 
+doi={10.1109/3468.668962}, 
+ISSN={1083-4427}
+}
+
+@article{Berbeglia2010,
+  author    = {Gerardo Berbeglia and
+               Jean-Fran\c{c}ois Cordeau and
+               Gilbert Laporte},
+  title     = {Dynamic pickup and delivery problems},
+  journal   = {European Journal of Operational Research},
+  volume    = {202},
+  number    = {1},
+  year      = {2010},
+  pages     = {8-15},
+  ee        = {http://dx.doi.org/10.1016/j.ejor.2009.04.024},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{Chen2006,
+ author = {Chen, Zhi-Long and Xu, Hang},
+ title = {Dynamic Column Generation for Dynamic Vehicle Routing with Time Windows},
+ journal = {Transportation Science},
+ issue_date = {February 2006},
+ volume = {40},
+ number = {1},
+ month = feb,
+ year = {2006},
+ issn = {1526-5447},
+ pages = {74--88},
+ numpages = {15},
+ url = {http://dx.doi.org/10.1287/trsc.1050.0133},
+ doi = {10.1287/trsc.1050.0133},
+ acmid = {1247184},
+ publisher = {INFORMS},
+ address = {Institute for Operations Research and the Management Sciences (INFORMS), Linthicum, Maryland, USA},
+ keywords = {column generation, dynamic vehicle routing, heuristics, time windows},
+}
+
+@INPROCEEDINGS{Gambardella2003,
+  AUTHOR = {L.~M.~Gambardella and A.~E.~Rizzoli and F.~Oliverio and N.~Casagrande and A.~V.~Donati and R.~Montemanni and E.~Lucibello},
+  TITLE = {Ant Colony Optimization for Vehicle Routing in Advanced Logistics Systems},
+  BOOKTITLE = {MAS2003 -- The International Workshop on Modeling \& Applied Simulation},
+  PAGES = {3--9},
+  YEAR = {2003},
+  EDITOR = {A.~G.~Bruzzone and R.~Mosca}
+}
+
+@article{Gendreau1999,
+author = {Gendreau, Michel and Guertin, François and Potvin, Jean-Yves and Taillard, Éric}, 
+title = {Parallel Tabu Search for Real-Time Vehicle Routing and Dispatching}, 
+volume = {33}, 
+number = {4}, 
+pages = {381-390}, 
+year = {1999}, 
+doi = {10.1287/trsc.33.4.381}, 
+URL = {http://transci.journal.informs.org/content/33/4/381.abstract}, 
+eprint = {http://transci.journal.informs.org/content/33/4/381.full.pdf+html}, 
+journal = {Transportation Science} 
+}
+
+@INPROCEEDINGS{Jih1999, 
+author={Wan-Rong Jih and Yung-Jen Hsu, J.}, 
+booktitle={Robotics and Automation, 1999. Proceedings. 1999 IEEE International Conference on}, title={Dynamic vehicle routing using hybrid genetic algorithms}, 
+year={1999}, 
+month={}, 
+volume={1}, 
+number={}, 
+pages={453 -458 vol.1}, 
+keywords={automated factory;delivery problem;dynamic programming;dynamic vehicle routing;hybrid genetic algorithms;optimal routing;single-vehicle pickup problem;dynamic programming;genetic algorithms;production control;scheduling;transportation;}, 
+doi={10.1109/ROBOT.1999.770019}, 
+}
+
+@TECHREPORT{Kilby1998,
+    author = {Philip Kilby and Patrick Prosser and Paul Shaw},
+    title = {Dynamic VRPs: A Study of Scenarios},
+    institution = {},
+    year = {1998}
+}
+
+@incollection {Larsen2008,
+   author = {Larsen, Allan and Madsen, Oli B.G. and Solomon, Marius M.},
+   affiliation = {The Technical University of Denmark Centre for Traffic and Transport DK-2800 Kongens Lyngby Denmark},
+   title = {Recent Developments in Dynamic Vehicle Routing Systems},
+   booktitle = {The Vehicle Routing Problem: Latest Advances and New Challenges},
+   series = {Operations Research/Computer Science Interfaces Series},
+   editor = {Golden, Bruce and Raghavan, S. and Wasil, Edward and Sharda, Ramesh and Voß, Stefan},
+   publisher = {Springer US},
+   isbn = {978-0-387-77778-8},
+   keyword = {Business and Economics},
+   pages = {199-218},
+   volume = {43},
+   url = {http://dx.doi.org/10.1007/978-0-387-77778-8_9},
+   year = {2008}
+}
+
+@PhdThesis{Mitrovic-Minic2001,
+ author = {Mitrovic-Minic},
+ title = {The Dynamic Pickup and Delivery Problem with Time Windows},
+ school = {Simon Fraser University},
+ year = {2001}
+}
+
+@article {Montemanni2005,
+   author = {Montemanni, R. and Gambardella, L. and Rizzoli, A. and Donati, A.},
+   affiliation = {Istituto Dalle Molle di Studi sull'Intelligenza Artificiale (IDSIA) Galleria 2 CH-6928 Manno-Lugano Switzerland},
+   title = {Ant Colony System for a Dynamic Vehicle Routing Problem},
+   journal = {Journal of Combinatorial Optimization},
+   publisher = {Springer Netherlands},
+   issn = {1382-6905},
+   keyword = {Mathématiques et Statistique},
+   pages = {327-343},
+   volume = {10},
+   issue = {4},
+   url = {http://dx.doi.org/10.1007/s10878-005-4922-6},
+   note = {10.1007/s10878-005-4922-6},
+   year = {2005}
+}
+
+@article{Pankratz2005,
+    author = {Pankratz, Giselher},
+    citeulike-article-id = {242243},
+    citeulike-linkout-0 = {http://dx.doi.org/10.1108/09600030510607346},
+    citeulike-linkout-1 = {http://www.ingentaconnect.com/content/mcb/005/2005/00000035/00000005/art00004},
+    doi = {10.1108/09600030510607346},
+    issn = {0960-0035},
+    journal = {International Journal of Physical Distribution \& Logistics Management},
+    keywords = {complexity, control-theory, general-interfaces, modeling-and-simulation},
+    month = may,
+    number = {5},
+    pages = {362--383},
+    posted-at = {2005-12-06 00:35:38},
+    priority = {3},
+    publisher = {Emerald Group Publishing Limited},
+    title = {{Dynamic vehicle routing by means of a genetic algorithm}},
+    url = {http://dx.doi.org/10.1108/09600030510607346},
+    volume = {35},
+    year = {2005}
+}
+
+
+@techreport{Pillac2011,
+    hal_id = {hal-00634659},
+    url = {http://hal.archives-ouvertes.fr/hal-00634659},
+    title = {{A review of dynamic vehicle routing problems}},
+    author = {Pillac, Victor and Gendreau, Michel and Gu{\'e}ret, Christelle and Medaglia, Andr{\'e}s},
+    keywords = {Transportation ; Combinatorial optimization ; Vehicle routing ; Dynamic vehicle routing ; Stochastic and dynamic vehicle routing},
+    language = {Anglais},
+    affiliation = {Institut de Recherche en Communications et en Cybern{\'e}tique de Nantes - IRCCyN , Centro para la Optimizaci{\'o}n y Probabilidad Aplicada, Departamento de Ingenier{\'\i}a Industrial - COPA , Centre Interuniversitaire de Recherche sur les R{\'e}seaux d'Entreprise, la Logistique et le Transport - CIRRELT , D{\'e}partement de math{\'e}matiques et de g{\'e}nie industriel , Ecole des Mines Nantes - EMN},
+    number = {CIRRELT-2011-62},
+    note = {29 pages, available at https://www.cirrelt.ca/DocumentsTravail/CIRRELT-2011-62.pdf},
+    year = {2011-10},
+}
+
+@article{Swihart1999,
+title = "A stochastic and dynamic model for the single-vehicle pick-up and delivery problem",
+journal = "European Journal of Operational Research",
+volume = "114",
+number = "3",
+pages = "447 - 464",
+year = "1999",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/S0377-2217(98)00260-4",
+url = "http://www.sciencedirect.com/science/article/pii/S0377221798002604",
+author = "Michael R. Swihart and Jason D. Papastavrou",
+keywords = "Stochastic, dynamic vehicle routing",
+keywords = "Queueing"
+}
+
+@article{Psaraftis1980,
+author = {Psaraftis, Harilaos N.}, 
+title = {A Dynamic Programming Solution to the Single Vehicle Many-to-Many Immediate Request Dial-a-Ride Problem}, 
+volume = {14}, 
+number = {2}, 
+pages = {130-154}, 
+year = {1980}, 
+doi = {10.1287/trsc.14.2.130}, 
+URL = {http://transci.journal.informs.org/content/14/2/130.abstract}, 
+eprint = {http://transci.journal.informs.org/content/14/2/130.full.pdf+html}, 
+journal = {Transportation Science} 
+}
+
+@book{Psaraftis1985,
+  title={Analysis and Solution Algorithms of Sealift Routing and Scheduling Problems},
+  author={Psaraftis, H.N. and Sloan School of Management},
+  series={Working paper (Sloan School of Management)},
+  url={http://books.google.fr/books?id=20mOHAAACAAJ},
+  year={1985},
+  publisher={Massachusetts Institute of Technology, Alfred P. Sloan School of Management}
+}
+
+@article {Rizzoli2007,
+   author = {Rizzoli, A. and Montemanni, R. and Lucibello, E. and Gambardella, L.},
+   affiliation = {Istituto Dalle Molle di Studi sull’Intelligenza Artificiale (IDSIA) Galleria 2 6928 Manno Switzerland},
+   title = {Ant colony optimization for real-world vehicle routing problems},
+   journal = {Swarm Intelligence},
+   publisher = {Springer New York},
+   issn = {1935-3812},
+   keyword = {Ingénierie},
+   pages = {135-151},
+   volume = {1},
+   issue = {2},
+   url = {http://dx.doi.org/10.1007/s11721-007-0005-x},
+   note = {10.1007/s11721-007-0005-x},
+   year = {2007}
+}
+
+@article{Savelsbergh1998,
+    author = {Savelsbergh, Martin and Sol, Marc},
+    citeulike-article-id = {5719063},
+    citeulike-linkout-0 = {http://dx.doi.org/10.2307/223126},
+    citeulike-linkout-1 = {http://www.jstor.org/stable/223126},
+    doi = {10.2307/223126},
+    issn = {0030364X},
+    journal = {Operations Research},
+    number = {4},
+    pages = {474--490},
+    posted-at = {2009-09-03 18:06:00},
+    priority = {2},
+    publisher = {INFORMS},
+    title = {{Drive: Dynamic Routing of Independent Vehicles}},
+    url = {http://dx.doi.org/10.2307/223126},
+    volume = {46},
+    year = {1998}
+}
+
+@book{Wilson1971,
+  title={Scheduling Algorithms for a Dial-A-Ride System},
+  author={Wilson, N.H.M. and Massachusetts Institute of Technology. Urban Systems Laboratory},
+  series={TR (Massachusetts Institute of Technology. Urban Systems Laboratory)},
+  url={http://books.google.fr/books?id=LRTMZwEACAAJ},
+  year={1971},
+  publisher={Massachusetts Institute of Technology, Urban Systems Laboratory}
+}
+
+@book{Wilson1975,
+  title={Advanced Dial-a-ride Algorithms: Interim Report},
+  author={Wilson, N.H.M. and Massachusetts Institute of Technology. Dept. of Civil Engineering and United States. Urban Mass Transportation Administration},
+  series={R75-27},
+  url={http://books.google.fr/books?id=wX7UygAACAAJ},
+  year={1975},
+  publisher={The Department}
+}
+
+@book{Wilson1977,
+  title={Computer control of the Rochester dial-a-ride system},
+  author={Wilson, N.H.M. and Colvin, N.J. and Massachusetts Institute of Technology. Center for Transportation Studies and United States. Urban Mass Transportation Administration and Rochester Genesee Regional Transit Authority},
+  url={http://books.google.fr/books?id=j7ceAQAAMAAJ},
+  year={1977},
+  publisher={Massachusetts Institute of Technology, Center for Transportation Studies}
+}
+
+@article{Yang2004,
+author = {Yang, Jian and Jaillet, Patrick and Mahmassani, Hani}, 
+title = {Real-Time Multivehicle Truckload Pickup and Delivery Problems}, 
+volume = {38}, 
+number = {2}, 
+pages = {135-148}, 
+year = {2004}, 
+doi = {10.1287/trsc.1030.0068}, 
+URL = {http://transci.journal.informs.org/content/38/2/135.abstract}, 
+eprint = {http://transci.journal.informs.org/content/38/2/135.full.pdf+html}, 
+journal = {Transportation Science} 
+}
+
+%------------------------------------------------------------------------------%
+%---------------------------          JSSP          ---------------------------%
+%------------------------------------------------------------------------------%
+@article{Aarts1994,
+author = {Aarts, E. H. L. and van Laarhoven, P. J. M. and Lenstra, J. K. and Ulder, N. L. J.}, 
+title = {A Computational Study of Local Search Algorithms for Job Shop Scheduling}, 
+volume = {6}, 
+number = {2}, 
+pages = {118-125}, 
+year = {Spring 1994}, 
+doi = {10.1287/ijoc.6.2.118}, 
+URL = {http://joc.journal.informs.org/content/6/2/118.abstract}, 
+eprint = {http://joc.journal.informs.org/content/6/2/118.full.pdf+html}, 
+journal = {ORSA Journal on Computing} 
+}
+
+@article{Adams1988,
+ author = {Adams, Joseph and Balas, Egon and Zawack, Daniel},
+ title = {The shifting bottleneck procedure for job shop scheduling},
+ journal = {Manage. Sci.},
+ issue_date = {March 1988},
+ volume = {34},
+ number = {3},
+ month = mar,
+ year = {1988},
+ issn = {0025-1909},
+ pages = {391--401},
+ numpages = {11},
+ url = {http://dx.doi.org/10.1287/mnsc.34.3.391},
+ doi = {10.1287/mnsc.34.3.391},
+ acmid = {50607},
+ publisher = {INFORMS},
+ address = {Institute for Operations Research and the Management Sciences (INFORMS), Linthicum, Maryland, USA},
+} 
+
+@article{Akers1956,
+author = {Akers, Sheldon B.}, 
+title = {Letter to the Editor—A Graphical Approach to Production Scheduling Problems}, 
+volume = {4}, 
+number = {2}, 
+pages = {244-245}, 
+year = {1956}, 
+doi = {10.1287/opre.4.2.244}, 
+URL = {http://or.journal.informs.org/content/4/2/244.abstract}, 
+eprint = {http://or.journal.informs.org/content/4/2/244.full.pdf+html}, 
+journal = {Operations Research} 
+}
+
+@article{Allahverdi1999,
+title = "A review of scheduling research involving setup considerations",
+journal = "Omega",
+volume = "27",
+number = "2",
+pages = "219 - 239",
+year = "1999",
+note = "",
+issn = "0305-0483",
+doi = "10.1016/S0305-0483(98)00042-5",
+url = "http://www.sciencedirect.com/science/article/pii/S0305048398000425",
+author = "Ali Allahverdi and Jatinder N.D Gupta and Tariq Aldowaisan",
+keywords = "Machine and shop scheduling",
+keywords = "Setup times",
+keywords = "Setup cost",
+keywords = "Review of problems and algorithms"
+}
+
+@article{Allahverdi2008,
+title = "A survey of scheduling problems with setup times or costs",
+journal = "European Journal of Operational Research",
+volume = "187",
+number = "3",
+pages = "985 - 1032",
+year = "2008",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/j.ejor.2006.06.060",
+url = "http://www.sciencedirect.com/science/article/pii/S0377221706008174",
+author = "Ali Allahverdi and C.T. Ng and T.C.E. Cheng and Mikhail Y. Kovalyov",
+keywords = "Scheduling",
+keywords = "Setup time",
+keywords = "Setup cost",
+keywords = "Survey (review)",
+keywords = "Single machine",
+keywords = "Parallel machines",
+keywords = "Flow shop",
+keywords = "Job shop",
+keywords = "Open shop"
+}
+
+@article{Almeida1998,
+title = "A composite heuristic for the single machine early/tardy job scheduling problem",
+journal = {Computers {\&} Operations Research},
+volume = "25",
+number = "7–8",
+pages = "625 - 635",
+year = "1998",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/S0305-0548(97)00097-X",
+url = "http://www.sciencedirect.com/science/article/pii/S030505489700097X",
+author = "Maria Teresa Almeida and Mário Centeno",
+keywords = "job scheduling",
+keywords = "tabu search",
+keywords = "simulated annealing"
+}
+
+@article{Applegate1991,
+author = {Applegate, David and Cook, William}, 
+title = {A Computational Study of the Job-Shop Scheduling Problem}, 
+volume = {3}, 
+number = {2}, 
+pages = {149-156}, 
+year = {Spring 1991}, 
+doi = {10.1287/ijoc.3.2.149}, 
+URL = {http://joc.journal.informs.org/content/3/2/149.abstract}, 
+eprint = {http://joc.journal.informs.org/content/3/2/149.full.pdf+html}, 
+journal = {ORSA Journal on Computing} 
+}
+
+@book{Baker1974,
+  title={Introduction to sequencing and scheduling},
+  author={Baker, K.R.},
+  isbn={9780471045557},
+  lccn={74008010},
+  url={http://books.google.fr/books?id=o8lTAAAAMAAJ},
+  year={1974},
+  publisher={Wiley}
+}
+
+@article{Balas1969,
+author = {Balas, Egon}, 
+title = {Machine Sequencing Via Disjunctive Graphs: An Implicit Enumeration Algorithm}, 
+volume = {17}, 
+number = {6}, 
+pages = {941-957}, 
+year = {November/December 1969}, 
+doi = {10.1287/opre.17.6.941}, 
+URL = {http://or.journal.informs.org/content/17/6/941.abstract}, 
+eprint = {http://or.journal.informs.org/content/17/6/941.full.pdf+html}, 
+journal = {Operations Research} 
+}
+
+@ARTICLE{Balas1995,
+title = {The One-Machine Problem with Delayed Precedence Constraints and its Use in Job Shop Scheduling},
+author = {Balas, Egon and Lenstra, Jan Karel and Vazacopoulos, Alkis},
+year = {1995},
+journal = {Management Science},
+volume = {41},
+number = {1},
+pages = {94-109},
+keywords = {job shop scheduling; delayed precedence constraints; Shifting Bottleneck Procedure},
+url = {http://EconPapers.repec.org/RePEc:inm:ormnsc:v:41:y:1995:i:1:p:94-109}
+}
+
+@article{Balas1998,
+ author = {Balas, Egon and Vazacopoulos, Alkis},
+ title = {Guided Local Search with Shifting Bottleneck for Job Shop Scheduling},
+ journal = {Manage. Sci.},
+ issue_date = {February 1998},
+ volume = {44},
+ number = {2},
+ month = feb,
+ year = {1998},
+ issn = {0025-1909},
+ pages = {262--275},
+ numpages = {14},
+ url = {http://dx.doi.org/10.1287/mnsc.44.2.262},
+ doi = {10.1287/mnsc.44.2.262},
+ acmid = {288757},
+ publisher = {INFORMS},
+ address = {Institute for Operations Research and the Management Sciences (INFORMS), Linthicum, Maryland, USA},
+ keywords = {Job Shop Scheduling, Local Search, Neighborhood Trees, Shifting Bottleneck},
+}
+
+@article{Barker1985,
+author = {Barker, Jeffrey R. and McMahon, Graham B.}, 
+title = {Scheduling the General Job-Shop}, 
+volume = {31}, 
+number = {5}, 
+pages = {594-598}, 
+year = {1985}, 
+doi = {10.1287/mnsc.31.5.594}, 
+URL = {http://mansci.journal.informs.org/content/31/5/594.abstract}, 
+eprint = {http://mansci.journal.informs.org/content/31/5/594.full.pdf+html}, 
+journal = {Management Science} 
+}
+
+@article{Barnes1995,
+author = {Barnes, J.   Wesley and Chambers, John B.},
+title = {Solving the job shop scheduling problem with tabu search},
+journal = {IIE Transactions},
+volume = {27},
+number = {2},
+pages = {257-263},
+year = {1995},
+doi = {10.1080/07408179508936739},
+URL = {http://www.tandfonline.com/doi/abs/10.1080/07408179508936739},
+eprint = {http://www.tandfonline.com/doi/pdf/10.1080/07408179508936739}
+}
+
+@inproceedings{Beck2003,
+  author    = {J. Christopher Beck and
+               Patrick Prosser and
+               Evgeny Selensky},
+  title     = {Vehicle Routing and Job Shop Scheduling: What's the Difference?},
+  booktitle = {ICAPS},
+  year      = {2003},
+  pages     = {267-276},
+  crossref  = {DBLP:conf/aips/2003},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{Beck2006,
+ author = {Beck, J. Christopher and Prosser, Patrick and Selensky, Evgeny},
+ title = {A case study of mutual routing-scheduling reformulation},
+ journal = {J. of Scheduling},
+ issue_date = {October   2006},
+ volume = {9},
+ number = {5},
+ month = oct,
+ year = {2006},
+ issn = {1094-6136},
+ pages = {469--491},
+ numpages = {23},
+ url = {http://dx.doi.org/10.1007/s10951-006-8596-4},
+ doi = {10.1007/s10951-006-8596-4},
+ acmid = {1149876},
+ publisher = {Kluwer Academic Publishers},
+ address = {Hingham, MA, USA},
+ keywords = {empirical analysis, job shop scheduling, problem reformulation, vehicle routing},
+} 
+
+@ARTICLE{Bierwirth1995,
+    author = {Christian Bierwirth},
+    title = {A Generalized Permutation Approach to Job Shop Scheduling with Genetic Algorithms},
+    journal = {OR Spektrum},
+    year = {1995},
+    volume = {17},
+    pages = {87--92}
+}
+
+@ARTICLE{Blazewicz1996,
+title = {The job shop scheduling problem: Conventional and new solution techniques},
+author = {Blazewicz, Jacek and Domschke, Wolfgang and Pesch, Erwin},
+year = {1996},
+journal = {European Journal of Operational Research},
+volume = {93},
+number = {1},
+pages = {1-33},
+url = {http://EconPapers.repec.org/RePEc:eee:ejores:v:93:y:1996:i:1:p:1-33}
+}
+
+@article {Brucker1990,
+   author = {Brucker, P. and Schlie, R.},
+   affiliation = {Universität Osnabrück Fachbereich Mathematik/Informatik Albrechtstrasse 28 D-4500 Osnabrück Federal Republic of Germany Albrechtstrasse 28 D-4500 Osnabrück Federal Republic of Germany},
+   title = {Job-shop scheduling with multi-purpose machines},
+   journal = {Computing},
+   publisher = {Springer Wien},
+   issn = {0010-485X},
+   keyword = {Informatique},
+   pages = {369-375},
+   volume = {45},
+   issue = {4},
+   url = {http://dx.doi.org/10.1007/BF02238804},
+   note = {10.1007/BF02238804},
+   year = {1990}
+}
+
+@book{Brucker2007,
+    author = {Brucker, Peter},
+    citeulike-article-id = {3681892},
+    day = {12},
+    edition = {5th},
+    howpublished = {Hardcover},
+    isbn = {354069515X},
+    keywords = {scheduling},
+    month = mar,
+    posted-at = {2009-04-15 15:57:21},
+    priority = {0},
+    publisher = {Springer},
+    title = {{Scheduling Algorithms}},
+    url = {http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20\&path=ASIN/354069515X},
+    year = {2007}
+}
+
+@article{Carlier1989,
+ author = {Carlier, J. and Pinson, E.},
+ title = {An algorithm for solving the job-shop problem},
+ journal = {Manage. Sci.},
+ issue_date = {Feb. 1989},
+ volume = {35},
+ number = {2},
+ month = feb,
+ year = {1989},
+ issn = {0025-1909},
+ pages = {164--176},
+ numpages = {13},
+ url = {http://dx.doi.org/10.1287/mnsc.35.2.164},
+ doi = {10.1287/mnsc.35.2.164},
+ acmid = {72415},
+ publisher = {INFORMS},
+ address = {Institute for Operations Research and the Management Sciences (INFORMS), Linthicum, Maryland, USA},
+}
+
+@article{Carlier1990,
+author = {J. Carlier and E. Pinson},
+title = {{A practical use of Jackson''s preemptive schedule for solving the Job-Shop problem}},
+year = {1990},
+masid = {2610917}
+}
+
+@article{Carlier1994,
+title = "Adjustment of heads and tails for the job-shop problem",
+journal = "European Journal of Operational Research",
+volume = "78",
+number = "2",
+pages = "146 - 161",
+year = "1994",
+note = "<ce:title>Project Management and Scheduling</ce:title>",
+issn = "0377-2217",
+doi = "10.1016/0377-2217(94)90379-4",
+url = "http://www.sciencedirect.com/science/article/pii/0377221794903794",
+author = "J. Carlier and E. Pinson",
+keywords = "Scheduling",
+keywords = "Job-shop",
+keywords = "Branch and bound method"
+}
+
+@article{Colorni1994,
+  author = {A. Colorni and Marco Dorigo and Vittorio Maniezzo and M.
+            Trubian},
+  title = {Ant {S}ystem for Job-shop Scheduling},
+  year = {1994},
+  journal = {Belgian Journal of Operations Research, Statistics and
+             Computer Science},
+  volume = {34},
+  number = {1},
+  pages = {39--53}
+}
+
+@article{Dauzere1993,
+author = {Dauzère-Pérès, S. and Lasserre, J.-B.},
+title = {A modified shifting bottleneck procedure for job-shop scheduling},
+journal = {International Journal of Production Research},
+volume = {31},
+number = {4},
+pages = {923-932},
+year = {1993},
+doi = {10.1080/00207549308956766},
+URL = {http://www.tandfonline.com/doi/abs/10.1080/00207549308956766},
+eprint = {http://www.tandfonline.com/doi/pdf/10.1080/00207549308956766}
+}
+
+@inproceedings{Davis1985,
+ author = {Davis, Lawrence},
+ title = {Job Shop Scheduling with Genetic Algorithms},
+ booktitle = {Proceedings of the 1st International Conference on Genetic Algorithms},
+ year = {1985},
+ isbn = {0-8058-0426-9},
+ pages = {136--140},
+ numpages = {5},
+ url = {http://dl.acm.org/citation.cfm?id=645511.657084},
+ acmid = {657084},
+ publisher = {L. Erlbaum Associates Inc.},
+ address = {Hillsdale, NJ, USA},
+} 
+
+@article{DellaCroce1995,
+title = "A genetic algorithm for the job shop problem",
+journal = {Computers {\&} Operations Research},
+volume = "22",
+number = "1",
+pages = "15 - 24",
+year = "1995",
+note = "<ce:title>Genetic Algorithms</ce:title>",
+issn = "0305-0548",
+doi = "10.1016/0305-0548(93)E0015-L",
+url = "http://www.sciencedirect.com/science/article/pii/0305054893E0015L",
+author = "Federico Della Croce and Roberto Tadei and Giuseppe Volta"
+}
+
+@article {DellAmico1993,
+   author = {Dell'Amico, Mauro and Trubian, Marco},
+   affiliation = {Politecnico di Milano I-20133 Milano Italy},
+   title = {Applying tabu search to the job-shop scheduling problem},
+   journal = {Annals of Operations Research},
+   publisher = {Springer Netherlands},
+   issn = {0254-5330},
+   keyword = {Economie et Gestion},
+   pages = {231-252},
+   volume = {41},
+   issue = {3},
+   url = {http://dx.doi.org/10.1007/BF02023076},
+   note = {10.1007/BF02023076},
+   year = {1993}
+}
+
+@article{Dorndorf1995,
+title = "Evolution based learning in a job shop scheduling environment",
+journal = {Computers {\&} Operations Research},
+volume = "22",
+number = "1",
+pages = "25 - 40",
+year = "1995",
+note = "<ce:title>Genetic Algorithms</ce:title>",
+issn = "0305-0548",
+doi = "10.1016/0305-0548(93)E0016-M",
+url = "http://www.sciencedirect.com/science/article/pii/0305054893E0016M",
+author = "Ulrich Dorndorf and Erwin Pesch"
+}
+
+@article{Florian1971,
+author = {Florian, M. and Trepant, P. and McMahon, G.}, 
+title = {An Implicit Enumeration Algorithm for the Machine Sequencing Problem}, 
+volume = {17}, 
+number = {12}, 
+pages = {B-782-B-792}, 
+year = {1971}, 
+doi = {10.1287/mnsc.17.12.B782}, 
+URL = {http://mansci.journal.informs.org/content/17/12/B-782.abstract}, 
+eprint = {http://mansci.journal.informs.org/content/17/12/B-782.full.pdf+html}, 
+journal = {Management Science} 
+}
+
+@book{French1982,
+  title={Sequencing and scheduling: an introduction to the mathematics of the job-shop},
+  author={French, S.},
+  isbn={9780853122999},
+  lccn={81003414},
+  series={Ellis Horwood series in mathematics and its applications},
+  url={http://books.google.fr/books?id=\_yUZAQAAIAAJ},
+  year={1982},
+  publisher={E. Horwood}
+}
+
+@article{Goncalves2005,
+title = "A hybrid genetic algorithm for the job shop scheduling problem",
+journal = "European Journal of Operational Research",
+volume = "167",
+number = "1",
+pages = "77 - 95",
+year = "2005",
+note = "",
+issn = "0377-2217",
+doi = "10.1016/j.ejor.2004.03.012",
+url = "http://www.sciencedirect.com/science/article/pii/S0377221704002656",
+author = {José Fernando Gonçalves and Jorge José de Magalhães Mendes and Mauricio G.C. Resende},
+keywords = "Job shop",
+keywords = "Scheduling",
+keywords = "Genetic algorithm",
+keywords = "Heuristics",
+keywords = "Random keys"
+}
+
+@article{Graham1979,
+    author = {Graham, R. and Lawlerm, E. and Lenstra, E. and Rinnooy},
+    citeulike-article-id = {1485370},
+    citeulike-linkout-0 = {file:///home/paul/workingDocument/startpagina.html},
+    journal = {Annals of discrete mathematics},
+    keywords = {optimisation, scheduling},
+    pages = {287--326},
+    posted-at = {2007-07-25 10:10:01},
+    priority = {0},
+    title = {{Optimization and approximation in determenistic sequencing and scheduling: a survey}},
+    url = {file:///home/paul/workingDocument/startpagina.html},
+    volume = {5},
+    year = {1979}
+}
+
+@ARTICLE{Hefetz1982,
+	author = {N Hefetz and I Adiri},
+	title = {An Efficient Optimal Algorithm for the Two-Machines Unit-Time Jobshop Schedule-Length Problem},
+	journal = {Mathematics of Operations Research},
+	year = {1982},
+	number = {7},
+	pages = {354--360}
+}
+
+@ARTICLE{Jackson1956,
+	author = {J R Jackson},
+	title = {An Extension of Johnson’s Results on Job-Lot Scheduling},
+	journal = {Naval Research Logistics Quarterly},
+	year = {1956},
+	number = {3},
+	pages = {201--224}
+}
+
+@article{Jain1998,
+	location = {http://www.scientificcommons.org/43158823},
+	title = {A State-Of-The-Art Review Of Job-Shop Scheduling Techniques},
+	author = {Anant Singh Jain and Sheik Meeran},
+	year = {1998},
+	keywords = {KEY WORDS, Job shop, scheduling, review, exact, approximation page (2) A state-of-the-art review of job-shop scheduling techniques 03/10/98},
+	url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.54.8522},
+	institution = {CiteSeerX - Scientific Literature Digital Library and Search Engine [http://citeseerx.ist.psu.edu/oai2] (United States)},
+}
+
+@article{James1997,
+title = "Using tabu search to solve the common due date early/tardy machine scheduling problem",
+journal = {Computers {\&} Operations Research},
+volume = "24",
+number = "3",
+pages = "199 - 208",
+year = "1997",
+note = "",
+issn = "0305-0548",
+doi = "10.1016/S0305-0548(96)00052-4",
+url = "http://www.sciencedirect.com/science/article/pii/S0305054896000524",
+author = "R.J.W. James"
+}
+
+@article {Johnson1954,
+author = {Johnson, S. M.},
+title = {Optimal two- and three-stage production schedules with setup times included},
+journal = {Naval Research Logistics Quarterly},
+volume = {1},
+number = {1},
+publisher = {Wiley Subscription Services, Inc., A Wiley Company},
+issn = {1931-9193},
+url = {http://dx.doi.org/10.1002/nav.3800010110},
+doi = {10.1002/nav.3800010110},
+pages = {61--68},
+year = {1954},
+}
+
+@article{Laarhoven1992,
+ author = {Van Laarhoven, Peter J. M. and Aarts, Emile H. L. and Lenstra, Jan Karel},
+ title = {Job shop scheduling by simulated annealing},
+ journal = {Oper. Res.},
+ issue_date = {Jan.\–Feb. 1992},
+ volume = {40},
+ number = {1},
+ month = jan,
+ year = {1992},
+ issn = {0030-364X},
+ pages = {113--125},
+ numpages = {13},
+ url = {http://dx.doi.org/10.1287/opre.40.1.113},
+ doi = {10.1287/opre.40.1.113},
+ acmid = {133767},
+ publisher = {INFORMS},
+ address = {Institute for Operations Research and the Management Sciences (INFORMS), Linthicum, Maryland, USA},
+} 
+
+@article{Lageweg1977,
+author = {Lageweg, B. J. and Lenstra, J. K. and Rinnooy Kan, A. H. G.}, 
+title = {Job-Shop Scheduling by Implicit Enumeration}, 
+volume = {24}, 
+number = {4}, 
+pages = {441-450}, 
+year = {1977}, 
+doi = {10.1287/mnsc.24.4.441}, 
+URL = {http://mansci.journal.informs.org/content/24/4/441.abstract}, 
+eprint = {http://mansci.journal.informs.org/content/24/4/441.full.pdf+html}, 
+journal = {Management Science} 
+}
+
+@incollection{Lenstra1979,
+title = "Computational Complexity of Discrete Optimization Problems",
+editor = "P.L. Hammer, E.L. Johnson and B.H. Korte",
+booktitle = "Discrete Optimization I Proceedings of the Advanced Research Institute on Discrete Optimization and Systems Applications of the Systems Science Panel of NATO and of the Discrete Optimization Symposium",
+publisher = "Elsevier",
+year = "1979",
+volume = "4",
+pages = "121 - 140",
+series = "Annals of Discrete Mathematics",
+issn = "0167-5060",
+doi = "10.1016/S0167-5060(08)70821-5",
+url = "http://www.sciencedirect.com/science/article/pii/S0167506008708215",
+author = "J.K. Lenstra and A.H.G. Rinnooy Kan"
+}
+
+@article {Matsuo1989,
+   author = {Matsuo, Hirofumi and Juck SUH, Chang and Sullivan, Robert S.},
+   affiliation = {Department of Management, Graduate School of Business The University of Texas at Austin 78712 Austin Texas USA},
+   title = {A controlled search simulated annealing method for the single machine weighted tardiness problem},
+   journal = {Annals of Operations Research},
+   publisher = {Springer Netherlands},
+   issn = {0254-5330},
+   keyword = {Economie et Gestion},
+   pages = {85-108},
+   volume = {21},
+   issue = {1},
+   url = {http://dx.doi.org/10.1007/BF02022094},
+   note = {10.1007/BF02022094},
+   year = {1989}
+}
+
+@book{Morton1993,
+	author = {T E Morton and D W Pentico},
+	title = {Heuristic Scheduling Systems},
+	publisher = {John Wiley Interscience},
+	address = {New York},
+	year = {1993}
+}
+
+@book{Muth1963,
+  title={Industrial scheduling},
+  author={Muth, J.F. and Thompson, G.L.},
+  lccn={63012749},
+  series={Prentice-Hall international series in management},
+  url={http://books.google.fr/books?id=A5AgAAAAMAAJ},
+  year={1963},
+  publisher={Prentice-Hall}
+}
+
+@inproceedings{Nakano1991,
+  author    = {Ryohei Nakano and
+               Takeshi Yamada},
+  title     = {Conventional Genetic Algorithm for Job Shop Problems},
+  booktitle = {ICGA},
+  year      = {1991},
+  pages     = {474-479},
+  crossref  = {DBLP:conf/icga/1991},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{Nowicki1996,
+ author = {Nowicki, Eugeniusz and Smutnicki, Czeslaw},
+ title = {A fast taboo search algorithm for the job shop problem},
+ journal = {Manage. Sci.},
+ issue_date = {June 1996},
+ volume = {42},
+ number = {6},
+ month = jun,
+ year = {1996},
+ issn = {0025-1909},
+ pages = {797--813},
+ numpages = {17},
+ url = {http://dx.doi.org/10.1287/mnsc.42.6.797},
+ doi = {10.1287/mnsc.42.6.797},
+ acmid = {256054},
+ publisher = {INFORMS},
+ address = {Institute for Operations Research and the Management Sciences (INFORMS), Linthicum, Maryland, USA},
+ keywords = {heuristics, job-shop, scheduling, taboo search},
+} 
+
+@article{Panwalkar1977,
+author = {Panwalkar, S. S. and Iskander, Wafik}, 
+title = {A Survey of Scheduling Rules}, 
+volume = {25}, 
+number = {1}, 
+pages = {45-61}, 
+year = {January/February 1977}, 
+doi = {10.1287/opre.25.1.45}, 
+URL = {http://or.journal.informs.org/content/25/1/45.abstract}, 
+eprint = {http://or.journal.informs.org/content/25/1/45.full.pdf+html}, 
+journal = {Operations Research} 
+}
+
+@PhdThesis{Pinson1988,
+	author = {E Pinson},
+	title = {Le problme de job-shop},
+	institution = {Université Paris VI},
+	year = {1988}
+}
+
+@misc{Ponnambalam2005,
+  author = {S~G Ponnambalam, N~Jawahar, and B~S Girish},
+  editor = {Advanced Science Letters},
+  volume = {4},
+  pages = {2127--2131},
+  year = {2005},
+  title = {An ant colony optimization algorithm for flexible job shop scheduling problem}
+}
+
+@MISC{Schmidt2001,
+    author = {Keith Schmidt},
+    title = {Using Tabu Search to Solve the Job Shop Scheduling Problem with Sequence Dependent Setup Times},
+    year = {2001}
+}
+
+@article{Shmoys1994,
+ author = {Shmoys, David B. and Stein, Clifford and Wein, Joel},
+ title = {Improved Approximation Algorithms for Shop Scheduling Problems},
+ journal = {SIAM J. Comput.},
+ issue_date = {June 1994},
+ volume = {23},
+ number = {3},
+ month = jun,
+ year = {1994},
+ issn = {0097-5397},
+ pages = {617--632},
+ numpages = {16},
+ url = {http://dx.doi.org/10.1137/S009753979222676X},
+ doi = {10.1137/S009753979222676X},
+ acmid = {178165},
+ publisher = {Society for Industrial and Applied Mathematics},
+ address = {Philadelphia, PA, USA},
+ keywords = {approximation algorithms, scheduling},
+} 
+
+@article{Song1996,
+title = "A tabu search procedure for periodic job shop scheduling",
+journal = {Computers {\&} Industrial Engineering},
+volume = "30",
+number = "3",
+pages = "433 - 447",
+year = "1996",
+note = "<ce:title>IE in Korea</ce:title>",
+issn = "0360-8352",
+doi = "10.1016/0360-8352(96)00012-5",
+url = "http://www.sciencedirect.com/science/article/pii/0360835296000125",
+author = "Ju-Seog Song and Tae-Eog Lee"
+}
+
+@article{Sun1995,
+ author = {Sun, Dake and Batta, Rajan and Lin, Li},
+ title = {Effective job shop scheduling through active chain manipulation},
+ journal = {Comput. Oper. Res.},
+ issue_date = {Feb. 1995},
+ volume = {22},
+ number = {2},
+ month = feb,
+ year = {1995},
+ issn = {0305-0548},
+ pages = {159--172},
+ numpages = {14},
+ url = {http://dx.doi.org/10.1016/0305-0548(94)E0018-3},
+ doi = {10.1016/0305-0548(94)E0018-3},
+ acmid = {208602},
+ publisher = {Elsevier Science Ltd.},
+ address = {Oxford, UK, UK},
+} 
+
+@article{Taillard1994,
+  author    = {{\'E}ric D. Taillard},
+  title     = {Parallel Taboo Search Techniques for the Job Shop Scheduling
+               Problem},
+  journal   = {INFORMS Journal on Computing},
+  volume    = {6},
+  number    = {2},
+  year      = {1994},
+  pages     = {108-117},
+  ee        = {http://dx.doi.org/10.1287/ijoc.6.2.108},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{Udomsakdigool2011,
+    author = {Udomsakdigool, Apinanthana and Kachitvichyanukul, Voratas},
+    citeulike-article-id = {9049478},
+    editor = {Issn, England and 62: 117-123},
+    issn = {1750-9653},
+    journal = {International Journal of Management Science and Engineering Management},
+    keywords = {ant-colony-optimization, jobshop\_scheduling},
+    number = {2},
+    pages = {117--123},
+    posted-at = {2011-03-23 14:52:10},
+    priority = {0},
+    title = {{Ant colony algorithm for multi-criteria job shop scheduling to minimize makespan, mean flow time and mean tardiness}},
+    volume = {6},
+    year = {2011}
+}
+
+@article{Williamson1997,
+author = {Williamson, D. P. and Hall, L. A. and Hoogeveen, J. A. and Hurkens, C. A. J. and Lenstra, J. K. and Sevast'janov, S. V. and Shmoys, D. B.}, 
+title = {Short Shop Schedules}, 
+volume = {45}, 
+number = {2}, 
+pages = {288-294}, 
+year = {March/April 1997}, 
+doi = {10.1287/opre.45.2.288}, 
+URL = {http://or.journal.informs.org/content/45/2/288.abstract}, 
+eprint = {http://or.journal.informs.org/content/45/2/288.full.pdf+html}, 
+journal = {Operations Research} 
+}
+
+@article{Xing2010,
+title = "A Knowledge-Based Ant Colony Optimization for Flexible Job Shop Scheduling Problems",
+journal = "Applied Soft Computing",
+volume = "10",
+number = "3",
+pages = "888 - 896",
+year = "2010",
+note = "",
+issn = "1568-4946",
+doi = "10.1016/j.asoc.2009.10.006",
+url = "http://www.sciencedirect.com/science/article/pii/S156849460900194X",
+author = "Li-Ning Xing and Ying-Wu Chen and Peng Wang and Qing-Song Zhao and Jian Xiong",
+keywords = "Combinatorial optimization",
+keywords = "Ant Colony Optimization",
+keywords = "Flexible Job Shop Scheduling"
+}
+
+%------------------------------------------------------------------------------%
+%---------------------------         DJSSP          ---------------------------%
+%------------------------------------------------------------------------------%
+@article{Gere1966,
+author = {Gere, William S.}, 
+title = {Heuristics in Job Shop Scheduling}, 
+volume = {13}, 
+number = {3}, 
+pages = {167-190}, 
+year = {1966}, 
+doi = {10.1287/mnsc.13.3.167}, 
+URL = {http://mansci.journal.informs.org/content/13/3/167.abstract}, 
+eprint = {http://mansci.journal.informs.org/content/13/3/167.full.pdf+html}, 
+journal = {Management Science} 
+}
+
+@inproceedings{Lin1997,
+  author    = {Shyh-Chang Lin and
+               Erik D. Goodman and
+               William F. Punch III},
+  title     = {A Genetic Algorithm Approach to Dynamic Job Shop Scheduling
+               Problem},
+  booktitle = {ICGA},
+  year      = {1997},
+  pages     = {481-488},
+  crossref  = {DBLP:conf/icga/1997},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{Madureira2001,
+	location = {http://www.scientificcommons.org/42910990},
+	title = {A Genetic Approach for Dynamic Job-Shop Scheduling Problems},
+	author = {Ana Madureira and Carlos Ramos and Sílvio do Carmo Silva},
+	year = {2001},
+	url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=?doi=10.1.1.4.3169},
+	institution = {CiteSeerX - Scientific Literature Digital Library and Search Engine [http://citeseerx.ist.psu.edu/oai2] (United States)},
+}
+
+@article{Ouelhadj2009,
+    address = {Hingham, MA, USA},
+    author = {Ouelhadj, Djamila and Petrovic, Sanja},
+    citeulike-article-id = {3621414},
+    citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1569327.1569342},
+    citeulike-linkout-1 = {http://dx.doi.org/10.1007/s10951-008-0090-8},
+    citeulike-linkout-2 = {http://www.springerlink.com/content/gq81525hm27872up},
+    doi = {10.1007/s10951-008-0090-8},
+    issn = {1094-6136},
+    journal = {J. of Scheduling},
+    keywords = {article, scheduling, useful},
+    month = aug,
+    number = {4},
+    pages = {417--431},
+    posted-at = {2010-09-23 19:04:49},
+    priority = {4},
+    publisher = {Kluwer Academic Publishers},
+    title = {{A survey of dynamic scheduling in manufacturing systems}},
+    url = {http://dx.doi.org/10.1007/s10951-008-0090-8},
+    volume = {12},
+    year = {2009}
+}
+
+@article {Qi2000,
+   author = {Qi, J. G. and Burns, G. R. and Harrison, D. K.},
+   affiliation = {Department of Engineering, Glasgow Caledonian University, Glasgow, UK GB},
+   title = {The Application of Parallel Multipopulation Genetic Algorithms to Dynamic Job-Shop Scheduling},
+   journal = {The International Journal of Advanced Manufacturing Technology},
+   publisher = {Springer London},
+   issn = {0268-3768},
+   keyword = {Ingénierie},
+   pages = {609-615},
+   volume = {16},
+   issue = {8},
+   url = {http://dx.doi.org/10.1007/s001700070052},
+   note = {10.1007/s001700070052},
+   year = {2000}
+}
+
+@article{Ramasesh1990,
+title = "Dynamic job shop scheduling: A survey of simulation research",
+journal = "Omega",
+volume = "18",
+number = "1",
+pages = "43 - 57",
+year = "1990",
+note = "",
+issn = "0305-0483",
+doi = "10.1016/0305-0483(90)90017-4",
+url = "http://www.sciencedirect.com/science/article/pii/0305048390900174",
+author = "R Ramasesh",
+keywords = "job shops",
+keywords = "scheduling",
+keywords = "simulation"
+}
+
+@article{Suresh1993,
+title = "Dynamic scheduling—a survey of research",
+journal = "International Journal of Production Economics",
+volume = "32",
+number = "1",
+pages = "53 - 63",
+year = "1993",
+note = "",
+issn = "0925-5273",
+doi = "10.1016/0925-5273(93)90007-8",
+url = "http://www.sciencedirect.com/science/article/pii/0925527393900078",
+author = "V. Suresh and D. Chaudhuri"
+}
+
+@inproceedings{Vogel2002,
+ author = {Vogel, Andre and Fischer, Marco and Jaehn, Hendrik and Teich, Tobias},
+ title = {Real-World Shop Floor Scheduling by Ant Colony Optimization},
+ booktitle = {Proceedings of the Third International Workshop on Ant Algorithms},
+ series = {ANTS '02},
+ year = {2002},
+ isbn = {3-540-44146-8},
+ pages = {268--273},
+ numpages = {6},
+ url = {http://dl.acm.org/citation.cfm?id=646686.702938},
+ acmid = {702938},
+ publisher = {Springer-Verlag},
+ address = {London, UK, UK},
+}
+
+@inproceedings{Yoo2002,
+  author    = {Min-Jung Yoo and
+               Jean-Pierre M{\"u}ller},
+  title     = {Using Multi-Agent System for Dynamic Job Shop Scheduling},
+  booktitle = {ICEIS},
+  year      = {2002},
+  pages     = {517-525},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+@article{Zhou2008,
+  author    = {Rong Zhou and
+               Heow Pueh Lee and
+               Andrew Y. C. Nee},
+  title     = {Applying Ant Colony Optimisation (ACO) algorithm to dynamic
+               job shop scheduling problems},
+  journal   = {IJMR},
+  volume    = {3},
+  number    = {3},
+  year      = {2008},
+  pages     = {301-320},
+  ee        = {http://dx.doi.org/10.1504/IJMR.2008.019212},
+  bibsource = {DBLP, http://dblp.uni-trier.de}
+}
+
+%------------------------------------------------------------------------------%
+%---------------------         Container Terminal         ---------------------%
+%------------------------------------------------------------------------------%
+@ARTICLE{Ahuja2003,
+    author = {Ravindra K. Ahuja and James B. Orlin and Stefano Pallottino and Maria G. Scutellà},
+    title = {Dynamic shortest paths minimizing travel times and costs},
+    journal = {NETWORKS},
+    year = {2003},
+    volume = {41},
+    pages = {205}
+}
+
+@article{Orda1990,
+ author = {Orda, Ariel and Rom, Raphael},
+ title = {Shortest-path and minimum-delay algorithms in networks with time-dependent edge-length},
+ journal = {J. ACM},
+ issue_date = {July 1990},
+ volume = {37},
+ number = {3},
+ month = jul,
+ year = {1990},
+ issn = {0004-5411},
+ pages = {607--625},
+ numpages = {19},
+ url = {http://doi.acm.org/10.1145/79147.214078},
+ doi = {10.1145/79147.214078},
+ acmid = {214078},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+} 
+
+@article {Steenken2004,
+   author = {Steenken, Dirk and Voß, Stefan and Stahlbock, Robert},
+   affiliation = {IS - Information Systems/Equipment Control Hamburger Hafen- und Lagerhaus AG Bei St. Annen 1 20457 Hamburg Germany},
+   title = {Container terminal operation and operations research - a classification and literature review},
+   journal = {OR Spectrum},
+   publisher = {Springer Berlin / Heidelberg},
+   issn = {0171-6468},
+   keyword = {Economie et Gestion},
+   pages = {3-49},
+   volume = {26},
+   issue = {1},
+   url = {http://dx.doi.org/10.1007/s00291-003-0157-z},
+   note = {10.1007/s00291-003-0157-z},
+   year = {2004}
+}
+
+@article {Huang2003,
+   author = {Huang, Wen-Chih and Chu, Chin-Yuan},
+   affiliation = { Ministry of Transportation and Communication, Institute of Transportation, Research Center of Harbor and Marine Technology, No. 2, Chung-Hen 10th Rd., Wuchi, Taichung, Taiwan, 435, R.O.C.},
+   title = {Cost comparison of straddle carrier direct and relay systems in container terminals},
+   journal = {Journal of Marine Science and Technology},
+   pages = {197-204},
+   volume = {11},
+   number = {4},
+   year = {2003}
+}
+
+
+@INPROCEEDINGS{Dutot2007,
+AUTHOR = {Antoine Dutot and Fr{\'e}d{\'e}ric Guinand and Damien Olivier and Yoann Pign{\'e}},
+TITLE = {GraphStream: A Tool for bridging the gap between Complex Systems and Dynamic Graphs},
+BOOKTITLE = {EPNACS: Emergent Properties in Natural and Artificial Complex Systems},
+YEAR = {2007},
+OWNER = {yoann},
+TIMESTAMP = {2008.03.13}
+}

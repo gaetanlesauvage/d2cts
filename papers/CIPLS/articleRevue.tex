@@ -1,0 +1,405 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage[margin=1.25in]{geometry}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+%opening
+\title{Colored ants for solving dynamic job shop scheduling problem : application to a straddle carriers container terminal
+% the straddle carriers container terminal test case
+%Straddle carriers container terminal optimization : an ant colony based approach
+%An ant colony based algorithm to solve job shop scheduling problem : application to a straddle carriers container terminal???
+}
+\author{S. Balev, F. Guinand and G. Lesauvage}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\section{Introduction}
+With the development of trade activities which have continually increased, container has become the first mode of packaging for exchanging goods. Container terminals have been created all around the world in order to facilitate the transfer between ships and trucks or trains. The performance of these transfers has to be considered to reduce the waiting cost of the container terminal customers.
+
+Le Havre’s harbor is the biggest harbor of France in container traffic. It is located at the North West cost of France, beside the Channel, sea door between the Atlantic and the North Sea. To keep competitive, the harbor has to provide a high quality of service and unceasingly develop new technologies and processes.
+
+%TEST FOR SVN 2
+%JSP and NP-completeness
+
+%DJSP
+
+%ACO//Such as the CALAS project...
+
+\subsection{the CALAS project}
+The CArier LASer tracking project (CALAS) aimed at localizing precisely the vehicles on the container terminal. In fact, the location of entities present within the terminal must be known to compute optimized solutions for problems such as berth allocation, vehicle routing, mission scheduling or container positioning,. GPS systems were traditionally used to locate the vehicles but this technology is not accurate enough regarding the terminal configuration. In fact, the distance between two lanes can be less than the precision of GPS. So more accurate technologies have been developed such as differential GPS (DGPS), but the satellite technology is not able to locate a vehicle under massive metallic objects such as quay cranes which creates blind areas. The CALAS project concerns a laser localization system created by Laser Data Technology Terminal (LDTT). This project regroups multiple partners such as industrial companies (Ateliers de Normandie, EADS Astrium, Electronic Equipment and D2A), research laboratories (LMAH, LITIS) and universities (University of Le Havre, INSA of Rouen). LDTT's technology is composed by a set of laser data access points spread all over the terminal and laser sensors able to send data such as location, current task, direction, etc. to the optimization system in real time.
+\subsection{D$^2$CTS}
+D$^2$CTS (Dynamic and Distributed Container Terminal Simulator)\cite{Lesauvage2011} was our contribution to this project. The simulator models a container terminal and all the interactions occurring in this complex system. Our purpose was to represent the terminal both in its structure and its dynamics. D$^2$CTS aims at being coupled to the laser data system and at running optimization algorithms dealing with the data sent by the sensors and finally at sending the results to the entities through the communication system.
+The simulator uses discrete time to be able to control the level of detail in the time dimension. It is writen in JAVA and uses the GraphStream\cite{Pigne2008} library to obtain a two dimensions view of the terminal. To build or simulator we studied a real world container terminal located in Le Havre in France (//INCLUDE FIG), and we modeled it as described below.
+
+%Véhicules
+\subsection{The vehicles}
+The Terminal de Normandie uses straddle carriers to move containers within the terminal. Those vehicles can lift a container from above and are very useful to move containers in the yard by driving over the lanes. They are also used to load or unload trucks or trains. Some of them are able to dynamically adapt the spreader size to any container dimensions while some of them require to be set up in the depot.%Cout unitaire extremement eleve + Conso fuel enorme => optimiser leur utilisation
+\subsection{The missions}
+Each move of a container by a straddle carrier can be seen like a mission. A mission contains two phases : the pickup and the delivery of the container. There are four kinds of missions :
+\begin{itemize}
+	\item Incoming container missions;
+	\item Outgoing container missions;
+	\item Transshipment missions;
+	\item Staying container missions;
+\end{itemize}
+
+The first category concerns trucks, trains and ships unloading. Straddle carriers drive to the pick-up locations and unload the vehicles, and then lift the container, drive to the yard to stock it. Concerning ships, they are unloaded by quay cranes which stack the containers on the quay. Then, straddle carriers come to pick-up the containers.
+The second category concerns trucks, trains and ships loading. In this case, straddle carriers start by picking-up a container from the yard and then drive to the delivery location (trucks areas, trains area or ship areas) to deliver it to their recipient.
+The third category of missions concerns the move of a container from a ship to another one.
+Finally, the last kind of missions concerns internal yard optimization process. Indeed, in some cases, it can be useful to reorganize a part of the stock area in order to reduce further delivery times or to free strategic container slots for next unloading missions.
+
+
+\section{Straddle carrier mission scheduling problem}
+
+Two time windows are affected to every mission. One concerns the pickup phase, the other one is related to the delivery. These time windows are used to fix an appointment between straddle carriers and hypothetical customer vehicles (trucks, trains or ships) concerned by the missions. Straddle carriers have to reach the pickup or delivery location within the given time window and so does the customers vehicles. If a straddle carrier comes too early, it will have to wait. On the contrary, if it comes too late, the customer vehicle will have to wait.
+
+As a consequence, a time window overrun implies a cost for the terminal because, if a customer has to wait excessively, it may require late fees from the container terminal exploitation company. However, in the case of yard optimization missions, the time windows can be overrun because it has no direct effect on the customers. So, according to the mission kind, time windows can be hard or soft. For incoming missions, the pickup time window is hard and the delivery time window is soft. For the outgoing container missions, the pickup time window is soft but the delivery time window is hard. For transshipment missions, both time windows are hard, and for yard optimization missions both time windows are soft. Those time windows characteristics have to be taken into account in the mission scheduling process\cite{Lesauvage2009}.
+
+To reduce exploitation costs the mission scheduling must tend to minimize both the time windows overspent time and the distance covered by the straddle carriers. Indeed, time windows must be respected to avoid penalty fees and the distance covered by the vehicles directly impacts the exploitation costs of those vehicles. %//CONSO FUEL ?
+
+\subsection{Vehicle Routing Problem}
+
+Since the problem is about finding shortest routes for a fleet of vehicles, it seems natural to classify it in the class of Vehicle Routing Problems (VRP)\cite{Toth2001,Laporte1992} and more precisely as a Pickup and Delivery Problem (PDP) \cite{Berbeglia2007}. This version of VRP consists in picking up goods before delivering them to the customers. A variant of PDP takes into account the time windows\cite{Mitrovic1998}. Here, the pickup and the deliveries must occur into given time intervals. There is also a version of these problems with restricted capacitate vehicles\cite{Toth2001}.
+Berbeglia et al described the dynamic version of pickup and delivery problems in \cite{Berbeglia2010}. In her PhD Thesis \cite{Mitrovic2001}, S. Mitrovic-Minic worked on Dynamic Pickup and Delivery Problems with Time Windows (DPDP-TW). In \cite{Mitrovic2006}, the authors used a multiple Traveler Salesman Problem (m-TSP) formulation of the Vehicle Routing Problem with Time Windows (VRP-TW). They used precedence graphs to model the multiple Traveler Salesman Problem with Time Windows (m-TSPTW). They proposed algorithms to compute bounds on the number of vehicles required to complete the deliveries. They also showed that this problem is NP-Hard.
+
+%DIRE pq c pas un VRP, PDP, ou m-TSP TW
+In those problems the vehicles usually has a fixed capacity greater than one and the problem is to find shortest paths to deliver the goods to the customers. In our problem, the vehicles have a unit capacity. It means that they can not do more than one delivery per pickup operation, and as a consequence they have to go straight to the delivery location since they picked up the container. So, we do not focus on the combination of pickup and delivery operations. We focus on searching for shortest route between the missions (both pickup and delivery operations) and which respects the time windows.
+
+This is the reason why we formulated this problem more as a scheduling problem than a vehicle routing problem. In the next section, we will describe this scheduling problem and formulate it in the $\alpha|\beta|\gamma$ notation given by Graham et al. \cite{Graham1979}.
+
+\subsection{Job Shop Scheduling Problem}
+
+The problem consist in finding the schedule $S$ of $n$ jobs $J_i(i=1,\ldots,n)$ on $m$ machines $M_j(j=1,\ldots,m)$. 
+This schedule is composed of each machine workload $W_{M_j}$ containing the ordered list of jobs allocated to the machine $M_j$. This problem belongs to the class of the Job Shop Scheduling Problems (JSSP).
+
+% SCHEDULE EQUATION
+\begin{equation*}
+\begin{cases}
+ S = \{ W_{M_1} , W_{M_2} \ldots , W_{card(M)}\} & \text{and}\\
+ W_{m} = \{ J_j , \ldots , J_k \} & \text{with $j \neq k$, $\forall j,k$ and $W_{m} \cap W_{n} = \emptyset$,  $\forall m \neq n$} 
+\end{cases}
+\end{equation*}
+
+In the case of the container terminal, the machines are the straddle carriers and the jobs are the missions.
+ 
+% Pas de préemption
+Each job contains two operations which must be processed on the same machine in this order:
+\begin{itemize}
+ \item $O_1$ : the pickup of the container;
+ \item $O_2$ : the delivery of the container.
+\end{itemize}
+
+The machines are heterogeneous and a job $j$ may not be compatible with machine $i$. For instance, if the straddle carrier has a spreader only adapted to 40 feet containers, then it will not be able to process 20 feet containers missions.
+
+\subsubsection{Preemption}
+%There is no preemption here since the delivery can not be done without picking up the container before.
+There is no preemption in the straddle carrier mission scheduling problem since stoping a mission consists in deliverying the container to another location and then, resuming the mission by picking up the container from that location to the original delivery one. So, stoping and resuming a mission can be seen as two missions. As a consequence, we assume that the missions given as entry for our algorithm are already optimized to prevent from splitting them again.
+
+\subsubsection{Precedence}
+% //Pas de Precedence
+The jobs are independent in the problem. It means that there is no precedence constraint between the jobs. Though, there are time windows on each task. So, if two jobs are scheduled successively without taking into account their time windows, those time windows can be overrun. In the case of two missions concerning the same delivery slot in the container terminal, if the container of the second mission must be stacked onto the container of the first mission, then the first job should be prior to the second one. But if the second job is processed before the first one, then a new mission will be added in the pool of jobs to switch the two containers. So, in this particular case, the time windows of these missions should take into account the precedence between the jobs.
+% //Example?
+
+%\subsection{Machine and jobs dependence}
+A really important aspect in our problem is that the process times and the release dates of the jobs depend on the machine executing the jobs. Indeed, the process time and the release date of a mission depends on the speed of the straddle carrier on one hand, and on the location of the vehicle at the beginning of the mission on the other hand. Moreover, the location of the straddle carrier relies on its activity. So if the vehicle is idle, then it will be located at the depot, or on its way to the depot. Else the vehicle will be located at the delivery location of its current mission when it will start the next mission.
+
+%Setup Costs
+\subsubsection{Setup times and costs}
+
+At the beginning of a mission, the straddle carrier has to move to the pickup location. This move can be seen as a setup time or cost. This setup time of a job directly depends on the location of the straddle carrier at the beginning of the mission. If a previous job was executed by the machine then the distance between the two missions corresponds to the distance between the delivery location of the previous job and the pickup location of the current job. If no job was executed before the current job, then the vehicle is located at the depot. Actually, the setup times are sequence dependent ($ST_{sd}$).
+The setup cost $setup_{j, i}$ of the allocation of the job $j$ to the machine $i$ is equal to the distance $d(l(last(i),O_2),l(j,O_1))$ between the location $l(last(i),O_2)$ of $M_i$ at the beginning of the mission (at the end of its last job $last(i)$) and the pickup location of $J_j$.
+
+\begin{equation*}
+ \begin{cases}
+  setup_{j, i} = d(l(last(i),O_2),l(j,O_1)) & \text{if $\exists last(i)$}\\
+  setup_{j, i} = d(l(M_i),O_2),l(j,O_1)) & \text{else}\\
+ \end{cases}
+\end{equation*}
+
+\subsubsection{Process times and costs}
+
+The distance cost $distance_{j, i}$ of the allocation of the job $j$ to the machine $i$ is equal to the setup costs $setup_{j, i}$ plus the distance $d(l(j,O_1), l(j,O_2))$ between the pickup and the delivery location of $J_j$.
+
+If the job is the last job of the schedule for the vehicle, then it will have to go back to the depot. This move can be seen as a removal time or cost equals to the distance (or travel time) $d(l(j,O_2),l(DEPOT_{i}))$ from the delivery location to the depot is added to the distance cost of the mission. The removal time is also sequence dependent ($R_{sd}$).
+
+\begin{equation*}
+\begin{cases}
+ R_{j, i} = d(l(j,O_2),l(DEPOT_{i})) & \text{if $j = card(W_{i})$,} \\
+ R_{j, i} = 0 & \text{else.}
+\end{cases}
+\end{equation*}
+
+% DISTANCE FORMULA
+\begin{equation*}
+  distance_{j,i} = setup_{j, i} + d(l(j,O_1), l(j,O_2)) + R_{j,i}
+\end{equation*}
+
+The process time cost $p_{j, i}$ of the allocation of the job $j$ to the machine $i$ depends directly on the distance $distance_{j,i}$ since the speed of $M_i$ is known.
+
+So, in this problem, both the setup times and process times are sequence dependent.
+
+
+\subsubsection{Release dates}
+%Release date
+The release date is computed thanks to the beginning of the pickup time window of the corresponding mission and the travel time cost for the machine to reach the pickup location. This travel time relies on the activity of the straddle carrier before starting the mission. So the release date $r_{j,i}$ of the job $j$ for the machine $i$ is the max between the completion time $C_{k,i}$ of the last job $k$  processed by $M_i$ plus the travel time from the delivery location of $J_k$ to the pickup location of $J_j$, and the beginning of the pickup time window $tw_{min}(O_{j,1})$ of the job $j$. So the release date are also sequence dependent in this problem.
+
+%RELEASE DATE FORMULA
+\begin{equation*}
+ \begin{cases}
+    r_{j,i} = max(C_{last(i),i} + distance(l(last(i),O_2),l(j,O_1)) , t_{min}(O_{j,1})) & \text{if $\exists last(i)$,}\\
+    r_{j,i} = max(distance(l(j,O_1) , l(M_i)) , t_{min}(O_{j,1})) & \text{else.}
+\end{cases}
+\end{equation*}
+
+\subsubsection{Tardiness}
+%Tardiness
+If a mission misses one or both its time windows, then there is tardiness. This total tardiness is the sum of the pickup tardiness $T_{j,i,O_1}$ and the delivery tardiness $T_{j,i,O_2}$. The pickup tardiness is the difference between the arrival time of $M_i$ at the pickup location of $J_j$ and the end of the pickup time window of $J_j$. The delivery tardiness is the difference between the arrival time of $M_i$ at the delivery location of $J_j$ and the end of the delivery time window of $J_j$.
+%TARDINESS FORMULA
+\begin{equation*}
+ \begin{cases}
+    T_{j,i,O_1} = max(0 , (C_{last(i),i} + t(d(l(last(i),O_2) , l(j, O_1)))) - tw_{max}(O_{j,1}))\\
+    T_{j,i,O_2} = max(0 ,C_{j,i} - tw_{max}(O_{j,2}))\\
+    T_{j,i} = T_{j,i,O_1} + T_{j,i,O_2}
+\end{cases}
+\end{equation*}
+
+\subsubsection{Optimization criteria}
+
+According to the kind of mission, the tardiness may cause penalty costs to the container terminal customers. These potential penalties can be seen like weighted tardiness and the best schedule is the one minimizing this weighted tardiness.
+%WEIGHTED TARDINESS FORMULA
+\begin{equation*}
+    F_S = min \sum_{j=1}^{n}(w_j.T_{j,M(j)})
+\end{equation*}
+
+Always in order to reduce exploitation costs and once the weighted tardiness has been minimized, the goal is to minimize the distance covered by the vehicles. So, the second criteria to minimize is the process cost of the tasks.
+%PROCESS COST FORMULA
+\begin{equation*}
+    D_S = min \left(\sum_{i=1}^{m}.\sum_{k=1}^{card(W_i)} distance(W_i(k), i))\right)
+\end{equation*}
+
+% Intégrer F_S et P_S dans une meme fonction d'évaluation ???
+
+%Conclusion
+So, according to the classification of Graham et al. in \cite{Graham1979}, and of Brucker in \cite{Brucker2010}, our problem is ${ J|ST_{sd}, R_{sd}|\sum w_j.T_{j} , \sum distance(i)}$. As shown in \cite{Garey1976}, this problem is NP-Complete for $m\geq2$.
+We will explain in the next section the algorithms used to solve the problem and especially our ant colony based meta-heuristic.
+
+\subsubsection{Dynamics}
+%Explain here definitions and differences between static and dynamic versions of the problem
+At a container terminal, some missions are known before the beginning of the day, others are known during the day more are less early before the release dates of their corresponding jobs. When all the missions are known in advance, the scheduling problem is considered static. On the other hand, when jobs must be inserted into the computed schedule then the problem is known as the Dynamic Job Shop Scheduling Problem (DSJSSP) \cite{Ramasesh1990}. %State of the art?
+
+The dynamics also comes from the cancellation of missions. Indeed, a mission can be canceled by the customer and so the schedule needs to be recomputed.
+
+The number of machines can change during the day according to the straddle carriers unavailability (for maintenance, or failure...). Then, the jobs allocated to the unavailable machine must be dispatched to other machines.
+
+Because of all those dynamic events, the mission scheduling algorithm must provide a solution at anytime. Indeed, if a new mission come into the pool at the very begining of its pickup time windows, then the scheduler must insert this mission into the workload of a vehicle as soon as possible to prevent from overrunning the time windows of the mission. In this case, the problem turns to be a nearly real time problem.
+
+Since the Job Shop Scheduling Problem is NP-complete, the Dynamic Job Shop Scheduling Problem is also strongly NP-Hard and it is not possible to get optimal solutions in reasonable time. That is why we must use heuristics or meta-heuristics methods to approximately solve the problem.
+
+\section{Algorithms used}
+  %STATE OF THE ART OF USED METHODS IN JSP, JSP-ST_{sd}, DJSP
+  In \cite{Jain1999} and \cite{Brucker2010}, the authors give a survey of Job Shop Scheduling Problems and of the means used to solve the different sub-problems.
+  
+  %JSP-ST_{sd}
+  In \cite{Allahverdi2008} the authors gives a survey of algorithms used to solve Job Shop Scheduling Problems with Sequence Dependent Setup Times (JSSP-SDST). Hybrid genetic algorithms, disjunctive graphs, mixed integer linear programming model with local search scheme, fast tabu search, branch and bound, dynamic programming, polynomial insertion algorithm, Lagrangian relaxation or ant colony algorithms are used. However they are used in a static version of the JSSP-SDST problem and without removal time sequence dependent criteria.
+							      %or not bad solutions ?%
+   We developed an algorithm able to handle dynamics and to provide near-optimal solutions in a reasonable computation time to our problem. Since the algorithm had also to be failsafe, it ensures feasible solutions at anytime. To measure performance of our algorithm, we developed a Branch-and-Bound algorithm to solve the problem in the static case and to obtain optimal solutions. This algorithm is also used to solve the instances of the static problem generated from the dynamic one.
+
+  \subsection{Branch and bound algorithm}
+  %BB
+  We developed a branch and bound algorithm to find optimal solutions to our problem in small instances (5 machines and 10 jobs). These solutions will allow us to compare the quality of the solutions found by our ant colony based algorithm (at least in the static case).
+
+  It works like a backtracking of every feasible solution but stop the local search each time the upper bound is exceeded. As we wanted to first minimize the weighted tardiness of the solution and then the distance covered by the machines to process the jobs, the algorithm has two steps : first minimizing the weighted tardiness of the solution and then minimizing the distance.
+
+  The algorithm starts by generating each allocation possible of each job. Then, for each possibility the weighted tardiness is computed. If it is greater than the bound then the branch is aborted. Else, if it is lower than the bound, the bound is updated and the new bound is propagated. If it is equal to the bound, then the distance criteria is investigated and if the distance of the solution is upper the bound, then the search of this branch is aborted.
+  
+  The solution construction keep going until finding a leaf in the search tree. If the weighted tardiness is lower than the bound, then it means that a new best solution has been found. In this case, the new bound is propagated.
+
+  We can not evaluate the improvement of the distance criteria until we reach a leaf because the removal time cost is sequenced dependent and is taken into account in the distance equation. So, it is only when the solution construction reaches a leaf, the best solution distance is updated if a better solution has been found.
+  
+   \subsection{Heuristics based algorithms}
+  % ?
+  To measure the performance of our algorithm on bigger instances we used heuristics based methods...
+
+   \subsection{Colored Ant Colonies Algorithm}
+  %ACO colorees
+
+%Graph
+The problem is modeled as a graph to be able to apply the ant colony based algorithm. The goal is to pre-solve the scheduling problem by allowing only missions links which do not lead to overrun the time windows (at least in the static case). Two missions can be chained up if the second mission does not start before the end of the first one and if the travel time between the delivery location of the first mission and the pickup location of the second one is short enough not to overrun the pickup time window of the second mission.
+
+\subsubsection{Graph definition}
+
+Lets define the directed graph $G = (V,E)$ where $V$ is the set of vertices and $E$ the set of edges. Each job $j$ to schedule is modeled as a node $v_j \in V$ and the edges $e(v_j,v_k) \in V$ represent the possibility for the machines to chain up the job $j$ with the job $k$.
+
+Two other vertices are added to the graph: a source node, and a sink node. The source node is connected to each node of the graph which has an in-degree equals to zero. On the other hand, each node with an out-degree equals to zero is connected to the sink node. %Equations?
+
+
+\subsubsection{Edges}
+%EDGES
+The edges are weighted by the travel time between the corresponding nodes. Each edge contains as many weights as there are machines in the problem. Indeed, since the machines are heterogeneous the travel times may differ from one machine to another.
+
+For the edges linking the source node to a job node, the weight corresponds to the travel time between the machine location at the end of its current activity and the pickup location of the target node job. If the machine is processing a job then the weight will be the travel time between the delivery location of the processed mission and the pickup location of the target node mission. On the contrary, if the machine is idle then the weight of the edge will be the travel time between the current location of the machine and the pickup location of the target node mission.
+
+For the edges linking the job nodes to the sink node, the weight corresponds to the travel time between the delivery location of the job and the vehicles depot.
+Concerning the edges between two job nodes, the weight is the travel time between the delivery location of the origin job node and the pickup location of the target job node.
+
+Since the travel time depends on the location and the activity of the machine, the weights are time dependent even in the static case of the problem.
+
+The graph represent the possibilities of job scheduling for the machines. The allocation problem is next solved using colored ants colonies algorithm on this graph.
+
+\subsubsection{Dynamic graph definition}
+% GRAPH DYNAMIQUE ? TODO
+In the dynamic case of the problem, missions can be added, removed or updated. The graph has to allow these modifications.
+
+When a mission is added in the jobs pool, a new node is added in the graph. It is connected by edges as described above. If the new node in the graph causes the creation of an edge to a node connected to the source node, then the edge from the source node to the other node is deleted. As well as this, if the new node insertion causes the creation of an edge to a node connected to the sink node, then the edge between the node and the sink is deleted. This process is required to force the vehicles to process all the missions. Otherwise, the best solution found by the algorithm would be not to process any job because the covered distance would be null.
+
+
+A node can be removed from the graph for two reasons. On one hand, if the corresponding mission has been canceled, and on the other hand if the corresponding mission has been completed. The node is then deleted from the graph and the edges of adjacent nodes are updated according to the criteria discussed above.
+
+
+When a mission is updated, the corresponding node is deleted from the graph and then re-added. This process allows to take into account the new characteristics of the mission.
+
+On the other hand, the weights of the edges are updated according to the vehicles activity.
+
+When a vehicle starts a mission, it must complete the mission unless it broke down. In this case, the mission is updated because the pickup location may have changed if the vehicle started to move the container before broking down. Moreover, if the vehicle becomes unavailable, the ants of the corresponding colony are reseted to the source node and must remains at this node until the vehicle becomes available again. In the meantime, the evaporation process makes the previous alocation solution disapeared.
+%TODO in D²CTS !!!
+In the case where the vehicle does not broke down, it must achieve the mission. To represent this constraint in the algorithm, the ants of the colony of the vehicle starts their path finding from the current mission node. The pheromone of other colonies on this node is also evaporated to make this node totally unaccessible to the ants of other colonies.
+
+\subsubsection{Colored Ants}
+ %ACO colored
+To solve the allocation problem, an ant colony based algorithm is used. This bio-inspired algorithm has been more and more used to solve optimization problems since the early nineties\cite{Dorigo2006}. It takes advantage of the results of the experiment of Deneubourg in 1983 \cite{Deneubourg1983} showing the stigmergia between ants. It is particulary well adapted to dynamic optimization problem because of its intrinsic characteristics such as the decentralized intelligence, the indirect communication between the ants (positive feedback), and the evaporation of the pheromone tracks (negative feedback).
+
+Our model is a multi-colonies version of the ant algorithm. In this version, the ants are attracted by pheromone of their own colony and repulsed by pheromone of foreigns colonies. The result of such an approach is a behavior of collaboration between the ants of a colony and a behavior of competition between the colonies to compete for the graph.
+
+This kind of ant colony algorithm has been used by Bertelle et al. in \cite{Bertelle2006,Bertelle2007} for determining dynamically the best distribution of a parallel program on a network. They used a collaboration/competition process between colonies of artificial ants to distribute the data and the calculation of a program among heterogeneous processing ressources while minimizing the communication involved. The authors used a threshold to avoid ants from choosing an edge containing too much foreign pheromone and by this way balancing the ants over the graph. We will see below that we chose to use a linear combination of the repulsion aspect in the pseudo-random-proportional transition rule rather than using a threshold.
+
+In our model, a colony represent a vehicle (machine). The vehicle has to choose the best chain of missions to process, it means the chain which minimizes overrun time of the missions and the covered distance. The ants of the colony will have to colonize the mission graph to find the shortest path from the source node to the sink. When an ant chose a node to colonize, then it spreads pheromone according to the quality of the marked node. This pheromone will be used to lead the other ants of the colony toward the node and to repulse foreign ants towards other nodes.
+Since each colony use the same behavior, the nodes are split between the different colonies and this distribution tends to minimize the overall covered distance of the vehicles.
+
+Each colony is modeled by a color. In this way, each node of the graph is colored by the color of the highest amount of pheromone on this node. The solution is obtained by constructing the best paths for each color. Each path $P_i$ of color $i$ is built by starting at the source node and by searching among the set $S_{j,i}$ of accessible nodes colored in $i$ the node with the highest level of pheromone. The process is repeated until either the sink node has been reached or the $S_{j,i} = \emptyset$.
+
+\subsubsection{Algorithm}
+
+
+\begin{algorithm}
+\caption{Compute colored ant algorithm to calculate the schedule $S$}
+\label{algo1}
+\begin{algorithmic} 
+\FORALL{ant $a$ of each colony $c$}
+\STATE Node $destination \leftarrow choose\_destination(a)$
+\STATE Node $n \leftarrow location(a)$
+\IF{$destination = null$} %ADD DELTA PARAMETER
+\STATE $return\_to\_source\_node()$
+\ELSE
+\STATE $move(a, destination)$
+\STATE $spread\_pheromone(c, n, destination)$
+\ENDIF
+\ENDFOR
+\FORALL{node $n$ of the mission graph}
+\STATE $evaporation(n)$
+\ENDFOR
+\FORALL{colony $c$}
+\STATE $compute\_path(c)$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+
+The quantity of pheromone of color $c$ on the node $n$ at time $t$ is noted $\Omega^{t}(n,c)$. The quantity of pheromone of other colors than $c$ is noted $\hat \Omega^{(t)}(n,c)$.
+  %D_S = min \left(\sum_{i=1}^{m}.\sum_{k=1}^{card(W_i)} distance(W_i(k), i))\right)
+\begin{equation*}
+    \hat \Omega^{(t)}(n,c) = \left( \sum_{k \in C}(\Omega^{(t)} (n,k)) \right) - \Omega^{(t)} (n,c)
+\end{equation*}
+
+The weight $w^{(t)}(n,m,c)$ represents the travel cost of an ant of the colony $c$ to go from the node $n$ to the node $m$ at time $t$. It corresponds to the weight of the edge linking $n$ and $m$ for the colony $c$.\\
+
+The algorithm $choose\_destination($Ant $a)$ (see Algorithm \ref{algo1}) returns the destination chosen by the ant $a$ of the colony $c$ according to its current location node $n$ and the probability $p^{(t)}(n,m,c)$ to choose the destination node $m$ at time $t$ computed by the following pseudo-random-proportional rule:
+
+\begin{equation*}
+  p^{(t)}(n,m,c) = \frac
+    {
+      \Omega^{(t)}(m,c)^{\alpha}
+      \left( \frac{1}{w^{(t)}(n,m,c)} \right) ^{\beta}
+      \left( \frac{\hat \Omega^{(t)}(d,c)}{\sum_{k \in C} \Omega^{(t)}(m,k)} \right)^{\gamma}
+    }
+    {
+      \sum_{d \in n_{out}} \left(
+	\Omega^{(t)}(d,c)^{\alpha}
+	\left( \frac{1}{w^{(t)}(n,d,c)} \right)^{\beta}
+	\left( \frac{\hat \Omega^{(t)}(d,c)}{\sum_{k \in C} \Omega^{(t)}(d,k)} \right)^{\gamma}
+      \right)
+    }
+\end{equation*}
+
+If the chosen node $m$ has a probability $p^{(t)}(n,m,c) < \Delta$ then the choice is refused and the ant go back to the source node. This process is used to avoid the continous colonization of the graph by all the colonies. Indeed, if there are more vehicles than missions to allocate, then it is not possible to affect a mission to every vehicle. Moreover, we chose to integrate the competition aspect of the algorithm in the pseudo-random-proportional transition weighted by the $\gamma$ parameter.
+
+The algorithm $spread\_pheromone($Colony $c$, Node $n$, Node $m)$ computes the quantity of pheromone $\Delta^{(t)}(m,c)$ of color $c$  which will be dropped on the node $m$ between the time $t$ and $t+1$. This quantity directly depends on the ants previous location $n$ because it takes $w^{(t)}(n,m,c)$ into account.
+
+\begin{equation*}
+ \Delta^{(t)}(m,c) = \lambda * \left(1 + \frac{1}{w^{(t)}(n,m,c)} \right)
+\end{equation*}
+
+The evaporation process computes the new amount of pheromone $\tau^{(t)}(n,c)$ of color $c$ on node $n$ at time $t$ as below:
+\begin{equation*}
+ \tau^{(t)}(n,c) = \rho \tau^{(t-1)}(n,c) + \Delta^{(t)}(n,c)
+\end{equation*}
+
+%The path ...
+The schedule of each vehicle is obtained at the end of the procedure by building each best path for each color. Since the graph is directed and acyclic, the path is built by starting at the source node and by choosing from each accessible node colored by the same color that the path to build, the one with the highest quantity of pheromone. The built ends when the sink node is reached or when there is no accessible node of the color of the path.
+
+
+When the first mission of a path has been started by a vehicle, a reinforcement quantity of pheromone of the color of the vehicle is spread on the whole path. This process avoid useless changes in the solution while the previous computed path is being used.
+
+
+\begin{algorithm}
+\caption{Reinforcement of the pheromone track of the started solution path}
+\label{algoReinforcement}
+\begin{algorithmic} 
+\FORALL{Node $n$ in the solution $S$}
+\STATE $\tau^{(t)}(n,c) =  \tau^{(t-1)}(n,c) + \Lambda$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+The algorithm is setted up with the following parameters:
+
+\begin{itemize}
+ \item $\alpha$ : relative importance of the pheromone track in the destination choice;
+ \item $\beta$ :  relative importance of the weight heuristic in the destination choice;
+ \item $\gamma$ : relative importance of the repulsion process in the destination choice;
+ \item $\Delta$ : environment pressure rate. If the chosen destination pheromone rate is less than $\Delta$, then the ant die (start over from the source node);
+ \item $\eta$ : number of ant per colony;
+ \item $\lambda$ : fixed quantity of pheromone spread on a destination (with $\lambda > 1$);
+ \item $\Lambda$ : quantity for reinforcement : quantity of pheromone spread on the whole path when the first mission of the path has been started;
+ \item $\rho$ : rate of pheromone conserved after each evaporation.
+\end{itemize}
+
+We distinguish two classes of parameters: on one hand the ones about the choice of destination for the ants ($\alpha$, $\beta$, $\gamma$ and $\Delta$), and on the other hand, the ones about the pheromone handling ($\lambda$, $\Lambda$ and $\rho$).
+
+After testing different values for the parameter $\eta$, we decided to fix it to the number of missions in the pool. Indeed, when a mission is added, a new ant is created for each colony compatible with the mission. On the contrary, when a mission is removed from the pool, an ant is removed of each colony.
+
+According to our simulation results, it also appears that the quality of the solution found and also the time required to find this best solution is strongly connected to the values of the first class parameters.
+
+We will describe in the next section the results of different execution of our algorithm on generated problems about a real context which is the container terminal of Normandy in Le Havre, France.
+
+  %GA ?
+\section{Experiments and results}
+
+Thanks to D$^2$CTS we are able to perform several algorithms to solve different optimization problems such as vehicle routing, berth allocation, container positioning or mission scheduling problems. We focused on the mission scheduling problem.
+
+\subsection{Static case}
+\subsection{Dynamic case}
+
+\section{Conclusion}
+
+\bibliographystyle{plain}
+\bibliography{biblioRevue}
+
+\end{document}

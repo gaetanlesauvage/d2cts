@@ -1,0 +1,50 @@
+# -*-Mode:Tcl-*-
+#
+#  Copyright (C) 2000-2004 Kare Sjolander 
+#
+# This file is part of the WaveSurfer package.
+# The latest version can be found at http://www.speech.kth.se/wavesurfer/
+#
+# NIST/Sphere plug-in for WaveSurfer
+#
+# -----------------------------------------------------------------------------
+
+if [info exists ::wsurf::Info(CurrentPluginPath)] {
+  set dir [file dirname $::wsurf::Info(CurrentPluginPath)]
+} else {
+  set dir [file dirname [info script]]
+}
+
+set shlib [file join $dir libsnacksphere[info sharedlibextension]]
+
+if {[catch {load $shlib}] != 0} {
+  catch {package require snacksphere 1.2}
+}
+
+if [info exists snack::snacksphere] {
+ wsurf::RegisterPlugin sphere \
+   -description "This plug-in adds support for the NIST/Sphere audio\
+   file format used\
+   in many popular speech databases. More information at\
+   http://morph.ldc.upenn.edu/Using/. Note that the plug-in currently\
+   only supports reading of Sphere files." \
+   -url http://morph.ldc.upenn.edu/Using/
+  if {![info exists ::surf(extTypes)]} {
+    set ::surf(extTypes) {}
+  }
+  if {![info exists ::surf(loadTypes)]} {
+    set ::surf(loadTypes) {}
+  }
+  if {![info exists ::surf(loadKeys)]} {
+    set ::surf(loadKeys) {}
+  }
+  set ::surf(extTypes) [concat $::surf(extTypes) \
+      [list {SPHERE .sph} {SPHERE .wav}]]
+  set ::surf(loadTypes) [concat $::surf(loadTypes) \
+      [list {{SPHERE Files} {.sph .SPH}} {{SPHERE Files} {.wav .WAV}}]]
+  set ::surf(loadKeys) [concat $::surf(loadKeys) [list SPHERE SPHERE]]
+} else {
+  wsurf::RegisterPlugin sphere \
+      -description "Not functional. Could not find the snacksphere library."
+}
+

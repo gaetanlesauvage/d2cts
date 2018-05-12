@@ -1,0 +1,133 @@
+\begin{thebibliography}{10}
+
+\bibitem{Bertelle02}
+C.~Bertelle, A.~Dutot, F.~Guinand, et D.~Olivier.
+\newblock Distribution of agent based simulation with colored ant algorihm.
+\newblock In {\em 14th European Simulation Symposium}.
+
+\bibitem{Bianchi00}
+L.~Bianchi.
+\newblock Notes on dynamic vehicle routing - the state of the art.
+\newblock {\em Technical Report, IDSIA}, 2000.
+
+\bibitem{Bullnheimer97}
+B.~Bullnheimer, R.~F. Hartl, et C.~Strauss.
+\newblock Applying the ant system to the vehicle routing problem.
+\newblock In {\em In Proceedings of the 2nd International Conference on
+  Metaheuristics - MIC97}.
+
+\bibitem{Bullnheimer99}
+B.~Bullnheimer, R.F. Hartl, et C.~Strauss.
+\newblock An improved ant system algorithm for the vehicle routing problem.
+\newblock {\em Annals of Operations Research}, 1999.
+
+\bibitem{Dorigo91}
+M.~Dorigo.
+\newblock {\em Learning and Natural Algorithms}.
+\newblock Th\`ese de doctorat, Politecnico di Milano, Italie, 1992.
+
+\bibitem{Dorigo97}
+M.~Dorigo et L.M. Gambardella.
+\newblock Ant colony system : A cooperative learning approach to the traveling
+  salesman problem.
+\newblock {\em IEEE Transactions on Evolutionary Computation}, 1997.
+
+\bibitem{Dutot2007}
+Antoine Dutot, Fr{\'e}d{\'e}ric Guinand, Damien Olivier, et Yoann Pign{\'e}.
+\newblock Graphstream: A tool for bridging the gap between complex systems and
+  dynamic graphs.
+\newblock In {\em EPNACS: Emergent Properties in Natural and Artificial Complex
+  Systems}, 2007.
+
+\bibitem{Henesey2002-1}
+L.~Henesey et J.~T\"{o}rnquist.
+\newblock Enemy at the gates: Introduction of multi-agents in a terminal
+  information community.
+\newblock {\em C.A. Brebbia, G. Sciutto (Eds) Maritime Engineering and Ports
+  III}, pages 23--32, 2002.
+
+\bibitem{Henesey2003}
+L.~Henesey, F.~Wernstedt, et P.~Davidsson.
+\newblock Market-driven control in container terminal management.
+\newblock In {\em Second International EuroConference on computer applications
+  and information technology in the maritime industries}, Hamburg, Germany,
+  2003.
+
+\bibitem{Henesey2002-2}
+Larry Henesey, Fredrik Wernstedt, et Paul Davidsson.
+\newblock A market-based approach to container port terminal management, 2002.
+
+\bibitem{Henesey2004}
+Lawrence Henesey.
+\newblock {\em Enhancing Container Terminal Performance: A Multi Agent Systems
+  Approach}.
+\newblock Th\`ese de doctorat, School of Engineering - Dept. of Systems and
+  Software Engineering, Ronneby, 2004.
+
+\bibitem{jin2004}
+Chun Jin, Xinlu Liu, et Peng Gao.
+\newblock An intelligent simulation method based on artificial neural network
+  for container yard operation.
+\newblock {\em Lecture Notes in Computer Science}, 3174:904--911, 2004.
+
+\bibitem{larsen00}
+A.~Larsen.
+\newblock {\em The Vehicle Routing Problem}.
+\newblock Th\`ese de doctorat, Department of Mathematical Modelling, Technical
+  University of Denmark, 2000.
+
+\bibitem{Lesauvage08}
+Gaetan Lesauvage.
+\newblock Gestion dynamique des activit\'{e}s des chariots cavaliers sur un
+  terminal \`{a} conteneurs en environnement incertain.
+\newblock Th\`ese de Master, Universit\'{e} du Havre, 2008.
+
+\bibitem{Lund96}
+Karsten Lund, Oli B.~G. Madsen, et Jens~M. Rygaard.
+\newblock Vehicle routing problems with varying degrees of dynamism.
+\newblock {\em Technical report, IMM, The Department of Mathematical Modelling,
+  Technical University of Denmark}, 1996.
+
+\bibitem{Mitrovic98}
+S.~Mitrovic-Minic.
+\newblock Pickup and delivery problem with time windows~:~a survey.
+\newblock {\em Technical Report 1998-12, SCS Simon Fraser University}, 1998.
+
+\bibitem{Mitrovic04}
+S.~Mitrovic-Minic et G.~Laporte.
+\newblock Waiting strategies for the dynamic pickup and delivery problem with
+  time windows.
+\newblock {\em Transportation Research Part B}, 2004.
+
+\bibitem{Mitrovic01}
+Snezana Mitrovic-Minic.
+\newblock {\em The dynamic pickup and delivery problem with time windows}.
+\newblock Th\`ese de doctorat, Simon Fraser University, 2001.
+
+\bibitem{Montemanni04}
+R.~Montemanni, L.M. Gambardella, A.E. Rizzoli, et A.V. Donati.
+\newblock A new algorithm for a dynamic vehicle routing problem based on ant
+  colony system.
+\newblock {\em Technical Report, TR-23-02, IDSIA, Galleria 2, Manno, 6928,
+  Switzerland}, 2004.
+
+\bibitem{murty2005}
+Katta~G. Murty, Jiyin Liu, Yat-wah Wan, et Richard Linn.
+\newblock A decision support system for operations in a container terminal.
+\newblock {\em Decis. Support Syst.}, 39(3):309--332, 2005.
+
+\bibitem{ottjes2006}
+Jaap~A. Ottjes, Hans P.~M. Veeke, Mark~B. Duinkerken, Joan~C. Rijsenbrij, et
+  Gabriel Lodewijks.
+\newblock Simulation of a multiterminal system for container handling.
+\newblock {\em Container Terminals and Cargo Systems}, 2:15--36, 2006.
+
+\bibitem{thurston2002}
+Tom Thurston et Huosheng Hu.
+\newblock Distributed agent architecture for port automation.
+\newblock In {\em COMPSAC '02: Proceedings of the 26th International Computer
+  Software and Applications Conference on Prolonging Software Life: Development
+  and Redevelopment}, pages 81--90, Washington, DC, USA, 2002. IEEE Computer
+  Society.
+
+\end{thebibliography}

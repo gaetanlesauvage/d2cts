@@ -1,0 +1,14 @@
+% Spécifications du simulateur
+
+\subsection{Technologie}
+
+Le simulateur est écris en JAVA. Cette technologie a été choisie pour sa souplesse et sa puissance. Elle permet le développement du c\oe{}ur de l'application, de la vue et du contrôleur et assure l'interopérabilité des systèmes et des plates-formes. Une base de données MySQL est également utilisée afin de permettre la communication avec l'interface 3D de notre partenaire \textit{EADS Astrium}. L'accès en écriture et en lecture à cette base est réalisé  par un service web. Le terminal étant constitué de multiples entités en fortes interactions, les calculs sont distribuables sur plusieurs unité grâce à la technologie \textit{RMI} de JAVA.
+
+
+\subsection{Objectifs}
+
+Le simulateur doit permettre de représenter la structure d'un terminal à conteneurs (blocs, travées, emplacements, carrefours, routes, quais, voies ferrées, etc.) ainsi que ses composants (portiques de berge, portes conteneurs, chariots cavaliers, etc.). Il doit également permettre de modéliser son activité (arrivée/départ des clients (camions, trains, navires), déplacement de conteneurs par les chariots cavaliers, chargement/déchargement des clients par les chariots cavaliers et les portiques). Pour cela, le temps doit être pris en compte par le simulateur. Il a été décidé de discrétiser la représentation du temps dans le simulateur pour être en mesure de se soustraire de l'influence de la (ou les) machine(s) d'exécution et pour synchroniser efficacement les composants. Un pas de temps devra être déterminé avant le début de chaque simulation et déterminera à la fois la précision temporelle et la durée des calculs de la simulation.
+
+\subsection{Flexibilité}
+
+Afin de permettre de mesurer la performance de plusieurs méthodes d'optimisation, le simulateur doit être adapté au développement de ce multiples algorithmes. Il doit permettre d'ajouter, de modifier ou de supprimer rapidement et facilement une méthode d'optimisation. De même, les données concernant les composants et la structure du terminal doivent être aisément modifiables. Ainsi, il a été choisit de décrire toutes les données nécessaire à la fois à la configuration du programme et aux composants du terminal dans des fichiers XML dont la structure est décrite dans les sections suivantes.

@@ -1,0 +1,104 @@
+\documentclass[
+a4paper,
+11pt,
+twoside,
+onecolumn,
+openright,      % les chapitre commencent sur la page de droite
+shotrims,       % affiche des trucs en plus en bordure
+leqno,          % numéro des équation à droite
+%flen,           % équation alignées à gauche
+%openbib,       % chaque partie d'une ref sur une ligne
+final   % bonne qualité (lent)
+        % OU
+%draft,  % mauvaise qualité (rapide)
+]{phdlasl}
+
+%\usepackage{macros}
+\usepackage[tight,french]{minitoc}
+ \mtcsettitle{minitoc}{}
+ \mtcsetrules{*}{off}
+ \mtcsetdepth{minitoc}{2}
+
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{varioref}
+
+\begin{document}
+
+   
+	
+	\include{chapitres/titre}       % include title page
+	\include{chapitres/remerciements}       % include remerciements
+	\begin{Dedicace}
+	 Dédicace
+	\end{Dedicace}
+	\include{chapitres/resume}
+   	\frontmatter
+	\tableofcontents
+	\chapter*{Introduction}\label{chapitre:introduction}
+	\addcontentsline{toc}{chapter}{Introduction}
+	%%%%%%%%%%
+	\input{chapitres/introduction}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%          Chap 1 : Etat de l'art	%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter{\'Etat de l'art}\label{chapitre:art}
+	\input{chapitres/art/introduction}
+	
+	%%%%%%%%%%
+	\section{L'incertitude en optimisation}\label{partie:artIncertitude}
+	\input{chapitres/art/incertitude}
+
+	%%%%%%%%%%
+	\section{Plus court chemins}\label{part:artPCC}
+	\input{chapitres/art/pcc}
+
+	%%%%%%%%%%
+	\section{Problèmes de tournées de véhicules}\label{partie:artVRP}
+	\input{chapitres/art/vrp}
+
+	%%%%%%%%%%
+	\section{Problèmes d'ateliers}\label{part:artJSSP}
+	\input{chapitres/art/jssp}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%       Chap 2 : APPLICATION	 	%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter{Applications aux terminaux à conteneurs}\label{chapitre:application}
+        \input{chapitres/application/introduction}
+
+	%%%%%%%%%%
+	\section{Structure et organisation des terminaux à conteneurs}\label{partie:terminaux}
+	\input{chapitres/application/terminaux}	
+
+	%%%%%%%%%%
+	\section{Optimisation des terminaux à conteneurs}\label{partie:optimisationTerminaux}
+	\input{chapitres/application/optTerminaux}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%            SIMULATION		 	%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+	\chapter{Simulateur de terminal à conteneurs}\label{chapitre:simulation}
+	\input{chapitres/simulation/introduction}
+
+	%%%%%%%%%%
+	\section{Spécifications}\label{partie:specifications}
+	\input{chapitres/simulation/specifications}	
+
+	%%%%%%%%%%
+	\section{Architecture}\label{partie:architecture}
+	\input{chapitres/simulation/architecture}
+
+		
+	%%%%%%%%%%
+	\chapter*{Conclusions}\label{chapitre:conclusions}
+	\addcontentsline{toc}{chapter}{Conclusions}
+	\input{chapitres/conclusions}	
+	
+	%\appendix
+
+      \include{bibliographie/bibliographie_these}  % include bibliography
+      %\include{index}    % include index
+
+\end{document}

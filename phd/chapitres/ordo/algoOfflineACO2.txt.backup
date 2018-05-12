@@ -1,0 +1,41 @@
+DEBUT
+| 
+| globalRecord = null
+| TantQue it < MAX_IT Faire
+| | record = null
+| | Pour chaque fourmi k de K Faire
+| | | salesman = choisirSalesman(listeRessources)
+| | | retirerSalesman(salesman)
+| | | Si listeRessources == \emptyset Alors
+| | | | listeVilles = listeVilles - DEPOT
+| | | FinSi
+| | | TantQue listeVilles != \emptyset Faire
+| | | | v = choisirVille(listeVilles)
+| | | | Si v == DEPOT Alors
+| | | | | chemins^k = chemins^k + chemin^k_salesman
+| | | | | salesman = choisirSalesman(listeRessources)
+| | | | | retirerSalesman(salesman)
+| | | | |  Si listeRessources == \emptyset Alors
+| | | | |  | listeVilles = listeVilles - DEPOT
+| | | | |  FinSi
+| | | | Sinon
+| | | | | deposerPheromone(k, salesman, v)
+| | | | | chemin^k_salesman = chemin^k_salesman + v
+| | | | | listeVilles = listeVilles - v
+| | | | FinSi
+| | | FinTantQue
+| | | chemin^k_salesman = chemin^k_salesman + DEPOT
+| | | chemins^k = chemins^k + chemin^k_salesman
+| | | Si record == null OU evaluation(chemins) < evaluation(record) Alors
+| | | | record = chemins
+| | | FinSi
+| | FinPour
+| | Pour chaque fourmi k de K Faire
+| | | deposerPheromone(chemins^k)
+| | FinPour
+| | Si(globalRecord == null OU evaluation(record) < evaluation(globalRecord) Alors
+| | | globalRecord = record
+| | FinSi
+| | evaporation
+| FinTantQue
+FIN

@@ -1,0 +1,219 @@
+\begin{thebibliography}{10}
+
+\bibitem{Allahverdi2008}
+Ali Allahverdi, C.T. Ng, T.C.E. Cheng, and Mikhail~Y. Kovalyov.
+\newblock A survey of scheduling problems with setup times or costs.
+\newblock {\em European Journal of Operational Research}, 187(3):985--1032,
+  June 2008.
+
+\bibitem{Lesauvage2009}
+Stefan Balev, Fr{\'e}d{\'e}ric Guinand, Ga{\"e}tan Lesauvage, and D.~Olivier.
+\newblock {Dynamical Handling of Straddle Carriers Activities on a Container
+  Terminal in Uncertain Environment - A Swarm Intelligence approach -}.
+\newblock In {\em {ICCSA 2009 The 3rd International Conference on Complex
+  Systems and Applications}}, volume~2, page 290, Le Havre, France, June 2009.
+\newblock 7p.
+
+\bibitem{Berbeglia2007}
+Gerardo Berbeglia, Jean-François Cordeau, Irina Gribkovskaia, and Gilbert
+  Laporte.
+\newblock Static pickup and delivery problems: a classification scheme and
+  survey.
+\newblock {\em Top}, 15(1):1--31, 2007.
+
+\bibitem{Berbeglia2010}
+Gerardo Berbeglia, Jean-François Cordeau, and Gilbert Laporte.
+\newblock Dynamic pickup and delivery problems.
+\newblock {\em European Journal of Operational Research}, 202(1):8 -- 15, 2010.
+
+\bibitem{Bertelle2006}
+Cyrille Bertelle, Antoine Dutot, Frédéric Guinand, and Damien Olivier.
+\newblock Organization detection using emergent computing.
+\newblock {\em International Transactions on Systems Science and Applications},
+  2(1):61--70, 2006.
+
+\bibitem{Bertelle2007}
+Cyrille Bertelle, Antoine Dutot, Frédéric Guinand, and Damien Olivier.
+\newblock Organization detection for dynamic load balancing in individual-based
+  simulations.
+\newblock {\em Multi-Agent and Grid Systems}, 3(1):42, 2007.
+
+\bibitem{Blazewicz1996}
+Jacek Blazewicz, Wolfgang Domschke, and Erwin Pesch.
+\newblock The job shop scheduling problem: Conventional and new solution
+  techniques.
+\newblock {\em European Journal of Operational Research}, 93(1):1--33, August
+  1996.
+
+\bibitem{Brucker1990}
+P.~Brucker and R.~Schlie.
+\newblock Job-shop scheduling with multi-purpose machines.
+\newblock {\em Computing}, 45:369--375, 1990.
+\newblock 10.1007/BF02238804.
+
+\bibitem{Brucker2010}
+Peter Brucker.
+\newblock {\em Scheduling Algorithms}.
+\newblock Springer Publishing Company, Incorporated, 5th edition, 2010.
+
+\bibitem{Colorni1994}
+V.~Maniezzo Colorni~A., M.~Dorigo and M.~Trubian.
+\newblock Ant system for job-shop scheduling.
+\newblock {\em Belgian Journal of Operations Research, Statistics and Computer
+  Science}, 34(1):39--53, 1994.
+
+\bibitem{Deneubourg1983}
+Jean-Louis Deneubourg, Jacques~M. Pasteels, and J.~C. Verhaeghe.
+\newblock Probabilistic behaviour in ants: A strategy of errors?
+\newblock {\em Journal of Theoretical Biology}, 105:259--271, 1983.
+
+\bibitem{Dorigo2006}
+Marco Dorigo, Mauro Birattari, and T.~Stützle.
+\newblock Ant {C}olony {O}ptimization: {A}rtificial ants as a computational
+  intelligence technique.
+\newblock {\em IEEE Computational Intelligence Magazine}, 1(4):28--39, 2006.
+
+\bibitem{Laporte1992}
+Gilbert and Laporte.
+\newblock The vehicle routing problem: An overview of exact and approximate
+  algorithms.
+\newblock {\em European Journal of Operational Research}, 59(3):345 -- 358,
+  1992.
+
+\bibitem{Huang2008}
+Rong-Hwa Huang and Chang-Lin Yang.
+\newblock Ant colony system for job shop scheduling with time windows.
+\newblock {\em The International Journal of Advanced Manufacturing Technology},
+  39:151--157, 2008.
+\newblock 10.1007/s00170-007-1203-9.
+
+\bibitem{Jain1999}
+Anant~S. Jain and Sheik Meeran.
+\newblock A state-of-the-art review of job-shop scheduling techniques.
+\newblock {\em European Journal of Operations Research}, (113):390--434, 1999.
+
+\bibitem{Larsen00}
+A.~Larsen.
+\newblock {\em The Vehicle Routing Problem}.
+\newblock PhD thesis, Department of Mathematical Modelling, Technical
+  University of Denmark, 2000.
+
+\bibitem{Lesauvage2011}
+Ga{\"e}tan Lesauvage, Stefan Balev, and Fr{\'e}d{\'e}ric Guinand.
+\newblock {D$^{2}$CTS} : A dynamic and distributed container terminal
+  simulator.
+\newblock In {\em HMS 2011 : The $13^{rd}$ International Conference on Harbor,
+  Maritime {\&} Multimodal Logistics Modelling and Simulation}, September 2011.
+
+\bibitem{Lin1997}
+Shyh-Chang Lin, Erik~D Goodman, and William~F Punch.
+\newblock A genetic algorithm approach to dynamic job shop scheduling problems.
+\newblock {\em The 17th International Workshop on}, pages 126--131, 1997.
+
+\bibitem{Mitrovic1998}
+S~Mitrovic-Minic.
+\newblock Pickup and delivery problem with time windows: A survey.
+\newblock {\em SFU CMPT TR}, 12(1):1–43, 1998.
+
+\bibitem{Mitrovic2001}
+S.~Mitrovic-Minic.
+\newblock {\em The dynamic pickup and delivery problem with time windows}.
+\newblock Simon Fraser University, 2001.
+
+\bibitem{Mitrovic2006}
+Snežana Mitrović-Minić and Ramesh Krishnamurti.
+\newblock The multiple tsp with time windows: vehicle bounds based on
+  precedence graphs.
+\newblock {\em Operations Research Letters}, 34(1):111 -- 120, 2006.
+
+\bibitem{Montemanni2005}
+R.~Montemanni, L.~Gambardella, A.~Rizzoli, and A.~Donati.
+\newblock Ant colony system for a dynamic vehicle routing problem.
+\newblock {\em Journal of Combinatorial Optimization}, 10:327--343, 2005.
+\newblock 10.1007/s10878-005-4922-6.
+
+\bibitem{Ouelhadj2009}
+Djamila Ouelhadj and Sanja Petrovic.
+\newblock {A survey of dynamic scheduling in manufacturing systems}.
+\newblock {\em J. of Scheduling}, 12(4):417--431, August 2009.
+
+\bibitem{Ponnambalam2005}
+S~G Ponnambalam, N~Jawahar, and B~S Girish.
+\newblock An ant colony optimization algorithm for flexible job shop scheduling
+  problem.
+\newblock {\em Advanced Science Letters}, 4(Pinedo):2127--2131, 2005.
+
+\bibitem{Qi2000}
+J.~G. Qi, G.~R. Burns, and D.~K. Harrison.
+\newblock The application of parallel multipopulation genetic algorithms to
+  dynamic job-shop scheduling.
+\newblock {\em The International Journal of Advanced Manufacturing Technology},
+  16:609--615, 2000.
+\newblock 10.1007/s001700070052.
+
+\bibitem{Ramasesh1990}
+R.~Ramasesh.
+\newblock Dynamic job shop scheduling: A survey of simulation research.
+\newblock {\em Omega}, 18(1):43 -- 57, 1990.
+
+\bibitem{Suresh1993}
+V.~Suresh and Dipak Chaudhuri.
+\newblock Dynamic scheduling—a survey of research.
+\newblock {\em International Journal of Production Economics}, 32(1):53 -- 63,
+  1993.
+
+\bibitem{Taillard1994}
+{\'E}ric~D. Taillard.
+\newblock Parallel taboo search techniques for the job shop scheduling problem.
+\newblock {\em INFORMS Journal on Computing}, 6(2):108--117, 1994.
+
+\bibitem{Toth2001}
+Paolo Toth and Daniele Vigo, editors.
+\newblock {\em The vehicle routing problem}.
+\newblock Society for Industrial and Applied Mathematics, Philadelphia, PA,
+  USA, 2001.
+
+\bibitem{Apinanthana2011}
+Apinanthana Udomsakdigool and Voratas Kachitvichyanukul.
+\newblock {Ant colony algorithm for multi-criteria job shop scheduling to
+  minimize makespan, mean flow time and mean tardiness}.
+\newblock {\em International Journal of Management Science and Engineering
+  Management}, 6(2):117--123, 2011.
+
+\bibitem{Vogel2002}
+Andre Vogel, Marco Fischer, Hendrik Jaehn, and Tobias Teich.
+\newblock Real-world shop floor scheduling by ant colony optimization.
+\newblock In Marco Dorigo, Gianni Di~Caro, and Michael Sampels, editors, {\em
+  Ant Algorithms}, volume 2463 of {\em Lecture Notes in Computer Science},
+  pages 173--198. Springer Berlin / Heidelberg, 2002.
+
+\bibitem{Watson2003}
+Jean-Paul Watson, Darrell~L. Whitley, and Adele~E. Howe.
+\newblock {A Dynamic Model of Tabu Search for the Job-Shop Scheduling Problem}.
+\newblock {\em Proc. of the 1st Multidisciplinary Int. Conf. on Scheduling:
+  Theory and Applications}, pages 320--336.
+
+\bibitem{Gere1966}
+Jr. William S.~Gere.
+\newblock Heuristics in job shop scheduling.
+\newblock {\em Management Science}, 13(3):167--190, November 1966.
+
+\bibitem{Xing2010}
+Li-Ning Xing, Ying-Wu Chen, Peng Wang, Qing-Song Zhao, and Jian Xiong.
+\newblock A knowledge-based ant colony optimization for flexible job shop
+  scheduling problems.
+\newblock {\em Applied Soft Computing}, 10(3):888 -- 896, 2010.
+
+\bibitem{Yoo2002}
+Min-Jung Yoo and Jean-Pierre M{\"u}ller.
+\newblock Using multi-agent system for dynamic job shop scheduling.
+\newblock In {\em ICEIS}, pages 517--525, 2002.
+
+\bibitem{Zhou2008}
+Rong Zhou, Heow~Pueh Lee, and Andrew Y.~C. Nee.
+\newblock Applying ant colony optimization (aco) algorithm to dynamic job shop
+  scheduling problems.
+\newblock {\em International Journal of Manufacturing Research}, 3(3):301--320,
+  2008.
+
+\end{thebibliography}

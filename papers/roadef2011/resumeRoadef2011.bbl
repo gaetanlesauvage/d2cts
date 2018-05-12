@@ -1,0 +1,21 @@
+\begin{thebibliography}{1}
+
+\bibitem{Ahuja2003}
+Ravindra~K. Ahuja, James~B. Orlin, Stefano Pallottino, and Maria~G. Scutellà.
+\newblock Dynamic shortest paths minimizing travel times and costs.
+\newblock {\em Networks}, 41:205, 2003.
+
+\bibitem{Lesauvage2009}
+{G}a{\"e}tan {L}esauvage.
+\newblock {G}estion dynamique des activit{\'e}s des chariots cavaliers sur un
+  terminal portuaire {\`a} conteneurs en environnement incertain : approche par
+  intelligence collective.
+\newblock 8p {A}ctes en ligne de la conf{\'e}rence {M}ajec{STIC} 2009, 11 2009.
+
+\bibitem{Orda1990}
+Ariel Orda and Raphael Rom.
+\newblock Shortest-path and minimum-delay algorithms in networks with
+  time-dependent edge-length.
+\newblock {\em J. ACM}, 37(3):607--625, 1990.
+
+\end{thebibliography}

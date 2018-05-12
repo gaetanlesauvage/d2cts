@@ -1,0 +1,7 @@
+\beamer@endinputifotherversion {3.07pt}
+\select@language {english}
+\beamer@sectionintoc {1}{Introduction and Objectives}{3}{0}{1}
+\beamer@sectionintoc {2}{Modelling}{8}{0}{2}
+\beamer@sectionintoc {3}{Retrieving and structuring data}{31}{0}{3}
+\beamer@sectionintoc {4}{Simulated optimization problems}{40}{0}{4}
+\beamer@sectionintoc {5}{Conclusion}{57}{0}{5}

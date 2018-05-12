@@ -1,0 +1,11 @@
+intro ?
+
+description pb CALAS
+expliquer pb (façon RO) State of the Art (VRP + Ordo)
+méthodes mises en oeuvres
+  - algos deterministes
+  - méthode fourmis
+experimentations et résultats
+  - cas statiq
+  - cas dynamique
+conclusion

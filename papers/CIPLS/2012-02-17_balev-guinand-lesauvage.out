@@ -1,0 +1,25 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [1][-]{section.2}{Problem Modeling and Related Works}{}
+\BOOKMARK [2][-]{subsection.2.1}{Problem Modeling}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Other Assumptions}{subsection.2.1}
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Optimization criteria}{subsection.2.1}
+\BOOKMARK [3][-]{subsubsection.2.1.3}{Related works}{subsection.2.1}
+\BOOKMARK [2][-]{subsection.2.2}{Dynamic version of the problem}{section.2}
+\BOOKMARK [1][-]{section.3}{Colored Ants algorithm}{}
+\BOOKMARK [2][-]{subsection.3.1}{Graph modeling}{section.3}
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Edges}{subsection.3.1}
+\BOOKMARK [2][-]{subsection.3.2}{Dynamic graph}{section.3}
+\BOOKMARK [2][-]{subsection.3.3}{Algorithm}{section.3}
+\BOOKMARK [2][-]{subsection.3.4}{Pheromone handling}{section.3}
+\BOOKMARK [3][-]{subsubsection.3.4.1}{Positive feedback}{subsection.3.4}
+\BOOKMARK [3][-]{subsubsection.3.4.2}{Negative feedback}{subsection.3.4}
+\BOOKMARK [2][-]{subsection.3.5}{Pseudo-random-proportional rule}{section.3}
+\BOOKMARK [2][-]{subsection.3.6}{Solutions}{section.3}
+\BOOKMARK [2][-]{subsection.3.7}{Path reinforcement}{section.3}
+\BOOKMARK [2][-]{subsection.3.8}{Parameters}{section.3}
+\BOOKMARK [1][-]{section.4}{Experiments and results}{}
+\BOOKMARK [2][-]{subsection.4.1}{Measure of dynamics}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{Measure of performance}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{Static case}{section.4}
+\BOOKMARK [2][-]{subsection.4.4}{Dynamic case}{section.4}
+\BOOKMARK [1][-]{section.5}{Conclusions and Open Perspectives}{}

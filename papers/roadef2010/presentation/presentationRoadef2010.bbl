@@ -1,0 +1,37 @@
+\begin{thebibliography}{1}
+
+\bibitem{Berbeglia07}
+G.~Berbeglia, J.-F. Cordeau, I.~Gribkovskaia, and G.~Laporte.
+\newblock Static pickup and delivery problems: A classification scheme and
+  survey.
+\newblock {\em TOP}, 2007.
+
+\bibitem{Bertelle02}
+C.~Bertelle, A.~Dutot, F.~Guinand, and D.~Olivier.
+\newblock Distribution of agent based simulation with colored ant algorihm.
+\newblock In {\em 14th European Simulation Symposium}, 2002.
+
+\bibitem{Dorigo91}
+M.~Dorigo.
+\newblock {\em Learning and Natural Algorithms}.
+\newblock PhD thesis, Politecnico di Milano, Italie, 1992.
+
+\bibitem{Dutot2007}
+Antoine Dutot, Fr\'{e}d\'{e}ric Guinand, Damien Olivier, and Yoann Pign\'{e}.
+\newblock Graphstream: A tool for bridging the gap between complex systems and
+  dynamic graphs.
+\newblock In {\em EPNACS: Emergent Properties in Natural and Artificial Complex
+  Systems}, 2007.
+
+\bibitem{Larsen00}
+A.~Larsen.
+\newblock {\em The Vehicle Routing Problem}.
+\newblock PhD thesis, Department of Mathematical Modelling, Technical
+  University of Denmark, 2000.
+
+\bibitem{Mitrovic01}
+Snezana Mitrovic-Minic.
+\newblock {\em The dynamic pickup and delivery problem with time windows}.
+\newblock PhD thesis, Simon Fraser University, 2001.
+
+\end{thebibliography}

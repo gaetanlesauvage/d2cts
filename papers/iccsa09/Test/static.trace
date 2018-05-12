@@ -1,0 +1,123 @@
+=========================================================================
+= 0> New Mission 0
+= 0>Time window = [3251 - 15000.0]
+= 0>Content : move the container cont1 from the stock on l1 and load it onto the truck/train on tl3
+= 0>The destination truck/train will be there at t=3251
+=========================================================================
+
+=========================================================================
+= 0> New Mission 1
+= 0>Time window = [1750 - 19000.0]
+= 0>Content : move the container cont2 from the stock on l1 and load it onto the truck/train on tl1
+= 0>The destination truck/train will be there at t=1750
+=========================================================================
+
+=========================================================================
+= 0> New Mission 2
+= 0>Time window = [1600 - 8500.0]
+= 0>Content : move the container cont5 from the stock on l2 and load it onto the boat on bl1
+= 0>The destination boat will be there at t=1482
+=========================================================================
+
+=========================================================================
+= 0> New Mission 3
+= 0>Time window = [1721 - 9354.0]
+= 0>Content : move the container cont3 from the stock on l3 and load it onto the boat on bl4
+= 0>The destination boat will be there at t=1654
+=========================================================================
+
+=========================================================================
+= 0> New Mission 4
+= 0>Time window = [1800 - 8750.0]
+= 0>Content : unload container cont10 from a boat on bl2 and deliver it to l1
+= 0>The source boat will be there at t=1936
+=========================================================================
+
+=========================================================================
+= 0> New Mission 5
+= 0>Time window = [12000 - 12200.0]
+= 0>Content : unload container cont7 from a boat on bl2 and deliver it to l2
+= 0>The source boat will be there at t=11718
+=========================================================================
+
+=========================================================================
+= 0> New Mission 6
+= 0>Time window = [12000 - 12200.0]
+= 0>Content : unload container cont8 from a train/truck on tl3 and deliver it to l1
+= 0>The source train/truck will be there at t=12000
+=========================================================================
+
+=========================================================================
+= 0> New Mission 7
+= 0>Time window = [12100 - 12200.0]
+= 0>Content : unload container cont9 from a train/truck on tl2 and deliver it to l3
+= 0>The source train/truck will be there at t=12100
+=========================================================================
+
+=========================================================================
+= 0> New Mission 8
+= 0>Time window = [20000 - 25700.0]
+= 0>Content : move the container cont4 from the stock on l3 and load it onto the truck/train on tl2
+= 0>The destination truck/train will be there at t=20082
+=========================================================================
+
+=========================================================================
+= 0> New Mission 9
+= 0>Time window = [20035 - 25000.0]
+= 0>Content : move the container cont10 from the stock on bl2 and load it onto the truck/train on tl1
+= 0>The destination truck/train will be there at t=20035
+=========================================================================
+
+=========================================================================
+= 0> New Mission 10
+= 0>Time window = [21000 - 25000.0]
+= 0>Content : move the container cont7 from the stock on bl2 and load it onto the truck/train on tl3
+= 0>The destination truck/train will be there at t=21021
+=========================================================================
+
+=========================================================================
+= 0> New Mission 11
+= 0>Time window = [20000 - 25000.0]
+= 0>Content : move the container cont6 from the stock on l2 and load it onto the truck/train on tl2
+= 0>The destination truck/train will be there at t=20000
+=========================================================================
+
+0> End of simulation file has been reached !
+1600> Mission 2 (container cont5 from l2 to bl1) starts now !
+1600> Mission 2 has been started by sc3
+1721> Mission 3 (container cont3 from l3 to bl4) starts now !
+1721> Mission 3 has been started by sc1
+1761> Mission 1 (container cont2 from l1 to tl1) starts now !
+1761> Mission 1 has been started by sc2
+3708> Mission 1 done in 1947 by sc2 [1761;19000.0]
+3809> Mission 0 (container cont1 from l1 to tl3) starts now !
+3809> Mission 0 has been started by sc2
+4730> Mission 2 done in 3130 by sc3 [1600;8500.0]
+5044> Mission 3 done in 3323 by sc1 [1721;9354.0]
+5145> Mission 4 (container cont10 from bl2 to l1) starts now !
+5145> Mission 4 has been started by sc1
+6120> Mission 4 done in 975 by sc1 [5145;8750.0]
+6605> Mission 0 done in 2796 by sc2 [3809;15000.0]
+12000> Mission 5 (container cont7 from bl2 to l2) starts now !
+12000> Mission 5 has been started by sc3
+12100> Mission 7 (container cont9 from tl2 to l3) starts now !
+12100> Mission 7 has been started by sc1
+13782> Mission 5 done in 1782 by sc3 [12000;12200.0]
+13883> Mission 6 (container cont8 from tl3 to l1) starts now !
+13883> Mission 6 has been started by sc3
+14409> Mission 7 done in 2309 by sc1 [12100;12200.0]
+16485> Mission 6 done in 2602 by sc3 [13883;12200.0]
+20000> Mission 11 (container cont6 from l2 to tl2) starts now !
+20000> Mission 11 has been started by sc1
+20013> Mission 8 (container cont4 from l3 to tl2) starts now !
+20013> Mission 8 has been started by sc2
+21000> Mission 10 (container cont7 from l2 to tl3) starts now !
+21000> Mission 10 has been started by sc3
+21723> Mission 11 done in 1723 by sc1 [20000;25000.0]
+21824> Mission 9 (container cont10 from l1 to tl1) starts now !
+21824> Mission 9 has been started by sc1
+21825> All missions has been done !
+22546> Mission 8 done in 2533 by sc2 [20013;25700.0]
+22742> Mission 10 done in 1742 by sc3 [21000;25000.0]
+23963> Mission 9 done in 2139 by sc1 [21824;25000.0]
+23964> END OF SIMULATION !

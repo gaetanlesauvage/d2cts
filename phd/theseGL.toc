@@ -1,0 +1,223 @@
+\select@language {french}
+\contentsline {chapter}{Introduction}{7}{chapter*.3}
+\contentsline {chapter}{\numberline {I}Applications aux terminaux \IeC {\`a} conteneurs}{9}{chapter.1}
+\contentsline {section}{Introduction}{9}{section*.4}
+\contentsline {section}{\numberline {I.1}Structure et organisation des terminaux \IeC {\`a} conteneurs}{12}{section.1.1}
+\contentsline {subsection}{\numberline {I.1.1}Structure}{13}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {I.1.2}Engins de manutention}{14}{subsection.1.1.2}
+\contentsline {subsection}{\numberline {I.1.3}R\IeC {\'e}seau routier}{16}{subsection.1.1.3}
+\contentsline {subsection}{\numberline {I.1.4}Activit\IeC {\'e}s des chariots cavaliers}{17}{subsection.1.1.4}
+\contentsline {subsubsection}{\numberline {I.1.4.1}Les types de missions}{17}{subsubsection.1.1.4.1}
+\contentsline {subsubsection}{\numberline {I.1.4.2}Fen\IeC {\^e}tres de temps}{18}{subsubsection.1.1.4.2}
+\contentsline {subsubsection}{\numberline {I.1.4.3}Objectifs des chariots cavaliers}{18}{subsubsection.1.1.4.3}
+\contentsline {subsection}{\numberline {I.1.5}Le Terminal de Normandie}{20}{subsection.1.1.5}
+\contentsline {section}{\numberline {I.2}Optimisation des terminaux \IeC {\`a} conteneurs}{21}{section.1.2}
+\contentsline {subsection}{\numberline {I.2.1}Structure du terminal}{22}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {I.2.2}Allocation des berges et transbordement}{23}{subsection.1.2.2}
+\contentsline {subsection}{\numberline {I.2.3}Allocation des grues de quai}{24}{subsection.1.2.3}
+\contentsline {subsection}{\numberline {I.2.4}Positionnement des conteneurs}{25}{subsection.1.2.4}
+\contentsline {subsection}{\numberline {I.2.5}Routage des v\IeC {\'e}hicules}{26}{subsection.1.2.5}
+\contentsline {subsubsection}{\numberline {I.2.5.1}Mod\IeC {\'e}lisation et objectifs}{27}{subsubsection.1.2.5.1}
+\contentsline {subsubsection}{\numberline {I.2.5.2}Dynamique du graphe}{27}{subsubsection.1.2.5.2}
+\contentsline {subsubsection}{\numberline {I.2.5.3}Probl\IeC {\`e}me global}{28}{subsubsection.1.2.5.3}
+\contentsline {subsection}{\numberline {I.2.6}Ordonnancement et affectation des missions}{29}{subsection.1.2.6}
+\contentsline {section}{Conclusions}{29}{section*.21}
+\contentsline {chapter}{\numberline {II}Contexte th\IeC {\'e}orique}{31}{chapter.2}
+\contentsline {section}{Introduction}{31}{section*.22}
+\contentsline {section}{\numberline {II.1}Dynamique et incertitude en optimisation}{31}{section.2.1}
+\contentsline {subsection}{\numberline {II.1.1}D\IeC {\'e}finition}{31}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {II.1.2}Optimisation et probl\IeC {\`e}me d\IeC {\'e}cisionnel}{32}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {II.1.3}Identifier l'incertitude}{33}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {II.1.4}G\IeC {\'e}rer l'incertitude}{34}{subsection.2.1.4}
+\contentsline {subsection}{\numberline {II.1.5}Gestion de la dynamique}{34}{subsection.2.1.5}
+\contentsline {subsection}{\numberline {II.1.6}M\IeC {\'e}thodes de r\IeC {\'e}solutions adapt\IeC {\'e}es aux environnements dynamiques}{37}{subsection.2.1.6}
+\contentsline {subsubsection}{\numberline {II.1.6.1}Recherche tabou}{38}{subsubsection.2.1.6.1}
+\contentsline {subsubsection}{\numberline {II.1.6.2}R\IeC {\'e}seaux de neurones artificiels}{38}{subsubsection.2.1.6.2}
+\contentsline {subsubsection}{\numberline {II.1.6.3}Algorithmes g\IeC {\'e}n\IeC {\'e}tiques}{40}{subsubsection.2.1.6.3}
+\contentsline {subsubsection}{\numberline {II.1.6.4}Algorithmes fourmis}{42}{subsubsection.2.1.6.4}
+\contentsline {section}{\numberline {II.2}Probl\IeC {\`e}mes de voyageurs de commerce}{47}{section.2.2}
+\contentsline {subsection}{\numberline {II.2.1}D\IeC {\'e}finition}{47}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {II.2.2}Historique}{48}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {II.2.3}M\IeC {\'e}thodes de r\IeC {\'e}solution}{49}{subsection.2.2.3}
+\contentsline {subsubsection}{\numberline {II.2.3.1}M\IeC {\'e}thodes de r\IeC {\'e}solution exacte}{49}{subsubsection.2.2.3.1}
+\contentsline {subsubsection}{\numberline {II.2.3.2}M\IeC {\'e}thodes de r\IeC {\'e}solution approch\IeC {\'e}e}{50}{subsubsection.2.2.3.2}
+\contentsline {paragraph}{\numberline {II.2.3.2.1}Heuristiques constructivistes~:}{50}{paragraph.2.2.3.2.1}
+\contentsline {paragraph}{\numberline {II.2.3.2.2}Heuristiques d'am\IeC {\'e}lioration~:}{51}{paragraph.2.2.3.2.2}
+\contentsline {paragraph}{\numberline {II.2.3.2.3}M\IeC {\'e}taheuristiques~:}{52}{paragraph.2.2.3.2.3}
+\contentsline {subparagraph}{Le recuit simul\IeC {\'e}}{52}{section*.29}
+\contentsline {subparagraph}{La recherche tabou}{53}{section*.30}
+\contentsline {subparagraph}{Les r\IeC {\'e}seaux de neurones artificiels}{53}{section*.31}
+\contentsline {subparagraph}{Les algorithmes g\IeC {\'e}n\IeC {\'e}tiques}{54}{section*.32}
+\contentsline {subparagraph}{L'optimisation par colonie de fourmis}{54}{section*.35}
+\contentsline {subsection}{\numberline {II.2.4}G\IeC {\'e}n\IeC {\'e}ralisation \IeC {\`a} \textit {m} voyageurs : The Multiple Traveling Salesman Problem (M-TSP)}{56}{subsection.2.2.4}
+\contentsline {subsubsection}{\numberline {II.2.4.1}D\IeC {\'e}finition}{56}{subsubsection.2.2.4.1}
+\contentsline {subsubsection}{\numberline {II.2.4.2}Probl\IeC {\`e}mes rencontr\IeC {\'e}s}{58}{subsubsection.2.2.4.2}
+\contentsline {subsubsection}{\numberline {II.2.4.3}Formulation du probl\IeC {\`e}me}{59}{subsubsection.2.2.4.3}
+\contentsline {subsubsection}{\numberline {II.2.4.4}M\IeC {\'e}thodes de r\IeC {\'e}solution}{59}{subsubsection.2.2.4.4}
+\contentsline {paragraph}{\numberline {II.2.4.4.1}Transformation en probl\IeC {\`e}me de voyageur de commerce classique}{60}{paragraph.2.2.4.4.1}
+\contentsline {paragraph}{\numberline {II.2.4.4.2}R\IeC {\'e}solution exacte}{60}{paragraph.2.2.4.4.2}
+\contentsline {paragraph}{\numberline {II.2.4.4.3}R\IeC {\'e}solution approch\IeC {\'e}e}{61}{paragraph.2.2.4.4.3}
+\contentsline {section}{\numberline {II.3}Probl\IeC {\`e}mes de tourn\IeC {\'e}es de v\IeC {\'e}hicules}{65}{section.2.3}
+\contentsline {subsection}{\numberline {II.3.1}Definition}{65}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {II.3.2}Les variantes du probl\IeC {\`e}me}{66}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {II.3.3}Probl\IeC {\`e}me d\IeC {\'e}cisionnel et formulation math\IeC {\'e}matique}{68}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {II.3.4}Fonction objectif}{70}{subsection.2.3.4}
+\contentsline {subsection}{\numberline {II.3.5}M\IeC {\'e}thodes de r\IeC {\'e}solution}{70}{subsection.2.3.5}
+\contentsline {subsubsection}{\numberline {II.3.5.1}M\IeC {\'e}thodes de r\IeC {\'e}solution exacte}{70}{subsubsection.2.3.5.1}
+\contentsline {subsubsection}{\numberline {II.3.5.2}M\IeC {\'e}thodes de r\IeC {\'e}solution approch\IeC {\'e}e}{72}{subsubsection.2.3.5.2}
+\contentsline {paragraph}{\numberline {II.3.5.2.1}Heuristiques constructivistes~:}{72}{paragraph.2.3.5.2.1}
+\contentsline {paragraph}{\numberline {II.3.5.2.2}Heuristiques d'am\IeC {\'e}lioration~:}{73}{paragraph.2.3.5.2.2}
+\contentsline {paragraph}{\numberline {II.3.5.2.3}M\IeC {\'e}taheuristiques~:}{74}{paragraph.2.3.5.2.3}
+\contentsline {subparagraph}{M\IeC {\'e}thodes \IeC {\`a} trajectoires~:\\}{74}{section*.41}
+\contentsline {subparagraph}{M\IeC {\'e}thodes \IeC {\`a} population~:\\}{76}{section*.42}
+\contentsline {subsection}{\numberline {II.3.6}Probl\IeC {\`e}me dynamique}{81}{subsection.2.3.6}
+\contentsline {subsubsection}{\numberline {II.3.6.1}M\IeC {\'e}thodes de r\IeC {\'e}solution du probl\IeC {\`e}me dynamique}{83}{subsubsection.2.3.6.1}
+\contentsline {section}{\numberline {II.4}Probl\IeC {\`e}mes d'ateliers}{85}{section.2.4}
+\contentsline {subsection}{\numberline {II.4.1}D\IeC {\'e}finition et variantes du probl\IeC {\`e}me}{85}{subsection.2.4.1}
+\contentsline {subsubsection}{\numberline {II.4.1.1}Notation de Graham et al.}{86}{subsubsection.2.4.1.1}
+\contentsline {paragraph}{\numberline {II.4.1.1.1}Environnement machine ($\alpha $)}{86}{paragraph.2.4.1.1.1}
+\contentsline {paragraph}{\numberline {II.4.1.1.2}Caract\IeC {\'e}ristiques des t\IeC {\^a}ches ($\beta $)}{87}{paragraph.2.4.1.1.2}
+\contentsline {paragraph}{\numberline {II.4.1.1.3}Crit\IeC {\`e}res d'optimalit\IeC {\'e} ($\gamma $)}{87}{paragraph.2.4.1.1.3}
+\contentsline {subsubsection}{\numberline {II.4.1.2}Lien avec les probl\IeC {\`e}mes de tourn\IeC {\'e}es de v\IeC {\'e}hicules}{88}{subsubsection.2.4.1.2}
+\contentsline {subsection}{\numberline {II.4.2}M\IeC {\'e}thodes de r\IeC {\'e}solution}{89}{subsection.2.4.2}
+\contentsline {subsubsection}{\numberline {II.4.2.1}R\IeC {\'e}solution exacte}{89}{subsubsection.2.4.2.1}
+\contentsline {subsubsection}{\numberline {II.4.2.2}R\IeC {\'e}solution p-approch\IeC {\'e}e}{89}{subsubsection.2.4.2.2}
+\contentsline {subsubsection}{\numberline {II.4.2.3}R\IeC {\'e}solution math\IeC {\'e}matique}{89}{subsubsection.2.4.2.3}
+\contentsline {subsubsection}{\numberline {II.4.2.4}Heuristiques}{90}{subsubsection.2.4.2.4}
+\contentsline {subsubsection}{\numberline {II.4.2.5}M\IeC {\'e}taheuristiques}{91}{subsubsection.2.4.2.5}
+\contentsline {paragraph}{\numberline {II.4.2.5.1}Recuit Simul\IeC {\'e} (\textit {Simulated Annealing})}{91}{paragraph.2.4.2.5.1}
+\contentsline {paragraph}{\numberline {II.4.2.5.2}Recherche Tabou (\textit {Tabu Search})}{91}{paragraph.2.4.2.5.2}
+\contentsline {paragraph}{\numberline {II.4.2.5.3}Algorithmes g\IeC {\'e}n\IeC {\'e}tiques (\textit {Genetic Algorithms})}{93}{paragraph.2.4.2.5.3}
+\contentsline {paragraph}{\numberline {II.4.2.5.4}Optimisation par colonies de fourmis (\textit {Ant Colony Optimization})}{94}{paragraph.2.4.2.5.4}
+\contentsline {subsection}{\numberline {II.4.3}Probl\IeC {\`e}me dynamique}{95}{subsection.2.4.3}
+\contentsline {subsubsection}{\numberline {II.4.3.1}Identification et politiques de gestion de la dynamique}{95}{subsubsection.2.4.3.1}
+\contentsline {subsubsection}{\numberline {II.4.3.2}M\IeC {\'e}thodes de r\IeC {\'e}solution}{96}{subsubsection.2.4.3.2}
+\contentsline {section}{Conclusions}{98}{section*.46}
+\contentsline {chapter}{\numberline {III}Ordonnancement et affectation des missions des chariots cavaliers}{101}{chapter.3}
+\contentsline {section}{\numberline {III.1}Dynamique et incertitude}{101}{section.3.1}
+\contentsline {subsection}{\numberline {III.1.1}Gestion du temps}{101}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {III.1.2}Incertitude}{102}{subsection.3.1.2}
+\contentsline {subsubsection}{\numberline {III.1.2.1}Incertitude li\IeC {\'e}e aux clients du terminal}{102}{subsubsection.3.1.2.1}
+\contentsline {subsubsection}{\numberline {III.1.2.2}Incertitude li\IeC {\'e}e aux chariots cavaliers}{103}{subsubsection.3.1.2.2}
+\contentsline {paragraph}{\numberline {III.1.2.2.1}Panne des chariots cavaliers}{103}{paragraph.3.1.2.2.1}
+\contentsline {paragraph}{\numberline {III.1.2.2.2}Facteur humain}{104}{paragraph.3.1.2.2.2}
+\contentsline {section}{\numberline {III.2}Mod\IeC {\'e}lisations du probl\IeC {\`e}me}{105}{section.3.2}
+\contentsline {subsection}{\numberline {III.2.1}Probl\IeC {\`e}me de tourn\IeC {\'e}es de v\IeC {\'e}hicules}{105}{subsection.3.2.1}
+\contentsline {subsubsection}{\numberline {III.2.1.1}Structure du graphe}{106}{subsubsection.3.2.1.1}
+\contentsline {subsubsection}{\numberline {III.2.1.2}Fonction d'\IeC {\'e}valuation et pond\IeC {\'e}ration}{107}{subsubsection.3.2.1.2}
+\contentsline {subsubsection}{\numberline {III.2.1.3}Co\IeC {\^u}t de r\IeC {\'e}alisation d'une mission}{110}{subsubsection.3.2.1.3}
+\contentsline {subsubsection}{\numberline {III.2.1.4}Dynamique du graphe}{111}{subsubsection.3.2.1.4}
+\contentsline {subsubsection}{\numberline {III.2.1.5}Formulation math\IeC {\'e}matique}{111}{subsubsection.3.2.1.5}
+\contentsline {subsection}{\numberline {III.2.2}Probl\IeC {\`e}me d'atelier}{113}{subsection.3.2.2}
+\contentsline {subsubsection}{\numberline {III.2.2.1}Co\IeC {\^u}t de mise en place}{113}{subsubsection.3.2.2.1}
+\contentsline {subsubsection}{\numberline {III.2.2.2}Fonction d'\IeC {\'e}valuation}{114}{subsubsection.3.2.2.2}
+\contentsline {paragraph}{\numberline {III.2.2.2.1}Distance et dur\IeC {\'e}e de parcours}{115}{paragraph.3.2.2.2.1}
+\contentsline {paragraph}{\numberline {III.2.2.2.2}Retard et Avance}{116}{paragraph.3.2.2.2.2}
+\contentsline {subsection}{\numberline {III.2.3}Conclusion}{117}{subsection.3.2.3}
+\contentsline {section}{\numberline {III.3}M\IeC {\'e}thodes de r\IeC {\'e}solution}{117}{section.3.3}
+\contentsline {subsection}{\numberline {III.3.1}M\IeC {\'e}thode de r\IeC {\'e}solution exacte}{118}{subsection.3.3.1}
+\contentsline {subsubsection}{\numberline {III.3.1.1}Exemple}{118}{subsubsection.3.3.1.1}
+\contentsline {subsubsection}{\numberline {III.3.1.2}Algorithmes}{123}{subsubsection.3.3.1.2}
+\contentsline {subsection}{\numberline {III.3.2}M\IeC {\'e}thodes de r\IeC {\'e}solution approch\IeC {\'e}es}{124}{subsection.3.3.2}
+\contentsline {subsubsection}{\numberline {III.3.2.1}Algorithme d'affectation al\IeC {\'e}atoire}{125}{subsubsection.3.3.2.1}
+\contentsline {subsubsection}{\numberline {III.3.2.2}Politique de r\IeC {\'e}partition de charge}{125}{subsubsection.3.3.2.2}
+\contentsline {subsubsection}{\numberline {III.3.2.3}Algorithme glouton : m\IeC {\'e}thode des plus proches voisins}{126}{subsubsection.3.3.2.3}
+\contentsline {subsubsection}{\numberline {III.3.2.4}M\IeC {\'e}thode gloutonne \IeC {\'e}labor\IeC {\'e}e}{126}{subsubsection.3.3.2.4}
+\contentsline {subsection}{\numberline {III.3.3}M\IeC {\'e}thodes dynamiques}{126}{subsection.3.3.3}
+\contentsline {subsubsection}{\numberline {III.3.3.1}M\IeC {\'e}thode de r\IeC {\'e}solution hors-ligne \IeC {\`a} colonies de fourmis}{127}{subsubsection.3.3.3.1}
+\contentsline {paragraph}{\numberline {III.3.3.1.1}Graphe}{127}{paragraph.3.3.3.1.1}
+\contentsline {paragraph}{\numberline {III.3.3.1.2}Gestion de la ph\IeC {\'e}romone}{128}{paragraph.3.3.3.1.2}
+\contentsline {subparagraph}{Renforcement des pistes\\}{128}{section*.54}
+\contentsline {subparagraph}{\IeC {\'E}vaporation\\}{128}{section*.55}
+\contentsline {paragraph}{\numberline {III.3.3.1.3}Comportement des fourmis}{129}{paragraph.3.3.3.1.3}
+\contentsline {subparagraph}{R\IeC {\`e}gle de transition pseudo-al\IeC {\'e}atoire proportionnelle\\}{130}{section*.56}
+\contentsline {paragraph}{\numberline {III.3.3.1.4}Algorithme g\IeC {\'e}n\IeC {\'e}ral}{131}{paragraph.3.3.3.1.4}
+\contentsline {paragraph}{\numberline {III.3.3.1.5}Gestion de la dynamique}{131}{paragraph.3.3.3.1.5}
+\contentsline {paragraph}{\numberline {III.3.3.1.6}Param\IeC {\`e}tres}{133}{paragraph.3.3.3.1.6}
+\contentsline {subsubsection}{\numberline {III.3.3.2}Variante de la m\IeC {\'e}thode de r\IeC {\'e}solution hors-ligne \IeC {\`a} colonies de fourmis}{135}{subsubsection.3.3.3.2}
+\contentsline {paragraph}{\numberline {III.3.3.2.1}Algorithme}{135}{paragraph.3.3.3.2.1}
+\contentsline {paragraph}{\numberline {III.3.3.2.2}Param\IeC {\'e}trage}{137}{paragraph.3.3.3.2.2}
+\contentsline {subsubsection}{\numberline {III.3.3.3}M\IeC {\'e}thode de r\IeC {\'e}solution en-ligne \IeC {\`a} colonies de fourmis}{137}{subsubsection.3.3.3.3}
+\contentsline {paragraph}{\numberline {III.3.3.3.1}Description g\IeC {\'e}n\IeC {\'e}rale du graphe}{138}{paragraph.3.3.3.3.1}
+\contentsline {paragraph}{\numberline {III.3.3.3.2}Colonies et v\IeC {\'e}hicules}{138}{paragraph.3.3.3.3.2}
+\contentsline {paragraph}{\numberline {III.3.3.3.3}Pond\IeC {\'e}ration des arcs}{139}{paragraph.3.3.3.3.3}
+\contentsline {paragraph}{\numberline {III.3.3.3.4}Maintient de la structure du graphe}{140}{paragraph.3.3.3.3.4}
+\contentsline {paragraph}{\numberline {III.3.3.3.5}Gestion de la dynamique}{141}{paragraph.3.3.3.3.5}
+\contentsline {paragraph}{\numberline {III.3.3.3.6}Gestion de la ph\IeC {\'e}romone}{142}{paragraph.3.3.3.3.6}
+\contentsline {paragraph}{\numberline {III.3.3.3.7}R\IeC {\`e}gle de transition pseudo-al\IeC {\'e}atoire proportionnelle}{144}{paragraph.3.3.3.3.7}
+\contentsline {paragraph}{\numberline {III.3.3.3.8}Solution \textit {anytime}}{144}{paragraph.3.3.3.3.8}
+\contentsline {paragraph}{\numberline {III.3.3.3.9}Renforcement du chemin courant}{145}{paragraph.3.3.3.3.9}
+\contentsline {paragraph}{\numberline {III.3.3.3.10}Algorithme g\IeC {\'e}n\IeC {\'e}ral}{145}{paragraph.3.3.3.3.10}
+\contentsline {paragraph}{\numberline {III.3.3.3.11}Param\IeC {\`e}tres}{146}{paragraph.3.3.3.3.11}
+\contentsline {section}{Conclusions}{147}{section*.62}
+\contentsline {chapter}{\numberline {IV}Simulateur de terminal \IeC {\`a} conteneurs}{149}{chapter.4}
+\contentsline {section}{Introduction}{149}{section*.63}
+\contentsline {section}{\numberline {IV.1}Sp\IeC {\'e}cifications}{151}{section.4.1}
+\contentsline {subsection}{\numberline {IV.1.1}Technologie}{151}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {IV.1.2}Objectifs}{151}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {IV.1.3}Flexibilit\IeC {\'e}}{152}{subsection.4.1.3}
+\contentsline {section}{\numberline {IV.2}Mod\IeC {\'e}lisation du syst\IeC {\`e}me}{152}{section.4.2}
+\contentsline {subsection}{\numberline {IV.2.1}Graphe routier}{152}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {IV.2.2}R\IeC {\'e}seau de stockage}{153}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {IV.2.3}Syst\IeC {\`e}me de g\IeC {\'e}olocalisation laser (LDTT)}{154}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {IV.2.4}Mobilit\IeC {\'e} au sein du terminal}{155}{subsection.4.2.4}
+\contentsline {subsection}{\numberline {IV.2.5}Temporalit\IeC {\'e}}{156}{subsection.4.2.5}
+\contentsline {subsection}{\numberline {IV.2.6}\IeC {\'E}v\IeC {\'e}nements}{158}{subsection.4.2.6}
+\contentsline {section}{\numberline {IV.3}Collecte des donn\IeC {\'e}es}{158}{section.4.3}
+\contentsline {section}{\numberline {IV.4}Structuration des donn\IeC {\'e}es}{160}{section.4.4}
+\contentsline {subsection}{\numberline {IV.4.1}R\IeC {\'e}seau routier}{161}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {IV.4.2}Zones de stockage}{161}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {IV.4.3}Conteneurs}{164}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {IV.4.4}Missions}{165}{subsection.4.4.4}
+\contentsline {subsection}{\numberline {IV.4.5}Bornes de positionnement laser}{166}{subsection.4.4.5}
+\contentsline {subsection}{\numberline {IV.4.6}Description des v\IeC {\'e}hicules}{167}{subsection.4.4.6}
+\contentsline {subsubsection}{\numberline {IV.4.6.1}Types de chariots cavaliers}{167}{subsubsection.4.4.6.1}
+\contentsline {subsubsection}{\numberline {IV.4.6.2}Instances de chariots cavaliers}{168}{subsubsection.4.4.6.2}
+\contentsline {subsection}{\numberline {IV.4.7}Description de l'ordonnanceur de missions}{168}{subsection.4.4.7}
+\contentsline {subsection}{\numberline {IV.4.8}\IeC {\'E}v\IeC {\'e}nements}{170}{subsection.4.4.8}
+\contentsline {subsubsection}{\numberline {IV.4.8.1}Arriv\IeC {\'e}e de v\IeC {\'e}hicule}{170}{subsubsection.4.4.8.1}
+\contentsline {subsubsection}{\numberline {IV.4.8.2}D\IeC {\'e}part de v\IeC {\'e}hicule}{171}{subsubsection.4.4.8.2}
+\contentsline {subsubsection}{\numberline {IV.4.8.3}Arriv\IeC {\'e}e de mission}{171}{subsubsection.4.4.8.3}
+\contentsline {subsubsection}{\numberline {IV.4.8.4}Affectation de mission \IeC {\`a} un chariot cavalier}{171}{subsubsection.4.4.8.4}
+\contentsline {subsubsection}{\numberline {IV.4.8.5}Panne d'un chariot cavalier}{172}{subsubsection.4.4.8.5}
+\contentsline {subsubsection}{\numberline {IV.4.8.6}Panne d'une borne laser}{172}{subsubsection.4.4.8.6}
+\contentsline {section}{\numberline {IV.5}Architecture logicielle}{173}{section.4.5}
+\contentsline {subsection}{\numberline {IV.5.1}Modularit\IeC {\'e}}{173}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {IV.5.2}Distribution}{173}{subsection.4.5.2}
+\contentsline {subsubsection}{\numberline {IV.5.2.1}Librairies tierces}{174}{subsubsection.4.5.2.1}
+\contentsline {subsubsection}{\numberline {IV.5.2.2}R\IeC {\'e}partition des composants}{174}{subsubsection.4.5.2.2}
+\contentsline {subsection}{\numberline {IV.5.3}D\IeC {\'e}scripteurs du contenu du terminal}{175}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {IV.5.4}Base de donn\IeC {\'e}es}{175}{subsection.4.5.4}
+\contentsline {section}{\numberline {IV.6}Modules propos\IeC {\'e}s}{178}{section.4.6}
+\contentsline {subsection}{\numberline {IV.6.1}Module de mobilit\IeC {\'e} des chariots cavaliers}{178}{subsection.4.6.1}
+\contentsline {subsection}{\numberline {IV.6.2}Module de routage des v\IeC {\'e}hicules}{178}{subsection.4.6.2}
+\contentsline {subsubsection}{\numberline {IV.6.2.1}Floyd Warshall : All Pair Shortest Path}{178}{subsubsection.4.6.2.1}
+\contentsline {subsubsection}{\numberline {IV.6.2.2}Dijkstra}{178}{subsubsection.4.6.2.2}
+\contentsline {subsubsection}{\numberline {IV.6.2.3}A * (A Star)}{178}{subsubsection.4.6.2.3}
+\contentsline {subsubsection}{\numberline {IV.6.2.4}Dijkstra avec prise en compte des temps d'attente en entr\IeC {\'e}e de trav\IeC {\'e}e}{179}{subsubsection.4.6.2.4}
+\contentsline {subsection}{\numberline {IV.6.3}Module d'ordonnancement des missions}{179}{subsection.4.6.3}
+\contentsline {subsection}{\numberline {IV.6.4}Module de repr\IeC {\'e}sentation 2D du terminal}{180}{subsection.4.6.4}
+\contentsline {subsubsection}{\numberline {IV.6.4.1}Vue}{180}{subsubsection.4.6.4.1}
+\contentsline {subsubsection}{\numberline {IV.6.4.2}Informations}{181}{subsubsection.4.6.4.2}
+\contentsline {subsubsection}{\numberline {IV.6.4.3}Contr\IeC {\^o}leur}{181}{subsubsection.4.6.4.3}
+\contentsline {subsubsection}{\numberline {IV.6.4.4}Ordonnanceur}{181}{subsubsection.4.6.4.4}
+\contentsline {subsection}{\numberline {IV.6.5}Module de transformation XML (\textit {parser})}{182}{subsection.4.6.5}
+\contentsline {subsection}{\numberline {IV.6.6}Modules de g\IeC {\'e}n\IeC {\'e}ration de donn\IeC {\'e}es}{182}{subsection.4.6.6}
+\contentsline {subsubsection}{\numberline {IV.6.6.1}G\IeC {\'e}n\IeC {\'e}rateur d'\IeC {\'e}tat initial}{183}{subsubsection.4.6.6.1}
+\contentsline {subsubsection}{\numberline {IV.6.6.2}G\IeC {\'e}n\IeC {\'e}rateur de missions}{183}{subsubsection.4.6.6.2}
+\contentsline {subsubsection}{\numberline {IV.6.6.3}G\IeC {\'e}n\IeC {\'e}rateurs d'\IeC {\'e}v\IeC {\'e}nements}{184}{subsubsection.4.6.6.3}
+\contentsline {section}{\numberline {IV.7}Perspectives}{184}{section.4.7}
+\contentsline {section}{Conclusions}{185}{section*.96}
+\contentsline {chapter}{\numberline {V}Exp\IeC {\'e}rimentations et r\IeC {\'e}sultats}{187}{chapter.5}
+\contentsline {section}{Introduction}{187}{section*.97}
+\contentsline {section}{\numberline {V.1}Protocole de test}{188}{section.5.1}
+\contentsline {subsection}{\numberline {V.1.1}Sc\IeC {\'e}narios de test}{189}{subsection.5.1.1}
+\contentsline {subsubsection}{\numberline {V.1.1.1}Taille des instances}{189}{subsubsection.5.1.1.1}
+\contentsline {subsubsection}{\numberline {V.1.1.2}P\IeC {\'e}riode de simulation}{189}{subsubsection.5.1.1.2}
+\contentsline {subsubsection}{\numberline {V.1.1.3}Degr\IeC {\'e} de dynamicit\IeC {\'e}}{190}{subsubsection.5.1.1.3}
+\contentsline {section}{\numberline {V.2}R\IeC {\'e}sultats}{191}{section.5.2}
+\contentsline {section}{\numberline {V.3}Analyse et discussion}{191}{section.5.3}
+\contentsline {section}{Conclusions}{191}{section*.100}
+\contentsline {chapter}{Conclusions}{193}{chapter*.101}
+\addvspace {1.25em plus\p@ }
+\contentsline {chapter}{Bibliographie}{195}{chapter*.102}

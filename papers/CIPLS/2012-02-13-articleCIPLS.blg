@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: 2012-02-13-articleCIPLS.aux
+The style file: plain.bst
+Database file #1: biblioRevue.bib
+Warning--there's a number but no volume in Jain1999
+You've used 20 entries,
+            2118 wiz_defined-function locations,
+            638 strings with 7577 characters,
+and the built_in function-call counts, 6521 in all, are:
+= -- 629
+> -- 316
+< -- 2
++ -- 131
+- -- 104
+* -- 492
+:= -- 1118
+add.period$ -- 61
+call.type$ -- 20
+change.case$ -- 109
+chr.to.int$ -- 0
+cite$ -- 21
+duplicate$ -- 235
+empty$ -- 506
+format.name$ -- 104
+if$ -- 1333
+int.to.chr$ -- 0
+int.to.str$ -- 20
+missing$ -- 21
+newline$ -- 104
+num.names$ -- 41
+pop$ -- 99
+preamble$ -- 1
+purify$ -- 92
+quote$ -- 0
+skip$ -- 145
+stack$ -- 0
+substring$ -- 404
+swap$ -- 29
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 74
+warning$ -- 1
+while$ -- 61
+width$ -- 22
+write$ -- 224
+(There was 1 warning)

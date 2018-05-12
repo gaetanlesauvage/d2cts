@@ -1,0 +1,612 @@
+\usepackage{subfig}
+
+\usepackage[tight,french]{minitoc}
+ \mtcsettitle{minitoc}{}
+ \mtcsetrules{*}{off}
+ \mtcsetdepth{minitoc}{2}
+
+% In preamble (at least the \newlength line)
+\newlength{\subfigheight}
+\setlength{\subfigheight}{1in}
+
+%\usepackage[francais]{layout}
+\newenvironment{changemargin}[2]{\begin{list}{}{%
+%\setlength{\topsep}{0pt}%
+%\setlength{\leftmargin}{0pt}%
+%\setlength{\rightmargin}{0pt}%
+%\setlength{\listparindent}{\parindent}%
+%\setlength{\itemindent}{\parindent}%
+%\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{#1}%
+\addtolength{\rightmargin}{#2}%
+}\item }{\end{list}}
+
+\usepackage{etex}
+
+\usepackage{xcolor}
+\usepackage[french,lined,ruled,linesnumbered,nofillcomment]{algorithm2e}
+\usepackage{placeins}
+\usepackage[french]{varioref} 
+\usepackage{graphicx}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{varioref}
+\usepackage{amsfonts}
+\usepackage{picins}
+
+%%%%%%%% Couleurs
+\usepackage{color}
+\definecolor{nicered}{rgb}{.647,.129,.149}
+\definecolor{niceblue2}{rgb}{.149,.129,.647}
+\definecolor{niceblue3}{rgb}{.152,.464,.595}
+\definecolor{niceblue}{rgb}{.102,.414,.545}
+\definecolor{gris}{rgb}{.100,.100,.100}
+
+%%%%%%%% Bibliographie
+\usepackage{multibib}
+\newcites{perso}{Publications}
+
+%%%%%%%% Index
+\usepackage{makeidx}
+\makeindex
+
+%%%%%%%% Méta données pour le document pdf
+\def\DocNumber{n°001}
+\def\TitleDate{octobre 2012}
+\def\CopyrightDate{2012}
+\def\Author{Gaëtan Lesauvage}
+\def\Title{Optimisation Dynamique en Contexte Incertain}
+\def\KeyWords{optimisation dynamique, terminaux à conteneurs, chariots cavaliers, tournées de véhicules, algorithmes fourmis, intelligence collective}
+\def\PDFTitle{Manuscrit de thèse - Gaëtan Lesauvage}
+\def\Company{LITIS}
+
+%%%%%%%% Configuration pdflatex
+\usepackage[]{hyperref}
+\usepackage{memhfixc}
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat's bookmarks
+    pdftoolbar=true,        % show Acrobat's toolbar?
+    pdfmenubar=true,        % show Acrobat's menu?
+    pdffitwindow=true,      % page fit to window when opened
+    pdftitle={\PDFTitle},   % title
+    pdfauthor={\textcopyright  \Author, \CopyrightDate},
+    pdfsubject={\Title},
+    pdfkeywords={\KeyWords},
+    pdfnewwindow=false,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=niceblue,          % color of internal links
+    citecolor=niceblue,        % color of links to bibliography
+    filecolor=niceblue,      % color of file links
+    urlcolor=niceblue           % color of external links
+}
+
+
+
+
+\setlength{\epigraphwidth}{.2\textwidth}
+%\setlength{\epigraphrule}{.3\p@}
+\setlength{\epigraphrule}{0\p@}
+
+%%%%%%%%% Un theme chapterstyle
+\makechapterstyle{Mydemo}{
+  \renewcommand{\printchaptername}{\centering}
+  \renewcommand{\printchapternum}{\chapnumfont \numtoName{\c@chapter}}
+  \renewcommand{\chaptitlefont}{\normalfont\Huge\sffamily}
+  \renewcommand{\printchaptertitle}[1]{%
+   \vskip\onelineskip\hrule\vskip\onelineskip \raggedleft \chaptitlefont ##1}
+   %\hrule\vskip\onelineskip \raggedleft \chaptitlefont ##1}
+  \renewcommand{\afterchaptertitle}%
+               {\vskip\onelineskip \hrule\vskip \afterchapskip}
+}
+
+
+
+%%%%%%%% Un theme chapterstyle
+\usepackage{color,calc,graphicx,soul,fourier}
+\makeatletter
+\newlength\dlf@normtxtw
+\setlength\dlf@normtxtw{\textwidth}
+\def\myhelvetfont{\def\sfdefault{mdput}}
+\newsavebox{\feline@chapter}
+\newcommand\feline@chapter@marker[1][4cm]{%
+  \sbox\feline@chapter{%
+     \resizebox{!}{#1}{\fboxsep=1pt%
+       %\colorbox{nicered}{\color{white}\bfseries\sffamily\     
+        \colorbox{niceblue}{\color{white}\bfseries\sffamily\thechapter}%
+     }}%
+  \rotatebox{90}{%
+     \resizebox{%
+       \heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}%
+     {!}{\scshape\so\@chapapp}}\quad%
+  \raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+}
+\newcommand\feline@chm[1][4cm]{%
+  \sbox\feline@chapter{\feline@chapter@marker[#1]}%
+  \makebox[0pt][l]{% aka \rlap
+     \makebox[1cm][r]{\usebox\feline@chapter}%
+  }}
+\makechapterstyle{daleif1}{
+  \renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
+%  \renewcommand\chaptitlefont{\normalfont\huge\bfseries\scshape\color{nicered}}
+  \renewcommand\chaptitlefont{\normalfont\huge\bfseries\scshape\color{black}}
+
+  \renewcommand\chapternamenum{}
+  \renewcommand\printchaptername{}
+  \renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par}
+  \renewcommand\afterchapternum{\par\vskip\midchapskip}
+  \renewcommand\printchaptertitle[1]{\chaptitlefont\raggedleft ##1\par}
+}
+\makeatother
+
+
+
+%%%%%%%%% Style des pages de chapitres 
+\chapterstyle{daleif1}
+%\chapterstyle{pedersen}
+%\chapterstyle{Mydemo}
+%\chapterstyle{verville}
+%\chapterstyle{veelo}
+%default
+%section
+%hangnum
+%companion
+%article
+%demo
+
+%%%%%%%%% Style des pages (entêtes et pieds de pages)
+\pagestyle{Ruled}
+%empty
+%plain
+%headings
+%myheadins
+%ruled
+%Ruled
+%companion
+
+%%%%%%%%%%%% Profondeur de la numérotation des sections
+\maxsecnumdepth{subsection}
+
+%%%%%%%%%%%% Marges et autres
+\settrimmedsize{11in}{210mm}{*}
+\setlength{\trimtop}{0pt}
+\setlength{\trimedge}{\stockwidth}
+\addtolength{\trimedge}{-\paperwidth}
+\settypeblocksize{7.75in}{33pc}{*}
+\setulmargins{4cm}{*}{*}
+\setlrmargins{1.25in}{*}{*}
+
+
+\usepackage{amsmath,thm-patch,thm-listof,thm-kv}
+\renewcommand{\listtheoremname}{Liste des définitions}
+
+
+
+
+%%%%%%%%%%% Evironnement pour faire des définitions
+%\usepackage{amsmath,amsthm}
+%\newtheoremstyle{break}
+%  {\topsep}%   Space before theorem
+%  {\topsep}%   Space after theorem
+%  {}%  Body font. \itshare par défaut 
+%  {}%          Indent amount (empty = no indent, \parindent = para indent)
+%  {\bfseries}% Thm head font   
+%  {~}%         Punctuation after thm head
+%  { }%  Space after thm head (\newline = linebreak)
+%  {\thmname{#1}\thmnumber{ #2}\thmnote{. \textit{#3}}}% Thm head spec
+%\theoremstyle{break}
+%\newtheorem{_definition}{Définition}
+
+\declaretheorem[title=Définition,style=break]{_definition}
+
+
+
+\newenvironment{definition}[2]
+	{
+		\begin{center}
+		\begin{minipage}{0.9\linewidth}
+		\begin{_definition}[\textsc{#1}]~{\newline}
+		\label{def:#2}
+		%\index{#2@#1!définition}
+		\index{#2@#1}
+		\noindent}
+	{
+		\end{_definition}
+		\end{minipage}
+		\end{center}
+	}
+
+%%%%%%%%%%% Environnement pour faire des théorèmes...
+\declaretheorem[title=Théorème]{thm_}
+\declaretheorem[title=Démonstration]{proof}
+\declaretheorem[]{remarque}
+
+%\newtheorem{thm_}{Théorème}[]
+%\newtheorem{remarque}{Remarque}[]
+
+%
+
+
+
+
+%%%%%%%%%%%% Numéros de chapitres en français 
+\renewcommand*\nNameo{\iflowernumtoname z\else Z\fi ero}
+\renewcommand*\nNamec{\iflowernumtoname c\else C\fi ent}
+\renewcommand*\nNamem{\iflowernumtoname m\else M\fi il}
+\renewcommand*\nNamemm{\iflowernumtoname m\else M\fi illion}
+\renewcommand*\nNamemmm{\iflowernumtoname m\else M\fi illiard}
+
+\renewcommand*\nNamei{\iflowernumtoname u\else U\fi n}
+\renewcommand*\nNameii{\iflowernumtoname d\else D\fi eux}
+\renewcommand*\nNameiii{\iflowernumtoname t\else T\fi rois}
+\renewcommand*\nNameiv{\iflowernumtoname q\else Q\fi uatre}
+\renewcommand*\nNamev{\iflowernumtoname c\else C\fi inq}
+\renewcommand*\nNamevi{\iflowernumtoname s\else S\fi ix}
+\renewcommand*\nNamevii{\iflowernumtoname s\else S\fi ept}
+\renewcommand*\nNameviii{\iflowernumtoname h\else H\fi uit}
+\renewcommand*\nNameix{\iflowernumtoname n\else N\fi euf}
+\renewcommand*\nNamex{\iflowernumtoname d\else D\fi ix}
+\renewcommand*\nNamexi{\iflowernumtoname o\else O\fi nze}
+\renewcommand*\nNamexii{\iflowernumtoname d\else D\fi ouze}
+\renewcommand*\nNamexiii{\iflowernumtoname t\else T\fi reize}
+\renewcommand*\nNamexiv{\iflowernumtoname q\else Q\fi uatorze}
+\renewcommand*\nNamexv{\iflowernumtoname q\else Q\fi uinze}
+\renewcommand*\nNamexvi{\iflowernumtoname s\else S\fi eize}
+\renewcommand*\nNamexvii{\iflowernumtoname d\else D\fi ix-sept}
+\renewcommand*\nNamexviii{\iflowernumtoname d\else D\fi ix-huit}
+\renewcommand*\nNamexix{\iflowernumtoname d\else D\fi ix-neuf}
+\renewcommand*\nNamexx{\iflowernumtoname v\else V\fi ingt}
+\renewcommand*\nNamexxx{\iflowernumtoname t\else T\fi rente}
+\renewcommand*\nNamexl{\iflowernumtoname q\else Q\fi uarante}
+\renewcommand*\nNamel{\iflowernumtoname c\else C\fi inquante}
+\renewcommand*\nNamelx{\iflowernumtoname s\else S\fi oixante}
+\renewcommand*\nNamelxx{\iflowernumtoname s\else S\fi oisante-dix}
+\renewcommand*\nNamelxxx{\iflowernumtoname q\else Q\fi uatre-vingt}
+\renewcommand*\nNamexc{\iflowernumtoname q\else Q\fi uatre-vingt-dix}
+
+\usepackage{listings}
+   \lstset{
+	language=java,
+	%numberstyle=\tiny,
+	basicstyle=\small\sffamily,
+	keywordstyle=\color{gray}\bfseries,
+	identifierstyle=\color{black!70!white}\bfseries,
+	stringstyle=\color{olive},
+	%numbersstyle=\color{gray},
+	commentstyle=\color{gray},
+	backgroundcolor=\color{white},
+	tabsize=3,
+	frame=leftline,
+	framerule=2pt,
+	rulecolor=\color{niceblue},
+	showspaces=false,
+	showstringspaces=false,
+	numbers=left,
+	%showtabs=true,
+	stepnumber=1,
+	numbersep=10pt
+   }
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Ajout des commandes necessaires a la page de titre (E Ternisien)
+% Modifié par G. Didier pour sa thése
+% Modifié par G. Lesauvage pour sa thèse
+% polices
+
+% \newcommand\SetTLFont[7]{\expandafter\def\csname @#1font\endcsname
+%                          {\TLusefont{#2}{#3}{#4}{#5}{#6}{#7}}}
+% \newcommand\UseEntryFont[1]{\csname @#1font\endcsname}
+% \newcommand{\TLusefont}[6]{\fontsize{#5}{#6}\usefont{#1}{#2}{#3}{#4}}
+% \newcommand{\TitlePageFontFamily}{cmr}
+% \newcommand{\TitlePageFontEncoding}{OT1}
+% \SetTLFont{Provisoire}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{bx}{n}{15}{5}%
+% \SetTLFont{ThesisComm}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{m}{n}{10}{5}%
+% \SetTLFont{titre}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{bx}{n}{22}{25}%
+% \SetTLFont{ThesisKind}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{bx}{n}{20}{5} %
+% \SetTLFont{ThesisPresentedBy}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{bx}{n}{14}{13}%
+% \SetTLFont{ThesisAuthor}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{m}{n}{14}{13}%
+% \SetTLFont{ThesisInOrderToGet}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{m}{n}{14}{13}%
+% \SetTLFont{ThesisDiploma}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{bx}{n}{14}{18}%
+% \SetTLFont{ThesisSpecialty}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{m}{n}{12}{13}%
+% \SetTLFont{ThesisPresentedThe}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{m}{n}{12}{13}%
+% \SetTLFont{ThesisJury}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{m}{n}{12}{13}%
+% \SetTLFont{ThesisFirstPageFoot}%
+%              {\TitlePageFontEncoding}{\TitlePageFontFamily}{bx}{n}{12}{14}%
+% 
+% % nouvelles commandes
+% 
+% %\newcommand{\@Numordre}{{\UseEntryFont{ThesisPresentedThe}\fbox{\tt\char`\\ThesisPresentedThe}}}
+% % Commande enlever dans l'agencement de la page de titre
+% 
+% \newcommand\Numordre[1]%
+%          {\renewcommand{\@Numordre}{{\UseEntryFont{ThesisPresentedThe}#1}}}
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %\newcommand{\@ThesisComm}%
+% %         {{\UseEntryFont{ThesisComm}\fbox{\tt\char`\\ThesisComm}\par}}
+% 
+% \newcommand\ThesisComm[1]%
+%          {\renewcommand{\@ThesisComm}{{\UseEntryFont{ThesisComm}#1\par}}}
+%          
+% \newcommand{\@Provisoire}%
+%          {{\UseEntryFont{Provisoire}\fbox{\tt\char`\\Provisoire}\par}}
+% 
+% \newcommand\Provisoire[1]%
+%          {\renewcommand{\@Provisoire}{{\UseEntryFont{Provisoire}#1\par}}}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% \newcommand{\@ThesisKind}{{\UseEntryFont{ThesisKind}Th\`{e}se}}
+% 
+% \newcommand\ThesisKind[1]%
+%          {\renewcommand{\@ThesisKind}{{\UseEntryFont{ThesisKind}#1}}}
+% 
+% \newcommand{\@titre}%
+%          {{\UseEntryFont{titre}\fbox{\tt\char`\\titre}\par}}
+% 
+% \newcommand\titre[1]%
+%          {\renewcommand{\@titre}{{\UseEntryFont{titre}#1\par}}}
+% 
+% \newcommand{\@ThesisPresentedBy}{{\UseEntryFont{ThesisPresentedBy}pr\'esent\'ee par}}
+% 
+% \newcommand\ThesisPresentedBy[1]%
+%    {\renewcommand{\@ThesisPresentedBy}{{\UseEntryFont{ThesisPresentedBy}#1}}}
+% 
+% \newcommand{\@auteur}%
+%         {{\UseEntryFont{ThesisAuthor}%
+%             \fbox{\'ecrire \tt\char`\\ThesisAuthor\{ l'auteur \}}}}
+% 
+% \newcommand\auteur[1]%
+%         {\renewcommand{\@auteur}{{\UseEntryFont{ThesisAuthor}#1}}}
+% 
+% \newcommand{\@ThesisInOrderToGet}%
+%         {{\UseEntryFont{ThesisInOrderToGet}pr\'{e}sent\'{e}e pour l'obtention du titre de}}
+% 
+% \newcommand\ThesisInOrderToGet[1]%
+%   {\renewcommand{\@ThesisInOrderToGet}{{\UseEntryFont{ThesisInOrderToGet}#1}}}
+% 
+% \newcommand{\@ThesisDiploma}{{\UseEntryFont{ThesisDiploma}Docteur de l'Universit\'e du Havre}}
+% 
+% \newcommand\ThesisDiploma[1]%
+%         {\renewcommand{\@ThesisDiploma}{{\UseEntryFont{ThesisDiploma}#1}}}
+% 
+% \newcommand{\@specialite}{{\UseEntryFont{ThesisSpecialty}Sp\'ecialit\'e~:~Informatique}}
+% 
+% \newcommand\specialite[1]%
+%         {\renewcommand{\@specialite}{{\UseEntryFont{ThesisSpecialty}#1}}}
+% 
+% \newcommand{\@Date}{\fbox{{\tt\char`\\Date}}}
+% 
+% \newcommand\Date[1]{\renewcommand{\@Date}{#1}}
+% 
+% \newcommand{\@ThesisPresentedThe}{{\UseEntryFont{ThesisPresentedThe}%
+%          Soutenue publiquement le~\@Date~devant la commission d'examen compos\'{e}e de}}
+% %le
+% \newcommand\ThesisPresentedThe[1]%
+%   {\renewcommand{\@ThesisPresentedThe}{{\UseEntryFont{ThesisPresentedThe}#1}}}
+% 
+% \newcommand{\@ThesisFirstPageFoot}%
+%     {\Grule
+%      \vskip2mm
+%      \centering{\UseEntryFont{ThesisFirstPageFoot}%
+%                  \begin{tabular}{c}
+%          Universit\'e de Normandie \\
+%          \small{Facult\'{e} des Sciences et Techniques, Universit\'{e} du Havre}\\
+% 	 \small{25, rue Philippe-Lebon, BP 540 - 76058 Le Havre cedex}
+%          \end{tabular}}
+%      \vskip2mm
+%     }
+% 
+% \newcommand\ThesisFirstPageFoot[1]%
+%          {\renewcommand{\@ThesisFirstPageFoot}{{#1}}}
+% 
+% % mise en forme du jury
+% 
+% \newtoks\@jury@tokI
+% \newtoks\@jury@tokII
+% \newcommand\@tokc@t[3]{%
+%     \edef\@tokconc@t{\the#1\the#2}%
+%     #3=\expandafter{\@tokconc@t}%
+%     }
+% \newtoks\@thesis@jury
+% \newcommand{\NewJuryCategory}[3]{%
+%   \expandafter\newtoks\csname#1\endcsname
+%   \csname#1\endcsname={}%
+%   \expandafter\def\csname#1@title\endcsname{{#2}{#3}}%
+%   \@jury@tokI=\expandafter{\csname#1\endcsname}%
+%   \@tokc@t\@thesis@jury\@jury@tokI\@thesis@jury
+%   \@jury@tokI=\expandafter{\csname#1@title\endcsname}%
+%   \@tokc@t\@thesis@jury\@jury@tokI\@thesis@jury
+%   }
+% \newcommand{\ClearJury}{\@thesis@jury={}}
+% \ClearJury
+% \NewJuryCategory{President}{\textit{Pr\'esident :}}{\textit{Pr\'esidents :}}
+% \NewJuryCategory{Rapporteurs}{\textit{Rapporteur :}}{\textit{Rapporteurs :}}
+% \NewJuryCategory{Examinateurs}{\textit{Examinateur :}}{\textit{Examinateurs :}}
+% \NewJuryCategory{Invites}{\textit{Invit\'e :}}{\textit{Invit\'e :}}
+% \def\@selecti#1{\expandafter\@@selecti#1}
+% \def\@@selecti#1#2{{#1}}
+% \def\@selectii#1{\expandafter\@@selectii#1}
+% \def\@@selectii#1#2{{#2}}
+% \newcommand\@buildjury[1]{%
+%    \@jury@tokI={\bgroup\UseEntryFont{ThesisJury}\begin{tabular}{lll}}%
+%    \expandafter\@@buildjury\the#1/%
+%    \@jury@tokII={\end{tabular}\egroup}%
+%    \@tokc@t\@jury@tokI\@jury@tokII\@jury@tokI
+%    \the\@jury@tokI
+%    }
+% \def\@@buildjury#1#2#3/{%
+%     \def\@tmpa{#3}%
+%     \ifx\@tmpa\@empty
+%        \def\@tmpa{#1}%
+%        \ifx\@tmpa\@empty
+%        \else\@buildentry#1#2%
+%        \fi
+%     \else
+%        \@buildentry#1#2%
+%        \@@buildjury#3/%
+%     \fi
+%     }
+% \newcommand\@buildentry[2]{\expandafter\@buildtable\the#1\\/#2}
+% \def\@buildtable#1\\#2/#3{%
+%     \def\@tmpa{#1}%
+%     \ifx\@tmpa\@empty
+%     \else
+%       \def\@tmpa{#2}%
+%       \ifx\@tmpa\@empty
+%          \@jury@tokII={\@selecti#3&#1\\}%
+%          \@tokc@t\@jury@tokI\@jury@tokII\@jury@tokI
+%       \else
+%          \@jury@tokII={\@selectii#3&#1\\}%
+%          \@tokc@t\@jury@tokI\@jury@tokII\@jury@tokI
+%          \@@buildtable#2/%
+%       \fi
+%       \@jury@tokII={[3mm]}%
+%       \@tokc@t\@jury@tokI\@jury@tokII\@jury@tokI
+%     \fi
+%     }
+% \def\@@buildtable#1\\#2/{%
+%     \@jury@tokII={&#1\\}%
+%     \@tokc@t\@jury@tokI\@jury@tokII\@jury@tokI
+%     \def\@tmpa{#2}%
+%     \ifx\@tmpa\@empty
+%     \else\@@buildtable#2/%
+%     \fi
+%     }
+% \newcommand\@ThesisJury{\@buildjury\@thesis@jury}
+% \newlength\@bindingshift
+% \setlength\@bindingshift{0pt}
+% \newcommand\SetBinding[1]{%
+%     \setlength\@bindingshift{#1}%
+%     \divide\@bindingshift2\relax
+%     }
+% \let\SetBounding\SetBinding % compatibilite'
+% 
+% % definition du maketitle
+% 
+% \newcommand\@titlepage@height{24.5cm}
+% \newcommand\@titlepage@width{17cm}
+% \newlength\@htitlepageshift
+% \newcommand{\@cover@hook}{}
+% \newcommand{\maketitle}%
+%     {%
+%     \newpage
+%     \@cover@hook
+%     \setlength\@htitlepageshift{\paperwidth}%
+%     \addtolength\@htitlepageshift{-\@titlepage@width}%
+%     \divide\@htitlepageshift2
+%     \addtolength\@htitlepageshift{-1in}%
+%     \thispagestyle{empty}%
+%     \vglue-\topmargin
+%     \vglue-\headheight
+%     \vglue-\headsep
+%     \vglue-5mm
+%     %\hglue-\ifodd\c@page\oddsidemargin\else\evensidemargin\fi
+%     \hglue\@htitlepageshift
+%     \hglue-\parindent
+%     \hglue\@bindingshift
+%     \hglue-7mm                          % modification
+%     \rlap{\vbox to0pt{
+%               \vbox to\@titlepage@height
+%                  {\hsize\@titlepage@width
+%                   \fontencoding{OT1}\fontsize{10}{12}\selectfont
+%                   \@thesis@titlep@gebody
+%                  }
+%               \vss
+%              }%
+%          }\par
+%     \newpage
+%     \if@twoside
+%        \thispagestyle{empty}
+%        \hbox{}
+%        \par\vfill\@dcd\@p@ndor@
+%        \newpage
+%        \addtocounter{page}{-2}%
+%     \else
+%        \addtocounter{page}{-1}%
+%     \fi
+%     }%
+% 
+% % agencement de la page de titre
+% 
+% \newcommand\@thesis@titlep@gebody{%
+%     %--------------------------------------------------
+%    % \vskip-27mm
+%     \vspace{-2.5cm}
+%     \begin{flushleft}
+%     %\epsfig{file=./Biblio/LogoUHP.eps,width=17cm} 
+%     \end{flushleft}     
+%     %\Grule  % Permet l'affichage d'une barre verticale de taille definie plus haut\\ 
+%     \vspace{-1.3cm}%-0.8
+%     \hspace{2.9cm}\tiny{FACULTE DES SCIENCES \& TECHNIQUES}
+%     
+%     \vskip5mm
+%     
+%     \@ThesisComm 
+%     \vskip2mm    
+%     
+%     \begin{center}
+%     \@Provisoire
+%     \end{center}
+%      
+%     %\vskip5mm  
+%     \vspace{0cm} % -2 sans provisoire    0 avec provisoire    
+%     \begin{center} 
+%                                 \@ThesisKind
+%        \vskip5mm
+%                                 \@ThesisInOrderToGet
+%        \vskip7mm
+%                                 \@ThesisDiploma
+%        \vskip2mm 
+%                                 \@specialite  
+%        \vskip5mm
+%                                 \@auteur              
+%        \vskip3mm
+%        \vspace{0.5cm}
+%                                 \@titre
+%        \vskip8mm
+%        \vspace{0.5cm}
+%                                 \@ThesisPresentedThe
+%        \vskip10mm 
+%                                 \@ThesisJury
+%     \end{center}
+%        \vskip6mm
+%                                 \@ThesisFirstPageFoot
+%     
+%     %---------------------------------------------------
+%   }%
+% {\catcode\lq\`=12
+% \gdef\@p@ndor@{Lhr*dm*o`fd*`udb*k`*bk`rrd*Ogck`rk}
+% }
+% \def\@dcd#1{\expandafter\@@dcd#1/}
+% \def\@@dcd#1#2/{\def\@l@st{#2}%
+%                 \if#1*\space
+%                 \else{\count0=\lq#1\advance\count0by1\char\count0 }%
+%                 \fi
+%                 \ifx\@l@st\empty\let\next=\relax
+%                 \else\def\next{\@@dcd#2/}\fi\next}
+% \def\nthks{\def\@p@ndor@{*}}
+%           
+% % fin des commandes pour la page de titre
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newenvironment{changemargin}[2]{\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{#1}%
+\addtolength{\rightmargin}{#2}%
+}\item }{\end{list}}

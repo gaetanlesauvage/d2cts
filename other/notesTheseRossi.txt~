@@ -1,0 +1,53 @@
+Plan de thèse : 
+modèle : 
+  I Théorie			=> II Applications
+  I Problème : État de l'art	=> II Modèle			=> III Résultats
+  
+
+I Dynamique et incertitude dans les problèmes d'optimisation
+
+  Donner une définition de l'incertitude et de la dynamique en optimisation.
+  Faire une revue des différents problèmes abordés dans la litérature
+    => PCC 
+    => Ordonnancement et Affectation : VRP, JSSP
+    => 
+II Application aux terminaux portuaires à conteneurs
+
+II Simulation de terminaux portuaires à conteneurs en environnement dynamique et incertain
+
+Dans la description du modèle, dresser la liste de tous ce qui est indépendant dans les critères et contraintes (ex: l'ordre de passage des taches sur une machine est indépendant de la durée des taches)
+
+
+---------------
+Incertitude : modèle déterministe || modèle stochastique
+méthodes prédictives (1) || méthodes réactives (2)
+(1) Supposent qu'on ne peut pas modifier une solution une fois que l'éxécution a débuté (ROBUSTESSE)
+(2) Il est possible de modifier une solution au cours de son éxécution (TPS REEL)
+
+(1) = STATIQUE
+(2) = DYNAMIQUE
+
+
+--------------
+Dire que l'incertitude ne se place pas au niveau du critère d'évaluation (au sens fitness dynamique...)
+
+--------------
+Heroolen et Leus, 2002 : classificatiob des approches de modèle de l'incertain
+
+=> Dire qu'avec des informations précises sur le type d'événements ainsi que leur probabilité et le niveau de leur impact, on peut viser une garantie de performance sur l'algo
+
+--------------
+Métrique globale : performance de l'algo sur toutes les instances d'une solution : 
+Ex solution calculée V1={A,C} V2={B}
+Perf pour DOD=0
+Perf pour DOD=0.33
+...
+Ex de métrique globale :
+  - Pire des cas
+  - Variabilité : différence entre le max et le min*
+  - Sensibilité : mesure le plus grand écart observé entre la solution et la solution optimale
+
+----------------
+garantie de performance = robustesse
+
+p36

@@ -1,0 +1,8 @@
+\beamer@endinputifotherversion {3.07pt}
+\select@language {english}
+\beamer@sectionintoc {1}{System description}{3}{0}{1}
+\beamer@sectionintoc {2}{Vehicle Routing Problem : state of the art}{10}{0}{2}
+\beamer@sectionintoc {3}{Ant Colony and Straddle Carrier Handling}{16}{0}{3}
+\beamer@sectionintoc {4}{Simulator}{30}{0}{4}
+\beamer@sectionintoc {5}{Preliminary Results}{33}{0}{5}
+\beamer@sectionintoc {6}{Conclusion}{35}{0}{6}

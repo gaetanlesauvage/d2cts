@@ -1,0 +1,107 @@
+\begin{thebibliography}{10}
+
+\bibitem{Allahverdi2008}
+Ali Allahverdi, C.T. Ng, T.C.E. Cheng, and Mikhail~Y. Kovalyov.
+\newblock A survey of scheduling problems with setup times or costs.
+\newblock {\em European Journal of Operational Research}, 187(3):985--1032,
+  June 2008.
+
+\bibitem{Lesauvage2009}
+Stefan Balev, Fr{\'e}d{\'e}ric Guinand, Ga{\"e}tan Lesauvage, and D.~Olivier.
+\newblock {Dynamical Handling of Straddle Carriers Activities on a Container
+  Terminal in Uncertain Environment - A Swarm Intelligence approach -}.
+\newblock In {\em {ICCSA 2009 The 3rd International Conference on Complex
+  Systems and Applications}}, volume~2, page 290, Le Havre, France, June 2009.
+\newblock 7p.
+
+\bibitem{Berbeglia2007}
+Gerardo Berbeglia, Jean-François Cordeau, Irina Gribkovskaia, and Gilbert
+  Laporte.
+\newblock Static pickup and delivery problems: a classification scheme and
+  survey.
+\newblock {\em Top}, 15(1):1--31, 2007.
+
+\bibitem{Berbeglia2010}
+Gerardo Berbeglia, Jean-François Cordeau, and Gilbert Laporte.
+\newblock Dynamic pickup and delivery problems.
+\newblock {\em European Journal of Operational Research}, 202(1):8 -- 15, 2010.
+
+\bibitem{Bertelle2006}
+Cyrille Bertelle, Antoine Dutot, Frédéric Guinand, and Damien Olivier.
+\newblock Organization detection using emergent computing.
+\newblock {\em International Transactions on Systems Science and Applications},
+  2(1):61--70, 2006.
+
+\bibitem{Bertelle2007}
+Cyrille Bertelle, Antoine Dutot, Frédéric Guinand, and Damien Olivier.
+\newblock Organization detection for dynamic load balancing in individual-based
+  simulations.
+\newblock {\em Multi-Agent and Grid Systems}, 3(1):42, 2007.
+
+\bibitem{Brucker2010}
+Peter Brucker.
+\newblock {\em Scheduling Algorithms}.
+\newblock Springer Publishing Company, Incorporated, 5th edition, 2010.
+
+\bibitem{Deneubourg1983}
+Jean-Louis Deneubourg, Jacques~M. Pasteels, and J.~C. Verhaeghe.
+\newblock Probabilistic behaviour in ants: A strategy of errors?
+\newblock {\em Journal of Theoretical Biology}, 105:259--271, 1983.
+
+\bibitem{Dorigo2006}
+Marco Dorigo, Mauro Birattari, and T.~Stützle.
+\newblock Ant {C}olony {O}ptimization: {A}rtificial ants as a computational
+  intelligence technique.
+\newblock {\em IEEE Computational Intelligence Magazine}, 1(4):28--39, 2006.
+
+\bibitem{Garey1976}
+M.~R. Garey, D.~S. Johnson, and R.~Sethi.
+\newblock {The complexity of flowshop and jobshop scheduling}.
+\newblock {\em Mathematics of Operations Research}, 1:117--129, 1976.
+
+\bibitem{Laporte1992}
+Gilbert and Laporte.
+\newblock The vehicle routing problem: An overview of exact and approximate
+  algorithms.
+\newblock {\em European Journal of Operational Research}, 59(3):345 -- 358,
+  1992.
+
+\bibitem{Graham1979}
+R.~L. Graham, E.~L. Lawler, J.~K. Lenstra, and A.~H. G.~Rinnooy Kan.
+\newblock {Optimization and approximation in deterministic sequencing and
+  scheduling: a survey}.
+\newblock {\em Ann. Discrete Math.}, 4:287--326, 1979.
+
+\bibitem{Jain1999}
+Anant~S. Jain and Sheik Meeran.
+\newblock A state-of-the-art review of job-shop scheduling techniques.
+\newblock {\em European Journal of Operations Research}, (113):390--434, 1999.
+
+\bibitem{Mitrovic1998}
+S~Mitrovic-Minic.
+\newblock Pickup and delivery problem with time windows: A survey.
+\newblock {\em SFU CMPT TR}, 12(1):1–43, 1998.
+
+\bibitem{Mitrovic2001}
+S.~Mitrovic-Minic.
+\newblock {\em The dynamic pickup and delivery problem with time windows}.
+\newblock Simon Fraser University, 2001.
+
+\bibitem{Mitrovic2006}
+Snežana Mitrović-Minić and Ramesh Krishnamurti.
+\newblock The multiple tsp with time windows: vehicle bounds based on
+  precedence graphs.
+\newblock {\em Operations Research Letters}, 34(1):111 -- 120, 2006.
+
+\bibitem{Ramasesh1990}
+R.~Ramasesh.
+\newblock Dynamic job shop scheduling: A survey of simulation research.
+\newblock {\em Omega}, 18(1):43 -- 57, 1990.
+
+\bibitem{Toth2001}
+Paolo Toth and Daniele Vigo, editors.
+\newblock {\em The vehicle routing problem}.
+\newblock Society for Industrial and Applied Mathematics, Philadelphia, PA,
+  USA, 2001.
+
+\end{thebibliography}

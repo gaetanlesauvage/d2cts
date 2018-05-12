@@ -1,0 +1,83 @@
+\begin{thebibliography}{10}
+
+\bibitem{larsen00}
+Larsen A.
+\newblock {\em The Vehicle Routing Problem}.
+\newblock PhD thesis, Department of Mathematical Modelling, Technical
+  University of Denmark, 2000.
+
+\bibitem{Bullnheimer97}
+R.~F.~Hartl B.~Bullnheimer and C.~Strauss.
+\newblock Applying the ant system to the vehicle routing problem.
+\newblock In {\em In Proceedings of the 2nd International Conference on
+  Metaheuristics - MIC97}.
+
+\bibitem{Bullnheimer99}
+R.F.~Hartl B.~Bullnheimer and C.~Struss.
+\newblock An improved ant system algorithm for the vehicle routing problem.
+\newblock {\em Annals of Operations Research}, 1999.
+
+\bibitem{Bianchi00}
+L.~Bianchi.
+\newblock Notes on dynamic vehicle routing - the state of the art.
+\newblock {\em Technical Report, IDSIA}, 2000.
+
+\bibitem{Bertelle02}
+F.~Guinand D.~Olivier C.~Bertelle, A.~Dutot.
+\newblock Distribution of agent based simulation with colored ant algorihm.
+\newblock In {\em 14th European Simulation Symposium}.
+
+\bibitem{Dorigo91}
+M.~Dorigo.
+\newblock {\em Learning and Natural Algorithms}.
+\newblock PhD thesis, Politecnico di Milano, Italie, 1992.
+
+\bibitem{Dutot2007}
+Antoine Dutot, Fr{\'e}d{\'e}ric Guinand, Damien Olivier, and Yoann Pign{\'e}.
+\newblock Graphstream: A tool for bridging the gap between complex systems and
+  dynamic graphs.
+\newblock In {\em EPNACS: Emergent Properties in Natural and Artificial Complex
+  Systems}, 2007.
+
+\bibitem{Dorigo97}
+M.~Dorigo et~L.M.~Gambardella.
+\newblock Ant colony system : A cooperative learning approach to the traveling
+  salesman problem.
+\newblock {\em IEEE Transactions on Evolutionary Computation}, 1997.
+
+\bibitem{Berbeglia07}
+I.~Gribkovskaia G.~Berbeglia, J.-F.~Cordeau and G.~Laporte.
+\newblock Static pickup and delivery problems: A classification scheme and
+  survey.
+\newblock {\em TOP}, 2007.
+
+\bibitem{Lund96}
+Oli B. G.~Madsen Karsten~Lund and Jens~M. Rygaard.
+\newblock Vehicle routing problems with varying degrees of dynamism.
+\newblock {\em Technical report, IMM, The Department of Mathematical Modelling,
+  Technical University of Denmark}, 1996.
+
+\bibitem{Mitrovic01}
+Snezana Mitrovic-Minic.
+\newblock {\em The dynamic pickup and delivery problem with time windows}.
+\newblock PhD thesis, Simon Fraser University, 2001.
+
+\bibitem{Montemanni04}
+A.E.~Rizzoli R.~Montemanni, L.M.~Gambardella and A.V. Donati.
+\newblock A new algorithm for a dynamic vehicle routing problem based on ant
+  colony system.
+\newblock {\em Technical Report, TR-23-02, IDSIA, Galleria 2, Manno, 6928,
+  Switzerland}, 2004.
+
+\bibitem{Mitrovic98}
+Mitrovic-Minic S.
+\newblock Pickup and delivery problem with time windows : A survey.
+\newblock {\em Technical Report 1998-12, SCS Simon Fraser University}, 1998.
+
+\bibitem{Mitrovic04}
+Mitrovic-Minic S. and G.~Laporte.
+\newblock Waiting strategies for the dynamic pickup and delivery problem with
+  time windows.
+\newblock {\em Transportation Research Part B}, 2004.
+
+\end{thebibliography}

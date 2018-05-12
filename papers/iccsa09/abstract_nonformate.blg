@@ -1,0 +1,73 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.6)
+The top-level auxiliary file: abstract_nonformate.aux
+The style file: plain.bst
+Database file #1: biblio.bib
+I was expecting a `,' or a `}'---line 7 of file biblio.bib
+ : 
+ : OPTpages = {1-31}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Too many commas in name 1 of "C. Bertelle, A. Dutot, F. Guinand, D. Olivier" for entry Bertelle02
+while executing---line 1049 of file plain.bst
+Name 1 in "R. Montemanni, L.M. Gambardella, A.E. Rizzoli, and A.V. Donati" has a comma at the end for entry Montemanni04
+while executing---line 1049 of file plain.bst
+Name 1 in "B. Bullnheimer, R. F. Hartl, and C. Strauss" has a comma at the end for entry Bullnheimer97
+while executing---line 1049 of file plain.bst
+Name 1 in "B. Bullnheimer, R.F. Hartl, and C. Struss" has a comma at the end for entry Bullnheimer99
+while executing---line 1049 of file plain.bst
+Name 1 in "Karsten Lund, Oli B. G. Madsen, and Jens M. Rygaard" has a comma at the end for entry Lund96
+while executing---line 1049 of file plain.bst
+Name 1 in "B. Bullnheimer, R. F. Hartl, and C. Strauss" has a comma at the end for entry Bullnheimer97
+while executing---line 1090 of file plain.bst
+Warning--empty year in Bullnheimer97
+Name 1 in "B. Bullnheimer, R.F. Hartl, and C. Struss" has a comma at the end for entry Bullnheimer99
+while executing---line 1090 of file plain.bst
+Too many commas in name 1 of "C. Bertelle, A. Dutot, F. Guinand, D. Olivier" for entry Bertelle02
+while executing---line 1090 of file plain.bst
+Warning--empty year in Bertelle02
+Name 1 in "Karsten Lund, Oli B. G. Madsen, and Jens M. Rygaard" has a comma at the end for entry Lund96
+while executing---line 1090 of file plain.bst
+Name 1 in "R. Montemanni, L.M. Gambardella, A.E. Rizzoli, and A.V. Donati" has a comma at the end for entry Montemanni04
+while executing---line 1090 of file plain.bst
+You've used 14 entries,
+            2118 wiz_defined-function locations,
+            575 strings with 6343 characters,
+and the built_in function-call counts, 3277 in all, are:
+= -- 306
+> -- 150
+< -- 0
++ -- 64
+- -- 46
+* -- 161
+:= -- 612
+add.period$ -- 42
+call.type$ -- 14
+change.case$ -- 62
+chr.to.int$ -- 0
+cite$ -- 16
+duplicate$ -- 149
+empty$ -- 263
+format.name$ -- 46
+if$ -- 656
+int.to.chr$ -- 0
+int.to.str$ -- 14
+missing$ -- 11
+newline$ -- 73
+num.names$ -- 28
+pop$ -- 78
+preamble$ -- 1
+purify$ -- 51
+quote$ -- 0
+skip$ -- 98
+stack$ -- 0
+substring$ -- 74
+swap$ -- 17
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 56
+warning$ -- 2
+while$ -- 28
+width$ -- 16
+write$ -- 143
+(There were 11 error messages)

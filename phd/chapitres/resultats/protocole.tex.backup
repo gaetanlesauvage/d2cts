@@ -1,0 +1,136 @@
+
+  Il s'agit de déterminer dans quelle mesure les algorithmes proposés dans les chapitres précédents permettent de résoudre le problème.
+
+  La difficulté d'une instance du problème d'ordonnancement et d'affectation des missions aux chariots cavaliers dépend de deux facteurs principaux :
+  \begin{itemize}
+    \item sa taille : le nombre de tâches à planifier ainsi que le nombre de ressources disponibles.
+    \item sa dynamicité : moins les caractéristiques du problème changent et plus la solution optimale au problème sera facile à atteindre. Cette dynamicité sera déterminée grâce au degré effectif de dynamicité ($edod$) de Larsen (voir \ref{subsec:dynamique}).
+  \end{itemize}
+
+  Le problème étant NP-difficile, une première étape sera de s'assurer que pour un problème trivial, une solution optimale est trouvée par chaque algorithme. Cette solution sera calculée par un algorithme du Branch and Bound comme décrit dans la partie \ref{chap:ordo:reso:BB}.  Ensuite, pour chaque instance de test, un algorithme glouton permettra de comparer la solution des algorithmes à une solution étalon. 
+
+  Les méthodes de résolutions implémentées dans le simulateur seront utilisées pour ces tests :
+  \begin{itemize}
+  \item Algorithme d'évaluation et séparation (voir \ref{chap:ordo:reso:BB} p.\pageref{chap:ordo:reso:BB})
+  \item Algorithme d'affectation aléatoire (voir \ref{chap:ordo:reso:random} p.\pageref{chap:ordo:reso:random})
+  \item Algorithme de répartition de charge (voir \ref{chap:ordo:reso:linear} p.\pageref{chap:ordo:reso:linear})
+  \item Méthode gloutonne élaborée (voir \ref{chap:ordo:reso:greedyOpt} p.\pageref{chap:ordo:reso:greedyOpt})
+  \item Deux méthodes hors-ligne à colonies de fourmis (voir \ref{chap:ordo:reso:offlineACO} p.\pageref{chap:ordo:reso:offlineACO} et \ref{chap:ordo:reso:offlineACO2} p.\pageref{chap:ordo:reso:offlineACO2})
+  \item Méthode en-ligne à colonies de fourmis (voir \ref{chap:ordo:reso:onlineACO} p.\pageref{chap:ordo:reso:onlineACO})
+  \end{itemize}
+
+  Les tests consisteront à générer de façon pseudo-aléatoire une série de dix scénarios de tests de tailles différentes. Pour chaque scénario, des versions avec des degrés différents de dynamicité seront joués. Les métriques utilisées seront celles de la fonction d'évaluation des algorithmes à savoir, la distance parcourue par les chariots cavaliers, la durée de dépassement des fenêtres de temps, le nombre de ces dernières, ainsi que du temps d'attente des chariots cavaliers. Enfin, la durée des calculs nécessaires sera également mesurée afin de déterminer le ratio entre la qualité de la solution proposée et le temps de calcul nécessaire pour l'obtenir.
+
+  \subsection{Scénarios de test} %Scenario - scenarii - scenario ???
+
+  \subsubsection{Taille des instances}
+  Le tableau suivant dresse la liste des scénarios générés par le simulateur. Les scénarios n\textdegree 1 et n\textdegree 2 permettent de vérifier que les solutions proposées répondent bien aux problématiques (respectivement) d'ordonnancement et d'affectation. Les solutions proposées par les algorithmes sont comparées à la solution optimale de chaque instance du problème.
+  Dans la même optique, les scénario n\textdegree 3 et n\textdegree 4 permettent de mesurer la qualité des solutions fournies par les algorithmes au problème combiné d'ordonnancement et d'affectation. Ici aussi, les solutions proposées seront comparées à à la solution optimale. Le scénario n\textdegree 3 est un problème moins complexe dans la mesure où un nombre suffisant de ressources sont disponibles. Le scénario n\textdegree 4 permet ainsi de mesurer le comportement des algorithmes en cas de stress lié au manque de ressources tout en conservant la possibilité de comparer le résultat avec la solution optimale.
+  Les scénarios n\textdegree 5 et n\textdegree 6 sont des instances moyennes du problème. L'objectif est de mesurer l'impact de l'ajout d'une ressource dans le comportement des algorithmes.
+  Tout comme le scénario n\textdegree 4, le scénario n\textdegree 7 permet de contrôler le comportement des algorithmes lorsque le nombre de ressources est faible en comparaison du nombre de tâches à ordonnancer et planifier.
+  Les scénarios n\textdegree 8, n\textdegree 9 et n\textdegree 10 correspondent aux instances les plus importantes du problème et ont pour but de contrôler les performances techniques des algorithmes vis-à-vis de la taille du problème.
+
+  \begin{table}[h]
+  \centering
+  \small
+  \begin{tabular}{|c|c|c|p{0.6\textwidth}|}
+  \hline
+  \textbf{ID} & \textbf{Missions} & \textbf{Véhicules} & \hspace{0.25\textwidth}\textbf{Description} \\
+  \hline
+  n\textdegree 1 & 3 & 1 & instance triviale, sans problème d'affectation\\
+  \hline
+  n\textdegree 2 & 1 & 2 & instance triviale, sans problème d'ordonnancement\\
+  \hline
+  n\textdegree 3 & 2 & 10 & peu de missions sont à planifier alors qu'un grand nombre de ressources sont disponibles (comparable à l'optimum).\\
+  \hline
+  n\textdegree 4 & 5 & 2 & instance de petite taille où une solution optimale est calculable.\\
+  \hline
+  n\textdegree 5 & 10 & 4 & instance moyenne du problème à petite échelle.\\
+  \hline
+  n\textdegree 6 & 10 & 5 & instance moyenne du problème permettant de mesurer l'impact de l'ajout d'une ressource dans le calcul des algorithmes : qualité de la solution / performance calculatoire. Les missions sont identiques à celles du scénario 5.\\
+  \hline
+  n\textdegree 7 & 20 & 5 & instance avec une lourde charge pour les véhicules afin de mesurer la capacité de l'algorithme à résister à des scénarios critiques.\\
+  \hline
+  n\textdegree 8 & 25 & 10 & instance moyenne à grande échelle.\\
+  \hline
+  n\textdegree 9 & 30 & 10 & seconde instance moyenne à grande échelle.\\
+  \hline
+  n\textdegree 10 & 35 & 10 & troisième instance moyenne à grande échelle.\\
+  \hline
+  \end{tabular}
+  \label{tab:scenarios}
+  \caption{Scénarios de tests}
+  \normalsize
+  \end{table} 
+
+  \subsubsection{Période de simulation}
+
+  Il est nécessaire que la période de simulation soit la même pour chaque scénario. Sans cette période commune, il serait impossible de comparer les tailles des instances. En effet, dans le cas dynamique où les missions ne sont pas connues en début de simulation, le scénario n\textdegree exécuté sur une période de 9h serait moins complexe à résoudre que le scénario n\textdegree 3 sur une période de 30 minutes.
+
+  Chaque simulation se déroulera donc sur une période de deux heures afin d'être en mesure de déterminer, en fonction des degrés de dynamicité, le comportement des algorithmes en fonction de la taille du problème.
+
+  \subsubsection{Degré de dynamicité}
+
+  Afin de contrôler la réaction des algorithmes vis-à-vis des changements dynamiques survenant au cours de la journée, il est nécessaire de jouer chaque scénario selon différents degrés (et degrés effectifs) de dynamicité.
+  En fonction d'un degré de dynamicité déterminé, la distribution des missions de chaque scénario décrit dans le tableau \ref{tab:scenarios} diffère. Le tableau \ref{tab:dodDistribution} présente ces différentes distributions.
+
+  \begin{table}[h]
+  \centering
+  \begin{tabular}{|c|c|}
+    \hline
+    dod & edod \\
+    \hline
+    0 & 0\\
+    \hline
+    0.25 & 0 \\
+    \hline
+      0.25 & 0 \\
+    \hline
+      0.25 & 0.25 \\
+    \hline
+      0.25 & 0.5 \\
+    \hline
+      0.25 & 0.75 \\
+    \hline
+      0.25 & 1 \\
+    \hline
+      0.5 & 0 \\
+    \hline
+      0.5 & 0 \\
+    \hline
+      0.5 & 0.25 \\
+    \hline
+      0.5 & 0.5 \\
+    \hline
+      0.5 & 0.75 \\
+    \hline
+      0.5 & 1 \\
+      \hline
+      0.75 & 0 \\
+    \hline
+      0.75 & 0 \\
+    \hline
+      0.75 & 0.25 \\
+    \hline
+      0.75 & 0.5 \\
+    \hline
+      0.75 & 0.75 \\
+    \hline
+      0.75 & 1 \\
+      \hline
+      1 & 0 \\
+    \hline
+      1 & 0 \\
+    \hline
+      1 & 0.25 \\
+    \hline
+      1 & 0.5 \\
+    \hline
+      1 & 0.75 \\
+    \hline
+      1 & 1 \\
+  \end{tabular}
+
+  \end{table}
+
+  % Les algorithmes de résolutions proposés permettant de résoudre une instance du problème dès qu'une caractéristique change me pousse à dire que la mesure de dynamicité du problème telle qu'elle est proposée par Larsen né répond pas à la question de la difficulté induite par la dynamique dans notre problème. En effet, ici, il sera plus difficile de résoudre un problème 

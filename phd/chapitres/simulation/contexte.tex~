@@ -1,0 +1,50 @@
+
+\subsection{Collecte d'information}
+
+Les difficultés rencontrées quant à l'obtention d'information concernant les données du terminal nous ont poussé à développer un simulateur afin de mettre au point et de tester la performance de nos méthodes. Une grande partie du temps alloué au projet a donc été consacré à la collecte d'informations sur : 
+\begin{itemize}
+ \item Les chariots cavaliers : dimensions, vitesse, comportement
+ \item Le fonctionnement du terminal : différentes zones d'échange, zone de stockage, engins de manutention
+ \item Le réseau routier du terminal : 
+  \begin{itemize}
+   \item coordonnées des carrefours
+   \item routes
+   \item travées
+   \item coordonnées des emplacements conteneurs dans les travées
+   \item zone de dépôt des engins de manutention
+  \end{itemize}
+\end{itemize}
+
+Les coordonnées des carrefours, routes, travées et emplacements conteneurs du Terminal de Normandie ont été obtenus grâce à un plan sommaire du terminal fourni par nos partenaires du projet CALAS (voir figure \ref{fig:planTerminalSommaire}) et au site internet de cartographie \href{http://wikimapia.org/\#lat=49.4694697\&lon=0.1676486\&z=16\&l=2\&m=b}{wikimapia.org}. Ce site permet de mesurer de façon relativement précise des distances sur des photos satellites d'une grande définition. Les coordonnées indiquées sur le plan fourni par nos partenaires est calculée suivant la projection conique conforme de Lambert (zone centre : Lambert II). Un degré de ce système correspond à 100km. Cette équivalence permet de calculer aisément les coordonnées des points manquant du plan grâce aux distances mesurées sur le site \href{http://wikimapia.org/\#lat=49.4694697\&lon=0.1676486\&z=16\&l=2\&m=b}{wikimapia.org}.
+
+\begin{figure}[ht]
+\centering
+ \includegraphics[width=0.8\textwidth]{./chapitres/simulation/planTerminalSommaire.png}
+  \caption{Plan sommaire du Terminal de Normandie}
+  \label{fig:planTerminalSommaire}
+\end{figure}
+
+La figure \ref{fig:planTerminalComplet} montre le plan obtenu grâce aux recroisemment des informations du plan sommaire et de \href{http://wikimapia.org/\#lat=49.4694697\&lon=0.1676486\&z=16\&l=2\&m=b}{wikimapia.org}. Le Terminal de Normandie, loin d'être le plus grand au monde, comporte 1170 carrefours, 170 routes, 531 travées et 3499 emplacements conteneurs.
+
+\begin{figure}[ht]
+\centering
+ \includegraphics[width=0.8\textwidth]{./chapitres/simulation/planTerminalComplet.jpg}
+  \caption{Plan du Terminal de Normandie obtenu après collecte et recoupement des données}
+  \label{fig:planTerminalComplet}
+\end{figure}
+
+\subsection{Spécifications}
+
+\subsubsection{Technologie}
+
+Le simulateur est écris en JAVA. Cette technologie a été choisie pour sa souplesse et sa puissance. Elle permet le développement du coeur de l'application, de la vue et du contrôleur et assure l'interopérabilité des systèmes et des plateformes. Une base de données MySQL est également utilisée afin de permettre la communication avec l'interface 3D de notre partenaire \textit{EADS Astrium}. L'accès en écriture et en lecture à cette base est réalisé  par un service web. Le terminal étant constitué de multiples entités en fortes interactions, les calculs sont distribuables sur plusieurs unité grâce à la technologie \textit{RMI} de JAVA.
+
+
+\subsubsection{Objectif}
+
+Le simulateur doit permettre de représenter la structure d'un terminal à conteneurs (blocs, travées, emplacements, carrefours, routes, quais, voies ferrées, etc.) ainsi que ses composants (portiques de berge, portes conteneurs, chariots cavaliers, etc.). Il doit également permettre de modéliser son activité (arrivée/départ des clients (camions, trains, navires), déplacement de conteneurs par les chariots cavaliers, chargement/déchargement des clients par les chariots cavaliers et les portiques). Pour cela, le simulateur doit prendre en compte le temps. Il a été décidé de discrétiser la représentation du temps dans le simulateur pour être en mesure de se soustraire de l'influence de la (ou les) machine(s) d'exécution et pour synchroniser efficacement les composants. Un pas de temps devra être déterminé avant le début de chaque simulation et déterminera à la fois la précision temporelle et la durée des calculs de la simulation.
+
+\subsubsection{Flexibilité}
+
+Afin de permettre de mesurer la performance de plusieurs méthodes d'optimisation, le simulateur doit être adapté au développement de ce multiples algorithmes. Il doit permettre d'ajouter, de modifier ou de supprimer rapidement et facilement une méthode d'optimisation. De même, les données concernant les composants et la structure du terminal doivent être aisément modifiables. Ainsi, il a été choisit de décrire toutes les données nécessaire à la fois à la configuration du programme et aux composants du terminal dans des fichiers XML dont la structure est décrite dans la section suivante.
+

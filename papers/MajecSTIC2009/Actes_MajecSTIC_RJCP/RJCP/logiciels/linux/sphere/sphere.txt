@@ -1,0 +1,26 @@
+The Sphere plug-in adds read support for the NIST/Sphere audio file format.
+
+
+Linux installation
+
+Put the files sphere.plug and libsnacksphere.so in the directory
+
+~/.wavesurfer/1.4/plugins/
+
+
+Windows installation
+
+Put the files sphere.plug and libsnacksphere.dll in the directory
+
+C:\.wavesurfer\1.4\plugins\
+
+Note:
+C: might be D: or some other drive depending on your system configuration.
+
+
+Installation for other systems
+
+The snacksphere dynamic link library can also be built from source.
+You will need the Snack Sound Toolkit for this which is available at
+http://www.speech.kth.se/snack/
+

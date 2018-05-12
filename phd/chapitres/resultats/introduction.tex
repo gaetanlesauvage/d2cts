@@ -1,0 +1,35 @@
+%Introduction du chapitre IV : Expérimentations et Résultats
+
+Cette partie regroupe les différentes expérimentations réalisées grâce au simulateur. 
+
+
+Il s'agit de répondre aux questions suivantes à propos des algorithmes présentés dans le chapitre \ref{chap:ordo:reso} :
+\begin{itemize}
+ \item les algorithmes se comportent-ils comme prévu ?
+ \item la qualité des solutions calculées est-elle satisfaisante ?
+ \item quelle est l'impact de la dynamicité du problème sur la qualité de la solution calculée ?
+ \item quel est le temps de calcul nécessaire pour déterminer une solution ?
+ \end{itemize}
+
+Ces questions portent sur la performance des algorithmes sous plusieurs points de vue. D'abord concernant l'optimisation elle-même, grâce à une fonction d'évaluation ($fitness$) commune à tous les algorithmes la qualité des différentes solutions peuvent être comparées. 
+Puis, en terme de vitesse de convergence, c'est-à-dire  du temps de calcul nécessaire pour obtenir une solution proche de la meilleure solution trouvée par l'algorithme il est possible de déterminer si un algorithme trouve des meilleurs solution plus rapidement que d'autres méthodes de résolution. 
+Ensuite en terme de robustesse, c'est-à-dire de tolérance à la dynamique, il est possible de comparer la qualité des solutions proposés par les différentes méthodes de résolution en fonction de degrés de dynamicité différents et de déterminer dans quelle mesure les algorithmes répondent aux changements d'environnement. En d'autres termes, nous cherchons à répondre à la question suivante : la solution proposée est-elle proche de l'optimale peu importe les caractéristiques du problème au moment du calcul ?
+Enfin, dans une moindre mesure, il est question de performance calculatoire, c'est-à-dire du temps CPU nécessaire à l'algorithme pour terminer ses calculs.
+
+
+Comme discuté dans les chapitres \ref{sec:vrp:modelMath} et \ref{chap:art:sec:jssp:subsec:methodeReso}, et peu importe que le problème soit modélisé sous forme de problème de tournées de véhicules ou de problème d'atelier, il reste NP-Difficile. 
+Cela implique bien-sûr de ne pouvoir calculer la solution optimale dans des problèmes de taille suffisante.
+Par conséquent, il sera impossible de déterminer si une solution proposée par l'un des algorithmes est optimale ou non.
+Nous nous baserons alors sur les solutions proposées par les différents algorithmes pour un même problème afin d'établir une comparaison permettant de distinguer les performances de chaque algorithme.
+
+La première partie de ce chapitre présente le protocole de test mis en place afin de répondre aux questions ci-dessus. La seconde partie présente les résultats de l'expérimentation. Enfin, la troisième partie présente une discussion sur les résultats. 
+
+
+
+
+
+
+% vitesse de convergence : nb d'itérations nécessaires pour obtenir une solution proche de l'optimal (seuil de proximité ? ~10\% ?)
+% TSP : 
+% M-TSP :
+% O-ACO : 

@@ -1,0 +1,430 @@
+%
+% Fichier exemple pour MajecSTIC 2009
+% -----------------------------------
+% Par le comité de pilotage MajecSTIC
+% majecstic-pilotage@irisa.fr
+% 
+% Vous pouvez éditer ce fichier pour composer votre article. Respectez la 
+% langue française, pour vous aider ce document comporte des consignes 
+% typographiques ainsi que des conseils pour la composition des figures et 
+% des algorithmes.
+%
+%
+%
+%%%%%% NE PAS MODIFIER
+%
+% guillemets a la française
+\def\leftnote#1{\leavevmode\vadjust{\setbox1=\vtop{\hsize 20mm
+	\parindent=0pt\small\baselineskip=9pt
+	\rightskip=4mm plus 4mm#1}
+	\hbox{\kern-2cm\smash{\box1}}}}
+% encore quelques petits symboles particuliers
+	\font\myl=manfnt
+	\def\panneau{{\myl\char"7F}}
+	\def\boxone{{\myl\char"1C}}
+	\def\boxtwo{{\myl\char"1D}}
+	\def\ortf{{\myl\char"1E}}
+	\def\fleurone{{\myl\char"26}}
+	\def\fleurtwo{{\myl\char"27}}
+	\def\diams{{\myl\char"23}}
+	\def\cible{{\myl\char"24}}
+	\def\carre{{\myl\char"25}}
+	\def\fleche{{\myl\char"79}}
+	\def\panneaubis{{\myl\char"7E}}
+\def\panneauinverse{{\myl\char"00}}
+
+% Conserver ces commandes (Début)
+\documentclass[twoside,a4paper,10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage{majecstic2009,euler,palatino}
+\usepackage[french,ruled,vlined,linesnumbered]{algorithm2e}
+\dontprintsemicolon
+\Setnlskip{0.5em}
+\incmargin{1.2em}
+\usepackage{epsfig,shadow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{vmargin}
+\setpapersize{A4}
+% Conserver ces commandes (Fin)
+
+%===========================================================
+%                               Title
+%===========================================================
+\newcommand{\filet}{\noindent\rule[0mm]{\textwidth}{0.2mm}}
+\pagestyle{myheadings}
+
+\toappear{1} % Conserver cette ligne pour la version finale
+
+\begin{document}
+
+\parindent=0pt
+
+% À FAIRE modifier en ajoutant votre titre.
+% Le titre courant peut-être trop long, dans ce cas indiquez un titre 
+% plus court dans la commande shorttitle (sinon, indiquez le même)
+\title{\Large\bf Gestion dynamique des activités des chariots cavaliers sur un terminal portuaire à conteneurs en environnement incertain : approche par intelligence collective}
+\shorttitle{Gestion dynamique des chariots cavaliers sur un terminal portuaire à conteneurs}
+
+\markboth{Stefan Balev, Frédéric Guinand, Gaëtan Lesauvage \& Damien Olivier}{Gestion dynamique des activités des chariots cavaliers sur un terminal à conteneurs}
+
+
+% À FAIRE Indiquez vos noms ici. Nom1, Nom2 et Nom3. Utilisez $^i$ pour 
+% l'adresse i.
+\author{Gaëtan Lesauvage}
+
+% À FAIRE Indiquez vos addresses ici. Attention, la première adresse commence
+% juste après le { de la commande.
+\address{Université du Havre, LITIS EA 4108, 
+BP 540, 76058 Le Havre - France.\\
+~\\
+Contacts: 
+\texttt{gaetanlesauvage@gmail.com}
+}
+
+\maketitle
+
+%===========================================================         %
+%R\'esum\'e
+%===========================================================  
+
+\Resume{
+Le projet CALAS a pour but de mettre au point un système de positionnement laser capable de localiser précisément les chariots cavaliers sur un terminal à conteneurs. L'information donné par un tel système permet d'envisager une optimisation de leur activité.
+En effet, un terminal à conteneurs est un système ouvert sujet à la dynamicité et donc un grand nombre d'événements peuvent y survenir. Ces derniers concernent les arrivées et les départs de conteneurs. Au sein du terminal, les chariots cavaliers sont des véhicules capable de déplacer un conteneur à la fois d'un point à un autre du terminal. Notre but est d'optimiser le déplacement de ces chariots cavaliers afin d'améliorer la performance globale du terminal.
+D'autre part, l'état exact du système, c'est-à-dire la position exacte des conteneurs, n'est pas connue de manière fiable.
+Le système d'optimisation que nous essayons de mettre au point doit donc être tolérant aux fautes et adaptatif. Dans ce contexte nous proposons une approche de résolution du problème d'affectation des missions qui utilise une méta-heuristique basée sur Ant Colony. Nous avons construit un simulateur capable de tester et de comparer différentes politiques d'ordonnancement.
+}
+
+\MotsCles{
+intelligence collective,
+algorithme de colonies de fourmis colorées,
+graphe dynamique,
+optimisation multi-critères,
+problème dynamique de ramassage et de livraison avec fenêtre de temps.
+}
+	% 5 mots cl\'es seulement!!!
+
+%=========================================================
+\section{Introduction}
+%=========================================================
+
+Le projet CALAS a pour objectif de localiser précisément les véhicules de manutention au sein d'un terminal portuaire à conteneurs. Une interface logicielle permet de gérer les données récupérées par le système de balises laser. Ce projet est le fruit de la collaboration entre \textit{Laser Data Technology Terminal} et les \textit{Terminaux de Normandie}. Le but de ce projet est de conna\^itre en temps réel l'état exact du terminal, c'est-à-dire à la fois des conteneurs et des véhicules de manutention.
+
+%\subsection{Container terminal}
+
+Un terminal portuaire à conteneurs est divisé en trois parties principales (\textit{c.f.} Fig. \ref{terminalDeNormandie}). Chaque partie est composées de travées dans lesquelles des conteneurs peuvent \^etre empilés. Ces allées sont accessibles par des routes à sens unique. La première zone est située le long d'un canal maritime où les navires viennent s'amarrer au quai. Cette zone est destinée au (dé)chargement des navires. La seconde zone est utilisée pour (dé)charger des camions ou des trains. Elle est située le long de la route et des rails qui permettent aux véhicules d'accéder au terminal. Enfin, la troisième zone sert d'espace de stockage reliant les deux autres zones. Lors d'une mission de chargement, les conteneurs sont déplacés depuis cette zone vers le navire, le camion ou le train à charger. Au contraire, lors d'une mission de déchargement, le conteneur ainsi déchargé d'un véhicule est stocké dans cette zone intermédiaire.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{../../Articles/Figures/terminalDeNormandie.jpg}
+\end{center}
+\caption[Terminal de Normandie, Le Havre, France]{Terminal de Normandie, Le
+Havre, France\protect \footnotemark[1].}
+\label{terminalDeNormandie}
+
+\end{figure}
+
+
+Gérer un terminal à conteneurs implique trois types de t\^aches: 
+\begin{itemize}
+	\item Préparer le (dé)chargement d'un navire;
+	\item Préparer le (dé)chargement d'un camion ou d'un train;
+	\item Optimiser la zone de stockage.
+\end{itemize}
+\footnotetext[1]{source: \url{http://www.t-n.fr/tn.htm}}
+Dans le but d'accomplir ces t\^aches, les conteneurs sont déplacés d'une position à une autre. De tels déplacement sont appelés des missions. Chaque mission est assignée à un seul véhicule de manutention. Parmi ces véhicules, nous nous occuperons des chariots cavaliers. Ces portiques roulants enjambent les conteneurs et permettent d'en manipuler différents types en les agrippant par le dessus.
+
+Un terminal à conteneurs est un système ouvert sujet à la dynamicité. Bien qu'une partie des missions à effectuer soit connue avant de commencer la planification, de nouvelles missions arrivent au cours de la journée lorsque la planification a déjà été établie. De plus, l'heure prévue d'arrivée des camions, des trains et des navires n'est pas suffisamment précise pour prévoir les livraisons de conteneurs. Si un camion est en retard, le chariot cavalier devra attendre son arrivée alors qu'il aurait pu \^etre affecté à une autre mission pendant ce temps. Le système est également influencé par les comportements humains car les chariots cavaliers sont conduits par des individus qui peuvent choisir de respecter ou non la planification des missions.
+
+\section{Travaux connexes}
+%State of the art of current optimization
+Dans un tel système, le temps d'attente des navires, des camions et des trains doit être aussi court que possible. Trois moyens différents ont déjà été utilisés pour résoudre des instances concrètes de ce problème. Tout d'abord, l'approche analytique est basée sur une étude de facteurs inter-connectés qui doivent être pris en compte afin d'améliorer l'efficacité du système. Dans \cite{murty2005}, un système d'aide à la décision est décrit. Il a été créé en étudiant des décisions étroitement reliées prises quotidiennement dans un terminal à conteneurs. Les auteurs ont évalué ce système dans un terminal à Hong-Kong et ont mesuré une réduction de 30\% des temps d'attente des navires et de 35\% des coûts de manutentions des conteneurs. La seconde approche est la simulation. Elle consiste à mettre au point un simulateur capable de mettre à l'épreuve plusieurs méthodes d'optimisation. Dans \cite{jin2004}, les auteurs ont utilisé à la fois un algorithme génétique et un système de réseau de neurones pour la régulation des opérations de stockage des conteneurs.
+% Avec 2 emplacements de mouillage, 64 zones de stockage, une période de 24h et un planning prévisionnel sur 3 jours, leur simulation a conduit a une diminution du temps total d'attente des navires qui est ainsi passé de 64h à 46h.
+Dans \cite{ottjes2006}, les auteurs ont essayé d'améliorer la performance du port Maasvlakte de Rotterdam en étudiant son design. Leur simulation apporte de l'information sur la longueur des quais, la capacité de stockage et la gestion et le transport de l'équipement du terminal. Ces résultats ont été très utiles pour la création des prochains terminaux. Enfin, la dernière approche est le système multi-agent (SMA). Thurston et Hu \cite{thurston2002} ont tenté d'améliorer la performance du terminal grâce à une replanification dynamique et coopérative des portiques de quai et des chariots cavaliers.
+%  Ici, chaque partie du système est considérée comme un agent autonome capable de prendre des décisions en fonction des informations de son propre environnement.
+Henesey \textit{et al.} \cite{Henesey2002-1,Henesey2002-2,Henesey2003,Henesey2004} ont développé cette idée. Leurs agents essayent d'atteindre leur propre objectif en cherchant, coordonnant, communiquant et négociant avec d'autres agents. Ils prennent leurs décisions selon un mécanisme de négociation basé sur le modèle boursier.
+% Comme lors d'une vente, ils enchérissent pour remporter une tâche. Leur système permet de tester plusieurs politiques de mouillage, de stockage (et d'empilage) ou de séquençage. Les auteurs ont découvert que de bonnes décisions concernant le stockage et l'allocation des points de mouillage ont un impact positif sur le temps d'attente des navires.
+
+
+%Transition
+Il existe donc plusieurs manières de conduire une optimisation et plusieurs critères ont été pris en compte. Nous nous sommes intéressé à la gestion des déplacements des véhicules au sein d'un terminal ainsi qu'à l'allocation de leurs missions. Dans ce contexte, nous sommes en présence d'un problème de tournées de véhicules.
+
+\section{Problèmes de tournées de véhicules (VRP)}
+ 
+Les problèmes de tournées de véhicules (Vehicle Routing Problems) ont largement été étudiés et présentent un intérêt pratique depuis leur apparition dans de nombreux procédés industriels. En général, VRP est formulé comme suit. Un ou plusieurs véhicules doivent partir d'un dépôt, visiter un ensemble de clients, collecter ou livrer des biens, et revenir au dépôt. Le but est de minimiser les itinéraires des véhicules. Plusieurs sous-problèmes différents appartiennent à la classe des VRP.
+%, comme le problème de tournées de véhicules à capacité limitée (Capacicated Vehicle Routing Problem) ou comme le problème de tournées de véhicules avec ramassage et livraisons (Vehicle Routing Problem with Pickup and Delivery) par exemple.
+Chaque sous-problème comporte une légère variation du problème principal.
+%Il peut y avoir ainsi plusieurs dépôts, ou les véhicules doivent respecter des fenêtres de temps par exemple.
+Nous distinguons les instances statiques et dynamiques de ces problèmes car les méthodes de résolution sont différentes.
+
+\subsection{Problèmes de Tournées de Véhicules avec Fenêtres de Temps (VRPTW)}
+
+Le problème de tournées de véhicule avec fenêtres de temps \cite{Bianchi00} (Vehicle Routing Problem with Time Windows) consiste à faire visiter un ensemble de villes à un ensemble de véhicules d'une certaine capacité et d'optimiser la distance totale à parcourir. Prenons par exemple une usine italienne qui produit des jouets. Elle doit livrer un ensemble de magasins à travers le pays. Les biens sont transportés par des camions qui ont une capacité limitée et qui doivent partir de l'entrepôt de l'usine. Les livraisons ne peuvent se faire que pendant un certain interval de temps. Si un camion arrive trop tôt, il devra attendre. La solution de ce problème doit minimiser la distance totale parcourue par les camions.
+
+Le problème dynamique de tournées de véhicules avec fenêtres de temps (Dynamic Vehicle Routing Problem with Time Windows) inclut l'aspect dynamique des nouvelles requêtes. En reprenant l'exemple précédent, si les magasins peuvent demander à être livrés pendant qu'une planification (et donc un itinéraire) a déjà été calculée, alors ce problème est un problème dynamique de tournées de véhicules avec fenêtres de temps.
+
+\subsection{Problème de collecte et de livraison (PDP)}
+%Selon \cite{Berbeglia07}, le problème de collecte de de livraison (Pickup and Delivery Problem) comporte trois sous-classes.
+%Tout d'abord il peut être de type ``plusieurs à plusieurs`` (Many to Many PDP). Ici, les véhicules doivent collecter plusieurs objets à plusieurs emplacements. Ce type de problème reste relativement négligé car il n'est pas fréquemment rencontré dans la réalité. %I can develop here if I need to fill up the blanks...
+%Le type ``un à plusieurs à un'' (One to Many to One PDP) se caractèrise par l'existence de deux différentes directions pour les biens. Ils sont d'abord livrés aux clients. Quand un client a fini d'utiliser un bien, il demande à ce que ce bien soit collecté pour être rapporté au dépôt. Ces problèmes peuvent être dits à demandes simples ou combinées. Dans le premier cas, chaque client demande soit à être livré, soit à être collecté. Avec demandes combinées, le même client peut demander à la fois à être livré et collecté.
+La sous-classe de problème de collecte et de livraison la plus fréquemment rencontrée dans la réalité concerne les PDP de type ``un à un'' (One to One PDP). Il s'agit de collecter un bien à un emplacement et à le livrer à un autre emplacement. Le principal problème de de cette sous-classe est le problème de tournée de véhicules avec collecte et livraison (Vehicle Routing Problem with Pickup and Delivery). Dans ce problème, il faut calculer les meilleurs itinéraires pour une flotte de véhicules dans le but de déplacer des objets sur un graphe. Chaque itinéraire doit commencer et se terminer au dépôt. La différence avec un problème de collecte et de livraison de type un à plusieurs à un réside dans le fait qu'ici, chaque objet comporte sa propre position de ramassage et de livraison.%!!!! Explain it better !!!
+
+Lorsque le problème concerne le transport de personnes, il est appelé problème de transport à la demande (Dial-A-Ride Problem). Plusieurs cas particuliers de problèmes de tournées de véhicules avec collecte et livraison sont également couramment rencontrés dans la réalité. Le problème de la grue empileuse (Stacker Crane Problem) est un problème à simple véhicule avec capacité unitaire. Dans un autre sous-problème, les véhicules sont autorisés à déposer temporairement leur chargement sur des points spécifiques appelés points de transbordement. Le but est d'être capable de répondre rapidement aux demandes des clients. Ce problème est appelé problème de tournées de véhicules avec collecte et livraison et transbordement.
+Lorsque plusieurs requêtes ne sont pas connues à l'avance, les problèmes statiques décrits ci-dessus deviennent dynamiques. Ces problèmes dynamiques de collecte et de livraison \cite{Mitrovic01,Mitrovic04,Mitrovic98} (Dynamic Pickup and Delivery Problem ou Dynamic Vehicle Routing Problem with Pickup and Delivery) consistent à optimiser les itinéraires des véhicules afin de collecter un chargement à un endroit, puis de le livrer à sa destination en adaptant ces itinéraires aux nouvelles missions sans pour autant recalculer tout à partir de zéro. La plupart du temps, ce problème doit gérer des fenêtres de temps (Dynamic Vehicle Routing Problem with Pickup and Delivery and Time Windows). En effet, pour commencer une mission, les véhicules doivent attendre le début de la fenêtre de temps. S'il ne la respecte pas, alors le véhicule devra attendre, devennant indisponible pour d'autres missions, et donc inutile.
+
+Comme expliqué précédemment, la classe des problèmes de tournées de véhicules comporte un grand nombre de sous-problèmes spécifiques. Il est donc très important de bien identifier notre propre problème.
+
+\subsection{Identification du problème}
+
+Dans notre problème \cite{Lesauvage08}, plusieurs véhicules (chariots cavaliers) de capacité unitaire doivent accomplir des missions (en déplaçant des conteneurs au sein du terminal). Ils peuvent également utiliser des points de transbordement pour améliorer les performances. La particularité de notre système est que les chariots cavaliers peuvent commencer leur tournées depuis n'importe quel emplacement du terminal, \textit{i.e.} ils ne sont pas obligés de commencer à partir du dépôt. De plus, chaque mission possède deux fenêtres de temps. La première concerne le ramassage du conteneur, et la seconde est celle dans laquelle le conteneur doit être livré. Si un véhicule arrive en avance pour collecter ou livrer un conteneur, il devra attendre le début de la fenêtre de temps. D'autre part, si le chariot cavalier est en retard, c'est-à-dire que sa fenêtre de temps est déjà dépassée, dans certains cas, la mission doit être abandonnée et une nouvelle mission concernant le même conteneur sera insérée dans le système.
+
+Pour toutes ces raisons, notre problème appartient à la classe des problèmes dynamiques de tournées de véhicules avec collectes et livraisons et fenêtres de temps (DVRPPD-TW).
+
+Trois problèmes inter-connectés doivent être résolus:
+\begin{itemize}
+	\item Minimiser les déplacements des chariots cavaliers: problème de plus court chemin~;
+	\item Minimiser les ressources: problème de partitionnement~;
+	\item Minimiser les délais d'attente des clients: problème d'ordonnancement.
+\end{itemize}
+
+Afin de construire une planification correcte, le système doit prendre en compte le concept de plus court chemin. Parallèlement, prendre en compte les distances dans l'ordonnancement tend à réduire la distance globale parcourue par les cavaliers. De plus, nous avons défini un niveau de qualité de service (Quality Of Service) pour satisfaire des clients tout en réduisant les coûts de fonctionnement. Il s'agit d'un problème dynamique de grande échelle qui requiert une solution en temps réel. Nous proposons un algorithme en ligne basé sur Ant Colony Optimization \cite{Dorigo91,Dorigo97} et plus précisément sur une version colorée de cet algorithme d'intelligence collective \cite{Bertelle02}.
+
+\section{Gestion des chariots cavaliers et colonies de fourmis}
+
+Ant Colony \cite{Dorigo91,Dorigo97} est une méta-heuristique qui fait apparaître une solution en faisant plaçant des fourmis artificielles sur un espace de solutions. Le système est auto-régulé. En effet, les fourmis déposent de la phéromone sur tout ou partie de la solution trouvée selon sa qualité (rétro-action positive). Cependant, la piste de phéromone s'évapore progressivement (rétro action négative). La rétro-action positive fait converger l'algorithme vers une solution de qualité alors que la rétro-action négative empêche l'algorithme de tomber dans un extremum local.
+
+Ant Colony à une colonie fournit en sortie une liste de mission à accomplir \cite{Montemanni04,Bullnheimer97,Bullnheimer99}. Le problème est d'assigner un chariot cavalier à une mission.
+
+Nous proposons d'employer une solution utilisant des fourmis colorées \cite{Bertelle02}. Dans notre modèle, chaque chariot cavalier représente une colonie avec sa propre couleur. La convergence est assurée par le fait que les fourmis sont attirées par la phéromone de leur propre colonie et repoussées par celles des autres colonies. Cette approche simule un mécanisme de collaboration et de compétition entre colonies et fournit une liste triée de missions pour chaque chariot cavalier.
+
+\subsection{Modélisation}
+
+%\subsubsection{Construction du graphe}
+Notre algorithme utilise une représentation du problème sous forme de graphe. Dans ce graphe orienté, chaque sommet représente une mission. Tout d'abord, nous relions les missions entre elles par des liens de précédence. Une mission est dite précédente à une autre si sa fenêtre de temps commence avant celle de l'autre mission. Une fois ce graphe de précédence établi, un sommet coloré est ajouté au graphe pour chaque chariot cavalier. Ces n\oe{}uds sont reliés à chaque mission compatible du graphe de précédence par un arc de sa couleur. Ensuite, les arcs ajoutés lors de la phase de construction du graphe de précédence sont colorés en fonction de la compatibilité entre le chariot cavalier et les missions. En effet, si deux missions, reliées par un arc dans le graphe de précédence, sont compatibles avec le chariot cavalier de couleur $c$, alors l'arc entre ces deux sommets prendra la couleur $c$. S'il existe déjà un arc coloré entre ces deux sommets, alors au lieu de changer la couleur de cet arc, un nouvel arc est ajouté prend la couleur $c$. Enfin, s'il reste des arcs non colorés, ils sont tout simplement supprimés du graphe. Nous obtenons donc un multi-graphe permettant de faire fonctionner notre algorithme de fourmis colorées.\\
+
+%\subsubsection{Exemple}
+%\medskip
+\begin{figure}
+\begin{center}
+	\begin{minipage}{0.5\textwidth}
+		\scriptsize
+		\begin{itemize}
+			\item Chariots cavaliers: \\
+			\begin{center}
+				\begin{tabular}{*{2}{|c|c}}
+	 	 			\hline
+		 			Nom	&	Couleur\\
+					\hline
+					s0	&	vert\\
+					s1	&	bleu\\
+					\hline
+	 			\end{tabular}
+			\end{center}			
+			
+			\item Missions: \\
+			\begin{center}
+				\begin{tabular}{*{5}{|c|c|c|c|c}}
+					\hline
+					Nom	&	Début	&	Fin	&	Chariots cavaliers compatibles\\
+					\hline
+					m0	&	5h00	&	6h00 	&	s0, s1\\
+					m1	&	5h30	&	6h00 	&	s0\\
+					m2	&	7h00	&	9h00	&	s0\\
+					m3	&	6h00	&	7h30	&	s0, s1\\
+					\hline
+				\end{tabular}
+			
+			\end{center}
+			
+		\end{itemize}
+	\end{minipage}
+\end{center}
+	\caption{Exemple d'une instance simple de notre problème}
+	\label{problem_description}
+\end{figure}
+
+Prenons une instance simple de notre problème où deux chariots cavaliers doivent exécuter quatre missions. La compatibilité entre ces véhicules et les missions est comme décrite dans la Fig. \ref{problem_description}. Nous construisons alors le graphe de précédence (\textit{c.f.} partie gauche Fig. \ref{graphe}). Nous ajoutons ensuite les sommets représentant les chariots cavaliers (\textit{c.f.} partie centrale Fig. \ref{graphe}). Enfin, nous colorons les arcs comme décrit précédemment. La partie droite de la Fig. \ref{graphe} montre le multi-graphe obtenu en utilisant cette procédure.
+
+\begin{figure}
+	\begin{center}
+	  \includegraphics[width=0.9\textwidth]{../../Articles/Figures/constructionDuGraphe.png} 
+	\end{center}	
+	\caption{Étapes de construction du graphe de missions du problème décrit sur la Fig. \ref{problem_description}}
+	\label{graphe}
+\end{figure}
+
+
+%\subsubsection{Pondération des arcs}
+Nous introduisons des pondérations sur les arcs du graphe afin d'influencer les fourmis lors de leurs déplacements. Le poids d'un arc symbolise la pertinence de l'enchaînement de deux missions par le même chariot cavalier. Cette partie de notre modèle permet une grande flexibilité. En effet, ce système permet de mettre à l'épreuve différentes politiques de pondération.
+%dire que c l'heuristique de l'algorithme
+
+%Notre heuristique
+Notre heuristique prend en compte à la fois les coûts d'exécution des missions et les fenêtres de temps temporellement proches. En effet, si deux missions ont des fenêtres de temps qui sont trop rapprochées et qu'elles sont affectées au même chariot cavalier, alors l'exécution de la première mission provoquera le dépassement de la fenêtre de temps de la seconde. Il est très important d'empêcher ce phénomène en le prenant en compte dans la modélisation du graphe. Ainsi le calcul du poids de l'arc reliant deux missions utilise une pénalité de proximité temporelle. Nous avons également défini un concept de priorité. Plus la fin d'une fenêtre de temps est proche, plus la priorité de la mission est élevée. La fonction de pondération des arcs prend également en compte la distance entre le lieu de livraison de la première mission et le lieu de collecte de la seconde.\\
+
+\subsection{Algorithme de fourmis colorées}
+
+%$ qui explique le fonctionnement d'aco
+Dans cet algorithme, à chaque chariot cavalier correspond une colonie de la même couleur. Au départ de l'algorithme, chaque individu d'une colonie est placé sur le n\oe{}ud représentant son chariot cavalier. Ensuite, les fourmis parcourent le graphe en utilisant uniquement les arcs de leur couleur. Lorsqu'une fourmi atteint un n\oe{}ud, elle choisit sa prochaine destination en fonction de trois critères : 
+\begin{itemize}
+ \item le taux de phéromone de sa propre couleur ;
+ \item le taux de phéromone des autres couleurs ;
+ \item le poids de l'arc.
+\end{itemize}
+
+La fourmi est attirée par la phéromone de sa couleur et repoussée par celle des autres couleurs. Une fois qu'une fourmi atteint sa destination, elle dépose de la phéromone de sa couleur en fonction de la qualité de la solution représentée par son choix de destination. Lorsqu'un chariot cavalier de couleur $c$ demande une nouvelle mission à effectuer, il choisit la mission qui a le taux le plus élevé de phéromone de couleur $c$.% La description complète de l'algorithme est présentée sur la Fig. \ref{algo}.
+
+% \begin{figure}[h]
+%   \begin{algorithm}[H]
+% 	
+%         
+%         % l'utilisation d'un bloc debut/fin n'est pas obligatoire
+%         \Deb{
+%             \Repeter{l'infini}{
+%             \PourCh{colonie c}{
+% 			\PourCh{fourmi f de la colonie c}{
+% 				choisir une destination d non visitée ; \;
+% 				se déplacer vers elle selon la vitesse de f ; \;
+% 				déposer de la phéromone de couleur c en fonction de la qualité de d ; \;
+% 			}
+% 	    }
+% 	    Évaporation des traces de phéromone ; \;
+% 	    }
+% 	}
+% 
+%   \end{algorithm} 
+%   \caption{Algorithme principal du système de fourmis colorées} 
+%   \label{algo}
+% \end{figure}
+
+Notre approche par colonies de fourmis semble pertinente pour la résolution du problème considéré, de par sa nature dynamique, de par la taille de l'espace de solution et de par la contrainte du temps réel.
+
+Le principal avantage d'Ant Colony est de fournir une solution dite \textit{anytime} c'est-à-dire qu'il est possible d'obtenir une solution valide à n'importe quel moment de l'exécution du programme. C'est un algorithme en ligne qui s'adapte relativement facilement aux changements de l'environnement. En effet, les fourmis renforcent les taux de phéromone pour se rapprocher de la solution optimale. Parallèlement, le processus d'évaporation permet de contrôler l'algorithme afin de l'empêcher de se piéger dans optimum local et également de permettre de prendre en compte les événements dynamiques.
+
+Ant Colony comporte un très grand nombre de paramètres comme le taux d'évaporation, l'évaluation de la qualité de la solution, la quantité de phéromone déposée par une fourmi, la vitesse de déplacement des fourmis, \textit{etc}... Il s'agit du principal défaut de cette méta-heuristique. La qualité de la solution est étroitement liée à ces paramètres en interactions.
+
+%Tell how difficult it is to optimize these damn parameters before running several runs !
+Nous avons essayé de rendre ces paramètres auto-adaptatifs. Pour cela nous utilisons une méthode locale pour adapter certains de ces paramètres pendant l'exécution de l'algorithme.
+
+\subsection{Division du travail}
+Comme il existe plusieurs colonies distinctes et que chacune d'elle ne possède qu'une vision locale de son environnement, il n'est pas possible d'utiliser un système de marquage de phéromone basé sur une caractéristique globale du système. En fait, dans cette architecture, une colonie ne peut pas comparer la qualité de sa solution avec les solutions des autres colonies. Nous devons donc utiliser la même méthode de dépôt de phéromone pour chaque colonie. Cependant, nous somme capable d'adapter la quantité de phéromone déposée par les fourmis d'une colonie en fonction des compétences d'un véhicule envers une tâche. En effet, nous observons qu'il est possible de réduire le temps de service d'une mission en spécialisant les véhicules dans un type de missions.
+
+Nous pouvons augmenter la quantité de phéromone déposée par un véhicule donné pour une tâche concernant une zone spécifique du terminal à conteneurs (zone des quais, zone de route/rail, ou zone intermédiaire) et décroitre la quantité déposée pour des tâches situées dans les autres zones du terminal. Dans le même temps, nous procédons inversement pour tous les autres véhicules. De cette façon, nous essayons de spécialiser les véhicules dans un type de tâches et nous sommes capable de réguler ces quantités de phéromone en prenant en compte à la fois les critères de préférence et de distance.
+
+% Cette régulation conserve l'avantage de permettre à un véhicule de prendre en charge une mission pour laquelle il n'est pas spécialisé. Ce phénomène est très important dans les cas où le nombre de missions est élevé parce que cette régulation empêche le système de contenir des véhicules inutilisés dans une partie du terminal alors qu'il reste des missions non affectées, proches de la fin de leur fenêtre de temps, dans une autre zone du terminal.
+
+% Cette approche originale a une limite. En effet, le temps nécessaire pour l'adaptation du système à l'affectation d'un véhicule à une mission pour laquelle il n'est pas spécialisé peut être important. Pour cette raison, le système peut devenir moins réactif que sans le processus de spécialisation.
+
+\subsection{Réduction des ressources}
+%How does it works
+Toujours dans l'objectif de réduire les coûts de production, nous essayons de diminuer le nombre de chariots cavaliers dans le système. Notre solution courante au problème dans son entier a tendance à distribuer les missions sur l'ensemble des véhicules. Chaque véhicule a donc environ le même taux d'activité. Cependant, si ce taux tombe en dessous du niveau bas d'un certain seuil objectif, il est possible de conclure qu'un véhicule pourrait être supprimé. D'autre part, si ce taux est supérieur au niveau haut d'un seuil objectif défini, il est possible de dire qu'un véhicule supplémentaire devrait être ajouté à la flotte de véhicules.\\
+
+%How to compute the target rate
+% Différents critères doivent être pris en compte dans le calcul de ces seuils. Tout d'abord, la qualité de service. En effet, le système doit répondre aux requêtes avant la fin de leur fenêtre de temps. De plus, si un véhicule est disponible pour servir plusieurs missions avant le début de leur fenêtre de temps, cela veut dire que ce véhicule est peut-être superflu, et que le seuil doit être modifié en conséquence. D'autre part, le seuil objectif doit prendre en compte d'autres critères comme la distance parcourue par un véhicule par mission ou le ratio entre le nombre de véhicules et le nombre de missions, et il doit confronter ces critères aux pénalités de dépassements de fenêtres de temps. La mesure du temps d'inactivité de chaque chariot cavalier peut également guider l'optimisation. Concernant ce dernier critère, nous devons mettre en relation le temps d'inactivité avec les pénalités de dépassements de fenêtres de temps.\\
+
+%And what about dynamicity on resources
+% Comme pour les arrivées de missions dans le système, le nombre de véhicules est sujet à la dynamicité. Un véhicule peut tomber en panne et donc être envoyé en maintenance. En fonction de l'importance de la panne, il est possible d'estimer le temps nécessaire pour remettre le véhicule en état de marche et donc le rendre disponible pour l'affectation de missions. Nous avons prit en compte une probabilité de panne dans l'optimisation du nombre de véhicules dans le système car si ce nombre est aussi faible que possible, il peut devenir trop faible en cas de panne d'un véhicule.
+
+\section{Simulateur}
+%Introduction: 2 parts
+Le simulateur comporte deux parties principales. La première est la simulation du terminal à conteneurs (\textit{c.f.} Fig. \ref{tview}). La seconde partie est celle de l'algorithme de fourmis colorées (\textit{c.f.} Fig. \ref{acoview}).%% 1st part && %% 2nd part
+% La première partie contient une implémentation de la structure du terminal et de ses composants. Les routes et les carrefours du réseau routier du terminal sur lequel les chariots cavaliers pourront se déplacer. Certaines routes servent également à stoker des conteneurs. Les portiques de quai sont représentés par ces routes spécifiques, tout comme les emplacements de (dé)chargement des camions et des trains. Ce terminal est construit au tout début de simulation. Un fichier de scénario est lu afin de définir cette configuration.
+%La seconde partie de ce simulateur contient partie algorithmique de la simulation, \textit{i.e.} le graphe dynamique de missions. De cette façon, il indique comment les missions sont choisies par les chariots cavaliers. 
+
+Cette partie du simulateur utilise la librairie GraphStream\footnote{\url{http://graphstream-project.org/}} qui permet de gérer des graphes dynamiques facilement \cite{Dutot2007}.
+% Discrete motor and dynamicity
+Le simulateur utilise un moteur de temps discret qui doit itérer chaque objet de la simulation à chaque pas de temps. Pendant la simulation, le fichier de scénario est lu et les événements dynamiques qu'il contient sont répercutés à la fois sur la vue du terminal et sur celle d'\textit{Ant Colony}. De cette manière, le système peut simuler la dynamicité de l'arrivée des missions et de la disponibilité des véhicules.
+
+%% Measure of dynamicity
+Afin de générer des instances de test pertinents et d'obtenir des résultats cohérents, nous avons défini plusieurs niveaux de dynamicité. Dans \cite{larsen00}, Allan Larsen indique deux principales mesures du degré de dynamicité.
+%%%dod
+Tout d'abord, le degré de dynamicité (\textit{Degree Of Dynamism} : $dod$) \cite{Lund96} est le rapport entre le nombre de requêtes dynamiques et le nombre total de requêtes. Le principal point négatif de cette mesure est de ne pas prendre en compte la date d'arrivée des requêtes dans le système. En effet, avec $dod$, si les requêtes dynamiques entrent dans le système en début de planification, le système est considéré comme aussi dynamique que si elles entraient en toute fin. Pourtant, plus ces requêtes sont connues tard et plus les délais de livraison sont court. Ces retards ont un impact négatif sur les performances du système.
+%%%edod
+Pour cette raison, Larsen \textit{et al.} dans \cite{larsen00} a défini le degré effectif de dynamicité (\textit{Effective Degree Of Dynamism} : $edod$) selon cette formule~:
+\begin{equation}
+	edod\;=\; \frac{\sum_{i=1}^{\eta_d}\frac{t_i}{T}}{\eta_d+\eta_s}
+	%\label{edod}
+\end{equation}
+Ici, $\eta_s$ et $\eta_d$ sont respectivement le nombre de requêtes statiques et dynamiques. $t_i$ est la date d'arrivée d'une requête $i$ (avec $0 < t_i < T$) et $T$ correspond à la date de fin de simulation. Cette mesure prend en compte la moyenne des dates d'arrivées des requêtes dans le système. Plus les requêtes dynamiques arrivent tard, et plus $edod$ sera important. Si $edod = 0$, alors le système est totalement statique. Sinon, si $edod = 1$, le système est purement dynamique.
+
+
+% Mission scheduling
+%Dans le simulateur, l'algorithme de fourmis colorées fourni un plan de charge à chaque chariot cavalier. Ces derniers agissent donc en fonction de ce plan et se déplacent vers leur emplacement de collecte. Une fois le conteneur collecté, ils se déplacent vers leur point de livraison pour achever leur mission. Dans le même temps, le graphe des missions est dynamiquement mis à jour et les fourmis colorées continuent de le coloniser.
+
+%\begin{center}
+\begin{figure}
+\begin{center}
+	\includegraphics[width=0.27\textwidth]{../../Articles/Figures/terminal.png}
+\end{center}
+	\caption{Vue du terminal dans le simulateur}
+	\label{tview}
+\end{figure}
+
+
+% Le simulateur donne des informations à propos de chaque mission comme sa durée, son conteneur, son chariot cavalier, les fenêtres de temps de collecte et de livraison, \textit{etc.} et à propos d'autres parties du terminal comme l'état courant des routes par exemple.
+
+
+\begin{figure}%[h!]
+\begin{center}
+	\includegraphics[width=0.75\textwidth]{../../Articles/Figures/grapheDansLeSimulateur.png}
+\end{center}
+\caption{Vue du graphe de missions dans le simulateur}
+	\label{acoview}
+\end{figure}
+
+
+\section{Résultats préliminaires}
+%description des tests
+Étant toujours dans la phase de collecte de données de la part de nos partenaires, nous ne pouvons que simplement tester la pertinence de notre algorithme sur des données simulées. Nous avons, dans ce but, tout d'abord lancé une simulation dans un contexte totalement statique, c'est-à-dire que chaque mission est connue au tout début de la simulation et que les ressources (chariots cavaliers) sont toujours disponible. Dans un second temps, nous avons insérés des événements dynamiques comme l'arrivée de nouvelle missions. Pour chaque simulation, nous avons mesuré le temps total nécessaire pour effectuer toutes les missions (en nombre d'itérations), le nombre de fenêtres de temps dépassées et le temps total de ces dépassements.
+Nous avons considéré qu'une fenêtre de temps a été dépassée si le non respect de cette fenêtre de temps fait l'objet d'une pénalité pour le terminal. En effet, si la fenêtre de temps d'une mission dans laquelle il faut charger ou décharger un camion est dépassée alors le transporteur est en droit de demander une compensation.
+
+%Résultats
+\begin{figure}[h!]
+\scriptsize
+%\fbox{\begin{minipage}{0.45\textwidth}
+ 	\begin{center}
+    
+	\begin{tabular}{*{5}{|l|c|c|c}}
+		\hline
+						& Statique& Semi Dynamique & Dynamique \\
+		\hline
+		$dod$				& 0 	&0.5 	& 1 	 \\
+		$edod$				& 0 	&0.25	& 1 	\\
+		%Number of vehicles		& 3	& 3	& 3	\\
+		%Number of missions		& 12	& 12	& 12	\\
+		\hline
+		Temps final 			&22693	& 22276	& 22693   \\
+		\hline		
+		Nombre de fenêtres dépassées	&3	&5 	& 7 \\
+		\hline		
+		Temps total de dépassement	&6467	&8477	& 12485\\
+		\hline
+	
+	\end{tabular}
+	
+
+	\end{center}
+%\end{minipage}}
+	\caption{Résultats des simulations}
+	\label{results}
+ 
+\end{figure}
+
+%Commentaires des résultats
+La figure \ref{results} montre les résultats de trois instances contenant 12 missions et 3 chariots cavaliers chacune. La seule différence entre ces trois problèmes réside dans leur degré de dynamicité. En effet, nous avons simplement changé la date d'arrivée de ces missions dans le système afin de les rendre plus ou moins dynamiques.
+
+Comme nous pouvons le voir sur la Fig. \ref{results}, notre algorithme semble agir comme attendu. Plus les missions sont connues à l'avance et meilleures sont les performances. Le pire des cas correspond à l'instance totalement dynamique ($dod = 1$ et $edod = 1$) où les missions entrent dans le système à la date du début de leur fenêtre de temps.
+
+Ces résultats ne sont que des résultats préliminaires et nous n'avons pas encore testé tous les paramètres de l'algorithme de fourmis colorées.
+
+%Est-ce qu'on évoque le fait que le nombre de tw respectes est linéaire a dod ? Le pb c'est que c pas tt a fait linéaire a edod (qui est en fait edor pour nous (T = twP.from))...
+\section{Conclusion}
+Le problème considéré dans cet article appartient à la classe des problèmes dynamiques de collecte et de livraison avec fenêtres de temps. Cependant, il ne correspond pas exactement aux sous-problèmes déjà étudiés de cette classe. Il s'agit donc d'un problème original et non résolu. Nous proposons de le résoudre en utilisant une approche par intelligence collective. Un algorithme fourmi est en cours de développement. Il utilise des fourmis colorées et un graphe dynamique dans le but d'obtenir une planification. De plus, nous essayons de minimiser le nombre de véhicules dans la flotte du terminal afin de réduire les coûts de fonctionnement tout en maintenant une qualité de service suffisante. Un simulateur capable de reproduire le comportement d'un tel système et de gérer des événements dynamiques est également en cours de développement. Les résultats préliminaires confirment que notre algorithme est capable de s'adapter aux conditions changeantes et nous sommes actuellement en train de collecter des données afin de comparer les performances de notre système sur un terminal à conteneurs avec les méthodes de planification utilisées par le Port Autonome du Havre, France.
+
+\bibliographystyle{majecstic}
+\bibliography{../../Articles/Bibliography/biblio}
+
+\end{document}

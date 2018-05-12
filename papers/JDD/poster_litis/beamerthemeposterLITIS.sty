@@ -1,0 +1,210 @@
+% this style was created by Frederic SUARD, 2009_07_30
+% Modified by Aurelie BOISBUNON, Nov. 2011
+\ProvidesPackage{beamerthemeposterLITIS} 
+
+\usepackage{color}
+
+\selectcolormodel{rgb} %%% a modifier si les couleurs sont bizarres : cmyk, gray , rgb
+\mode<presentation>
+
+%************************************************************************************************
+
+%textborder=roundedleft
+
+\definecolor{noir}{RGB}{0,0,0}
+\definecolor{black}{RGB}{0,0,0}
+\definecolor{bleuL}{RGB}{0, 111,157}
+\definecolor{jauneL}{RGB}{255,204,0}
+\definecolor{bleuclair}{RGB}{0, 111,157}
+\definecolor{rougeL}{RGB}{136,0,0}
+\definecolor{blanc}{RGB}{255,255,255}
+\definecolor{vertL}{RGB}{117,197,148}
+\definecolor{gris}{RGB}{112,128,144}
+\definecolor{rougeF}{RGB}{200,0,0}
+
+\setbeamercolor{structure}{fg=bleuL,bg=blanc}
+\setbeamercolor{alert}{fg=gris,bg=white}
+\setbeamercolor{example text}{fg=bleuL,bg=blanc}
+
+\setbeamercolor{headline}{fg=black,bg=blanc}
+\setbeamerfont{footline}{size=\large,series=\tt} %%% police pied de page
+\setbeamercolor{footline}{fg=blanc, bg=gris}
+\setbeamercolor{head section}{fg=blanc,bg=black}
+\setbeamercolor{itemize text}{fg=black,bg=blanc}
+\setbeamerfont{block title}{size=\large,series=\bf}
+\setbeamerfont{block title alerted}{size=\Large,series=\bf}
+\setbeamerfont{block title example}{size=\Large,series=\bf}
+
+\setbeamercolor{titlelike}{parent=palette secondary}
+\setbeamercolor{title}{fg=bleuL}
+% \setbeamercolor{title}{fg=white}
+\setbeamercolor{author}{fg=bleuL}
+\setbeamercolor{date}{fg=bleuL}
+\setbeamercolor{head}{fg=white,bg=bleuL}
+% \setbeamercolor{frametitle}{fg=white,bg=bleuL}
+\setbeamercolor{frametitle}{fg=bleuL}
+
+\setbeamercolor{block title}{fg=white,bg=gris}
+% \setbeamercolor{block title}{bg=bleuL}
+\setbeamercolor{block title alerted}{use=alerted text,fg=blanc,bg=rougeL!50}
+\setbeamercolor{block title example}{use=example text,fg=white,bg=vertL}
+\setbeamercolor{block title alerted}{use=alerted text,fg=blanc,bg=rougeL!50}
+\setbeamercolor{block title example}{use=example text,fg=white,bg=vertL}
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!25!bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!25!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!25!bg}
+
+\setbeamercolor{palette  primary}{fg=bleuL,bg=white}
+\setbeamercolor{palette  secondary}{fg=bleuL!75,bg=white}
+\setbeamercolor{palette sidebar tertiary}{fg=bleuL!75,bg=white}
+\setbeamercolor{palette sidebar quaternary}{fg=bleuL,bg=white}
+
+\setbeamercolor{section in head/foot}{bg=gris,fg=white}
+
+% \setbeamercolor{separation line}{rougeL}
+% \setbeamercolor{separation line}{red}
+\setbeamercolor*{fine separation line}{bleuL}
+% \setbeamercolor{upper separation line head}{bg=bleuL} %%%%separation
+% \setbeamercolor{lower separation line head}{bg=bleuL}
+\setbeamercolor{upper separation line foot}{bg=bleuL} %%%%separation
+\setbeamercolor{lower separation line foot}{bg=bleuL} %%%%separation
+
+
+%\setbeamertemplate{itemize items}[triangle] %%% a modifier
+\setbeamertemplate{navigation symbols}{}  % no navigation on a poster
+
+
+
+%************************************************************************************************
+
+%%% definition de la forme de chaque box
+% \setbeamertemplate{block begin}{
+% \vskip.75ex
+% \begin{beamercolorbox}[rounded=true,shadow=true,leftskip=1cm,colsep*=.75ex]{block title}%
+%   \usebeamerfont*{block title}\insertblocktitle
+% \end{beamercolorbox}%
+% {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+% \usebeamerfont{block body}%
+% \begin{beamercolorbox}[rounded=true,shadow=true,colsep*=.75ex,sep=.75ex,vmode]{block body}%
+%   \ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+% }
+%   \setbeamertemplate{block end}{
+% \end{beamercolorbox}
+% }
+
+%   \setbeamertemplate{block example begin}{
+%   \vskip.75ex
+%   \begin{beamercolorbox}[rounded=true,shadow=true,leftskip=1cm,colsep*=.75ex]{block example title}%
+%     \usebeamerfont*{block example title}\insertblocktitle
+%   \end{beamercolorbox}%
+%   {\ifbeamercolorempty[bg]{block example body}{}{\nointerlineskip\vskip-0.5pt}}%
+%   \usebeamerfont{block example body}%
+%   \begin{beamercolorbox}[rounded=true,shadow=true,colsep*=.75ex,sep=.75ex,vmode]{block example body}%
+%     \ifbeamercolorempty[bg]{block example body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+%   }
+%     \setbeamertemplate{block example end}{
+%   \end{beamercolorbox}
+% }
+
+%   \setbeamertemplate{block alerted begin}{
+%   \vskip.75ex
+%   \begin{beamercolorbox}[rounded=true,shadow=true,leftskip=1cm,colsep*=.75ex]{block alerted title}%
+%     \usebeamerfont*{block alerted title}\insertblocktitle
+%   \end{beamercolorbox}%
+%   {\ifbeamercolorempty[bg]{block alerted body}{}{\nointerlineskip\vskip-0.5pt}}%
+%   \usebeamerfont{block alerted body}%
+%   \begin{beamercolorbox}[rounded=true,shadow=true,colsep*=.75ex,sep=.75ex,vmode]{block alerted body}%
+%     \ifbeamercolorempty[bg]{block alerted body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+%   }
+%     \setbeamertemplate{block alerted end}{
+%   \end{beamercolorbox}
+% }
+
+
+%************************************************************************************************
+%                 EN-TETE (titre, auteur, logos)
+%************************************************************************************************
+
+\setbeamertemplate{headline}{  
+  % \leavevmode
+
+  \begin{beamercolorbox}[wd=\paperwidth]{headline}
+    \begin{columns}[T]
+
+      \begin{column}{.15\paperwidth}
+        \vskip.5cm
+        \begin{flushleft}
+          \vskip1cm \hskip1cm
+          \includegraphics[width=\linewidth]{\logolitis}
+        \end{flushleft}
+        \vskip.5cm
+      \end{column}
+
+      \begin{column}{.6\paperwidth}
+        \vskip1.5cm
+        % \raggedleft
+        \begin{center}
+          \usebeamercolor{title in headline}{\color{fg}\textbf{\Huge{\inserttitle}}\\[3ex]}
+          \usebeamercolor{author in headline}{\color{fg}\Large{\insertauthor}\\[1ex]}
+          \usebeamercolor{institute in headline}{\color{fg}\large{\insertinstitute}\\[1ex]}     
+        \end{center}
+
+      \end{column}
+      \begin{column}{.15\paperwidth}
+        \vskip.5cm
+        \vfill
+        \begin{flushright}
+          \includegraphics[width=.7\linewidth]{\logoinstitut} \\
+          \vskip.5cm
+          \includegraphics[width=.7\linewidth]{\logolaboratoire}
+        \end{flushright}
+
+        \vskip.5cm
+      \end{column}
+      \begin{column}{.03\paperwidth}
+      \end{column}
+    \end{columns}
+  \end{beamercolorbox}
+
+  \begin{beamercolorbox}[wd=\paperwidth]{lower separation line head}
+    \rule{0pt}{3pt} %2
+  \end{beamercolorbox}
+}
+
+
+
+%************************************************************************************************
+%                  PIED DE PAGE
+%************************************************************************************************
+
+\setbeamertemplate{footline}{
+  \begin{beamercolorbox}[wd=\paperwidth]{upper separation line foot}
+    \rule{0pt}{5pt} %2
+  \end{beamercolorbox}
+  
+  \leavevmode%
+  \begin{beamercolorbox}[ht=4ex,leftskip=1cm,rightskip=1cm]{author in head/foot}%
+    
+    \institute
+    \hfill
+    \foottextleft
+    \hfill
+    \foottextright
+    
+    \vskip1ex
+  \end{beamercolorbox}
+  \vskip0pt%
+  \begin{beamercolorbox}[wd=\paperwidth]{lower separation line foot}
+    \rule{0pt}{2pt}
+  \end{beamercolorbox}
+}
+
+
+
+\mode<all>
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-PDF-mode: t
+%%% TeX-master: "poster"
+%%% End: 
